@@ -1,0 +1,48 @@
+---
+import '../styles/components/card.css';
+import type { ExploreCategory } from '../content.config';
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  category: ExploreCategory;
+  coverImage?: string;
+}
+
+const { slug, title, description, category, coverImage } = Astro.props;
+---
+
+<article
+  class="card card--explore"
+  data-filter-item
+  data-filter-category={category}
+>
+  <a href={`/explore/${slug}`} class="card__link-wrap">
+    <div
+      class:list={['card__thumb', { 'card__thumb--has-cover': !!coverImage }]}
+      aria-hidden="true"
+    >
+      {
+        coverImage ? (
+          <img
+            src={coverImage}
+            alt=""
+            class="card__thumb-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <span class="card__thumb-fallback">主題佔位</span>
+        )
+      }
+    </div>
+    <div class="card__body">
+      <h3 class="card__title">{title}</h3>
+      <div class="card__tags">
+        <span class="card__tag">{category}</span>
+      </div>
+      <p class="card__desc">{description}</p>
+    </div>
+  </a>
+</article>

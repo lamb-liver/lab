@@ -1,0 +1,61 @@
+@import '../range.css';
+
+.curve-work-canvas-host {
+  width: 100%;
+  min-height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a0a;
+}
+
+/* 非 stage 佈局時的 fallback（佔位 canvas） */
+.work-canvas.curve-work-canvas-host,
+.work-canvas:not(.curve-work-canvas-host) {
+  min-height: 60vh;
+}
+
+.curve-work-canvas-host canvas {
+  display: block;
+  max-width: 100%;
+  height: auto !important;
+}
+
+.curve-work-controls__meta {
+  margin-bottom: var(--space-6);
+}
+
+.curve-work-controls__title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+}
+
+.curve-work-controls__formula {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+
+.curve-work-controls__stats {
+  margin-top: var(--space-6);
+  display: grid;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+
+.curve-work-controls__stats div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.curve-work-controls__stats dd {
+  margin: 0;
+  color: var(--color-text);
+}

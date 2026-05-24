@@ -1,0 +1,61 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/scrollbar.css';
+import '../styles/layout.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = '羊·實驗 — 數學與演算法的視覺化實驗' } = Astro.props;
+const fullTitle = title === '羊·實驗' ? title : `${title} · 羊·實驗`;
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+    <title>{fullTitle}</title>
+  </head>
+  <body>
+    <Nav />
+    <main class="page-enter">
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline>
+      (function () {
+        var ZONE = 14;
+        var root = document.documentElement;
+        var inside = false;
+        document.addEventListener(
+          'mousemove',
+          function (e) {
+            var near =
+              e.clientX >= window.innerWidth - ZONE && e.clientY > 0;
+            if (near === inside) return;
+            inside = near;
+            root.classList.toggle('scrollbar-hover', near);
+          },
+          { passive: true }
+        );
+        document.addEventListener('mouseleave', function () {
+          inside = false;
+          root.classList.remove('scrollbar-hover');
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+.about-page {
+  max-width: 68ch;
+}
+
+.about-page h1 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.about-section {
+  margin-top: var(--space-12);
+}
+
+.about-section h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.about-section p {
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.about-section p + p {
+  margin-top: 1.25rem;
+}
+
+/* 聯絡方式：對齊 lambliver-portfolio（muted 標籤 + hover 淡綠底，無底線） */
+
+.about-section--contact .about-contact-list {
+  margin-top: var(--space-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.about-contact__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.about-contact__link {
+  display: inline-block;
+  margin-top: var(--space-1);
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.about-contact__link:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  color: var(--color-text);
+}
+
+.about-contact__link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}

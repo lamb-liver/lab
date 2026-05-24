@@ -1,0 +1,88 @@
+@import '../range.css';
+
+.delta-phase-control {
+  margin-top: var(--space-4);
+}
+
+.delta-phase-control__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.delta-phase-wrap {
+  position: relative;
+}
+
+.delta-phase-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  border-radius: 1px;
+  background: var(--color-border);
+}
+
+.delta-phase-ticks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.delta-phase-tick {
+  position: absolute;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: rgba(212, 184, 122, 0.35);
+  box-shadow: 0 0 6px rgba(212, 184, 122, 0.25);
+  transition: background 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.delta-phase-tick--near {
+  background: rgba(212, 184, 122, 0.85);
+  box-shadow: 0 0 10px rgba(212, 184, 122, 0.55);
+  transform: scale(1.25);
+}
+
+.delta-phase-wrap .range {
+  position: relative;
+  z-index: 1;
+}
+
+.delta-phase-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.delta-phase-btn {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  padding: var(--space-1) var(--space-2);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.delta-phase-btn:hover,
+.delta-phase-btn--active {
+  color: rgb(212, 184, 122);
+  background: rgba(212, 184, 122, 0.08);
+}

@@ -1,0 +1,25 @@
+---
+import '../styles/components/filter.css';
+
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+const items = ['全部', ...tags];
+---
+
+<div class="filter-bar" data-filter-bar role="group" aria-label="作品標籤篩選">
+  {
+    items.map((tag, i) => (
+      <button
+        type="button"
+        class:list={['filter-btn', { 'is-active': i === 0 }]}
+        data-filter-value={tag === '全部' ? '*' : tag}
+        aria-pressed={i === 0 ? 'true' : 'false'}
+      >
+        {tag}
+      </button>
+    ))
+  }
+</div>

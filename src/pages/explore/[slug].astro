@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
+import ExploreInteractiveStage from '../../components/explore/ExploreInteractiveStage';
+import { getCollection, render } from 'astro:content';
+import { getStaticPathsFromCollection } from '../../content/utils';
+import { isExploreInteractive } from '../../explore/interactiveRegistry';
+import '../../styles/components/canvas.css';
+import '../../styles/prose.css';
+import '../../styles/pages/explore-detail.css';
+
+export async function getStaticPaths() {
+  const explore = await getCollection('explore');
+  return getStaticPathsFromCollection(explore);
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const interactive = isExploreInteractive(entry.id);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+  <div class={`container explore-detail${interactive ? ' explore-detail--interactive' : ''}`}>
+    <header class="page-header">
+      <h1>{entry.data.title}</h1>
+      <div class="tag-list">
+        <span class="tag">{entry.data.category}</span>
+      </div>
+    </header>
+
+    {
+      interactive ? (
+        <ExploreInteractiveStage client:only="react" slug={entry.id} />
+      ) : (
+        <CanvasPlaceholder class="interactive-canvas" />
+      )
+    }
+
+    <article class="prose">
+      <Content />
+    </article>
+
+    <a href="/explore" class="back-link">← 返回視覺化</a>
+  </div>
+</BaseLayout>

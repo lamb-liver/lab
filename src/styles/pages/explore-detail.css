@@ -1,0 +1,21 @@
+.explore-detail .interactive-canvas,
+.explore-detail .fourier-explore {
+  margin-bottom: var(--space-8);
+}
+
+/* 互動頁：縮小標題，讓 canvas + 滑桿一屏可見 */
+.explore-detail--interactive .page-header {
+  padding-block: var(--space-6) var(--space-4);
+}
+
+.explore-detail--interactive .page-header h1 {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+.explore-detail--interactive .tag-list {
+  margin-top: var(--space-2);
+}
+
+.explore-detail--interactive .fourier-explore {
+  margin-bottom: var(--space-6);
+}

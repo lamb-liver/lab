@@ -1,0 +1,116 @@
+@import '../range.css';
+
+.fourier-explore {
+  width: 100%;
+  background: #0a0a0a;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.fourier-explore__canvas {
+  width: 100%;
+  max-height: min(34vh, 400px);
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fourier-explore__canvas canvas {
+  display: block;
+  max-width: 100%;
+  max-height: min(34vh, 400px);
+  width: auto !important;
+  height: auto !important;
+}
+
+/* 滑桿工具列：緊貼 canvas 下方，進頁立即可見 */
+.fourier-explore__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.fourier-explore__n {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.fourier-explore__n-value {
+  color: rgb(212, 184, 122);
+  font-weight: 600;
+}
+
+.fourier-explore__mode-btn {
+  flex: 0 1 auto;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease;
+}
+
+.fourier-explore__mode-btn:hover {
+  border-color: var(--color-text-muted);
+}
+
+.fourier-explore__reveal {
+  flex: 0 0 auto;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  padding-bottom: var(--space-2);
+}
+
+.fourier-explore__meta {
+  padding: 0 var(--space-5) var(--space-4);
+}
+
+.fourier-explore__title {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgb(212, 184, 122);
+}
+
+.fourier-explore__formula,
+.fourier-explore__mode {
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.fourier-explore .control-field label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+@media (min-width: 640px) {
+  .fourier-explore__toolbar {
+    flex-wrap: nowrap;
+  }
+
+  .fourier-explore__mode-btn {
+    align-self: flex-end;
+    margin-bottom: 2px;
+  }
+}

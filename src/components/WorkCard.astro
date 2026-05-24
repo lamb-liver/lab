@@ -1,0 +1,41 @@
+---
+import '../styles/components/card.css';
+import type { ExploreCategory } from '../content.config';
+import { getCurveThumbnailSvg } from '../lib/curveThumbnail';
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  tags: string[];
+}
+
+const { slug, title, description, tags } = Astro.props;
+const thumbSvg = getCurveThumbnailSvg(slug);
+---
+
+<article
+  class="card card--work"
+  data-filter-item
+  data-filter-tags={tags.join(',')}
+>
+  <a href={`/works/${slug}`} class="card__link-wrap">
+    <div
+      class:list={['card__thumb', { 'card__thumb--has-svg': !!thumbSvg }]}
+      aria-hidden="true"
+    >
+      {thumbSvg ? (
+        <div class="card__thumb-svg" set:html={thumbSvg} />
+      ) : (
+        <span class="card__thumb-fallback">縮圖佔位</span>
+      )}
+    </div>
+    <div class="card__body">
+      <h3 class="card__title">{title}</h3>
+      <div class="card__tags">
+        {tags.map((tag) => <span class="card__tag">{tag}</span>)}
+      </div>
+      <p class="card__desc">{description}</p>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
+import ExploreCard from '../../components/ExploreCard.astro';
+import ListFilterScript from '../../components/ListFilterScript.astro';
+import { getCollection } from 'astro:content';
+import { getPublishedAsc } from '../../content/utils';
+
+const explore = getPublishedAsc(await getCollection('explore'));
+---
+
+<BaseLayout title="視覺化">
+  <div class="container" data-list-filter>
+    <header class="page-header">
+      <h1>視覺化</h1>
+    </header>
+
+    <CategoryFilter />
+
+    <div class="card-grid" data-card-grid>
+      {
+        explore.map((entry) => (
+          <ExploreCard
+            slug={entry.id}
+            title={entry.data.title}
+            description={entry.data.description}
+            category={entry.data.category}
+            coverImage={entry.data.coverImage}
+          />
+        ))
+      }
+    </div>
+  </div>
+  <ListFilterScript />
+</BaseLayout>

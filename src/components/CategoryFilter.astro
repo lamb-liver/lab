@@ -1,0 +1,21 @@
+---
+import '../styles/components/filter.css';
+import { exploreCategories } from '../content.config';
+
+const items = ['全部', ...exploreCategories];
+---
+
+<div class="filter-bar" data-filter-bar role="group" aria-label="視覺化分類篩選">
+  {
+    items.map((category, i) => (
+      <button
+        type="button"
+        class:list={['filter-btn', { 'is-active': i === 0 }]}
+        data-filter-value={category === '全部' ? '*' : category}
+        aria-pressed={i === 0 ? 'true' : 'false'}
+      >
+        {category}
+      </button>
+    ))
+  }
+</div>

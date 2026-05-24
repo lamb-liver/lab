@@ -1,0 +1,55 @@
+---
+import '../styles/components/nav.css';
+
+const links = [
+  { href: '/works', label: '作品集' },
+  { href: '/explore', label: '視覺化' },
+  { href: '/about', label: '關於' },
+];
+
+const pathname = Astro.url.pathname;
+
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<header class="site-nav">
+  <div class="site-nav__inner">
+    <a href="/" class="site-nav__logo">羊·實驗</a>
+
+    <nav class="site-nav__links site-nav__links--desktop" aria-label="主要導覽">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={['site-nav__link', { 'is-active': isActive(link.href) }]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <details class="site-nav__menu">
+      <summary aria-label="開啟選單">
+        <span class="site-nav__hamburger" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </span>
+      </summary>
+      <nav class="site-nav__dropdown" aria-label="行動版導覽">
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class:list={['site-nav__link', { 'is-active': isActive(link.href) }]}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
+  </div>
+</header>

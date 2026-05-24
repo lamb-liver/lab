@@ -1,0 +1,27 @@
+.hero-section {
+  position: relative;
+  min-height: clamp(560px, 70vh, 900px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: var(--space-8);
+}
+
+.hero-content h1 {
+  font-size: clamp(2.5rem, 6vw, 3rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.hero-content p {
+  margin-top: var(--space-4);
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+}

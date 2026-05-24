@@ -1,17 +1,62 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroCanvasShell from '../components/HeroCanvasShell.astro';
+import WorkCard from '../components/WorkCard.astro';
+import ExploreCard from '../components/ExploreCard.astro';
+import { getCollection } from 'astro:content';
+import { getPublished } from '../content/utils';
+import '../styles/pages/home.css';
 
+const works = await getCollection('works');
+const explore = await getCollection('explore');
+
+const latestWorks = getPublished(works).slice(0, 3);
+const latestExplore = getPublished(explore).slice(0, 3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="羊·實驗">
+  <section class="hero-section">
+    <HeroCanvasShell />
+    <div class="hero-content">
+      <h1>羊·實驗</h1>
+      <p>數學與演算法的實驗</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">最新作品</h2>
+      <div class="card-grid">
+        {
+          latestWorks.map((entry) => (
+            <WorkCard
+              slug={entry.id}
+              title={entry.data.title}
+              description={entry.data.description}
+              tags={entry.data.tags}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">最新視覺化</h2>
+      <div class="card-grid">
+        {
+          latestExplore.map((entry) => (
+            <ExploreCard
+              slug={entry.id}
+              title={entry.data.title}
+              description={entry.data.description}
+              category={entry.data.category}
+              coverImage={entry.data.coverImage}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

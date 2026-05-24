@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/pages/about.css';
+---
+
+<BaseLayout title="關於">
+  <div class="container">
+    <div class="about-page">
+      <header class="page-header">
+        <h1>關於</h1>
+      </header>
+
+      <section class="about-section">
+        <h2>簡介</h2>
+        <p>
+          數學系背景，前端 / Android 工程師。此站為實驗場地，將數學形狀和演算法跑出來的圖案，以程式展現。
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2>做這個的原因</h2>
+        <p>以視覺化方式協助理解公式。</p>
+      </section>
+
+      <section class="about-section about-section--contact">
+        <h2>聯絡方式</h2>
+        <ul class="about-contact-list">
+          <li>
+            <p class="about-contact__label">Email</p>
+            <a href="mailto:lambliver.dev@gmail.com" class="about-contact__link">
+              lambliver.dev@gmail.com
+            </a>
+          </li>
+          <li>
+            <p class="about-contact__label">GitHub</p>
+            <a
+              href="https://github.com/lamb-liver"
+              class="about-contact__link"
+              target="_blank"
+              rel="noopener noreferrer">github.com/lamb-liver</a
+            >
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
