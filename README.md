@@ -17,23 +17,7 @@
 | [`p5toreact.md`](p5toreact.md) | p5 sketch → React / CurveModule 整合與踩坑 |
 | [`reactkey.md`](reactkey.md) | Morph 曲線 React × p5 架構契約（模組邊界、ref、快取） |
 
-## 快速開始
-
-需要 Node.js >= 22.12.0。
-
-```bash
-npm install
-npm run dev      # http://localhost:4321
-npm run build    # 輸出至 dist/
-npm run preview  # 預覽 build 結果
-npm test         # 單元測試（vitest）
-```
-
-## 部署（GitHub Pages）
-
-- 倉庫：[lamb-liver/lab](https://github.com/lamb-liver/lab)
-- 站點：<https://lamb-liver.github.io/lab/>（`base: /lab/`）
-- 版本：**v1.0.0** — `main` 推送後由 `.github/workflows/deploy.yml` 建置並發布
+線上：[lamb-liver.github.io/lab](https://lamb-liver.github.io/lab/) · 倉庫 [lamb-liver/lab](https://github.com/lamb-liver/lab)
 
 ## 頁面
 
