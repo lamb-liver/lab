@@ -1,5 +1,6 @@
 .explore-detail .interactive-canvas,
-.explore-detail .fourier-explore {
+.explore-detail .fourier-explore,
+.explore-detail .wave-explore {
   margin-bottom: var(--space-8);
 }
 
@@ -16,6 +17,7 @@
   margin-top: var(--space-2);
 }
 
-.explore-detail--interactive .fourier-explore {
+.explore-detail--interactive .fourier-explore,
+.explore-detail--interactive .wave-explore {
   margin-bottom: var(--space-6);
 }

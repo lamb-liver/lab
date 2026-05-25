@@ -1,5 +1,8 @@
 /** 互動 explore slug（與 `content/explore/{slug}.md`、`ExploreInteractiveStage` 同步） */
-export const exploreInteractiveSlugs = ['fourier-series'] as const;
+export const exploreInteractiveSlugs = [
+  'fourier-series',
+  'trig-wave-interference',
+] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];
 

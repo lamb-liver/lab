@@ -10,11 +10,11 @@ draft: false
 
 ## 基本概念
 
-任何週期為 2π 的函數 f(x) 可展開為無窮級數：
+任何週期為 $2\pi$ 的函數 $f(x)$ 可展開為無窮級數：
 
-```
-f(x) = a₀/2 + Σ(aₙ cos(nx) + bₙ sin(nx))
-```
+$$
+f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty} \bigl(a_n\cos(nx) + b_n\sin(nx)\bigr)
+$$
 
 ## 互動說明
 

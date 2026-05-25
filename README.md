@@ -29,6 +29,12 @@ npm run preview  # 預覽 build 結果
 npm test         # 單元測試（vitest）
 ```
 
+## 部署（GitHub Pages）
+
+- 倉庫：[lamb-liver/lab](https://github.com/lamb-liver/lab)
+- 站點：<https://lamb-liver.github.io/lab/>（`base: /lab/`）
+- 版本：**v1.0.0** — `main` 推送後由 `.github/workflows/deploy.yml` 建置並發布
+
 ## 頁面
 
 | 路徑 | 說明 |
@@ -61,12 +67,15 @@ npm test         # 單元測試（vitest）
 | `riemann-sum` | 黎曼和動態圖 | 曲線+矩形分割逼近面積 |
 | `tangent-approximation` | 切線逼近動畫 | 割線收斂到切線 |
 | `catenary` | 曳物線 | tractrix 上下軌 + rope |
+| `equiangular-spiral` | 等角螺線 | r=ae^(bθ) ghost + reveal + 旋轉 |
+| `vector-field-streamlines` | 向量場流線 | 漩渦場 RK2 流線積分 |
 
 ### 視覺化（explore）
 
 | slug | 標題 | 說明 |
 |------|------|------|
 | `fourier-series` | 傅立葉級數 | 1D 方波 / 2D 軌道，epicycles + N 滑桿（有 `coverImage`） |
+| `trig-wave-interference` | 三角函數的疊加與波的干涉 | 疊加 / 拍頻雙模式、相位與頻率滑桿 |
 
 其餘 explore slug 仍顯示 canvas 佔位；列表無封面時顯示「主題佔位」。
 
@@ -78,17 +87,9 @@ npm test         # 單元測試（vitest）
 
 | 主題 | slug | 標題 |
 |------|------|------|
-| 三角函數的疊加與波的干涉 | `trig-wave-interference` | 三角函數的疊加與波的干涉 |
 | 二次曲線的幾何動態軌跡 | `conic-dynamic-geometry` | 二次曲線的幾何動態軌跡 |
 | 矩陣與線性變換 | `matrix-linear-transform` | 矩陣與線性變換 |
 | 極限與微積分基本定理 | `limits-riemann-sum` | 極限與黎曼和 |
-
-**作品集（尚未接入互動模組）**
-
-| 主題 | slug | 標題 |
-|------|------|------|
-| 極限與微積分基本定理 | `equiangular-spiral` | 等角螺線 |
-| 極限與微積分基本定理 | `vector-field-streamlines` | 向量場流線 |
 
 ## 專案結構
 

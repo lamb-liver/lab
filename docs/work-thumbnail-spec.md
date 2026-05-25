@@ -23,7 +23,7 @@
 
 ### 不在範圍
 
-- `equiangular-spiral`、`vector-field-streamlines`（未在 `workCurveBySlug`）→ 維持「縮圖佔位」。
+- `equiangular-spiral`、`vector-field-streamlines`：已登記 `workCurveBySlug`，縮圖為多 path（ghost + active / 多條流線）。
 - Explore `coverImage` 流程。
 
 ---
@@ -240,6 +240,20 @@ const lines = buildGridLines(width, matrix, 1);
 ```ts
 const upper = buildParametricCurve(t => evaluateTractrix(t, L), 0, maxT);
 // dynamicT = maxT for dynamic + object + rope endpoints
+```
+
+### `equiangular-spiral`
+
+```ts
+// ghost: θ ∈ [0, maxTheta]；active: θ ∈ [0, maxTheta * 0.72]；head 單點
+// ghost path → excludeFromBbox: true
+```
+
+### `vector-field-streamlines`
+
+```ts
+// buildAllStreamlines(24, 140, step, time: 0) → 每條流線一 path
+// 勿將多條流線首尾相接成一條 polyline
 ```
 
 ---

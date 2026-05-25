@@ -1,8 +1,43 @@
 <script>
+  function applyListFilter(
+    grid: HTMLElement,
+    value: string,
+    emptyEl: HTMLElement | null,
+  ): void {
+    let visibleCount = 0;
+
+    grid.querySelectorAll('[data-filter-item]').forEach((card) => {
+      const el = card as HTMLElement;
+      if (value === '*') {
+        el.hidden = false;
+        visibleCount += 1;
+        return;
+      }
+
+      const tags = el.getAttribute('data-filter-tags');
+      const category = el.getAttribute('data-filter-category');
+      const tokens = (tags ?? category ?? '')
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map((s) => s.toLowerCase());
+
+      const show = tokens.includes(value);
+      el.hidden = !show;
+      if (show) visibleCount += 1;
+    });
+
+    if (emptyEl) {
+      emptyEl.hidden = value === '*' || visibleCount > 0;
+    }
+  }
+
   function attachListFilter(root: HTMLElement) {
     const bar = root.querySelector('[data-filter-bar]');
     const grid = root.querySelector('[data-card-grid]');
     if (!bar || !grid) return;
+
+    const emptyEl = root.querySelector('[data-filter-empty]');
 
     bar.addEventListener('click', (event) => {
       const target = event.target;
@@ -19,23 +54,7 @@
         b.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
 
-      grid.querySelectorAll('[data-filter-item]').forEach((card) => {
-        const el = card as HTMLElement;
-        if (value === '*') {
-          el.hidden = false;
-          return;
-        }
-
-        const tags = el.getAttribute('data-filter-tags');
-        const category = el.getAttribute('data-filter-category');
-        const tokens = (tags ?? category ?? '')
-          .split(',')
-          .map((s) => s.trim())
-          .filter(Boolean)
-          .map((s) => s.toLowerCase());
-
-        el.hidden = !tokens.includes(value);
-      });
+      applyListFilter(grid as HTMLElement, value, emptyEl as HTMLElement | null);
     });
   }
 

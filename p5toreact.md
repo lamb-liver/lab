@@ -1,7 +1,7 @@
 # p5.js → React（羊·實驗）
 
 本文件記錄如何把 p5 Web Editor sketch 接到 Astro + React。  
-**參考實作**：`rose-curve`、`lissajous-curve`、`harmonograph-curve`、`spirograph-curve`、`standing-wave`、`interference-fringes`、`chladni-figures`、`parabolic-reflection`、`conic-envelope`、`conic-focus-locus`。  
+**參考實作**：`rose-curve`、`lissajous-curve`、`harmonograph-curve`、`spirograph-curve`、`standing-wave`、`interference-fringes`、`chladni-figures`、`parabolic-reflection`、`conic-envelope`、`conic-focus-locus`、`catenary`、`equiangular-spiral`、`vector-field-streamlines`。  
 **視覺規格**：見 [`art.md`](art.md)（glow、grid、hierarchy，只換 geometry 不重做 style）。  
 **React × p5 架構契約（morph 曲線）**：見 [`reactkey.md`](reactkey.md)。  
 **Explore 互動**（傅立葉級數）見下方「Explore 視覺化」章節；不走 CurveModule / portal 舞台。
@@ -180,6 +180,7 @@ export const getPublishedAsc = (entries) =>
 | slug | 元件 | 說明 |
 |------|------|------|
 | `fourier-series` | `FourierSeriesExploreRoot` | 1D 方波 / 2D 軌道；epicycles |
+| `trig-wave-interference` | `WaveSuperpositionExploreRoot` | 圖左 sidebar 右；`canvasSize` clamp(300, w×ratio, 520)；見 `art.md` §5.2.2 |
 
 ### 佈局（傅立葉）
 
@@ -498,6 +499,42 @@ y = 2A sin(kx) cos(ωt)    包絡 ±2A sin(kx)
 - 多條雙曲線 fringes + envelope ghost；波源點 ±d/2
 - reveal 依雙曲參數 t 範圍（`maxT = 1.2 × progress`）
 - 不走 `renderFrame`；見 `interferenceFringeRender.ts`
+
+---
+
+## 參考實作 G：Equiangular Spiral（`EquiangularSpiralCurveRoot`）
+
+```
+r = a e^(bθ)    x = r cos θ, y = r sin θ    a = 4（常數）
+```
+
+| 參數 | 行為 |
+|------|------|
+| growthB | lerp **0.08**；變更時重建 ghost / active |
+| maxTheta | lerp **0.08**；相機依終點半徑重算 zoom |
+| rotationSpeed | 每幀累加 `time`；渲染層 `rotate(time)` |
+
+- **不走** `renderFrame` / morph cache：參數曲線 + reveal θ 呼吸
+- ghost 至 $\theta_{\max}$；active 至 $\theta_{\mathrm{reveal}}$（含 $\sin$ 擾動）
+- 見 `equiangularSpiralRender.ts`、`equiangular-spiral/camera.ts`
+
+---
+
+## 參考實作 H：Vector Field Streamlines（`VectorFieldStreamlinesCurveRoot`）
+
+```
+F = 漩渦 (−y,x)/(r²+ε) + 0.25(sin(2y+0.8t), cos(2x+0.8t))    RK2 積分
+```
+
+| 參數 | 行為 |
+|------|------|
+| streamlineCount | 瞬間對齊；每幀重算 N 條流線 |
+| integrationSteps | 瞬間對齊；RK2 步數 |
+| flowSpeed | 每幀累加 `time`；場與種子半徑隨 t 變 |
+
+- 固定 `CAMERA_SCALE = 120`；邊界 $|x|,|y|>5$ 截斷
+- 種子：均分角度 + 呼吸半徑 $1.2+0.25\sin(1.5t+i)$
+- 見 `vectorFieldStreamlinesRender.ts`；縮圖為多 path（24 條流線快照）
 
 ---
 

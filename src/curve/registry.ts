@@ -16,6 +16,8 @@ import { affineTransformPatternModule } from './modules/affine-transform-pattern
 import { rotationScaleCompositionModule } from './modules/rotation-scale-composition';
 import { linearTransformGridModule } from './modules/linear-transform-grid';
 import { standingWaveModule } from './modules/standing-wave';
+import { equiangularSpiralModule } from './modules/equiangular-spiral';
+import { vectorFieldStreamlinesModule } from './modules/vector-field-streamlines';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -36,4 +38,6 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'riemann-sum': riemannSumModule,
   'tangent-approximation': tangentApproximationModule,
   'catenary': catenaryModule,
+  'equiangular-spiral': equiangularSpiralModule,
+  'vector-field-streamlines': vectorFieldStreamlinesModule,
 };

@@ -4,9 +4,11 @@ import {
   isExploreInteractive,
 } from '../../explore/interactiveRegistry';
 import FourierSeriesExploreRoot from './FourierSeriesExploreRoot';
+import WaveSuperpositionExploreRoot from './WaveSuperpositionExploreRoot';
 
 const rootBySlug = {
   'fourier-series': FourierSeriesExploreRoot,
+  'trig-wave-interference': WaveSuperpositionExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 type Props = {

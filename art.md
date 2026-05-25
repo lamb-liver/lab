@@ -172,9 +172,50 @@ ellipse(...);
 
 ### 5.2 視覺化（`/explore`）
 
-- **不走 portal**；控件內嵌於 `FourierSeriesExploreRoot`（`.fourier-explore__toolbar`）。
-- canvas 下緊接 **N 滑桿 + 模式按鈕**（一屏可見）；公式/meta 降權在工具列下方。
+- **不走 portal**；控件內嵌於各 `*ExploreRoot`（非作品頁 `createPortal`）。
 - 列表卡片：`ExploreCard` + frontmatter `coverImage`（`public/explore/{slug}-{主題}-cover.png`）。
+
+#### 5.2.1 傅立葉（`fourier-series`）
+
+- 佈局：`.fourier-explore` — canvas 上、`.fourier-explore__toolbar` 下（方形容器 + `min(34vh, 400px)` 限高）。
+- reveal 用 `deltaTime`；公式/meta 降權在工具列下方。
+
+#### 5.2.2 波疊加（`trig-wave-interference`）
+
+- 佈局：`.wave-explore__stage` — **圖左**（`.wave-explore__visual`）· **控件右**（`.wave-explore__sidebar`，對照作品頁 `.controls-panel--stage`）。
+- 桌面 ≥1024px：sidebar `position: sticky; top: var(--nav-height)`；`max-height: calc(100vh - var(--nav-height))`；`overflow-y: auto` + `overscroll-behavior: contain`。
+- 手機：canvas 上、sidebar 下（單欄堆疊）。
+- 舞台隔離：`wave-explore__stage { contain: layout }`，避免滑桿拖曳與外層捲動互搶。
+
+**DOM 結構（固定）**
+
+```text
+wave-explore
+└─ wave-explore__stage          [contain: layout]
+   ├─ wave-explore__visual      ← canvas + 視覺區標題（WAVE SUPERPOSITION）
+   └─ wave-explore__sidebar     [sticky · overscroll-behavior: contain]
+      ├─ mode-switch
+      ├─ state-info             ← 干涉 / 拍頻文案（勿放回 canvas 下）
+      ├─ wave-a-controls
+      ├─ wave-b-controls
+      └─ formula
+```
+
+**Canvas 高度（勿以 vh 為主）**
+
+```ts
+// src/explore/wave-superposition/canvasSize.ts
+height = clamp(300px, width × ratio, 520px)
+// 拍頻：ratio × 0.75（BEAT_HEIGHT_SCALE）
+// vh 僅作可選上限：min(height, floor(innerHeight × 0.42))
+```
+
+| 規則 | 說明 |
+|------|------|
+| 主控制 | `width × ratio` + px clamp |
+| 禁止 | `height: 40vh` 單獨作主高度（ultrawide / 13" 筆電體驗差） |
+| vh | 只當 **upper bound**，在 `measureWaveCanvas` / draw resize 時套用 |
+| 量測寬度 | 左欄 `.wave-explore__canvas` host，非整頁寬度 |
 
 ### 5.3 列表縮圖
 

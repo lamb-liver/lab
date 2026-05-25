@@ -1,8 +1,12 @@
 ---
 import '../styles/components/filter.css';
-import { exploreCategories } from '../content.config';
 
-const items = ['全部', ...exploreCategories];
+interface Props {
+  categories: string[];
+}
+
+const { categories } = Astro.props;
+const items = ['全部', ...categories];
 ---
 
 <div class="filter-bar" data-filter-bar role="group" aria-label="視覺化分類篩選">

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  collectExploreCategories,
   collectWorkTags,
   getFeaturedOrLatest,
   getStaticPathsFromCollection,
@@ -58,5 +59,29 @@ describe('collectWorkTags', () => {
       entry('b', '2026-02-01', false, false, ['三角函數', '幾何']),
     ] as Parameters<typeof collectWorkTags>[0]);
     expect(tags).toEqual(['三角函數', '參數方程', '幾何']);
+  });
+});
+
+describe('collectExploreCategories', () => {
+  it('returns only categories present in entries', () => {
+    const exploreEntry = (id: string, category: string) =>
+      ({
+        id,
+        data: {
+          date: new Date('2026-01-01'),
+          featured: false,
+          draft: false,
+          category,
+        },
+      }) as Parameters<typeof collectExploreCategories>[0][number];
+
+    const categories = collectExploreCategories([
+      exploreEntry('a', '分析'),
+      exploreEntry('b', '幾何'),
+      exploreEntry('c', '分析'),
+    ]);
+    expect(categories).toEqual(['分析', '幾何']);
+    expect(categories).not.toContain('統計');
+    expect(categories).not.toContain('拓樸');
   });
 });

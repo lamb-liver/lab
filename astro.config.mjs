@@ -7,6 +7,8 @@ import rehypeKatex from 'rehype-katex';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://lamb-liver.github.io',
+  base: '/lab/',
   integrations: [react()],
   markdown: {
     remarkPlugins: [remarkMath],

@@ -17,6 +17,8 @@ export const workInteractiveSlugs = [
   'riemann-sum',
   'tangent-approximation',
   'catenary',
+  'equiangular-spiral',
+  'vector-field-streamlines',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];

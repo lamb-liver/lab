@@ -4,9 +4,10 @@ import CategoryFilter from '../../components/CategoryFilter.astro';
 import ExploreCard from '../../components/ExploreCard.astro';
 import ListFilterScript from '../../components/ListFilterScript.astro';
 import { getCollection } from 'astro:content';
-import { getPublishedAsc } from '../../content/utils';
+import { collectExploreCategories, getPublishedAsc } from '../../content/utils';
 
 const explore = getPublishedAsc(await getCollection('explore'));
+const categoryOptions = collectExploreCategories(explore);
 ---
 
 <BaseLayout title="視覺化">
@@ -15,7 +16,7 @@ const explore = getPublishedAsc(await getCollection('explore'));
       <h1>視覺化</h1>
     </header>
 
-    <CategoryFilter />
+    <CategoryFilter categories={categoryOptions} />
 
     <div class="card-grid" data-card-grid>
       {
@@ -30,6 +31,8 @@ const explore = getPublishedAsc(await getCollection('explore'));
         ))
       }
     </div>
+
+    <p class="filter-empty" data-filter-empty hidden>目前無符合此分類的內容</p>
   </div>
   <ListFilterScript />
 </BaseLayout>

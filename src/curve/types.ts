@@ -45,6 +45,8 @@ export type ThumbnailSpec = {
 export type RuntimeMeta = {
   revealPct: number;
   smoothParams: ParamValues;
+  /** 等角螺線等：動態 reveal 參數（非百分比） */
+  revealTheta?: number;
 };
 
 export type CurveMetadata = {

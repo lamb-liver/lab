@@ -67,3 +67,14 @@ export const collectWorkTags = (
   }
   return [...tags].sort((a, b) => a.localeCompare(b, 'zh-TW'));
 };
+
+/** 視覺化列表篩選：僅顯示目前有內容的 category */
+export const collectExploreCategories = (
+  entries: CollectionEntry<'explore'>[],
+): string[] => {
+  const categories = new Set<string>();
+  for (const entry of entries) {
+    categories.add(entry.data.category);
+  }
+  return [...categories].sort((a, b) => a.localeCompare(b, 'zh-TW'));
+};

@@ -18,6 +18,8 @@ import CatenaryCurveRoot from './CatenaryCurveRoot';
 import TangentApproximationCurveRoot from './TangentApproximationCurveRoot';
 import LinearTransformGridCurveRoot from './LinearTransformGridCurveRoot';
 import StandingWaveCurveRoot from './StandingWaveCurveRoot';
+import EquiangularSpiralCurveRoot from './EquiangularSpiralCurveRoot';
+import VectorFieldStreamlinesCurveRoot from './VectorFieldStreamlinesCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -39,6 +41,8 @@ const rootBySlug = {
   'riemann-sum': RiemannSumCurveRoot,
   'tangent-approximation': TangentApproximationCurveRoot,
   'catenary': CatenaryCurveRoot,
+  'equiangular-spiral': EquiangularSpiralCurveRoot,
+  'vector-field-streamlines': VectorFieldStreamlinesCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 type Props = {
