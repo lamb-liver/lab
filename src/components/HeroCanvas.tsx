@@ -12,6 +12,10 @@ import { renderRotationScaleCompositionScene } from '../systems/rendering/rotati
 import { useRectP5CanvasHost } from './curve/useRectP5CanvasHost';
 
 const MIN_HERO_CANVAS_SIZE = 320;
+const HERO_PARAMS = {
+  ...rotationScaleCompositionModule.defaultParams,
+  evolutionSpeed: 0,
+};
 
 function measureHeroCanvas(host: HTMLElement) {
   return {
@@ -21,13 +25,12 @@ function measureHeroCanvas(host: HTMLElement) {
 }
 
 export default function HeroCanvas() {
-  const module = rotationScaleCompositionModule;
-  const animRef = useRef(createRotationScaleCompositionAnimState(module.defaultParams));
+  const animRef = useRef(createRotationScaleCompositionAnimState(HERO_PARAMS));
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepRotationScaleCompositionAnimation(
       animRef.current,
-      module.defaultParams,
+      HERO_PARAMS,
       REVEAL_SPEED,
     );
 
@@ -40,7 +43,7 @@ export default function HeroCanvas() {
       time: anim.time,
       revealProgress: anim.revealProgress,
     });
-  }, [module.defaultParams]);
+  }, []);
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureHeroCanvas);
 
