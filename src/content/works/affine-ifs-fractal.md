@@ -38,4 +38,4 @@ $$
 
 ## 延伸閱讀
 
-- [迭代函数系统（維基百科）](https://zh.wikipedia.org/wiki/%E8%BF%AD%E4%BB%A3%E5%87%BD%E6%95%B0%E7%B3%BB%E7%BB%9F)
+- [迭代函數系統（維基百科）](https://zh.wikipedia.org/zh-tw/%E8%BF%AD%E4%BB%A3%E5%87%BD%E6%95%B8%E7%B3%BB%E7%B5%B1)

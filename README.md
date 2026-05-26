@@ -14,6 +14,7 @@
 | 文件 | 說明 |
 |------|------|
 | [`art.md`](art.md) | 曲線視覺風格（glow、grid、色彩、hierarchy） |
+| [`textstyle.md`](textstyle.md) | 視覺化主題頁 Markdown 文案結構與語氣 |
 | [`p5toreact.md`](p5toreact.md) | p5 sketch → React / CurveModule 整合與踩坑 |
 | [`reactkey.md`](reactkey.md) | Morph 曲線 React × p5 架構契約（模組邊界、ref、快取） |
 
@@ -60,8 +61,18 @@
 |------|------|------|
 | `fourier-series` | 傅立葉級數 | 1D 方波 / 2D 軌道，epicycles + N 滑桿（有 `coverImage`） |
 | `trig-wave-interference` | 三角函數的疊加與波的干涉 | 疊加 / 拍頻雙模式、相位與頻率滑桿 |
+| `conic-dynamic-geometry` | 二次曲線的幾何動態軌跡 | 離心率 $e$ 連續過渡（圓→橢圓→拋物→雙曲） |
+| `matrix-linear-transform` | 矩陣與線性變換 | 欄向量、行列式與 $AB\neq BA$ |
+| `limits-riemann-sum` | 極限與黎曼和 | 分割收斂、中點法與切線斜率 |
+| `differential-equations-geometry` | 微分方程的幾何視覺化 | 斜率場、初始條件與尤拉法 |
+| `complex-euler-formula` | 複數與尤拉公式 | $e^{i\theta}$、旋轉算子與棣莫弗定理 |
+| `sequences-and-series` | 數列與級數 | 等差等比、收斂與邏輯斯諦混沌 |
+| `permutations-combinations` | 排列組合 | 帕斯卡三角、路徑計數與組合爆炸 |
+| `probability-statistics` | 機率與統計 | 條件機率、貝氏、CLT、蒙提霍爾 |
+| `exponential-logarithm` | 指數與對數 | 反函數、$e$、對數尺度與換底 |
+| `vectors` | 向量 | 內積、線性組合與法向量 |
 
-其餘 explore slug 仍顯示 canvas 佔位；列表無封面時顯示「主題佔位」。
+未列於上表且尚無互動實作的 explore slug，詳頁 canvas 仍為佔位；列表無封面時顯示「主題佔位」。
 
 ### 內容佔位（待互動）
 
@@ -69,11 +80,37 @@
 
 **視覺化**
 
+（explore 主題頁正文已補齊；互動 canvas 待實作者見各 slug 詳頁。）
+
+**作品集**
+
 | 主題 | slug | 標題 |
 |------|------|------|
-| 二次曲線的幾何動態軌跡 | `conic-dynamic-geometry` | 二次曲線的幾何動態軌跡 |
-| 矩陣與線性變換 | `matrix-linear-transform` | 矩陣與線性變換 |
-| 極限與微積分基本定理 | `limits-riemann-sum` | 極限與黎曼和 |
+| 複數平面幾何 | `complex-phase-portrait` | 相位圖 |
+| 複數平面幾何 | `complex-arithmetic-geometry` | 複數四則運算的幾何意義 |
+| 複數平面幾何 | `complex-polar-form` | 複數的極座標形式 |
+| 複數平面幾何 | `euler-formula-rotation` | 尤拉公式旋轉動畫 |
+| 複數與碎形 | `julia-set` | 朱利亞集合 |
+| 數列與級數 | `arithmetic-geometric-sequences` | 等差等比數列的幾何視覺 |
+| 數列與級數 | `fibonacci-spiral` | 費波那契螺線 |
+| 碎形與動力系統 | `sierpinski-triangle` | 謝爾賓斯基三角形 |
+| 數列與級數 | `basel-problem` | 巴塞爾問題 |
+| 碎形與動力系統 | `logistic-bifurcation` | 邏輯斯諦映射分岔圖 |
+| 組合數學 | `pascals-triangle` | 帕斯卡三角形 |
+| 組合數學 | `combinatorial-path-counting` | 組合的路徑計數 |
+| 組合數學 | `binomial-expansion-geometry` | 二項式展開的幾何意義 |
+| 組合數學 | `catalan-numbers` | 卡特蘭數 |
+| 機率與統計 | `conditional-probability-bayes` | 條件機率與貝氏定理 |
+| 機率與統計 | `binomial-to-normal` | 二項分佈到常態分佈 |
+| 機率與統計 | `buffon-needle` | 蒲豐投針 |
+| 指數與對數 | `exponential-growth-decay` | 指數成長與衰減 |
+| 指數與對數 | `logarithmic-scale` | 對數尺度 |
+| 指數與對數 | `natural-log-e-geometry` | 自然對數 e 的幾何定義 |
+| 指數與對數 | `logistic-curve` | 邏輯斯諦曲線 |
+| 向量幾何 | `vector-addition-scalar` | 向量的加法與純量乘法 |
+| 向量幾何 | `dot-product-geometry` | 內積的幾何意義 |
+| 向量幾何 | `vector-projection` | 向量投影與分解 |
+| 向量幾何 | `vector-field-patterns` | 向量場的基本圖樣 |
 
 ## 專案結構
 
@@ -154,7 +191,7 @@ draft: false
 
 ## 新增視覺化（content）
 
-在 `src/content/explore/` 新增 `{slug}.md`。
+在 `src/content/explore/` 新增 `{slug}.md`。正文結構與語氣見 [`textstyle.md`](textstyle.md)。
 
 ```yaml
 ---
@@ -188,8 +225,8 @@ draft: false
 |------|------|
 | `/works` 列表 | `getPublishedAsc`：**舊→新**（完成愈晚愈靠後） |
 | `/explore` 列表 | `getPublishedAsc`：**舊→新**（同上） |
-| 首頁「最新作品」 | `getPublished` 取前 **3** 篇（**date 新→舊**） |
-| 首頁「最新視覺化」 | `getPublished` 取前 **3** 篇（同上） |
+| 首頁「最新作品」 | `getPublishedInteractive(works, workInteractiveSlugs, 3)`：已掛載 canvas 者中 **date 新→舊** 取 3 篇 |
+| 首頁「最新視覺化」 | `getPublishedInteractive(explore, exploreInteractiveSlugs, 3)`：同上（目前 2 篇互動則顯示 2 張卡） |
 
 `date` 代表完成日（或預排順序）；互動實作完成後更新 `date`，該篇會自動浮上首頁前三。  
 `featured` 保留為備用標記，**不**參與首頁選稿（`getFeaturedOrLatest` 仍可供其他用途）。
@@ -214,7 +251,7 @@ draft: false
 
 | 位置 | 狀態 |
 |------|------|
-| `#hero-canvas` | 佔位，待 generative art |
+| `#hero-canvas` | 已用：首頁 Hero 播放 `rotation-scale-composition` 動畫 |
 | `.controls-panel--stage` | 已用：作品 canvas **右側** React portal 參數控制 |
 | `.fourier-explore` | 已用：explore 傅立葉（canvas 下工具列，非 portal） |
 | `TagFilter` | 已用：作品列表前端 tag 篩選 |

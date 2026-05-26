@@ -4,14 +4,16 @@ import HeroCanvasShell from '../components/HeroCanvasShell.astro';
 import WorkCard from '../components/WorkCard.astro';
 import ExploreCard from '../components/ExploreCard.astro';
 import { getCollection } from 'astro:content';
-import { getPublished } from '../content/utils';
+import { exploreInteractiveSlugs } from '../explore/interactiveRegistry';
+import { getPublishedInteractive } from '../content/utils';
+import { workInteractiveSlugs } from '../works/interactiveRegistry';
 import '../styles/pages/home.css';
 
 const works = await getCollection('works');
 const explore = await getCollection('explore');
 
-const latestWorks = getPublished(works).slice(0, 3);
-const latestExplore = getPublished(explore).slice(0, 3);
+const latestWorks = getPublishedInteractive(works, workInteractiveSlugs, 3);
+const latestExplore = getPublishedInteractive(explore, exploreInteractiveSlugs, 3);
 ---
 
 <BaseLayout title="羊·實驗">

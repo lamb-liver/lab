@@ -22,6 +22,18 @@ export const sortByDateAsc = (a: ContentEntry, b: ContentEntry): number =>
 export const getPublished = <E extends ContentEntry>(entries: E[]): E[] =>
   entries.filter(isPublished).sort(sortByDateDesc);
 
+/** 首頁等：僅已掛載互動 canvas 的條目，date 新→舊，取前 limit 篇 */
+export const getPublishedInteractive = <E extends ContentEntry>(
+  entries: E[],
+  interactiveSlugs: readonly string[],
+  limit: number,
+): E[] => {
+  const allowed = new Set<string>(interactiveSlugs);
+  return getPublished(entries)
+    .filter((entry) => allowed.has(entry.id))
+    .slice(0, limit);
+};
+
 export const getPublishedAsc = <E extends ContentEntry>(entries: E[]): E[] =>
   entries.filter(isPublished).sort(sortByDateAsc);
 

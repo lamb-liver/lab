@@ -42,4 +42,4 @@ $$
 
 ## 延伸閱讀
 
-- [变换矩阵（維基百科）](https://zh.wikipedia.org/wiki/%E5%8F%98%E6%8D%A2%E7%9F%A9%E9%98%B5)
+- [變換矩陣（維基百科）](https://zh.wikipedia.org/zh-tw/%E8%AE%8A%E6%8F%9B%E7%9F%A9%E9%98%B5)

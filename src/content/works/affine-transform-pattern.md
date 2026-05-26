@@ -43,4 +43,4 @@ $$
 
 ## 延伸閱讀
 
-- [仿射变换（維基百科）](https://zh.wikipedia.org/wiki/%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2)
+- [仿射變換（維基百科）](https://zh.wikipedia.org/zh-tw/%E4%BB%BF%E5%B0%84%E8%AE%8A%E6%8F%9B)

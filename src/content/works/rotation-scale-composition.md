@@ -39,4 +39,4 @@ $$
 
 ## 延伸閱讀
 
-- [旋转矩阵（維基百科）](https://zh.wikipedia.org/wiki/%E6%97%8B%E8%BD%AC%E7%9F%A9%E9%98%B5)
+- [旋轉矩陣（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%97%8B%E8%BD%89%E7%9F%A9%E9%98%B5)

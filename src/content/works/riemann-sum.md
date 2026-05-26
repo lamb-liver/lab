@@ -41,4 +41,4 @@ $$
 
 ## 延伸閱讀
 
-- [黎曼积分（維基百科）](https://zh.wikipedia.org/zh-tw/%E9%BB%8E%E6%9B%BC%E7%A7%AF%E5%88%86)
+- [黎曼積分（維基百科）](https://zh.wikipedia.org/zh-tw/%E9%BB%8E%E6%9B%BC%E7%A7%AF%E5%88%86)

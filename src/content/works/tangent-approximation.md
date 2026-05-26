@@ -45,4 +45,4 @@ $$
 
 ## 延伸閱讀
 
-- [导数（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%AF%BC%E6%95%B0)
+- [導數（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%AF%BC%E6%95%B8)

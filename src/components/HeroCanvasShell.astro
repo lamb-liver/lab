@@ -1,7 +1,8 @@
 ---
+import HeroCanvas from './HeroCanvas';
 import '../styles/components/canvas.css';
 ---
 
 <div class="hero-canvas-shell" data-canvas-root>
-  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <HeroCanvas client:only="react" />
 </div>

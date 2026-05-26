@@ -34,4 +34,4 @@ $$
 
 ## 延伸閱讀
 
-- [曳物线（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%9C%9B%E7%89%A9%E7%B7%9A)
+- [曳物線（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%9C%9B%E7%89%A9%E7%B7%9A)

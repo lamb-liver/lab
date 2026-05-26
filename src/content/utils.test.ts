@@ -3,6 +3,7 @@ import {
   collectExploreCategories,
   collectWorkTags,
   getFeaturedOrLatest,
+  getPublishedInteractive,
   getStaticPathsFromCollection,
 } from './utils';
 
@@ -15,6 +16,19 @@ const entry = (
 ) => ({
   id,
   data: { date: new Date(date), featured, draft, tags },
+});
+
+describe('getPublishedInteractive', () => {
+  it('returns only listed slugs, newest first, capped at limit', () => {
+    const pool = [
+      entry('placeholder', '2026-08-01'),
+      entry('rose-curve', '2026-01-15'),
+      entry('vector-field-streamlines', '2026-07-06'),
+      entry('draft', '2026-09-01', false, true),
+    ];
+    const result = getPublishedInteractive(pool, ['rose-curve', 'vector-field-streamlines'], 3);
+    expect(result.map((e) => e.id)).toEqual(['vector-field-streamlines', 'rose-curve']);
+  });
 });
 
 describe('getFeaturedOrLatest', () => {
