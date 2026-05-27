@@ -548,6 +548,32 @@ F = 漩渦 (−y,x)/(r²+ε) + 0.25(sin(2y+0.8t), cos(2x+0.8t))    RK2 積分
 
 ---
 
+## 參考實作 I：Sierpinski Triangle（`SierpinskiTriangleCurveRoot`）
+
+```
+遞迴：每層移除中心三角形（scale = 1/2, copies = 3）
+IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
+```
+
+| 參數 | 行為 |
+|------|------|
+| depth | 變更時重建 recursive topology 與 chaos layer |
+| mode（recursive / chaos / compare） | 僅切換視圖，不重置深度 |
+| recursiveSpeed | 控制遞迴生成時鐘（拓樸 spawn 時序） |
+
+- **不走** `CurveModule` morph cache：此題是拓樸遞迴 + 隨機 IFS，建議專用 hook（如 `useSierpinskiP5`）
+- 建議將 `createSlider/createButton/text` 搬到 React：p5 只畫幾何（guide、solid/void、affine map）
+- chaos layer 採 persistent `p5.Graphics`（attractor 不每幀清空），depth 變更才重建
+- compare 模式維持左右同源 root triangle：左遞迴、右 chaos，使用同一組幾何 anchor
+
+最小接線建議：
+1. `src/components/works/SierpinskiTriangleCurveRoot.tsx`：管理 `depth`、`mode`、`recursiveSpeed`
+2. `src/components/curve/useSierpinskiP5.ts`：instance mode + 一次 mount + ref 同步參數
+3. `src/works/interactiveRegistry.ts`、`src/components/works/WorkInteractiveStage.tsx`：登記 `sierpinski-triangle`
+4. `src/content/works/sierpinski-triangle.md`：確認 `draft: false` 與完成日期（首頁排序用）
+
+---
+
 ## 六曲線對照
 
 | | Rose | Lissajous | Harmonograph | Spirograph | Standing Wave | Interference Fringes |

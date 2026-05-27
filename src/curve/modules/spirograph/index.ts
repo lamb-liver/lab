@@ -78,7 +78,7 @@ export const spirographModule: CurveModule = {
     return {
       title: '繁花曲線',
       formula:
-        'x = (R-r)cos(t) + d·cos((R-r)t/r) · y = (R-r)sin(t) - d·sin((R-r)t/r)',
+        'x = (R-r)cos(t) + d·cos((R-r)t/r), y = (R-r)sin(t) - d·sin((R-r)t/r)',
       stats: [
         { key: 'R', label: 'R', value: Math.round(params.R) },
         { key: 'r', label: 'r', value: Math.round(params.r) },

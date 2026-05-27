@@ -40,6 +40,37 @@
   color: var(--color-text-muted);
 }
 
+.curve-work-mode-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--color-border);
+}
+
+.curve-work-mode-button {
+  min-height: 2rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  cursor: pointer;
+}
+
+.curve-work-mode-button[aria-pressed='true'] {
+  background: rgba(192, 255, 107, 0.08);
+  color: var(--color-text);
+}
+
+.control-field__value {
+  float: right;
+  font-family: var(--font-mono);
+  color: var(--color-text);
+}
+
 .curve-work-controls__stats {
   margin-top: var(--space-6);
   display: grid;

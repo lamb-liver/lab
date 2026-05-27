@@ -72,7 +72,7 @@ export const harmonographModule: CurveModule = {
     const smooth = runtime?.smoothParams ?? params;
     return {
       title: '諧振圖',
-      formula: 'x = A sin(at + δ) e^(-dt) · y = B sin(bt) e^(-dt)',
+      formula: 'x = A sin(at + δ)e^(-dt), y = B sin(bt)e^(-dt)',
       stats: [
         { key: 'a', label: 'a', value: Math.round(params.a) },
         { key: 'b', label: 'b', value: Math.round(params.b) },

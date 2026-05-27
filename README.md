@@ -65,11 +65,14 @@
 | `catenary` | 曳物線 | tractrix 上下軌 + rope |
 | `equiangular-spiral` | 等角螺線 | r=ae^(bθ) ghost + reveal + 旋轉 |
 | `vector-field-streamlines` | 向量場流線 | 漩渦場 RK2 流線積分 |
+| `sierpinski-triangle` | 謝爾賓斯基三角形 | 遞迴剖分 × Chaos Game（IFS）對照 |
 | `complex-arithmetic-geometry` | 複數四則運算的幾何意義 | $z_1+z_2$ 平行四邊形、$z_1 z_2$ 模角合成 |
 | `complex-polar-form` | 複數的極座標形式 | $z=re^{i\theta}$ 投影與幅角弧 |
 | `euler-formula-rotation` | 尤拉公式旋轉動畫 | 複平面旋轉 + 虛部時域波形 |
 | `julia-set` | 朱利亞集合 | $z_{n+1}=z_n^2+c$ 分形 + 平滑逃逸著色 |
 | `complex-phase-portrait` | 相位圖 | 雙相量首尾相接 + 滾動軌跡；A / b / δ |
+| `arithmetic-geometric-sequences` | 等差等比數列的幾何視覺 | 等差柱列 + 等比面積分割，對照 $S_n$ |
+| `fibonacci-spiral` | 費波那契螺線 | 費波那契方格 + 四分之一圓弧，對照 $\varphi$ |
 
 ### 視覺化（explore）
 
@@ -102,9 +105,6 @@
 
 | 主題 | slug | 標題 |
 |------|------|------|
-| 數列與級數 | `arithmetic-geometric-sequences` | 等差等比數列的幾何視覺 |
-| 數列與級數 | `fibonacci-spiral` | 費波那契螺線 |
-| 碎形與動力系統 | `sierpinski-triangle` | 謝爾賓斯基三角形 |
 | 數列與級數 | `basel-problem` | 巴塞爾問題 |
 | 碎形與動力系統 | `logistic-bifurcation` | 邏輯斯諦映射分岔圖 |
 | 組合數學 | `pascals-triangle` | 帕斯卡三角形 |

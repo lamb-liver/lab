@@ -45,7 +45,7 @@ export const conicFocusLocusModule: CurveModule = {
     const smooth = runtime?.smoothParams ?? params;
     return {
       title: '焦點軌跡',
-      formula: 'x = a cos(t), y = b sin(t) · c = ae',
+      formula: 'x = a cos(t), y = b sin(t), c = ae',
       stats: [
         { key: 'a', label: 'a', value: Math.round(smooth.semiMajorAxis) },
         { key: 'e', label: 'e', value: smooth.eccentricity.toFixed(2) },

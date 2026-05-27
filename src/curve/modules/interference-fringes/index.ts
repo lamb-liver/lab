@@ -51,7 +51,7 @@ export const interferenceFringesModule: CurveModule = {
     const smooth = runtime?.smoothParams ?? params;
     return {
       title: '干涉條紋',
-      formula: 'Δr = nλ · x = a cosh(t), y = b sinh(t)',
+      formula: 'Δr = nλ, x = a cosh(t), y = b sinh(t)',
       stats: [
         { key: 'd', label: 'd', value: Math.round(smooth.sourceDistance) },
         { key: 'lambda', label: 'λ', value: Math.round(params.wavelength) },

@@ -45,4 +45,4 @@ $$
 
 ## 延伸閱讀
 
-- [等角螺線（維基百科）](https://zh.wikipedia.org/zh-tw/%E7%AD%89%E8%A7%92%E8%9%9E%E6%97%8B%E7%B7%9A)
+- [等角螺線（維基百科）](https://zh.wikipedia.org/zh-tw/%E7%AD%89%E8%A7%92%E8%9E%BA%E7%B7%9A)

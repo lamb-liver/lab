@@ -24,6 +24,9 @@ export const workInteractiveSlugs = [
   'euler-formula-rotation',
   'julia-set',
   'complex-phase-portrait',
+  'arithmetic-geometric-sequences',
+  'fibonacci-spiral',
+  'sierpinski-triangle',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];

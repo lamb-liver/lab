@@ -23,6 +23,9 @@ import { complexPolarFormModule } from './modules/complex-polar-form';
 import { eulerFormulaRotationModule } from './modules/euler-formula-rotation';
 import { juliaSetModule } from './modules/julia-set';
 import { complexPhasePortraitModule } from './modules/complex-phase-portrait';
+import { arithmeticGeometricSequencesModule } from './modules/arithmetic-geometric-sequences';
+import { fibonacciSpiralModule } from './modules/fibonacci-spiral';
+import { sierpinskiTriangleModule } from './modules/sierpinski-triangle';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -50,4 +53,7 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'euler-formula-rotation': eulerFormulaRotationModule,
   'julia-set': juliaSetModule,
   'complex-phase-portrait': complexPhasePortraitModule,
+  'arithmetic-geometric-sequences': arithmeticGeometricSequencesModule,
+  'fibonacci-spiral': fibonacciSpiralModule,
+  'sierpinski-triangle': sierpinskiTriangleModule,
 };

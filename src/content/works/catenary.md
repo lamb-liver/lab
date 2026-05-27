@@ -1,5 +1,5 @@
 ---
-title: 曳物線
+title: 曳物線（Tractrix）
 description: 定長繩索牽引追蹤軌跡（Tractrix），觀察 sech/tanh 參數方程與對稱雙軌。
 tags:
   - 幾何

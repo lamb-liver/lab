@@ -60,7 +60,7 @@ export const lissajousModule: CurveModule = {
     const smooth = runtime?.smoothParams ?? params;
     return {
       title: '利薩茹曲線',
-      formula: 'x = A sin(at + δ) · y = B sin(bt)',
+      formula: 'x = A sin(at + δ), y = B sin(bt)',
       stats: [
         { key: 'a', label: 'a', value: Math.round(params.a) },
         { key: 'b', label: 'b', value: Math.round(params.b) },

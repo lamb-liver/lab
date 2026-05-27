@@ -25,6 +25,9 @@ import ComplexPolarFormCurveRoot from './ComplexPolarFormCurveRoot';
 import EulerFormulaRotationCurveRoot from './EulerFormulaRotationCurveRoot';
 import JuliaSetCurveRoot from './JuliaSetCurveRoot';
 import ComplexPhasePortraitCurveRoot from './ComplexPhasePortraitCurveRoot';
+import ArithmeticGeometricSequencesCurveRoot from './ArithmeticGeometricSequencesCurveRoot';
+import FibonacciSpiralCurveRoot from './FibonacciSpiralCurveRoot';
+import SierpinskiTriangleCurveRoot from './SierpinskiTriangleCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -53,6 +56,9 @@ const rootBySlug = {
   'euler-formula-rotation': EulerFormulaRotationCurveRoot,
   'julia-set': JuliaSetCurveRoot,
   'complex-phase-portrait': ComplexPhasePortraitCurveRoot,
+  'arithmetic-geometric-sequences': ArithmeticGeometricSequencesCurveRoot,
+  'fibonacci-spiral': FibonacciSpiralCurveRoot,
+  'sierpinski-triangle': SierpinskiTriangleCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 type Props = {
