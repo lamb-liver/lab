@@ -2,11 +2,11 @@ import { mulberry32 } from '../../prng';
 import type { CurvePoint, ThumbnailSpec } from '../../types';
 
 export const SIERPINSKI_VIEW = {
-  width: 1500,
+  width: 900,
   height: 900,
-  padding: 80,
-  top: 100,
-  bottom: 760,
+  padding: 34,
+  top: 56,
+  bottom: 844,
 };
 
 export const MODE_RECURSIVE = 0;

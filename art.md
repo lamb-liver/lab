@@ -152,6 +152,8 @@ ellipse(...);
 
 邏輯畫布基準：`BASE_CANVAS_SIZE = 600`；polar grid `extent` 隨 canvas 等比縮放。
 
+作品頁互動畫布通常是方形容器。從寬版 p5 prototype 移植時，先把設計座標收斂到接近方形的 world view，再讓幾何填滿畫布；不要把 `1500×900` 這類寬版座標原樣塞進作品頁，否則主體會被壓小。
+
 ---
 
 ## 5. UI 規則
@@ -163,6 +165,8 @@ ellipse(...);
 | 黑框 panel、實心資訊塊、強邊界 overlay | 直接文字、低權重 |
 | debug / 工程資訊 | curve name、formula、parameters |
 | 高亮白色方框 | mono 小字 + muted 色 |
+
+作品頁 canvas 內不放大段說明文字、公式清單或狀態面板；這些交給右側 React controls / `StatsPanel` / Markdown。canvas 只保留幾何必要標記與低權重 guide，避免文字擠壓主圖。
 
 ### 5.1 作品集（`/works`）
 

@@ -1,12 +1,13 @@
 # p5.js → React（羊·實驗）
 
 本文件記錄如何把 p5 Web Editor sketch 接到 Astro + React。  
-**參考實作（24 互動）**：
+**參考實作（27 互動）**：
 
 | 類型 | slug |
 |------|------|
 | morph 曲線 | `rose-curve`、`lissajous-curve`、`harmonograph-curve`、`spirograph-curve` |
 | reveal / 時間軸 | `standing-wave`、`interference-fringes`、`chladni-figures`、`parabolic-reflection`、`conic-envelope`、`conic-focus-locus`、`catenary`、`equiangular-spiral`、`affine-transform-pattern`、`rotation-scale-composition`、`affine-ifs-fractal`、`riemann-sum`、`tangent-approximation`、`linear-transform-grid` |
+| 數列 / 碎形幾何 | `arithmetic-geometric-sequences`、`fibonacci-spiral`、`sierpinski-triangle` |
 | 自訂 p5 引擎 | `vector-field-streamlines`、`complex-arithmetic-geometry`、`complex-polar-form`、`euler-formula-rotation`、`julia-set`、`complex-phase-portrait` |  
 **視覺規格**：見 [`art.md`](art.md)（glow、grid、hierarchy，只換 geometry 不重做 style）。  
 **React × p5 架構契約（morph 曲線）**：見 [`reactkey.md`](reactkey.md)。  
@@ -29,6 +30,8 @@
 | 點列策略依曲線 | 能快取則 `cache`；需每幀 morph 則 `cacheStrategy: 'none'` |
 | draw → React | 平滑參數同步用 `useSmoothParamNotifier`（`src/components/curve/`）；僅量化後顯示值變更時 setState |
 | `sample` 語意 | morph 曲線：`purpose: 'default'` 供 runtime 點列；自訂 p5 互動：`sample` **主要**供 `purpose: 'thumbnail'`（runtime 不走 sample） |
+
+寬版 prototype 移植到作品頁時，先確認 `.work-detail__canvas` 是方形/近方形視窗。不要把 prototype 的大段 canvas 內文字、狀態面板或寬版座標原樣保留；文字移到 React controls / content，幾何 world view 依方形 canvas 重新定框。
 
 ---
 
@@ -557,20 +560,21 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 
 | 參數 | 行為 |
 |------|------|
-| depth | 變更時重建 recursive topology 與 chaos layer |
-| mode（recursive / chaos / compare） | 僅切換視圖，不重置深度 |
-| recursiveSpeed | 控制遞迴生成時鐘（拓樸 spawn 時序） |
+| depth | 變更時重建 recursive topology 與 deterministic chaos points；reset reveal |
+| mode（recursive / chaos / compare） | 切換 recursive / chaos / 左右對照；reset reveal |
 
-- **不走** `CurveModule` morph cache：此題是拓樸遞迴 + 隨機 IFS，建議專用 hook（如 `useSierpinskiP5`）
-- 建議將 `createSlider/createButton/text` 搬到 React：p5 只畫幾何（guide、solid/void、affine map）
-- chaos layer 採 persistent `p5.Graphics`（attractor 不每幀清空），depth 變更才重建
-- compare 模式維持左右同源 root triangle：左遞迴、右 chaos，使用同一組幾何 anchor
+- **不走** `renderFrame` / morph cache：拓樸遞迴 + IFS attractor 使用專用 hook `useSierpinskiTriangleP5`。
+- 幾何權威在 `src/curve/modules/sierpinski-triangle/geometry.ts`：`buildRecursiveTopology`、`buildChaosSteps`、`buildRootTriangle` 同源。
+- chaos game 使用固定 seed PRNG（`mulberry32`），讓 runtime 與縮圖可重現；每點皆為 `P(k+1)=0.5*(P(k)+V_i)`。
+- compare 模式左右 panel 使用同一個 root triangle builder：左遞迴、右 chaos，僅 offset / panelWidth 不同。
+- 作品頁 canvas 採近方形 world view（`SIERPINSKI_VIEW = 900×900`）；不要保留寬版 prototype 的左側文字欄。
+- 說明文字、公式與狀態統計放在 React controls / `StatsPanel`，canvas 內只畫 root guide、solid/void triangles、chaos points、recent affine maps。
 
-最小接線建議：
-1. `src/components/works/SierpinskiTriangleCurveRoot.tsx`：管理 `depth`、`mode`、`recursiveSpeed`
-2. `src/components/curve/useSierpinskiP5.ts`：instance mode + 一次 mount + ref 同步參數
-3. `src/works/interactiveRegistry.ts`、`src/components/works/WorkInteractiveStage.tsx`：登記 `sierpinski-triangle`
-4. `src/content/works/sierpinski-triangle.md`：確認 `draft: false` 與完成日期（首頁排序用）
+接線：
+1. `src/curve/modules/sierpinski-triangle/index.ts`：`CurveModule` metadata、thumbnail、default params。
+2. `src/components/curve/useSierpinskiTriangleP5.ts`：instance mode + ref 同步 + reveal reset。
+3. `src/systems/rendering/sierpinskiTriangleRender.ts`：snapshot renderer，不讀 React state。
+4. `src/components/works/SierpinskiTriangleCurveRoot.tsx`：`depth`、`mode` controls + portal。
 
 ---
 
@@ -634,6 +638,8 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 | 忘記 `registry` | 卡片無預覽圖 |
 | `/works` 用 `getPublished` | 改用 `getPublishedAsc` |
 | 控制 panel 放在 prose 旁 `detail-grid` | 改用 `work-detail__stage` 右欄 |
+| 寬版 prototype 的 canvas 文字原樣保留 | 文字移到 React controls / Markdown；canvas 只留幾何與低權重 guide |
+| 寬版 prototype 座標塞進作品方形 canvas | 改成近方形 world view，讓主幾何佔畫面 70%–85% |
 | explore reveal 固定每幀 `+= 0.002` | 改用 `(deltaTime/1000) * speedPerSec` |
 | `fourierRender` 裸用 `TWO_PI` 未 import | 模組內 `const TAU = Math.PI * 2` |
 | /renderer 常數從 `curve/constants` import 被 Vite 剝離 | 渲染檔內建本地常數 |

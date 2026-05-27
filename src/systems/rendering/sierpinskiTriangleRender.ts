@@ -1,10 +1,6 @@
 import type p5 from 'p5';
 import type { ParamValues } from '../../curve/types';
 import {
-  HAUSDORFF_DIMENSION,
-  MODE_CHAOS,
-  MODE_COMPARE,
-  MODE_RECURSIVE,
   SIERPINSKI_VIEW,
   buildChaosSteps,
   buildRecursiveTopology,
@@ -48,7 +44,6 @@ export function renderSierpinskiTriangleScene(p: p5, snap: SierpinskiTriangleSna
     drawDivider(p);
   }
 
-  drawCanvasLabel(p, snap);
   p.pop();
 }
 
@@ -148,39 +143,6 @@ function drawDivider(p: p5): void {
   p.push();
   p.stroke(GUIDE.r, GUIDE.g, GUIDE.b, 24);
   p.line(SIERPINSKI_VIEW.width * 0.5, 0, SIERPINSKI_VIEW.width * 0.5, SIERPINSKI_VIEW.height);
-  p.pop();
-}
-
-function drawCanvasLabel(p: p5, snap: SierpinskiTriangleSnap): void {
-  const depth = Math.round(snap.params.depth ?? 6);
-  const modeValue = Math.round(snap.params.mode ?? MODE_COMPARE);
-  const mode =
-    modeValue === MODE_RECURSIVE ? 'recursive' : modeValue === MODE_CHAOS ? 'chaos' : 'compare';
-
-  p.push();
-  p.noStroke();
-  p.fill(PRIMARY.r, PRIMARY.g, PRIMARY.b, 220);
-  p.textSize(18);
-  p.text('SIERPINSKI TRIANGLE', 42, 44);
-
-  p.fill(GUIDE.r, GUIDE.g, GUIDE.b, 120);
-  p.textSize(12);
-  p.text('Recursive Construction ↔ IFS Attractor', 42, 76);
-  p.text('remaining measure = (3/4)ⁿ', 42, 110);
-  p.text('boundary complexity → ∞', 42, 134);
-  p.text('scale = 1/2', 42, 182);
-  p.text('copies = 3', 42, 206);
-  p.text(`dimension = ${HAUSDORFF_DIMENSION.toFixed(5)}`, 42, 230);
-  p.text('S = F(S)', 42, 278);
-  p.text('f₁(x)=½x+½v₁', 42, 310);
-  p.text('f₂(x)=½x+½v₂', 42, 334);
-  p.text('f₃(x)=½x+½v₃', 42, 358);
-
-  p.fill(PRIMARY.r, PRIMARY.g, PRIMARY.b, 220);
-  p.text(`mode : ${mode}`, 42, 408);
-  p.fill(GUIDE.r, GUIDE.g, GUIDE.b, 90);
-  p.text(`depth : ${depth}`, 42, 432);
-  p.text(`remaining area ≈ ${Math.pow(3 / 4, depth).toFixed(6)}`, 42, 456);
   p.pop();
 }
 
