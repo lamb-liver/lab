@@ -13,13 +13,16 @@
 
 | 文件 | 說明 |
 |------|------|
+| [`AGENTS.md`](AGENTS.md) | AI 入口：權威順序、架構入口、編輯原則 |
 | [`art.md`](art.md) | 曲線視覺風格（glow、grid、色彩、hierarchy） |
 | [`textstyle.md`](textstyle.md) | 視覺化主題頁 Markdown 文案結構與語氣 |
 | [`p5toreact.md`](p5toreact.md) | p5 sketch → React / CurveModule 整合與踩坑 |
 | [`reactkey.md`](reactkey.md) | Morph 曲線 React × p5 架構契約（模組邊界、ref、快取） |
+| [`docs/architecture.md`](docs/architecture.md) | AI onboarding 系統地圖：data flow、ownership、registry 關係 |
+| [`docs/editing-rules.md`](docs/editing-rules.md) | AI-assisted editing 原則與驗收規則 |
 | [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md) | 縮圖設計歷史（Implemented）；現行見 `p5toreact.md` + `curveThumbnail.ts` |
 
-**Authority 層級**（衝突時）：`src/` runtime > `art.md` / `p5toreact.md` / `reactkey.md` / `textstyle.md` > 設計歷史文件 > [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc)（僅 AI review 流程，非 runtime spec）。
+**Authority 層級**（衝突時）：`src/` runtime > [`AGENTS.md`](AGENTS.md) 的權威入口 > `art.md` / `p5toreact.md` / `reactkey.md` / `textstyle.md` > `docs/` 系統地圖與設計歷史 > [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc)（僅 AI review workflow，非 runtime spec）。
 
 | 工具 | 說明 |
 |------|------|

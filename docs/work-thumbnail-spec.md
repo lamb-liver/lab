@@ -313,4 +313,4 @@ const upper = buildParametricCurve(t => evaluateTractrix(t, L), 0, maxT);
 
 ---
 
-*文件版本：v3.1 · 對話定稿 · 待實作*
+*文件版本：v3.1 · 設計歷史 · 已實作（現行權威見 `p5toreact.md` 與 `src/lib/curveThumbnail.ts`）*
