@@ -8,6 +8,7 @@ import { REVEAL_SPEED } from '../../curve/modules/linear-transform-grid';
 import type { ParamValues } from '../../curve/types';
 import { renderLinearTransformGridScene } from '../../systems/rendering/linearTransformGridRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -25,17 +26,12 @@ export function useLinearTransformGridP5({
   const animRef = useRef(createLinearTransformGridAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const lastSmoothKeyRef = useRef('');
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
   }, [onRevealPctChange]);
-
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -55,15 +51,11 @@ export function useLinearTransformGridP5({
       onRevealPctChangeRef.current(pct);
     }
 
-    const smoothKey = `${anim.currentShearX.toFixed(2)}:${anim.currentScaleY.toFixed(2)}`;
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
+    notifySmoothParams({
         shearX: anim.currentShearX,
         scaleY: anim.currentScaleY,
         transformSpeed: anim.params.transformSpeed,
       });
-    }
 
     renderLinearTransformGridScene(p, {
       width: p.width,

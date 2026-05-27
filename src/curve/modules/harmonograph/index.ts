@@ -71,7 +71,7 @@ export const harmonographModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'HARMONOGRAPH',
+      title: '諧振圖',
       formula: 'x = A sin(at + δ) e^(-dt) · y = B sin(bt) e^(-dt)',
       stats: [
         { key: 'a', label: 'a', value: Math.round(params.a) },

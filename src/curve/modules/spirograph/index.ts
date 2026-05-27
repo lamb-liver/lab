@@ -76,7 +76,7 @@ export const spirographModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'SPIROGRAPH (HYPOTROCHOID)',
+      title: '繁花曲線',
       formula:
         'x = (R-r)cos(t) + d·cos((R-r)t/r) · y = (R-r)sin(t) - d·sin((R-r)t/r)',
       stats: [

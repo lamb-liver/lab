@@ -1,7 +1,13 @@
 # p5.js → React（羊·實驗）
 
 本文件記錄如何把 p5 Web Editor sketch 接到 Astro + React。  
-**參考實作**：`rose-curve`、`lissajous-curve`、`harmonograph-curve`、`spirograph-curve`、`standing-wave`、`interference-fringes`、`chladni-figures`、`parabolic-reflection`、`conic-envelope`、`conic-focus-locus`、`catenary`、`equiangular-spiral`、`vector-field-streamlines`。  
+**參考實作（24 互動）**：
+
+| 類型 | slug |
+|------|------|
+| morph 曲線 | `rose-curve`、`lissajous-curve`、`harmonograph-curve`、`spirograph-curve` |
+| reveal / 時間軸 | `standing-wave`、`interference-fringes`、`chladni-figures`、`parabolic-reflection`、`conic-envelope`、`conic-focus-locus`、`catenary`、`equiangular-spiral`、`affine-transform-pattern`、`rotation-scale-composition`、`affine-ifs-fractal`、`riemann-sum`、`tangent-approximation`、`linear-transform-grid` |
+| 自訂 p5 引擎 | `vector-field-streamlines`、`complex-arithmetic-geometry`、`complex-polar-form`、`euler-formula-rotation`、`julia-set`、`complex-phase-portrait` |  
 **視覺規格**：見 [`art.md`](art.md)（glow、grid、hierarchy，只換 geometry 不重做 style）。  
 **React × p5 架構契約（morph 曲線）**：見 [`reactkey.md`](reactkey.md)。  
 **Explore 互動**（傅立葉級數）見下方「Explore 視覺化」章節；不走 CurveModule / portal 舞台。
@@ -21,6 +27,8 @@
 | 零 p5 依賴模組 | `curve/modules/*` 可單測 |
 | 參數單一真相 | `paramSchema: ParamDef[]` 驅動標準控件；特殊控件另做元件 |
 | 點列策略依曲線 | 能快取則 `cache`；需每幀 morph 則 `cacheStrategy: 'none'` |
+| draw → React | 平滑參數同步用 `useSmoothParamNotifier`（`src/components/curve/`）；僅量化後顯示值變更時 setState |
+| `sample` 語意 | morph 曲線：`purpose: 'default'` 供 runtime 點列；自訂 p5 互動：`sample` **主要**供 `purpose: 'thumbnail'`（runtime 不走 sample） |
 
 ---
 
@@ -245,6 +253,8 @@ entry.id → workCurveBySlug[slug]
 ```
 
 ### 型別契約
+
+`CurveModule.sample` 與 `SampleOptions` 語意見 `src/curve/types.ts` 註解。**自訂 p5 互動**（Julia、相位圖、Euler 旋轉等）的 runtime 繪製在 hook + renderer；`sample(..., { purpose: 'thumbnail' })` 僅服務建置期卡片縮圖，勿假設 `default` 回傳值等於畫布幾何。
 
 `SampleOptions`：
 

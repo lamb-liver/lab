@@ -22,13 +22,19 @@ export type ParamDef = {
 
 export type ParamSchema = ParamDef[];
 
+export type SamplePurpose = 'default' | 'thumbnail';
+
+/**
+ * 曲線幾何採樣。
+ * - 建置期卡片縮圖：必傳 `purpose: 'thumbnail'`（見 `curveThumbnail.ts`）。
+ * - morph / 靜態曲線（Rose、Lissajous…）：`default` 供 runtime `renderFrame` 點列。
+ * - 自訂 p5 互動（Julia、相位圖、Euler…）：runtime 不走 `sample`；模組內 `sample` 僅服務縮圖。
+ */
 export type SampleOptions = {
   step: number;
   revealProgress?: number;
   purpose?: SamplePurpose;
 };
-
-export type SamplePurpose = 'default' | 'thumbnail';
 
 export type ThumbnailPath = {
   points: CurvePoint[];
@@ -64,6 +70,7 @@ export type CurveModule = {
   id: string;
   paramSchema: ParamSchema;
   defaultParams: ParamValues;
+  /** 見 `SampleOptions` 註解：互動專用模組仍以 `purpose: 'thumbnail'` 為主路徑。 */
   sample: (params: ParamValues, opts: SampleOptions) => CurvePoint[] | ThumbnailSpec;
   getMetadata: (params: ParamValues, runtime?: RuntimeMeta) => CurveMetadata;
   renderPreset: RenderConfig;

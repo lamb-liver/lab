@@ -99,7 +99,7 @@ export const equiangularSpiralModule: CurveModule = {
       runtime?.revealTheta ??
       computeRevealTheta(smooth.maxTheta, 0, REVEAL_RATIO);
     return {
-      title: 'EQUIANGULAR SPIRAL',
+      title: '等角螺線',
       formula: 'r = a·e^(bθ)',
       stats: [
         { key: 'a', label: 'a', value: INITIAL_RADIUS_A.toFixed(1) },

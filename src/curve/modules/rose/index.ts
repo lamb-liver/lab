@@ -71,7 +71,7 @@ export const roseModule: CurveModule = {
     const smooth = runtime?.smoothParams ?? params;
     const k = smooth.k ?? params.k;
     return {
-      title: 'ROSE CURVE',
+      title: '玫瑰曲線',
       formula: 'r = cos(kθ)',
       stats: [
         { key: 'k', label: 'k', value: k.toFixed(2) },

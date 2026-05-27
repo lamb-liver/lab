@@ -66,6 +66,7 @@
 | `complex-polar-form` | 複數的極座標形式 | $z=re^{i\theta}$ 投影與幅角弧 |
 | `euler-formula-rotation` | 尤拉公式旋轉動畫 | 複平面旋轉 + 虛部時域波形 |
 | `julia-set` | 朱利亞集合 | $z_{n+1}=z_n^2+c$ 分形 + 平滑逃逸著色 |
+| `complex-phase-portrait` | 相位圖 | 雙相量首尾相接 + 滾動軌跡；A / b / δ |
 
 ### 視覺化（explore）
 
@@ -98,7 +99,6 @@
 
 | 主題 | slug | 標題 |
 |------|------|------|
-| 複數平面幾何 | `complex-phase-portrait` | 相位圖 |
 | 數列與級數 | `arithmetic-geometric-sequences` | 等差等比數列的幾何視覺 |
 | 數列與級數 | `fibonacci-spiral` | 費波那契螺線 |
 | 碎形與動力系統 | `sierpinski-triangle` | 謝爾賓斯基三角形 |

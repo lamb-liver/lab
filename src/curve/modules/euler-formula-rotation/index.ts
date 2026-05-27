@@ -62,7 +62,7 @@ export const eulerFormulaRotationModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'EULER ROTATION',
+      title: '尤拉公式旋轉',
       formula: 'e^(i(ωt + δ)) = cos(ωt + δ) + i sin(ωt + δ)',
       stats: [
         { key: 'A', label: 'A', value: params.amplitude.toFixed(2) },

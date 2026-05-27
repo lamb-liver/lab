@@ -1,6 +1,7 @@
 import type p5 from 'p5';
-import { TWO_PI } from '../../curve/constants';
 import { computePolarScale } from '../../curve/modules/complex-polar-form/geometry';
+
+const TAU = Math.PI * 2;
 
 export type ComplexPolarFormSnap = {
   width: number;
@@ -35,8 +36,8 @@ const unitCircle: Vec2[] = [];
 
 function ensureUnitCircle(): void {
   if (unitCircle.length > 0) return;
-  const step = TWO_PI / CFG.UNIT_STEPS;
-  for (let a = 0; a <= TWO_PI + step; a += step) {
+  const step = TAU / CFG.UNIT_STEPS;
+  for (let a = 0; a <= TAU + step; a += step) {
     unitCircle.push({ x: Math.cos(a), y: Math.sin(a) });
   }
 }

@@ -7,6 +7,7 @@ import {
 import type { ParamValues } from '../../curve/types';
 import { renderEquiangularSpiralScene } from '../../systems/rendering/equiangularSpiralRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -24,17 +25,12 @@ export function useEquiangularSpiralP5({
   const animRef = useRef(createEquiangularSpiralAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealRef = useRef(-1);
-  const lastSmoothKeyRef = useRef('');
   const onRevealThetaChangeRef = useRef(onRevealThetaChange);
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
 
   useEffect(() => {
     onRevealThetaChangeRef.current = onRevealThetaChange;
   }, [onRevealThetaChange]);
-
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -53,15 +49,11 @@ export function useEquiangularSpiralP5({
       onRevealThetaChangeRef.current(anim.revealTheta);
     }
 
-    const smoothKey = `${anim.smoothGrowthB.toFixed(2)}:${anim.smoothMaxTheta.toFixed(1)}`;
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
+    notifySmoothParams({
         growthB: anim.smoothGrowthB,
         maxTheta: anim.smoothMaxTheta,
         rotationSpeed: anim.params.rotationSpeed,
       });
-    }
 
     renderEquiangularSpiralScene(p, {
       width: p.width,

@@ -69,7 +69,7 @@ export const rotationScaleCompositionModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'ROTATIONAL SCALING',
+      title: '旋轉縮放疊加',
       formula: 'M = s·R(θ), iterate xₙ₊₁ = Mxₙ',
       stats: [
         {

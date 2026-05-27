@@ -44,7 +44,7 @@ export const conicFocusLocusModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'FOCUS LOCI',
+      title: '焦點軌跡',
       formula: 'x = a cos(t), y = b sin(t) · c = ae',
       stats: [
         { key: 'a', label: 'a', value: Math.round(smooth.semiMajorAxis) },

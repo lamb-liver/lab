@@ -45,7 +45,7 @@ export const chladniFiguresModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'CHLADNI FIGURES',
+      title: '克拉尼圖形',
       formula: 'Z = sin(mx)sin(ny) − sin(nx)sin(my)',
       stats: [
         { key: 'm', label: 'm', value: Math.round(smooth.modeM) },

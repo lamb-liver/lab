@@ -25,7 +25,7 @@ export const complexPolarFormModule: CurveModule = {
     const zy = smooth.r * Math.sin(smooth.theta);
     const im = zy >= 0 ? `+${zy.toFixed(3)}` : zy.toFixed(3);
     return {
-      title: 'COMPLEX POLAR FORM',
+      title: '複數極座標',
       formula: 'z = r · e^(iθ)',
       stats: [
         { key: 'r', label: 'r', value: smooth.r.toFixed(2) },

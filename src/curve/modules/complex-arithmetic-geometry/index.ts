@@ -34,7 +34,7 @@ export const complexArithmeticGeometryModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'COMPLEX ARITHMETIC',
+      title: '複數四則運算',
       formula: 'z₁ + z₂ · z₁ × z₂',
       stats: [
         { key: 'r1', label: 'r₁', value: smooth.r1.toFixed(2) },

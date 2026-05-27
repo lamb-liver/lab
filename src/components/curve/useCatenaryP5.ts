@@ -8,6 +8,7 @@ import { pullingOscillation } from '../../curve/modules/catenary/geometry';
 import type { ParamValues } from '../../curve/types';
 import { renderCatenaryScene } from '../../systems/rendering/catenaryRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -25,17 +26,12 @@ export function useCatenaryP5({
   const animRef = useRef(createCatenaryAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastPullPctRef = useRef(-1);
-  const lastSmoothKeyRef = useRef('');
   const onPullPctChangeRef = useRef(onPullPctChange);
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
 
   useEffect(() => {
     onPullPctChangeRef.current = onPullPctChange;
   }, [onPullPctChange]);
-
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -54,15 +50,11 @@ export function useCatenaryP5({
       onPullPctChangeRef.current(pct);
     }
 
-    const smoothKey = `${anim.smoothRopeLength.toFixed(2)}:${anim.smoothMaxT.toFixed(2)}`;
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
+    notifySmoothParams({
         ropeLength: anim.smoothRopeLength,
         maxT: anim.smoothMaxT,
         timeSpeed: anim.params.timeSpeed,
       });
-    }
 
     renderCatenaryScene(p, {
       width: p.width,

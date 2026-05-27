@@ -36,7 +36,7 @@ export const juliaSetModule: CurveModule = {
     const cx = smooth.cx ?? params.cx;
     const cy = smooth.cy ?? params.cy;
     return {
-      title: 'JULIA SET',
+      title: '朱利亞集合',
       formula: 'z_{n+1} = z_n^2 + c',
       stats: [
         {

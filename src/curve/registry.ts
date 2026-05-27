@@ -22,6 +22,7 @@ import { complexArithmeticGeometryModule } from './modules/complex-arithmetic-ge
 import { complexPolarFormModule } from './modules/complex-polar-form';
 import { eulerFormulaRotationModule } from './modules/euler-formula-rotation';
 import { juliaSetModule } from './modules/julia-set';
+import { complexPhasePortraitModule } from './modules/complex-phase-portrait';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -48,4 +49,5 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'complex-polar-form': complexPolarFormModule,
   'euler-formula-rotation': eulerFormulaRotationModule,
   'julia-set': juliaSetModule,
+  'complex-phase-portrait': complexPhasePortraitModule,
 };

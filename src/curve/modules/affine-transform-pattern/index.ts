@@ -51,7 +51,7 @@ export const affineTransformPatternModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'AFFINE TRANSFORM PATTERN',
+      title: '仿射變換圖樣',
       formula: "x' = ax + by + tx, y' = cx + dy + ty",
       stats: [
         { key: 'theta', label: 'θ', value: `${Math.round(smooth.rotationDeg)}°` },

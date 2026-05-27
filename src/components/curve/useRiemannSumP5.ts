@@ -8,6 +8,7 @@ import { REVEAL_SPEED } from '../../curve/modules/riemann-sum';
 import type { ParamValues } from '../../curve/types';
 import { renderRiemannSumScene } from '../../systems/rendering/riemannSumRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -25,17 +26,12 @@ export function useRiemannSumP5({
   const animRef = useRef(createRiemannSumAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const lastSmoothKeyRef = useRef('');
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
   }, [onRevealPctChange]);
-
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -55,15 +51,11 @@ export function useRiemannSumP5({
       onRevealPctChangeRef.current(pct);
     }
 
-    const smoothKey = `${Math.round(anim.currentPartitionCount)}`;
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
+    notifySmoothParams({
         partitionCount: anim.currentPartitionCount,
         waveFrequency: anim.params.waveFrequency,
         timeSpeed: anim.params.timeSpeed,
       });
-    }
 
     renderRiemannSumScene(p, {
       width: p.width,

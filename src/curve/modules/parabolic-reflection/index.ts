@@ -58,7 +58,7 @@ export const parabolicReflectionModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'PARABOLIC REFLECTION',
+      title: '拋物線反射',
       formula: 'y² = 4px · F(p, 0)',
       stats: [
         { key: 'p', label: 'p', value: Math.round(smooth.focalLength) },

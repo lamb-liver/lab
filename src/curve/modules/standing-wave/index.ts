@@ -53,7 +53,7 @@ export const standingWaveModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'STANDING WAVE',
+      title: '駐波圖',
       formula: 'y = 2A sin(kx) cos(ωt)',
       stats: [
         { key: 'A', label: 'A', value: Math.round(smooth.amplitude) },

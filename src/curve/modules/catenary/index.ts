@@ -63,7 +63,7 @@ export const catenaryModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'TRACTRIX',
+      title: '曳物線',
       formula: 'x = L(t - tanh t), y = L sech t',
       stats: [
         { key: 'L', label: 'L', value: smooth.ropeLength.toFixed(2) },

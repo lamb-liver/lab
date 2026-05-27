@@ -1,5 +1,6 @@
 import type p5 from 'p5';
-import { TWO_PI } from '../../curve/constants';
+
+const TAU = Math.PI * 2;
 import {
   add,
   computeViewportRadius,
@@ -50,8 +51,8 @@ let cachedScale = -1;
 
 function ensureUnitCircleCache(): void {
   if (unitCircle.length > 0) return;
-  const step = TWO_PI / UNIT_CIRCLE_SAMPLES;
-  for (let t = 0; t <= TWO_PI + step; t += step) {
+  const step = TAU / UNIT_CIRCLE_SAMPLES;
+  for (let t = 0; t <= TAU + step; t += step) {
     unitCircle.push({ x: Math.cos(t), y: Math.sin(t) });
     unitCircleScreen.push({ x: 0, y: 0 });
   }

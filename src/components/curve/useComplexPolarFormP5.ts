@@ -7,6 +7,7 @@ import {
 import type { ParamValues } from '../../curve/types';
 import { renderComplexPolarFormScene } from '../../systems/rendering/complexPolarFormRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -21,12 +22,8 @@ export function useComplexPolarFormP5({
 }: Options) {
   const animRef = useRef(createComplexPolarFormAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const lastSmoothKeyRef = useRef('');
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
 
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -39,14 +36,10 @@ export function useComplexPolarFormP5({
     );
 
     const anim = animRef.current;
-    const smoothKey = `${anim.smoothR.toFixed(3)}:${anim.smoothTheta.toFixed(3)}`;
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
+    notifySmoothParams({
         r: anim.smoothR,
         theta: anim.smoothTheta,
       });
-    }
 
     renderComplexPolarFormScene(p, {
       width: p.width,

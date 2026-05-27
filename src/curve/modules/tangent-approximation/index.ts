@@ -80,7 +80,7 @@ export const tangentApproximationModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'TANGENT APPROXIMATION',
+      title: '切線逼近',
       formula: 'm = Δf/Δx → f′(x)',
       stats: [
         { key: 'dx', label: 'Δx', value: smooth.dx.toFixed(3) },

@@ -84,7 +84,7 @@ export const vectorFieldStreamlinesModule: CurveModule = {
     return worldPathToCurvePoints(streamlines[0]!);
   },
   getMetadata: (params) => ({
-    title: 'VECTOR FIELD',
+    title: '向量場流線',
     formula: 'dp/dt = F(x,y,t)',
     stats: [
       { key: 'count', label: 'count', value: Math.round(params.streamlineCount) },

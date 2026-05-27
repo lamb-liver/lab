@@ -12,6 +12,7 @@ import {
   renderEulerFormulaRotationScene,
 } from '../../systems/rendering/eulerFormulaRotationRender';
 import { useRectP5CanvasHost } from './useRectP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -27,12 +28,8 @@ export function useEulerFormulaRotationP5({
   const animRef = useRef(createEulerFormulaRotationAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const trackRef = useRef(createTrackBuffer());
-  const lastSmoothKeyRef = useRef('');
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
 
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -49,11 +46,7 @@ export function useEulerFormulaRotationP5({
     const phasorY = anim.params.amplitude * Math.sin(theta);
     trackRef.current = pushTrackValue(trackRef.current, phasorY);
 
-    const smoothKey = anim.smoothPhase.toFixed(3);
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({ phase: anim.smoothPhase });
-    }
+    notifySmoothParams({ phase: anim.smoothPhase });
 
     renderEulerFormulaRotationScene(p, {
       width: p.width,

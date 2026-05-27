@@ -59,7 +59,7 @@ export const lissajousModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'LISSAJOUS CURVE',
+      title: '利薩茹曲線',
       formula: 'x = A sin(at + δ) · y = B sin(bt)',
       stats: [
         { key: 'a', label: 'a', value: Math.round(params.a) },

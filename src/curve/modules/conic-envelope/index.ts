@@ -40,7 +40,7 @@ export const conicEnvelopeModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'CONIC ENVELOPE',
+      title: '二次曲線包絡',
       formula: 'x/x_A + y/y_B = 1',
       stats: [
         { key: 'density', label: 'lines', value: Math.round(params.lineDensity) },

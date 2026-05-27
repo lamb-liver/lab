@@ -5,6 +5,7 @@ import { createInitialState, stepAnimation } from '../../curve/animation';
 import { createCurveCache } from '../../curve/cache';
 import type { AnimationState, CurveModule, ParamKey, ParamValues } from '../../curve/types';
 import { renderFrame } from '../../systems/rendering/frame';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 import ParamControls from './ParamControls';
 import StatsPanel from './StatsPanel';
 import { useP5CanvasHost } from './useP5CanvasHost';
@@ -36,7 +37,9 @@ export default function CurveWorkRoot({
   const animRef = useRef<AnimationState>(createInitialState(module.defaultParams));
   const targetParamsRef = useRef<ParamValues>(module.defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const lastSmoothKeyRef = useRef('');
+  const notifySmoothParams = useSmoothParamNotifier((partial) => {
+    setSmoothParams((prev) => ({ ...prev, ...partial }));
+  });
   const lastCachedTargetRef = useRef(paramsSnapshot(module.defaultParams));
   const cacheRef = useRef(createCurveCache(module));
 
@@ -77,11 +80,7 @@ export default function CurveWorkRoot({
         setRevealPct(pct);
       }
 
-      const smoothKey = paramsSnapshot(anim.params);
-      if (smoothKey !== lastSmoothKeyRef.current) {
-        lastSmoothKeyRef.current = smoothKey;
-        setSmoothParams({ ...anim.params });
-      }
+      notifySmoothParams(anim.params);
 
       renderFrame(
         p,

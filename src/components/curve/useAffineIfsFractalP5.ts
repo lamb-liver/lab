@@ -8,6 +8,7 @@ import { REVEAL_SPEED } from '../../curve/modules/affine-ifs-fractal';
 import type { ParamValues } from '../../curve/types';
 import { renderAffineIfsFractalScene } from '../../systems/rendering/affineIfsFractalRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -25,17 +26,12 @@ export function useAffineIfsFractalP5({
   const animRef = useRef(createAffineIfsFractalAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const lastSmoothKeyRef = useRef('');
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
   }, [onRevealPctChange]);
-
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -56,15 +52,11 @@ export function useAffineIfsFractalP5({
       onRevealPctChangeRef.current(pct);
     }
 
-    const smoothKey = `${anim.currentLeafBend.toFixed(2)}:${anim.currentBranchHeight.toFixed(2)}`;
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
+    notifySmoothParams({
         leafBend: anim.currentLeafBend,
         branchHeight: anim.currentBranchHeight,
         generationSpeed: anim.params.generationSpeed,
       });
-    }
 
     renderAffineIfsFractalScene(p, {
       width: p.width,

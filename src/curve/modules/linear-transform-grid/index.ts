@@ -60,7 +60,7 @@ export const linearTransformGridModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'LINEAR TRANSFORM GRID',
+      title: '線性變換網格',
       formula: "x' = ax + by, y' = cx + dy",
       stats: [
         { key: 'b', label: 'b', value: smooth.shearX.toFixed(1) },

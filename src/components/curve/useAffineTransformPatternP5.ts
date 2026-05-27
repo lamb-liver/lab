@@ -8,6 +8,7 @@ import { REVEAL_SPEED } from '../../curve/modules/affine-transform-pattern';
 import type { ParamValues } from '../../curve/types';
 import { renderAffineTransformPatternScene } from '../../systems/rendering/affineTransformPatternRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -25,17 +26,12 @@ export function useAffineTransformPatternP5({
   const animRef = useRef(createAffineTransformPatternAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const lastSmoothKeyRef = useRef('');
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
   }, [onRevealPctChange]);
-
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -55,15 +51,11 @@ export function useAffineTransformPatternP5({
       onRevealPctChangeRef.current(pct);
     }
 
-    const smoothKey = `${Math.round(anim.currentRotationDeg)}:${Math.round(anim.currentTranslation)}`;
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
+    notifySmoothParams({
         rotationDeg: anim.currentRotationDeg,
         translation: anim.currentTranslation,
         evolutionSpeed: anim.params.evolutionSpeed,
       });
-    }
 
     renderAffineTransformPatternScene(p, {
       width: p.width,

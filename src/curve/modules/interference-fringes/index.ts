@@ -50,7 +50,7 @@ export const interferenceFringesModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'INTERFERENCE FRINGES',
+      title: '干涉條紋',
       formula: 'Δr = nλ · x = a cosh(t), y = b sinh(t)',
       stats: [
         { key: 'd', label: 'd', value: Math.round(smooth.sourceDistance) },

@@ -56,7 +56,7 @@ export const affineIfsFractalModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'FRACTAL AFFINE IFS',
+      title: '碎形仿射疊代',
       formula: "x' = ax + by + tx",
       stats: [
         { key: 'b', label: 'b', value: smooth.leafBend.toFixed(2) },

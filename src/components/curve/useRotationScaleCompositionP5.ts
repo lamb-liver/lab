@@ -8,6 +8,7 @@ import { REVEAL_SPEED } from '../../curve/modules/rotation-scale-composition';
 import type { ParamValues } from '../../curve/types';
 import { renderRotationScaleCompositionScene } from '../../systems/rendering/rotationScaleCompositionRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -25,17 +26,12 @@ export function useRotationScaleCompositionP5({
   const animRef = useRef(createRotationScaleCompositionAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const lastSmoothKeyRef = useRef('');
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
   }, [onRevealPctChange]);
-
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -55,15 +51,11 @@ export function useRotationScaleCompositionP5({
       onRevealPctChangeRef.current(pct);
     }
 
-    const smoothKey = `${anim.currentRotationStepDeg.toFixed(2)}:${anim.currentScaleFactor.toFixed(3)}`;
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
+    notifySmoothParams({
         rotationStepDeg: anim.currentRotationStepDeg,
         scaleFactor: anim.currentScaleFactor,
         evolutionSpeed: anim.params.evolutionSpeed,
       });
-    }
 
     renderRotationScaleCompositionScene(p, {
       width: p.width,

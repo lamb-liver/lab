@@ -66,7 +66,7 @@ export const riemannSumModule: CurveModule = {
   getMetadata: (params, runtime) => {
     const smooth = runtime?.smoothParams ?? params;
     return {
-      title: 'RIEMANN SUM',
+      title: '黎曼和',
       formula: 'Area ≈ Σ f(xᵢ)·Δx',
       stats: [
         { key: 'n', label: 'n', value: Math.round(smooth.partitionCount) },

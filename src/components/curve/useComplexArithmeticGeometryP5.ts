@@ -7,6 +7,7 @@ import {
 import type { ParamValues } from '../../curve/types';
 import { renderComplexArithmeticGeometryScene } from '../../systems/rendering/complexArithmeticGeometryRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
   defaultParams: ParamValues;
@@ -21,12 +22,8 @@ export function useComplexArithmeticGeometryP5({
 }: Options) {
   const animRef = useRef(createComplexArithmeticGeometryAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const lastSmoothKeyRef = useRef('');
-  const onSmoothParamsChangeRef = useRef(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
 
-  useEffect(() => {
-    onSmoothParamsChangeRef.current = onSmoothParamsChange;
-  }, [onSmoothParamsChange]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -39,22 +36,12 @@ export function useComplexArithmeticGeometryP5({
     );
 
     const anim = animRef.current;
-    const smoothKey = [
-      anim.smoothR1.toFixed(3),
-      anim.smoothR2.toFixed(3),
-      anim.smoothTheta1.toFixed(3),
-      anim.smoothTheta2.toFixed(3),
-    ].join(':');
-
-    if (smoothKey !== lastSmoothKeyRef.current) {
-      lastSmoothKeyRef.current = smoothKey;
-      onSmoothParamsChangeRef.current({
-        r1: anim.smoothR1,
-        r2: anim.smoothR2,
-        theta1: anim.smoothTheta1,
-        theta2: anim.smoothTheta2,
-      });
-    }
+    notifySmoothParams({
+      r1: anim.smoothR1,
+      r2: anim.smoothR2,
+      theta1: anim.smoothTheta1,
+      theta2: anim.smoothTheta2,
+    });
 
     renderComplexArithmeticGeometryScene(p, {
       width: p.width,

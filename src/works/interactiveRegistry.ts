@@ -23,6 +23,7 @@ export const workInteractiveSlugs = [
   'complex-polar-form',
   'euler-formula-rotation',
   'julia-set',
+  'complex-phase-portrait',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
