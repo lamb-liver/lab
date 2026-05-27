@@ -35,19 +35,22 @@ $$
 
 $\varepsilon$ 避免原點除零；方向垂直半徑，整體呈旋轉流。
 
-## 實作要點
+## 互動說明
 
-- **RK2 中點積分**：$\mathbf{p}_{n+1}=\mathbf{p}_n + h\,\mathbf{F}\!\left(\mathbf{p}_n + \tfrac{h}{2}\mathbf{F}(\mathbf{p}_n)\right)$，高速旋轉區仍較穩定
-- **種子分布**：角度均分 $2\pi i/N$，半徑 $1.2 + 0.25\sin(1.5t + i)$ 呼吸圓環
-- **邊界裁切**：$|x|,|y|>5$ 時停止積分，避免軌跡發散佔滿畫布
-- **固定視覺縮放**：世界座標 $\times 120$ 映射至螢幕（中心對稱），數學層不混入相機 lerp
-- **每幀重建**：流線數、步數或 $t$ 變更即重算全部軌跡；起點節點高亮
-- **數學與動畫分離**：場定義與積分規則在 `geometry`；$t$ 累加與種子相位在 `animation`
+- **流線數量**：增減同時積分的流線條數
+- **積分步數**：步數愈多單條流線愈長、細節愈多
+- **流動速度 ω**：驅動向量場隨時間變化，流線形狀連續更新
 
-## 相關連結
+## 觀察重點
 
-- 視覺化主題：[極限與黎曼和](/explore/limits-riemann-sum)
-- 相關作品：[黎曼和動態圖](/works/riemann-sum)、[切線逼近動畫](/works/tangent-approximation)、[曳物線](/works/catenary)、[等角螺線](/works/equiangular-spiral)
+- 流線切向對齊向量場，可視為微分方程的幾何解
+- 漩渦中心附近流線密集環繞
+- 同一場中不同起點的流線互不相交（除奇點外）
+
+## 相關作品
+
+- [向量場的基本圖樣](/works/vector-field-patterns)
+- [微分方程的幾何視覺化](/explore/differential-equations-geometry)
 
 ## 延伸閱讀
 

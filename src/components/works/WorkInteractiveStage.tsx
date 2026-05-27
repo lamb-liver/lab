@@ -20,6 +20,10 @@ import LinearTransformGridCurveRoot from './LinearTransformGridCurveRoot';
 import StandingWaveCurveRoot from './StandingWaveCurveRoot';
 import EquiangularSpiralCurveRoot from './EquiangularSpiralCurveRoot';
 import VectorFieldStreamlinesCurveRoot from './VectorFieldStreamlinesCurveRoot';
+import ComplexArithmeticGeometryCurveRoot from './ComplexArithmeticGeometryCurveRoot';
+import ComplexPolarFormCurveRoot from './ComplexPolarFormCurveRoot';
+import EulerFormulaRotationCurveRoot from './EulerFormulaRotationCurveRoot';
+import JuliaSetCurveRoot from './JuliaSetCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -43,6 +47,10 @@ const rootBySlug = {
   'catenary': CatenaryCurveRoot,
   'equiangular-spiral': EquiangularSpiralCurveRoot,
   'vector-field-streamlines': VectorFieldStreamlinesCurveRoot,
+  'complex-arithmetic-geometry': ComplexArithmeticGeometryCurveRoot,
+  'complex-polar-form': ComplexPolarFormCurveRoot,
+  'euler-formula-rotation': EulerFormulaRotationCurveRoot,
+  'julia-set': JuliaSetCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 type Props = {

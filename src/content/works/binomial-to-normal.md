@@ -9,11 +9,9 @@ featured: false
 draft: false
 ---
 
-## 概述
+## 參數方程
 
 二項分佈 $\mathrm{B}(n,p)$ 描述 $n$ 次獨立試驗中成功次數 $X$ 的機率。當 $n$ 大且 $p$ 不極端時，標準化後的 $X$ 近似常態 $\mathcal{N}(np,\,np(1-p))$，即中央極限定理在有限試驗上的視覺化。
-
-## 參數方程
 
 $$
 P(X=k)=\binom{n}{k}p^k(1-p)^{n-k},\quad k=0,1,\ldots,n
@@ -31,16 +29,18 @@ $$
 \phi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}
 $$
 
-## 實作要點
+## 互動說明
 
 - **直方圖 morph**：固定 $p$，$n$ 滑桿由小到大，柱狀圖逐漸貼近鐘形曲線
 - **疊加常態**：以 $\mu=np$、$\sigma^2=np(1-p)$ 繪製連續密度與離散柱對照
 - **標準化視窗**：可切換顯示 $X$ 或 $Z$，觀察均值與尺度收斂
 - **單次試驗動畫**：可選模擬 Bernoulli 序列累積，對照理論分佈
 
-## 相關連結
+## 相關作品
 
-- 相關作品：[條件機率與貝氏定理](/works/conditional-probability-bayes)、[帕斯卡三角形](/works/pascals-triangle)、[蒲豐投針](/works/buffon-needle)
+- [條件機率與貝氏定理](/works/conditional-probability-bayes)
+- [帕斯卡三角形](/works/pascals-triangle)
+- [蒲豐投針](/works/buffon-needle)
 
 ## 延伸閱讀
 

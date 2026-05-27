@@ -26,18 +26,22 @@ $$
 
 其中 $a>0$、$b\in\mathbb{R}$，且曲線切線與過原點射線夾角為常數 $\arctan(1/b)$。
 
-## 實作要點
+## 互動說明
 
-- **數學與動畫分離**：幾何層只算 $r=a e^{b\theta}$ 的笛卡兒點列；旋轉由渲染層 `rotate(time)` 疊加，不污染參數方程
-- **對數式取景**：依終點半徑 $\max(|x|,|y|)$ 自適應 zoom（約 34% 畫布），調 $b$ 或 $\theta_{\max}$ 時外圍螺距視覺密度大致穩定
-- **Reveal 域**：主線 $\theta \le \theta_{\mathrm{reveal}}$，其中 $\theta_{\mathrm{reveal}}=\min(\theta_{\max}\cdot 0.72 + \sin(0.7t)\cdot 0.08\theta_{\max},\,\theta_{\max})$；ghost 繪製至 $\theta_{\max}$
-- **參數平滑**：$b$、$\theta_{\max}$ 以 lerp 跟隨滑桿；路徑僅在平滑值變更時重建
-- **Glow 層次**：ghost 弱光全貌 + active 雙層主線 + 螺頭雙節點標記
+- **增長係數 b**：控制螺線向外開展的快慢
+- **最大幅角 θ_max**：限制可見螺線範圍；曲線沿角度漸顯
+- **旋轉速度 ω**：整體圖形繞原點緩慢旋轉
 
-## 相關連結
+## 觀察重點
 
-- 視覺化主題：[極限與黎曼和](/explore/limits-riemann-sum)
-- 相關作品：[黎曼和動態圖](/works/riemann-sum)、[切線逼近動畫](/works/tangent-approximation)、[曳物線](/works/catenary)、[向量場流線](/works/vector-field-streamlines)
+- 極徑 $r=ae^{b\theta}$ 使任意過原點射線與曲線交角恆定
+- $\theta$ 增大時螺線圈距指數級擴張
+- 旋轉視角不改變交角性質，只改變觀看方向
+
+## 相關作品
+
+- [費波那契螺線](/works/fibonacci-spiral)
+- [旋轉縮放疊加](/works/rotation-scale-composition)
 
 ## 延伸閱讀
 

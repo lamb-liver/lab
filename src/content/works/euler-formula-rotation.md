@@ -9,11 +9,9 @@ featured: false
 draft: false
 ---
 
-## 概述
+## 參數方程
 
 尤拉公式 $e^{i\theta}=\cos\theta+i\sin\theta$ 說明「乘以 $e^{i\theta}$」即為逆時針旋轉 $\theta$。動畫中單位圓上的點與實部、虛部投影同步運動，連結指數函數與三角函數。
-
-## 參數方程
 
 $$
 e^{i\theta} = \cos\theta + i\sin\theta
@@ -25,17 +23,24 @@ $$
 
 一般化：$re^{i\theta}$ 為模長 $r$、幅角 $\theta$ 的複數。
 
-## 實作要點
+## 互動說明
 
-- **時間驅動**：$\theta$ 隨 $t$ 遞增，點沿單位圓運動
-- **投影分解**：繪製 $\cos\theta$ 在實軸、$\sin\theta$ 在虛軸的投影線段
-- **旋轉向量**：固定 $z_0$，展示 $z_0\cdot e^{i\theta}$ 的螺旋或圓軌跡
-- **公式同步**：控制面板顯示當前 $\theta$ 與 $e^{i\theta}$ 的數值近似
+- **振幅 A**：改變旋轉向量長度與右側正弦波振幅
+- **角頻率 ω**：控制旋轉快慢與波形疏密
+- **初相位 δ**：平移旋轉起點與波形相位
 
-## 相關連結
+## 觀察重點
 
-- 相關作品：[複數的極座標形式](/works/complex-polar-form)、[複數四則運算的幾何意義](/works/complex-arithmetic-geometry)、[朱利亞集合](/works/julia-set)
+- 複平面上旋轉向量的虛部，對應時域正弦波高度
+- $e^{i(\omega t+\delta)}$ 將圓周運動與三角函數寫在同一式中
+- 角頻率同時決定旋轉週期與波形空間週期
+
+## 相關作品
+
+- [複數的極座標形式](/works/complex-polar-form)
+- [複數與尤拉公式](/explore/complex-euler-formula)
+- [朱利亞集合](/works/julia-set)
 
 ## 延伸閱讀
 
-- [歐拉公式（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%AC%A7%E6%8B%89%E5%85%AC%E5%BC%8F)
+- [尤拉公式（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%AC%A7%E6%8B%89%E5%85%AC%E5%BC%8F)

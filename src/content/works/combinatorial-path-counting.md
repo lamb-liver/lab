@@ -9,11 +9,9 @@ featured: false
 draft: false
 ---
 
-## 概述
+## 參數方程
 
 在 $m\times n$ 矩形格中，每步僅向右或向上，從左下到右上共有 $\binom{m+n}{m}$ 條最短路徑。動畫可逐條或按層累加路徑，並與帕斯卡三角形、卡特蘭路徑對照。
-
-## 參數方程
 
 路徑數：
 
@@ -27,16 +25,18 @@ $$
 P(i,j)=P(i-1,j)+P(i,j-1),\quad P(0,0)=1
 $$
 
-## 實作要點
+## 互動說明
 
 - **格點繪製**：$m,n$ 滑桿決定網格尺寸，節點顯示累積路徑數
 - **單一路徑動畫**：隨機或依序 highlight 一條 R/U 序列
 - **全路徑疊加**：半透明繪製全部路徑，密度呈二項分佈形狀
 - **與二項式連結**：標註 $\binom{m+n}{m}$ 與帕斯卡三角形第 $m+n$ 行
 
-## 相關連結
+## 相關作品
 
-- 相關作品：[帕斯卡三角形](/works/pascals-triangle)、[二項式展開的幾何意義](/works/binomial-expansion-geometry)、[卡特蘭數](/works/catalan-numbers)
+- [帕斯卡三角形](/works/pascals-triangle)
+- [二項式展開的幾何意義](/works/binomial-expansion-geometry)
+- [卡特蘭數](/works/catalan-numbers)
 
 ## 延伸閱讀
 

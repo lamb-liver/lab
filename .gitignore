@@ -23,5 +23,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# Cursor
-.cursor/
+# Cursor — ignore local IDE state; track shared AI workflow rules only
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/code-review.mdc

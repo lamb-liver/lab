@@ -9,11 +9,9 @@ featured: false
 draft: false
 ---
 
-## 概述
+## 參數方程
 
 任意向量 $\mathbf{a}$ 可相對於非零向量 $\mathbf{b}$ 分解為平行分量 $\mathbf{a}_{\parallel}$ 與垂直分量 $\mathbf{a}_{\perp}$，滿足 $\mathbf{a}=\mathbf{a}_{\parallel}+\mathbf{a}_{\perp}$ 且 $\mathbf{a}_{\perp}\cdot\mathbf{b}=0$。投影是內積的幾何輸出，也是最小二乘「沿 $\mathbf{b}$ 方向最佳近似」的核心。
-
-## 參數方程
 
 投影：
 
@@ -28,16 +26,18 @@ $$
 \mathbf{a}_{\perp}=\mathbf{a}-\mathrm{proj}_{\mathbf{b}}\mathbf{a}
 $$
 
-## 實作要點
+## 互動說明
 
 - **分解動畫**：$\mathbf{a}$ 末端落至 $\mathbf{b}$ 直線上的垂足，顯示兩色分量
 - **誤差長度**：標示 $|\mathbf{a}_{\perp}|$，說明為到直線的最短距離
 - **雙向投影**：可選互換 $\mathbf{a},\mathbf{b}$ 角色
 - **正交基**：進階模式展示 $\mathbf{e}_1,\mathbf{e}_2$ 下的座標分解
 
-## 相關連結
+## 相關作品
 
-- 相關作品：[內積的幾何意義](/works/dot-product-geometry)、[向量的加法與純量乘法](/works/vector-addition-scalar)、[向量場的基本圖樣](/works/vector-field-patterns)
+- [內積的幾何意義](/works/dot-product-geometry)
+- [向量的加法與純量乘法](/works/vector-addition-scalar)
+- [向量場的基本圖樣](/works/vector-field-patterns)
 
 ## 延伸閱讀
 

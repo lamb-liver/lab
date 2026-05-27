@@ -9,11 +9,9 @@ featured: false
 draft: false
 ---
 
-## 概述
+## 參數方程
 
 在阿干德圖（複平面）上，每個點 $z=x+iy$ 可對應色相 $\mathrm{Arg}(z)\in(-\pi,\pi]$ 與亮度 $|z|$；相位圖以連續色帶呈現幅角分佈，是進入複數幾何與保角映射的入口。
-
-## 參數方程
 
 $$
 z = x + iy,\quad
@@ -23,16 +21,17 @@ $$
 
 色相常取 $\mathrm{Arg}(z)$ 的週期映射；亮度可選 $|z|$ 或 $\log(1+|z|)$ 以避免原點過曝。
 
-## 實作要點
+## 互動說明
 
-- **逐像素著色**：以 canvas 解析度採樣 $(x,y)$，即時計算 $\mathrm{Arg}(z)$ 映射至 HSL
 - **原點處理**：$z=0$ 幅角未定，可固定為中性色或跳過單點
 - **互動取景**：拖曳平移／滾輪縮放複平面視窗，觀察局部相位週期
 - **疊加輔助**：可選繪製單位圓與實軸、虛軸，標出 $\pm1,\pm i$
 
-## 相關連結
+## 相關作品
 
-- 相關作品：[複數四則運算的幾何意義](/works/complex-arithmetic-geometry)、[複數的極座標形式](/works/complex-polar-form)、[尤拉公式旋轉動畫](/works/euler-formula-rotation)
+- [複數四則運算的幾何意義](/works/complex-arithmetic-geometry)
+- [複數的極座標形式](/works/complex-polar-form)
+- [尤拉公式旋轉動畫](/works/euler-formula-rotation)
 
 ## 延伸閱讀
 

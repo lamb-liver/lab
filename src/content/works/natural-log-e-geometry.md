@@ -9,11 +9,9 @@ featured: false
 draft: false
 ---
 
-## 概述
+## 參數方程
 
 自然對數可定義為 $\displaystyle \ln t=\int_1^t \frac{1}{x}\,dx$，即雙曲線 $y=1/x$ 與 $x$ 軸、$x=1$、$x=t$ 所圍面積。數 $e$ 滿足 $\ln e=1$，是使該面積「單位寬度」的唯一正底數，並與 $e^x$ 互為反函數。
-
-## 參數方程
 
 $$
 \ln t = \int_1^t \frac{1}{x}\,dx,\quad t>0
@@ -25,16 +23,18 @@ $$
 
 導數關係：$\dfrac{d}{dt}\ln t = \dfrac{1}{t}$。
 
-## 實作要點
+## 互動說明
 
 - **面積填充**：$t$ 滑桿拖動，即時著色 $\int_1^t 1/x\,dx$ 並顯示數值
 - **$e$ 標記**：當面積累積至 1 時標出 $t=e\approx 2.71828$
 - **矩形黎曼和**：可選細分逼近，連結黎曼和作品
 - **與 $e^x$ 對照**：切換顯示指數曲線與對數互為反函數的對稱關係
 
-## 相關連結
+## 相關作品
 
-- 相關作品：[對數尺度](/works/logarithmic-scale)、[指數成長與衰減](/works/exponential-growth-decay)、[黎曼和動態圖](/works/riemann-sum)
+- [對數尺度](/works/logarithmic-scale)
+- [指數成長與衰減](/works/exponential-growth-decay)
+- [黎曼和動態圖](/works/riemann-sum)
 
 ## 延伸閱讀
 

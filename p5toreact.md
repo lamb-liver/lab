@@ -228,7 +228,7 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 
 ## 作品集縮圖（`WorkCard` + `curveThumbnail`）
 
-> **實作規格（reveal 100% 完成態）**：見 [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md)。
+> **實作規格（reveal 100% 完成態）**：現行權威見本節；設計歷史見 [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md)（Status: Implemented）。
 
 ### 目的
 
@@ -611,6 +611,32 @@ F = 漩渦 (−y,x)/(r²+ε) + 0.25(sin(2y+0.8t), cos(2x+0.8t))    RK2 積分
 3. Astro + portal 控件 + `registry` 縮圖
 
 **不要**先 abstraction 再找視覺；**不要**重做 glow / UI 語言。
+
+---
+
+## 複數幾何原型（2026-05）
+
+以下三個 p5 prototype 已對齊目前規則：暗底、accent 單色、低權重 guide、主體 glow、60fps 取向。
+
+| 主題 | 核心方程 | 互動參數 | 架構重點 |
+|------|----------|----------|----------|
+| 複數四則運算幾何（`complex-arithmetic-geometry`） | $z_1 + z_2$、$z_1 z_2$ | $r_1,\theta_1,r_2,\theta_2$ | out 參數覆寫 + 全域 Temp 池 + Camera 自動縮放 |
+| 複數極座標形式（`complex-polar-form`） | $z=r(\cos\theta+i\sin\theta)$ | $r,\theta$ | art token 化（`T`,`CFG`）+ guide/projection 分層 + arc 標註 |
+| 尤拉公式旋轉動畫（`euler-formula-rotation`） | $e^{i(\omega t+\delta)}=\cos(\omega t+\delta)+i\sin(\omega t+\delta)$ | $A,\omega,\delta$ | 複平面/時域雙區域 + 虛部投影 + 固定長度歷史緩衝 |
+
+### 實作共通點（可直接作為 React 化需求）
+
+- **零配置取向**：避免在 `draw()` 內反覆 new `{x,y}`，改用預配置快取或 out 參數，降低 GC 抖動。
+- **自動縮放**：以當前最大幾何量（如 `r1+r2`、`r1*r2`、`r`）更新相機比例，避免節點出框。
+- **平滑與時間調變**：滑桿輸入與畫面輸出分離（`smooth*`），並加入低振幅漂移維持生命感。
+- **分層渲染**：先 guide/grid，再主向量 glow，最後節點與標籤；避免 UI/guide 搶過主曲線。
+
+### React 轉接建議（最小改動）
+
+1. 先把三個 prototype 抽為 `src/curve/modules/<slug>/index.ts`，保留公式與參數語意。
+2. `paramSchema` 對應滑桿：四則運算（4 參數）、極座標（2 參數）、尤拉（3 參數）。
+3. 如需每幀重算（時間驅動/漂移），優先 `cacheStrategy: 'none'`；靜態幾何再考慮 cache。
+4. renderer 端沿用現有 glow/grid 語言，不在單一作品重做視覺系統。
 
 ---
 

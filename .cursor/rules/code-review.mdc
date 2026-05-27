@@ -1,0 +1,119 @@
+---
+description: "Local AI-assisted code review workflow (Cursor). Not canonical runtime spec — see art.md / p5toreact.md."
+alwaysApply: false
+---
+
+# 代碼審查（羊·實驗）
+
+> **定位**：Local AI-assisted review workflow rules（Cursor `@code-review` / 手動請求 review 時使用）。  
+> **不是** canonical runtime specification。邊界與契約以 **runtime 程式** 為準；視覺與整合以 [`art.md`](../../art.md)、[`p5toreact.md`](../../p5toreact.md)、[`reactkey.md`](../../reactkey.md) 為準。  
+> **衝突時**：`src/` 實作 > 上述 spec 文件 > 本 rule。
+
+當請求 code review 時，依下列維度分析。**先讀** [`art.md`](../../art.md)、[`p5toreact.md`](../../p5toreact.md)。
+
+每維度輸出：評分 1–10、具體問題（含檔案:行號）、改善建議。
+
+問題格式：
+`[CRITICAL/MAJOR/MINOR] 檔案:行號 — 問題 → 建議`
+
+---
+
+## 1. 架構邊界
+
+- **Works**（`/works`）：`CurveModule` → `*CurveRoot` → portal → `work-detail__stage`
+- **Explore**（`/explore`）：`src/explore/*` + `*ExploreRoot`，**不用** CurveModule / portal
+- `curve/modules/*`、`explore/*/path.ts`：**零 p5**；渲染只在 `systems/rendering/*`
+- renderer **不讀** React state，只收 `RenderSnap`
+- 新曲線是否走 registry + `[slug].astro` 掛載，而非複製整段生命週期
+
+## 2. p5 / React 整合
+
+- Instance mode：`new p5` 只 mount 一次，unmount `remove()`
+- `targetParams` 用 `useRef`，draw 內不 setState 風暴
+- 參數離散（a/b、R/r）vs 連續 morph（δ、d）：reset reveal 與 lerp 策略是否正確
+- `cacheStrategy` 是否匹配（morph 曲線勿誤用 cache）
+- `byTheta` 禁止 `% TWO_PI`；渲染常數勿從 `curve/constants` import（Vite 剝離風險）
+- Explore reveal 用 `deltaTime`，非固定每幀增量
+
+## 3. 視覺規格（art.md）
+
+- 只換 geometry，不重做 glow / grid / hierarchy
+- 背景 `#0a0a0a`；accent `rgb(212,184,122)`；guide 低 alpha 線框
+- ghost 弱於 reveal；guide 不得搶過主曲線
+- 作品頁：canvas 左、控制右（portal）；explore：工具列在 canvas 下
+
+## 4. 完整性
+
+- 邊界：空點列、零除（gcd、半徑）、極端參數
+- `[slug].astro` 是否掛對元件與 controls `id`
+- `registry.ts` 是否登記（否則列表無縮圖）
+- content frontmatter 是否符合 `content.config.ts` schema
+
+## 5. 可維護性
+
+- **最小 diff**：不順手重構無關程式
+- 函數職責單一；`*CurveRoot` 薄包裝，邏輯在 module / animation
+- 命名與現有模組一致（Rose / Lissajous 模式）
+- 重複採樣或渲染邏輯是否應抽到 `systems/rendering`
+
+## 6. 性能（draw 熱路徑）
+
+- 每幀 `sample` 點數是否合理（Harmonograph ~3140 可接受，勿無上限增點）
+- path / cache 是否在參數變更時才 rebuild，非每 frame
+- p5 draw 內避免 DOM 操作、大物件分配
+- 建置期縮圖 vs runtime：勿在 client 重算整條曲線給卡片
+
+## 7. Astro / Content
+
+- 排序用 `getPublishedAsc` / `getFeaturedOrLatest`，勿自創排序
+- explore `category` 在允許 enum 內
+- `coverImage` 路徑對應 `public/explore/` 實檔
+- CSS 由元件 import，非 BaseLayout 一次載入全部
+
+## 8. 可及性與語意
+
+- canvas 容器有適當 `role` / `aria-label`
+- 互動控件可鍵盤操作（range、按鈕）
+- 教學文案準確（例：2D 傅立葉用「接近方形」，非「真正方形」）
+
+## 9. 測試與驗證
+
+- 關鍵純函數（`sample`、`buildFourierPath`、`tAtArcLength`）是否可單測
+- 是否建議手動驗收路徑：`npm run build`、作品頁滑桿可見、reveal 完整
+- 改 renderer 是否需目視確認 glow / grid
+
+## 10. 文件同步
+
+- 新曲線 / explore 是否更新 `README.md`、`p5toreact.md`（或 `art.md`）檢查清單
+- 踩坑是否記錄（portal 位置、TWO_PI、縮圖 CSS）
+
+---
+
+## 評分標準
+
+| 分數 | 定義 |
+|------|------|
+| 9–10 | 無明顯問題，符合專案慣例 |
+| 7–8 | 1–2 MINOR |
+| 5–6 | 有 MAJOR，應在此 PR 修 |
+| 3–4 | 多 MAJOR 或 1 CRITICAL |
+| 1–2 | CRITICAL，不應合併 |
+
+- 有 CRITICAL → 該維度上限 4
+- 有 MAJOR → 該維度上限 7
+- 評分與問題數量須自洽
+
+## 輸出格式
+
+### 各維度評分總覽
+| 維度 | 評分 | CRITICAL | MAJOR | MINOR |
+|------|------|----------|-------|-------|
+
+### 問題清單（CRITICAL → MAJOR → MINOR）
+
+### 優先修復（3–5 項）
+
+### 可合併判定
+- [ ] 無 CRITICAL
+- [ ] MAJOR 已修或已排程
+- [ ] `npm run build` 通過（若涉及建置）

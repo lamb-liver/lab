@@ -17,6 +17,14 @@
 | [`textstyle.md`](textstyle.md) | 視覺化主題頁 Markdown 文案結構與語氣 |
 | [`p5toreact.md`](p5toreact.md) | p5 sketch → React / CurveModule 整合與踩坑 |
 | [`reactkey.md`](reactkey.md) | Morph 曲線 React × p5 架構契約（模組邊界、ref、快取） |
+| [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md) | 縮圖設計歷史（Implemented）；現行見 `p5toreact.md` + `curveThumbnail.ts` |
+
+**Authority 層級**（衝突時）：`src/` runtime > `art.md` / `p5toreact.md` / `reactkey.md` / `textstyle.md` > 設計歷史文件 > [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc)（僅 AI review 流程，非 runtime spec）。
+
+| 工具 | 說明 |
+|------|------|
+| [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc) | Local AI-assisted review workflow（Cursor）；**非** canonical spec |
+| [`tools/archive/`](tools/archive/) | 一次性維護腳本（如 works 文案批次遷移） |
 
 線上：[lamb-liver.github.io/lab](https://lamb-liver.github.io/lab/) · 倉庫 [lamb-liver/lab](https://github.com/lamb-liver/lab)
 
@@ -54,6 +62,10 @@
 | `catenary` | 曳物線 | tractrix 上下軌 + rope |
 | `equiangular-spiral` | 等角螺線 | r=ae^(bθ) ghost + reveal + 旋轉 |
 | `vector-field-streamlines` | 向量場流線 | 漩渦場 RK2 流線積分 |
+| `complex-arithmetic-geometry` | 複數四則運算的幾何意義 | $z_1+z_2$ 平行四邊形、$z_1 z_2$ 模角合成 |
+| `complex-polar-form` | 複數的極座標形式 | $z=re^{i\theta}$ 投影與幅角弧 |
+| `euler-formula-rotation` | 尤拉公式旋轉動畫 | 複平面旋轉 + 虛部時域波形 |
+| `julia-set` | 朱利亞集合 | $z_{n+1}=z_n^2+c$ 分形 + 平滑逃逸著色 |
 
 ### 視覺化（explore）
 
@@ -87,10 +99,6 @@
 | 主題 | slug | 標題 |
 |------|------|------|
 | 複數平面幾何 | `complex-phase-portrait` | 相位圖 |
-| 複數平面幾何 | `complex-arithmetic-geometry` | 複數四則運算的幾何意義 |
-| 複數平面幾何 | `complex-polar-form` | 複數的極座標形式 |
-| 複數平面幾何 | `euler-formula-rotation` | 尤拉公式旋轉動畫 |
-| 複數與碎形 | `julia-set` | 朱利亞集合 |
 | 數列與級數 | `arithmetic-geometric-sequences` | 等差等比數列的幾何視覺 |
 | 數列與級數 | `fibonacci-spiral` | 費波那契螺線 |
 | 碎形與動力系統 | `sierpinski-triangle` | 謝爾賓斯基三角形 |

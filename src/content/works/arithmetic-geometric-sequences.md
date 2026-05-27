@@ -9,11 +9,9 @@ featured: false
 draft: false
 ---
 
-## 概述
+## 參數方程
 
 等差數列 $a_n=a_1+(n-1)d$ 可視為等長步長的累加折線；等比數列 $a_n=a_1 r^{n-1}$ 對應逐段伸縮的長度或面積。幾何分割能直觀呈現 $S_n$ 的封閉公式。
-
-## 參數方程
 
 等差求和：
 
@@ -27,16 +25,17 @@ $$
 S_n = a_1\frac{1-r^n}{1-r}
 $$
 
-## 實作要點
+## 互動說明
 
 - **模式切換**：等差／等比兩種數列，分別暴露 $a_1,d$ 或 $a_1,r$
-- **條狀圖生長**：前 $n$ 項以水平或垂直線段逐段 reveal
 - **矩形逼近**：等比級數用遞次縮小的矩形面積和逼近 $S_n$
 - **項數滑桿**：調整 $n$，同步顯示 $S_n$ 與公式代數值
 
-## 相關連結
+## 相關作品
 
-- 相關作品：[費波那契螺線](/works/fibonacci-spiral)、[巴塞爾問題](/works/basel-problem)、[二項式展開的幾何意義](/works/binomial-expansion-geometry)
+- [費波那契螺線](/works/fibonacci-spiral)
+- [巴塞爾問題](/works/basel-problem)
+- [二項式展開的幾何意義](/works/binomial-expansion-geometry)
 
 ## 延伸閱讀
 

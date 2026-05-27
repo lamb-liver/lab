@@ -1,7 +1,10 @@
 # 作品集縮圖規格（reveal 100% 完成態）
 
-> **狀態**：設計已定稿，待實作。  
-> **讀者**：下一個實作 agent。  
+> **狀態**：**Implemented**（2026-05-27）。本檔保留為設計歷史；**現行權威來源**見下方。  
+> **Primary authority**：
+> - [`p5toreact.md` §作品集縮圖](../p5toreact.md#作品集縮圖workcard--curvethumbnail)
+> - [`src/lib/curveThumbnail.ts`](../src/lib/curveThumbnail.ts)
+> - 各模組 `sample(..., { purpose: 'thumbnail', revealProgress: 1 })`  
 > **範圍**：僅 `/works` 列表卡片（`WorkCard` + `curveThumbnail.ts`）。Explore 封面仍用手動 PNG（`coverImage`），本次不改。
 
 ---

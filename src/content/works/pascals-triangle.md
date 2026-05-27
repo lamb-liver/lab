@@ -9,11 +9,9 @@ featured: false
 draft: false
 ---
 
-## 概述
+## 參數方程
 
 帕斯卡三角形第 $n$ 行第 $k$ 項為 $\binom{n}{k}$，滿足 $\binom{n}{k}=\binom{n-1}{k-1}+\binom{n-1}{k}$。三角形匯聚了二項式定理、楊輝三角與多條組合恆等式的幾何證據。
-
-## 參數方程
 
 $$
 \binom{n}{k}=\frac{n!}{k!(n-k)!},\quad
@@ -26,16 +24,17 @@ $$
 (x+y)^n=\sum_{k=0}^{n}\binom{n}{k}x^{n-k}y^k
 $$
 
-## 實作要點
+## 互動說明
 
-- **逐行 reveal**：由頂點向下逐行生成係數，數值可顯示或僅以色塊表示
 - **模運算著色**：可選對素數 $p$ 取 $\binom{n}{k}\bmod p$，呈現 Sierpiński 型碎形圖樣
 - **路徑高亮**：點選某格時高亮「由上兩格相加」的遞迴路徑
 - **行數滑桿**：控制顯示至第 $n$ 行，避免大 $n$ 時版面溢出
 
-## 相關連結
+## 相關作品
 
-- 相關作品：[組合的路徑計數](/works/combinatorial-path-counting)、[二項式展開的幾何意義](/works/binomial-expansion-geometry)、[卡特蘭數](/works/catalan-numbers)
+- [組合的路徑計數](/works/combinatorial-path-counting)
+- [二項式展開的幾何意義](/works/binomial-expansion-geometry)
+- [卡特蘭數](/works/catalan-numbers)
 
 ## 延伸閱讀
 

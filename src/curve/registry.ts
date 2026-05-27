@@ -18,6 +18,10 @@ import { linearTransformGridModule } from './modules/linear-transform-grid';
 import { standingWaveModule } from './modules/standing-wave';
 import { equiangularSpiralModule } from './modules/equiangular-spiral';
 import { vectorFieldStreamlinesModule } from './modules/vector-field-streamlines';
+import { complexArithmeticGeometryModule } from './modules/complex-arithmetic-geometry';
+import { complexPolarFormModule } from './modules/complex-polar-form';
+import { eulerFormulaRotationModule } from './modules/euler-formula-rotation';
+import { juliaSetModule } from './modules/julia-set';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -40,4 +44,8 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'catenary': catenaryModule,
   'equiangular-spiral': equiangularSpiralModule,
   'vector-field-streamlines': vectorFieldStreamlinesModule,
+  'complex-arithmetic-geometry': complexArithmeticGeometryModule,
+  'complex-polar-form': complexPolarFormModule,
+  'euler-formula-rotation': eulerFormulaRotationModule,
+  'julia-set': juliaSetModule,
 };

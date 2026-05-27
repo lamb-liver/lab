@@ -19,6 +19,10 @@ export const workInteractiveSlugs = [
   'catenary',
   'equiangular-spiral',
   'vector-field-streamlines',
+  'complex-arithmetic-geometry',
+  'complex-polar-form',
+  'euler-formula-rotation',
+  'julia-set',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
