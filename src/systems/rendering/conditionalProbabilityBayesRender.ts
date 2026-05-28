@@ -42,8 +42,8 @@ function drawTree(p: p5, data: ReturnType<typeof deriveData>, reveal: number): v
   drawNode(p, 160, 430, 'Start');
   drawNode(p, 380, 340, data.A);
   drawNode(p, 380, 520, `not ${data.A}`);
-  drawLeaf(p, 700, 280, `${data.A} ∩ ${data.B}`, percent(data.jointAB), GOLD);
-  drawLeaf(p, 700, 470, `not ${data.A} ∩ ${data.B}`, percent(data.jointNotAB), BLUE);
+  drawLeaf(p, 700, 280, GOLD);
+  drawLeaf(p, 700, 470, BLUE);
 }
 
 function drawArea(p: p5, data: ReturnType<typeof deriveData>, reveal: number): void {
@@ -109,7 +109,7 @@ function drawNode(p: p5, x: number, y: number, label: string): void {
   p.textAlign(p.LEFT, p.BASELINE);
 }
 
-function drawLeaf(p: p5, x: number, y: number, _label: string, _value: string, color: typeof GOLD): void {
+function drawLeaf(p: p5, x: number, y: number, color: typeof GOLD): void {
   p.fill(color.r, color.g, color.b, 22);
   p.stroke(color.r, color.g, color.b, 150);
   p.rect(x, y - 18, 180, 34, 8);
