@@ -28,6 +28,15 @@ import ComplexPhasePortraitCurveRoot from './ComplexPhasePortraitCurveRoot';
 import ArithmeticGeometricSequencesCurveRoot from './ArithmeticGeometricSequencesCurveRoot';
 import FibonacciSpiralCurveRoot from './FibonacciSpiralCurveRoot';
 import SierpinskiTriangleCurveRoot from './SierpinskiTriangleCurveRoot';
+import BaselProblemCurveRoot from './BaselProblemCurveRoot';
+import LogisticBifurcationCurveRoot from './LogisticBifurcationCurveRoot';
+import PascalsTriangleCurveRoot from './PascalsTriangleCurveRoot';
+import CombinatorialPathCountingCurveRoot from './CombinatorialPathCountingCurveRoot';
+import BinomialExpansionGeometryCurveRoot from './BinomialExpansionGeometryCurveRoot';
+import CatalanNumbersCurveRoot from './CatalanNumbersCurveRoot';
+import ConditionalProbabilityBayesCurveRoot from './ConditionalProbabilityBayesCurveRoot';
+import BinomialToNormalCurveRoot from './BinomialToNormalCurveRoot';
+import BuffonNeedleCurveRoot from './BuffonNeedleCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -59,6 +68,15 @@ const rootBySlug = {
   'arithmetic-geometric-sequences': ArithmeticGeometricSequencesCurveRoot,
   'fibonacci-spiral': FibonacciSpiralCurveRoot,
   'sierpinski-triangle': SierpinskiTriangleCurveRoot,
+  'basel-problem': BaselProblemCurveRoot,
+  'logistic-bifurcation': LogisticBifurcationCurveRoot,
+  'pascals-triangle': PascalsTriangleCurveRoot,
+  'combinatorial-path-counting': CombinatorialPathCountingCurveRoot,
+  'binomial-expansion-geometry': BinomialExpansionGeometryCurveRoot,
+  'catalan-numbers': CatalanNumbersCurveRoot,
+  'conditional-probability-bayes': ConditionalProbabilityBayesCurveRoot,
+  'binomial-to-normal': BinomialToNormalCurveRoot,
+  'buffon-needle': BuffonNeedleCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 type Props = {

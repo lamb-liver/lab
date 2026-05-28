@@ -27,6 +27,15 @@ export const workInteractiveSlugs = [
   'arithmetic-geometric-sequences',
   'fibonacci-spiral',
   'sierpinski-triangle',
+  'basel-problem',
+  'logistic-bifurcation',
+  'pascals-triangle',
+  'combinatorial-path-counting',
+  'binomial-expansion-geometry',
+  'catalan-numbers',
+  'conditional-probability-bayes',
+  'binomial-to-normal',
+  'buffon-needle',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
