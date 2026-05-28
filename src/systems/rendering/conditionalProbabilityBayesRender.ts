@@ -1,8 +1,17 @@
 import type p5 from 'p5';
 import {
+  BAYES_AREA,
+  BAYES_BARS,
+  BAYES_TREE,
+  BAYES_TREE_PANEL_AREA,
   BAYES_VIEW,
+  type BayesLeafLayout,
+  leafLeftAnchor,
+} from '../../curve/modules/conditional-probability-bayes/layout';
+import {
   type BayesMode,
   deriveData,
+  percent,
 } from '../../curve/modules/conditional-probability-bayes/geometry';
 import type { ParamValues } from '../../curve/types';
 
@@ -29,88 +38,175 @@ export function renderConditionalProbabilityBayesScene(p: p5, snap: BayesSnap): 
   p.scale(scale);
 
   if (snap.mode === 'tree') drawTree(p, data, snap.reveal);
-  else if (snap.mode === 'area') drawArea(p, data, snap.reveal);
+  else if (snap.mode === 'area') drawArea(p, data, BAYES_AREA, snap.reveal);
   else drawBars(p, data, snap.reveal);
   p.pop();
 }
 
 function drawTree(p: p5, data: ReturnType<typeof deriveData>, reveal: number): void {
-  drawBranch(p, 160, 430, 380, 340, data.pA, GOLD, reveal);
-  drawBranch(p, 160, 430, 380, 520, data.pNotA, GUIDE, reveal);
-  drawBranch(p, 380, 340, 640, 280, data.pBgA, GOLD, reveal);
-  drawBranch(p, 380, 520, 640, 470, data.pBgNotA, BLUE, reveal);
-  drawNode(p, 160, 430, 'Start');
-  drawNode(p, 380, 340, data.A);
-  drawNode(p, 380, 520, `not ${data.A}`);
-  drawLeaf(p, 700, 280, GOLD);
-  drawLeaf(p, 700, 470, BLUE);
+  const tree = BAYES_TREE;
+  const area = BAYES_TREE_PANEL_AREA;
+  const abEnd = leafLeftAnchor(tree.leafAB);
+  const notAbEnd = leafLeftAnchor(tree.leafNotAB);
+
+  drawArea(p, data, area, reveal);
+
+  drawBranch(p, tree.root.x, tree.root.y, tree.a.x, tree.a.y, data.pA, GUIDE, reveal, false);
+  drawBranch(p, tree.root.x, tree.root.y, tree.notA.x, tree.notA.y, data.pNotA, GUIDE, reveal, false);
+  drawBranch(p, tree.a.x, tree.a.y, abEnd.x, abEnd.y, data.pBgA, GOLD, reveal, true);
+  drawBranch(
+    p,
+    tree.notA.x,
+    tree.notA.y,
+    notAbEnd.x,
+    notAbEnd.y,
+    data.pBgNotA,
+    BLUE,
+    reveal,
+    false,
+  );
+
+  drawNode(p, tree.root.x, tree.root.y, '起點', reveal);
+  drawNode(p, tree.a.x, tree.a.y, 'A', reveal);
+  drawNode(p, tree.notA.x, tree.notA.y, '¬A', reveal);
+  drawLeaf(p, tree.leafAB, `${data.B}`, percent(data.pBgA), GOLD, reveal);
+  drawLeaf(p, tree.leafNotAB, `${data.B}`, percent(data.pBgNotA), BLUE, reveal);
 }
 
-function drawArea(p: p5, data: ReturnType<typeof deriveData>, reveal: number): void {
-  const x = 180;
-  const y = 250;
-  const w = 560;
-  const h = 280;
-  const aW = w * data.pA;
-  const abH = h * data.pBgA;
-  const notAbH = h * data.pBgNotA;
+function drawArea(
+  p: p5,
+  data: ReturnType<typeof deriveData>,
+  box: { x: number; y: number; w: number; h: number },
+  reveal: number,
+): void {
+  const aW = box.w * data.pA;
+  const abH = box.h * data.pBgA * reveal;
+  const notAbH = box.h * data.pBgNotA * reveal;
   p.noFill();
   p.stroke(255, 255, 255, 32);
-  p.rect(x, y, w, h);
+  p.strokeWeight(1);
+  p.rect(box.x, box.y, box.w, box.h);
   p.noStroke();
   p.fill(GOLD.r, GOLD.g, GOLD.b, 28);
-  p.rect(x, y, aW, h);
-  p.fill(BLUE.r, BLUE.g, BLUE.b, 24);
-  p.rect(x + aW, y, w - aW, h);
+  p.rect(box.x, box.y, aW, box.h);
+  p.fill(255, 255, 255, 10);
+  p.rect(box.x + aW, box.y, box.w - aW, box.h);
   p.fill(GOLD.r, GOLD.g, GOLD.b, 160);
-  p.rect(x, y + h - abH * reveal, aW, abH * reveal);
+  p.rect(box.x, box.y + box.h - abH, aW, abH);
   p.fill(BLUE.r, BLUE.g, BLUE.b, 130);
-  p.rect(x + aW, y + h - notAbH * reveal, w - aW, notAbH * reveal);
+  p.rect(box.x + aW, box.y + box.h - notAbH, box.w - aW, notAbH);
 }
 
 function drawBars(p: p5, data: ReturnType<typeof deriveData>, reveal: number): void {
-  const x = 180;
-  const y = 260;
-  const w = 560;
-  drawBar(p, x, y, w, data.pA * reveal, `Prior P(${data.A})`, GOLD);
-  drawBar(p, x, y + 90, w, data.pB * reveal, `Evidence P(${data.B})`, BLUE);
-  drawBar(p, x, y + 180, w, data.posterior * reveal, `Posterior P(${data.A}|${data.B})`, GOLD);
+  const { x, y, w, rowH, gap } = BAYES_BARS;
+  drawBar(p, x, y, w, rowH, data.pA * reveal, `P(A)`, GOLD, reveal);
+  drawBar(p, x, y + gap, w, rowH, data.pB * reveal, `P(${data.B})`, BLUE, reveal);
+  drawBar(
+    p,
+    x,
+    y + gap * 2,
+    w,
+    rowH,
+    data.posterior * reveal,
+    `P(A|${data.B})`,
+    GOLD,
+    reveal,
+  );
 }
 
-function drawBar(p: p5, x: number, y: number, w: number, value: number, _label: string, color: typeof GOLD): void {
+function drawBar(
+  p: p5,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  value: number,
+  label: string,
+  color: typeof GOLD,
+  reveal: number,
+): void {
+  const alpha = Math.min(1, reveal * 1.2);
   p.noStroke();
-  p.fill(255, 255, 255, 18);
-  p.rect(x, y, w, 38, 8);
-  p.fill(color.r, color.g, color.b, 185);
-  p.rect(x, y, w * value, 38, 8);
-}
-
-function drawBranch(p: p5, x1: number, y1: number, x2: number, y2: number, _prob: number, color: typeof GOLD, reveal: number): void {
-  const ex = p.lerp(x1, x2, Math.min(1, reveal));
-  const ey = p.lerp(y1, y2, Math.min(1, reveal));
-  p.stroke(color.r, color.g, color.b, 40);
-  p.strokeWeight(6);
-  p.line(x1, y1, ex, ey);
-  p.stroke(color.r, color.g, color.b, 210);
-  p.strokeWeight(1.5);
-  p.line(x1, y1, ex, ey);
-}
-
-function drawNode(p: p5, x: number, y: number, label: string): void {
-  p.noFill();
-  p.stroke(255, 255, 255, 160);
-  p.strokeWeight(1.2);
-  p.circle(x, y, 48);
+  p.fill(255, 255, 255, 18 * alpha);
+  p.rect(x, y, w, h, 8);
+  p.fill(color.r, color.g, color.b, 185 * alpha);
+  p.rect(x, y, w * value, h, 8);
+  if (reveal < 0.35) return;
   p.noStroke();
-  p.fill(220, 220, 220, 180);
+  p.fill(220, 220, 220, 200 * alpha);
+  p.textAlign(p.LEFT, p.CENTER);
+  p.textSize(12);
+  p.text(label, x + 10, y + h / 2);
+  p.textAlign(p.LEFT, p.BASELINE);
+}
+
+function drawBranch(
+  p: p5,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  prob: number,
+  color: typeof GOLD,
+  reveal: number,
+  emphasize: boolean,
+): void {
+  const t = Math.min(1, reveal);
+  const ex = p.lerp(x1, x2, t);
+  const ey = p.lerp(y1, y2, t);
+  const glow = emphasize ? 50 : 32;
+  const core = emphasize ? 230 : 170;
+  p.stroke(color.r, color.g, color.b, glow);
+  p.strokeWeight(emphasize ? 5 : 4);
+  p.line(x1, y1, ex, ey);
+  p.stroke(color.r, color.g, color.b, core);
+  p.strokeWeight(emphasize ? 2 : 1.4);
+  p.line(x1, y1, ex, ey);
+  if (t < 0.55) return;
+  const mx = (x1 + ex) / 2;
+  const my = (y1 + ey) / 2;
+  p.noStroke();
+  p.fill(200, 200, 200, 170 * t);
   p.textAlign(p.CENTER, p.CENTER);
-  p.textSize(11);
+  p.textSize(10);
+  p.text(percent(prob), mx, my - 6);
+  p.textAlign(p.LEFT, p.BASELINE);
+}
+
+function drawNode(p: p5, x: number, y: number, label: string, reveal: number): void {
+  const alpha = Math.min(1, reveal * 1.4);
+  p.noFill();
+  p.stroke(255, 255, 255, 160 * alpha);
+  p.strokeWeight(1.2);
+  p.circle(x, y, 40);
+  p.noStroke();
+  p.fill(220, 220, 220, 200 * alpha);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(12);
   p.text(label, x, y);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 
-function drawLeaf(p: p5, x: number, y: number, color: typeof GOLD): void {
-  p.fill(color.r, color.g, color.b, 22);
-  p.stroke(color.r, color.g, color.b, 150);
-  p.rect(x, y - 18, 180, 34, 8);
+function drawLeaf(
+  p: p5,
+  leaf: BayesLeafLayout,
+  eventLabel: string,
+  probLabel: string,
+  color: typeof GOLD,
+  reveal: number,
+): void {
+  const alpha = Math.min(1, reveal * 1.2);
+  const x = leaf.cx - leaf.w / 2;
+  const y = leaf.cy - leaf.h / 2;
+  p.fill(color.r, color.g, color.b, 28 * alpha);
+  p.stroke(color.r, color.g, color.b, 150 * alpha);
+  p.strokeWeight(1);
+  p.rect(x, y, leaf.w, leaf.h, 8);
+  if (alpha < 0.2) return;
+  p.noStroke();
+  p.fill(235, 235, 235, 220 * alpha);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(11);
+  p.text(`${eventLabel}  ${probLabel}`, leaf.cx, leaf.cy);
+  p.textAlign(p.LEFT, p.BASELINE);
 }

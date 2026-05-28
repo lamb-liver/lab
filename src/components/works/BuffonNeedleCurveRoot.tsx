@@ -47,9 +47,9 @@ export default function BuffonNeedleCurveRoot({ controlsMountId = 'buffon-needle
             }}
           />
 
-          <div className="curve-work-mode-toggle" aria-label="experiment control">
+          <div className="curve-work-mode-toggle" aria-label="實驗控制">
             <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => setResetNonce((prev) => prev + 1)}>
-              reset
+              重設
             </button>
           </div>
 

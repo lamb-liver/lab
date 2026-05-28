@@ -34,10 +34,10 @@ export const pascalsTriangleModule: CurveModule = {
       title: '帕斯卡三角形',
       formula: 'C(n,k) = n! / (k!(n-k)!)',
       stats: [
-        { key: 'rows', label: 'rows', value: normalizeRows(params.rows) },
-        { key: 'prime', label: 'mod', value: normalizePrime(params.prime) },
-        { key: 'active', label: 'non-zero', value: `${activeCount}/${totalCount}` },
-        { key: 'primes', label: 'primes', value: PASCAL_PRIMES.join(', ') },
+        { key: 'rows', label: 'n', value: normalizeRows(params.rows) },
+        { key: 'prime', label: 'p', value: normalizePrime(params.prime) },
+        { key: 'active', label: '非零', value: `${activeCount}/${totalCount}` },
+        { key: 'primes', label: '質數', value: PASCAL_PRIMES.join(', ') },
         { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };

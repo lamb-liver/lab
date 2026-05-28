@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/withBase';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import ExploreInteractiveStage from '../../components/explore/ExploreInteractiveStage';
 import { getCollection, render } from 'astro:content';
@@ -40,6 +41,6 @@ const interactive = isExploreInteractive(entry.id);
       <Content />
     </article>
 
-    <a href="/explore" class="back-link">← 返回視覺化</a>
+    <a href={withBase('/explore')} class="back-link">← 返回視覺化</a>
   </div>
 </BaseLayout>

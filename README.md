@@ -31,7 +31,32 @@
 
 線上：[lamb-liver.github.io/lab](https://lamb-liver.github.io/lab/) · 倉庫 [lamb-liver/lab](https://github.com/lamb-liver/lab)
 
+## 本地開發與路徑前綴
+
+本站部署在 GitHub Pages 子路徑 **`/lab/`**，因此 `astro.config.mjs` 在本地與 Pages 建置使用：
+
+```js
+base: onVercel ? '/' : '/lab/',
+```
+
+| 環境 | 站點根目錄 | 作品集列表範例 |
+|------|------------|----------------|
+| 本地、`npm run build`（非 Vercel） | `/lab/` | `http://localhost:4321/lab/works` |
+| Vercel 預覽／正式 | `/` | `https://…/works` |
+
+**常見 404**：在網址列直接開 `http://localhost:4322/works`（缺少 `/lab/`）。Astro 不會為這類路徑自動轉址；請從終端印出的 **`/lab/`** 入口進站，或手動加上前綴。
+
+```bash
+npm install
+npm run dev
+# 終端例：http://localhost:4321/lab/
+```
+
+站內連結（導覽、卡片、返回、favicon）應使用 [`src/lib/withBase.ts`](src/lib/withBase.ts) 的 `withBase()`，勿寫死 `href="/works"`。新增 Astro 元件或 Markdown 內鏈到本站頁面時比照辦理。
+
 ## 頁面
+
+路徑表為**邏輯路徑**；本地／GitHub Pages 請加上 `base` 前綴（見上表）。
 
 | 路徑 | 說明 |
 |------|------|
@@ -216,15 +241,18 @@ draft: false
 ---
 ```
 
-封面圖放 `public/explore/`，命名慣例：`{slug}-{主題}-cover.png`。  
-互動掛載見 [`p5toreact.md`](p5toreact.md)「Explore 視覺化」章節。
+封面圖放 `public/explore/`，命名慣例：`{slug}-{主題}-cover.png`；`coverImage` 路徑會經 `withBase()` 解析。  
+互動掛載：在 [`src/explore/interactiveRegistry.ts`](src/explore/interactiveRegistry.ts) 登記 slug，並於 [`ExploreInteractiveStage.tsx`](src/components/explore/ExploreInteractiveStage.tsx) 掛載對應 `*ExploreRoot`。細節見 [`p5toreact.md`](p5toreact.md)「Explore 視覺化」章節。
 
 ### 視覺化頁版面（互動 explore）
 
+多數 explore 互動採 **canvas 左 + sidebar 右**（如 `conic-dynamic-explore`、`matrix-linear-explore`）；傅立葉級數等少數為 canvas 下工具列。
+
 ```
 .explore-detail--interactive
-├── .fourier-explore__canvas      ← p5（限高 min(34vh, 400px)）
-├── .fourier-explore__toolbar     ← N 滑桿、模式切換（canvas 下、一屏可見）
+├── *-explore__stage
+│   ├── canvas（p5 instance）
+│   └── sidebar（React 控件、統計）
 └── .prose                        ← Markdown 說明
 ```
 

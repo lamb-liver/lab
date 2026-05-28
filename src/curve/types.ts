@@ -40,12 +40,26 @@ export type ThumbnailPath = {
   points: CurvePoint[];
   opacity?: number;
   closed?: boolean;
+  stroke?: string;
   strokeWidth?: number;
+  fill?: string;
   excludeFromBbox?: boolean;
+};
+
+/** 縮圖用圓點（例如帕斯卡三角形的格點） */
+export type ThumbnailCircle = {
+  x: number;
+  y: number;
+  r: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  opacity?: number;
 };
 
 export type ThumbnailSpec = {
   paths: ThumbnailPath[];
+  circles?: ThumbnailCircle[];
   coordinateSystem?: 'math' | 'canvas';
 };
 

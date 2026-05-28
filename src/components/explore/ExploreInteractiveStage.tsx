@@ -3,12 +3,22 @@ import {
   type ExploreInteractiveSlug,
   isExploreInteractive,
 } from '../../explore/interactiveRegistry';
+import ConicDynamicGeometryExploreRoot from './ConicDynamicGeometryExploreRoot';
+import ComplexEulerFormulaExploreRoot from './ComplexEulerFormulaExploreRoot';
+import DifferentialEquationsGeometryExploreRoot from './DifferentialEquationsGeometryExploreRoot';
+import LimitsRiemannSumExploreRoot from './LimitsRiemannSumExploreRoot';
+import MatrixLinearTransformExploreRoot from './MatrixLinearTransformExploreRoot';
 import FourierSeriesExploreRoot from './FourierSeriesExploreRoot';
 import WaveSuperpositionExploreRoot from './WaveSuperpositionExploreRoot';
 
 const rootBySlug = {
   'fourier-series': FourierSeriesExploreRoot,
   'trig-wave-interference': WaveSuperpositionExploreRoot,
+  'conic-dynamic-geometry': ConicDynamicGeometryExploreRoot,
+  'matrix-linear-transform': MatrixLinearTransformExploreRoot,
+  'limits-riemann-sum': LimitsRiemannSumExploreRoot,
+  'differential-equations-geometry': DifferentialEquationsGeometryExploreRoot,
+  'complex-euler-formula': ComplexEulerFormulaExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 type Props = {

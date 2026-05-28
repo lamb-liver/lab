@@ -2,6 +2,11 @@
 export const exploreInteractiveSlugs = [
   'fourier-series',
   'trig-wave-interference',
+  'conic-dynamic-geometry',
+  'matrix-linear-transform',
+  'limits-riemann-sum',
+  'differential-equations-geometry',
+  'complex-euler-formula',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];

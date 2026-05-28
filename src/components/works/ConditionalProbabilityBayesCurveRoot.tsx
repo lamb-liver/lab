@@ -18,15 +18,15 @@ import '../../styles/components/works/curve-work-demo.css';
 type Props = { controlsMountId?: string };
 
 const modeOptions = [
-  { value: MODE_TREE, label: 'Tree diagram' },
-  { value: MODE_AREA, label: 'Area model' },
-  { value: MODE_BAYES, label: 'Bayes update' },
+  { value: MODE_TREE, label: '樹狀圖' },
+  { value: MODE_AREA, label: '面積模型' },
+  { value: MODE_BAYES, label: '貝氏更新' },
 ];
 
 const scenarioOptions = [
-  { value: SCENARIO_MEDICAL, label: 'Medical test' },
-  { value: SCENARIO_CARD, label: 'Card draw' },
-  { value: SCENARIO_SPAM, label: 'Spam filter' },
+  { value: SCENARIO_MEDICAL, label: '醫檢' },
+  { value: SCENARIO_CARD, label: '抽牌' },
+  { value: SCENARIO_SPAM, label: '垃圾信' },
 ];
 
 export default function ConditionalProbabilityBayesCurveRoot({
@@ -59,7 +59,7 @@ export default function ConditionalProbabilityBayesCurveRoot({
             <p className="curve-work-controls__formula">{metadata.formula}</p>
           </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="view mode">
+          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="視圖模式">
             {modeOptions.map((option) => (
               <button
                 key={option.value}
@@ -73,7 +73,7 @@ export default function ConditionalProbabilityBayesCurveRoot({
             ))}
           </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="scenario">
+          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="情境">
             {scenarioOptions.map((option) => (
               <button
                 key={option.value}

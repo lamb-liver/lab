@@ -16,8 +16,8 @@ type Props = {
 };
 
 const modeOptions = [
-  { value: MODE_SQUARE, label: 'n = 2 square' },
-  { value: MODE_CUBE, label: 'n = 3 cube projection' },
+  { value: MODE_SQUARE, label: 'n = 2 平方' },
+  { value: MODE_CUBE, label: 'n = 3 立方' },
 ];
 
 export default function BinomialExpansionGeometryCurveRoot({
@@ -49,7 +49,7 @@ export default function BinomialExpansionGeometryCurveRoot({
             <p className="curve-work-controls__formula">{metadata.formula}</p>
           </div>
 
-          <div className="curve-work-mode-toggle" aria-label="dimension mode">
+          <div className="curve-work-mode-toggle" aria-label="維度模式">
             {modeOptions.map((option) => (
               <button
                 key={option.value}

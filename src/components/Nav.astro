@@ -1,28 +1,26 @@
 ---
 import '../styles/components/nav.css';
+import { isActivePath, withBase } from '../lib/withBase';
 
 const links = [
-  { href: '/works', label: '作品集' },
-  { href: '/explore', label: '視覺化' },
-  { href: '/about', label: '關於' },
+  { path: '/works', label: '作品集' },
+  { path: '/explore', label: '視覺化' },
+  { path: '/about', label: '關於' },
 ];
 
 const pathname = Astro.url.pathname;
-
-const isActive = (href: string) =>
-  href === '/' ? pathname === '/' : pathname.startsWith(href);
 ---
 
 <header class="site-nav">
   <div class="site-nav__inner">
-    <a href="/" class="site-nav__logo">羊·實驗</a>
+    <a href={withBase('/')} class="site-nav__logo">羊·實驗</a>
 
     <nav class="site-nav__links site-nav__links--desktop" aria-label="主要導覽">
       {
         links.map((link) => (
           <a
-            href={link.href}
-            class:list={['site-nav__link', { 'is-active': isActive(link.href) }]}
+            href={withBase(link.path)}
+            class:list={['site-nav__link', { 'is-active': isActivePath(link.path, pathname) }]}
           >
             {link.label}
           </a>
@@ -42,8 +40,8 @@ const isActive = (href: string) =>
         {
           links.map((link) => (
             <a
-              href={link.href}
-              class:list={['site-nav__link', { 'is-active': isActive(link.href) }]}
+              href={withBase(link.path)}
+              class:list={['site-nav__link', { 'is-active': isActivePath(link.path, pathname) }]}
             >
               {link.label}
             </a>

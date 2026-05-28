@@ -15,9 +15,9 @@ import '../../styles/components/works/curve-work-demo.css';
 type Props = { controlsMountId?: string };
 
 const modeOptions = [
-  { value: MODE_PATH, label: 'Dyck path' },
-  { value: MODE_PAREN, label: 'Parentheses' },
-  { value: MODE_TRIANGULATION, label: 'Triangulation' },
+  { value: MODE_PATH, label: 'Dyck 路徑' },
+  { value: MODE_PAREN, label: '括號' },
+  { value: MODE_TRIANGULATION, label: '三角剖分' },
 ];
 
 export default function CatalanNumbersCurveRoot({ controlsMountId = 'catalan-numbers-controls' }: Props) {
@@ -50,7 +50,7 @@ export default function CatalanNumbersCurveRoot({ controlsMountId = 'catalan-num
             <p className="curve-work-controls__formula">{metadata.formula}</p>
           </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="Catalan model">
+          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="卡特蘭模型">
             {modeOptions.map((option) => (
               <button
                 key={option.value}
@@ -70,14 +70,14 @@ export default function CatalanNumbersCurveRoot({ controlsMountId = 'catalan-num
             onChange={(key, value) => setTargetParams((prev) => ({ ...prev, [key]: value }))}
           />
 
-          <div className="curve-work-mode-toggle" aria-label="object">
+          <div className="curve-work-mode-toggle" aria-label="物件切換">
             <button
               type="button"
               className="curve-work-mode-button"
               aria-pressed={false}
               onClick={() => setNextNonce((prev) => prev + 1)}
             >
-              next object
+              下一個
             </button>
           </div>
 

@@ -4,9 +4,9 @@ import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { buildBuffonThumbnail, deriveBuffonData } from './geometry';
 
 const paramSchema: ParamSchema = [
-  { key: 'l', label: 'needle length l', min: 20, max: 100, step: 1, default: 70 },
-  { key: 'd', label: 'line spacing d', min: 60, max: 140, step: 1, default: 100 },
-  { key: 'speed', label: 'throws per frame', min: 1, max: 80, step: 1, default: 12 },
+  { key: 'l', label: '針長 ℓ', min: 20, max: 100, step: 1, default: 70 },
+  { key: 'd', label: '線距 d', min: 60, max: 140, step: 1, default: 100 },
+  { key: 'speed', label: '每幀投擲數', min: 1, max: 80, step: 1, default: 12 },
 ];
 
 const defaultParams: ParamValues = defaultsFromSchema(paramSchema);
@@ -22,10 +22,10 @@ export const buffonNeedleModule: CurveModule = {
       title: '蒲豐投針',
       formula: 'P(hit) = 2l / (pi d)',
       stats: [
-        { key: 'l', label: 'l', value: data.l },
+        { key: 'l', label: 'ℓ', value: data.l },
         { key: 'd', label: 'd', value: data.d },
-        { key: 'speed', label: 'speed', value: data.speed },
-        { key: 'theory', label: 'P(hit)', value: data.theoreticalP.toFixed(4) },
+        { key: 'speed', label: '速度', value: data.speed },
+        { key: 'theory', label: 'P(相交)', value: data.theoreticalP.toFixed(4) },
         { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };

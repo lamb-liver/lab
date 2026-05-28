@@ -17,9 +17,9 @@ type Props = {
 };
 
 const modeOptions = [
-  { value: MODE_SINGLE, label: 'single path' },
-  { value: MODE_OVERLAY, label: 'all paths overlay' },
-  { value: MODE_COUNT, label: 'count field' },
+  { value: MODE_SINGLE, label: '單一路徑' },
+  { value: MODE_OVERLAY, label: '路徑疊合' },
+  { value: MODE_COUNT, label: '計數場' },
 ];
 
 export default function CombinatorialPathCountingCurveRoot({
@@ -81,7 +81,7 @@ export default function CombinatorialPathCountingCurveRoot({
               aria-pressed={false}
               onClick={() => setRerollNonce((prev) => prev + 1)}
             >
-              new path
+              新路徑
             </button>
           </div>
 

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/withBase';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import WorkInteractiveStage from '../../components/works/WorkInteractiveStage';
 import { getCollection, render } from 'astro:content';
@@ -50,6 +51,6 @@ const interactive = isWorkInteractive(entry.id);
       <Content />
     </article>
 
-    <a href="/works" class="back-link">← 返回作品集</a>
+    <a href={withBase('/works')} class="back-link">← 返回作品集</a>
   </div>
 </BaseLayout>

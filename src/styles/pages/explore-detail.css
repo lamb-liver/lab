@@ -1,6 +1,11 @@
 .explore-detail .interactive-canvas,
 .explore-detail .fourier-explore,
-.explore-detail .wave-explore {
+.explore-detail .wave-explore,
+.explore-detail .conic-dynamic-explore,
+.explore-detail .matrix-linear-explore,
+.explore-detail .limits-riemann-explore,
+.explore-detail .diff-eq-explore,
+.explore-detail .complex-euler-explore {
   margin-bottom: var(--space-8);
 }
 
@@ -18,6 +23,11 @@
 }
 
 .explore-detail--interactive .fourier-explore,
-.explore-detail--interactive .wave-explore {
+.explore-detail--interactive .wave-explore,
+.explore-detail--interactive .conic-dynamic-explore,
+.explore-detail--interactive .matrix-linear-explore,
+.explore-detail--interactive .limits-riemann-explore,
+.explore-detail--interactive .diff-eq-explore,
+.explore-detail--interactive .complex-euler-explore {
   margin-bottom: var(--space-6);
 }

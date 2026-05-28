@@ -10,9 +10,9 @@ import '../../styles/components/works/curve-work-demo.css';
 type Props = { controlsMountId?: string };
 
 const modeOptions = [
-  { value: MODE_X, label: 'X distribution' },
-  { value: MODE_Z, label: 'Z standardized' },
-  { value: MODE_SIM, label: 'Bernoulli simulation' },
+  { value: MODE_X, label: 'X 分佈' },
+  { value: MODE_Z, label: 'Z 標準化' },
+  { value: MODE_SIM, label: '伯努利模擬' },
 ];
 
 export default function BinomialToNormalCurveRoot({ controlsMountId = 'binomial-to-normal-controls' }: Props) {
@@ -47,7 +47,7 @@ export default function BinomialToNormalCurveRoot({ controlsMountId = 'binomial-
             <p className="curve-work-controls__formula">{metadata.formula}</p>
           </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="mode">
+          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="視圖模式">
             {modeOptions.map((option) => (
               <button
                 key={option.value}
@@ -73,12 +73,12 @@ export default function BinomialToNormalCurveRoot({ controlsMountId = 'binomial-
             }}
           />
 
-          <div className="curve-work-mode-toggle" aria-label="simulation control">
+          <div className="curve-work-mode-toggle" aria-label="模擬控制">
             <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => setRunNonce((prev) => prev + 1)}>
-              run sample
+              抽樣
             </button>
             <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => setResetNonce((prev) => prev + 1)}>
-              reset
+              重設
             </button>
           </div>
 

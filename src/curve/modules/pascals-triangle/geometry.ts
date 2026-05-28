@@ -1,4 +1,4 @@
-import type { CurvePoint, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurvePoint, ParamValues, ThumbnailCircle, ThumbnailSpec } from '../../types';
 
 export const PASCAL_VIEW = {
   width: 900,
@@ -113,27 +113,64 @@ export function cellKey(n: number, k: number): string {
 
 export function buildPascalThumbnail(params: ParamValues): ThumbnailSpec {
   const data = buildPascalFrameData({ ...params, rows: 22, prime: normalizePrime(params.prime) });
-  const points: CurvePoint[] = [];
+  const prime = data.prime;
+  const circles: ThumbnailCircle[] = [];
+  const guidePoints: CurvePoint[] = [];
+
+  for (let n = 0; n <= data.rows; n += 4) {
+    const y = 125 + n * ((PASCAL_VIEW.height - 125 - 70) / Math.max(data.rows, 1)) * 0.88;
+    guidePoints.push(
+      { x: 70, y, theta: n, arcLength: 0 },
+      { x: PASCAL_VIEW.width - 70, y, theta: n, arcLength: 1 },
+      { x: Number.NaN, y: Number.NaN, theta: n, arcLength: 1 },
+    );
+  }
+
+  const fillAlpha = prime <= 2 ? 0.92 : 0.72;
+  const glow: ThumbnailCircle[] = [];
+  const core: ThumbnailCircle[] = [];
 
   for (const row of data.cellMap) {
     for (const cell of row) {
-      if (cell.value === 0) continue;
-      points.push(
-        { x: cell.x, y: cell.y, theta: cell.n, arcLength: 0 },
-        { x: cell.x + 0.01, y: cell.y, theta: cell.n, arcLength: 0.01 },
-        { x: Number.NaN, y: Number.NaN, theta: cell.n, arcLength: 0.01 },
-      );
+      if (cell.value === 0) {
+        circles.push({
+          x: cell.x,
+          y: cell.y,
+          r: cell.r * 1.55,
+          fill: 'none',
+          stroke: GUIDE_STROKE,
+          strokeWidth: 0.35,
+          opacity: 0.22,
+        });
+        continue;
+      }
+      glow.push({
+        x: cell.x,
+        y: cell.y,
+        r: cell.r * 3.2,
+        fill: ACCENT_FILL,
+        stroke: 'none',
+        opacity: fillAlpha * 0.18,
+      });
+      core.push({
+        x: cell.x,
+        y: cell.y,
+        r: cell.r * 1.65,
+        fill: ACCENT_FILL,
+        stroke: 'none',
+        opacity: fillAlpha,
+      });
     }
   }
 
+  circles.push(...glow, ...core);
+
   return {
     coordinateSystem: 'canvas',
-    paths: [
-      {
-        points,
-        opacity: 0.84,
-        strokeWidth: 0.72,
-      },
-    ],
+    paths: [{ points: guidePoints, stroke: GUIDE_STROKE, strokeWidth: 0.5, opacity: 0.12 }],
+    circles,
   };
 }
+
+const ACCENT_FILL = 'rgb(212, 184, 122)';
+const GUIDE_STROKE = 'rgb(255, 255, 255)';

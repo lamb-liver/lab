@@ -13,6 +13,39 @@ describe('curveThumbnail', () => {
     expect(spec.paths[0]?.points).toHaveLength(2);
   });
 
+  it('renders filled closed paths when fill is set', () => {
+    const slug = '__thumbnail-test-fill__';
+    const module: CurveModule = {
+      id: slug,
+      paramSchema: [],
+      defaultParams: {},
+      sample: () => ({
+        coordinateSystem: 'canvas',
+        paths: [
+          {
+            points: [point(40, 40), point(120, 40), point(120, 120), point(40, 120)],
+            closed: true,
+            fill: 'rgba(212, 184, 122, 0.4)',
+            stroke: 'rgb(212, 184, 122)',
+            strokeWidth: 0.8,
+          },
+        ],
+      }),
+      getMetadata: () => ({ title: '', formula: '', stats: [] }),
+      renderPreset: {
+        grid: { kind: 'none' },
+        backdrop: { color: '#000000', vignette: 0 },
+        curve: { stroke: '#ffffff', strokeWeight: 1, glow: false },
+      },
+    };
+
+    workCurveBySlug[slug] = module;
+    const svg = getCurveThumbnailSvg(slug);
+    delete workCurveBySlug[slug];
+
+    expect(svg).toContain('fill="rgba(212, 184, 122, 0.4)"');
+  });
+
   it('renders one svg path for each thumbnail path', () => {
     const slug = '__thumbnail-test-multipath__';
     const module: CurveModule = {

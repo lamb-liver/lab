@@ -33,18 +33,27 @@ export const logisticBifurcationModule: CurveModule = {
   sample: (params) => buildLogisticThumbnail(params),
   getMetadata: (params, runtime): CurveMetadata => {
     const orbit = buildOrbitData(params);
+    const mode = logisticModeFromValue(params.mode);
+    const MODE_LABELS: Record<typeof mode, string> = {
+      bifurcation: '分岔',
+      orbit: '軌道',
+      cobweb: '蛛網',
+      compare: '對照',
+    };
+    const periodLabel =
+      orbit.period === 'CHAOTIC' ? '混沌' : `${orbit.period}`;
     return {
       title: '邏輯斯諦映射分岔圖',
       formula: 'xₙ₊₁ = r xₙ(1 - xₙ)',
       stats: [
-        { key: 'mode', label: 'mode', value: logisticModeFromValue(params.mode) },
+        { key: 'mode', label: '模式', value: MODE_LABELS[mode] },
         { key: 'r', label: 'r', value: (params.r ?? 3.5).toFixed(5) },
         { key: 'x0', label: 'x₀', value: (params.x0 ?? 0.2).toFixed(5) },
-        { key: 'period', label: 'period', value: orbit.period },
+        { key: 'period', label: '週期', value: periodLabel },
         {
           key: 'range',
-          label: 'r range',
-          value: `${(params.rMin ?? 2.5).toFixed(2)}-${(params.rMax ?? 4).toFixed(2)}`,
+          label: 'r 範圍',
+          value: `${(params.rMin ?? 2.5).toFixed(2)}–${(params.rMax ?? 4).toFixed(2)}`,
         },
         { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],

@@ -13,9 +13,15 @@ import {
 export const COMBINATORIAL_PATH_SPEED = 0.035;
 
 const paramSchema: ParamSchema = [
-  { key: 'm', label: 'm / right steps', min: 2, max: 9, step: 1, default: 5 },
-  { key: 'n', label: 'n / up steps', min: 2, max: 9, step: 1, default: 4 },
+  { key: 'm', label: '向右步數 m', min: 2, max: 9, step: 1, default: 5 },
+  { key: 'n', label: '向上步數 n', min: 2, max: 9, step: 1, default: 4 },
 ];
+
+const MODE_LABELS: Record<ReturnType<typeof modeFromValue>, string> = {
+  single: '單一路徑',
+  overlay: '路徑疊合',
+  count: '計數場',
+};
 
 const defaultParams: ParamValues = {
   ...defaultsFromSchema(paramSchema),
@@ -36,11 +42,11 @@ export const combinatorialPathCountingModule: CurveModule = {
       title: '組合的路徑計數',
       formula: 'N(m,n) = C(m+n,m)',
       stats: [
-        { key: 'grid', label: 'grid', value: `${m}x${n}` },
-        { key: 'mode', label: 'mode', value: modeFromValue(params.mode) },
-        { key: 'total', label: 'paths', value: total },
+        { key: 'grid', label: '格點', value: `${m}×${n}` },
+        { key: 'mode', label: '模式', value: MODE_LABELS[modeFromValue(params.mode)] },
+        { key: 'total', label: '路徑數', value: total },
         { key: 'target', label: 'P(m,n)', value: counts[m]![n]! },
-        { key: 'pascal', label: 'pascal', value: `row ${m + n}, entry ${m}` },
+        { key: 'pascal', label: '帕斯卡', value: `第 ${m + n} 列、第 ${m} 項` },
         { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };

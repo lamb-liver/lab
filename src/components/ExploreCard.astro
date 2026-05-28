@@ -19,7 +19,7 @@ const { slug, title, description, category, coverImage } = Astro.props;
   data-filter-item
   data-filter-category={category}
 >
-  <a href={`/explore/${slug}`} class="card__link-wrap">
+  <a href={withBase(`/explore/${slug}`)} class="card__link-wrap">
     <div
       class:list={['card__thumb', { 'card__thumb--has-cover': !!coverImage }]}
       aria-hidden="true"

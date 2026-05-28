@@ -50,7 +50,7 @@ export default function PascalsTriangleCurveRoot({
                 aria-pressed={prime === p}
                 onClick={() => setTargetParams((prev) => ({ ...prev, prime: p }))}
               >
-                mod {p}
+                模 {p}
               </button>
             ))}
           </div>

@@ -9,7 +9,13 @@ import {
   normalizeN,
 } from './geometry';
 
-const paramSchema: ParamSchema = [{ key: 'n', label: 'n', min: 1, max: 9, step: 1, default: 4 }];
+const paramSchema: ParamSchema = [{ key: 'n', label: '階數 n', min: 1, max: 9, step: 1, default: 4 }];
+
+const MODE_LABELS: Record<ReturnType<typeof modeFromValue>, string> = {
+  path: 'Dyck 路徑',
+  paren: '括號',
+  triangulation: '三角剖分',
+};
 
 const defaultParams: ParamValues = {
   ...defaultsFromSchema(paramSchema),
@@ -29,7 +35,7 @@ export const catalanNumbersModule: CurveModule = {
       formula: 'C_n = 1/(n+1) * C(2n,n)',
       stats: [
         { key: 'n', label: 'n', value: n },
-        { key: 'mode', label: 'mode', value: modeFromValue(params.mode) },
+        { key: 'mode', label: '模式', value: MODE_LABELS[modeFromValue(params.mode)] },
         { key: 'catalan', label: `C_${n}`, value: catalan[n] ?? 0 },
         { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],

@@ -2,6 +2,7 @@
 import '../styles/components/card.css';
 import type { ExploreCategory } from '../content.config';
 import { getCurveThumbnailSvg } from '../lib/curveThumbnail';
+import { withBase } from '../lib/withBase';
 
 interface Props {
   slug: string;
@@ -19,7 +20,7 @@ const thumbSvg = getCurveThumbnailSvg(slug);
   data-filter-item
   data-filter-tags={tags.join(',')}
 >
-  <a href={`/works/${slug}`} class="card__link-wrap">
+  <a href={withBase(`/works/${slug}`)} class="card__link-wrap">
     <div
       class:list={['card__thumb', { 'card__thumb--has-svg': !!thumbSvg }]}
       aria-hidden="true"
