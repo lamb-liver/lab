@@ -35,8 +35,8 @@ export function project3(
 }
 
 export function buildBinomialThumbnail(params: ParamValues): ThumbnailSpec {
-  const a = normalizeLen(params.a);
-  const b = normalizeLen(params.b);
+  const a = Math.max(2, normalizeLen(params.a));
+  const b = Math.max(2, normalizeLen(params.b));
   const total = a + b;
   const size = 430;
   const unit = size / total;
@@ -45,7 +45,7 @@ export function buildBinomialThumbnail(params: ParamValues): ThumbnailSpec {
   const aw = a * unit;
   const bw = b * unit;
 
-  const path: CurvePoint[] = [
+  const outlineAndSplit: CurvePoint[] = [
     { x: x0, y: y0, theta: 0, arcLength: 0 },
     { x: x0 + size, y: y0, theta: 1, arcLength: 1 },
     { x: x0 + size, y: y0 + size, theta: 2, arcLength: 2 },
@@ -61,9 +61,37 @@ export function buildBinomialThumbnail(params: ParamValues): ThumbnailSpec {
     { x: x0 + aw, y: y0 + aw, theta: 12, arcLength: 12 },
     { x: x0 + aw + bw, y: y0 + aw + bw, theta: 13, arcLength: 13 },
   ];
+  const blocks: CurvePoint[] = [
+    { x: x0, y: y0, theta: 20, arcLength: 20 },
+    { x: x0 + aw, y: y0, theta: 21, arcLength: 21 },
+    { x: x0 + aw, y: y0 + aw, theta: 22, arcLength: 22 },
+    { x: x0, y: y0 + aw, theta: 23, arcLength: 23 },
+    { x: x0, y: y0, theta: 24, arcLength: 24 },
+    { x: Number.NaN, y: Number.NaN, theta: 25, arcLength: 25 },
+    { x: x0 + aw, y: y0, theta: 26, arcLength: 26 },
+    { x: x0 + size, y: y0, theta: 27, arcLength: 27 },
+    { x: x0 + size, y: y0 + aw, theta: 28, arcLength: 28 },
+    { x: x0 + aw, y: y0 + aw, theta: 29, arcLength: 29 },
+    { x: x0 + aw, y: y0, theta: 30, arcLength: 30 },
+    { x: Number.NaN, y: Number.NaN, theta: 31, arcLength: 31 },
+    { x: x0, y: y0 + aw, theta: 32, arcLength: 32 },
+    { x: x0 + aw, y: y0 + aw, theta: 33, arcLength: 33 },
+    { x: x0 + aw, y: y0 + size, theta: 34, arcLength: 34 },
+    { x: x0, y: y0 + size, theta: 35, arcLength: 35 },
+    { x: x0, y: y0 + aw, theta: 36, arcLength: 36 },
+    { x: Number.NaN, y: Number.NaN, theta: 37, arcLength: 37 },
+    { x: x0 + aw, y: y0 + aw, theta: 38, arcLength: 38 },
+    { x: x0 + size, y: y0 + aw, theta: 39, arcLength: 39 },
+    { x: x0 + size, y: y0 + size, theta: 40, arcLength: 40 },
+    { x: x0 + aw, y: y0 + size, theta: 41, arcLength: 41 },
+    { x: x0 + aw, y: y0 + aw, theta: 42, arcLength: 42 },
+  ];
 
   return {
     coordinateSystem: 'canvas',
-    paths: [{ points: path, opacity: 0.82, strokeWidth: 0.8 }],
+    paths: [
+      { points: blocks, opacity: 0.4, strokeWidth: 0.85 },
+      { points: outlineAndSplit, opacity: 0.9, strokeWidth: 1.02 },
+    ],
   };
 }

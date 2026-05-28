@@ -71,14 +71,33 @@ export function deriveData(params: ParamValues) {
 }
 
 export function buildBayesThumbnail(): ThumbnailSpec {
-  const points: CurvePoint[] = [
-    { x: 260, y: 510, theta: 0, arcLength: 0 },
-    { x: 560, y: 410, theta: 1, arcLength: 1 },
-    { x: 900, y: 340, theta: 2, arcLength: 2 },
+  const tree: CurvePoint[] = [
+    { x: 180, y: 470, theta: 0, arcLength: 0 },
+    { x: 380, y: 360, theta: 1, arcLength: 1 },
+    { x: 620, y: 320, theta: 2, arcLength: 2 },
     { x: Number.NaN, y: Number.NaN, theta: 3, arcLength: 3 },
-    { x: 260, y: 510, theta: 4, arcLength: 4 },
-    { x: 560, y: 610, theta: 5, arcLength: 5 },
-    { x: 900, y: 560, theta: 6, arcLength: 6 },
+    { x: 180, y: 470, theta: 4, arcLength: 4 },
+    { x: 380, y: 590, theta: 5, arcLength: 5 },
+    { x: 620, y: 545, theta: 6, arcLength: 6 },
   ];
-  return { coordinateSystem: 'canvas', paths: [{ points, opacity: 0.8, strokeWidth: 0.9 }] };
+  const area: CurvePoint[] = [
+    { x: 640, y: 310, theta: 7, arcLength: 7 },
+    { x: 810, y: 310, theta: 8, arcLength: 8 },
+    { x: 810, y: 610, theta: 9, arcLength: 9 },
+    { x: 640, y: 610, theta: 10, arcLength: 10 },
+    { x: 640, y: 310, theta: 11, arcLength: 11 },
+    { x: Number.NaN, y: Number.NaN, theta: 12, arcLength: 12 },
+    { x: 640, y: 390, theta: 13, arcLength: 13 },
+    { x: 810, y: 390, theta: 14, arcLength: 14 },
+    { x: 810, y: 470, theta: 15, arcLength: 15 },
+    { x: 640, y: 470, theta: 16, arcLength: 16 },
+    { x: 640, y: 390, theta: 17, arcLength: 17 },
+  ];
+  return {
+    coordinateSystem: 'canvas',
+    paths: [
+      { points: tree, opacity: 0.9, strokeWidth: 1.05 },
+      { points: area, opacity: 0.62, strokeWidth: 0.9 },
+    ],
+  };
 }

@@ -145,24 +145,60 @@ export function pathToPoints(layout: GridLayout, steps: string[]): Array<{ x: nu
 }
 
 export function buildCombinatorialThumbnail(params: ParamValues): ThumbnailSpec {
-  const m = normalizeSize(params.m);
-  const n = normalizeSize(params.n);
+  const m = Math.max(4, normalizeSize(params.m));
+  const n = Math.max(4, normalizeSize(params.n));
   const layout = getGridLayout(m, n);
-  const paths = generateAllPaths(m, n);
-  const limit = Math.min(paths.length, 80);
-  const cloud: CurvePoint[] = [];
-
-  for (let idx = 0; idx < limit; idx += 1) {
-    const points = pathToPoints(layout, paths[idx]!);
-    for (const point of points) {
-      cloud.push({ x: point.x, y: point.y, theta: idx, arcLength: 0 });
-    }
-    cloud.push({ x: Number.NaN, y: Number.NaN, theta: idx, arcLength: 0 });
+  const samplePaths: string[][] = [
+    Array(m).fill('R').concat(Array(n).fill('U')),
+    ['R', 'U', ...Array(Math.max(0, m - 1)).fill('R'), ...Array(Math.max(0, n - 1)).fill('U')],
+    [...Array(Math.floor(m / 2)).fill('R'), ...Array(n).fill('U'), ...Array(m - Math.floor(m / 2)).fill('R')],
+  ];
+  const grid: CurvePoint[] = [];
+  for (let i = 0; i <= m; i += 1) {
+    const a = gridToScreen(layout, i, 0);
+    const b = gridToScreen(layout, i, n);
+    grid.push(
+      { x: a.x, y: a.y, theta: i, arcLength: i },
+      { x: b.x, y: b.y, theta: i + 0.2, arcLength: i + 0.2 },
+      { x: Number.NaN, y: Number.NaN, theta: i + 0.3, arcLength: i + 0.3 },
+    );
   }
+  for (let j = 0; j <= n; j += 1) {
+    const a = gridToScreen(layout, 0, j);
+    const b = gridToScreen(layout, m, j);
+    grid.push(
+      { x: a.x, y: a.y, theta: 20 + j, arcLength: 20 + j },
+      { x: b.x, y: b.y, theta: 20 + j + 0.2, arcLength: 20 + j + 0.2 },
+      { x: Number.NaN, y: Number.NaN, theta: 20 + j + 0.3, arcLength: 20 + j + 0.3 },
+    );
+  }
+  const focus: CurvePoint[] = [];
+  const secondary: CurvePoint[] = [];
+  for (let idx = 0; idx < samplePaths.length; idx += 1) {
+    const points = pathToPoints(layout, samplePaths[idx]!);
+    for (const point of points) {
+      (idx === 0 ? focus : secondary).push({ x: point.x, y: point.y, theta: idx, arcLength: 0 });
+    }
+    (idx === 0 ? focus : secondary).push({ x: Number.NaN, y: Number.NaN, theta: idx, arcLength: 0 });
+  }
+  const start = gridToScreen(layout, 0, 0);
+  const end = gridToScreen(layout, m, n);
+  const markers: CurvePoint[] = [
+    { x: start.x - 8, y: start.y, theta: 90, arcLength: 90 },
+    { x: start.x + 8, y: start.y, theta: 91, arcLength: 91 },
+    { x: Number.NaN, y: Number.NaN, theta: 92, arcLength: 92 },
+    { x: end.x - 8, y: end.y, theta: 93, arcLength: 93 },
+    { x: end.x + 8, y: end.y, theta: 94, arcLength: 94 },
+  ];
 
   return {
     coordinateSystem: 'canvas',
-    paths: [{ points: cloud, opacity: 0.78, strokeWidth: 0.72 }],
+    paths: [
+      { points: grid, opacity: 0.3, strokeWidth: 0.7 },
+      { points: secondary, opacity: 0.48, strokeWidth: 0.78 },
+      { points: focus, opacity: 0.9, strokeWidth: 1.05 },
+      { points: markers, opacity: 0.86, strokeWidth: 1.2 },
+    ],
   };
 }
 

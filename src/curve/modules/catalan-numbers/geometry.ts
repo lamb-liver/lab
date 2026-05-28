@@ -121,14 +121,35 @@ function randomFanTriangulation(vertexCount: number, rng: () => number): number[
 }
 
 export function buildCatalanThumbnail(params: ParamValues): ThumbnailSpec {
-  const n = normalizeN(params.n);
+  const n = Math.max(4, normalizeN(params.n));
   const words = generateDyckWords(n);
   const word = words[0] ?? '';
+  const altWords = words.slice(1, 3);
   const size = 430;
   const x0 = CATALAN_VIEW.width / 2 - size / 2;
   const y0 = 180 + size;
-  const step = size / n;
+  const step = size / (2 * n);
+  const grid: CurvePoint[] = [];
+  for (let i = 0; i <= 2 * n; i += 1) {
+    grid.push(
+      { x: x0 + i * step, y: y0, theta: i, arcLength: i },
+      { x: x0 + i * step, y: y0 - n * step, theta: i + 0.2, arcLength: i + 0.2 },
+      { x: Number.NaN, y: Number.NaN, theta: i + 0.3, arcLength: i + 0.3 },
+    );
+  }
+  for (let j = 0; j <= n; j += 1) {
+    grid.push(
+      { x: x0, y: y0 - j * step, theta: 30 + j, arcLength: 30 + j },
+      { x: x0 + 2 * n * step, y: y0 - j * step, theta: 30 + j + 0.2, arcLength: 30 + j + 0.2 },
+      { x: Number.NaN, y: Number.NaN, theta: 30 + j + 0.3, arcLength: 30 + j + 0.3 },
+    );
+  }
+  const boundary: CurvePoint[] = [
+    { x: x0, y: y0, theta: 80, arcLength: 80 },
+    { x: x0 + 2 * n * step, y: y0 - n * step, theta: 81, arcLength: 81 },
+  ];
   const points: CurvePoint[] = [];
+  const secondary: CurvePoint[] = [];
 
   let x = 0;
   let y = 0;
@@ -138,8 +159,37 @@ export function buildCatalanThumbnail(params: ParamValues): ThumbnailSpec {
     else x += 1;
     points.push({ x: x0 + x * step, y: y0 - y * step, theta: i + 1, arcLength: i + 1 });
   }
+  for (let w = 0; w < altWords.length; w += 1) {
+    let sx = 0;
+    let sy = 0;
+    secondary.push({ x: x0, y: y0, theta: 100 + w * 20, arcLength: 100 + w * 20 });
+    for (let i = 0; i < altWords[w]!.length; i += 1) {
+      if (altWords[w]![i] === '(') sy += 1;
+      else sx += 1;
+      secondary.push({
+        x: x0 + sx * step,
+        y: y0 - sy * step,
+        theta: 100 + w * 20 + i + 1,
+        arcLength: 100 + w * 20 + i + 1,
+      });
+    }
+    secondary.push({
+      x: Number.NaN,
+      y: Number.NaN,
+      theta: 100 + w * 20 + 18,
+      arcLength: 100 + w * 20 + 18,
+    });
+  }
 
-  return { coordinateSystem: 'canvas', paths: [{ points, opacity: 0.82, strokeWidth: 0.8 }] };
+  return {
+    coordinateSystem: 'canvas',
+    paths: [
+      { points: grid, opacity: 0.28, strokeWidth: 0.68 },
+      { points: boundary, opacity: 0.45, strokeWidth: 0.78 },
+      { points: secondary, opacity: 0.45, strokeWidth: 0.78 },
+      { points, opacity: 0.9, strokeWidth: 1.05 },
+    ],
+  };
 }
 
 function mulberry32(seed: number): () => number {

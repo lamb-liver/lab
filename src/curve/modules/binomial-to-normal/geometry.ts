@@ -48,14 +48,38 @@ export function percent(v: number): string {
 }
 
 export function buildBinormalThumbnail(): ThumbnailSpec {
-  const points: CurvePoint[] = [];
-  for (let i = 0; i <= 120; i += 1) {
-    const x = 140 + (i / 120) * 620;
-    const t = i / 120;
-    const y = 660 - Math.exp(-((t - 0.5) ** 2) / 0.04) * 260;
-    points.push({ x, y, theta: t, arcLength: t });
+  const bars: CurvePoint[] = [];
+  const curve: CurvePoint[] = [];
+  const left = 160;
+  const right = 760;
+  const baseY = 670;
+  const bins = 13;
+  for (let i = 0; i < bins; i += 1) {
+    const centerT = i / (bins - 1);
+    const centerX = left + centerT * (right - left);
+    const width = 26;
+    const h = Math.exp(-((centerT - 0.5) ** 2) / 0.06) * 220;
+    bars.push(
+      { x: centerX - width / 2, y: baseY, theta: i, arcLength: i },
+      { x: centerX - width / 2, y: baseY - h, theta: i + 0.1, arcLength: i + 0.1 },
+      { x: centerX + width / 2, y: baseY - h, theta: i + 0.2, arcLength: i + 0.2 },
+      { x: centerX + width / 2, y: baseY, theta: i + 0.3, arcLength: i + 0.3 },
+      { x: Number.NaN, y: Number.NaN, theta: i + 0.4, arcLength: i + 0.4 },
+    );
   }
-  return { coordinateSystem: 'canvas', paths: [{ points, opacity: 0.82, strokeWidth: 0.9 }] };
+  for (let i = 0; i <= 140; i += 1) {
+    const t = i / 140;
+    const x = left + t * (right - left);
+    const y = 640 - Math.exp(-((t - 0.5) ** 2) / 0.055) * 250;
+    curve.push({ x, y, theta: t, arcLength: t });
+  }
+  return {
+    coordinateSystem: 'canvas',
+    paths: [
+      { points: bars, opacity: 0.46, strokeWidth: 0.78 },
+      { points: curve, opacity: 0.9, strokeWidth: 1.08 },
+    ],
+  };
 }
 
 function logChoose(n: number, k: number): number {
