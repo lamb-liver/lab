@@ -139,7 +139,7 @@ export function buildCatalanThumbnail(params: ParamValues): ThumbnailSpec {
     points.push({ x: x0 + x * step, y: y0 - y * step, theta: i + 1, arcLength: i + 1 });
   }
 
-  return { paths: [{ points, opacity: 0.82, strokeWidth: 0.8 }] };
+  return { coordinateSystem: 'canvas', paths: [{ points, opacity: 0.82, strokeWidth: 0.8 }] };
 }
 
 function mulberry32(seed: number): () => number {

@@ -63,6 +63,7 @@ export function buildBinomialThumbnail(params: ParamValues): ThumbnailSpec {
   ];
 
   return {
+    coordinateSystem: 'canvas',
     paths: [{ points: path, opacity: 0.82, strokeWidth: 0.8 }],
   };
 }

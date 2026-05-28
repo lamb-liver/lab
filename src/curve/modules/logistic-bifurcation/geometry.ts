@@ -172,6 +172,7 @@ export function buildLogisticThumbnail(params: ParamValues): ThumbnailSpec {
     );
   }
   return {
+    coordinateSystem: 'canvas',
     paths: [
       {
         points: cloud,

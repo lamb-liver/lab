@@ -127,6 +127,7 @@ export function buildPascalThumbnail(params: ParamValues): ThumbnailSpec {
   }
 
   return {
+    coordinateSystem: 'canvas',
     paths: [
       {
         points,

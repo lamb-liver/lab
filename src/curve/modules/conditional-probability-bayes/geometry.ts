@@ -80,5 +80,5 @@ export function buildBayesThumbnail(): ThumbnailSpec {
     { x: 560, y: 610, theta: 5, arcLength: 5 },
     { x: 900, y: 560, theta: 6, arcLength: 6 },
   ];
-  return { paths: [{ points, opacity: 0.8, strokeWidth: 0.9 }] };
+  return { coordinateSystem: 'canvas', paths: [{ points, opacity: 0.8, strokeWidth: 0.9 }] };
 }

@@ -237,6 +237,7 @@ export function buildSincCurve(params: ParamValues, revealProgress = 1): {
 export function buildBaselThumbnail(params: ParamValues): ThumbnailSpec {
   const series = buildPartialSeries({ ...params, p: 2 }, 1);
   return {
+    coordinateSystem: 'canvas',
     paths: [
       {
         points: pointsToCurvePoints(series.points),

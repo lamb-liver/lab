@@ -55,7 +55,7 @@ export function buildBinormalThumbnail(): ThumbnailSpec {
     const y = 660 - Math.exp(-((t - 0.5) ** 2) / 0.04) * 260;
     points.push({ x, y, theta: t, arcLength: t });
   }
-  return { paths: [{ points, opacity: 0.82, strokeWidth: 0.9 }] };
+  return { coordinateSystem: 'canvas', paths: [{ points, opacity: 0.82, strokeWidth: 0.9 }] };
 }
 
 function logChoose(n: number, k: number): number {

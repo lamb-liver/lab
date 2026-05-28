@@ -46,6 +46,7 @@ export type ThumbnailPath = {
 
 export type ThumbnailSpec = {
   paths: ThumbnailPath[];
+  coordinateSystem?: 'math' | 'canvas';
 };
 
 export type RuntimeMeta = {

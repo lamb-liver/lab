@@ -38,12 +38,17 @@ function fitToView(spec: ThumbnailSpec): Array<ThumbnailPath & { fitted: Array<{
   const scale = Math.min((VIEW_W - PAD * 2) / rangeX, (VIEW_H - PAD * 2) / rangeY);
   const cx = (minX + maxX) / 2;
   const cy = (minY + maxY) / 2;
+  const coordinateSystem = spec.coordinateSystem ?? 'math';
 
   return nonEmptyPaths.map((path) => ({
     ...path,
     fitted: path.points.map((p) => ({
       x: Number.isFinite(p.x) ? VIEW_W / 2 + (p.x - cx) * scale : Number.NaN,
-      y: Number.isFinite(p.y) ? VIEW_H / 2 - (p.y - cy) * scale : Number.NaN,
+      y: Number.isFinite(p.y)
+        ? coordinateSystem === 'canvas'
+          ? VIEW_H / 2 + (p.y - cy) * scale
+          : VIEW_H / 2 - (p.y - cy) * scale
+        : Number.NaN,
     })),
   }));
 }

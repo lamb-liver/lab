@@ -161,6 +161,7 @@ export function buildCombinatorialThumbnail(params: ParamValues): ThumbnailSpec 
   }
 
   return {
+    coordinateSystem: 'canvas',
     paths: [{ points: cloud, opacity: 0.72, strokeWidth: 0.65 }],
   };
 }

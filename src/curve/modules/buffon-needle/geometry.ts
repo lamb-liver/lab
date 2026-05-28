@@ -78,5 +78,5 @@ export function buildBuffonThumbnail(): ThumbnailSpec {
     { x: 220, y: 465, theta: 6, arcLength: 6 },
     { x: 280, y: 505, theta: 7, arcLength: 7 },
   ];
-  return { paths: [{ points, opacity: 0.8, strokeWidth: 0.9 }] };
+  return { coordinateSystem: 'canvas', paths: [{ points, opacity: 0.8, strokeWidth: 0.9 }] };
 }
