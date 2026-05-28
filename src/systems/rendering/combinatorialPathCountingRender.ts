@@ -3,7 +3,6 @@ import {
   COMBINATORIAL_VIEW,
   type GridLayout,
   type PathMode,
-  choose,
   gridToScreen,
   modeFromValue,
 } from '../../curve/modules/combinatorial-path-counting/geometry';
@@ -34,7 +33,6 @@ export function renderCombinatorialPathCountingScene(p: p5, snap: CombinatorialS
   p.translate(offsetX, offsetY);
   p.scale(scale);
 
-  drawHeader(p, snap.m, snap.n);
   drawGrid(p, snap.layout, snap.m, snap.n);
 
   if (snap.mode === 'overlay') drawAllPathsOverlay(p, snap.layout, snap.allPaths);
@@ -42,22 +40,7 @@ export function renderCombinatorialPathCountingScene(p: p5, snap: CombinatorialS
   else drawSinglePath(p, snap.currentPathPoints, snap.pathProgress);
 
   drawNodes(p, snap.layout, snap.pathCounts, snap.m, snap.n, snap.mode);
-  drawFooter(p, snap.m, snap.n, snap.allPaths.length);
-
   p.pop();
-}
-
-function drawHeader(p: p5, m: number, n: number): void {
-  p.noStroke();
-  p.fill(ACCENT.r, ACCENT.g, ACCENT.b, 230);
-  p.textSize(14);
-  p.text('COMBINATORIAL PATH COUNTING', 32, 34);
-  p.fill(220, 220, 220, 130);
-  p.textSize(12);
-  p.text(`grid: ${m} x ${n}`, 32, 58);
-  p.text(`N(m,n) = C(${m + n}, ${m}) = ${choose(m + n, m)}`, 145, 58);
-  p.fill(220, 220, 220, 80);
-  p.text('only right / up moves are allowed', 32, 82);
 }
 
 function drawGrid(p: p5, layout: GridLayout, m: number, n: number): void {
@@ -101,11 +84,10 @@ function drawNodes(
       p.fill(ACCENT.r, ACCENT.g, ACCENT.b, alpha);
       p.circle(point.x, point.y, 5.5);
       if (mode === 'count') {
-        p.fill(230, 230, 230, 120);
-        p.textSize(10);
-        p.textAlign(p.CENTER, p.CENTER);
-        p.text(String(count), point.x, point.y - 17);
-        p.textAlign(p.LEFT, p.BASELINE);
+        p.noFill();
+        p.stroke(230, 230, 230, 36);
+        p.strokeWeight(1);
+        p.circle(point.x, point.y, 15);
       }
     }
   }
@@ -178,19 +160,6 @@ function drawPathGlow(p: p5, points: Array<{ x: number; y: number }>, startIndex
     for (let i = startIndex; i < endIndex; i += 1) p.vertex(points[i]!.x, points[i]!.y);
     p.endShape();
   }
-}
-
-function drawFooter(p: p5, m: number, n: number, pathCount: number): void {
-  const total = choose(m + n, m);
-  const row = m + n;
-  p.noStroke();
-  p.textSize(12);
-  p.fill(ACCENT.r, ACCENT.g, ACCENT.b, 210);
-  p.text(`Pascal link: row ${row}, entry ${m}`, 32, COMBINATORIAL_VIEW.height - 48);
-  p.fill(220, 220, 220, 110);
-  p.text(`C(${row}, ${m}) = ${total}`, 32, COMBINATORIAL_VIEW.height - 28);
-  p.fill(220, 220, 220, 78);
-  p.text(`paths shown: ${pathCount}${total > pathCount ? ' sampled' : ''}`, 210, COMBINATORIAL_VIEW.height - 28);
 }
 
 export function resolveMode(paramsMode: number | undefined): PathMode {

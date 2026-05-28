@@ -32,16 +32,9 @@ export function renderBinomialToNormalScene(p: p5, snap: BinormalSnap): void {
   p.translate(ox, oy);
   p.scale(scale);
 
-  p.noStroke();
-  p.fill(GOLD.r, GOLD.g, GOLD.b, 220);
-  p.textSize(16);
-  p.text('BINOMIAL -> NORMAL APPROXIMATION', 30, 36);
-
   if (snap.mode === 'x') drawX(p, data, snap.reveal);
   else if (snap.mode === 'z') drawZ(p, data, snap.reveal);
   else drawSim(p, data, snap);
-
-  drawFormulaPanel(p);
   p.pop();
 }
 
@@ -127,23 +120,8 @@ function drawSim(p: p5, data: ReturnType<typeof deriveBinormalData>, snap: Binor
   p.line(x, chart.y, x, chart.y - chart.h);
 }
 
-function drawFrame(p: p5, chart: { x: number; y: number; w: number; h: number }, title: string): void {
+function drawFrame(p: p5, chart: { x: number; y: number; w: number; h: number }, _title: string): void {
   p.noFill();
   p.stroke(255, 255, 255, 24);
   p.rect(chart.x, chart.y - chart.h, chart.w, chart.h);
-  p.noStroke();
-  p.fill(220, 220, 220, 170);
-  p.textSize(12);
-  p.text(title, chart.x, chart.y - chart.h - 14);
-}
-
-function drawFormulaPanel(p: p5): void {
-  p.fill(18, 18, 18, 190);
-  p.stroke(255, 255, 255, 22);
-  p.rect(30, 760, 760, 95, 12);
-  p.noStroke();
-  p.fill(220, 220, 220, 180);
-  p.textSize(12);
-  p.text('P(X=k)=C(n,k)p^k(1-p)^(n-k)', 46, 790);
-  p.text('X ≈ N(np, np(1-p)); Z=(X-np)/sqrt(np(1-p))', 46, 816);
 }

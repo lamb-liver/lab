@@ -2,7 +2,6 @@ import type p5 from 'p5';
 import {
   CATALAN_VIEW,
   type CatalanMode,
-  choose,
   matchParentheses,
 } from '../../curve/modules/catalan-numbers/geometry';
 
@@ -29,26 +28,11 @@ export function renderCatalanNumbersScene(p: p5, snap: CatalanSnap): void {
   p.translate(offsetX, offsetY);
   p.scale(scale);
 
-  drawHeader(p, snap);
   if (snap.mode === 'path') drawPathMode(p, snap);
   else if (snap.mode === 'paren') drawParenMode(p, snap);
   else drawTriangulationMode(p, snap);
-  drawPascalLink(p, snap.n, snap.catalanValue);
-  drawFooter(p, snap);
 
   p.pop();
-}
-
-function drawHeader(p: p5, snap: CatalanSnap): void {
-  p.noStroke();
-  p.fill(ACCENT.r, ACCENT.g, ACCENT.b, 230);
-  p.textSize(14);
-  p.text('CATALAN NUMBERS', 32, 34);
-  p.fill(220, 220, 220, 130);
-  p.textSize(12);
-  p.text(`C_${snap.n} = 1 / (${snap.n} + 1) * C(${2 * snap.n}, ${snap.n}) = ${snap.catalanValue}`, 32, 58);
-  p.fill(220, 220, 220, 80);
-  p.text(`model: ${snap.mode} · object ${snap.activeIndex + 1} / ${Math.max(1, snap.objects.length)}`, 32, 82);
 }
 
 function drawPathMode(p: p5, snap: CatalanSnap): void {
@@ -99,12 +83,9 @@ function drawPathMode(p: p5, snap: CatalanSnap): void {
 function drawParenMode(p: p5, snap: CatalanSnap): void {
   const word = (snap.objects[snap.activeIndex] as string) ?? '';
   p.noStroke();
-  p.fill(ACCENT.r, ACCENT.g, ACCENT.b, 210);
-  p.textSize(13);
-  p.text('legal bracket sequence', 80, 145);
-  p.fill(220, 220, 220, 160);
-  p.textSize(26);
-  p.text(word, 80, 190);
+  p.fill(220, 220, 220, 140);
+  p.textSize(22);
+  p.text(word, 80, 170);
 
   const pairs = matchParentheses(word);
   const centerX = CATALAN_VIEW.width / 2 + 80;
@@ -155,28 +136,3 @@ function drawTriangulationMode(p: p5, snap: CatalanSnap): void {
   }
 }
 
-function drawPascalLink(p: p5, n: number, value: number): void {
-  const central = choose(2 * n, n);
-  const reflected = choose(2 * n, n + 1);
-  p.noStroke();
-  p.fill(ACCENT.r, ACCENT.g, ACCENT.b, 210);
-  p.textSize(12);
-  p.text(`Pascal link: row ${2 * n}, entry ${n}`, 32, CATALAN_VIEW.height - 78);
-  p.fill(220, 220, 220, 110);
-  p.text(`C_${n} = 1/(${n}+1)*C(${2 * n},${n}) = C(${2 * n},${n}) - C(${2 * n},${n + 1})`, 32, CATALAN_VIEW.height - 56);
-  p.fill(220, 220, 220, 78);
-  p.text(`${value} = ${central} / ${n + 1} = ${central} - ${reflected}`, 32, CATALAN_VIEW.height - 34);
-}
-
-function drawFooter(p: p5, snap: CatalanSnap): void {
-  p.noStroke();
-  p.fill(220, 220, 220, 78);
-  p.textSize(11);
-  const text =
-    snap.mode === 'path'
-      ? 'Dyck path: every prefix has up >= right'
-      : snap.mode === 'paren'
-        ? 'Parentheses: every prefix has open >= close'
-        : 'Triangulation: convex (n+2)-gon, sampled when n > 6';
-  p.text(text, CATALAN_VIEW.width - 285, CATALAN_VIEW.height - 56);
-}

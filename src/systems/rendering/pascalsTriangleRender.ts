@@ -27,27 +27,10 @@ export function renderPascalsTriangleScene(p: p5, snap: PascalsTriangleSnap): vo
   p.translate(offsetX, offsetY);
   p.scale(scale);
 
-  drawHeader(p, snap.frame.rows, snap.frame.prime);
   drawGuides(p, snap.frame.rows);
   drawTriangle(p, snap);
-  drawInfo(p, snap);
 
   p.pop();
-}
-
-function drawHeader(p: p5, rows: number, prime: number): void {
-  p.noStroke();
-  p.fill(PRIMARY.r, PRIMARY.g, PRIMARY.b, 230);
-  p.textSize(14);
-  p.textAlign(p.LEFT, p.TOP);
-  p.text('PASCAL TRIANGLE', 32, 26);
-
-  p.fill(220, 220, 220, 130);
-  p.textSize(12);
-  p.text(`rows: ${rows}`, 32, 50);
-  p.text(`color: C(n,k) mod ${prime}`, 130, 50);
-  p.fill(220, 220, 220, 90);
-  p.text('click a cell to reveal recursive dependency path', 32, 74);
 }
 
 function drawGuides(p: p5, rows: number): void {
@@ -142,19 +125,3 @@ function drawParentLinks(p: p5, snap: PascalsTriangleSnap): void {
   p.circle(selected.x, selected.y, selected.r * 0.75);
 }
 
-function drawInfo(p: p5, snap: PascalsTriangleSnap): void {
-  p.noStroke();
-  p.textAlign(p.LEFT, p.TOP);
-  p.textSize(12);
-  if (!snap.selectedCell) {
-    p.fill(220, 220, 220, 72);
-    p.text('no cell selected', 32, PASCAL_VIEW.height - 38);
-    return;
-  }
-  const { n, k } = snap.selectedCell;
-  const modValue = snap.frame.pascalMod[n]?.[k] ?? 0;
-  p.fill(PRIMARY.r, PRIMARY.g, PRIMARY.b, 210);
-  p.text(`selected: C(${n}, ${k})`, 32, PASCAL_VIEW.height - 54);
-  p.fill(220, 220, 220, 110);
-  p.text(`C(${n}, ${k}) mod ${snap.frame.prime} = ${modValue}`, 32, PASCAL_VIEW.height - 32);
-}

@@ -27,24 +27,10 @@ export function renderBinomialExpansionGeometryScene(p: p5, snap: BinomialSnap):
   p.translate(offsetX, offsetY);
   p.scale(scale);
 
-  drawHeader(p, snap.a, snap.b, snap.mode);
   if (snap.mode === 'square') drawSquareMode(p, snap.a, snap.b);
   else drawCubeMode(p, snap.a, snap.b);
-  drawFooter(p, snap.a, snap.b, snap.mode);
 
   p.pop();
-}
-
-function drawHeader(p: p5, a: number, b: number, mode: BinomialMode): void {
-  p.noStroke();
-  p.fill(ACCENT.r, ACCENT.g, ACCENT.b, 230);
-  p.textSize(14);
-  p.text('BINOMIAL EXPANSION GEOMETRY', 32, 34);
-  p.fill(220, 220, 220, 130);
-  p.textSize(12);
-  p.text(mode === 'square' ? '(a + b)^2 = a^2 + 2ab + b^2' : '(a + b)^3 = a^3 + 3a^2b + 3ab^2 + b^3', 32, 58);
-  p.fill(220, 220, 220, 80);
-  p.text(`a = ${a}, b = ${b}, a + b = ${a + b}`, 32, 82);
 }
 
 function drawSquareMode(p: p5, a: number, b: number): void {
@@ -130,23 +116,6 @@ function drawBoxProjection(
   drawPieceLabel(p, center.x, center.y, piece.label, `${piece.value}`);
 }
 
-function drawFooter(p: p5, a: number, b: number, mode: BinomialMode): void {
-  const x = 32;
-  const y = BINOMIAL_VIEW.height - 48;
-  p.noStroke();
-  p.textSize(12);
-  p.fill(ACCENT.r, ACCENT.g, ACCENT.b, 210);
-  if (mode === 'square') {
-    p.text(`expanded area: ${(a + b) ** 2}`, x, y);
-    p.fill(220, 220, 220, 110);
-    p.text(`${a + b}^2 = ${a}^2 + 2*${a}*${b} + ${b}^2 = ${(a + b) ** 2}`, x, y + 22);
-  } else {
-    p.text(`expanded volume: ${(a + b) ** 3}`, x, y);
-    p.fill(220, 220, 220, 110);
-    p.text(`${a + b}^3 = ${a}^3 + 3*${a}^2*${b} + 3*${a}*${b}^2 + ${b}^3 = ${(a + b) ** 3}`, x, y + 22);
-  }
-}
-
 function drawGlowRect(p: p5, x: number, y: number, w: number, h: number, strength: number): void {
   p.noStroke();
   p.fill(ACCENT.r, ACCENT.g, ACCENT.b, 18 * strength);
@@ -159,15 +128,12 @@ function drawGlowRect(p: p5, x: number, y: number, w: number, h: number, strengt
   p.rect(x, y, w, h);
 }
 
-function drawPieceLabel(p: p5, x: number, y: number, main: string, sub: string): void {
+function drawPieceLabel(p: p5, x: number, y: number, main: string, _sub: string): void {
   p.noStroke();
   p.textAlign(p.CENTER, p.CENTER);
   p.fill(255, 235, 180, 220);
   p.textSize(14);
   p.text(main, x, y - 8);
-  p.fill(220, 220, 220, 100);
-  p.textSize(11);
-  p.text(sub, x, y + 12);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 

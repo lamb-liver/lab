@@ -3,7 +3,6 @@ import {
   BAYES_VIEW,
   type BayesMode,
   deriveData,
-  percent,
 } from '../../curve/modules/conditional-probability-bayes/geometry';
 import type { ParamValues } from '../../curve/types';
 
@@ -29,19 +28,9 @@ export function renderConditionalProbabilityBayesScene(p: p5, snap: BayesSnap): 
   p.translate(offsetX, offsetY);
   p.scale(scale);
 
-  p.noStroke();
-  p.fill(GOLD.r, GOLD.g, GOLD.b, 230);
-  p.textSize(18);
-  p.text('CONDITIONAL PROBABILITY / BAYES', 30, 38);
-  p.fill(220, 220, 220, 120);
-  p.textSize(12);
-  p.text(`P(${data.A}|${data.B}) updates probability after observing evidence`, 30, 62);
-
   if (snap.mode === 'tree') drawTree(p, data, snap.reveal);
   else if (snap.mode === 'area') drawArea(p, data, snap.reveal);
   else drawBars(p, data, snap.reveal);
-
-  drawFormulaPanel(p, data);
   p.pop();
 }
 
@@ -88,31 +77,15 @@ function drawBars(p: p5, data: ReturnType<typeof deriveData>, reveal: number): v
   drawBar(p, x, y + 180, w, data.posterior * reveal, `Posterior P(${data.A}|${data.B})`, GOLD);
 }
 
-function drawBar(p: p5, x: number, y: number, w: number, value: number, label: string, color: typeof GOLD): void {
+function drawBar(p: p5, x: number, y: number, w: number, value: number, _label: string, color: typeof GOLD): void {
   p.noStroke();
   p.fill(255, 255, 255, 18);
   p.rect(x, y, w, 38, 8);
   p.fill(color.r, color.g, color.b, 185);
   p.rect(x, y, w * value, 38, 8);
-  p.fill(220, 220, 220, 200);
-  p.textSize(12);
-  p.text(label, x, y - 8);
 }
 
-function drawFormulaPanel(p: p5, data: ReturnType<typeof deriveData>): void {
-  p.fill(18, 18, 18, 190);
-  p.stroke(255, 255, 255, 22);
-  p.rect(30, 610, 760, 96, 12);
-  p.noStroke();
-  p.fill(220, 220, 220, 180);
-  p.textSize(12);
-  p.text(`P(${data.A}|${data.B}) = P(${data.A} ∩ ${data.B}) / P(${data.B})`, 46, 640);
-  p.text(`= P(${data.B}|${data.A}) P(${data.A}) / P(${data.B})`, 46, 666);
-  p.fill(GOLD.r, GOLD.g, GOLD.b, 220);
-  p.text(`Posterior: ${percent(data.posterior)}`, 46, 692);
-}
-
-function drawBranch(p: p5, x1: number, y1: number, x2: number, y2: number, prob: number, color: typeof GOLD, reveal: number): void {
+function drawBranch(p: p5, x1: number, y1: number, x2: number, y2: number, _prob: number, color: typeof GOLD, reveal: number): void {
   const ex = p.lerp(x1, x2, Math.min(1, reveal));
   const ey = p.lerp(y1, y2, Math.min(1, reveal));
   p.stroke(color.r, color.g, color.b, 40);
@@ -121,10 +94,6 @@ function drawBranch(p: p5, x1: number, y1: number, x2: number, y2: number, prob:
   p.stroke(color.r, color.g, color.b, 210);
   p.strokeWeight(1.5);
   p.line(x1, y1, ex, ey);
-  p.noStroke();
-  p.fill(200, 200, 200, 120);
-  p.textSize(11);
-  p.text(percent(prob), (x1 + x2) / 2, (y1 + y2) / 2 - 8);
 }
 
 function drawNode(p: p5, x: number, y: number, label: string): void {
@@ -140,12 +109,8 @@ function drawNode(p: p5, x: number, y: number, label: string): void {
   p.textAlign(p.LEFT, p.BASELINE);
 }
 
-function drawLeaf(p: p5, x: number, y: number, label: string, value: string, color: typeof GOLD): void {
+function drawLeaf(p: p5, x: number, y: number, _label: string, _value: string, color: typeof GOLD): void {
   p.fill(color.r, color.g, color.b, 22);
   p.stroke(color.r, color.g, color.b, 150);
   p.rect(x, y - 18, 180, 34, 8);
-  p.noStroke();
-  p.fill(220, 220, 220, 180);
-  p.textSize(11);
-  p.text(`${label} = ${value}`, x + 10, y + 3);
 }

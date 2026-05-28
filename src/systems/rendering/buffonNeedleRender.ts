@@ -1,5 +1,5 @@
 import type p5 from 'p5';
-import { BUFFON_VIEW, deriveBuffonData, estimatePi, getFieldRect, percent } from '../../curve/modules/buffon-needle/geometry';
+import { BUFFON_VIEW, deriveBuffonData, getFieldRect } from '../../curve/modules/buffon-needle/geometry';
 import type { ParamValues } from '../../curve/types';
 
 type Needle = {
@@ -28,7 +28,6 @@ const RED = { r: 220, g: 110, b: 100 };
 
 export function renderBuffonNeedleScene(p: p5, snap: BuffonSnap): void {
   const data = deriveBuffonData(snap.params);
-  const estimate = estimatePi(data.l, data.d, snap.totalThrows, snap.hitCount);
   p.background(10, 10, 10);
   const scale = Math.min(snap.width / BUFFON_VIEW.width, snap.height / BUFFON_VIEW.height);
   const ox = (snap.width - BUFFON_VIEW.width * scale) / 2;
@@ -37,20 +36,10 @@ export function renderBuffonNeedleScene(p: p5, snap: BuffonSnap): void {
   p.translate(ox, oy);
   p.scale(scale);
 
-  drawHeader(p);
   drawField(p, data, snap.needles);
   drawEstimateChart(p, snap.estimateHistory);
-  drawStats(p, data, snap.totalThrows, snap.hitCount, estimate);
-  drawFormula(p);
 
   p.pop();
-}
-
-function drawHeader(p: p5): void {
-  p.noStroke();
-  p.fill(GOLD.r, GOLD.g, GOLD.b, 220);
-  p.textSize(18);
-  p.text('BUFFON NEEDLE EXPERIMENT', 30, 300);
 }
 
 function drawField(p: p5, data: ReturnType<typeof deriveBuffonData>, needles: Needle[]): void {
@@ -106,38 +95,3 @@ function drawEstimateChart(p: p5, history: Array<number | null>): void {
   p.endShape();
 }
 
-function drawStats(
-  p: p5,
-  data: ReturnType<typeof deriveBuffonData>,
-  totalThrows: number,
-  hitCount: number,
-  estimate: number,
-): void {
-  const x = 820;
-  const y = 300;
-  p.fill(18, 18, 18, 190);
-  p.stroke(255, 255, 255, 22);
-  p.rect(x, y, 470, 260, 12);
-  p.noStroke();
-  p.fill(220, 220, 220, 180);
-  p.textSize(12);
-  p.text(`N=${totalThrows}`, x + 14, y + 36);
-  p.text(`n=${hitCount}`, x + 14, y + 58);
-  p.text(`P(hit)=${percent(totalThrows > 0 ? hitCount / totalThrows : 0)}`, x + 14, y + 82);
-  p.text(`theory=${percent(data.theoreticalP)}`, x + 14, y + 104);
-  p.fill(BLUE.r, BLUE.g, BLUE.b, 220);
-  p.text(`pi=${Math.PI.toFixed(5)}`, x + 14, y + 134);
-  p.fill(GOLD.r, GOLD.g, GOLD.b, 220);
-  p.text(`est=${estimate > 0 ? estimate.toFixed(5) : '—'}`, x + 14, y + 156);
-}
-
-function drawFormula(p: p5): void {
-  p.fill(18, 18, 18, 190);
-  p.stroke(255, 255, 255, 22);
-  p.rect(30, 760, 650, 105, 12);
-  p.noStroke();
-  p.fill(210, 210, 210, 180);
-  p.textSize(12);
-  p.text('P(hit)=2l/(pi d)', 46, 790);
-  p.text('pi ~ 2lN/(d*n)', 46, 816);
-}
