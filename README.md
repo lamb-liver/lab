@@ -73,6 +73,8 @@
 | `complex-phase-portrait` | 相位圖 | 雙相量首尾相接 + 滾動軌跡；A / b / δ |
 | `arithmetic-geometric-sequences` | 等差等比數列的幾何視覺 | 等差柱列 + 等比面積分割，對照 $S_n$ |
 | `fibonacci-spiral` | 費波那契螺線 | 費波那契方格 + 四分之一圓弧，對照 $\varphi$ |
+| `basel-problem` | 巴塞爾問題 | 部分和、級數比較、Euler product 與 $\sin x/x$ 零點 |
+| `logistic-bifurcation` | 邏輯斯諦映射分岔圖 | $x_{n+1}=rx_n(1-x_n)$ 分岔、軌道與蛛網圖 |
 
 ### 視覺化（explore）
 
@@ -105,8 +107,6 @@
 
 | 主題 | slug | 標題 |
 |------|------|------|
-| 數列與級數 | `basel-problem` | 巴塞爾問題 |
-| 碎形與動力系統 | `logistic-bifurcation` | 邏輯斯諦映射分岔圖 |
 | 組合數學 | `pascals-triangle` | 帕斯卡三角形 |
 | 組合數學 | `combinatorial-path-counting` | 組合的路徑計數 |
 | 組合數學 | `binomial-expansion-geometry` | 二項式展開的幾何意義 |

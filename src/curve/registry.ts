@@ -26,6 +26,15 @@ import { complexPhasePortraitModule } from './modules/complex-phase-portrait';
 import { arithmeticGeometricSequencesModule } from './modules/arithmetic-geometric-sequences';
 import { fibonacciSpiralModule } from './modules/fibonacci-spiral';
 import { sierpinskiTriangleModule } from './modules/sierpinski-triangle';
+import { baselProblemModule } from './modules/basel-problem';
+import { logisticBifurcationModule } from './modules/logistic-bifurcation';
+import { pascalsTriangleModule } from './modules/pascals-triangle';
+import { combinatorialPathCountingModule } from './modules/combinatorial-path-counting';
+import { binomialExpansionGeometryModule } from './modules/binomial-expansion-geometry';
+import { catalanNumbersModule } from './modules/catalan-numbers';
+import { conditionalProbabilityBayesModule } from './modules/conditional-probability-bayes';
+import { binomialToNormalModule } from './modules/binomial-to-normal';
+import { buffonNeedleModule } from './modules/buffon-needle';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -56,4 +65,13 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'arithmetic-geometric-sequences': arithmeticGeometricSequencesModule,
   'fibonacci-spiral': fibonacciSpiralModule,
   'sierpinski-triangle': sierpinskiTriangleModule,
+  'basel-problem': baselProblemModule,
+  'logistic-bifurcation': logisticBifurcationModule,
+  'pascals-triangle': pascalsTriangleModule,
+  'combinatorial-path-counting': combinatorialPathCountingModule,
+  'binomial-expansion-geometry': binomialExpansionGeometryModule,
+  'catalan-numbers': catalanNumbersModule,
+  'conditional-probability-bayes': conditionalProbabilityBayesModule,
+  'binomial-to-normal': binomialToNormalModule,
+  'buffon-needle': buffonNeedleModule,
 };

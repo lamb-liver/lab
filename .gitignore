@@ -5,6 +5,7 @@ dist/
 
 # dependencies
 node_modules/
+coverage/
 
 # logs
 npm-debug.log*
@@ -27,3 +28,7 @@ pnpm-debug.log*
 .cursor/*
 !.cursor/rules/
 !.cursor/rules/code-review.mdc
+
+# local-only workspace files
+.vscode/
+*.local
