@@ -1,3 +1,4 @@
+# 建置 dist（base: '/'）並部署至 GitHub Pages；正式網域見 public/CNAME → lab.lambliver.dev
 name: Deploy to GitHub Pages
 
 on:

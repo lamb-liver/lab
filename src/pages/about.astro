@@ -1,9 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/pages/about.css';
+
+const contactEmail = 'lambliver.dev@gmail.com';
 ---
 
-<BaseLayout title="關於">
+<BaseLayout
+  title="關於"
+  description="關於羊·實驗與作者背景，記錄以程式呈現數學形狀、演算法與互動作品的原因。"
+>
   <div class="container">
     <div class="about-page">
       <header class="page-header">
@@ -13,13 +18,15 @@ import '../styles/pages/about.css';
       <section class="about-section">
         <h2>簡介</h2>
         <p>
-          數學系背景，前端 / Android 工程師。此站為實驗場地，將數學形狀和演算法跑出來的圖案，以程式展現。
+          數學系背景，現為前端與 Android 工程師。此站是實驗場地，以程式呈現數學形狀與演算法圖形。
         </p>
       </section>
 
       <section class="about-section">
         <h2>做這個的原因</h2>
-        <p>以視覺化方式協助理解公式。</p>
+        <p>
+          以視覺化協助理解抽象數學，並作為整理與展示作品的空間。
+        </p>
       </section>
 
       <section class="about-section about-section--contact">
@@ -27,9 +34,21 @@ import '../styles/pages/about.css';
         <ul class="about-contact-list">
           <li>
             <p class="about-contact__label">Email</p>
-            <a href="mailto:lambliver.dev@gmail.com" class="about-contact__link">
-              lambliver.dev@gmail.com
-            </a>
+            <div class="about-contact__email">
+              <a href={`mailto:${contactEmail}`} class="about-contact__link">
+                {contactEmail}
+              </a>
+              <button
+                type="button"
+                class="about-contact__copy"
+                data-copy-email={contactEmail}
+                aria-describedby="about-copy-status"
+              >
+                複製信箱
+              </button>
+              <span id="about-copy-status" class="about-contact__copy-status" aria-live="polite"
+              ></span>
+            </div>
           </li>
           <li>
             <p class="about-contact__label">GitHub</p>
@@ -44,4 +63,28 @@ import '../styles/pages/about.css';
       </section>
     </div>
   </div>
+  <script is:inline>
+    (function () {
+      var button = document.querySelector('[data-copy-email]');
+      var status = document.getElementById('about-copy-status');
+      if (!button || !status) return;
+
+      button.addEventListener('click', function () {
+        var email = button.getAttribute('data-copy-email');
+        if (!email) return;
+
+        navigator.clipboard
+          .writeText(email)
+          .then(function () {
+            status.textContent = '已複製';
+            window.setTimeout(function () {
+              status.textContent = '';
+            }, 2000);
+          })
+          .catch(function () {
+            status.textContent = '複製失敗，請手動選取';
+          });
+      });
+    })();
+  </script>
 </BaseLayout>

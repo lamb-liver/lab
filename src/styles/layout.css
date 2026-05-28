@@ -28,6 +28,14 @@
   letter-spacing: -0.03em;
 }
 
+.page-lead {
+  margin-top: var(--space-3);
+  max-width: 42ch;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
 .page-enter {
   opacity: 0;
   animation: page-fade-in 300ms ease forwards;

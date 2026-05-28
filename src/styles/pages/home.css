@@ -1,3 +1,27 @@
+.home-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.home-section-header .section-title {
+  margin-bottom: 0;
+}
+
+.home-section-link {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.home-section-link:hover {
+  color: var(--color-accent);
+}
+
 .hero-section {
   position: relative;
   min-height: clamp(560px, 70vh, 900px);

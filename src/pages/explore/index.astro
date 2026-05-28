@@ -10,10 +10,14 @@ const explore = getPublishedAsc(await getCollection('explore'));
 const categoryOptions = collectExploreCategories(explore);
 ---
 
-<BaseLayout title="視覺化">
+<BaseLayout
+  title="視覺化"
+  description="依主題整理數學互動實驗，從視覺化入口探索公式、曲線與演算法概念。"
+>
   <div class="container" data-list-filter>
     <header class="page-header">
       <h1>視覺化</h1>
+      <p class="page-lead">依主題整理的互動實驗入口，適合從想理解的概念開始探索。</p>
     </header>
 
     <CategoryFilter categories={categoryOptions} />
