@@ -112,7 +112,7 @@ export function cellKey(n: number, k: number): string {
 }
 
 export function buildPascalThumbnail(params: ParamValues): ThumbnailSpec {
-  const data = buildPascalFrameData({ ...params, rows: 28, prime: normalizePrime(params.prime) });
+  const data = buildPascalFrameData({ ...params, rows: 24, prime: normalizePrime(params.prime) });
   const points: CurvePoint[] = [];
 
   for (const row of data.cellMap) {
@@ -131,8 +131,8 @@ export function buildPascalThumbnail(params: ParamValues): ThumbnailSpec {
     paths: [
       {
         points,
-        opacity: 0.78,
-        strokeWidth: 0.65,
+        opacity: 0.84,
+        strokeWidth: 0.72,
       },
     ],
   };

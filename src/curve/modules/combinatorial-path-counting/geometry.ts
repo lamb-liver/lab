@@ -149,7 +149,7 @@ export function buildCombinatorialThumbnail(params: ParamValues): ThumbnailSpec 
   const n = normalizeSize(params.n);
   const layout = getGridLayout(m, n);
   const paths = generateAllPaths(m, n);
-  const limit = Math.min(paths.length, 120);
+  const limit = Math.min(paths.length, 80);
   const cloud: CurvePoint[] = [];
 
   for (let idx = 0; idx < limit; idx += 1) {
@@ -162,7 +162,7 @@ export function buildCombinatorialThumbnail(params: ParamValues): ThumbnailSpec 
 
   return {
     coordinateSystem: 'canvas',
-    paths: [{ points: cloud, opacity: 0.72, strokeWidth: 0.65 }],
+    paths: [{ points: cloud, opacity: 0.78, strokeWidth: 0.72 }],
   };
 }
 
