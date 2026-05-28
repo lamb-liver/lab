@@ -22,9 +22,9 @@ export type ScenarioConfig = {
 };
 
 export const scenarios: Record<number, ScenarioConfig> = {
-  [SCENARIO_MEDICAL]: { pA: 0.01, pBgA: 0.95, pBgNotA: 0.05, A: 'Disease', B: 'Positive' },
-  [SCENARIO_CARD]: { pA: 0.25, pBgA: 1.0, pBgNotA: 1 / 3, A: 'Heart', B: 'Red' },
-  [SCENARIO_SPAM]: { pA: 0.18, pBgA: 0.88, pBgNotA: 0.12, A: 'Spam', B: 'Flagged' },
+  [SCENARIO_MEDICAL]: { pA: 0.01, pBgA: 0.95, pBgNotA: 0.05, A: '疾病', B: '陽性' },
+  [SCENARIO_CARD]: { pA: 0.25, pBgA: 1.0, pBgNotA: 1 / 3, A: '紅心', B: '紅色' },
+  [SCENARIO_SPAM]: { pA: 0.18, pBgA: 0.88, pBgNotA: 0.12, A: '垃圾信', B: '標記' },
 };
 
 const GOLD_FILL = 'rgba(212, 184, 122, 0.28)';

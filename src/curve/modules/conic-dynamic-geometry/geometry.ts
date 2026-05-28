@@ -169,10 +169,10 @@ export function chooseEccentricityMetricPath(
 }
 
 export function getEccentricityKind(e: number): string {
-  if (e < 0.045) return 'circle limit';
-  if (e < 0.985) return 'ellipse';
-  if (e <= 1.015) return 'parabola';
-  return 'hyperbola';
+  if (e < 0.045) return '圓（極限）';
+  if (e < 0.985) return '橢圓';
+  if (e <= 1.015) return '拋物線';
+  return '雙曲線';
 }
 
 export function getDirectrixRatio(e: number, p: PathPoint | null): string {
@@ -211,7 +211,7 @@ function buildEllipseFocusScene(): FocusScene {
 
   return {
     type: 'ellipse',
-    title: 'ellipse',
+    title: '橢圓',
     formula: 'PF₁ + PF₂ = constant',
     constantText: `constant ≈ ${(2 * a).toFixed(1)}`,
     foci: [
@@ -237,7 +237,7 @@ function buildParabolaFocusScene(): FocusScene {
 
   return {
     type: 'parabola',
-    title: 'parabola',
+    title: '拋物線',
     formula: 'PF = Pd',
     constantText: 'focus distance equals directrix distance',
     focus: { x: p, y: 0 },
@@ -268,7 +268,7 @@ function buildHyperbolaFocusScene(): FocusScene {
 
   return {
     type: 'hyperbola',
-    title: 'hyperbola',
+    title: '雙曲線',
     formula: '|PF₁ - PF₂| = constant',
     constantText: `constant ≈ ${(2 * a).toFixed(1)}`,
     foci: [

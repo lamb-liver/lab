@@ -57,7 +57,7 @@ export default function MatrixLinearTransformExploreRoot() {
     noteLabel: '欄向量就是 î、ĵ 被送去的位置。',
     formulaLabel: '[a b; c d] · [x; y]\n= [ax + by; cx + dy]',
     detWarning: false,
-    subtitle: 'free transform',
+    subtitle: '自由變換',
   });
 
   const paramsRef = useRef(params);

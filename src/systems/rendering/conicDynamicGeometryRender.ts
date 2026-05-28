@@ -323,7 +323,7 @@ export function buildSidebarState(snap: ConicDynamicGeometrySnap): {
       valueLabel: `e = ${snap.smoothE.toFixed(2)} · ${getEccentricityKind(snap.smoothE)}`,
       noteLabel: note,
       formulaLabel:
-        '[focus-directrix]\nPF / Pd = e\n\ne < 1 ellipse\ne = 1 parabola\ne > 1 hyperbola',
+        '[focus-directrix]\nPF / Pd = e\n\ne < 1 橢圓\ne = 1 拋物線\ne > 1 雙曲線',
     };
   }
 

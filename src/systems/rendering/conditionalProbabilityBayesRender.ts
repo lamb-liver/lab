@@ -67,7 +67,7 @@ function drawTree(p: p5, data: ReturnType<typeof deriveData>, reveal: number): v
   );
 
   drawNode(p, tree.root.x, tree.root.y, '起點', reveal);
-  drawNode(p, tree.a.x, tree.a.y, 'A', reveal);
+  drawNode(p, tree.a.x, tree.a.y, data.A, reveal);
   drawNode(p, tree.notA.x, tree.notA.y, '¬A', reveal);
   drawLeaf(p, tree.leafAB, `${data.B}`, percent(data.pBgA), GOLD, reveal);
   drawLeaf(p, tree.leafNotAB, `${data.B}`, percent(data.pBgNotA), BLUE, reveal);

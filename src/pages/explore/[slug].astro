@@ -33,7 +33,7 @@ const interactive = isExploreInteractive(entry.id);
       interactive ? (
         <ExploreInteractiveStage client:only="react" slug={entry.id} />
       ) : (
-        <CanvasPlaceholder class="interactive-canvas" />
+        <CanvasPlaceholder class="interactive-canvas" variant="unavailable" />
       )
     }
 

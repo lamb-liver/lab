@@ -1,6 +1,6 @@
 ---
 import '../styles/components/card.css';
-import type { ExploreCategory } from '../content.config';
+import CardThumbFallback from './CardThumbFallback.astro';
 import { getCurveThumbnailSvg } from '../lib/curveThumbnail';
 import { withBase } from '../lib/withBase';
 
@@ -22,14 +22,13 @@ const thumbSvg = getCurveThumbnailSvg(slug);
 >
   <a href={withBase(`/works/${slug}`)} class="card__link-wrap">
     <div
-      class:list={['card__thumb', { 'card__thumb--has-svg': !!thumbSvg }]}
+      class:list={[
+        'card__thumb',
+        { 'card__thumb--has-svg': !!thumbSvg, 'card__thumb--fallback': !thumbSvg },
+      ]}
       aria-hidden="true"
     >
-      {thumbSvg ? (
-        <div class="card__thumb-svg" set:html={thumbSvg} />
-      ) : (
-        <span class="card__thumb-fallback">縮圖佔位</span>
-      )}
+      {thumbSvg ? <div class="card__thumb-svg" set:html={thumbSvg} /> : <CardThumbFallback />}
     </div>
     <div class="card__body">
       <h3 class="card__title">{title}</h3>

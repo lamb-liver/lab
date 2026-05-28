@@ -68,7 +68,7 @@ function drawZ(p: p5, data: ReturnType<typeof deriveBinormalData>, reveal: numbe
   const zMin = -4;
   const zMax = 4;
   const maxDensity = normalPDF(0, 0, 1) * 1.15;
-  drawFrame(p, chart, 'Standardized view');
+  drawFrame(p, chart, '標準化視圖');
   for (let k = 0; k <= data.n; k += 1) {
     const z = data.sigma > 0 ? (k - data.mu) / data.sigma : 0;
     if (z < zMin || z > zMax) continue;

@@ -49,10 +49,10 @@ export default function ConicDynamicGeometryExploreRoot() {
   const [params, setParams] = useState<ConicDynamicParams>(DEFAULT_PARAMS);
   const [sidebar, setSidebar] = useState<SidebarState>({
     modeLabel: '模式：離心率',
-    valueLabel: 'e = 0.65 · ellipse',
+    valueLabel: 'e = 0.65 · 橢圓',
     noteLabel: '',
     formulaLabel: 'PF / Pd = e',
-    subtitle: 'ellipse',
+    subtitle: '橢圓',
   });
 
   const paramsRef = useRef(params);

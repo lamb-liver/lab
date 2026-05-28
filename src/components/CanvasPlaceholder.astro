@@ -1,15 +1,31 @@
 ---
 import '../styles/components/canvas.css';
 
+type PlaceholderVariant = 'loading' | 'unavailable';
+
 interface Props {
   class?: string;
-  label?: string;
+  variant?: PlaceholderVariant;
 }
 
-const { class: className = 'canvas-placeholder', label = 'canvas 載入中' } =
+const MESSAGES: Record<PlaceholderVariant, string> = {
+  loading: '互動載入中',
+  unavailable: '此頁目前提供文字說明',
+};
+
+const { class: className = 'canvas-placeholder', variant = 'unavailable' } =
   Astro.props;
+
+const message = MESSAGES[variant];
+const isLoading = variant === 'loading';
 ---
 
-<div class:list={[className]} role="img" aria-label={label}>
-  {label}
+<div
+  class:list={[className, `canvas-placeholder--${variant}`]}
+  role={isLoading ? 'status' : 'region'}
+  aria-live={isLoading ? 'polite' : undefined}
+  aria-busy={isLoading ? 'true' : undefined}
+  aria-label={message}
+>
+  <p class="canvas-placeholder__text">{message}</p>
 </div>
