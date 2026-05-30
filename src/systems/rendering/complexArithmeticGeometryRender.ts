@@ -1,6 +1,4 @@
 import type p5 from 'p5';
-
-const TAU = Math.PI * 2;
 import {
   add,
   computeViewportRadius,
@@ -8,6 +6,8 @@ import {
   polar,
   type Vec2,
 } from '../../curve/modules/complex-arithmetic-geometry/geometry';
+
+const TAU = Math.PI * 2;
 
 export type ComplexArithmeticGeometrySnap = {
   width: number;
@@ -48,6 +48,11 @@ type GlowProfile = {
 const unitCircle: Vec2[] = [];
 const unitCircleScreen: Vec2[] = [];
 let cachedScale = -1;
+
+function setLineDash(p: p5, dashed: boolean): void {
+  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  ctx.setLineDash(dashed ? [5, 5] : []);
+}
 
 function ensureUnitCircleCache(): void {
   if (unitCircle.length > 0) return;
@@ -98,11 +103,11 @@ function path(
 ): void {
   if (points.length < 2) return;
   setStroke(p, color, widthValue, alpha);
-  if (dashed) p.drawingContext.setLineDash([5, 5]);
+  setLineDash(p, dashed);
   p.beginShape();
   for (const pt of points) p.vertex(pt.x, pt.y);
   p.endShape();
-  p.drawingContext.setLineDash([]);
+  setLineDash(p, false);
 }
 
 function glowLine(
@@ -142,7 +147,7 @@ export function renderComplexArithmeticGeometryScene(
 ): void {
   p.background(...COLORS.BG);
 
-  const scale = computeScale(snap.width, snap.height, snap.r1, snap.r2);
+  const scale = computeScale(snap.width, snap.height, snap.smoothR1, snap.smoothR2);
   updateScreenSpace(scale);
 
   const z1 = polar(snap.smoothR1, snap.smoothTheta1);

@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP, REVEAL_SPEED } from './animation';
 import { CURVE_DENSITY, sampleConicFocusLocusCurve } from './geometry';
@@ -42,7 +43,7 @@ export const conicFocusLocusModule: CurveModule = {
       step,
     ),
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '焦點軌跡',
       formula: 'x = a cos(t), y = b sin(t), c = ae',

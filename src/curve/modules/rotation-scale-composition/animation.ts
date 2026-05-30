@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.004;
 export const PARAM_LERP = 0.08;
@@ -13,6 +14,8 @@ export type RotationScaleCompositionAnimState = {
   currentScaleFactor: number;
   previousRotationStepDeg: number;
   previousScaleFactor: number;
+  pendingRevealReset: boolean;
+  pendingRevealSince: number;
 };
 
 export function createRotationScaleCompositionAnimState(
@@ -28,6 +31,8 @@ export function createRotationScaleCompositionAnimState(
     currentScaleFactor: defaultParams.scaleFactor,
     previousRotationStepDeg: defaultParams.rotationStepDeg,
     previousScaleFactor: defaultParams.scaleFactor,
+    pendingRevealReset: false,
+    pendingRevealSince: 0,
   };
 }
 
@@ -41,6 +46,8 @@ export function stepRotationScaleCompositionAnimation(
   state: RotationScaleCompositionAnimState,
   nextTarget: ParamValues,
   revealSpeed: number,
+  deltaMs?: number,
+  nowMs = 0,
 ): RotationScaleCompositionAnimState {
   const structureChanged =
     nextTarget.rotationStepDeg !== state.previousRotationStepDeg ||
@@ -52,12 +59,14 @@ export function stepRotationScaleCompositionAnimation(
     time,
     currentRotationStepDeg,
     currentScaleFactor,
+    pendingRevealReset,
+    pendingRevealSince,
   } = state;
   const targetParams = { ...nextTarget };
 
   if (structureChanged) {
-    revealProgress = 0;
-    isComplete = false;
+    pendingRevealReset = true;
+    pendingRevealSince = nowMs;
   }
 
   currentRotationStepDeg = lerpToward(
@@ -71,7 +80,8 @@ export function stepRotationScaleCompositionAnimation(
     PARAM_LERP,
   );
 
-  time += targetParams.evolutionSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.evolutionSpeed * scale;
 
   const params = {
     rotationStepDeg: currentRotationStepDeg,
@@ -79,8 +89,21 @@ export function stepRotationScaleCompositionAnimation(
     evolutionSpeed: targetParams.evolutionSpeed,
   };
 
+  const settled =
+    Math.abs(currentRotationStepDeg - targetParams.rotationStepDeg) < 0.0005 &&
+    Math.abs(currentScaleFactor - targetParams.scaleFactor) < 0.0005;
+  if (
+    !structureChanged &&
+    shouldCommitPendingReset(pendingRevealReset, settled, nowMs, pendingRevealSince)
+  ) {
+    revealProgress = 0;
+    isComplete = false;
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
+
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;
@@ -97,5 +120,7 @@ export function stepRotationScaleCompositionAnimation(
     currentScaleFactor,
     previousRotationStepDeg: targetParams.rotationStepDeg,
     previousScaleFactor: targetParams.scaleFactor,
+    pendingRevealReset,
+    pendingRevealSince,
   };
 }

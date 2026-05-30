@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.004;
 export const PARAM_LERP = 0.08;
@@ -13,6 +14,8 @@ export type AffineTransformPatternAnimState = {
   currentTranslation: number;
   previousRotationDeg: number;
   previousTranslation: number;
+  pendingRevealReset: boolean;
+  pendingRevealSince: number;
 };
 
 export function createAffineTransformPatternAnimState(
@@ -28,6 +31,8 @@ export function createAffineTransformPatternAnimState(
     currentTranslation: defaultParams.translation,
     previousRotationDeg: defaultParams.rotationDeg,
     previousTranslation: defaultParams.translation,
+    pendingRevealReset: false,
+    pendingRevealSince: 0,
   };
 }
 
@@ -41,18 +46,27 @@ export function stepAffineTransformPatternAnimation(
   state: AffineTransformPatternAnimState,
   nextTarget: ParamValues,
   revealSpeed: number,
+  deltaMs?: number,
+  nowMs = 0,
 ): AffineTransformPatternAnimState {
   const structureChanged =
     nextTarget.rotationDeg !== state.previousRotationDeg ||
     nextTarget.translation !== state.previousTranslation;
 
-  let { revealProgress, isComplete, time, currentRotationDeg, currentTranslation } =
-    state;
+  let {
+    revealProgress,
+    isComplete,
+    time,
+    currentRotationDeg,
+    currentTranslation,
+    pendingRevealReset,
+    pendingRevealSince,
+  } = state;
   const targetParams = { ...nextTarget };
 
   if (structureChanged) {
-    revealProgress = 0;
-    isComplete = false;
+    pendingRevealReset = true;
+    pendingRevealSince = nowMs;
   }
 
   currentRotationDeg = lerpToward(
@@ -66,7 +80,8 @@ export function stepAffineTransformPatternAnimation(
     PARAM_LERP,
   );
 
-  time += targetParams.evolutionSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.evolutionSpeed * scale;
 
   const params = {
     rotationDeg: currentRotationDeg,
@@ -74,8 +89,21 @@ export function stepAffineTransformPatternAnimation(
     evolutionSpeed: targetParams.evolutionSpeed,
   };
 
+  const settled =
+    Math.abs(currentRotationDeg - targetParams.rotationDeg) < 0.05 &&
+    Math.abs(currentTranslation - targetParams.translation) < 0.05;
+  if (
+    !structureChanged &&
+    shouldCommitPendingReset(pendingRevealReset, settled, nowMs, pendingRevealSince)
+  ) {
+    revealProgress = 0;
+    isComplete = false;
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
+
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;
@@ -92,5 +120,7 @@ export function stepAffineTransformPatternAnimation(
     currentTranslation,
     previousRotationDeg: targetParams.rotationDeg,
     previousTranslation: targetParams.translation,
+    pendingRevealReset,
+    pendingRevealSince,
   };
 }

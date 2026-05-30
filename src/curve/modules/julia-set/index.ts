@@ -1,11 +1,11 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { JULIA_CFG } from './config';
 import { sampleJuliaSetThumbnail } from './geometry';
 
 const paramSchema: ParamSchema = [
-  { key: 'autoDrift', label: '參數漂移', min: 0, max: 1, step: 1, default: 1 },
   { key: 'cx', label: 'c 實部 Re(c)', min: -1.2, max: 0.2, step: 0.001, default: -0.727 },
   { key: 'cy', label: 'c 虛部 Im(c)', min: -0.5, max: 0.5, step: 0.001, default: 0.189 },
   {
@@ -21,7 +21,7 @@ const paramSchema: ParamSchema = [
 export const juliaSetModule: CurveModule = {
   id: 'julia-set',
   paramSchema,
-  defaultParams: defaultsFromSchema(paramSchema),
+  defaultParams: { ...defaultsFromSchema(paramSchema), autoDrift: 0 },
   sample: (params, { purpose }) => {
     const cx = params.cx;
     const cy = params.cy;
@@ -32,7 +32,7 @@ export const juliaSetModule: CurveModule = {
     return sampleJuliaSetThumbnail(cx, cy, maxIter).paths[0]?.points ?? [];
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     const cx = smooth.cx ?? params.cx;
     const cy = smooth.cy ?? params.cy;
     return {

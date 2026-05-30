@@ -55,6 +55,9 @@ describe('stepConicEnvelopeAnimation', () => {
         time: 1,
         currentRatio: 1,
         previousDensity: defaults.lineDensity,
+        previousRatio: defaults.deformationRatio,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, lineDensity: 60 },
       0.0025,
@@ -63,9 +66,9 @@ describe('stepConicEnvelopeAnimation', () => {
     expect(state.isComplete).toBe(false);
   });
 
-  it('deformation ratio change does not reset reveal', () => {
+  it('deformation ratio change waits for pending reset before replaying reveal', () => {
     const defaults = conicEnvelopeModule.defaultParams;
-    const state = stepConicEnvelopeAnimation(
+    const pending = stepConicEnvelopeAnimation(
       {
         params: defaults,
         targetParams: defaults,
@@ -74,11 +77,27 @@ describe('stepConicEnvelopeAnimation', () => {
         time: 0,
         currentRatio: 1,
         previousDensity: defaults.lineDensity,
+        previousRatio: defaults.deformationRatio,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, deformationRatio: 1.5 },
       0.0025,
+      1000 / 60,
+      100,
     );
-    expect(state.revealProgress).toBeGreaterThan(0.5);
+    expect(pending.revealProgress).toBeGreaterThan(0.5);
+    expect(pending.pendingRevealReset).toBe(true);
+
+    const state = stepConicEnvelopeAnimation(
+      pending,
+      { ...defaults, deformationRatio: 1.5 },
+      0.0025,
+      1000 / 60,
+      1400,
+    );
+    expect(state.revealProgress).toBeCloseTo(0.0025);
+    expect(state.isComplete).toBe(false);
   });
 });
 

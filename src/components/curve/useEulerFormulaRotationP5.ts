@@ -28,7 +28,10 @@ export function useEulerFormulaRotationP5({
   const animRef = useRef(createEulerFormulaRotationAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const trackRef = useRef(createTrackBuffer());
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
 
 
   useEffect(() => {

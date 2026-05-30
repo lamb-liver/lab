@@ -1,6 +1,7 @@
 import { defaultsFromSchema } from '../../defaults';
 import { MAX_SAMPLE_POINTS } from '../../constants';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { spirographRenderPreset } from '../../../systems/rendering/presets';
 
 const SAMPLE_STEP = 0.02;
@@ -74,7 +75,7 @@ export const spirographModule: CurveModule = {
     return points;
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '繁花曲線',
       formula:

@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { REVEAL_SPEED, SOURCE_DISTANCE_LERP } from './animation';
 import { DEFAULT_SAMPLE_STEP, sampleInterferenceFringesCurve } from './geometry';
@@ -48,7 +49,7 @@ export const interferenceFringesModule: CurveModule = {
     );
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '干涉條紋',
       formula: 'Δr = nλ, x = a cosh(t), y = b sinh(t)',

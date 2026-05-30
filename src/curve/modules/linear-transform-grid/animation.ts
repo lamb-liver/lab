@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.005;
 export const PARAM_LERP = 0.08;
@@ -13,6 +14,8 @@ export type LinearTransformGridAnimState = {
   currentScaleY: number;
   previousShearX: number;
   previousScaleY: number;
+  pendingRevealReset: boolean;
+  pendingRevealSince: number;
 };
 
 export function createLinearTransformGridAnimState(
@@ -28,6 +31,8 @@ export function createLinearTransformGridAnimState(
     currentScaleY: defaultParams.scaleY,
     previousShearX: defaultParams.shearX,
     previousScaleY: defaultParams.scaleY,
+    pendingRevealReset: false,
+    pendingRevealSince: 0,
   };
 }
 
@@ -41,23 +46,34 @@ export function stepLinearTransformGridAnimation(
   state: LinearTransformGridAnimState,
   nextTarget: ParamValues,
   revealSpeed: number,
+  deltaMs?: number,
+  nowMs = 0,
 ): LinearTransformGridAnimState {
   const structureChanged =
     nextTarget.shearX !== state.previousShearX ||
     nextTarget.scaleY !== state.previousScaleY;
 
-  let { revealProgress, isComplete, time, currentShearX, currentScaleY } = state;
+  let {
+    revealProgress,
+    isComplete,
+    time,
+    currentShearX,
+    currentScaleY,
+    pendingRevealReset,
+    pendingRevealSince,
+  } = state;
   const targetParams = { ...nextTarget };
 
   if (structureChanged) {
-    revealProgress = 0;
-    isComplete = false;
+    pendingRevealReset = true;
+    pendingRevealSince = nowMs;
   }
 
   currentShearX = lerpToward(currentShearX, targetParams.shearX, PARAM_LERP);
   currentScaleY = lerpToward(currentScaleY, targetParams.scaleY, PARAM_LERP);
 
-  time += targetParams.transformSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.transformSpeed * scale;
 
   const params = {
     shearX: currentShearX,
@@ -65,8 +81,21 @@ export function stepLinearTransformGridAnimation(
     transformSpeed: targetParams.transformSpeed,
   };
 
+  const settled =
+    Math.abs(currentShearX - targetParams.shearX) < 0.0005 &&
+    Math.abs(currentScaleY - targetParams.scaleY) < 0.0005;
+  if (
+    !structureChanged &&
+    shouldCommitPendingReset(pendingRevealReset, settled, nowMs, pendingRevealSince)
+  ) {
+    revealProgress = 0;
+    isComplete = false;
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
+
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;
@@ -83,5 +112,7 @@ export function stepLinearTransformGridAnimation(
     currentScaleY,
     previousShearX: targetParams.shearX,
     previousScaleY: targetParams.scaleY,
+    pendingRevealReset,
+    pendingRevealSince,
   };
 }

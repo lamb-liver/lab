@@ -23,6 +23,12 @@ type AnimState = {
 };
 
 const EXPLORE_CANVAS_MAX = 400;
+const MAX_VISUAL_DELTA_MS = 50;
+
+function clampedDeltaSeconds(deltaMs: number): number {
+  const safeDelta = Number.isFinite(deltaMs) && deltaMs > 0 ? deltaMs : 0;
+  return Math.min(safeDelta, MAX_VISUAL_DELTA_MS) / 1000;
+}
 
 function measureExploreCanvasSize(host: HTMLElement): number {
   const w = host.clientWidth;
@@ -63,7 +69,7 @@ export default function FourierSeriesExploreRoot() {
     let { revealProgress, isComplete } = animRef.current;
 
     if (!isComplete) {
-      revealProgress += (p.deltaTime / 1000) * REVEAL_SPEED_PER_SEC;
+      revealProgress += clampedDeltaSeconds(p.deltaTime) * REVEAL_SPEED_PER_SEC;
       if (revealProgress >= 1) {
         revealProgress = 1;
         isComplete = true;
@@ -130,7 +136,6 @@ export default function FourierSeriesExploreRoot() {
                 max={20}
                 step={1}
                 value={N}
-                onChange={(e) => setN(Number(e.target.value))}
                 onInput={(e) => setN(Number((e.target as HTMLInputElement).value))}
               />
             </div>
@@ -152,7 +157,7 @@ export default function FourierSeriesExploreRoot() {
         </div>
 
         <div className="fourier-explore__meta">
-          <p className="fourier-explore__title">FOURIER SERIES VISUALIZATION</p>
+          <p className="fourier-explore__title">傅立葉級數視覺化</p>
           <p className="fourier-explore__formula">
             f(x) = a₀/2 + Σ(aₙ·cos(nx) + bₙ·sin(nx))
           </p>

@@ -42,9 +42,9 @@ describe('buildInterferenceGeometry', () => {
 });
 
 describe('stepInterferenceFringesAnimation', () => {
-  it('wavelength change resets reveal progress start', () => {
+  it('wavelength change waits for pending reset before replaying reveal', () => {
     const defaults = interferenceFringesModule.defaultParams;
-    const state = stepInterferenceFringesAnimation(
+    const pending = stepInterferenceFringesAnimation(
       {
         params: defaults,
         targetParams: defaults,
@@ -54,9 +54,23 @@ describe('stepInterferenceFringesAnimation', () => {
         currentSourceDistance: defaults.sourceDistance,
         previousWavelength: defaults.wavelength,
         previousSourceDistance: defaults.sourceDistance,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, wavelength: 40 },
       0.0024,
+      1000 / 60,
+      100,
+    );
+    expect(pending.revealProgress).toBe(1);
+    expect(pending.pendingRevealReset).toBe(true);
+
+    const state = stepInterferenceFringesAnimation(
+      pending,
+      { ...defaults, wavelength: 40 },
+      0.0024,
+      1000 / 60,
+      1400,
     );
     expect(state.revealProgress).toBeCloseTo(0.0024);
     expect(state.isComplete).toBe(false);
@@ -75,6 +89,8 @@ describe('stepInterferenceFringesAnimation', () => {
         currentSourceDistance: defaults.sourceDistance,
         previousWavelength: defaults.wavelength,
         previousSourceDistance: defaults.sourceDistance,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, timeSpeed: 0.05 },
       0.0024,

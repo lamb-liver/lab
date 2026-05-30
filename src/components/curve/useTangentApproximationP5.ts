@@ -29,7 +29,10 @@ export function useTangentApproximationP5({
   );
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
   const onRevealPctChangeRef = useRef(onRevealPctChange);
 
   useEffect(() => {

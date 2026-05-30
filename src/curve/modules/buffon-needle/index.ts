@@ -16,17 +16,16 @@ export const buffonNeedleModule: CurveModule = {
   paramSchema,
   defaultParams,
   sample: () => buildBuffonThumbnail(),
-  getMetadata: (params, runtime): CurveMetadata => {
+  getMetadata: (params): CurveMetadata => {
     const data = deriveBuffonData(params);
     return {
       title: '蒲豐投針',
       formula: 'P(hit) = 2l / (pi d)',
       stats: [
-        { key: 'l', label: 'ℓ', value: data.l },
-        { key: 'd', label: 'd', value: data.d },
-        { key: 'speed', label: '速度', value: data.speed },
+        { key: 'l', label: '針長 ℓ', value: data.l },
+        { key: 'd', label: '線距 d', value: data.d },
+        { key: 'speed', label: '投擲/幀', value: data.speed },
         { key: 'theory', label: 'P(相交)', value: data.theoreticalP.toFixed(4) },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };
   },

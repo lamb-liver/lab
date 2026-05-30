@@ -24,9 +24,19 @@ export type LimitsRiemannSumSnap = {
 };
 
 const GOLD: [number, number, number] = [212, 184, 122];
+type RiemannPlot = ReturnType<typeof computePlotRect>;
 
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
+}
+
+function withPlotClip(p: p5, plot: RiemannPlot, draw: () => void): void {
+  p.push();
+  p.drawingContext.beginPath();
+  p.drawingContext.rect(plot.x, plot.y, plot.w, plot.h);
+  p.drawingContext.clip();
+  draw();
+  p.pop();
 }
 
 function drawAxes(p: p5, fn: ReturnType<typeof getFunctionDef>, plot: ReturnType<typeof computePlotRect>): void {
@@ -268,7 +278,7 @@ function drawVisualTitle(p: p5, plot: ReturnType<typeof computePlotRect>): void 
   p.fill(...GOLD);
   p.textSize(14);
   p.textStyle(p.BOLD);
-  p.text('LIMIT · RIEMANN SUM', plot.x, 56);
+  p.text('極限 · 黎曼和', plot.x, 56);
 
   p.fill(155);
   p.textSize(12);
@@ -282,9 +292,11 @@ function drawRiemannScene(p: p5, snap: LimitsRiemannSumSnap, plot: ReturnType<ty
 
   drawAxes(p, fn, plot);
   drawGrid(p, plot);
-  drawAreaUnderCurve(p, fn, plot);
-  drawRectangles(p, fn, plot, snap.n, snap.method);
-  drawFunctionCurve(p, fn, plot);
+  withPlotClip(p, plot, () => {
+    drawAreaUnderCurve(p, fn, plot);
+    drawRectangles(p, fn, plot, snap.n, snap.method);
+    drawFunctionCurve(p, fn, plot);
+  });
 
   const r = computeRiemann(fn, snap.n, snap.method);
   const err = Math.abs(r.area - fn.exact);
@@ -301,16 +313,20 @@ function drawTangentScene(p: p5, snap: LimitsRiemannSumSnap, plot: ReturnType<ty
 
   drawAxes(p, fn, plot);
   drawGrid(p, plot);
-  drawAreaUnderCurve(p, fn, plot);
-  drawFunctionCurve(p, fn, plot);
+  withPlotClip(p, plot, () => {
+    drawAreaUnderCurve(p, fn, plot);
+    drawFunctionCurve(p, fn, plot);
+  });
 
   const x = lerp(fn.a, fn.b, snap.tangentT);
   const y = fn.f(x);
   const slope = fn.df(x);
 
-  drawTangentLine(p, fn, plot, x, y, slope);
-  drawSlopeTriangle(p, fn, plot, x, y, slope);
-  drawPointP(p, fn, plot, x, y);
+  withPlotClip(p, plot, () => {
+    drawTangentLine(p, fn, plot, x, y, slope);
+    drawSlopeTriangle(p, fn, plot, x, y, slope);
+    drawPointP(p, fn, plot, x, y);
+  });
 
   drawVisualHint(p, plot, `切線斜率 f′(x) = ${formatNum(slope)}`);
 }

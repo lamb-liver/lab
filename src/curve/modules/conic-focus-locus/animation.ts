@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.004;
 export const PARAM_LERP = 0.08;
@@ -13,6 +14,8 @@ export type ConicFocusLocusAnimState = {
   currentEccentricity: number;
   previousSemiMajorAxis: number;
   previousEccentricity: number;
+  pendingRevealReset: boolean;
+  pendingRevealSince: number;
 };
 
 export function createConicFocusLocusAnimState(
@@ -28,6 +31,8 @@ export function createConicFocusLocusAnimState(
     currentEccentricity: defaultParams.eccentricity,
     previousSemiMajorAxis: defaultParams.semiMajorAxis,
     previousEccentricity: defaultParams.eccentricity,
+    pendingRevealReset: false,
+    pendingRevealSince: 0,
   };
 }
 
@@ -35,6 +40,8 @@ export function stepConicFocusLocusAnimation(
   state: ConicFocusLocusAnimState,
   nextTarget: ParamValues,
   revealSpeed: number,
+  deltaMs?: number,
+  nowMs = 0,
 ): ConicFocusLocusAnimState {
   const structureChanged =
     nextTarget.semiMajorAxis !== state.previousSemiMajorAxis ||
@@ -49,13 +56,15 @@ export function stepConicFocusLocusAnimation(
     currentEccentricity,
     previousSemiMajorAxis,
     previousEccentricity,
+    pendingRevealReset,
+    pendingRevealSince,
   } = state;
 
   const targetParams = { ...nextTarget };
 
   if (structureChanged) {
-    revealProgress = 0;
-    isComplete = false;
+    pendingRevealReset = true;
+    pendingRevealSince = nowMs;
     previousSemiMajorAxis = targetParams.semiMajorAxis;
     previousEccentricity = targetParams.eccentricity;
   }
@@ -72,7 +81,8 @@ export function stepConicFocusLocusAnimation(
     currentEccentricity = targetParams.eccentricity;
   }
 
-  time += targetParams.orbitSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.orbitSpeed * scale;
 
   params = {
     semiMajorAxis: currentSemiMajorAxis,
@@ -80,8 +90,21 @@ export function stepConicFocusLocusAnimation(
     orbitSpeed: targetParams.orbitSpeed,
   };
 
+  const settled =
+    Math.abs(currentSemiMajorAxis - targetParams.semiMajorAxis) < 0.05 &&
+    Math.abs(currentEccentricity - targetParams.eccentricity) < 0.001;
+  if (
+    !structureChanged &&
+    shouldCommitPendingReset(pendingRevealReset, settled, nowMs, pendingRevealSince)
+  ) {
+    revealProgress = 0;
+    isComplete = false;
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
+
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;
@@ -98,5 +121,7 @@ export function stepConicFocusLocusAnimation(
     currentEccentricity,
     previousSemiMajorAxis,
     previousEccentricity,
+    pendingRevealReset,
+    pendingRevealSince,
   };
 }

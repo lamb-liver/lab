@@ -36,6 +36,10 @@ export const workInteractiveSlugs = [
   'conditional-probability-bayes',
   'binomial-to-normal',
   'buffon-needle',
+  'exponential-growth-decay',
+  'logarithmic-scale',
+  'natural-log-e-geometry',
+  'logistic-curve',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];

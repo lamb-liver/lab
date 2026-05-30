@@ -1,6 +1,7 @@
 import { BASE_CANVAS_SIZE } from '../../constants';
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { COLLAPSE_SPEED, PARAM_LERP } from './animation';
 import {
@@ -78,7 +79,7 @@ export const tangentApproximationModule: CurveModule = {
     );
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '切線逼近',
       formula: 'm = Δf/Δx → f′(x)',

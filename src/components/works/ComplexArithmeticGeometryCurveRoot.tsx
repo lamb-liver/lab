@@ -21,7 +21,7 @@ export default function ComplexArithmeticGeometryCurveRoot({
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onSmoothParamsChange = useCallback(
-    (params: ParamValues) => setSmoothParams(params),
+    (params: ParamValues) => setSmoothParams((prev) => ({ ...prev, ...params })),
     [],
   );
 

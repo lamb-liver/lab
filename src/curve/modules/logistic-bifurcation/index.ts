@@ -31,7 +31,7 @@ export const logisticBifurcationModule: CurveModule = {
   paramSchema,
   defaultParams,
   sample: (params) => buildLogisticThumbnail(params),
-  getMetadata: (params, runtime): CurveMetadata => {
+  getMetadata: (params): CurveMetadata => {
     const orbit = buildOrbitData(params);
     const mode = logisticModeFromValue(params.mode);
     const MODE_LABELS: Record<typeof mode, string> = {
@@ -50,12 +50,6 @@ export const logisticBifurcationModule: CurveModule = {
         { key: 'r', label: 'r', value: (params.r ?? 3.5).toFixed(5) },
         { key: 'x0', label: 'x₀', value: (params.x0 ?? 0.2).toFixed(5) },
         { key: 'period', label: '週期', value: periodLabel },
-        {
-          key: 'range',
-          label: 'r 範圍',
-          value: `${(params.rMin ?? 2.5).toFixed(2)}–${(params.rMax ?? 4).toFixed(2)}`,
-        },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };
   },

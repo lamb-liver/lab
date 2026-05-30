@@ -211,7 +211,7 @@ export default function ConicDynamicGeometryExploreRoot() {
       <div className="conic-dynamic-explore__stage">
         <div className="conic-dynamic-explore__visual">
           <p className="conic-dynamic-explore__visual-title">
-            CONIC DYNAMIC GEOMETRY
+            二次曲線動態幾何
           </p>
           <p className="conic-dynamic-explore__visual-sub">{sidebar.subtitle}</p>
           <div
@@ -257,12 +257,6 @@ export default function ConicDynamicGeometryExploreRoot() {
                     max={E_MAX}
                     step={0.01}
                     value={params.eccentricity}
-                    onChange={(e) =>
-                      setParams((prev) => ({
-                        ...prev,
-                        eccentricity: Number(e.target.value),
-                      }))
-                    }
                     onInput={(e) =>
                       setParams((prev) => ({
                         ...prev,

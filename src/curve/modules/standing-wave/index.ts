@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { AMPLITUDE_LERP, REVEAL_SPEED } from './animation';
 import { DEFAULT_SAMPLE_STEP, sampleStandingWaveCurve } from './geometry';
@@ -51,7 +52,7 @@ export const standingWaveModule: CurveModule = {
     );
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '駐波圖',
       formula: 'y = 2A sin(kx) cos(ωt)',

@@ -210,12 +210,6 @@ export default function LimitsRiemannSumExploreRoot() {
                       max={200}
                       step={1}
                       value={params.n}
-                      onChange={(e) =>
-                        setParams((prev) => ({
-                          ...prev,
-                          n: Number(e.target.value),
-                        }))
-                      }
                       onInput={(e) =>
                         setParams((prev) => ({
                           ...prev,
@@ -243,12 +237,6 @@ export default function LimitsRiemannSumExploreRoot() {
                     max={1000}
                     step={1}
                     value={Math.round(params.tangentT * 1000)}
-                    onChange={(e) =>
-                      setParams((prev) => ({
-                        ...prev,
-                        tangentT: Number(e.target.value) / 1000,
-                      }))
-                    }
                     onInput={(e) =>
                       setParams((prev) => ({
                         ...prev,

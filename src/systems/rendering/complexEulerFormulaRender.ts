@@ -47,7 +47,7 @@ function drawVisualTitle(p: p5, plot: PlotRect): void {
   p.fill(...GOLD);
   p.textSize(14);
   p.textStyle(p.BOLD);
-  p.text('COMPLEX · EULER FORMULA', plot.x, 56);
+  p.text('複數 · Euler 公式', plot.x, 56);
 
   p.fill(155);
   p.textSize(12);
@@ -63,6 +63,30 @@ function drawVisualHint(p: p5, plot: PlotRect, label: string): void {
   p.textSize(13);
   p.text(label, plot.x, plot.y + plot.h + HINT_Y_OFFSET);
   p.pop();
+}
+
+function withPlotClip(p: p5, plot: PlotRect, draw: () => void): void {
+  p.push();
+  p.drawingContext.beginPath();
+  p.drawingContext.rect(plot.x, plot.y, plot.w, plot.h);
+  p.drawingContext.clip();
+  draw();
+  p.pop();
+}
+
+function clampLabelPoint(
+  p: p5,
+  x: number,
+  y: number,
+  label: string,
+  plot: PlotRect,
+): { x: number; y: number } {
+  const margin = 8;
+  const labelW = p.textWidth(label);
+  return {
+    x: Math.max(plot.x + margin, Math.min(plot.x + plot.w - labelW - margin, x)),
+    y: Math.max(plot.y + 16, Math.min(plot.y + plot.h - margin, y)),
+  };
 }
 
 function drawComplexPlane(p: p5, plot: PlotRect): void {
@@ -124,6 +148,7 @@ function drawVectorFrom(
   y2: number,
   rgb: [number, number, number],
   label: string,
+  showLabel = true,
 ): void {
   p.push();
 
@@ -146,10 +171,12 @@ function drawVectorFrom(
   p.triangle(0, 0, -arrow, -arrow * 0.45, -arrow, arrow * 0.45);
   p.pop();
 
-  p.noStroke();
-  p.fill(200);
-  p.textSize(12);
-  p.text(label, x2 + 10, y2 - 10);
+  if (showLabel) {
+    p.noStroke();
+    p.fill(200);
+    p.textSize(12);
+    p.text(label, x2 + 10, y2 - 10);
+  }
 
   p.pop();
 }
@@ -160,11 +187,29 @@ function drawVector(
   plot: PlotRect,
   rgb: [number, number, number],
   label: string,
+  showLabel = true,
 ): void {
   const origin = complexToScreen({ re: 0, im: 0 }, plot);
   const end = complexToScreen(z, plot);
-  drawVectorFrom(p, origin.x, origin.y, end.x, end.y, rgb, label);
+  drawVectorFrom(p, origin.x, origin.y, end.x, end.y, rgb, label, showLabel);
   drawDot(p, end.x, end.y, rgb);
+}
+
+function drawVectorLabel(
+  p: p5,
+  z: Complex,
+  plot: PlotRect,
+  rgb: [number, number, number],
+  label: string,
+): void {
+  const end = complexToScreen(z, plot);
+  p.push();
+  p.noStroke();
+  p.fill(rgb[0], rgb[1], rgb[2], 220);
+  p.textSize(12);
+  const pos = clampLabelPoint(p, end.x + 10, end.y - 10, label, plot);
+  p.text(label, pos.x, pos.y);
+  p.pop();
 }
 
 function drawDot(
@@ -210,10 +255,20 @@ function drawSubGuide(p: p5, a: Complex, b: Complex, plot: PlotRect): void {
   p.line(pb.x, pb.y, pa.x, pa.y);
   p.drawingContext.setLineDash([]);
 
+  p.pop();
+}
+
+function drawSubGuideLabel(p: p5, a: Complex, b: Complex, plot: PlotRect): void {
+  const pa = complexToScreen(a, plot);
+  const pb = complexToScreen(b, plot);
+  const label = 'z₁ − z₂';
+
+  p.push();
   p.noStroke();
   p.fill(145);
   p.textSize(11);
-  p.text('z₁ − z₂', (pa.x + pb.x) / 2 + 8, (pa.y + pb.y) / 2 - 8);
+  const pos = clampLabelPoint(p, (pa.x + pb.x) / 2 + 8, (pa.y + pb.y) / 2 - 8, label, plot);
+  p.text(label, pos.x, pos.y);
   p.pop();
 }
 
@@ -276,28 +331,37 @@ function drawOperationScene(p: p5, snap: ComplexEulerSnap, plot: PlotRect): void
 
   drawComplexPlane(p, plot);
 
-  if (snap.opKey === 'add') {
-    drawParallelogram(p, snap.z1, snap.z2, plot);
-  }
+  withPlotClip(p, plot, () => {
+    if (snap.opKey === 'add') {
+      drawParallelogram(p, snap.z1, snap.z2, plot);
+    }
+    if (snap.opKey === 'sub') {
+      drawSubGuide(p, snap.z1, snap.z2, plot);
+    }
+
+    drawVector(p, snap.z1, plot, BLUE, 'z₁', false);
+    drawVector(p, snap.z2, plot, GREEN, 'z₂', false);
+    drawVector(p, result, plot, GOLD, 'result', false);
+
+    if (snap.opKey === 'mul' || snap.opKey === 'div') {
+      drawAngleArc(p, snap.z1, plot, 44, BLUE, 'θ₁');
+      drawAngleArc(p, snap.z2, plot, 64, GREEN, 'θ₂');
+      drawAngleArc(
+        p,
+        result,
+        plot,
+        86,
+        GOLD,
+        snap.opKey === 'mul' ? 'θ₁+θ₂' : 'θ₁−θ₂',
+      );
+    }
+  });
+
+  drawVectorLabel(p, snap.z1, plot, BLUE, 'z₁');
+  drawVectorLabel(p, snap.z2, plot, GREEN, 'z₂');
+  drawVectorLabel(p, result, plot, GOLD, 'result');
   if (snap.opKey === 'sub') {
-    drawSubGuide(p, snap.z1, snap.z2, plot);
-  }
-
-  drawVector(p, snap.z1, plot, BLUE, 'z₁');
-  drawVector(p, snap.z2, plot, GREEN, 'z₂');
-  drawVector(p, result, plot, GOLD, 'result');
-
-  if (snap.opKey === 'mul' || snap.opKey === 'div') {
-    drawAngleArc(p, snap.z1, plot, 44, BLUE, 'θ₁');
-    drawAngleArc(p, snap.z2, plot, 64, GREEN, 'θ₂');
-    drawAngleArc(
-      p,
-      result,
-      plot,
-      86,
-      GOLD,
-      snap.opKey === 'mul' ? 'θ₁+θ₂' : 'θ₁−θ₂',
-    );
+    drawSubGuideLabel(p, snap.z1, snap.z2, plot);
   }
 
   drawVisualHint(p, plot, getOperationHint(snap.opKey));
@@ -425,7 +489,7 @@ function drawEulerScene(p: p5, snap: ComplexEulerSnap, plot: PlotRect): void {
   drawProjectionToWaves(p, plot, snap.theta, px, py);
   drawVectorFrom(p, center.x, center.y, px, py, GOLD, 'eⁱᶿ');
   drawDot(p, px, py, GOLD);
-  drawAngleAt(center.x, center.y, snap.theta, 44, 'θ');
+  drawAngleAt(p, center.x, center.y, snap.theta, 44, 'θ');
 
   if (Math.abs(snap.theta - Math.PI) < 0.035) {
     drawEulerIdentity(p, center.x, center.y + r + 42);
@@ -498,8 +562,8 @@ function drawDeMoivreScene(p: p5, snap: ComplexEulerSnap, plot: PlotRect): void 
   drawDot(p, basePx, basePy, GREEN);
   drawDot(p, outPx, outPy, GOLD);
 
-  drawAngleAt(center.x, center.y, snap.deTheta, 48, 'θ');
-  drawAngleAt(center.x, center.y, outAngle, 78, 'nθ');
+  drawAngleAt(p, center.x, center.y, snap.deTheta, 48, 'θ');
+  drawAngleAt(p, center.x, center.y, outAngle, 78, 'nθ');
 
   drawVisualHint(p, plot, '(cosθ + isinθ)ⁿ = cos(nθ) + isin(nθ)');
 }
@@ -534,22 +598,23 @@ export function buildComplexEulerSidebarState(
     const result = computeOperation(params.z1, params.z2, params.opKey);
     const r1 = magC(params.z1);
     const r2 = magC(params.z2);
+    const resultR = magC(result);
+    const polar = (z: Complex) => `${formatNum(magC(z))}∠${formatAngle(argC(z))}`;
 
     const lines = [
-      `z₁：${formatComplex(params.z1)}`,
-      `z₂：${formatComplex(params.z2)}`,
-      `結果：${formatComplex(result)}`,
+      `z₁：${polar(params.z1)}`,
+      `z₂：${polar(params.z2)}`,
+      `結果：${polar(result)}`,
     ];
 
     if (params.opKey === 'mul') {
-      lines.push(`|z₁z₂|：${formatNum(r1 * r2)}`, 'arg：θ₁ + θ₂');
+      lines.push(`極式：|z|=${formatNum(r1 * r2)}，arg=θ₁+θ₂`);
     } else if (params.opKey === 'div') {
       lines.push(
-        `|z₁/z₂|：${formatNum(r1 / Math.max(r2, 0.0001))}`,
-        'arg：θ₁ − θ₂',
+        `極式：|z|=${formatNum(r1 / Math.max(r2, 0.0001))}，arg=θ₁−θ₂`,
       );
     } else {
-      lines.push(`|z₁|：${formatNum(r1)}`, `|z₂|：${formatNum(r2)}`);
+      lines.push(`直角式：${formatComplex(result)}，|z|=${formatNum(resultR)}`);
     }
 
     return {

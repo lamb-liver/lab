@@ -7,10 +7,10 @@ export const DOMAIN = {
 
 export const FIXED_EULER_START = { x: -2.5, y: 1.5 } as const;
 
-export const PLOT_X_RATIO = 76 / 1100;
-export const PLOT_Y_RATIO = 96 / 600;
-export const PLOT_W_RATIO = 650 / 1100;
-export const PLOT_H_RATIO = 372 / 600;
+export const PLOT_X_RATIO = 0.08;
+export const PLOT_Y_RATIO = 0.18;
+export const PLOT_W_RATIO = 0.82;
+export const PLOT_H_RATIO = 0.64;
 
 export const HINT_Y_OFFSET = 36;
 

@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { buildPointCloudStroke } from '../../thumbnailPointCloud';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { MODE_LERP, REVEAL_SPEED } from './animation';
@@ -43,7 +44,7 @@ export const chladniFiguresModule: CurveModule = {
     return sampleChladniNodalLines(m, n, step);
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '克拉尼圖形',
       formula: 'Z = sin(mx)sin(ny) − sin(nx)sin(my)',

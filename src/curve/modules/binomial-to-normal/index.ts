@@ -24,7 +24,7 @@ export const binomialToNormalModule: CurveModule = {
   paramSchema,
   defaultParams,
   sample: () => buildBinormalThumbnail(),
-  getMetadata: (params, runtime): CurveMetadata => {
+  getMetadata: (params): CurveMetadata => {
     const data = deriveBinormalData(params);
     return {
       title: '二項分佈到常態分佈',
@@ -33,9 +33,7 @@ export const binomialToNormalModule: CurveModule = {
         { key: 'mode', label: '模式', value: MODE_LABELS[modeFromValue(params.mode)] },
         { key: 'n', label: 'n', value: data.n },
         { key: 'p', label: 'p', value: percent(data.p) },
-        { key: 'mu', label: 'μ', value: data.mu.toFixed(2) },
-        { key: 'sigma', label: 'σ', value: data.sigma.toFixed(2) },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
+        { key: 'normal', label: 'μ, σ', value: `${data.mu.toFixed(2)}, ${data.sigma.toFixed(2)}` },
       ],
     };
   },

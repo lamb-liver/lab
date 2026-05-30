@@ -27,7 +27,10 @@ export function useCatenaryP5({
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastPullPctRef = useRef(-1);
   const onPullPctChangeRef = useRef(onPullPctChange);
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
 
   useEffect(() => {
     onPullPctChangeRef.current = onPullPctChange;

@@ -40,6 +40,11 @@ const PATH_LAYERS = [
   { weight: 1.45, alpha: 220 },
 ];
 
+function setDash(p: p5, pattern: number[]): void {
+  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  ctx.setLineDash(pattern);
+}
+
 function drawPath(
   p: p5,
   points: ReadonlyArray<PathPoint>,
@@ -61,11 +66,13 @@ function drawPath(
     for (const pt of points) {
       p.vertex(pt.x, pt.y);
     }
+
     if (closed) {
       p.endShape(p.CLOSE);
     } else {
       p.endShape();
     }
+
     p.pop();
   }
 }
@@ -89,6 +96,7 @@ function drawRevealPaths(
   for (const path of paths) {
     const visible = revealPath(path.points, progress);
     const shouldClose = path.closed && progress >= 0.999;
+
     drawPath(p, visible, shouldClose, PATH_LAYERS, scale);
   }
 }
@@ -96,12 +104,16 @@ function drawRevealPaths(
 function drawGrid(p: p5, scale: number): void {
   p.push();
 
+  // 關鍵修正：guide / grid 只能是線框，不能吃到 p5 預設白色 fill。
+  p.noFill();
+
   p.stroke(...GUIDE, 7);
   p.strokeWeight(1 / scale);
   p.line(-VIEW_W * 0.5, 0, VIEW_W * 0.5, 0);
   p.line(0, -VIEW_H * 0.5, 0, VIEW_H * 0.5);
 
   p.stroke(...GUIDE, 4);
+  p.strokeWeight(1 / scale);
 
   for (let r = 100; r <= 240; r += 100) {
     p.ellipse(0, 0, r * 2, r * 2);
@@ -139,9 +151,9 @@ function drawEccentricityConstruction(
 
   p.stroke(...GUIDE, 18);
   p.strokeWeight(1 / scale);
-  p.drawingContext.setLineDash([6 / scale, 9 / scale]);
+  setDash(p, [6 / scale, 9 / scale]);
   p.line(d, -VIEW_H, d, VIEW_H);
-  p.drawingContext.setLineDash([]);
+  setDash(p, []);
 
   p.stroke(...ACCENT, 70);
   p.strokeWeight(1.15 / scale);
@@ -206,9 +218,9 @@ function drawParabolaFocusRelation(
 
   p.stroke(...GUIDE, 18);
   p.strokeWeight(1 / scale);
-  p.drawingContext.setLineDash([6 / scale, 9 / scale]);
+  setDash(p, [6 / scale, 9 / scale]);
   p.line(d, -VIEW_H, d, VIEW_H);
-  p.drawingContext.setLineDash([]);
+  setDash(p, []);
 
   p.stroke(...ACCENT, 66);
   p.strokeWeight(1.1 / scale);
@@ -248,7 +260,11 @@ function drawFocusRelation(
   drawParabolaFocusRelation(p, scene, pt, scale);
 }
 
-function drawEccentricityMode(p: p5, snap: ConicDynamicGeometrySnap, scale: number): void {
+function drawEccentricityMode(
+  p: p5,
+  snap: ConicDynamicGeometrySnap,
+  scale: number,
+): void {
   const paths = buildEccentricityPaths(snap.smoothE);
   const metricPath = chooseEccentricityMetricPath(
     paths,
@@ -266,7 +282,11 @@ function drawEccentricityMode(p: p5, snap: ConicDynamicGeometrySnap, scale: numb
   }
 }
 
-function drawFocusLocusMode(p: p5, snap: ConicDynamicGeometrySnap, scale: number): void {
+function drawFocusLocusMode(
+  p: p5,
+  snap: ConicDynamicGeometrySnap,
+  scale: number,
+): void {
   const scene = buildFocusScene(snap.focusCurve);
   const { point } = getFocusMovingPoint(scene, snap.pointClock);
 
@@ -320,7 +340,9 @@ export function buildSidebarState(snap: ConicDynamicGeometrySnap): {
 
     return {
       modeLabel: '模式：離心率',
-      valueLabel: `e = ${snap.smoothE.toFixed(2)} · ${getEccentricityKind(snap.smoothE)}`,
+      valueLabel: `e = ${snap.smoothE.toFixed(2)} · ${getEccentricityKind(
+        snap.smoothE,
+      )}`,
       noteLabel: note,
       formulaLabel:
         '[focus-directrix]\nPF / Pd = e\n\ne < 1 橢圓\ne = 1 拋物線\ne > 1 雙曲線',

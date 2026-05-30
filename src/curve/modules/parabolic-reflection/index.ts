@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { FOCAL_LERP, REVEAL_SPEED } from './animation';
 import {
@@ -56,7 +57,7 @@ export const parabolicReflectionModule: CurveModule = {
     return sampleParabolicReflectionCurve(params.focalLength, step);
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '拋物線反射',
       formula: 'y² = 4px · F(p, 0)',

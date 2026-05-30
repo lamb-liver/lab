@@ -22,7 +22,10 @@ export function useComplexPolarFormP5({
 }: Options) {
   const animRef = useRef(createComplexPolarFormAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
 
 
   useEffect(() => {

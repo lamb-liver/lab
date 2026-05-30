@@ -20,6 +20,13 @@ import { renderWaveSuperpositionScene } from '../../systems/rendering/waveSuperp
 import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/wave-superposition-explore.css';
 
+const MAX_VISUAL_DELTA_MS = 50;
+
+function clampedDeltaSeconds(deltaMs: number): number {
+  const safeDelta = Number.isFinite(deltaMs) && deltaMs > 0 ? deltaMs : 0;
+  return Math.min(safeDelta, MAX_VISUAL_DELTA_MS) / 1000;
+}
+
 function measureWaveCanvas(host: HTMLElement, mode: WaveMode): { width: number; height: number } {
   const w = host.clientWidth;
   const width = Math.max(280, Math.round(w > 0 ? w : 480));
@@ -60,7 +67,7 @@ export default function WaveSuperpositionExploreRoot() {
 
   const draw = useCallback((p: p5) => {
     const snap = snapRef.current;
-    snap.time += (p.deltaTime / 1000) * SPEED_SCALE;
+    snap.time += clampedDeltaSeconds(p.deltaTime) * SPEED_SCALE;
     snapRef.current = snap;
 
     const targetH = canvasHeightForWidth(snap.mode, p.width, { vhCapPx: vhCapPx() });
@@ -88,7 +95,7 @@ export default function WaveSuperpositionExploreRoot() {
     <div className="wave-explore">
       <div className="wave-explore__stage">
         <div className="wave-explore__visual">
-          <p className="wave-explore__visual-title">WAVE SUPERPOSITION</p>
+          <p className="wave-explore__visual-title">波的疊加</p>
           <div
             ref={canvasHostRef}
             className="wave-explore__canvas"
@@ -133,12 +140,6 @@ export default function WaveSuperpositionExploreRoot() {
                           max={schema.max}
                           step={schema.step}
                           value={superposition[schema.key]}
-                          onChange={(e) =>
-                            setSuperposition((prev) => ({
-                              ...prev,
-                              [schema.key]: Number(e.target.value),
-                            }))
-                          }
                           onInput={(e) =>
                             setSuperposition((prev) => ({
                               ...prev,
@@ -174,12 +175,6 @@ export default function WaveSuperpositionExploreRoot() {
                       max={schema.max}
                       step={schema.step}
                       value={beat[schema.key]}
-                      onChange={(e) =>
-                        setBeat((prev) => ({
-                          ...prev,
-                          [schema.key]: Number(e.target.value),
-                        }))
-                      }
                       onInput={(e) =>
                         setBeat((prev) => ({
                           ...prev,

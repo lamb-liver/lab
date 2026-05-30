@@ -23,7 +23,7 @@ export default function EquiangularSpiralCurveRoot({
 
   const onRevealThetaChange = useCallback((theta: number) => setRevealTheta(theta), []);
   const onSmoothParamsChange = useCallback(
-    (params: ParamValues) => setSmoothParams(params),
+    (params: ParamValues) => setSmoothParams((prev) => ({ ...prev, ...params })),
     [],
   );
 

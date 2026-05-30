@@ -23,7 +23,7 @@ export const pascalsTriangleModule: CurveModule = {
   paramSchema,
   defaultParams,
   sample: (params) => buildPascalThumbnail(params),
-  getMetadata: (params, runtime): CurveMetadata => {
+  getMetadata: (params): CurveMetadata => {
     const data = buildPascalFrameData(params);
     const activeCount = data.cellMap.reduce(
       (sum, row) => sum + row.filter((cell) => cell.value !== 0).length,
@@ -34,11 +34,10 @@ export const pascalsTriangleModule: CurveModule = {
       title: '帕斯卡三角形',
       formula: 'C(n,k) = n! / (k!(n-k)!)',
       stats: [
-        { key: 'rows', label: 'n', value: normalizeRows(params.rows) },
-        { key: 'prime', label: 'p', value: normalizePrime(params.prime) },
+        { key: 'rows', label: '行數 n', value: normalizeRows(params.rows) },
+        { key: 'prime', label: '模數 p', value: normalizePrime(params.prime) },
         { key: 'active', label: '非零', value: `${activeCount}/${totalCount}` },
         { key: 'primes', label: '質數', value: PASCAL_PRIMES.join(', ') },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };
   },

@@ -279,10 +279,10 @@ export function buildMatrixSidebarState(
 
     return {
       modeLabel: '模式：變換疊加',
-      matrixLabel: `difference ≈ ${diff.toFixed(3)}`,
+      matrixLabel: `差異 ≈ ${diff.toFixed(3)}`,
       detLabel: `det(AB) = ${matrixDet(AB).toFixed(3)} · det(BA) = ${matrixDet(BA).toFixed(3)}`,
       noteLabel: '同樣的 A 與 B，順序不同會產生不同網格。',
-      formulaLabel: 'A = rotation\nB = shear\n\nAB = A after B\nBA = B after A',
+      formulaLabel: 'A = 旋轉\nB = 剪切\n\nAB = 先 B 後 A\nBA = 先 A 後 B',
       detWarning: false,
       subtitle: 'AB ≠ BA',
     };

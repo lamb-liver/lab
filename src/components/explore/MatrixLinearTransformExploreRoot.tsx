@@ -77,6 +77,7 @@ export default function MatrixLinearTransformExploreRoot() {
     animRef.current = stepMatrixLinearAnimation(
       animRef.current,
       paramsRef.current,
+      p.deltaTime,
     );
 
     const snap = {
@@ -161,10 +162,10 @@ export default function MatrixLinearTransformExploreRoot() {
 
   const visualTitle =
     params.mode === 'compose'
-      ? 'MATRIX COMPOSITION'
+      ? '矩陣疊加'
       : params.mode === 'special'
-        ? 'GEOMETRY TO MATRIX'
-        : 'MATRIX LINEAR TRANSFORM';
+        ? '幾何到矩陣'
+        : '矩陣線性變換';
 
   return (
     <div className="matrix-linear-explore">
@@ -217,15 +218,6 @@ export default function MatrixLinearTransformExploreRoot() {
                       max={2}
                       step={0.01}
                       value={params.free[key]}
-                      onChange={(e) =>
-                        setParams((prev) => ({
-                          ...prev,
-                          free: {
-                            ...prev.free,
-                            [key]: Number(e.target.value),
-                          },
-                        }))
-                      }
                       onInput={(e) =>
                         setParams((prev) => ({
                           ...prev,
@@ -267,7 +259,7 @@ export default function MatrixLinearTransformExploreRoot() {
               </label>
               <div className="control-field">
                 <label htmlFor="matrix-special-param">
-                  parameter
+                  參數
                   <span className="matrix-linear-explore__val">
                     {specialParamLabel}
                   </span>
@@ -281,12 +273,6 @@ export default function MatrixLinearTransformExploreRoot() {
                     max={180}
                     step={1}
                     value={params.specialParamRaw}
-                    onChange={(e) =>
-                      setParams((prev) => ({
-                        ...prev,
-                        specialParamRaw: Number(e.target.value),
-                      }))
-                    }
                     onInput={(e) =>
                       setParams((prev) => ({
                         ...prev,
@@ -306,7 +292,7 @@ export default function MatrixLinearTransformExploreRoot() {
               <p className="matrix-linear-explore__block-title">疊加參數</p>
               <div className="control-field">
                 <label htmlFor="matrix-compose-angle">
-                  A rotation
+                  A 旋轉角
                   <span className="matrix-linear-explore__val">
                     {params.composeAngleDeg.toFixed(0)}°
                   </span>
@@ -320,12 +306,6 @@ export default function MatrixLinearTransformExploreRoot() {
                     max={180}
                     step={1}
                     value={params.composeAngleDeg}
-                    onChange={(e) =>
-                      setParams((prev) => ({
-                        ...prev,
-                        composeAngleDeg: Number(e.target.value),
-                      }))
-                    }
                     onInput={(e) =>
                       setParams((prev) => ({
                         ...prev,
@@ -339,7 +319,7 @@ export default function MatrixLinearTransformExploreRoot() {
               </div>
               <div className="control-field">
                 <label htmlFor="matrix-compose-shear">
-                  B shear
+                  B 剪切量
                   <span className="matrix-linear-explore__val">
                     {params.composeShear.toFixed(2)}
                   </span>
@@ -353,12 +333,6 @@ export default function MatrixLinearTransformExploreRoot() {
                     max={1.8}
                     step={0.01}
                     value={params.composeShear}
-                    onChange={(e) =>
-                      setParams((prev) => ({
-                        ...prev,
-                        composeShear: Number(e.target.value),
-                      }))
-                    }
                     onInput={(e) =>
                       setParams((prev) => ({
                         ...prev,

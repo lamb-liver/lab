@@ -33,7 +33,7 @@ export const combinatorialPathCountingModule: CurveModule = {
   paramSchema,
   defaultParams,
   sample: (params) => buildCombinatorialThumbnail(params),
-  getMetadata: (params, runtime): CurveMetadata => {
+  getMetadata: (params): CurveMetadata => {
     const m = normalizeSize(params.m);
     const n = normalizeSize(params.n);
     const counts = buildPathCounts(m, n);
@@ -46,8 +46,6 @@ export const combinatorialPathCountingModule: CurveModule = {
         { key: 'mode', label: '模式', value: MODE_LABELS[modeFromValue(params.mode)] },
         { key: 'total', label: '路徑數', value: total },
         { key: 'target', label: 'P(m,n)', value: counts[m]![n]! },
-        { key: 'pascal', label: '帕斯卡', value: `第 ${m + n} 列、第 ${m} 項` },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };
   },

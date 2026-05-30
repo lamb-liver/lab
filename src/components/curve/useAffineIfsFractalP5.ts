@@ -26,7 +26,10 @@ export function useAffineIfsFractalP5({
   const animRef = useRef(createAffineIfsFractalAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
   const onRevealPctChangeRef = useRef(onRevealPctChange);
 
   useEffect(() => {
@@ -43,6 +46,8 @@ export function useAffineIfsFractalP5({
       targetParamsRef.current,
       () => p.random(1),
       REVEAL_SPEED,
+      p.deltaTime,
+      p.millis(),
     );
 
     const anim = animRef.current;

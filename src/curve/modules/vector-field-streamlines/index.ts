@@ -87,9 +87,9 @@ export const vectorFieldStreamlinesModule: CurveModule = {
     title: '向量場流線',
     formula: 'dp/dt = F(x,y,t)',
     stats: [
-      { key: 'count', label: 'count', value: Math.round(params.streamlineCount) },
-      { key: 'steps', label: 'steps', value: Math.round(params.integrationSteps) },
-      { key: 'speed', label: 'speed', value: params.flowSpeed.toFixed(3) },
+      { key: 'count', label: '流線數', value: Math.round(params.streamlineCount) },
+      { key: 'steps', label: '步數 N', value: Math.round(params.integrationSteps) },
+      { key: 'speed', label: 'speed v', value: params.flowSpeed.toFixed(3) },
     ],
   }),
   renderPreset: lissajousRenderPreset,

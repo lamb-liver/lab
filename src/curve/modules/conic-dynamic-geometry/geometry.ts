@@ -1,4 +1,4 @@
-import { LATUS, VIEW_H } from './constants';
+import { LATUS, VIEW_H, VIEW_W } from './constants';
 import type {
   ConicPath,
   FocusCurveType,
@@ -16,6 +16,10 @@ export function sinh(x: number): number {
   return (Math.exp(x) - Math.exp(-x)) * 0.5;
 }
 
+function asinh(x: number): number {
+  return Math.log(x + Math.sqrt(x * x + 1));
+}
+
 export function getPointOnPath(
   points: ReadonlyArray<PathPoint>,
   progress: number,
@@ -30,7 +34,8 @@ export function revealPath(
   progress: number,
 ): PathPoint[] {
   if (!points.length) return [];
-  const count = Math.max(2, Math.floor(points.length * progress));
+  const safeProgress = Math.max(0, Math.min(1, progress));
+  const count = Math.max(2, Math.floor(points.length * safeProgress));
   return points.slice(0, count);
 }
 
@@ -62,6 +67,8 @@ function samplePolarConic(e: number, L: number): PathPoint[] {
 
     const r = L / denom;
 
+    if (!Number.isFinite(r)) continue;
+
     pts.push({
       x: r * Math.cos(t),
       y: r * Math.sin(t),
@@ -91,29 +98,62 @@ function sampleDirectrixParabola(L: number): PathPoint[] {
   return pts;
 }
 
+/**
+ * Focus-directrix hyperbola.
+ *
+ * 原本用二次方程兩根：
+ *   x = (-eL ± sqrt(L² - (1-e²)y²)) / (1-e²)
+ *
+ * 問題：
+ * e 剛大於 1 時，1-e² 非常接近 0，另一根會爆到幾千以上。
+ * 例如 e=1.02，右支 x 會超過 5000，遠超 VIEW_W。
+ *
+ * 這裡改用穩定參數式，只取與目前 focus/directrix 對應的可視分支。
+ */
 function sampleDirectrixHyperbola(e: number, L: number): ConicPath[] {
-  const left: PathPoint[] = [];
-  const right: PathPoint[] = [];
-
+  const pts: PathPoint[] = [];
   const count = 680;
   const yMax = VIEW_H * 0.66;
-  const A = 1 - e * e;
+
+  const k = e * e - 1;
+
+  if (k <= 0.0001) {
+    return [
+      {
+        type: 'parabola-near-hyperbola',
+        closed: false,
+        points: sampleDirectrixParabola(L),
+      },
+    ];
+  }
+
+  const h = (e * L) / k;
+  const a = L / k;
+  const b = L / Math.sqrt(k);
+
+  const uMax = asinh(yMax / b);
 
   for (let i = 0; i <= count; i++) {
-    const y = -yMax + (i / count) * (2 * yMax);
-    const disc = L * L - A * y * y;
-    const root = Math.sqrt(Math.max(0, disc));
+    const u = -uMax + (i / count) * (2 * uMax);
 
-    const x1 = (-e * L + root) / A;
-    const x2 = (-e * L - root) / A;
+    const x = h - a * cosh(u);
+    const y = b * sinh(u);
 
-    left.push({ x: x1, y, t: i / count });
-    right.push({ x: x2, y, t: i / count });
+    if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+
+    pts.push({
+      x,
+      y,
+      t: i / count,
+    });
   }
 
   return [
-    { type: 'hyperbola-left', closed: false, points: left },
-    { type: 'hyperbola-right', closed: false, points: right },
+    {
+      type: 'hyperbola-focus-directrix',
+      closed: false,
+      points: pts,
+    },
   ];
 }
 
@@ -155,16 +195,10 @@ export function buildEccentricityPaths(e: number): ConicPath[] {
 
 export function chooseEccentricityMetricPath(
   paths: ConicPath[],
-  e: number,
-  pointClock: number,
+  _e: number,
+  _pointClock: number,
 ): PathPoint[] {
   if (!paths.length) return [];
-
-  if (e > 1.015 && paths.length > 1) {
-    const branchIndex = Math.floor(pointClock * 2) % 2;
-    return paths[branchIndex]!.points;
-  }
-
   return paths[0]!.points;
 }
 
@@ -239,7 +273,7 @@ function buildParabolaFocusScene(): FocusScene {
     type: 'parabola',
     title: '拋物線',
     formula: 'PF = Pd',
-    constantText: 'focus distance equals directrix distance',
+    constantText: '焦點距離等於準線距離',
     focus: { x: p, y: 0 },
     directrixX: -p,
     paths: [{ type: 'parabola-focus', closed: false, points: pts }],

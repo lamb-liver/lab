@@ -24,9 +24,9 @@ describe('buildStackedSegments', () => {
 });
 
 describe('stepRotationScaleCompositionAnimation', () => {
-  it('rotation or scale change resets reveal', () => {
+  it('rotation or scale change waits for pending reset before replaying reveal', () => {
     const defaults = rotationScaleCompositionModule.defaultParams;
-    const state = stepRotationScaleCompositionAnimation(
+    const pending = stepRotationScaleCompositionAnimation(
       {
         params: defaults,
         targetParams: defaults,
@@ -37,9 +37,23 @@ describe('stepRotationScaleCompositionAnimation', () => {
         currentScaleFactor: defaults.scaleFactor,
         previousRotationStepDeg: defaults.rotationStepDeg,
         previousScaleFactor: defaults.scaleFactor,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, rotationStepDeg: 20 },
       0.004,
+      1000 / 60,
+      100,
+    );
+    expect(pending.revealProgress).toBe(1);
+    expect(pending.pendingRevealReset).toBe(true);
+
+    const state = stepRotationScaleCompositionAnimation(
+      pending,
+      { ...defaults, rotationStepDeg: 20 },
+      0.004,
+      1000 / 60,
+      1400,
     );
     expect(state.revealProgress).toBeCloseTo(0.004);
     expect(state.isComplete).toBe(false);

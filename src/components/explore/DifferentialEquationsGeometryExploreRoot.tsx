@@ -25,6 +25,8 @@ const DEFAULT_INITIAL_POINTS: Point2[] = [
   { x: 0.6, y: 1.0 },
 ];
 
+const MAX_INITIAL_POINTS = 10;
+
 const DEFAULT_PARAMS: DiffEqParams = {
   mode: 'field',
   eqKey: 'minusY',
@@ -54,7 +56,7 @@ export default function DifferentialEquationsGeometryExploreRoot() {
 
     setParams((prev) => ({
       ...prev,
-      initialPoints: [...prev.initialPoints, point],
+      initialPoints: [...prev.initialPoints, point].slice(-MAX_INITIAL_POINTS),
     }));
   }, []);
 
@@ -207,12 +209,6 @@ export default function DifferentialEquationsGeometryExploreRoot() {
                     max={0.8}
                     step={0.05}
                     value={params.stepH}
-                    onChange={(e) =>
-                      setParams((prev) => ({
-                        ...prev,
-                        stepH: Number(e.target.value),
-                      }))
-                    }
                     onInput={(e) =>
                       setParams((prev) => ({
                         ...prev,

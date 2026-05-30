@@ -52,9 +52,9 @@ describe('buildGridLines', () => {
 });
 
 describe('stepLinearTransformGridAnimation', () => {
-  it('shear or scale change resets reveal', () => {
+  it('shear or scale change waits for pending reset before replaying reveal', () => {
     const defaults = linearTransformGridModule.defaultParams;
-    const state = stepLinearTransformGridAnimation(
+    const pending = stepLinearTransformGridAnimation(
       {
         params: defaults,
         targetParams: defaults,
@@ -65,9 +65,23 @@ describe('stepLinearTransformGridAnimation', () => {
         currentScaleY: defaults.scaleY,
         previousShearX: defaults.shearX,
         previousScaleY: defaults.scaleY,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, shearX: -0.5 },
       0.005,
+      1000 / 60,
+      100,
+    );
+    expect(pending.revealProgress).toBe(1);
+    expect(pending.pendingRevealReset).toBe(true);
+
+    const state = stepLinearTransformGridAnimation(
+      pending,
+      { ...defaults, shearX: -0.5 },
+      0.005,
+      1000 / 60,
+      1400,
     );
     expect(state.revealProgress).toBeCloseTo(0.005);
     expect(state.isComplete).toBe(false);
@@ -86,6 +100,8 @@ describe('stepLinearTransformGridAnimation', () => {
         currentScaleY: defaults.scaleY,
         previousShearX: defaults.shearX,
         previousScaleY: defaults.scaleY,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, transformSpeed: 0.04 },
       0.005,

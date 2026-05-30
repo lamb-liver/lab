@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.004;
 export const FOCAL_LERP = 0.08;
@@ -12,6 +13,8 @@ export type ParabolicReflectionAnimState = {
   currentFocalLength: number;
   previousRayCount: number;
   previousFocalLength: number;
+  pendingRevealReset: boolean;
+  pendingRevealSince: number;
 };
 
 export function createParabolicReflectionAnimState(
@@ -28,6 +31,8 @@ export function createParabolicReflectionAnimState(
     currentFocalLength: focalLength,
     previousRayCount: rayCount,
     previousFocalLength: focalLength,
+    pendingRevealReset: false,
+    pendingRevealSince: 0,
   };
 }
 
@@ -35,12 +40,13 @@ export function stepParabolicReflectionAnimation(
   state: ParabolicReflectionAnimState,
   nextTarget: ParamValues,
   revealSpeed: number,
+  deltaMs?: number,
+  nowMs = 0,
 ): ParabolicReflectionAnimState {
   const rayCount = Math.round(nextTarget.rayCount);
   const focalLength = nextTarget.focalLength;
-  const structureChanged =
-    rayCount !== state.previousRayCount ||
-    focalLength !== state.previousFocalLength;
+  const rayCountChanged = rayCount !== state.previousRayCount;
+  const focalLengthChanged = focalLength !== state.previousFocalLength;
 
   let {
     params,
@@ -50,14 +56,24 @@ export function stepParabolicReflectionAnimation(
     currentFocalLength,
     previousRayCount,
     previousFocalLength,
+    pendingRevealReset,
+    pendingRevealSince,
   } = state;
 
   const targetParams = { ...nextTarget, rayCount };
 
-  if (structureChanged) {
+  if (rayCountChanged) {
     revealProgress = 0;
     isComplete = false;
     previousRayCount = rayCount;
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
+  if (!rayCountChanged && focalLengthChanged) {
+    pendingRevealReset = true;
+    pendingRevealSince = nowMs;
+    previousFocalLength = focalLength;
+  } else if (focalLengthChanged) {
     previousFocalLength = focalLength;
   }
 
@@ -66,7 +82,8 @@ export function stepParabolicReflectionAnimation(
     currentFocalLength = focalLength;
   }
 
-  time += targetParams.scanSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.scanSpeed * scale;
 
   params = {
     focalLength: currentFocalLength,
@@ -74,8 +91,19 @@ export function stepParabolicReflectionAnimation(
     scanSpeed: targetParams.scanSpeed,
   };
 
+  const settled = Math.abs(currentFocalLength - focalLength) < 0.05;
+  if (
+    !focalLengthChanged &&
+    shouldCommitPendingReset(pendingRevealReset, settled, nowMs, pendingRevealSince)
+  ) {
+    revealProgress = 0;
+    isComplete = false;
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
+
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;
@@ -91,5 +119,7 @@ export function stepParabolicReflectionAnimation(
     currentFocalLength,
     previousRayCount,
     previousFocalLength,
+    pendingRevealReset,
+    pendingRevealSince,
   };
 }

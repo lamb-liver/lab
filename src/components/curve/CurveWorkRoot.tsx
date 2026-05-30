@@ -37,8 +37,11 @@ export default function CurveWorkRoot({
   const animRef = useRef<AnimationState>(createInitialState(module.defaultParams));
   const targetParamsRef = useRef<ParamValues>(module.defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const notifySmoothParams = useSmoothParamNotifier((partial) => {
-    setSmoothParams((prev) => ({ ...prev, ...partial }));
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: (partial) => {
+      setSmoothParams((prev) => ({ ...prev, ...partial }));
+    },
   });
   const lastCachedTargetRef = useRef(paramsSnapshot(module.defaultParams));
   const cacheRef = useRef(createCurveCache(module));

@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.0025;
 export const RATIO_LERP = 0.08;
@@ -11,6 +12,9 @@ export type ConicEnvelopeAnimState = {
   time: number;
   currentRatio: number;
   previousDensity: number;
+  previousRatio: number;
+  pendingRevealReset: boolean;
+  pendingRevealSince: number;
 };
 
 export function createConicEnvelopeAnimState(
@@ -25,6 +29,9 @@ export function createConicEnvelopeAnimState(
     time: 0,
     currentRatio: defaultParams.deformationRatio,
     previousDensity: lineDensity,
+    previousRatio: defaultParams.deformationRatio,
+    pendingRevealReset: false,
+    pendingRevealSince: 0,
   };
 }
 
@@ -32,9 +39,12 @@ export function stepConicEnvelopeAnimation(
   state: ConicEnvelopeAnimState,
   nextTarget: ParamValues,
   revealSpeed: number,
+  deltaMs?: number,
+  nowMs = 0,
 ): ConicEnvelopeAnimState {
   const lineDensity = Math.round(nextTarget.lineDensity);
   const densityChanged = lineDensity !== state.previousDensity;
+  const ratioChanged = nextTarget.deformationRatio !== state.previousRatio;
 
   let {
     params,
@@ -43,6 +53,9 @@ export function stepConicEnvelopeAnimation(
     time,
     currentRatio,
     previousDensity,
+    previousRatio,
+    pendingRevealReset,
+    pendingRevealSince,
   } = state;
 
   const targetParams = { ...nextTarget, lineDensity };
@@ -51,6 +64,15 @@ export function stepConicEnvelopeAnimation(
     revealProgress = 0;
     isComplete = false;
     previousDensity = lineDensity;
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
+  if (!densityChanged && ratioChanged) {
+    pendingRevealReset = true;
+    pendingRevealSince = nowMs;
+    previousRatio = targetParams.deformationRatio;
+  } else if (ratioChanged) {
+    previousRatio = targetParams.deformationRatio;
   }
 
   currentRatio += (targetParams.deformationRatio - currentRatio) * RATIO_LERP;
@@ -58,7 +80,8 @@ export function stepConicEnvelopeAnimation(
     currentRatio = targetParams.deformationRatio;
   }
 
-  time += targetParams.timeSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.timeSpeed * scale;
 
   params = {
     lineDensity,
@@ -66,8 +89,19 @@ export function stepConicEnvelopeAnimation(
     timeSpeed: targetParams.timeSpeed,
   };
 
+  const settled = Math.abs(currentRatio - targetParams.deformationRatio) < 0.001;
+  if (
+    !ratioChanged &&
+    shouldCommitPendingReset(pendingRevealReset, settled, nowMs, pendingRevealSince)
+  ) {
+    revealProgress = 0;
+    isComplete = false;
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
+
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;
@@ -82,5 +116,8 @@ export function stepConicEnvelopeAnimation(
     time,
     currentRatio,
     previousDensity,
+    previousRatio,
+    pendingRevealReset,
+    pendingRevealSince,
   };
 }

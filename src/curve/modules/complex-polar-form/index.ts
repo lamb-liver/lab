@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP } from './animation';
 import { sampleComplexPolarFormThumbnail } from './geometry';
@@ -20,7 +21,7 @@ export const complexPolarFormModule: CurveModule = {
     return sampleComplexPolarFormThumbnail(params.r, params.theta).paths[1]?.points ?? [];
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     const zx = smooth.r * Math.cos(smooth.theta);
     const zy = smooth.r * Math.sin(smooth.theta);
     const im = zy >= 0 ? `+${zy.toFixed(3)}` : zy.toFixed(3);

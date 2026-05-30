@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP } from './animation';
 import { sampleComplexPhasePortraitThumbnail } from './geometry';
@@ -24,7 +25,7 @@ export const complexPhasePortraitModule: CurveModule = {
     return spec.paths[0]?.points ?? [];
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '相位圖',
       formula: 'R(t) = P_A(t) + P_B(t)',

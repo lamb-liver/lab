@@ -1,6 +1,7 @@
 import { defaultsFromSchema } from '../../defaults';
 import { BASE_POINT_STEP } from '../../constants';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { roseRenderPreset } from '../../../systems/rendering/presets';
 
 const MAX_RADIUS = 210;
@@ -68,7 +69,7 @@ export const roseModule: CurveModule = {
     return points;
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     const k = smooth.k ?? params.k;
     return {
       title: '玫瑰曲線',

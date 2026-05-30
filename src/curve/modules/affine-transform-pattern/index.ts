@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP, REVEAL_SPEED } from './animation';
 import {
@@ -49,7 +50,7 @@ export const affineTransformPatternModule: CurveModule = {
     );
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '仿射變換圖樣',
       formula: "x' = ax + by + tx, y' = cx + dy + ty",

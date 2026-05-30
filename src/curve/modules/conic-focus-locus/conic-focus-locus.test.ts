@@ -37,9 +37,9 @@ describe('orbitPoint', () => {
 });
 
 describe('stepConicFocusLocusAnimation', () => {
-  it('eccentricity change resets reveal', () => {
+  it('eccentricity change waits for pending reset before replaying reveal', () => {
     const defaults = conicFocusLocusModule.defaultParams;
-    const state = stepConicFocusLocusAnimation(
+    const pending = stepConicFocusLocusAnimation(
       {
         params: defaults,
         targetParams: defaults,
@@ -50,9 +50,23 @@ describe('stepConicFocusLocusAnimation', () => {
         currentEccentricity: defaults.eccentricity,
         previousSemiMajorAxis: defaults.semiMajorAxis,
         previousEccentricity: defaults.eccentricity,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, eccentricity: 0.8 },
       0.004,
+      1000 / 60,
+      100,
+    );
+    expect(pending.revealProgress).toBe(1);
+    expect(pending.pendingRevealReset).toBe(true);
+
+    const state = stepConicFocusLocusAnimation(
+      pending,
+      { ...defaults, eccentricity: 0.8 },
+      0.004,
+      1000 / 60,
+      1400,
     );
     expect(state.revealProgress).toBeCloseTo(0.004);
     expect(state.isComplete).toBe(false);
@@ -71,6 +85,8 @@ describe('stepConicFocusLocusAnimation', () => {
         currentEccentricity: defaults.eccentricity,
         previousSemiMajorAxis: defaults.semiMajorAxis,
         previousEccentricity: defaults.eccentricity,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, orbitSpeed: 0.05 },
       0.004,

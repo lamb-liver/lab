@@ -6,6 +6,7 @@ import type {
   ParamValues,
   ThumbnailSpec,
 } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   INITIAL_RADIUS_A,
@@ -94,7 +95,7 @@ export const equiangularSpiralModule: CurveModule = {
     return worldPathToCurvePoints(active);
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     const revealTheta =
       runtime?.revealTheta ??
       computeRevealTheta(smooth.maxTheta, 0, REVEAL_RATIO);

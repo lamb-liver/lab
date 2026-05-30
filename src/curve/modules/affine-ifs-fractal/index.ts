@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { buildPointCloudStroke } from '../../thumbnailPointCloud';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP, REVEAL_SPEED, sampleAffineIfsFractalCurve } from './geometry';
@@ -54,7 +55,7 @@ export const affineIfsFractalModule: CurveModule = {
     );
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '碎形仿射疊代',
       formula: "x' = ax + by + tx",

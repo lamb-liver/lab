@@ -37,6 +37,10 @@ import CatalanNumbersCurveRoot from './CatalanNumbersCurveRoot';
 import ConditionalProbabilityBayesCurveRoot from './ConditionalProbabilityBayesCurveRoot';
 import BinomialToNormalCurveRoot from './BinomialToNormalCurveRoot';
 import BuffonNeedleCurveRoot from './BuffonNeedleCurveRoot';
+import ExponentialGrowthDecayCurveRoot from './ExponentialGrowthDecayCurveRoot';
+import LogarithmicScaleCurveRoot from './LogarithmicScaleCurveRoot';
+import NaturalLogEGeometryCurveRoot from './NaturalLogEGeometryCurveRoot';
+import LogisticCurveCurveRoot from './LogisticCurveCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -77,6 +81,10 @@ const rootBySlug = {
   'conditional-probability-bayes': ConditionalProbabilityBayesCurveRoot,
   'binomial-to-normal': BinomialToNormalCurveRoot,
   'buffon-needle': BuffonNeedleCurveRoot,
+  'exponential-growth-decay': ExponentialGrowthDecayCurveRoot,
+  'logarithmic-scale': LogarithmicScaleCurveRoot,
+  'natural-log-e-geometry': NaturalLogEGeometryCurveRoot,
+  'logistic-curve': LogisticCurveCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 type Props = {

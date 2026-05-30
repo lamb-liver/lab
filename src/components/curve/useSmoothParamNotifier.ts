@@ -14,16 +14,47 @@ export function quantizeSmoothParam(key: string, value: number): string {
   return value.toFixed(2);
 }
 
-/** draw 內同步平滑參數到 React；僅在量化後顯示值變化時 setState。 */
-export function useSmoothParamNotifier(onChange: (params: ParamValues) => void) {
+export type UseSmoothParamNotifierOptions = {
+  /** 回傳 delta patch；呼叫端必須 merge 進既有 smoothParams。 */
+  onChange: (params: ParamValues) => void;
+  /** 目標參數快照；變更時重置量化快取，避免 patch 漏欄。 */
+  getParams?: () => ParamValues;
+};
+
+function normalizeOptions(
+  options: UseSmoothParamNotifierOptions | ((params: ParamValues) => void),
+): UseSmoothParamNotifierOptions {
+  return typeof options === 'function' ? { onChange: options } : options;
+}
+
+/** draw 內同步平滑參數到 React；僅在量化後顯示值變化時 emit delta patch。 */
+export function useSmoothParamNotifier(
+  options: UseSmoothParamNotifierOptions | ((params: ParamValues) => void),
+) {
+  const { onChange, getParams } = normalizeOptions(options);
   const lastRef = useRef<Record<string, string>>({});
+  const targetSigRef = useRef('');
   const onChangeRef = useRef(onChange);
+  const getParamsRef = useRef(getParams);
 
   useEffect(() => {
     onChangeRef.current = onChange;
   }, [onChange]);
 
+  useEffect(() => {
+    getParamsRef.current = getParams;
+  }, [getParams]);
+
   return useCallback((partial: ParamValues) => {
+    const readParams = getParamsRef.current;
+    if (readParams) {
+      const sig = JSON.stringify(readParams());
+      if (sig !== targetSigRef.current) {
+        lastRef.current = {};
+        targetSigRef.current = sig;
+      }
+    }
+
     const emit: ParamValues = {};
     for (const [key, value] of Object.entries(partial)) {
       const q = quantizeSmoothParam(key, value);

@@ -23,7 +23,7 @@ export default function AffineTransformPatternCurveRoot({
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const onSmoothParamsChange = useCallback(
-    (params: ParamValues) => setSmoothParams(params),
+    (params: ParamValues) => setSmoothParams((prev) => ({ ...prev, ...params })),
     [],
   );
 

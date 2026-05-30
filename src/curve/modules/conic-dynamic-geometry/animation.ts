@@ -8,6 +8,8 @@ import {
 } from './geometry';
 import type { ConicMode, FocusCurveType, PathPoint } from './types';
 
+const MAX_VISUAL_DELTA_MS = 50;
+
 export type ConicDynamicParams = {
   mode: ConicMode;
   focusCurve: FocusCurveType;
@@ -63,6 +65,8 @@ export function stepConicDynamicAnimation(
   } = state;
 
   const targetParams = { ...nextTarget };
+  const rawDeltaMs = Number.isFinite(deltaMs) && deltaMs > 0 ? deltaMs : 0;
+  const clampedDeltaMs = Math.min(rawDeltaMs, MAX_VISUAL_DELTA_MS);
 
   if (
     targetParams.mode !== lastMode ||
@@ -75,16 +79,15 @@ export function stepConicDynamicAnimation(
   }
 
   if (targetParams.animatePoint) {
-    pointClock += deltaMs * POINT_SPEED_PER_MS;
+    pointClock += clampedDeltaMs * POINT_SPEED_PER_MS;
   }
 
-  reveal = Math.min(1, reveal + (deltaMs / 1000) * REVEAL_SPEED_PER_SEC);
+  reveal = Math.min(1, reveal + (clampedDeltaMs / 1000) * REVEAL_SPEED_PER_SEC);
 
   if (targetParams.mode === 'eccentricity') {
     const targetE = targetParams.eccentricity;
 
     if (Math.abs(targetE - lastTargetE) > 0.002) {
-      reveal = 0;
       lastTargetE = targetE;
     }
 

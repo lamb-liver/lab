@@ -44,11 +44,9 @@ export const arithmeticGeometricSequencesModule: CurveModule = {
         formula: 'Sₙ = a₁(1 - rⁿ) / (1 - r)',
         stats: [
           { key: 'a1', label: 'a₁', value: (params.geometricA1 ?? 1).toFixed(2) },
-          { key: 'r', label: 'r', value: (params.geometricR ?? 0.5).toFixed(2) },
-          { key: 'n', label: 'n', value: Math.round(params.geometricN ?? 8) },
-          { key: 'current', label: 'accumulation', value: scene.currentSum.toFixed(3) },
+          { key: 'r', label: '公比 r', value: (params.geometricR ?? 0.5).toFixed(2) },
+          { key: 'n', label: '項數 n', value: Math.round(params.geometricN ?? 8) },
           { key: 'sum', label: 'Sₙ', value: scene.formulaSum.toFixed(3) },
-          { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
         ],
       };
     }
@@ -59,12 +57,9 @@ export const arithmeticGeometricSequencesModule: CurveModule = {
       formula: 'Sₙ = n(a₁ + aₙ) / 2',
       stats: [
         { key: 'a1', label: 'a₁', value: (params.arithmeticA1 ?? 2).toFixed(2) },
-        { key: 'd', label: 'd', value: (params.arithmeticD ?? 1).toFixed(2) },
-        { key: 'n', label: 'n', value: Math.round(params.arithmeticN ?? 8) },
-        { key: 'an', label: 'aₙ', value: scene.an.toFixed(3) },
-        { key: 'current', label: 'accumulation', value: scene.currentSum.toFixed(3) },
+        { key: 'd', label: '公差 d', value: (params.arithmeticD ?? 1).toFixed(2) },
+        { key: 'n', label: '項數 n', value: Math.round(params.arithmeticN ?? 8) },
         { key: 'sum', label: 'Sₙ', value: scene.formulaSum.toFixed(3) },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };
   },

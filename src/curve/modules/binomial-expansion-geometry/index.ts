@@ -18,7 +18,7 @@ export const binomialExpansionGeometryModule: CurveModule = {
   paramSchema,
   defaultParams,
   sample: (params) => buildBinomialThumbnail(params),
-  getMetadata: (params, runtime): CurveMetadata => {
+  getMetadata: (params): CurveMetadata => {
     const a = normalizeLen(params.a);
     const b = normalizeLen(params.b);
     const mode = modeFromValue(params.mode);
@@ -30,8 +30,6 @@ export const binomialExpansionGeometryModule: CurveModule = {
         { key: 'a', label: 'a', value: a },
         { key: 'b', label: 'b', value: b },
         { key: 'sum', label: 'a+b', value: a + b },
-        { key: 'power', label: '(a+b)ⁿ', value: mode === 'square' ? (a + b) ** 2 : (a + b) ** 3 },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };
   },

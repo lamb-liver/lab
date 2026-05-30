@@ -1,6 +1,7 @@
 import { BASE_CANVAS_SIZE } from '../../constants';
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP, REVEAL_SPEED } from './animation';
 import {
@@ -67,7 +68,7 @@ export const rotationScaleCompositionModule: CurveModule = {
     );
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '旋轉縮放疊加',
       formula: 'M = s·R(θ), iterate xₙ₊₁ = Mxₙ',

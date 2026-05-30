@@ -22,8 +22,10 @@ export function useComplexArithmeticGeometryP5({
 }: Options) {
   const animRef = useRef(createComplexArithmeticGeometryAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
-
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
 
   useEffect(() => {
     targetParamsRef.current = targetParams;

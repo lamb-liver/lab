@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.004;
 export const MODE_LERP = 0.08;
@@ -37,6 +38,7 @@ export function stepChladniAnimation(
   state: ChladniAnimState,
   nextTarget: ParamValues,
   revealSpeed: number,
+  deltaMs?: number,
 ): ChladniAnimState {
   const modeM = Math.round(nextTarget.modeM);
   const modeN = Math.round(nextTarget.modeN);
@@ -69,7 +71,8 @@ export function stepChladniAnimation(
   if (Math.abs(currentM - modeM) < 0.05) currentM = modeM;
   if (Math.abs(currentN - modeN) < 0.05) currentN = modeN;
 
-  time += targetParams.vibrationSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.vibrationSpeed * scale;
 
   params = {
     modeM: currentM,
@@ -78,7 +81,7 @@ export function stepChladniAnimation(
   };
 
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;

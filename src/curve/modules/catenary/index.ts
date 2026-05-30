@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   PARAM_LERP,
@@ -61,7 +62,7 @@ export const catenaryModule: CurveModule = {
     return sampleCatenaryCurve(params.ropeLength, params.maxT, step);
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '曳物線',
       formula: 'x = L(t - tanh t), y = L sech t',

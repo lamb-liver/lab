@@ -27,17 +27,16 @@ export const catalanNumbersModule: CurveModule = {
   paramSchema,
   defaultParams,
   sample: (params) => buildCatalanThumbnail(params),
-  getMetadata: (params, runtime): CurveMetadata => {
+  getMetadata: (params): CurveMetadata => {
     const n = normalizeN(params.n);
     const catalan = buildCatalanNumbers(10);
     return {
       title: '卡特蘭數',
       formula: 'C_n = 1/(n+1) * C(2n,n)',
       stats: [
-        { key: 'n', label: 'n', value: n },
+        { key: 'n', label: '階數 n', value: n },
         { key: 'mode', label: '模式', value: MODE_LABELS[modeFromValue(params.mode)] },
         { key: 'catalan', label: `C_${n}`, value: catalan[n] ?? 0 },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };
   },

@@ -26,7 +26,10 @@ export function useEquiangularSpiralP5({
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealRef = useRef(-1);
   const onRevealThetaChangeRef = useRef(onRevealThetaChange);
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
 
   useEffect(() => {
     onRevealThetaChangeRef.current = onRevealThetaChange;

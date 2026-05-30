@@ -87,7 +87,7 @@ export function buildReflectionRays(opts: {
   const focus = focusPoint(currentFocalLength);
   const maxY = (canvasHeight * REGION_RATIO) / 2;
   const offset = scanOffset(time);
-  const exitX = canvasWidth * REGION_RATIO;
+  const exitX = canvasWidth / 2 + ORIGIN_OFFSET_X;
   const count = Math.max(2, Math.round(rayCount));
 
   for (let i = 0; i < count; i++) {

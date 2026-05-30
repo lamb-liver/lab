@@ -46,6 +46,8 @@ export function useConicFocusLocusP5({
       animRef.current,
       targetParamsRef.current,
       REVEAL_SPEED,
+      p.deltaTime,
+      p.millis(),
     );
 
     const anim = animRef.current;

@@ -227,12 +227,6 @@ export default function ComplexEulerFormulaExploreRoot() {
                     max={1000}
                     step={1}
                     value={Math.round((params.theta / TAU) * 1000)}
-                    onChange={(e) =>
-                      setParams((prev) => ({
-                        ...prev,
-                        theta: (Number(e.target.value) / 1000) * TAU,
-                      }))
-                    }
                     onInput={(e) =>
                       setParams((prev) => ({
                         ...prev,
@@ -263,12 +257,6 @@ export default function ComplexEulerFormulaExploreRoot() {
                       max={12}
                       step={1}
                       value={params.n}
-                      onChange={(e) =>
-                        setParams((prev) => ({
-                          ...prev,
-                          n: Number(e.target.value),
-                        }))
-                      }
                       onInput={(e) =>
                         setParams((prev) => ({
                           ...prev,
@@ -294,12 +282,6 @@ export default function ComplexEulerFormulaExploreRoot() {
                       max={1000}
                       step={1}
                       value={Math.round((params.deTheta / TAU) * 1000)}
-                      onChange={(e) =>
-                        setParams((prev) => ({
-                          ...prev,
-                          deTheta: (Number(e.target.value) / 1000) * TAU,
-                        }))
-                      }
                       onInput={(e) =>
                         setParams((prev) => ({
                           ...prev,

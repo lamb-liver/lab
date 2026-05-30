@@ -7,6 +7,8 @@ import {
 } from './matrix';
 import type { Matrix2, MatrixMode } from './types';
 
+const FRAME_MS_60FPS = 1000 / 60;
+
 export type MatrixLinearParams = MatrixLinearTargetInput & {
   composeAngleDeg: number;
   composeShear: number;
@@ -30,6 +32,7 @@ export function createMatrixLinearAnimState(): MatrixLinearAnimState {
 export function stepMatrixLinearAnimation(
   state: MatrixLinearAnimState,
   params: MatrixLinearParams,
+  deltaMs = FRAME_MS_60FPS,
 ): MatrixLinearAnimState {
   let { currentMatrix, targetMatrix, lastMode } = state;
 
@@ -44,7 +47,10 @@ export function stepMatrixLinearAnimation(
   }
 
   targetMatrix = targetMatrixFromParams(params);
-  currentMatrix = lerpMatrix(currentMatrix, targetMatrix, PARAM_LERP);
+  const safeDeltaMs = Number.isFinite(deltaMs) && deltaMs > 0 ? deltaMs : FRAME_MS_60FPS;
+  const frameScale = safeDeltaMs / FRAME_MS_60FPS;
+  const alpha = 1 - Math.pow(1 - PARAM_LERP, frameScale);
+  currentMatrix = lerpMatrix(currentMatrix, targetMatrix, alpha);
 
   return { currentMatrix, targetMatrix, lastMode };
 }

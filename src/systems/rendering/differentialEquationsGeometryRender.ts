@@ -36,13 +36,22 @@ export type DiffEqGeometrySnap = {
 const GOLD: [number, number, number] = [212, 184, 122];
 const BLUE: [number, number, number] = [130, 185, 230];
 
+function withPlotClip(p: p5, plot: PlotRect, draw: () => void): void {
+  p.push();
+  p.drawingContext.beginPath();
+  p.drawingContext.rect(plot.x, plot.y, plot.w, plot.h);
+  p.drawingContext.clip();
+  draw();
+  p.pop();
+}
+
 function drawVisualTitle(p: p5, plot: PlotRect): void {
   p.push();
   p.noStroke();
   p.fill(...GOLD);
   p.textSize(14);
   p.textStyle(p.BOLD);
-  p.text('DIFFERENTIAL EQUATIONS', plot.x, 56);
+  p.text('微分方程', plot.x, 56);
 
   p.fill(155);
   p.textSize(12);
@@ -216,20 +225,22 @@ function drawSlopeFieldScene(
   const eq = getEquation(snap.eqKey);
 
   drawAxesAndGrid(p, plot);
-  drawSlopeField(p, eq, plot);
+  withPlotClip(p, plot, () => {
+    drawSlopeField(p, eq, plot);
 
-  for (const pt of snap.initialPoints) {
-    const backward = traceSolution(eq, pt.x, pt.y, -TRACE_STEP, TRACE_STEPS);
-    const forward = traceSolution(eq, pt.x, pt.y, TRACE_STEP, TRACE_STEPS);
+    for (const pt of snap.initialPoints) {
+      const backward = traceSolution(eq, pt.x, pt.y, -TRACE_STEP, TRACE_STEPS);
+      const forward = traceSolution(eq, pt.x, pt.y, TRACE_STEP, TRACE_STEPS);
 
-    for (const path of [backward, forward]) {
-      drawSolutionCurve(p, path, plot, 7, 14);
-      drawSolutionCurve(p, path, plot, 3.5, 42);
-      drawSolutionCurve(p, path, plot, 1.5, 225);
+      for (const path of [backward, forward]) {
+        drawSolutionCurve(p, path, plot, 7, 14);
+        drawSolutionCurve(p, path, plot, 3.5, 42);
+        drawSolutionCurve(p, path, plot, 1.5, 225);
+      }
+
+      drawInitialPoint(p, pt.x, pt.y, plot);
     }
-
-    drawInitialPoint(p, pt.x, pt.y, plot);
-  }
+  });
 
   drawVisualHint(
     p,
@@ -243,14 +254,16 @@ function drawEulerScene(p: p5, snap: DiffEqGeometrySnap, plot: PlotRect): void {
   const { x: x0, y: y0 } = FIXED_EULER_START;
 
   drawAxesAndGrid(p, plot);
-  drawSlopeField(p, eq, plot);
 
   const truePath = buildExactPath(eq, x0, y0);
   const eulerPath = buildEulerPath(eq, x0, y0, snap.stepH);
 
-  drawExactCurve(p, truePath, plot);
-  drawEulerPolyline(p, eulerPath, plot);
-  drawInitialPoint(p, x0, y0, plot);
+  withPlotClip(p, plot, () => {
+    drawSlopeField(p, eq, plot);
+    drawExactCurve(p, truePath, plot);
+    drawEulerPolyline(p, eulerPath, plot);
+    drawInitialPoint(p, x0, y0, plot);
+  });
 
   const last = eulerPath[eulerPath.length - 1]!;
   const trueY = eq.exact(last.x, x0, y0);

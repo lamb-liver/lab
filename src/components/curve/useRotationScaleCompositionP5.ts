@@ -26,7 +26,10 @@ export function useRotationScaleCompositionP5({
   const animRef = useRef(createRotationScaleCompositionAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const lastRevealPctRef = useRef(-1);
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
   const onRevealPctChangeRef = useRef(onRevealPctChange);
 
   useEffect(() => {
@@ -42,6 +45,8 @@ export function useRotationScaleCompositionP5({
       animRef.current,
       targetParamsRef.current,
       REVEAL_SPEED,
+      p.deltaTime,
+      p.millis(),
     );
 
     const anim = animRef.current;

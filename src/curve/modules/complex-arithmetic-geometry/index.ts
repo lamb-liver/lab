@@ -1,4 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP } from './animation';
@@ -32,7 +33,7 @@ export const complexArithmeticGeometryModule: CurveModule = {
     ).paths[1]?.points ?? [];
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '複數四則運算',
       formula: 'z₁ + z₂ · z₁ × z₂',

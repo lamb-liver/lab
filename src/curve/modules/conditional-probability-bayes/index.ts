@@ -43,7 +43,7 @@ export const conditionalProbabilityBayesModule: CurveModule = {
   paramSchema,
   defaultParams,
   sample: () => buildBayesThumbnail(),
-  getMetadata: (params, runtime): CurveMetadata => {
+  getMetadata: (params): CurveMetadata => {
     const data = deriveData(params);
     const sid = normalizeScenario(params.scenario);
     return {
@@ -53,9 +53,7 @@ export const conditionalProbabilityBayesModule: CurveModule = {
         { key: 'scenario', label: '情境', value: SCENARIO_LABELS[sid] ?? scenarios[sid]!.A },
         { key: 'mode', label: '模式', value: MODE_LABELS[modeFromValue(params.mode)] },
         { key: 'P(A)', label: 'P(A)', value: percent(data.pA) },
-        { key: 'P(B)', label: 'P(B)', value: percent(data.pB) },
         { key: 'posterior', label: 'P(A|B)', value: percent(data.posterior) },
-        { key: 'reveal', label: 'reveal', value: runtime ? `${runtime.revealPct}%` : '—' },
       ],
     };
   },

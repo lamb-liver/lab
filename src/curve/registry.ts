@@ -35,6 +35,10 @@ import { catalanNumbersModule } from './modules/catalan-numbers';
 import { conditionalProbabilityBayesModule } from './modules/conditional-probability-bayes';
 import { binomialToNormalModule } from './modules/binomial-to-normal';
 import { buffonNeedleModule } from './modules/buffon-needle';
+import { exponentialGrowthDecayModule } from './modules/exponential-growth-decay';
+import { logarithmicScaleModule } from './modules/logarithmic-scale';
+import { naturalLogEGeometryModule } from './modules/natural-log-e-geometry';
+import { logisticCurveModule } from './modules/logistic-curve';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -74,4 +78,8 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'conditional-probability-bayes': conditionalProbabilityBayesModule,
   'binomial-to-normal': binomialToNormalModule,
   'buffon-needle': buffonNeedleModule,
+  'exponential-growth-decay': exponentialGrowthDecayModule,
+  'logarithmic-scale': logarithmicScaleModule,
+  'natural-log-e-geometry': naturalLogEGeometryModule,
+  'logistic-curve': logisticCurveModule,
 };

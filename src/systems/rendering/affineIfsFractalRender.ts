@@ -1,6 +1,9 @@
 import type p5 from 'p5';
-import type { GrainPoint } from '../../curve/modules/affine-ifs-fractal/geometry';
-import { ORIGIN_Y_RATIO } from '../../curve/modules/affine-ifs-fractal/geometry';
+import {
+  MAX_GRAINS,
+  ORIGIN_Y_RATIO,
+  type GrainPoint,
+} from '../../curve/modules/affine-ifs-fractal/geometry';
 
 export type AffineIfsFractalSnap = {
   width: number;
@@ -53,7 +56,8 @@ export function renderAffineIfsFractalScene(p: p5, snap: AffineIfsFractalSnap): 
 
   renderGuideLayer(p, snap.width, snap.height);
 
-  const renderCount = Math.floor(snap.grains.length * snap.revealProgress);
+  const targetCount = Math.floor(MAX_GRAINS * snap.revealProgress);
+  const renderCount = Math.min(snap.grains.length, targetCount, MAX_GRAINS);
   renderGrainGlow(p, snap.grains, renderCount);
 
   p.pop();

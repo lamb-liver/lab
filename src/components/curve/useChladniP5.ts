@@ -52,6 +52,7 @@ export function useChladniP5({
       animRef.current,
       targetParamsRef.current,
       REVEAL_SPEED,
+      p.deltaTime,
     );
 
     const anim = animRef.current;

@@ -1,4 +1,5 @@
 import type { CurveModule, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { defaultsFromSchema } from '../../defaults';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP } from './animation';
@@ -60,7 +61,7 @@ export const eulerFormulaRotationModule: CurveModule = {
     return sampleEulerFormulaRotationThumbnail(params.amplitude, params.phase).paths[1]?.points ?? [];
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '尤拉公式旋轉',
       formula: 'e^(i(ωt + δ)) = cos(ωt + δ) + i sin(ωt + δ)',

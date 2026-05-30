@@ -24,7 +24,10 @@ export function useComplexPhasePortraitP5({
 }: Options) {
   const animRef = useRef(createComplexPhasePortraitAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const notifySmoothParams = useSmoothParamNotifier(onSmoothParamsChange);
+  const notifySmoothParams = useSmoothParamNotifier({
+    getParams: () => targetParamsRef.current,
+    onChange: onSmoothParamsChange,
+  });
 
 
   useEffect(() => {

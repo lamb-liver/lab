@@ -3,7 +3,6 @@ import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../..
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MODE_PARTIAL,
-  PI2_OVER_6,
   baselModeFromValue,
   buildBaselThumbnail,
   calculateBaselStats,
@@ -44,12 +43,9 @@ export const baselProblemModule: CurveModule = {
       formula: 'ζ(2) = Σ 1/n² = π²/6',
       stats: [
         { key: 'mode', label: '模式', value: MODE_LABELS[mode] },
-        { key: 'N', label: 'N', value: normalizeN(params.N) },
-        { key: 'p', label: 'p', value: (params.p ?? 2).toFixed(2) },
+        { key: 'N', label: '項數 N', value: normalizeN(params.N) },
         { key: 'sum', label: 'Sₙ', value: stats.sum.toFixed(6) },
-        { key: 'limit', label: 'π²/6', value: PI2_OVER_6.toFixed(6) },
         { key: 'error', label: '|誤差|', value: stats.error === null ? '—' : stats.error.toFixed(8) },
-        { key: 'rel', label: '相對', value: stats.relErr === null ? '—' : `${stats.relErr.toFixed(4)}%` },
       ],
     };
   },

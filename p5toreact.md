@@ -28,7 +28,9 @@
 | 零 p5 依賴模組 | `curve/modules/*` 可單測 |
 | 參數單一真相 | `paramSchema: ParamDef[]` 驅動標準控件；特殊控件另做元件 |
 | 點列策略依曲線 | 能快取則 `cache`；需每幀 morph 則 `cacheStrategy: 'none'` |
-| draw → React | 平滑參數同步用 `useSmoothParamNotifier`（`src/components/curve/`）；僅量化後顯示值變更時 setState |
+| draw → React | 平滑參數同步用 `useSmoothParamNotifier`（`src/components/curve/`）；**emit 的是 delta patch**，Root 必須 merge；`getMetadata` 用 `resolveSmoothParams` 防呆 |
+| 時間推進一律時間正規化 | `time`、`phase`、`rotation`、`reveal` 不直接每幀固定 `+= value`；per-second 常數用 clamped `dtSec`，per-frame 常數用 `frameScale(deltaMs)`，smoothing lerp 用 60fps 等效 alpha。 |
+| Explore range 更新單一路徑 | `<input type="range">` 不要同時綁 `onInput` 與 `onChange`；保留一條主要更新路徑，避免同一次拖曳造成重複 setState / render。 |
 | `sample` 語意 | morph 曲線：`purpose: 'default'` 供 runtime 點列；自訂 p5 互動：`sample` **主要**供 `purpose: 'thumbnail'`（runtime 不走 sample） |
 
 寬版 prototype 移植到作品頁時，先確認 `.work-detail__canvas` 是方形/近方形視窗。不要把 prototype 的大段 canvas 內文字、狀態面板或寬版座標原樣保留；文字移到 React controls / content，幾何 world view 依方形 canvas 重新定框。
@@ -40,6 +42,7 @@
 ```
 src/curve/
   types.ts, defaults.ts, constants.ts
+  resolveSmoothParams.ts      # getMetadata：params + partial smooth patch 合併
   registry.ts               # workCurveBySlug（縮圖、靜態預覽）
   animation.ts              # 通用 stepAnimation（Rose 用）
   cache.ts                  # createCurveCache + integerBlend 奇偶護欄
@@ -70,6 +73,7 @@ src/components/curve/
   useMorphCurveP5.ts        # Lissajous / Harmonograph / Spirograph
   useMorphCurveP5.draw.test.ts  # draw wiring 契約（stepAnimationRef.current）
   ParamControls.tsx, StatsPanel.tsx
+  useSmoothParamNotifier.ts # draw → React delta patch；量化後才 setState
   DeltaPhaseControl.tsx     # δ：刻度 + 磁吸 + 快速定點
 
 src/works/
@@ -213,8 +217,37 @@ mode 或 N 變更 → buildFourierPath() 一次（含 arcLength LUT）
 每 frame draw  → reveal slice + renderFourierEpicycles
 ```
 
-- reveal：`reveal += (p.deltaTime / 1000) * REVEAL_SPEED_PER_SEC`（**勿**固定 `+= 0.002`）
+- reveal：`reveal += REVEAL_SPEED_PER_SEC * dtSec`，其中 `dtSec = Math.min(p.deltaTime, 50) / 1000`（**勿**固定 `+= 0.002`）
 - guide 的 `currentT`：`tAtArcLength(points, totalLength * revealProgress)`
+
+### Explore input / timing rules
+
+- Explore 的 range input 只保留一條更新路徑，不要同時使用 `onInput` 與 `onChange`。
+- 若常數語意是 per-second，例如 `REVEAL_SPEED_PER_SEC`，使用：
+
+```ts
+const dtSec = Math.min(p.deltaTime, 50) / 1000;
+revealProgress += REVEAL_SPEED_PER_SEC * dtSec;
+```
+
+- 若常數語意是原本 60fps 下調好的 per-frame speed，使用：
+
+```ts
+const frameScale = Math.min(p.deltaTime, 50) / 16.666;
+value += SPEED_PER_FRAME * frameScale;
+```
+
+- 不要把 per-second 常數乘 `frameScale`。
+- smoothing lerp 若原本是 60fps per-frame alpha，使用 60fps 等效公式：
+
+```ts
+const frameScale = deltaMs / 16.666;
+const alpha = 1 - Math.pow(1 - PARAM_LERP, frameScale);
+current = lerp(current, target, alpha);
+```
+
+- `reveal` / `phase` / `pointClock` 這種視覺連續動畫要 clamp delta，避免切回分頁時瞬間跳動。
+- smoothing 追目標值時可依視覺語意決定是否 clamp；例如 Matrix smoothing 可以不 clamp，讓切回分頁後快速追上 target。
 
 ### Explore 列表封面
 
@@ -233,7 +266,7 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 | 模組 | `CurveModule` + `registry` | `src/explore/*` 自建 path |
 | 控件 | portal → 右欄 | 內嵌 React DOM |
 | 縮圖 | 建置期 SVG | 靜態 PNG `coverImage` |
-| reveal | 多為 per-frame speed | 建議 `deltaTime` 驅動 |
+| reveal | `deltaTime` / `frameScale(deltaMs)` 正規化 | 建議 `deltaTime` 驅動 |
 
 ---
 
@@ -339,7 +372,7 @@ type CurveModule = {
   paramSchema: ParamDef[];
   defaultParams: ParamValues;   // 可含 schema 外 key（delta, d…）
   sample: (params, { step }) => CurvePoint[] | ThumbnailSpec;
-  getMetadata: (params, runtime?) => CurveMetadata;
+  getMetadata: (params, runtime?) => CurveMetadata;  // smooth 用 resolveSmoothParams(params, runtime)
   renderPreset: RenderConfig;
   cacheStrategy?: 'none' | 'integerBlend' | 'exact';
   sampleStep?: number;
@@ -363,6 +396,74 @@ p5 draw
 ```
 
 架構契約見 [`reactkey.md`](reactkey.md)。
+
+---
+
+## 平滑參數同步（draw → React）
+
+p5 `draw` 內的平滑值（`smoothR`、`smoothTheta`…）需節流同步到 React 的 `StatsPanel`。  
+`useSmoothParamNotifier` **只 emit 有變化的欄位（delta patch）**，不是完整 `ParamValues` 包。
+
+### 接線契約
+
+**P5 hook**（`useXxxP5.ts`）：
+
+```ts
+const notifySmoothParams = useSmoothParamNotifier({
+  getParams: () => targetParamsRef.current, // 目標參數變更時重置量化快取
+  onChange: onSmoothParamsChange,
+});
+
+// draw 內
+notifySmoothParams({ r1: anim.smoothR1, theta2: anim.smoothTheta2, … });
+```
+
+**Root**（`*CurveRoot.tsx`）— **必須 merge**，禁止覆蓋：
+
+```ts
+const onSmoothParamsChange = useCallback(
+  (params: ParamValues) => setSmoothParams((prev) => ({ ...prev, ...params })),
+  [],
+);
+```
+
+`getParams` 可改為 `() => animRef.current.params`（與 `targetParamsRef.current` 等價，依模組選一）；  
+當使用者拖 slider、目標參數簽名變更時，notifier 會清空量化快取，避免 patch 漏欄後顯示值卡住。
+
+### getMetadata 防呆
+
+`runtime.smoothParams` 在 runtime 可能是 **partial**。  
+`getMetadata` 不要寫 `runtime?.smoothParams ?? params`（partial 會整包取代 params，缺欄 `.toFixed()` 崩潰）。
+
+```ts
+import { resolveSmoothParams } from '../../resolveSmoothParams';
+
+getMetadata: (params, runtime) => {
+  const smooth = resolveSmoothParams(params, runtime);
+  // 等同 { ...params, ...(runtime?.smoothParams ?? {}) }
+  return {
+    stats: [{ key: 'r1', label: 'r₁', value: smooth.r1.toFixed(2) }, …],
+  };
+};
+```
+
+### 踩坑（`complex-arithmetic-geometry` 實例）
+
+| 症狀 | 原因 | 修正 |
+|------|------|------|
+| canvas 全黑 + 右欄控制空白 | Root 用 `setSmoothParams(params)` 覆蓋；第 2 幀只 emit `{ theta2 }` → `getMetadata` 讀 `smooth.r1.toFixed()` 拋錯 → React 整棵卸載 | Root merge patch；`getMetadata` 用 `resolveSmoothParams` |
+| 統計只更新部分欄位、其餘 NaN | 同上，state 缺 key | 同上 |
+| 連續漂移參數（θ₂ sin 擾動）特別易觸發 | 每幀只有漂移欄位量化後變化，patch 更小 | 同上；`getParams` 重置快取 |
+
+掃描指令：
+
+```bash
+grep -R "setSmoothParams(params)" src/components src/curve -n
+grep -R 'setSmoothParams((prev)' src/components src/curve -n
+grep -R "runtime?.smoothParams ?? params" src/curve/modules -n
+```
+
+第一條應為 **0**；第三條應改為 `resolveSmoothParams(params, runtime)`。
 
 ---
 
@@ -414,6 +515,45 @@ if (pt.arcLength <= threshold) { … }
 ### `byTheta`（Rose）
 
 **禁止** `pt.theta % TWO_PI`。用 `maxTheta = points.at(-1).theta` 與 `pt.theta <= maxTheta * progress`。
+
+### Time / reveal normalization
+
+- `revealProgress` 語意是 0–1 的進度比例，不是 frame counter。
+- `time`、`phase`、`rotation`、`reveal` 若會每幀推進，必須用 `deltaTime`、clamped `dtSec` 或 `frameScale(deltaMs)` 正規化。
+- per-second 常數用 clamped `dtSec`：
+
+```ts
+const dtSec = Math.min(deltaMs, 50) / 1000;
+revealProgress += REVEAL_SPEED_PER_SEC * dtSec;
+time += TIME_SPEED_PER_SEC * dtSec;
+```
+
+- 若原本速度是以 60fps per-frame 調出的，用 `frameScale`：
+
+```ts
+const frameScale = Math.min(deltaMs, 50) / 16.666;
+revealProgress += REVEAL_SPEED_PER_FRAME * frameScale;
+phase += PHASE_SPEED_PER_FRAME * frameScale;
+```
+
+- smoothing lerp 若原本是 60fps per-frame alpha，用 60fps 等效公式：
+
+```ts
+const frameScale = deltaMs / 16.666;
+const alpha = 1 - Math.pow(1 - PARAM_LERP, frameScale);
+current = lerp(current, target, alpha);
+```
+
+- 不要把 per-second 常數乘 `frameScale`。
+
+### Continuous parameter reset
+
+- 連續參數（例如 `amplitude`、`phase`、`distance`、`growth`、`scale`）不應每個 input tick 都 reset reveal。
+- 若連續 slider 會改變結構，可用 pending reset：等 smooth settled 或 timeout 後再 reset，不要拖動中每幀重播。
+- settled / timeout 條件應使用 OR，不要使用 AND。
+- timeout 可落在 300–500ms。
+- 離散結構（例如 `mode`、toggle、`depth`、frequency count、topology、operation、iteration structure）仍可立即 reset reveal。
+- `reveal` 這個 technical label 保留英文，不要翻成「顯示」。
 
 ---
 
@@ -489,7 +629,7 @@ y = 2A sin(kx) cos(ωt)    包絡 ±2A sin(kx)
 |------|------|
 | k（spatialFrequency） | 變更 → reveal 歸零；瞬間對齊 |
 | A（amplitude） | lerp **0.08**；不重置 reveal |
-| ω（timeSpeed） | 每幀累加 `time`；不重置 reveal |
+| ω（timeSpeed） | 用 `deltaTime` / `frameScale(deltaMs)` 推進 `time`；不重置 reveal |
 
 - **不走** `renderFrame` / `useMorphCurveP5`：時間驅動 + 包絡 ghost 圖層
 - reveal 依水平寬度比例（非 arcLength / theta）
@@ -506,8 +646,8 @@ y = 2A sin(kx) cos(ωt)    包絡 ±2A sin(kx)
 | 參數 | 行為 |
 |------|------|
 | λ（wavelength） | 變更 → reveal 歸零 |
-| d（sourceDistance） | 變更 → reveal 歸零；**顯示** lerp 0.08 |
-| ω（timeSpeed） | 每幀累加 `time`；不重置 reveal |
+| d（sourceDistance） | 連續結構參數；smooth / pending reset，避免拖動中每幀重播 |
+| ω（timeSpeed） | 用 `deltaTime` / `frameScale(deltaMs)` 推進 `time`；不重置 reveal |
 
 - 多條雙曲線 fringes + envelope ghost；波源點 ±d/2
 - reveal 依雙曲參數 t 範圍（`maxT = 1.2 × progress`）
@@ -525,7 +665,7 @@ r = a e^(bθ)    x = r cos θ, y = r sin θ    a = 4（常數）
 |------|------|
 | growthB | lerp **0.08**；變更時重建 ghost / active |
 | maxTheta | lerp **0.08**；相機依終點半徑重算 zoom |
-| rotationSpeed | 每幀累加 `time`；渲染層 `rotate(time)` |
+| rotationSpeed | 用 `deltaTime` / `frameScale(deltaMs)` 推進 `time`；渲染層 `rotate(time)` |
 
 - **不走** `renderFrame` / morph cache：參數曲線 + reveal θ 呼吸
 - ghost 至 $\theta_{\max}$；active 至 $\theta_{\mathrm{reveal}}$（含 $\sin$ 擾動）
@@ -543,7 +683,7 @@ F = 漩渦 (−y,x)/(r²+ε) + 0.25(sin(2y+0.8t), cos(2x+0.8t))    RK2 積分
 |------|------|
 | streamlineCount | 瞬間對齊；每幀重算 N 條流線 |
 | integrationSteps | 瞬間對齊；RK2 步數 |
-| flowSpeed | 每幀累加 `time`；場與種子半徑隨 t 變 |
+| flowSpeed | 用 `deltaTime` / `frameScale(deltaMs)` 推進 `time`；場與種子半徑隨 t 變 |
 
 - 固定 `CAMERA_SCALE = 120`；邊界 $|x|,|y|>5$ 截斷
 - 種子：均分角度 + 呼吸半徑 $1.2+0.25\sin(1.5t+i)$
@@ -588,7 +728,7 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 | Cache | `integerBlend` | `none` | `none` | `none` | `none` | `none` |
 | Reveal | `byTheta` | `byArcLength` | `byArcLength` | `byArcLength` | 水平寬度 | 雙曲 t 範圍 |
 | Grid | polar | cartesian | harmonograph | spirograph | 十字 guide | 十字 guide + 波源 |
-| 連續 morph | k lerp | δ | δ + d | d | A | d（顯示） |
+| 連續 morph | k lerp | δ | δ + d | d | A | d（smooth） |
 | 滑桿 ref | — | `patchTargetParams` | 同上 | 同上 | — | — |
 | 離散瞬跳 | — | a, b | a, b | R, r | k | λ, d（結構） |
 | 特殊 UI | — | δ tick/snap | δ tick/snap + d | — | — | — |
@@ -613,9 +753,19 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 4. 採樣域、`revealMode`、`cacheStrategy`
 5. 哪些參數 reset reveal？哪些 lerp？
 6. 連續 lerp → `useMorphCurveP5` + `patchTargetParams`（見 [`reactkey.md`](reactkey.md)）
-7. `[slug].astro`：`work-detail__stage` + `WorkInteractiveStage`（registry 查表）
-8. `registry.ts` 登記（縮圖）
-9. 驗收：作品頁（**滑桿在 canvas 右側、一屏可見**）、列表縮圖、`reveal === 1` 點列完整、**瀏覽器拖動連續參數滑桿**
+7. draw → React：`useSmoothParamNotifier` options API + Root merge patch + `resolveSmoothParams`（見上方「平滑參數同步」）
+8. `[slug].astro`：`work-detail__stage` + `WorkInteractiveStage`（registry 查表）
+9. `registry.ts` 登記（縮圖）
+10. 驗收：作品頁（**滑桿在 canvas 右側、一屏可見**）、列表縮圖、`reveal === 1` 點列完整、**瀏覽器拖動連續參數滑桿**
+
+---
+
+## Plot clipping and labels
+
+- 內部 plot / operation plane 的主幾何可用局部 clip，避免向量、箭頭、輔助線、glow 穿出 plot。
+- 不要用全 canvas clip 取代局部 plot clip；canvas 本身已會裁切外框。
+- label 不應直接被 clip 消失；若 label 可能超出 plot，應在 clip 外繪製，並 clamp 到 plot 邊界內或邊界附近。
+- 不要改變數學值來避免出框，只限制渲染可視範圍。
 
 ---
 
@@ -640,7 +790,24 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 | 控制 panel 放在 prose 旁 `detail-grid` | 改用 `work-detail__stage` 右欄 |
 | 寬版 prototype 的 canvas 文字原樣保留 | 文字移到 React controls / Markdown；canvas 只留幾何與低權重 guide |
 | 寬版 prototype 座標塞進作品方形 canvas | 改成近方形 world view，讓主幾何佔畫面 70%–85% |
-| explore reveal 固定每幀 `+= 0.002` | 改用 `(deltaTime/1000) * speedPerSec` |
+| explore reveal 固定每幀 `+= 0.002` | per-second reveal 用 clamped `dtSec`；per-frame 速度才用 `frameScale` |
+| time / phase / reveal 每幀固定 `+= speed` | 用 `deltaTime`、clamped `dtSec` 或 `frameScale(deltaMs)` 正規化；避免 144Hz 跑更快、低 FPS 變慢 |
+| Explore range 同時綁 `onInput` 與 `onChange` | 保留單一路徑，避免同次拖曳重複 setState |
+| per-second 常數誤乘 `frameScale` | per-second 用 `dtSec`；per-frame 速度才用 `frameScale` |
+| 固定每幀 lerp 導致高刷新率更快 | 用 `alpha = 1 - Math.pow(1 - PARAM_LERP, frameScale)` 做 60fps 等效 smoothing |
+| 連續 slider 每次 input 都 reset reveal | 用 smooth / pending reset；settled 或 timeout 後再 reset |
+| canvas 內使用全域座標當局部座標 | `translate()` 後的 renderer 要用局部可視邊界，例如 `width / 2 + offset` |
+| 用 `width` 建構正方形主體 | 用 `Math.min(width, height)` 定框，避免手機或非正方 canvas 貼邊 |
+| reveal 百分比與實際生成數不同步 | `revealProgress` 要對應固定總量，例如 `MAX_GRAINS * revealProgress` |
+| 內部 plot 的向量 / glow / guide 畫出框 | 對 plot 內主幾何做局部 clip，不做全 canvas clip |
+| label 被 plot clip 裁掉消失 | label 在 clip 外繪製，座標 clamp 到 plot 內 |
+| metadata stats 回傳過多行 | metadata 層挑最重要的 3～4 行，不靠 `StatsPanel` 裁切 |
+| 把 technical label 全翻成中文 | `reveal`、`mode`、`scale`、`phase`、`iteration`、`arg`、`det`、`dy/dx`、`Euler`、`De Moivre` 等可保留英文或符號；只翻普通 UI / debug 文字 |
+| 普通 UI 英文和 technical label 混在一起處理 | 普通 UI 標題改中文；technical label 可保留英文或數學符號 |
+| `StatsPanel` 靜默裁掉重要資訊 | metadata 層只回傳最重要的 3～4 行，不要靠 `slice(0, 4)` 補救順序錯誤 |
+| `setSmoothParams(params)` 覆蓋整包 state | `useSmoothParamNotifier` emit delta patch；Root 用 `(prev) => ({ ...prev, ...params })` |
+| `getMetadata` 寫 `runtime?.smoothParams ?? params` | partial smooth 缺欄 → `.toFixed()` 崩潰、React 卸載；改 `resolveSmoothParams(params, runtime)` |
+| canvas 黑屏但 Astro 靜態區正常 | 常為 render 期 `getMetadata` 拋錯，不一定是 p5 renderer；先查 browser console |
 | `fourierRender` 裸用 `TWO_PI` 未 import | 模組內 `const TAU = Math.PI * 2` |
 | /renderer 常數從 `curve/constants` import 被 Vite 剝離 | 渲染檔內建本地常數 |
 

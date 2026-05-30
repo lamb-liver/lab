@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { harmonographRenderPreset } from '../../../systems/rendering/presets';
 
 const AMPLITUDE = 250;
@@ -69,7 +70,7 @@ export const harmonographModule: CurveModule = {
     return points;
   },
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '諧振圖',
       formula: 'x = A sin(at + δ)e^(-dt), y = B sin(bt)e^(-dt)',

@@ -23,7 +23,7 @@ export default function CatenaryCurveRoot({
 
   const onPullPctChange = useCallback((pct: number) => setPullPct(pct), []);
   const onSmoothParamsChange = useCallback(
-    (params: ParamValues) => setSmoothParams(params),
+    (params: ParamValues) => setSmoothParams((prev) => ({ ...prev, ...params })),
     [],
   );
 

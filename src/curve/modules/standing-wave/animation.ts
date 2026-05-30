@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.0024;
 export const AMPLITUDE_LERP = 0.08;
@@ -32,6 +33,7 @@ export function stepStandingWaveAnimation(
   state: StandingWaveAnimState,
   nextTarget: ParamValues,
   revealSpeed: number,
+  deltaMs?: number,
 ): StandingWaveAnimState {
   const spatialFrequency = Math.round(nextTarget.spatialFrequency);
   const freqChanged = spatialFrequency !== state.previousFrequency;
@@ -49,7 +51,8 @@ export function stepStandingWaveAnimation(
     currentAmplitude = targetParams.amplitude;
   }
 
-  time += targetParams.timeSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.timeSpeed * scale;
 
   params = {
     amplitude: currentAmplitude,
@@ -58,7 +61,7 @@ export function stepStandingWaveAnimation(
   };
 
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;

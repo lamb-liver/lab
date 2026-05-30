@@ -54,9 +54,9 @@ describe('buildRecursiveTransformSegments', () => {
 });
 
 describe('stepAffineTransformPatternAnimation', () => {
-  it('rotation or translation change resets reveal', () => {
+  it('rotation or translation change waits for pending reset before replaying reveal', () => {
     const defaults = affineTransformPatternModule.defaultParams;
-    const state = stepAffineTransformPatternAnimation(
+    const pending = stepAffineTransformPatternAnimation(
       {
         params: defaults,
         targetParams: defaults,
@@ -67,9 +67,23 @@ describe('stepAffineTransformPatternAnimation', () => {
         currentTranslation: defaults.translation,
         previousRotationDeg: defaults.rotationDeg,
         previousTranslation: defaults.translation,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, rotationDeg: 10 },
       0.004,
+      1000 / 60,
+      100,
+    );
+    expect(pending.revealProgress).toBe(1);
+    expect(pending.pendingRevealReset).toBe(true);
+
+    const state = stepAffineTransformPatternAnimation(
+      pending,
+      { ...defaults, rotationDeg: 10 },
+      0.004,
+      1000 / 60,
+      1400,
     );
     expect(state.revealProgress).toBeCloseTo(0.004);
     expect(state.isComplete).toBe(false);
@@ -88,6 +102,8 @@ describe('stepAffineTransformPatternAnimation', () => {
         currentTranslation: defaults.translation,
         previousRotationDeg: defaults.rotationDeg,
         previousTranslation: defaults.translation,
+        pendingRevealReset: false,
+        pendingRevealSince: 0,
       },
       { ...defaults, evolutionSpeed: 0.04 },
       0.004,

@@ -1,9 +1,9 @@
 export const TAU = Math.PI * 2;
 
-export const PLOT_X_RATIO = 70 / 1100;
-export const PLOT_Y_RATIO = 86 / 600;
-export const PLOT_W_RATIO = 650 / 1100;
-export const PLOT_H_RATIO = 398 / 600;
+export const PLOT_X_RATIO = 0.07;
+export const PLOT_Y_RATIO = 0.16;
+export const PLOT_W_RATIO = 0.82;
+export const PLOT_H_RATIO = 0.68;
 
 export const HINT_Y_OFFSET = 36;
 

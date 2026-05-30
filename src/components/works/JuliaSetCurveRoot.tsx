@@ -56,6 +56,32 @@ export default function JuliaSetCurveRoot({
             <p className="curve-work-controls__title">{metadata.title}</p>
             <p className="curve-work-controls__formula">{metadata.formula}</p>
           </div>
+          <div
+            className="curve-work-mode-toggle"
+            role="group"
+            aria-label="朱利亞集合參數漂移"
+          >
+            <button
+              type="button"
+              className="curve-work-mode-button"
+              aria-pressed={Math.round(targetParams.autoDrift ?? 0) === 0}
+              onClick={() =>
+                setTargetParams((prev) => ({ ...prev, autoDrift: 0 }))
+              }
+            >
+              手動 c
+            </button>
+            <button
+              type="button"
+              className="curve-work-mode-button"
+              aria-pressed={Math.round(targetParams.autoDrift ?? 0) === 1}
+              onClick={() =>
+                setTargetParams((prev) => ({ ...prev, autoDrift: 1 }))
+              }
+            >
+              參數漂移
+            </button>
+          </div>
           <ParamControls
             module={module}
             values={targetParams}

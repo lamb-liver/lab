@@ -21,7 +21,6 @@ export default function ParamControls({ module, values, onChange }: Props) {
               max={def.max}
               step={def.step}
               value={values[def.key] ?? def.default}
-              onChange={(e) => onChange(def.key, Number(e.target.value))}
               onInput={(e) => onChange(def.key, Number(e.currentTarget.value))}
             />
           </div>

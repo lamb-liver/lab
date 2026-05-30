@@ -1,5 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema } from '../../types';
+import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { RATIO_LERP, REVEAL_SPEED } from './animation';
 import { sampleConicEnvelopeOutline } from './geometry';
@@ -38,7 +39,7 @@ export const conicEnvelopeModule: CurveModule = {
   sample: (params, { step }) =>
     sampleConicEnvelopeOutline(params.deformationRatio, step),
   getMetadata: (params, runtime) => {
-    const smooth = runtime?.smoothParams ?? params;
+    const smooth = resolveSmoothParams(params, runtime);
     return {
       title: '二次曲線包絡',
       formula: 'x/x_A + y/y_B = 1',

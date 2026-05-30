@@ -1,4 +1,5 @@
 import type { ParamValues } from '../../types';
+import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 import type { GrainPoint, IfsMathPoint } from './geometry';
 import {
   CANVAS_SCALE,
@@ -20,6 +21,8 @@ export type AffineIfsFractalAnimState = {
   previousBranchHeight: number;
   currentPoint: IfsMathPoint;
   grains: GrainPoint[];
+  pendingRevealReset: boolean;
+  pendingRevealSince: number;
 };
 
 export function createAffineIfsFractalAnimState(
@@ -37,6 +40,8 @@ export function createAffineIfsFractalAnimState(
     previousBranchHeight: defaultParams.branchHeight,
     currentPoint: { x: 0, y: 0 },
     grains: [],
+    pendingRevealReset: false,
+    pendingRevealSince: 0,
   };
 }
 
@@ -53,6 +58,8 @@ export function stepAffineIfsFractalAnimation(
   nextTarget: ParamValues,
   random01: RandomFn,
   revealSpeed = REVEAL_SPEED,
+  deltaMs?: number,
+  nowMs = 0,
 ): AffineIfsFractalAnimState {
   const structureChanged =
     nextTarget.leafBend !== state.previousLeafBend ||
@@ -66,14 +73,14 @@ export function stepAffineIfsFractalAnimation(
     currentBranchHeight,
     currentPoint,
     grains,
+    pendingRevealReset,
+    pendingRevealSince,
   } = state;
   const targetParams = { ...nextTarget };
 
   if (structureChanged) {
-    revealProgress = 0;
-    isComplete = false;
-    grains = [];
-    currentPoint = { x: 0, y: 0 };
+    pendingRevealReset = true;
+    pendingRevealSince = nowMs;
   }
 
   currentLeafBend = lerpToward(currentLeafBend, targetParams.leafBend, PARAM_LERP);
@@ -83,22 +90,41 @@ export function stepAffineIfsFractalAnimation(
     PARAM_LERP,
   );
 
-  time += targetParams.generationSpeed;
+  const scale = frameScale(deltaMs);
+  time += targetParams.generationSpeed * scale;
+
+  const settled =
+    Math.abs(currentLeafBend - targetParams.leafBend) < 0.0005 &&
+    Math.abs(currentBranchHeight - targetParams.branchHeight) < 0.0005;
+  if (
+    !structureChanged &&
+    shouldCommitPendingReset(pendingRevealReset, settled, nowMs, pendingRevealSince)
+  ) {
+    revealProgress = 0;
+    isComplete = false;
+    grains = [];
+    currentPoint = { x: 0, y: 0 };
+    pendingRevealReset = false;
+    pendingRevealSince = 0;
+  }
 
   if (!isComplete) {
-    revealProgress += revealSpeed;
+    revealProgress += revealSpeed * scale;
     if (revealProgress >= 1) {
       revealProgress = 1;
       isComplete = true;
     }
   }
 
-  const shouldGenerate =
-    revealProgress < 1 || grains.length < MAX_GRAINS;
+  const shouldGenerate = grains.length < MAX_GRAINS;
 
   if (shouldGenerate) {
     const pulseOffset = Math.sin(time) * 0.02;
-    for (let k = 0; k < POINTS_PER_FRAME; k++) {
+    const pointsThisFrame = Math.min(
+      MAX_GRAINS - grains.length,
+      Math.ceil(POINTS_PER_FRAME * scale),
+    );
+    for (let k = 0; k < pointsThisFrame; k++) {
       const r = random01();
       const prevX = currentPoint.x;
       const prevY = currentPoint.y;
@@ -147,5 +173,7 @@ export function stepAffineIfsFractalAnimation(
     previousBranchHeight: targetParams.branchHeight,
     currentPoint,
     grains,
+    pendingRevealReset,
+    pendingRevealSince,
   };
 }
