@@ -2,8 +2,7 @@
 title: 帕斯卡三角形
 description: 二項式係數三角陣列，展示遞迴、對稱與組合恆等式。
 tags:
-  - 代數
-  - 組合
+  - 組合數學
 date: 2026-08-11
 featured: false
 draft: false

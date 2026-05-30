@@ -2,8 +2,7 @@
 title: 卡特蘭數
 description: 合法括號序列、格點單調不越對角線路徑等組合模型的統一計數。
 tags:
-  - 代數
-  - 組合
+  - 組合數學
 date: 2026-08-14
 featured: false
 draft: false

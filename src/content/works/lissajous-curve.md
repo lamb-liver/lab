@@ -3,8 +3,6 @@ title: 利薩茹曲線
 description: 以參數方程 x = A·sin(at + δ)、y = B·sin(bt) 描繪的利薩茹圖形，頻率比與相位差決定圖形複雜度與對稱。
 tags:
   - 幾何
-  - 三角函數
-  - 參數方程
 date: 2026-02-01
 featured: true
 draft: false

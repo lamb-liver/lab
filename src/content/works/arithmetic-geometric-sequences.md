@@ -2,8 +2,7 @@
 title: 等差等比數列的幾何視覺
 description: 以線段累加與矩形面積展示等差、等比數列及其求和公式。
 tags:
-  - 代數
-  - 數列
+  - 函數與分析
 date: 2026-05-27
 featured: false
 draft: false

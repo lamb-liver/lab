@@ -2,9 +2,7 @@
 title: 相位圖
 description: 以兩個旋轉相量在平面上首尾相接，展示簡諧波疊加與合成軌跡；拖動振幅、頻率比與相位差觀察閉合圖形。
 tags:
-  - 代數
-  - 複數
-  - 三角函數
+  - 幾何
 date: 2026-08-01
 featured: false
 draft: false

@@ -2,9 +2,7 @@
 title: 朱利亞集合
 description: 迭代 z ↦ z² + c 在複平面上產生的分形邊界與自相似結構。
 tags:
-  - 代數
-  - 複數
-  - 碎形
+  - 動力系統
 date: 2026-08-05
 featured: false
 draft: false

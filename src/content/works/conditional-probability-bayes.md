@@ -2,8 +2,7 @@
 title: 條件機率與貝氏定理
 description: 以樹狀圖與面積比例展示 P(A|B) 與貝氏公式的直觀意義。
 tags:
-  - 統計
-  - 機率
+  - 機率統計
 date: 2026-08-15
 featured: false
 draft: false

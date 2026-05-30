@@ -2,7 +2,6 @@
 title: 線性變換網格
 description: 2×2 矩陣作用在平面格點上，觀察剪切、旋轉與縮放效果。
 tags:
-  - 代數
   - 線性代數
 date: 2026-06-02
 featured: false

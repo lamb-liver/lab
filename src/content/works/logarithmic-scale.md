@@ -2,8 +2,7 @@
 title: 對數尺度
 description: 等比數列在對數座標下變為等差，比較跨數量級的成長與衰減。
 tags:
-  - 分析
-  - 代數
+  - 函數與分析
 date: 2026-08-19
 featured: false
 draft: false

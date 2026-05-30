@@ -2,8 +2,7 @@
 title: 二項分佈到常態分佈
 description: n 次試驗的成功次數直方圖隨 n 增大趨近鐘形常態曲線。
 tags:
-  - 統計
-  - 機率
+  - 機率統計
 date: 2026-08-16
 featured: false
 draft: false

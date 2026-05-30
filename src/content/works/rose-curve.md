@@ -3,7 +3,6 @@ title: 玫瑰曲線
 description: 以極座標方程 r = a·cos(kθ) 描繪的玫瑰線圖形，參數 k 決定花瓣數量。
 tags:
   - 幾何
-  - 三角函數
 date: 2026-01-15
 featured: true
 draft: false

@@ -19,7 +19,7 @@ const latestExplore = getPublishedInteractive(explore, exploreInteractiveSlugs, 
 
 <BaseLayout
   title="羊·實驗"
-  description="羊·實驗收集以程式製作的數學曲線、演算法圖形與互動視覺化作品。"
+  description="羊·實驗：以互動視覺化與 generative art 呈現數學公式、曲線與演算法。作品集深度展示單一主題，視覺化串連跨概念實驗。"
 >
   <section class="hero-section">
     <HeroCanvasShell />
@@ -32,7 +32,12 @@ const latestExplore = getPublishedInteractive(explore, exploreInteractiveSlugs, 
   <section class="section">
     <div class="container">
       <div class="home-section-header">
-        <h2 class="section-title">最新作品</h2>
+        <div class="home-section-heading">
+          <h2 class="section-title">最新作品</h2>
+          <p class="home-section-desc">
+            每篇聚焦一個數學對象：公式、可調參數互動，以及完整視覺解釋。
+          </p>
+        </div>
         <a href={withBase('/works')} class="home-section-link">查看全部 →</a>
       </div>
       <div class="card-grid">
@@ -53,7 +58,12 @@ const latestExplore = getPublishedInteractive(explore, exploreInteractiveSlugs, 
   <section class="section">
     <div class="container">
       <div class="home-section-header">
-        <h2 class="section-title">最新視覺化</h2>
+        <div class="home-section-heading">
+          <h2 class="section-title">最新視覺化</h2>
+          <p class="home-section-desc">
+            從一個大概念出發，串起多個互動實驗與觀察重點。
+          </p>
+        </div>
         <a href={withBase('/explore')} class="home-section-link">查看全部 →</a>
       </div>
       <div class="card-grid">

@@ -2,7 +2,6 @@
 title: 向量投影與分解
 description: 將向量分解為平行與垂直分量，正交基底與最佳逼近直覺。
 tags:
-  - 幾何
   - 線性代數
 date: 2026-08-24
 featured: false

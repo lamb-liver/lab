@@ -2,8 +2,7 @@
 title: 自然對數 e 的幾何定義
 description: 以 y=1/x 下面積從 1 到 t 定義 ln t，並展示 e 為使面積為 1 的底。
 tags:
-  - 分析
-  - 微積分
+  - 函數與分析
 date: 2026-08-20
 featured: false
 draft: false

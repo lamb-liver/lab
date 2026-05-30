@@ -2,8 +2,7 @@
 title: 切線逼近動畫
 description: 割線斜率趨近切線斜率，展示導數作為瞬時變化率。
 tags:
-  - 分析
-  - 微積分
+  - 函數與分析
 date: 2026-07-03
 featured: false
 draft: false

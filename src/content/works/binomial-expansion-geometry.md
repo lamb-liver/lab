@@ -2,8 +2,7 @@
 title: 二項式展開的幾何意義
 description: 以體積或面積分割視覺化 (a+b)^n 的展開與係數來源。
 tags:
-  - 代數
-  - 組合
+  - 組合數學
 date: 2026-08-13
 featured: false
 draft: false

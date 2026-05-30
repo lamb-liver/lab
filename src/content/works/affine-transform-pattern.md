@@ -2,7 +2,6 @@
 title: 仿射變換圖樣
 description: 平移、旋轉、縮放組合的仿射變換在圖樣上的疊代效果。
 tags:
-  - 代數
   - 線性代數
 date: 2026-06-03
 featured: false

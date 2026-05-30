@@ -2,7 +2,6 @@
 title: 向量的加法與純量乘法
 description: 平面向量的平行四邊形合成與純量伸縮，建立線性組合直覺。
 tags:
-  - 幾何
   - 線性代數
 date: 2026-08-22
 featured: false

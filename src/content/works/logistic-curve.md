@@ -2,8 +2,7 @@
 title: 邏輯斯諦曲線
 description: S 形邏輯斯諦成長 y = L/(1+ae^{-kt})，描述飽和與承載上限。
 tags:
-  - 分析
-  - 代數
+  - 函數與分析
 date: 2026-08-21
 featured: false
 draft: false

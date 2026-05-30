@@ -3,7 +3,6 @@ title: 等角螺線
 description: 極徑與極角成指數關係 r = ae^(bθ)，任意過原點射線與曲線交角恆定。
 tags:
   - 幾何
-  - 微積分
 date: 2026-07-05
 featured: false
 draft: false

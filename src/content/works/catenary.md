@@ -3,7 +3,6 @@ title: 曳物線（Tractrix）
 description: 定長繩索牽引追蹤軌跡（Tractrix），觀察 sech/tanh 參數方程與對稱雙軌。
 tags:
   - 幾何
-  - 微積分
 date: 2026-07-04
 featured: false
 draft: false

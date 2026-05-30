@@ -2,7 +2,6 @@
 title: 旋轉縮放疊加
 description: 連續旋轉與均勻縮放的矩陣乘積，觀察螺旋與對數螺線的生成。
 tags:
-  - 代數
   - 線性代數
 date: 2026-06-04
 featured: false

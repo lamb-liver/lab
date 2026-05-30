@@ -2,9 +2,7 @@
 title: 蒲豐投針
 description: 隨機投針估計 π，以頻率逼近古典機率幾何結果。
 tags:
-  - 統計
-  - 機率
-  - 幾何
+  - 機率統計
 date: 2026-08-17
 featured: false
 draft: false

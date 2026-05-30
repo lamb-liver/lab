@@ -2,8 +2,7 @@
 title: 干涉條紋
 description: 雙源波的疊加產生明暗交替的干涉條紋圖樣。
 tags:
-  - 三角函數
-  - 波動
+  - 幾何
 date: 2026-05-25
 featured: false
 draft: false

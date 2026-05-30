@@ -2,8 +2,7 @@
 title: 駐波圖
 description: 兩列反向波疊加形成駐波，觀察節點與腹點的分佈。
 tags:
-  - 三角函數
-  - 波動
+  - 幾何
 date: 2026-05-24
 featured: false
 draft: false
