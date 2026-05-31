@@ -19,7 +19,11 @@ import TangentApproximationCurveRoot from './TangentApproximationCurveRoot';
 import LinearTransformGridCurveRoot from './LinearTransformGridCurveRoot';
 import StandingWaveCurveRoot from './StandingWaveCurveRoot';
 import EquiangularSpiralCurveRoot from './EquiangularSpiralCurveRoot';
+import VectorFieldPatternsCurveRoot from './VectorFieldPatternsCurveRoot';
 import VectorFieldStreamlinesCurveRoot from './VectorFieldStreamlinesCurveRoot';
+import VectorAdditionScalarCurveRoot from './VectorAdditionScalarCurveRoot';
+import DotProductGeometryCurveRoot from './DotProductGeometryCurveRoot';
+import VectorProjectionCurveRoot from './VectorProjectionCurveRoot';
 import ComplexArithmeticGeometryCurveRoot from './ComplexArithmeticGeometryCurveRoot';
 import ComplexPolarFormCurveRoot from './ComplexPolarFormCurveRoot';
 import EulerFormulaRotationCurveRoot from './EulerFormulaRotationCurveRoot';
@@ -63,7 +67,11 @@ const rootBySlug = {
   'tangent-approximation': TangentApproximationCurveRoot,
   'catenary': CatenaryCurveRoot,
   'equiangular-spiral': EquiangularSpiralCurveRoot,
+  'vector-field-patterns': VectorFieldPatternsCurveRoot,
   'vector-field-streamlines': VectorFieldStreamlinesCurveRoot,
+  'vector-addition-scalar': VectorAdditionScalarCurveRoot,
+  'dot-product-geometry': DotProductGeometryCurveRoot,
+  'vector-projection': VectorProjectionCurveRoot,
   'complex-arithmetic-geometry': ComplexArithmeticGeometryCurveRoot,
   'complex-polar-form': ComplexPolarFormCurveRoot,
   'euler-formula-rotation': EulerFormulaRotationCurveRoot,

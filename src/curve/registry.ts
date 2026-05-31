@@ -17,7 +17,11 @@ import { rotationScaleCompositionModule } from './modules/rotation-scale-composi
 import { linearTransformGridModule } from './modules/linear-transform-grid';
 import { standingWaveModule } from './modules/standing-wave';
 import { equiangularSpiralModule } from './modules/equiangular-spiral';
+import { vectorFieldPatternsModule } from './modules/vector-field-patterns';
 import { vectorFieldStreamlinesModule } from './modules/vector-field-streamlines';
+import { vectorAdditionScalarModule } from './modules/vector-addition-scalar';
+import { dotProductGeometryModule } from './modules/dot-product-geometry';
+import { vectorProjectionModule } from './modules/vector-projection';
 import { complexArithmeticGeometryModule } from './modules/complex-arithmetic-geometry';
 import { complexPolarFormModule } from './modules/complex-polar-form';
 import { eulerFormulaRotationModule } from './modules/euler-formula-rotation';
@@ -60,7 +64,11 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'tangent-approximation': tangentApproximationModule,
   'catenary': catenaryModule,
   'equiangular-spiral': equiangularSpiralModule,
+  'vector-field-patterns': vectorFieldPatternsModule,
   'vector-field-streamlines': vectorFieldStreamlinesModule,
+  'vector-addition-scalar': vectorAdditionScalarModule,
+  'dot-product-geometry': dotProductGeometryModule,
+  'vector-projection': vectorProjectionModule,
   'complex-arithmetic-geometry': complexArithmeticGeometryModule,
   'complex-polar-form': complexPolarFormModule,
   'euler-formula-rotation': eulerFormulaRotationModule,
