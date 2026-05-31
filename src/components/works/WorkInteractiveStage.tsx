@@ -95,6 +95,9 @@ const rootBySlug = {
   'logistic-curve': LogisticCurveCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
+// Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.
+export const workStageRootSlugs = Object.keys(rootBySlug).sort() as WorkInteractiveSlug[];
+
 type Props = {
   slug: string;
 };

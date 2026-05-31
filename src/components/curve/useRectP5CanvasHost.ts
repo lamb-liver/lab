@@ -4,6 +4,7 @@ import type p5 from 'p5';
 export type CanvasSize = { width: number; height: number };
 
 type MeasureRect = (host: HTMLElement) => CanvasSize;
+type P5WithRenderer = p5 & { _renderer?: unknown };
 
 /** 矩形 p5 instance：setup、ResizeObserver、cleanup */
 export function useRectP5CanvasHost(
@@ -47,6 +48,8 @@ export function useRectP5CanvasHost(
       const instance = new P5(sketch, host);
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
         const { width, height } = measureRef.current(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -54,6 +57,7 @@ export function useRectP5CanvasHost(
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instance.remove();
       };

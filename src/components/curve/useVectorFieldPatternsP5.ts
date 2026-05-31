@@ -9,6 +9,7 @@ type Options = {
   params: VectorFieldPatternParams;
   streamlines: Vec2[][];
 };
+type P5WithRenderer = p5 & { _renderer?: unknown };
 
 export function useVectorFieldPatternsP5({ params, streamlines }: Options) {
   const canvasHostRef = useRef<HTMLDivElement>(null);
@@ -59,6 +60,8 @@ export function useVectorFieldPatternsP5({ params, streamlines }: Options) {
       instanceRef.current = instance;
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
         const size = measureWorkCanvasSize(host);
         instance.resizeCanvas(size, size);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -67,6 +70,7 @@ export function useVectorFieldPatternsP5({ params, streamlines }: Options) {
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instanceRef.current = null;
         instance.remove();

@@ -10,6 +10,7 @@ type Options = {
   onRenderProgress: (pct: number) => void;
   onSmoothCChange: (cx: number, cy: number) => void;
 };
+type P5WithRenderer = p5 & { _renderer?: unknown };
 
 export function useJuliaP5({
   defaultParams,
@@ -87,6 +88,8 @@ export function useJuliaP5({
       instanceRef.current = instance;
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
         const size = measureWorkCanvasSize(host);
         instance.resizeCanvas(size, size);
         instance.pixelDensity(1);
@@ -97,8 +100,10 @@ export function useJuliaP5({
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instance.remove();
+        engine.dispose();
         engineRef.current = null;
         instanceRef.current = null;
       };

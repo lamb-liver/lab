@@ -20,6 +20,7 @@ type Options = {
 };
 
 const HIT_RADIUS = 18;
+type P5WithRenderer = p5 & { _renderer?: unknown };
 
 function distance(a: { x: number; y: number }, b: { x: number; y: number }): number {
   return Math.hypot(a.x - b.x, a.y - b.y);
@@ -139,6 +140,8 @@ export function useVectorAdditionScalarP5({
       instanceRef.current = instance;
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
         const size = measureWorkCanvasSize(host);
         instance.resizeCanvas(size, size);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -147,6 +150,7 @@ export function useVectorAdditionScalarP5({
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instanceRef.current = null;
         instance.remove();

@@ -126,23 +126,7 @@ npm run dev
 
 **作品集**
 
-| 主題 | slug | 標題 |
-|------|------|------|
-| 組合數學 | `pascals-triangle` | 帕斯卡三角形 |
-| 組合數學 | `combinatorial-path-counting` | 組合的路徑計數 |
-| 組合數學 | `binomial-expansion-geometry` | 二項式展開的幾何意義 |
-| 組合數學 | `catalan-numbers` | 卡特蘭數 |
-| 機率與統計 | `conditional-probability-bayes` | 條件機率與貝氏定理 |
-| 機率與統計 | `binomial-to-normal` | 二項分佈到常態分佈 |
-| 機率與統計 | `buffon-needle` | 蒲豐投針 |
-| 指數與對數 | `exponential-growth-decay` | 指數成長與衰減 |
-| 指數與對數 | `logarithmic-scale` | 對數尺度 |
-| 指數與對數 | `natural-log-e-geometry` | 自然對數 e 的幾何定義 |
-| 指數與對數 | `logistic-curve` | 邏輯斯諦曲線 |
-| 向量幾何 | `vector-addition-scalar` | 向量的加法與純量乘法 |
-| 向量幾何 | `dot-product-geometry` | 內積的幾何意義 |
-| 向量幾何 | `vector-projection` | 向量投影與分解 |
-| 向量幾何 | `vector-field-patterns` | 向量場的基本圖樣 |
+目前沒有已排程但未落地的作品集互動條目；`pascals-triangle` 已進入 `CurveModule`、works registry 與 `WorkInteractiveStage` 流程。
 
 ## 專案結構
 

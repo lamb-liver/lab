@@ -21,7 +21,7 @@ type JuliaEngineOptions = {
 };
 
 export class JuliaEngine {
-  private pg: p5.Graphics | null = null;
+  private buffer: HTMLCanvasElement | null = null;
   private ctx2d: CanvasRenderingContext2D | null = null;
   private imgData: ImageData | null = null;
   private zxTable = new Float32Array(0);
@@ -49,10 +49,11 @@ export class JuliaEngine {
   rebuild(p: p5): void {
     this.width = p.width;
     this.height = p.height;
-    this.pg = p.createGraphics(this.width, this.height);
-    this.pg.pixelDensity(1);
-    this.ctx2d = (this.pg as unknown as { drawingContext: CanvasRenderingContext2D })
-      .drawingContext;
+    this.buffer = document.createElement('canvas');
+    this.buffer.width = this.width;
+    this.buffer.height = this.height;
+    this.ctx2d = this.buffer.getContext('2d');
+    if (!this.ctx2d) return;
     this.imgData = this.ctx2d.createImageData(this.width, this.height);
     const tables = buildCoordinateTables(this.width, this.height, JULIA_CFG.ZOOM);
     this.zxTable = tables.zxTable;
@@ -78,7 +79,7 @@ export class JuliaEngine {
   }
 
   frame(p: p5, target: JuliaTargetParams, nowMs: number): boolean {
-    if (this.width !== p.width || this.height !== p.height || !this.pg || !this.imgData) {
+    if (this.width !== p.width || this.height !== p.height || !this.buffer || !this.imgData) {
       this.rebuild(p);
     }
 
@@ -87,7 +88,9 @@ export class JuliaEngine {
     this.renderTiles();
 
     p.background(10, 10, 10);
-    p.image(this.pg!, 0, 0);
+    if (this.buffer) {
+      (p.drawingContext as CanvasRenderingContext2D).drawImage(this.buffer, 0, 0);
+    }
     this.drawGuide(p);
 
     const rendered = this.totalTiles - this.renderQueue.length;
@@ -101,6 +104,15 @@ export class JuliaEngine {
     }
 
     return this.renderQueue.length > 0 || this.guideAlpha > 0.01;
+  }
+
+  dispose(): void {
+    this.buffer = null;
+    this.ctx2d = null;
+    this.imgData = null;
+    this.zxTable = new Float32Array(0);
+    this.zyTable = new Float32Array(0);
+    this.renderQueue.length = 0;
   }
 
   private lastSmoothKey = '';

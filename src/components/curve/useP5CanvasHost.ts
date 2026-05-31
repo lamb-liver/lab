@@ -3,6 +3,7 @@ import type p5 from 'p5';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 
 type MeasureSize = (host: HTMLElement) => number;
+type P5WithRenderer = p5 & { _renderer?: unknown };
 
 /** 共用 p5 instance 生命週期：setup、ResizeObserver、cleanup */
 export function useP5CanvasHost(
@@ -41,6 +42,8 @@ export function useP5CanvasHost(
       const instance = new P5(sketch, host);
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
         const size = measureSize(host);
         instance.resizeCanvas(size, size);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -48,6 +51,7 @@ export function useP5CanvasHost(
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instance.remove();
       };

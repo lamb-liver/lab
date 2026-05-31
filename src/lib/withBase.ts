@@ -4,9 +4,17 @@ export function withBase(path: string): string {
   if (path.startsWith('data:')) return path;
 
   const base = import.meta.env.BASE_URL;
-  if (path === '/') return base;
+  return joinBasePath(base, path);
+}
 
-  return `${base}${path.replace(/^\//, '')}`;
+export function joinBasePath(base: string, path: string): string {
+  if (!path) return path;
+  if (path === '/') return base.endsWith('/') ? base : `${base}/`;
+
+  const normalizedBase = base.endsWith('/') ? base.slice(0, -1) : base;
+  const normalizedPath = path.replace(/^\//, '');
+  if (!normalizedBase) return `/${normalizedPath}`;
+  return `${normalizedBase}/${normalizedPath}`;
 }
 
 /** canonical / og:url：pathname 已含 BASE_URL 時不再重複套用 withBase */

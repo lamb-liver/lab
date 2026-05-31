@@ -58,6 +58,10 @@ Use the narrowest reliable validation first:
 
 If a command cannot be run, state that clearly in the final response.
 
+## Dev Runtime Recovery
+
+If several React-backed work pages fail with `jsxDEV is not a function`, treat it as a Vite optimized-deps cache issue before editing source. Check `node_modules/.vite/deps/react_jsx-dev-runtime.js`; if it has a stale or empty `jsxDEV` export, run `npm run dev:recover` to clear Vite deps and restart Astro with `--force`.
+
 ## Review Checklist
 
 - Does the change preserve the authority order in `AGENTS.md`?
