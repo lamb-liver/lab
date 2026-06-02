@@ -1,11 +1,33 @@
 import { describe, expect, it } from 'vitest';
 import {
+  createVectorFieldAnimState,
+  stepVectorFieldAnimation,
+  type VectorFieldAnimState,
+} from './animation';
+import {
   BOUND_LIMIT,
   buildAllStreamlines,
   evaluateVectorField,
   integrateStreamline,
 } from './geometry';
 import { vectorFieldStreamlinesModule } from './index';
+import type { ParamValues } from '../../types';
+
+const DEFAULT_PARAMS = vectorFieldStreamlinesModule.defaultParams;
+
+function makeState(patch: Partial<VectorFieldAnimState> = {}): VectorFieldAnimState {
+  return {
+    ...createVectorFieldAnimState(DEFAULT_PARAMS),
+    ...patch,
+  };
+}
+
+function makeParams(patch: Partial<ParamValues> = {}): ParamValues {
+  return {
+    ...DEFAULT_PARAMS,
+    ...patch,
+  };
+}
 
 describe('evaluateVectorField', () => {
   it('is non-zero away from origin', () => {
@@ -35,6 +57,56 @@ describe('buildAllStreamlines', () => {
     for (const line of lines) {
       expect(line.length).toBeGreaterThan(1);
     }
+  });
+});
+
+describe('stepVectorFieldAnimation', () => {
+  it('reuses streamlines before the rebuild interval when params are unchanged', () => {
+    const state = makeState({ framesSinceBuild: 0 });
+    const next = stepVectorFieldAnimation(state, DEFAULT_PARAMS);
+
+    expect(next.streamlines).toBe(state.streamlines);
+    expect(next.framesSinceBuild).toBe(1);
+    expect(next.time).toBeCloseTo(state.time + DEFAULT_PARAMS.flowSpeed);
+  });
+
+  it('rebuilds streamlines at the rebuild interval', () => {
+    const state = makeState({ framesSinceBuild: 3 });
+    const next = stepVectorFieldAnimation(state, DEFAULT_PARAMS);
+
+    expect(next.streamlines).not.toBe(state.streamlines);
+    expect(next.framesSinceBuild).toBe(0);
+  });
+
+  it('rebuilds immediately when streamlineCount changes', () => {
+    const state = makeState({ framesSinceBuild: 0 });
+    const next = stepVectorFieldAnimation(
+      state,
+      makeParams({ streamlineCount: DEFAULT_PARAMS.streamlineCount + 1 }),
+    );
+
+    expect(next.streamlines).not.toBe(state.streamlines);
+    expect(next.streamlines.length).toBe(Math.round(DEFAULT_PARAMS.streamlineCount + 1));
+    expect(next.framesSinceBuild).toBe(0);
+  });
+
+  it('rebuilds immediately when integrationSteps changes', () => {
+    const state = makeState({ framesSinceBuild: 0 });
+    const next = stepVectorFieldAnimation(
+      state,
+      makeParams({ integrationSteps: DEFAULT_PARAMS.integrationSteps + 20 }),
+    );
+
+    expect(next.streamlines).not.toBe(state.streamlines);
+    expect(next.framesSinceBuild).toBe(0);
+  });
+
+  it('keeps streamlines reference stable before the interval', () => {
+    const state = makeState({ framesSinceBuild: 1 });
+    const next = stepVectorFieldAnimation(state, DEFAULT_PARAMS);
+
+    expect(next.streamlines).toBe(state.streamlines);
+    expect(next.framesSinceBuild).toBe(2);
   });
 });
 
