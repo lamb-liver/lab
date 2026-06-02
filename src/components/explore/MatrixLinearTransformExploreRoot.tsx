@@ -28,6 +28,8 @@ const DEFAULT_PARAMS: MatrixLinearParams = {
   composeShear: 0.8,
 };
 
+type P5WithRenderer = p5 & { _renderer?: unknown };
+
 function measureMatrixCanvas(host: HTMLElement): CanvasSize {
   const w = Math.min(
     CANVAS_MAX_W,
@@ -131,6 +133,9 @@ export default function MatrixLinearTransformExploreRoot() {
       const instance = new P5(sketch, host);
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
+
         const { width, height } = measureMatrixCanvas(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -138,6 +143,7 @@ export default function MatrixLinearTransformExploreRoot() {
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instance.remove();
       };

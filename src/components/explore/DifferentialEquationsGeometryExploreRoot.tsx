@@ -19,6 +19,8 @@ import {
 } from '../../systems/rendering/differentialEquationsGeometryRender';
 import '../../styles/components/explore/differential-equations-geometry-explore.css';
 
+type P5WithRenderer = p5 & { _renderer?: unknown };
+
 const DEFAULT_INITIAL_POINTS: Point2[] = [
   { x: -2.2, y: 1.5 },
   { x: -1.2, y: -1.0 },
@@ -111,6 +113,9 @@ export default function DifferentialEquationsGeometryExploreRoot() {
       const instance = new P5(sketch, host);
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
+
         const { width, height } = measureDiffEqCanvas(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -118,6 +123,7 @@ export default function DifferentialEquationsGeometryExploreRoot() {
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instance.remove();
       };

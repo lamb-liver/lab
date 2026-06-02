@@ -21,6 +21,8 @@ import '../../styles/components/explore/conic-dynamic-geometry-explore.css';
 const CANVAS_MIN_W = 280;
 const CANVAS_MAX_W = 720;
 
+type P5WithRenderer = p5 & { _renderer?: unknown };
+
 const DEFAULT_PARAMS: ConicDynamicParams = {
   mode: 'eccentricity',
   focusCurve: 'ellipse',
@@ -168,6 +170,9 @@ export default function ConicDynamicGeometryExploreRoot() {
       const instance = new P5(sketch, host);
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
+
         const { width, height } = measureConicCanvas(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -175,6 +180,7 @@ export default function ConicDynamicGeometryExploreRoot() {
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instance.remove();
       };

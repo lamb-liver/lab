@@ -30,6 +30,8 @@ const DEFAULT_PARAMS: ComplexEulerParams = {
   deTheta: Math.PI / 5,
 };
 
+type P5WithRenderer = p5 & { _renderer?: unknown };
+
 type DragTarget = 'z1' | 'z2' | null;
 
 export default function ComplexEulerFormulaExploreRoot() {
@@ -135,6 +137,9 @@ export default function ComplexEulerFormulaExploreRoot() {
       const instance = new P5(sketch, host);
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
+
         const { width, height } = measureComplexEulerCanvas(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -142,6 +147,7 @@ export default function ComplexEulerFormulaExploreRoot() {
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instance.remove();
       };

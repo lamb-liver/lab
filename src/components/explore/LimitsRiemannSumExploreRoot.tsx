@@ -19,6 +19,8 @@ import {
 } from '../../systems/rendering/limitsRiemannSumRender';
 import '../../styles/components/explore/limits-riemann-sum-explore.css';
 
+type P5WithRenderer = p5 & { _renderer?: unknown };
+
 const DEFAULT_PARAMS: LimitsRiemannParams = {
   mode: 'riemann',
   fnKey: 'x2',
@@ -104,6 +106,9 @@ export default function LimitsRiemannSumExploreRoot() {
       const instance = new P5(sketch, host);
 
       const ro = new ResizeObserver(() => {
+        if (disposed) return;
+        if (!(instance as P5WithRenderer)._renderer) return;
+
         const { width, height } = measureLimitsCanvas(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
@@ -111,6 +116,7 @@ export default function LimitsRiemannSumExploreRoot() {
       ro.observe(host);
 
       cleanup = () => {
+        disposed = true;
         ro.disconnect();
         instance.remove();
       };
