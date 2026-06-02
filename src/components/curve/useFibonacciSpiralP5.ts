@@ -5,6 +5,8 @@ import type { ParamValues } from '../../curve/types';
 import { renderFibonacciSpiralScene } from '../../systems/rendering/fibonacciSpiralRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
 
+const FIBONACCI_REVEAL_COMPLETE_EPSILON = 0.001;
+
 type Options = {
   defaultParams: ParamValues;
   targetParams: ParamValues;
@@ -30,6 +32,8 @@ export function useFibonacciSpiralP5({
     targetParamsRef.current = targetParams;
   }, [targetParams]);
 
+  const restartKey = Math.round(targetParams.n ?? defaultParams.n ?? 10);
+
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
     const n = Math.round(params.n ?? 10);
@@ -39,6 +43,9 @@ export function useFibonacciSpiralP5({
     }
 
     revealRef.current += (1 - revealRef.current) * FIBONACCI_REVEAL_SPEED;
+    if (1 - revealRef.current <= FIBONACCI_REVEAL_COMPLETE_EPSILON) {
+      revealRef.current = 1;
+    }
     const pct = Math.min(100, Math.floor(revealRef.current * 100));
     if (pct !== lastRevealPctRef.current) {
       lastRevealPctRef.current = pct;
@@ -51,9 +58,14 @@ export function useFibonacciSpiralP5({
       params,
       revealProgress: revealRef.current,
     });
+
+    return { keepLooping: revealRef.current < 1 };
   }, []);
 
-  const canvasHostRef = useP5CanvasHost(draw, [draw]);
+  const canvasHostRef = useP5CanvasHost(draw, [draw], undefined, {
+    mode: 'reveal',
+    restartOn: [restartKey],
+  });
 
   return { canvasHostRef };
 }

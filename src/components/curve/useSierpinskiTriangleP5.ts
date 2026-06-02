@@ -30,6 +30,8 @@ export function useSierpinskiTriangleP5({
     targetParamsRef.current = targetParams;
   }, [targetParams]);
 
+  const restartKey = paramsKey(targetParams);
+
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
     const key = paramsKey(params);
@@ -51,9 +53,14 @@ export function useSierpinskiTriangleP5({
       params,
       revealProgress: revealRef.current,
     });
+
+    return { keepLooping: revealRef.current < 1 };
   }, []);
 
-  const canvasHostRef = useP5CanvasHost(draw, [draw]);
+  const canvasHostRef = useP5CanvasHost(draw, [draw], undefined, {
+    mode: 'reveal',
+    restartOn: [restartKey],
+  });
 
   return { canvasHostRef };
 }
