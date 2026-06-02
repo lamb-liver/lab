@@ -28,6 +28,8 @@ const DEFAULT_PARAMS: MatrixLinearParams = {
   composeShear: 0.8,
 };
 
+const SIDEBAR_UPDATE_INTERVAL_MS = 120;
+
 type P5WithRenderer = p5 & { _renderer?: unknown };
 
 function measureMatrixCanvas(host: HTMLElement): CanvasSize {
@@ -65,9 +67,11 @@ export default function MatrixLinearTransformExploreRoot() {
   const paramsRef = useRef(params);
   const animRef = useRef(createMatrixLinearAnimState());
   const lastSidebarKeyRef = useRef('');
+  const lastSidebarUpdateAtRef = useRef(0);
 
   useEffect(() => {
     paramsRef.current = params;
+    lastSidebarUpdateAtRef.current = 0;
   }, [params]);
 
   const specialParamLabel = useMemo(
@@ -94,11 +98,16 @@ export default function MatrixLinearTransformExploreRoot() {
 
     renderMatrixLinearTransformScene(p, snap);
 
-    const panel = buildMatrixSidebarState(snap);
-    const sidebarKey = `${panel.modeLabel}|${panel.matrixLabel}|${panel.detLabel}|${panel.subtitle}`;
-    if (sidebarKey !== lastSidebarKeyRef.current) {
-      lastSidebarKeyRef.current = sidebarKey;
-      setSidebar(panel);
+    const now = p.millis();
+    if (now - lastSidebarUpdateAtRef.current >= SIDEBAR_UPDATE_INTERVAL_MS) {
+      lastSidebarUpdateAtRef.current = now;
+
+      const panel = buildMatrixSidebarState(snap);
+      const sidebarKey = `${panel.modeLabel}|${panel.matrixLabel}|${panel.detLabel}|${panel.subtitle}`;
+      if (sidebarKey !== lastSidebarKeyRef.current) {
+        lastSidebarKeyRef.current = sidebarKey;
+        setSidebar(panel);
+      }
     }
   }, []);
 

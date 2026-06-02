@@ -21,6 +21,8 @@ import '../../styles/components/explore/conic-dynamic-geometry-explore.css';
 const CANVAS_MIN_W = 280;
 const CANVAS_MAX_W = 720;
 
+const SIDEBAR_UPDATE_INTERVAL_MS = 120;
+
 type P5WithRenderer = p5 & { _renderer?: unknown };
 
 const DEFAULT_PARAMS: ConicDynamicParams = {
@@ -60,9 +62,11 @@ export default function ConicDynamicGeometryExploreRoot() {
   const paramsRef = useRef(params);
   const animRef = useRef(createConicDynamicAnimState(DEFAULT_PARAMS));
   const lastSidebarKeyRef = useRef('');
+  const lastSidebarUpdateAtRef = useRef(0);
 
   useEffect(() => {
     paramsRef.current = params;
+    lastSidebarUpdateAtRef.current = 0;
   }, [params]);
 
   const updatePointFromMouse = useCallback((p: p5) => {
@@ -120,14 +124,19 @@ export default function ConicDynamicGeometryExploreRoot() {
 
     renderConicDynamicGeometryScene(p, snap);
 
-    const panel = buildSidebarState(snap);
-    const sidebarKey = `${panel.modeLabel}|${panel.valueLabel}|${panel.noteLabel}|${anim.subtitle}`;
-    if (sidebarKey !== lastSidebarKeyRef.current) {
-      lastSidebarKeyRef.current = sidebarKey;
-      setSidebar({
-        ...panel,
-        subtitle: anim.subtitle,
-      });
+    const now = p.millis();
+    if (now - lastSidebarUpdateAtRef.current >= SIDEBAR_UPDATE_INTERVAL_MS) {
+      lastSidebarUpdateAtRef.current = now;
+
+      const panel = buildSidebarState(snap);
+      const sidebarKey = `${panel.modeLabel}|${panel.valueLabel}|${panel.noteLabel}|${anim.subtitle}`;
+      if (sidebarKey !== lastSidebarKeyRef.current) {
+        lastSidebarKeyRef.current = sidebarKey;
+        setSidebar({
+          ...panel,
+          subtitle: anim.subtitle,
+        });
+      }
     }
   }, []);
 
