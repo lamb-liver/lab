@@ -63,6 +63,8 @@ const ogImage = entry.data.ogImage ?? getWorkOgImagePath(entry.id);
   }
 
   <div class="container work-detail">
+    <a href={withBase('/works')} class="back-link back-link--top">← 返回作品集</a>
+
     <h1 class="work-detail__title">{entry.data.title}</h1>
 
     <div class="tag-list">

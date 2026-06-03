@@ -1,0 +1,144 @@
+<script>
+  import Fuse from 'fuse.js';
+  import {
+    applyListGridFilter,
+    getFilterButton,
+    readUrlParam,
+    setActiveFilter,
+    updateUrlParam,
+  } from '../lib/listFilter.ts';
+
+  type SearchRecord = { slug: string; title: string; description: string };
+
+  const fuseByIndexId = new Map<string, Fuse<SearchRecord>>();
+
+  function loadSearchIndex(indexId: string): SearchRecord[] {
+    const el = document.getElementById(indexId);
+    if (!el?.textContent) return [];
+    try {
+      return JSON.parse(el.textContent) as SearchRecord[];
+    } catch {
+      return [];
+    }
+  }
+
+  function getFuse(indexId: string): Fuse<SearchRecord> {
+    const cached = fuseByIndexId.get(indexId);
+    if (cached) return cached;
+
+    const fuse = new Fuse(loadSearchIndex(indexId), {
+      keys: [
+        { name: 'title', weight: 0.65 },
+        { name: 'description', weight: 0.35 },
+      ],
+      threshold: 0.38,
+      ignoreLocation: true,
+    });
+    fuseByIndexId.set(indexId, fuse);
+    return fuse;
+  }
+
+  function searchSlugs(indexId: string, query: string): Set<string> {
+    const trimmed = query.trim();
+    if (!trimmed) return new Set();
+    return new Set(getFuse(indexId).search(trimmed).map((result) => result.item.slug));
+  }
+
+  function applySearchFilterState(root: HTMLElement): void {
+    const bar = root.querySelector('[data-filter-bar]');
+    const grid = root.querySelector('[data-card-grid]');
+    const searchInput = root.querySelector('[data-list-search-input]') as HTMLInputElement | null;
+    if (!bar || !grid || !searchInput) return;
+
+    const filterParam = root.getAttribute('data-filter-param');
+    const searchParam = root.getAttribute('data-search-param');
+    const searchIndexId = root.getAttribute('data-search-index-id') || 'list-search-index';
+    const emptyEl = root.querySelector('[data-filter-empty]') as HTMLElement | null;
+    const raw = readUrlParam(filterParam) || '*';
+    const button = getFilterButton(bar, raw) ?? getFilterButton(bar, '*');
+    if (!button) return;
+
+    const filterValue = button.getAttribute('data-filter-value')?.trim().toLowerCase() || '*';
+    setActiveFilter(bar, button);
+    searchInput.value = readUrlParam(searchParam);
+
+    const query = searchInput.value;
+    const hasSearchQuery = query.trim().length > 0;
+    const slugs = hasSearchQuery ? searchSlugs(searchIndexId, query) : null;
+    applyListGridFilter(grid as HTMLElement, filterValue, slugs, hasSearchQuery, emptyEl);
+  }
+
+  function attachListSearchFilter(root: HTMLElement): void {
+    const bar = root.querySelector('[data-filter-bar]');
+    const grid = root.querySelector('[data-card-grid]');
+    const searchInput = root.querySelector('[data-list-search-input]') as HTMLInputElement | null;
+    if (!bar || !grid || !searchInput) return;
+
+    const filterParam = root.getAttribute('data-filter-param');
+    const searchParam = root.getAttribute('data-search-param');
+    const searchIndexId = root.getAttribute('data-search-index-id') || 'list-search-index';
+    const emptyEl = root.querySelector('[data-filter-empty]') as HTMLElement | null;
+
+    let activeFilter = '*';
+
+    const applyAll = (): void => {
+      const query = searchInput.value;
+      const hasSearchQuery = query.trim().length > 0;
+      const slugs = hasSearchQuery ? searchSlugs(searchIndexId, query) : null;
+      applyListGridFilter(
+        grid as HTMLElement,
+        activeFilter,
+        slugs,
+        hasSearchQuery,
+        emptyEl,
+      );
+    };
+
+    const syncFilterFromButton = (button: HTMLButtonElement): void => {
+      activeFilter = button.getAttribute('data-filter-value')?.trim().toLowerCase() || '*';
+      setActiveFilter(bar, button);
+    };
+
+    const raw = readUrlParam(filterParam) || '*';
+    const initialButton = getFilterButton(bar, raw) ?? getFilterButton(bar, '*');
+    if (initialButton) syncFilterFromButton(initialButton);
+    searchInput.value = readUrlParam(searchParam);
+    applyAll();
+
+    bar.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const btn = target.closest('button[data-filter-value]');
+      if (!btn || !bar.contains(btn)) return;
+
+      const rawValue = btn.getAttribute('data-filter-value')?.trim() ?? '*';
+      syncFilterFromButton(btn as HTMLButtonElement);
+      applyAll();
+      updateUrlParam(filterParam, rawValue === '*' ? '' : rawValue);
+    });
+
+    let searchDebounce: ReturnType<typeof setTimeout> | undefined;
+    searchInput.addEventListener('input', () => {
+      if (searchDebounce) clearTimeout(searchDebounce);
+      searchDebounce = setTimeout(() => {
+        applyAll();
+        updateUrlParam(searchParam, searchInput.value);
+      }, 120);
+    });
+
+    searchInput.addEventListener('search', () => {
+      applyAll();
+      updateUrlParam(searchParam, searchInput.value);
+    });
+  }
+
+  document.querySelectorAll('[data-list-filter][data-search-param]').forEach((root) => {
+    attachListSearchFilter(root as HTMLElement);
+  });
+
+  window.addEventListener('popstate', () => {
+    document.querySelectorAll('[data-list-filter][data-search-param]').forEach((root) => {
+      applySearchFilterState(root as HTMLElement);
+    });
+  });
+</script>

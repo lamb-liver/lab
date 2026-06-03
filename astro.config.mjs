@@ -15,7 +15,7 @@ export default defineConfig({
   integrations: [react(), sitemap()],
   markdown: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex],
+    rehypePlugins: [[rehypeKatex, { output: 'html' }]],
   },
   devToolbar: { enabled: false },
   vite: {

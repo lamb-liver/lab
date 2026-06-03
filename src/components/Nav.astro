@@ -4,7 +4,7 @@ import { isActivePath, withBase } from '../lib/withBase';
 
 const links = [
   { path: '/works', label: '作品集' },
-  { path: '/explore', label: '視覺化' },
+  { path: '/explore', label: '主題導覽' },
   { path: '/about', label: '關於' },
 ];
 
@@ -15,7 +15,28 @@ const pathname = Astro.url.pathname;
   <div class="site-nav__inner">
     <a href={withBase('/')} class="site-nav__logo">羊·實驗</a>
 
-    <nav class="site-nav__links site-nav__links--desktop" aria-label="主要導覽">
+    <button
+      class="site-nav__menu-button"
+      type="button"
+      aria-label="開啟選單"
+      aria-expanded="false"
+      aria-controls="site-nav-links"
+      data-nav-toggle
+    >
+      <span class="site-nav__hamburger" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </span>
+    </button>
+
+    <nav
+      id="site-nav-links"
+      class="site-nav__links"
+      aria-label="主要導覽"
+      data-nav-links
+      data-open="false"
+    >
       {
         links.map((link) => (
           <a
@@ -27,27 +48,18 @@ const pathname = Astro.url.pathname;
         ))
       }
     </nav>
-
-    <details class="site-nav__menu">
-      <summary aria-label="開啟選單">
-        <span class="site-nav__hamburger" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </span>
-      </summary>
-      <nav class="site-nav__dropdown" aria-label="行動版導覽">
-        {
-          links.map((link) => (
-            <a
-              href={withBase(link.path)}
-              class:list={['site-nav__link', { 'is-active': isActivePath(link.path, pathname) }]}
-            >
-              {link.label}
-            </a>
-          ))
-        }
-      </nav>
-    </details>
   </div>
 </header>
+
+<script>
+  const toggle = document.querySelector('[data-nav-toggle]') as HTMLButtonElement | null;
+  const links = document.querySelector('[data-nav-links]') as HTMLElement | null;
+
+  toggle?.addEventListener('click', () => {
+    if (!links) return;
+    const open = links.dataset.open !== 'true';
+    links.dataset.open = open ? 'true' : 'false';
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+  });
+</script>

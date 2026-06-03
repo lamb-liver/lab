@@ -9,7 +9,7 @@ const { categories } = Astro.props;
 const items = ['全部', ...categories];
 ---
 
-<div class="filter-bar" data-filter-bar role="group" aria-label="視覺化分類篩選">
+<div class="filter-bar" data-filter-bar role="group" aria-label="主題分類篩選">
   {
     items.map((category, i) => (
       <button

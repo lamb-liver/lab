@@ -29,6 +29,8 @@ const ogImage = entry.data.coverImage;
   ogType="article"
 >
   <div class={`container explore-detail${interactive ? ' explore-detail--interactive' : ''}`}>
+    <a href={withBase('/explore')} class="back-link back-link--top">← 返回主題導覽</a>
+
     <header class="page-header">
       <h1>{entry.data.title}</h1>
       <div class="tag-list">
@@ -58,6 +60,6 @@ const ogImage = entry.data.coverImage;
       <Content />
     </article>
 
-    <a href={withBase('/explore')} class="back-link">← 返回視覺化</a>
+    <a href={withBase('/explore')} class="back-link">← 返回主題導覽</a>
   </div>
 </BaseLayout>

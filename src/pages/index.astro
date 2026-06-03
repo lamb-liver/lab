@@ -58,12 +58,12 @@ const latestExplore = excludeEntryIds(
           <span class="home-nav-card__cta">進入作品集 →</span>
         </a>
         <a href={withBase('/explore')} class="home-nav-card home-nav-card--explore">
-          <span class="section-badge section-badge--explore">互動探索</span>
-          <h2 class="home-nav-card__title">視覺化</h2>
+          <span class="section-badge section-badge--explore">互動視覺化</span>
+          <h2 class="home-nav-card__title">主題導覽</h2>
           <p class="home-nav-card__desc">
             從一個大概念出發，串起多個互動實驗與觀察重點。
           </p>
-          <span class="home-nav-card__cta">進入視覺化 →</span>
+          <span class="home-nav-card__cta">進入主題導覽 →</span>
         </a>
       </div>
     </div>
@@ -102,7 +102,7 @@ const latestExplore = excludeEntryIds(
           {featuredExplore.length > 0 ? (
             <div class="home-featured-block">
               <h3 class="home-featured-label">
-                <span class="section-badge section-badge--explore">互動探索</span>
+                <span class="section-badge section-badge--explore">互動視覺化</span>
               </h3>
               <div class="card-grid card-grid--explore-featured">
                 {featuredExplore.map((entry) => (
@@ -153,23 +153,29 @@ const latestExplore = excludeEntryIds(
     <div class="container">
       <div class="home-section-header">
         <div class="home-section-heading">
-          <h2 class="section-title">最新視覺化</h2>
+          <h2 class="section-title">最新主題</h2>
           <p class="home-section-desc">
-            從一個大概念出發，串起多個互動實驗與觀察重點。
+            依主題進入數學概念，用互動視覺化建立核心圖像。
           </p>
         </div>
         <a href={withBase('/explore')} class="home-section-link">查看全部 →</a>
       </div>
-      <div class="card-grid">
+      <div class="home-topic-list">
         {
           latestExplore.map((entry) => (
-            <ExploreCard
-              slug={entry.id}
-              title={entry.data.title}
-              description={entry.data.description}
-              category={entry.data.category}
-              coverImage={entry.data.coverImage}
-            />
+            <article class="home-topic-item">
+              <div class="home-topic-item__meta">
+                <span class="section-badge section-badge--explore">互動視覺化</span>
+                <span class="home-topic-item__category">{entry.data.category}</span>
+              </div>
+              <h3 class="home-topic-item__title">
+                <a href={withBase(`/explore/${entry.id}`)}>{entry.data.title}</a>
+              </h3>
+              <p class="home-topic-item__desc">{entry.data.description}</p>
+              <a class="home-topic-item__link" href={withBase(`/explore/${entry.id}`)}>
+                進入主題 →
+              </a>
+            </article>
           ))
         }
       </div>

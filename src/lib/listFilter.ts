@@ -37,9 +37,9 @@ export function applyTagFilter(
   }
 }
 
-export function applyWorksGridFilter(
+export function applyListGridFilter(
   grid: HTMLElement,
-  tagValue: string,
+  filterValue: string,
   searchSlugs: Set<string> | null,
   hasSearchQuery: boolean,
   emptyEl: HTMLElement | null,
@@ -51,7 +51,7 @@ export function applyWorksGridFilter(
     const slug = el.getAttribute('data-search-slug') ?? '';
 
     const tagMatch =
-      tagValue === '*' || getCardFilterTokens(el).includes(tagValue);
+      filterValue === '*' || getCardFilterTokens(el).includes(filterValue);
 
     const searchMatch =
       !hasSearchQuery || searchSlugs === null || (slug !== '' && searchSlugs.has(slug));
@@ -65,6 +65,8 @@ export function applyWorksGridFilter(
     emptyEl.hidden = visibleCount > 0;
   }
 }
+
+export const applyWorksGridFilter = applyListGridFilter;
 
 export function getFilterButton(bar: Element, value: string): HTMLButtonElement | null {
   const normalized = normalizeFilterToken(value);

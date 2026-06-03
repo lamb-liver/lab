@@ -95,3 +95,7 @@
 .back-link:hover {
   color: var(--color-accent);
 }
+
+.back-link--top {
+  margin-top: var(--space-6);
+}

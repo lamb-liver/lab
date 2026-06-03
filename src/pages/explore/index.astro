@@ -2,30 +2,63 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CategoryFilter from '../../components/CategoryFilter.astro';
 import ExploreCard from '../../components/ExploreCard.astro';
-import ListFilterScript from '../../components/ListFilterScript.astro';
+import ListSearchFilterScript from '../../components/ListSearchFilterScript.astro';
 import { getCollection } from 'astro:content';
 import { collectExploreCategories, getPublishedAsc } from '../../content/utils';
+import { serializeSearchIndex } from '../../lib/listFilter';
+import '../../styles/components/works-search.css';
 
 const explore = getPublishedAsc(await getCollection('explore'));
 const categoryOptions = collectExploreCategories(explore);
+const searchIndex = explore.map((entry) => ({
+  slug: entry.id,
+  title: entry.data.title,
+  description: entry.data.description,
+}));
 ---
 
 <BaseLayout
-  title="視覺化"
-  description="跨概念主題式導覽：從一個大概念出發，串起多個互動實驗與觀察重點。"
+  title="數學主題導覽"
+  description="從幾何、代數、分析到機率統計，透過互動視覺化理解每個數學主題的核心圖像。"
   ogImage="/og-default.png"
   ogType="website"
 >
-  <div class="container" data-list-filter data-filter-param="category">
+  <div
+    class="container"
+    data-list-filter
+    data-filter-param="category"
+    data-search-param="q"
+    data-search-index-id="explore-search-index"
+  >
     <header class="page-header">
-      <span class="section-badge section-badge--explore">互動探索</span>
-      <h1>視覺化</h1>
+      <span class="section-badge section-badge--explore">互動視覺化</span>
+      <h1>數學主題導覽</h1>
       <p class="page-lead">
-        跨概念的主題式導覽：從一個大概念出發，串起多個互動實驗與觀察重點。
+        從幾何、代數、分析到機率統計，透過互動視覺化理解每個數學主題的核心圖像。
       </p>
     </header>
 
+    <div class="works-search">
+      <label class="works-search__label" for="explore-search-input">搜尋主題</label>
+      <input
+        id="explore-search-input"
+        class="works-search__input"
+        type="search"
+        name="q"
+        placeholder="搜尋標題或描述…"
+        autocomplete="off"
+        spellcheck="false"
+        data-list-search-input
+      />
+    </div>
+
     <CategoryFilter categories={categoryOptions} />
+
+    <script
+      type="application/json"
+      id="explore-search-index"
+      set:html={serializeSearchIndex(searchIndex)}
+    />
 
     <div class="card-grid" data-card-grid>
       {
@@ -43,5 +76,5 @@ const categoryOptions = collectExploreCategories(explore);
 
     <p class="filter-empty" data-filter-empty hidden>目前無符合此分類的內容</p>
   </div>
-  <ListFilterScript />
+  <ListSearchFilterScript />
 </BaseLayout>

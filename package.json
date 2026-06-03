@@ -12,6 +12,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "vitest run",
+    "test:content-audit": "vitest run src/content/contentAudit.test.ts",
     "test:works-smoke": "playwright test tests/work-integration.smoke.spec.ts",
     "test:seo-ux": "playwright test tests/seo-ux.spec.ts",
     "vite:deps:clean": "node -e \"require('node:fs').rmSync('node_modules/.vite/deps',{recursive:true,force:true})\"",

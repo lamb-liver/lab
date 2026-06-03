@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import WorksListFilterScript from '../../components/WorksListFilterScript.astro';
+import ListSearchFilterScript from '../../components/ListSearchFilterScript.astro';
 import TagFilter from '../../components/TagFilter.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import { getCollection } from 'astro:content';
@@ -28,6 +28,7 @@ const searchIndex = works.map((entry) => ({
     data-list-filter
     data-filter-param="tag"
     data-search-param="q"
+    data-search-index-id="works-search-index"
   >
     <header class="page-header">
       <span class="section-badge section-badge--work">深度作品</span>
@@ -48,6 +49,7 @@ const searchIndex = works.map((entry) => ({
         autocomplete="off"
         spellcheck="false"
         data-works-search-input
+        data-list-search-input
       />
     </div>
 
@@ -74,5 +76,5 @@ const searchIndex = works.map((entry) => ({
 
     <p class="filter-empty" data-filter-empty hidden>找不到符合的作品</p>
   </div>
-  <WorksListFilterScript />
+  <ListSearchFilterScript />
 </BaseLayout>
