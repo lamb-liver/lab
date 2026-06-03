@@ -63,8 +63,20 @@ test.describe('SEO metadata and UX shell', () => {
     );
   });
 
-  test('explore filter reads and writes the category query param', async ({ page }) => {
+  test('explore filter reads, writes, and restores the category query param', async ({
+    page,
+  }) => {
     await page.goto('/explore?category=分析');
+    await expect(page.getByRole('button', { name: '分析' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+
+    await page.getByRole('button', { name: '全部' }).click();
+    await expect(page).toHaveURL(/\/explore$/);
+
+    await page.goBack();
+    await expect(page).toHaveURL(/\/explore\/?\?category=%E5%88%86%E6%9E%90$/);
     await expect(page.getByRole('button', { name: '分析' })).toHaveAttribute(
       'aria-pressed',
       'true',

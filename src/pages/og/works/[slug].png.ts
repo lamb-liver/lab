@@ -22,7 +22,10 @@ export const GET: APIRoute = async ({ params }) => {
         'Cache-Control': 'public, max-age=31536000, immutable',
       },
     });
-  } catch {
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.error(`[og/works/${slug}.png]`, error);
+    }
     return new Response(null, { status: 404 });
   }
 };
