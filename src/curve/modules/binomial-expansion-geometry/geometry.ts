@@ -8,6 +8,11 @@ export const BINOMIAL_VIEW = {
 export const MODE_SQUARE = 0;
 export const MODE_CUBE = 1;
 
+const GOLD_STROKE = 'rgb(212, 184, 122)';
+const GOLD_FILL_MID = 'rgba(212, 184, 122, 0.18)';
+const GOLD_FILL_STRONG = 'rgba(212, 184, 122, 0.26)';
+const BLUE_FILL_SOFT = 'rgba(130, 170, 220, 0.12)';
+
 export type BinomialMode = 'square' | 'cube';
 
 export function normalizeLen(value: number | undefined): number {
@@ -61,37 +66,56 @@ export function buildBinomialThumbnail(params: ParamValues): ThumbnailSpec {
     { x: x0 + aw, y: y0 + aw, theta: 12, arcLength: 12 },
     { x: x0 + aw + bw, y: y0 + aw + bw, theta: 13, arcLength: 13 },
   ];
-  const blocks: CurvePoint[] = [
-    { x: x0, y: y0, theta: 20, arcLength: 20 },
-    { x: x0 + aw, y: y0, theta: 21, arcLength: 21 },
-    { x: x0 + aw, y: y0 + aw, theta: 22, arcLength: 22 },
-    { x: x0, y: y0 + aw, theta: 23, arcLength: 23 },
-    { x: x0, y: y0, theta: 24, arcLength: 24 },
-    { x: Number.NaN, y: Number.NaN, theta: 25, arcLength: 25 },
-    { x: x0 + aw, y: y0, theta: 26, arcLength: 26 },
-    { x: x0 + size, y: y0, theta: 27, arcLength: 27 },
-    { x: x0 + size, y: y0 + aw, theta: 28, arcLength: 28 },
-    { x: x0 + aw, y: y0 + aw, theta: 29, arcLength: 29 },
-    { x: x0 + aw, y: y0, theta: 30, arcLength: 30 },
-    { x: Number.NaN, y: Number.NaN, theta: 31, arcLength: 31 },
-    { x: x0, y: y0 + aw, theta: 32, arcLength: 32 },
-    { x: x0 + aw, y: y0 + aw, theta: 33, arcLength: 33 },
-    { x: x0 + aw, y: y0 + size, theta: 34, arcLength: 34 },
-    { x: x0, y: y0 + size, theta: 35, arcLength: 35 },
-    { x: x0, y: y0 + aw, theta: 36, arcLength: 36 },
-    { x: Number.NaN, y: Number.NaN, theta: 37, arcLength: 37 },
-    { x: x0 + aw, y: y0 + aw, theta: 38, arcLength: 38 },
-    { x: x0 + size, y: y0 + aw, theta: 39, arcLength: 39 },
-    { x: x0 + size, y: y0 + size, theta: 40, arcLength: 40 },
-    { x: x0 + aw, y: y0 + size, theta: 41, arcLength: 41 },
-    { x: x0 + aw, y: y0 + aw, theta: 42, arcLength: 42 },
-  ];
+  const a2Block = rectPoints(x0, y0, aw, aw, 20);
+  const abTopBlock = rectPoints(x0 + aw, y0, bw, aw, 30);
+  const abLeftBlock = rectPoints(x0, y0 + aw, aw, bw, 40);
+  const b2Block = rectPoints(x0 + aw, y0 + aw, bw, bw, 50);
 
   return {
     coordinateSystem: 'canvas',
     paths: [
-      { points: blocks, opacity: 0.4, strokeWidth: 0.85 },
-      { points: outlineAndSplit, opacity: 0.9, strokeWidth: 1.02 },
+      {
+        points: a2Block,
+        closed: true,
+        fill: GOLD_FILL_STRONG,
+        stroke: GOLD_STROKE,
+        opacity: 0.92,
+        strokeWidth: 0.65,
+      },
+      {
+        points: abTopBlock,
+        closed: true,
+        fill: GOLD_FILL_MID,
+        stroke: GOLD_STROKE,
+        opacity: 0.86,
+        strokeWidth: 0.58,
+      },
+      {
+        points: abLeftBlock,
+        closed: true,
+        fill: GOLD_FILL_MID,
+        stroke: GOLD_STROKE,
+        opacity: 0.86,
+        strokeWidth: 0.58,
+      },
+      {
+        points: b2Block,
+        closed: true,
+        fill: BLUE_FILL_SOFT,
+        stroke: GOLD_STROKE,
+        opacity: 0.78,
+        strokeWidth: 0.55,
+      },
+      { points: outlineAndSplit, stroke: GOLD_STROKE, opacity: 0.96, strokeWidth: 1.08 },
     ],
   };
+}
+
+function rectPoints(x: number, y: number, w: number, h: number, t: number): CurvePoint[] {
+  return [
+    { x, y, theta: t, arcLength: t },
+    { x: x + w, y, theta: t + 1, arcLength: t + 1 },
+    { x: x + w, y: y + h, theta: t + 2, arcLength: t + 2 },
+    { x, y: y + h, theta: t + 3, arcLength: t + 3 },
+  ];
 }

@@ -1,4 +1,4 @@
-import type { CurvePoint, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurvePoint, ParamValues, ThumbnailCircle, ThumbnailSpec } from '../../types';
 
 export const CATALAN_VIEW = {
   width: 900,
@@ -8,6 +8,10 @@ export const CATALAN_VIEW = {
 export const MODE_PATH = 0;
 export const MODE_PAREN = 1;
 export const MODE_TRIANGULATION = 2;
+
+const ACCENT_FILL = 'rgb(212, 184, 122)';
+const BOUNDARY_STROKE = 'rgba(130, 170, 220, 0.56)';
+const GUIDE_STROKE = 'rgba(255, 255, 255, 0.38)';
 
 export type CatalanMode = 'path' | 'paren' | 'triangulation';
 
@@ -180,15 +184,36 @@ export function buildCatalanThumbnail(params: ParamValues): ThumbnailSpec {
       arcLength: 100 + w * 20 + 18,
     });
   }
+  const circles: ThumbnailCircle[] = [
+    {
+      x: x0,
+      y: y0,
+      r: 9,
+      fill: '#0a0a0a',
+      stroke: GUIDE_STROKE,
+      strokeWidth: 1,
+      opacity: 0.9,
+    },
+    {
+      x: x0 + 2 * n * step,
+      y: y0 - n * step,
+      r: 11,
+      fill: ACCENT_FILL,
+      stroke: ACCENT_FILL,
+      strokeWidth: 0.8,
+      opacity: 0.94,
+    },
+  ];
 
   return {
     coordinateSystem: 'canvas',
     paths: [
       { points: grid, opacity: 0.28, strokeWidth: 0.68 },
-      { points: boundary, opacity: 0.45, strokeWidth: 0.78 },
-      { points: secondary, opacity: 0.45, strokeWidth: 0.78 },
-      { points, opacity: 0.9, strokeWidth: 1.05 },
+      { points: boundary, stroke: BOUNDARY_STROKE, opacity: 0.9, strokeWidth: 0.82 },
+      { points: secondary, opacity: 0.38, strokeWidth: 0.76 },
+      { points, opacity: 0.94, strokeWidth: 1.15 },
     ],
+    circles,
   };
 }
 

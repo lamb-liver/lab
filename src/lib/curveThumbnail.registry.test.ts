@@ -21,6 +21,48 @@ function pointCount(spec: ThumbnailSpec): number {
   return spec.paths.reduce((sum, path) => sum + path.points.length, 0);
 }
 
+function finiteBbox(spec: ThumbnailSpec):
+  | { minX: number; maxX: number; minY: number; maxY: number }
+  | null {
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  let count = 0;
+
+  function add(x: number, y: number) {
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+    minX = Math.min(minX, x);
+    maxX = Math.max(maxX, x);
+    minY = Math.min(minY, y);
+    maxY = Math.max(maxY, y);
+    count += 1;
+  }
+
+  for (const path of spec.paths) {
+    for (const point of path.points) add(point.x, point.y);
+  }
+
+  for (const circle of spec.circles ?? []) {
+    add(circle.x - circle.r, circle.y - circle.r);
+    add(circle.x + circle.r, circle.y + circle.r);
+  }
+
+  if (count === 0) return null;
+  return { minX, maxX, minY, maxY };
+}
+
+function sampleThumbnail(slug: string): ThumbnailSpec {
+  const module = workCurveBySlug[slug]!;
+  return toSpec(
+    module.sample(module.defaultParams, {
+      step: module.sampleStep ?? 4,
+      purpose: 'thumbnail',
+      revealProgress: 1,
+    }),
+  );
+}
+
 function bboxX(spec: ThumbnailSpec): { minX: number; maxX: number } | null {
   const included = spec.paths.filter((p) => p.excludeFromBbox !== true);
   const points = included.flatMap((p) => p.points);
@@ -35,10 +77,24 @@ function bboxX(spec: ThumbnailSpec): { minX: number; maxX: number } | null {
 }
 
 describe('work thumbnail registry', () => {
-  it('renders svg for every registered work slug', () => {
-    for (const slug of Object.keys(workCurveBySlug)) {
+  it('renders structurally valid svg for all 44 registered work slugs', () => {
+    const slugs = Object.keys(workCurveBySlug);
+    expect(slugs).toHaveLength(44);
+
+    for (const slug of slugs) {
       const svg = getCurveThumbnailSvg(slug);
       expect(svg, `thumbnail should render for ${slug}`).toBeTruthy();
+      expect(svg, `thumbnail should not leak invalid numbers for ${slug}`).not.toMatch(
+        /NaN|Infinity/,
+      );
+      const nodeCount = (svg?.match(/<path /g)?.length ?? 0) + (svg?.match(/<circle /g)?.length ?? 0);
+      expect(nodeCount, `thumbnail should include visible nodes for ${slug}`).toBeGreaterThan(0);
+
+      const box = finiteBbox(sampleThumbnail(slug));
+      expect(box, `thumbnail sample should include finite geometry for ${slug}`).toBeTruthy();
+      if (!box) continue;
+      expect(box.maxX - box.minX, `thumbnail bbox width should be non-zero for ${slug}`).toBeGreaterThan(0.001);
+      expect(box.maxY - box.minY, `thumbnail bbox height should be non-zero for ${slug}`).toBeGreaterThan(0.001);
     }
   });
 

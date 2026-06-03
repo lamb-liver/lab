@@ -228,11 +228,21 @@ height = clamp(300px, width × ratio, 520px)
 | `/works` | 建置期 SVG（`curveThumbnail` + `registry`） |
 | `/explore` | 靜態 PNG cover（`coverImage` 欄位） |
 
-縮圖補充規範（已實作）：
+Works 封面目標：
 
+- 封面是作品概念的入口，不是互動畫布截圖；卡片尺寸下應能在 1 秒內看出主題。
+- 封面場景可不同於互動初始參數，但只能在 `purpose: 'thumbnail'` 的 builder / sample 分支處理。
+- 結果型作品展示美感；概念型作品展示關係；過程型作品展示完成態與主因果。
+- 主視覺約佔 70%–85%；375px mobile viewport 下仍需可辨，不可只剩細線、噪點、全黑或全白。
+- 暗底 + 金色主線為主；概念型可用少量次要強調色區分語意（例如命中/未命中、交集/母集合），但不得變成多彩 UI 截圖。
+- 避免大量文字、完整 UI 截圖、過密點雲、過細線條、單純複製不具辨識度的 runtime 初始狀態。
+
+Works 縮圖工程規範（已實作）：
+
+- 詳細 audit 與驗收清單見 `docs/thumbnail-cover-optimization.md`。
 - 多幾何作品使用 `ThumbnailSpec.paths[]`；禁止把不相鄰分支硬串成單折線。
 - `excludeFromBbox: true` 的 path 僅繪製，不參與定框（典型：ghost）。
-- 粒子型縮圖（Chladni / IFS）用「**單一 path + 多段 `M L`**」點雲筆觸，避免數千個 `<path>` 造成卡片頁負擔。
+- 粒子型縮圖（Chladni / IFS / Julia）可用「**單一 path + 多段 `M L`**」點雲筆觸，避免數千個 `<path>` 造成卡片頁負擔。
 - 點雲筆觸允許以 `NaN` 分段（建置期會轉成多子路徑），維持視覺與效能平衡。
 
 ---

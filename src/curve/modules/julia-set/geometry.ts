@@ -8,7 +8,7 @@ export function sampleJuliaSetThumbnail(
   cy: number,
   maxIter = JULIA_CFG.MAX_ITER,
   zoom = JULIA_CFG.ZOOM,
-  grid = 140,
+  grid = 168,
 ): ThumbnailSpec {
   const points: CurvePoint[] = [];
   const scale = 180 / zoom;
@@ -18,7 +18,7 @@ export function sampleJuliaSetThumbnail(
     for (let gx = 0; gx < grid; gx++) {
       const zx = (gx / grid - 0.5) * zoom;
       const t = juliaSmooth(zx, zy, cx, cy, maxIter);
-      if (t >= maxIter - 0.5 || t < maxIter - 18) continue;
+      if (t >= maxIter - 0.5 || t < maxIter - 24) continue;
       points.push({
         x: zx * scale,
         y: -zy * scale,
@@ -29,6 +29,6 @@ export function sampleJuliaSetThumbnail(
   }
 
   return {
-    paths: [{ points: buildPointCloudStroke(points, { epsilon: 0.45 }), strokeWidth: 0.8 }],
+    paths: [{ points: buildPointCloudStroke(points, { epsilon: 0.55 }), strokeWidth: 0.95 }],
   };
 }

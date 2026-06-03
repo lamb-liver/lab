@@ -272,11 +272,17 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 
 ## 作品集縮圖（`WorkCard` + `curveThumbnail`）
 
-> **實作規格（reveal 100% 完成態）**：現行權威見本節；設計歷史見 [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md)（Status: Implemented）。
+> **實作規格（封面優化版）**：現行工程契約見本節；視覺語言見 [`art.md`](art.md#53-列表縮圖)；44 件作品 audit 與驗收清單見 [`docs/thumbnail-cover-optimization.md`](docs/thumbnail-cover-optimization.md)。舊 reveal 快照升級歷史見 [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md)（historical / implemented）。
 
 ### 目的
 
-卡片縮圖 = **`defaultParams` 下 reveal 100% 的幾何快照**（`#0a0a0a` 底 + accent 金線），非文字佔位、非動畫第 0 幀。
+卡片縮圖 = **作品概念的 build-time SVG 封面**，非文字佔位、非動畫第 0 幀、非完整 UI 截圖。
+
+- 結果型作品可使用完成態主圖形。
+- 概念型作品應使用 thumbnail 專用構圖呈現關係，例如分區、路徑、命中狀態、疊合關係。
+- 過程型作品應避免平線、鬼線、未完成態或只剩 guide。
+- Thumbnail 場景允許不同於互動初始參數；只能在 `purpose: 'thumbnail'` 分支或 thumbnail builder 內處理。
+- `#0a0a0a` 底 + accent 金線為主；概念型可用少量次要色區分語意。
 
 ### 資料流（建置期，無 p5）
 
@@ -287,6 +293,8 @@ entry.id → workCurveBySlug[slug]
        → fitToView (excludeFromBbox-aware)
        → multi-path SVG → WorkCard set:html
 ```
+
+`defaultParams` 是建置期入口參數；各模組可在 `purpose: 'thumbnail'` 內改用封面專用場景，不必讓縮圖等同 runtime 初始畫面。
 
 ### 型別契約
 
@@ -309,12 +317,26 @@ type ThumbnailPath = {
   points: CurvePoint[];
   opacity?: number;
   closed?: boolean;
+  stroke?: string;
   strokeWidth?: number;
+  fill?: string;
   excludeFromBbox?: boolean;
+};
+
+type ThumbnailCircle = {
+  x: number;
+  y: number;
+  r: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  opacity?: number;
 };
 
 type ThumbnailSpec = {
   paths: ThumbnailPath[];
+  circles?: ThumbnailCircle[];
+  coordinateSystem?: 'math' | 'canvas';
 };
 ```
 
@@ -322,23 +344,24 @@ type ThumbnailSpec = {
 
 1. `curveThumbnail.ts` 支援 legacy 單 path（`CurvePoint[]`）與多 path（`ThumbnailSpec`）混用。
 2. `fitToView` 只用 `excludeFromBbox !== true` 的 path 算 bbox，但繪製時仍包含全部 path。
-3. 每個 `ThumbnailPath` 會輸出一條 SVG `<path>`，支援 `opacity`、`stroke-width`、`closed`。
-4. 點雲類（如 Chladni / IFS）使用細線寬（0.5）並保持 round cap/join。
+3. 每個 `ThumbnailPath` 會輸出一條 SVG `<path>`，支援 `opacity`、`stroke`、`stroke-width`、`fill`、`closed`。
+4. `circles` 支援圓點標記（例如端點、節點），並參與 bbox。
+5. `coordinateSystem: 'canvas'` 可用於手工封面構圖；預設仍是 `math`。
+6. 點雲類可使用單 path + `NaN` 分段輸出多子路徑，維持視覺與效能平衡。
 
 ### 目前縮圖策略摘要
 
-1. S 類（rose/lissajous/harmonograph/spirograph）：單 path 完成態，必要時 `closed: true`。
-2. M 類幾何（interference/grid/riemann/tangent/catenary 等）：多 path 輸出，避免把不相鄰分支硬接成鬼線。
-3. 粒子類：
-   - `chladni-figures`：固定 seed 粒子雲（`>= 2000` 點）
-   - `affine-ifs-fractal`：固定 seed IFS（`>= 5000` 點）
-4. `catenary`：6 paths（ghost 上下 + dynamic 上下 + rope 上下），ghost 排除 bbox。
+1. 結果型（rose/lissajous/harmonograph/spirograph/spiral/fractal）：主體置中，必要時 `closed: true`；點雲需小尺寸可辨。
+2. 概念型（Bayes/Buffon/binomial/Catalan/vector/series 等）：用封面專用幾何表達關係，可用 fill/circle/少量次要色，但不加 UI 文字。
+3. 過程型（interference/grid/riemann/tangent/catenary 等）：多 path 輸出；避免把不相鄰分支硬接成鬼線；ghost / guide 視情況 `excludeFromBbox`。
+4. 函數與級數型（exponential/logarithmic/Basel 等）：縮圖要顯示對比、填充、尺度或極限關係，不只是一條曲線。
 
 ### 新增作品時
 
 1. 實作 `CurveModule`
 2. 登記 `src/curve/registry.ts`（slug 與 `{slug}.md` 檔名一致）
-3. 未登記 → 仍顯示「縮圖佔位」
+3. 實作 `purpose: 'thumbnail'` 分支或 builder，封面需符合 `art.md` 與 `docs/thumbnail-cover-optimization.md`
+4. 未登記 → 仍顯示「縮圖佔位」
 
 ### 縮圖踩坑
 
@@ -633,7 +656,7 @@ y = 2A sin(kx) cos(ωt)    包絡 ±2A sin(kx)
 
 - **不走** `renderFrame` / `useMorphCurveP5`：時間驅動 + 包絡 ghost 圖層
 - reveal 依水平寬度比例（非 arcLength / theta）
-- `sample()` 供列表縮圖（t = 0、reveal = 1）
+- `sample(..., { purpose: 'thumbnail' })` 只供列表封面；可使用封面專用時間 / 構圖，不代表 runtime 初始畫面
 
 ---
 
@@ -756,7 +779,8 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 7. draw → React：`useSmoothParamNotifier` options API + Root merge patch + `resolveSmoothParams`（見上方「平滑參數同步」）
 8. `[slug].astro`：`work-detail__stage` + `WorkInteractiveStage`（registry 查表）
 9. `registry.ts` 登記（縮圖）
-10. 驗收：作品頁（**滑桿在 canvas 右側、一屏可見**）、列表縮圖、`reveal === 1` 點列完整、**瀏覽器拖動連續參數滑桿**
+10. thumbnail 封面：`purpose: 'thumbnail'` 分支、非空 SVG、主體清楚、mobile 375px 可辨
+11. 驗收：作品頁（**滑桿在 canvas 右側、一屏可見**）、列表封面、**瀏覽器拖動連續參數滑桿**
 
 ---
 

@@ -1,4 +1,4 @@
-import type { CurvePoint, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurvePoint, ParamValues, ThumbnailCircle, ThumbnailSpec } from '../../types';
 
 export const COMBINATORIAL_VIEW = {
   width: 900,
@@ -8,6 +8,9 @@ export const COMBINATORIAL_VIEW = {
 export const MODE_SINGLE = 0;
 export const MODE_OVERLAY = 1;
 export const MODE_COUNT = 2;
+
+const ACCENT_FILL = 'rgb(212, 184, 122)';
+const GUIDE_STROKE = 'rgba(255, 255, 255, 0.38)';
 
 export type PathMode = 'single' | 'overlay' | 'count';
 
@@ -183,22 +186,35 @@ export function buildCombinatorialThumbnail(params: ParamValues): ThumbnailSpec 
   }
   const start = gridToScreen(layout, 0, 0);
   const end = gridToScreen(layout, m, n);
-  const markers: CurvePoint[] = [
-    { x: start.x - 8, y: start.y, theta: 90, arcLength: 90 },
-    { x: start.x + 8, y: start.y, theta: 91, arcLength: 91 },
-    { x: Number.NaN, y: Number.NaN, theta: 92, arcLength: 92 },
-    { x: end.x - 8, y: end.y, theta: 93, arcLength: 93 },
-    { x: end.x + 8, y: end.y, theta: 94, arcLength: 94 },
+  const circles: ThumbnailCircle[] = [
+    {
+      x: start.x,
+      y: start.y,
+      r: 10,
+      fill: '#0a0a0a',
+      stroke: GUIDE_STROKE,
+      strokeWidth: 1,
+      opacity: 0.9,
+    },
+    {
+      x: end.x,
+      y: end.y,
+      r: 12,
+      fill: ACCENT_FILL,
+      stroke: ACCENT_FILL,
+      strokeWidth: 0.8,
+      opacity: 0.95,
+    },
   ];
 
   return {
     coordinateSystem: 'canvas',
     paths: [
       { points: grid, opacity: 0.3, strokeWidth: 0.7 },
-      { points: secondary, opacity: 0.48, strokeWidth: 0.78 },
-      { points: focus, opacity: 0.9, strokeWidth: 1.05 },
-      { points: markers, opacity: 0.86, strokeWidth: 1.2 },
+      { points: secondary, opacity: 0.42, strokeWidth: 0.78 },
+      { points: focus, opacity: 0.94, strokeWidth: 1.15 },
     ],
+    circles,
   };
 }
 

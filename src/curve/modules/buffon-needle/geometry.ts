@@ -5,6 +5,10 @@ export const BUFFON_VIEW = {
   height: 900,
 };
 
+const GOLD_STROKE = 'rgb(212, 184, 122)';
+const GUIDE_STROKE = 'rgba(255, 255, 255, 0.36)';
+const MISS_STROKE = 'rgba(255, 255, 255, 0.54)';
+
 export function normalizeLength(value: number | undefined): number {
   return Math.max(20, Math.min(100, Math.round(value ?? 70)));
 }
@@ -112,9 +116,9 @@ export function buildBuffonThumbnail(): ThumbnailSpec {
   return {
     coordinateSystem: 'canvas',
     paths: [
-      { points: grid, opacity: 0.46, strokeWidth: 0.78 },
-      { points: dimNeedles, opacity: 0.56, strokeWidth: 0.85 },
-      { points: hitNeedles, opacity: 0.92, strokeWidth: 1.1 },
+      { points: grid, stroke: GUIDE_STROKE, opacity: 0.9, strokeWidth: 0.78 },
+      { points: dimNeedles, stroke: MISS_STROKE, opacity: 0.82, strokeWidth: 0.82 },
+      { points: hitNeedles, stroke: GOLD_STROKE, opacity: 0.96, strokeWidth: 1.18 },
     ],
   };
 }

@@ -179,23 +179,63 @@ export function buildLogarithmicThumbnail(): ThumbnailSpec {
     return { coordinateSystem: 'canvas', paths: [] };
   }
 
-  const pts = buildLogCurvePoints(curve, LOG_RIGHT_PLOT, data, 'log', 100);
-  const curvePoints: CurvePoint[] = pts.map((pt, i) => ({
+  const linearPts = buildLogCurvePoints(curve, LOG_LEFT_PLOT, data, 'linear', 100);
+  const logPts = buildLogCurvePoints(curve, LOG_RIGHT_PLOT, data, 'log', 100);
+  const linearCurvePoints: CurvePoint[] = linearPts.map((pt, i) => ({
     x: pt.x,
     y: pt.y,
     theta: i,
     arcLength: i,
   }));
+  const logCurvePoints: CurvePoint[] = logPts.map((pt, i) => ({
+    x: pt.x,
+    y: pt.y,
+    theta: 200 + i,
+    arcLength: i,
+  }));
+  const guides = buildThumbnailLogGuides(data);
 
   return {
     coordinateSystem: 'canvas',
     paths: [
+      { points: guides, stroke: 'rgba(255, 255, 255, 0.24)', strokeWidth: 0.7, opacity: 0.8 },
       {
-        points: curvePoints,
+        points: linearCurvePoints,
+        stroke: 'rgba(255, 255, 255, 0.46)',
+        strokeWidth: 0.95,
+        opacity: 0.85,
+      },
+      {
+        points: logCurvePoints,
         stroke: 'rgb(212, 184, 122)',
         strokeWidth: 1.4,
         opacity: 0.92,
       },
     ],
   };
+}
+
+function buildThumbnailLogGuides(data: LogarithmicState): CurvePoint[] {
+  const points: CurvePoint[] = [];
+
+  function segment(x1: number, y1: number, x2: number, y2: number, t: number) {
+    points.push(
+      { x: x1, y: y1, theta: t, arcLength: t },
+      { x: x2, y: y2, theta: t + 0.1, arcLength: t + 0.1 },
+      { x: Number.NaN, y: Number.NaN, theta: t + 0.2, arcLength: t + 0.2 },
+    );
+  }
+
+  for (const [idx, box] of [LOG_LEFT_PLOT, LOG_RIGHT_PLOT].entries()) {
+    const base = idx * 20;
+    segment(box.x, box.y + box.h, box.x + box.w, box.y + box.h, base);
+    segment(box.x, box.y, box.x, box.y + box.h, base + 1);
+  }
+
+  for (const value of [1, 10, 100, 1000, 10000]) {
+    const y = mapLogY(value, LOG_RIGHT_PLOT, data);
+    segment(LOG_RIGHT_PLOT.x, y, LOG_RIGHT_PLOT.x + LOG_RIGHT_PLOT.w, y, value);
+  }
+
+  return points;
 }

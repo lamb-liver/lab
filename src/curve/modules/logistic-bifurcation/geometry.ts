@@ -162,7 +162,7 @@ export function detectPeriod(r: number): number | 'CHAOTIC' {
 }
 
 export function buildLogisticThumbnail(params: ParamValues): ThumbnailSpec {
-  const points = buildBifurcationPoints(params, 1, 210, 210, 24);
+  const points = buildBifurcationPoints(params, 1, 230, 220, 26);
   const cloud: CurvePoint[] = [];
   for (const point of points) {
     cloud.push(
@@ -176,8 +176,8 @@ export function buildLogisticThumbnail(params: ParamValues): ThumbnailSpec {
     paths: [
       {
         points: cloud,
-        opacity: 0.78,
-        strokeWidth: 0.6,
+        opacity: 0.88,
+        strokeWidth: 0.72,
       },
     ],
   };

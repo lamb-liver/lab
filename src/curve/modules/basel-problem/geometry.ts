@@ -236,13 +236,23 @@ export function buildSincCurve(params: ParamValues, revealProgress = 1): {
 
 export function buildBaselThumbnail(params: ParamValues): ThumbnailSpec {
   const series = buildPartialSeries({ ...params, p: 2 }, 1);
+  const sinc = buildSincCurve({ ...params, p: 2 }, 1);
+  const fillPaths = sinc.partialFill.slice(0, 8).map((fill, index) => ({
+    points: rectPoints(fill.x, BASEL_VIEW.height - 166, fill.width, 56, index * 10),
+    closed: true,
+    fill: index === 0 ? 'rgba(212, 184, 122, 0.32)' : 'rgba(212, 184, 122, 0.18)',
+    stroke: 'rgba(212, 184, 122, 0.58)',
+    strokeWidth: 0.55,
+    opacity: 0.9,
+  }));
   return {
     coordinateSystem: 'canvas',
     paths: [
+      ...fillPaths,
       {
         points: pointsToCurvePoints(series.points),
         opacity: 1,
-        strokeWidth: 1.2,
+        strokeWidth: 1.28,
       },
       {
         points: pointsToCurvePoints([
@@ -257,6 +267,15 @@ export function buildBaselThumbnail(params: ParamValues): ThumbnailSpec {
       },
     ],
   };
+}
+
+function rectPoints(x: number, y: number, w: number, h: number, t: number): CurvePoint[] {
+  return [
+    { x, y, theta: t, arcLength: t },
+    { x: x + w, y, theta: t + 1, arcLength: t + 1 },
+    { x: x + w, y: y + h, theta: t + 2, arcLength: t + 2 },
+    { x, y: y + h, theta: t + 3, arcLength: t + 3 },
+  ];
 }
 
 export function calculateBaselStats(params: ParamValues, revealProgress = 1): {

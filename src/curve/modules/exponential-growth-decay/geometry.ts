@@ -123,31 +123,53 @@ export function buildExponentialCurvePoints(
 }
 
 export function buildExponentialThumbnail(): ThumbnailSpec {
-  const data = deriveExponentialState({
-    mode: MODE_GROWTH,
-    c: 1.4,
-    kAbs: 0.32,
-    tNorm: 0.42,
-    logScale: 0,
-    tangentMode: 0,
-  });
-  const pts = buildExponentialCurvePoints(data, 120);
-  const curvePoints: CurvePoint[] = pts.map((pt, i) => ({
-    x: pt.x,
-    y: pt.y,
-    theta: i,
-    arcLength: i,
-  }));
+  const growth = buildThumbnailExpCurve('growth', 130);
+  const decay = buildThumbnailExpCurve('decay', 130);
+  const guide: CurvePoint[] = [
+    { x: EXP_PLOT.x, y: EXP_PLOT.y + EXP_PLOT.h * 0.78, theta: 0, arcLength: 0 },
+    { x: EXP_PLOT.x + EXP_PLOT.w, y: EXP_PLOT.y + EXP_PLOT.h * 0.78, theta: 1, arcLength: 1 },
+  ];
 
   return {
     coordinateSystem: 'canvas',
     paths: [
       {
-        points: curvePoints,
+        points: guide,
+        stroke: 'rgba(255, 255, 255, 0.28)',
+        strokeWidth: 0.8,
+        opacity: 0.65,
+      },
+      {
+        points: growth,
         stroke: 'rgb(212, 184, 122)',
-        strokeWidth: 1.4,
-        opacity: 0.92,
+        strokeWidth: 1.35,
+        opacity: 0.95,
+      },
+      {
+        points: decay,
+        stroke: 'rgba(130, 170, 220, 0.72)',
+        strokeWidth: 1.05,
+        opacity: 0.9,
       },
     ],
   };
+}
+
+function buildThumbnailExpCurve(mode: ExponentialMode, samples: number): CurvePoint[] {
+  const points: CurvePoint[] = [];
+  const strength = 3.4;
+  const max = Math.exp(strength) - 1;
+
+  for (let i = 0; i <= samples; i += 1) {
+    const t = i / samples;
+    const x = EXP_PLOT.x + t * EXP_PLOT.w;
+    const yNorm =
+      mode === 'growth'
+        ? (Math.exp(strength * t) - 1) / max
+        : Math.exp(-strength * t);
+    const y = EXP_PLOT.y + EXP_PLOT.h - yNorm * EXP_PLOT.h * 0.88 - EXP_PLOT.h * 0.06;
+    points.push({ x, y, theta: i, arcLength: i });
+  }
+
+  return points;
 }

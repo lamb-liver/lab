@@ -1,5 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
-import type { CurveModule, CurvePoint, ParamSchema, ThumbnailSpec } from '../../types';
+import type { CurveModule, CurvePoint, ParamSchema, ThumbnailPath, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { REVEAL_SPEED, SOURCE_DISTANCE_LERP } from './animation';
@@ -93,7 +93,7 @@ function buildInterferenceThumbnailPaths(
   sourceDistance: number,
   wavelength: number,
   step: number,
-) {
+): ThumbnailPath[] {
   const geometry = buildInterferenceGeometry({
     canvasWidth: BASE_CANVAS,
     canvasHeight: BASE_CANVAS,
@@ -105,5 +105,13 @@ function buildInterferenceThumbnailPaths(
   });
   return geometry.envelopes
     .filter((envelope) => envelope.length > 1)
-    .map((envelope) => ({ points: toCurvePoints(envelope, step) }));
+    .map((envelope) => {
+      const isCenterLine = envelope.every((point) => Math.abs(point.x) < 0.001);
+      return {
+        points: toCurvePoints(envelope, step),
+        opacity: isCenterLine ? 0.42 : 0.95,
+        strokeWidth: isCenterLine ? 0.75 : 1.08,
+        excludeFromBbox: isCenterLine,
+      };
+    });
 }
