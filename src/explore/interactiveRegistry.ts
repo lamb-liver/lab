@@ -7,6 +7,7 @@ export const exploreInteractiveSlugs = [
   'limits-riemann-sum',
   'differential-equations-geometry',
   'complex-euler-formula',
+  'sequences-and-series',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];
