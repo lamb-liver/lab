@@ -37,8 +37,25 @@ export const getPublishedInteractive = <E extends ContentEntry>(
 export const getPublishedAsc = <E extends ContentEntry>(entries: E[]): E[] =>
   entries.filter(isPublished).sort(sortByDateAsc);
 
+/** 首頁精選：僅 `featured: true`，date 新→舊，且 slug 在互動 registry 內 */
+export const getFeaturedInteractive = <E extends ContentEntry>(
+  entries: E[],
+  interactiveSlugs: readonly string[],
+  limit: number,
+): E[] => {
+  const allowed = new Set<string>(interactiveSlugs);
+  return getPublished(entries)
+    .filter((entry) => entry.data.featured && allowed.has(entry.id))
+    .slice(0, limit);
+};
+
+export const excludeEntryIds = <E extends ContentEntry>(
+  entries: E[],
+  excludeIds: ReadonlySet<string>,
+): E[] => entries.filter((entry) => !excludeIds.has(entry.id));
+
 /**
- * featured 策展（備用；首頁「最新」已改用 getPublished().slice(0, N)）
+ * featured 策展（列表／備用；首頁精選用 `getFeaturedInteractive`）
  *
  * - `featured` 優先（池內新→舊），不足 limit 時以 non-featured 補齊。
  * - 無 featured 時：fallback 到全部 published，取最新 N 篇。

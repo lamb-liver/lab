@@ -39,6 +39,20 @@ test.describe('SEO metadata and UX shell', () => {
     );
   });
 
+  test('works search filters by title and syncs q query param', async ({ page }) => {
+    await page.goto('/works');
+
+    const search = page.locator('#works-search-input');
+    await search.fill('朱利亞');
+    await expect(page).toHaveURL(/\/works\/?\?q=%E6%9C%B1%E5%88%A9%E4%BA%9E/);
+    await expect(page.locator('[data-search-slug="julia-set"]')).toBeVisible();
+    await expect(page.locator('[data-search-slug="rose-curve"]')).toBeHidden();
+
+    await search.fill('');
+    await expect(page).toHaveURL(/\/works\/?$/);
+    await expect(page.locator('[data-search-slug="rose-curve"]')).toBeVisible();
+  });
+
   test('works filter reads, writes, and restores the tag query param', async ({ page }) => {
     await page.goto('/works?tag=幾何');
     await expect(page.getByRole('button', { name: '幾何' })).toHaveAttribute(
@@ -84,6 +98,16 @@ test.describe('SEO metadata and UX shell', () => {
 
     await page.getByRole('button', { name: '幾何' }).click();
     await expect(page).toHaveURL(/\/explore\/?\?category=%E5%B9%BE%E4%BD%95$/);
+  });
+
+  test('home page shows featured picks and section positioning', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.getByRole('heading', { level: 2, name: '精選' })).toBeVisible();
+    await expect(page.locator('[data-search-slug="julia-set"]')).toBeVisible();
+    await expect(page.locator('[data-search-slug="spirograph-curve"]')).toBeVisible();
+    await expect(page.getByRole('link', { name: /進入作品集/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /進入視覺化/ })).toBeVisible();
   });
 
   test('desktop and mobile nav expose only the viewport-appropriate link set', async ({ page }) => {

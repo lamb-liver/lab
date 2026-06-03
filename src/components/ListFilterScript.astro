@@ -1,74 +1,11 @@
 <script>
-  function applyListFilter(
-    grid: HTMLElement,
-    value: string,
-    emptyEl: HTMLElement | null,
-  ): void {
-    let visibleCount = 0;
-
-    grid.querySelectorAll('[data-filter-item]').forEach((card) => {
-      const el = card as HTMLElement;
-      if (value === '*') {
-        el.hidden = false;
-        visibleCount += 1;
-        return;
-      }
-
-      const tags = el.getAttribute('data-filter-tags');
-      const category = el.getAttribute('data-filter-category');
-      const tokens = (tags ?? category ?? '')
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean)
-        .map((s) => s.toLowerCase());
-
-      const show = tokens.includes(value);
-      el.hidden = !show;
-      if (show) visibleCount += 1;
-    });
-
-    if (emptyEl) {
-      emptyEl.hidden = value === '*' || visibleCount > 0;
-    }
-  }
-
-  function getFilterButton(bar: Element, value: string): HTMLButtonElement | null {
-    const normalized = value.trim().toLowerCase();
-    for (const button of bar.querySelectorAll('button[data-filter-value]')) {
-      const buttonValue = button.getAttribute('data-filter-value')?.trim().toLowerCase();
-      if (buttonValue === normalized) return button as HTMLButtonElement;
-    }
-    return null;
-  }
-
-  function setActiveFilter(bar: Element, activeButton: HTMLButtonElement): void {
-    bar.querySelectorAll('button[data-filter-value]').forEach((button) => {
-      const active = button === activeButton;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-  }
-
-  function valueFromUrl(param: string | null): string {
-    if (!param) return '*';
-    const value = new URL(window.location.href).searchParams.get(param);
-    return value?.trim() || '*';
-  }
-
-  function updateFilterUrl(param: string | null, value: string): void {
-    if (!param) return;
-
-    const url = new URL(window.location.href);
-    if (value === '*') {
-      url.searchParams.delete(param);
-    } else {
-      url.searchParams.set(param, value);
-    }
-
-    if (url.href !== window.location.href) {
-      history.pushState(null, '', url);
-    }
-  }
+  import {
+    applyTagFilter,
+    getFilterButton,
+    readUrlParam,
+    setActiveFilter,
+    updateUrlParam,
+  } from '../lib/listFilter.ts';
 
   function applyFilterState(root: HTMLElement, value: string): void {
     const bar = root.querySelector('[data-filter-bar]');
@@ -81,17 +18,17 @@
 
     const nextValue = button.getAttribute('data-filter-value')?.trim().toLowerCase() || '*';
     setActiveFilter(bar, button);
-    applyListFilter(grid as HTMLElement, nextValue, emptyEl as HTMLElement | null);
+    applyTagFilter(grid as HTMLElement, nextValue, emptyEl as HTMLElement | null);
   }
 
-  function attachListFilter(root: HTMLElement) {
+  function attachListFilter(root: HTMLElement): void {
     const bar = root.querySelector('[data-filter-bar]');
     const grid = root.querySelector('[data-card-grid]');
     if (!bar || !grid) return;
 
     const filterParam = root.getAttribute('data-filter-param');
 
-    applyFilterState(root, valueFromUrl(filterParam));
+    applyFilterState(root, readUrlParam(filterParam) || '*');
 
     bar.addEventListener('click', (event) => {
       const target = event.target;
@@ -104,27 +41,29 @@
       if (!value) return;
 
       setActiveFilter(bar, btn as HTMLButtonElement);
-      applyListFilter(
+      applyTagFilter(
         grid as HTMLElement,
         value,
         root.querySelector('[data-filter-empty]') as HTMLElement | null,
       );
-      updateFilterUrl(filterParam, rawValue);
+      updateUrlParam(filterParam, rawValue === '*' ? '' : rawValue);
     });
   }
 
-  function initializeListFilters(): void {
-    document.querySelectorAll('[data-list-filter]').forEach((root) => {
+  document
+    .querySelectorAll('[data-list-filter]:not([data-search-param])')
+    .forEach((root) => {
       attachListFilter(root as HTMLElement);
     });
-  }
-
-  initializeListFilters();
 
   window.addEventListener('popstate', () => {
-    document.querySelectorAll('[data-list-filter]').forEach((root) => {
-      const filterRoot = root as HTMLElement;
-      applyFilterState(filterRoot, valueFromUrl(filterRoot.getAttribute('data-filter-param')));
-    });
+    document
+      .querySelectorAll('[data-list-filter]:not([data-search-param])')
+      .forEach((root) => {
+        applyFilterState(
+          root as HTMLElement,
+          readUrlParam((root as HTMLElement).getAttribute('data-filter-param')) || '*',
+        );
+      });
   });
 </script>

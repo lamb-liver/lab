@@ -47,8 +47,8 @@ npm run dev
 
 | 路徑 | 說明 |
 |------|------|
-| `/` | 首頁（Hero、最新作品 ×3、最新視覺化 ×3） |
-| `/works` | 作品集列表（**舊→新**排序，含曲線預覽縮圖） |
+| `/` | 首頁（Hero → 雙欄導覽 → 精選 → 最新作品 ×3 → 最新視覺化 ×3） |
+| `/works` | 作品集列表（**舊→新**排序、tag 篩選、關鍵字搜尋 `?q=`） |
 | `/works/[slug]` | 單件作品（canvas 左 + **右側參數面板** + Markdown 說明） |
 | `/explore` | 視覺化主題列表（**舊→新**排序，`ExploreCard` + 封面圖） |
 | `/explore/[slug]` | 單個視覺化（互動區 + 說明；如傅立葉級數） |
@@ -168,8 +168,8 @@ title: 標題
 description: 一句話描述
 tags:
   - 幾何
-date: 2026-03-10        # 完成日；決定首頁「最新作品」與列表順序
-featured: false         # 備用標記，不影響首頁
+date: 2026-03-10        # 完成日；決定首頁「最新」區塊順序與列表排序
+featured: false         # true = 進入首頁「精選」池（需已掛互動；見下方排序表）
 draft: false
 ---
 ```
@@ -207,7 +207,7 @@ description: 一句話描述
 category: 分析          # 幾何 | 代數 | 統計 | 拓樸 | 分析
 date: 2026-02-01        # 完成日
 coverImage: /images/explore-covers/{slug}.png   # 可選，列表卡片封面
-featured: false         # 備用標記，不影響首頁
+featured: false         # true = 進入首頁「精選」池（需已掛互動；見下方排序表）
 draft: false
 ---
 ```
@@ -229,17 +229,27 @@ draft: false
 
 控件**不走** portal；與作品集 `work-detail__stage` 分離。
 
-## 排序策略（`src/content/utils.ts`）
+## 排序與首頁策展（`src/content/utils.ts`）
 
 | 場景 | 行為 |
 |------|------|
 | `/works` 列表 | `getPublishedAsc`：**舊→新**（完成愈晚愈靠後） |
+| `/works` 搜尋 | client 端 [fuse.js](https://fusejs.io/) 模糊比對 **標題 + 描述**，與 tag 篩選交集；URL `?q=` |
 | `/explore` 列表 | `getPublishedAsc`：**舊→新**（同上） |
-| 首頁「最新作品」 | `getPublishedInteractive(works, workInteractiveSlugs, 3)`：已掛載 canvas 者中 **date 新→舊** 取 3 篇 |
-| 首頁「最新視覺化」 | `getPublishedInteractive(explore, exploreInteractiveSlugs, 3)`：同上（目前 2 篇互動則顯示 2 張卡） |
+| 首頁「精選」作品 | `getFeaturedInteractive(works, …, 2)`：僅 `featured: true` 且已掛 canvas，**date 新→舊** 取 2 篇 |
+| 首頁「精選」視覺化 | `getFeaturedInteractive(explore, …, 1)`：同上，取 1 篇 |
+| 首頁「最新作品」 | `getPublishedInteractive` 取候選後 **排除精選 slug**，再取 3 篇 |
+| 首頁「最新視覺化」 | 同上 |
 
-`date` 代表完成日（或預排順序）；互動實作完成後更新 `date`，該篇會自動浮上首頁前三。  
-`featured` 保留為備用標記，**不**參與首頁選稿（`getFeaturedOrLatest` 仍可供其他用途）。
+`date` 代表完成日（或預排順序）；互動完成後更新 `date`，該篇會較容易出現在「最新」區。  
+`featured` 用於首頁精選策展：建議同時僅標記少數條目（例如 Works 2 + Explore 1），避免精選區過滿。精選池內多篇時依 **date 新→舊** 截斷，不影響 `/works`、`/explore` 列表排序。  
+`getFeaturedOrLatest` 仍保留供其他用途（精選不足時可補齊非 featured 條目），首頁精選區**不**使用該 fallback。
+
+### 區域定位（列表與首頁）
+
+- **深度作品**（`/works`）：單一數學對象、公式與完整 Markdown；卡片角標「作品」、列表 badge「深度作品」。
+- **互動探索**（`/explore`）：跨概念主題導覽；卡片角標「探索」、列表 badge「互動探索」。
+- 首頁 Hero 下 **雙欄導覽卡** 說明兩區差異並連到列表頁。
 
 ## 設計系統（摘要）
 

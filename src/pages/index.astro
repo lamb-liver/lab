@@ -5,7 +5,11 @@ import WorkCard from '../components/WorkCard.astro';
 import ExploreCard from '../components/ExploreCard.astro';
 import { getCollection } from 'astro:content';
 import { exploreInteractiveSlugs } from '../explore/interactiveRegistry';
-import { getPublishedInteractive } from '../content/utils';
+import {
+  excludeEntryIds,
+  getFeaturedInteractive,
+  getPublishedInteractive,
+} from '../content/utils';
 import { workInteractiveSlugs } from '../works/interactiveRegistry';
 import { withBase } from '../lib/withBase';
 import '../styles/pages/home.css';
@@ -13,8 +17,21 @@ import '../styles/pages/home.css';
 const works = await getCollection('works');
 const explore = await getCollection('explore');
 
-const latestWorks = getPublishedInteractive(works, workInteractiveSlugs, 3);
-const latestExplore = getPublishedInteractive(explore, exploreInteractiveSlugs, 3);
+const featuredWorks = getFeaturedInteractive(works, workInteractiveSlugs, 2);
+const featuredExplore = getFeaturedInteractive(explore, exploreInteractiveSlugs, 1);
+const featuredIds = new Set([
+  ...featuredWorks.map((entry) => entry.id),
+  ...featuredExplore.map((entry) => entry.id),
+]);
+
+const latestWorks = excludeEntryIds(
+  getPublishedInteractive(works, workInteractiveSlugs, 6),
+  featuredIds,
+).slice(0, 3);
+const latestExplore = excludeEntryIds(
+  getPublishedInteractive(explore, exploreInteractiveSlugs, 6),
+  featuredIds,
+).slice(0, 3);
 ---
 
 <BaseLayout
@@ -28,6 +45,83 @@ const latestExplore = getPublishedInteractive(explore, exploreInteractiveSlugs, 
       <p>數學與演算法的實驗</p>
     </div>
   </section>
+
+  <section class="section home-nav-section">
+    <div class="container">
+      <div class="home-nav-grid">
+        <a href={withBase('/works')} class="home-nav-card home-nav-card--work">
+          <span class="section-badge section-badge--work">深度作品</span>
+          <h2 class="home-nav-card__title">作品集</h2>
+          <p class="home-nav-card__desc">
+            每篇聚焦一個數學對象：公式、可調參數互動，以及完整視覺解釋。
+          </p>
+          <span class="home-nav-card__cta">進入作品集 →</span>
+        </a>
+        <a href={withBase('/explore')} class="home-nav-card home-nav-card--explore">
+          <span class="section-badge section-badge--explore">互動探索</span>
+          <h2 class="home-nav-card__title">視覺化</h2>
+          <p class="home-nav-card__desc">
+            從一個大概念出發，串起多個互動實驗與觀察重點。
+          </p>
+          <span class="home-nav-card__cta">進入視覺化 →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {
+    featuredWorks.length > 0 || featuredExplore.length > 0 ? (
+      <section class="section">
+        <div class="container">
+          <div class="home-section-header">
+            <div class="home-section-heading">
+              <h2 class="section-title">精選</h2>
+              <p class="home-section-desc">策展推薦：視覺衝擊力與互動完整度優先。</p>
+            </div>
+          </div>
+
+          {featuredWorks.length > 0 ? (
+            <div class="home-featured-block">
+              <h3 class="home-featured-label">
+                <span class="section-badge section-badge--work">深度作品</span>
+              </h3>
+              <div class="card-grid">
+                {featuredWorks.map((entry) => (
+                  <WorkCard
+                    slug={entry.id}
+                    title={entry.data.title}
+                    description={entry.data.description}
+                    tags={entry.data.tags}
+                    featured
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {featuredExplore.length > 0 ? (
+            <div class="home-featured-block">
+              <h3 class="home-featured-label">
+                <span class="section-badge section-badge--explore">互動探索</span>
+              </h3>
+              <div class="card-grid card-grid--explore-featured">
+                {featuredExplore.map((entry) => (
+                  <ExploreCard
+                    slug={entry.id}
+                    title={entry.data.title}
+                    description={entry.data.description}
+                    category={entry.data.category}
+                    coverImage={entry.data.coverImage}
+                    featured
+                  />
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </section>
+    ) : null
+  }
 
   <section class="section">
     <div class="container">

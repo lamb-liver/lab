@@ -4,7 +4,7 @@ description: 疊加正弦與餘弦逼近週期函數；調整項數 N 觀察收�
 category: 分析
 date: 2026-02-01
 coverImage: /explore/fourier-series-epicycles-cover.png
-featured: true
+featured: false
 draft: false
 ---
 
