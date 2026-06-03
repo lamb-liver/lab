@@ -1,6 +1,6 @@
 # Editing Rules
 
-This document collects the editing principles that should guide AI-assisted changes. It is intentionally practical and short; canonical domain details remain in `art.md`, `p5toreact.md`, `reactkey.md`, and `textstyle.md`.
+This document collects the editing principles that should guide AI-assisted changes. It is intentionally practical and short; canonical domain details remain in `art.md`, `workart.md`, `exploreart.md`, `p5toreact.md`, `reactkey.md`, and `textstyle.md`.
 
 ## Default Posture
 
@@ -21,7 +21,7 @@ Before changing rendering code, identify which layer owns the behavior:
 | Renderer | `src/systems/rendering/*` | Render snapshots only; do not read React state. |
 | Thumbnail | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | Preserve build-time SVG generation and multi-path support. |
 
-Do not rewrite glow, grid, visual hierarchy, or reveal semantics unless the task specifically asks for a visual system change. The visual authority is `art.md`.
+Do not rewrite glow, grid, visual hierarchy, or reveal semantics unless the task specifically asks for a visual system change. The visual authority starts at `art.md` and routes to `workart.md` or `exploreart.md`.
 
 ## Registry Changes
 
@@ -39,6 +39,7 @@ For a new interactive explore page, check:
 - `src/explore/interactiveRegistry.ts` is updated
 - `ExploreInteractiveStage.tsx` maps the slug to a root component
 - `coverImage` is set only when an actual static cover exists
+- Explore cover PNGs follow `exploreart.md` and keep their reproducible source files
 
 ## Content Changes
 

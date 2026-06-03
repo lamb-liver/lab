@@ -2,7 +2,7 @@
 
 > Agent / 維護者用：**決策與契約**，不是 bug 日誌。  
 > 適用：`useMorphCurveP5` 路徑（Lissajous、Harmonograph、Spirograph）。  
-> 整合總覽見 [`p5toreact.md`](p5toreact.md)；視覺 reveal 語意見 [`art.md`](art.md)。
+> 整合總覽見 [`p5toreact.md`](p5toreact.md)；Works 視覺 reveal 語意見 [`workart.md`](workart.md)。
 
 ---
 
@@ -147,7 +147,7 @@ p.draw = () => drawRef.current(p);
 | 文件 | 內容 |
 |------|------|
 | [`p5toreact.md`](p5toreact.md) | 目錄、Harmonograph 參數表、檢查清單 |
-| [`art.md`](art.md) | glow、reveal 視覺層級 |
+| [`workart.md`](workart.md) | Works glow、reveal 視覺層級 |
 | [`README.md`](README.md) | 專案結構、`morphFrame` / `morphPathCache` 路徑 |
 
 ---

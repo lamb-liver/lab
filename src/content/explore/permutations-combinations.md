@@ -3,6 +3,7 @@ title: 排列組合
 description: 以 C(n,k) 與帕斯卡三角形理解計數；在路徑與遞迴分支中觀察組合爆炸。
 category: 代數
 date: 2026-07-05
+coverImage: /images/explore-covers/permutations-combinations.png
 featured: false
 draft: false
 ---

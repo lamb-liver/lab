@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  
+    <line x1="340" y1="740" x2="1240" y2="740" stroke="#D8D8D8" stroke-width="3" opacity="0.14" stroke-linecap="round" />
+    <line x1="420" y1="710" x2="1130" y2="450" stroke="#D8D8D8" stroke-width="6" opacity="0.55" stroke-linecap="round" />
+    <polygon points="1130,450 1116.6110836028288,467.45671554759264 1108.5039681869225,445.31805421954067" fill="#D8D8D8" stroke="#D8D8D8" stroke-width="1" opacity="0.55" stroke-linejoin="round"/>
+    <line x1="420" y1="710" x2="860" y2="285" stroke="#D4B87A" stroke-width="10" opacity="1" stroke-linecap="round" filter="url(#goldGlow)"/>
+    <polygon points="860,285 854.8293110088878,306.3837315582943 838.4498489078449,289.42617079486166" fill="#D4B87A" stroke="#D4B87A" stroke-width="1" opacity="1" stroke-linejoin="round"/>
+    <line x1="420" y1="710" x2="888.6" y2="538.4" stroke="#D4B87A" stroke-width="9" opacity="0.95" stroke-linecap="round" />
+    <line x1="888.6" y1="538.4" x2="860" y2="285" stroke="#D8D8D8" stroke-width="5" opacity="0.45" stroke-linecap="round" stroke-dasharray="20 16"/>
+    <circle cx="888.6" cy="538.4" r="14" fill="#D4B87A" opacity="0.95" stroke="none" stroke-width="0"/>
+  
+</svg>

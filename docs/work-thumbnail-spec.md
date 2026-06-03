@@ -293,7 +293,7 @@ const upper = buildParametricCurve(t => evaluateTractrix(t, L), 0, maxT);
 
 - 現有縮圖入口：`src/lib/curveThumbnail.ts`
 - 作品登記：`src/curve/registry.ts`、`src/works/interactiveRegistry.ts`
-- 視覺規格：`art.md`（色票、glow）
+- 視覺規格：`workart.md`（色票、glow）
 - p5 遷移總則：`p5toreact.md`（實作後更新縮圖章節）
 
 ---

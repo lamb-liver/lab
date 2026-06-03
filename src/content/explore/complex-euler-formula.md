@@ -3,6 +3,7 @@ title: 複數與尤拉公式
 description: e^(iθ) 把旋轉與三角函數統一；觀察複數乘法、單位圓旋轉與棣莫弗定理。
 category: 代數
 date: 2026-07-03
+coverImage: /images/explore-covers/complex-euler-formula.png
 featured: false
 draft: false
 ---

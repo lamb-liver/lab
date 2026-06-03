@@ -14,9 +14,9 @@ This document is the system map for AI agents and maintainers. It does not repla
 | Explore content | `src/content/explore/*.md` | `textstyle.md` |
 | Work geometry modules | `src/curve/modules/*` | `p5toreact.md` |
 | Work runtime mounting | `src/components/works/*CurveRoot.tsx`, `WorkInteractiveStage.tsx` | `p5toreact.md`, `reactkey.md` |
-| Shared rendering | `src/systems/rendering/*` | `art.md`, `p5toreact.md` |
-| Work thumbnails | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | `p5toreact.md`, `docs/work-thumbnail-spec.md` |
-| Explore interactives | `src/explore/*`, `src/components/explore/*ExploreRoot.tsx` | `p5toreact.md` |
+| Shared rendering | `src/systems/rendering/*` | `art.md`, `workart.md`, `exploreart.md`, `p5toreact.md` |
+| Work thumbnails | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | `workart.md`, `p5toreact.md`, `docs/work-thumbnail-spec.md` |
+| Explore interactives | `src/explore/*`, `src/components/explore/*ExploreRoot.tsx` | `exploreart.md`, `p5toreact.md` |
 
 ## Works Data Flow
 
@@ -82,7 +82,7 @@ Keep these synchronized when adding an interactive explore page:
 - `src/content/explore/{slug}.md`
 - `src/explore/interactiveRegistry.ts`
 - `src/components/explore/ExploreInteractiveStage.tsx`
-- optional `public/explore/*` cover image and frontmatter `coverImage`
+- optional `public/images/explore-covers/*` cover image and frontmatter `coverImage`
 
 ## Stable Boundaries
 
@@ -94,4 +94,4 @@ Keep these synchronized when adding an interactive explore page:
 
 ## Historical Documents
 
-`docs/work-thumbnail-spec.md` is design history for the thumbnail upgrade. The active implementation contract lives in `p5toreact.md` and `src/lib/curveThumbnail.ts`.
+`docs/work-thumbnail-spec.md` is design history for the thumbnail upgrade. The active implementation contract lives in `workart.md`, `p5toreact.md`, and `src/lib/curveThumbnail.ts`.

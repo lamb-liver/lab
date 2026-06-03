@@ -7,7 +7,7 @@ This is the AI entry point for this repository. Keep it short, authoritative, an
 When documents or assumptions conflict, follow this order:
 
 1. `src/` runtime code
-2. `art.md` for visual language
+2. `art.md` for visual language entrypoint (`workart.md` for Works, `exploreart.md` for Explore)
 3. `p5toreact.md` for p5, React, CurveModule, rendering, and thumbnail integration
 4. `reactkey.md` for morph curve lifecycle, refs, identity, and animation contracts
 5. `textstyle.md` for content Markdown structure, wording, and Traditional Chinese language rules
@@ -32,7 +32,9 @@ Cursor rules are not canonical runtime specifications.
 |------|------|
 | System map and ownership boundaries | `docs/architecture.md` |
 | Editing and validation rules | `docs/editing-rules.md` |
-| Visual language | `art.md` |
+| Visual language entrypoint | `art.md` |
+| Works visual language | `workart.md` |
+| Explore visual language | `exploreart.md` |
 | p5 to React integration and rendering pipeline | `p5toreact.md` |
 | Morph animation lifecycle | `reactkey.md` |
 | Content writing style | `textstyle.md` |

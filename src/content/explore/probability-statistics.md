@@ -3,6 +3,7 @@ title: 機率與統計
 description: 從條件機率與貝氏定理出發；觀察二項逼近常態、蒲豐投針與蒙提霍爾悖論。
 category: 統計
 date: 2026-07-06
+coverImage: /images/explore-covers/probability-statistics.png
 featured: false
 draft: false
 ---

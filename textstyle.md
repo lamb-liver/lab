@@ -1,8 +1,8 @@
 # 文案風格規範（Text Style）
 
 > **適用**：`src/content/explore/*.md`、`src/content/works/*.md` 的 Markdown 正文與 frontmatter。  
-> **不適用**：`art.md`、`p5toreact.md`、`reactkey.md`、`README.md` 等工程規格（表格、英文識別符、程式路徑為主，見 §10）。  
-> 互動工程見 [`p5toreact.md`](p5toreact.md)；canvas 視覺見 [`art.md`](art.md)。
+> **不適用**：`art.md`、`workart.md`、`exploreart.md`、`p5toreact.md`、`reactkey.md`、`README.md` 等工程規格（表格、英文識別符、程式路徑為主，見 §10）。
+> 互動工程見 [`p5toreact.md`](p5toreact.md)；canvas 視覺入口見 [`art.md`](art.md)。
 
 ---
 
@@ -38,7 +38,7 @@
 | 文件 | 風格 | 備註 |
 |------|------|------|
 | `README.md` | 專案說明 + 表格 | slug、路徑、技術棧；可中英並列 |
-| `art.md` | 視覺規格 | token、alpha 數值、程式對照 |
+| `art.md` / `workart.md` / `exploreart.md` | 視覺規格 | token、alpha 數值、程式對照 |
 | `p5toreact.md` | 整合手冊 | 檢查清單、反模式表、縮圖管線 |
 | `docs/work-thumbnail-spec.md` | 縮圖設計歷史 | **Implemented**；現行權威見 `p5toreact.md` + `curveThumbnail.ts` |
 
@@ -116,7 +116,7 @@ description: 待實作的朱利亞集展示。
 
 ```yaml
 category: 幾何   # 幾何 | 代數 | 統計 | 拓樸 | 分析
-coverImage: /explore/{slug}-{主題}-cover.png   # 可選
+coverImage: /images/explore-covers/{slug}.png   # 可選；新封面規格見 exploreart.md
 ```
 
 ### 3.3 Works 專用
@@ -463,7 +463,7 @@ $$
 | 文件 | 分工 |
 |------|------|
 | `textstyle.md`（本文件） | content **文案**結構、語氣、用字 |
-| `art.md` | canvas **視覺**（色、光、層級） |
+| `art.md` / `workart.md` / `exploreart.md` | canvas **視覺**（色、光、層級） |
 | `p5toreact.md` | 互動**工程**（模組、hook、檢查清單） |
 | `reactkey.md` | Morph 曲線 React × p5 契約 |
 | `README.md` | 路徑、排序、`date` 語意、專案結構 |
@@ -471,7 +471,7 @@ $$
 | `tools/archive/optimize-works-content.mjs` | works 文案**一次性**批次遷移（2026-05-27） |
 | `.cursor/rules/code-review.mdc` | **Local AI review 流程**（Cursor）；非 runtime spec；衝突時以 `src/` 為準 |
 
-**Authority**：content 文案 → 本文件；canvas → `art.md`；互動工程 → `p5toreact.md`；morph → `reactkey.md`；**runtime 程式優先於一切 Markdown**。
+**Authority**：content 文案 → 本文件；canvas → `art.md` / `workart.md` / `exploreart.md`；互動工程 → `p5toreact.md`；morph → `reactkey.md`；**runtime 程式優先於一切 Markdown**。
 
 新增或改寫 content 時先對照本文件；**不必**把各篇現成內文複製進來。
 

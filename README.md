@@ -14,7 +14,9 @@
 | 文件 | 說明 |
 |------|------|
 | [`AGENTS.md`](AGENTS.md) | AI 入口：權威順序、架構入口、編輯原則 |
-| [`art.md`](art.md) | 曲線視覺風格（glow、grid、色彩、hierarchy） |
+| [`art.md`](art.md) | 視覺風格入口（依系統導向 `workart.md` / `exploreart.md`） |
+| [`workart.md`](workart.md) | Works 視覺風格與 build-time SVG 縮圖規格 |
+| [`exploreart.md`](exploreart.md) | Explore 視覺風格與靜態 cover PNG 規格 |
 | [`textstyle.md`](textstyle.md) | 視覺化主題頁 Markdown 文案結構與語氣 |
 | [`p5toreact.md`](p5toreact.md) | p5 sketch → React / CurveModule 整合與踩坑 |
 | [`reactkey.md`](reactkey.md) | Morph 曲線 React × p5 架構契約（模組邊界、ref、快取） |
@@ -22,7 +24,7 @@
 | [`docs/editing-rules.md`](docs/editing-rules.md) | AI-assisted editing 原則與驗收規則 |
 | [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md) | 縮圖設計歷史（Implemented）；現行見 `p5toreact.md` + `curveThumbnail.ts` |
 
-**Authority 層級**（衝突時）：`src/` runtime > [`AGENTS.md`](AGENTS.md) 的權威入口 > `art.md` / `p5toreact.md` / `reactkey.md` / `textstyle.md` > `docs/` 系統地圖與設計歷史 > [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc)（僅 AI review workflow，非 runtime spec）。
+**Authority 層級**（衝突時）：`src/` runtime > [`AGENTS.md`](AGENTS.md) 的權威入口 > `art.md` / `workart.md` / `exploreart.md` / `p5toreact.md` / `reactkey.md` / `textstyle.md` > `docs/` 系統地圖與設計歷史 > [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc)（僅 AI review workflow，非 runtime spec）。
 
 | 工具 | 說明 |
 |------|------|
@@ -215,13 +217,13 @@ title: 傅立葉級數
 description: 一句話描述
 category: 分析          # 幾何 | 代數 | 統計 | 拓樸 | 分析
 date: 2026-02-01        # 完成日
-coverImage: /explore/fourier-series-epicycles-cover.png   # 可選，列表卡片封面
+coverImage: /images/explore-covers/{slug}.png   # 可選，列表卡片封面
 featured: false         # 備用標記，不影響首頁
 draft: false
 ---
 ```
 
-封面圖放 `public/explore/`，命名慣例：`{slug}-{主題}-cover.png`；`coverImage` 路徑會經 `withBase()` 解析。  
+新封面圖放 `public/images/explore-covers/`，對應來源檔放 `scripts/explore-covers/`；`fourier-series` 既有 legacy 封面保留原路徑。`coverImage` 路徑會經 `withBase()` 解析。封面規格見 [`exploreart.md`](exploreart.md)。
 互動掛載：在 [`src/explore/interactiveRegistry.ts`](src/explore/interactiveRegistry.ts) 登記 slug，並於 [`ExploreInteractiveStage.tsx`](src/components/explore/ExploreInteractiveStage.tsx) 掛載對應 `*ExploreRoot`。細節見 [`p5toreact.md`](p5toreact.md)「Explore 視覺化」章節。
 
 ### 視覺化頁版面（互動 explore）

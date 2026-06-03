@@ -9,7 +9,7 @@
 | reveal / 時間軸 | `standing-wave`、`interference-fringes`、`chladni-figures`、`parabolic-reflection`、`conic-envelope`、`conic-focus-locus`、`catenary`、`equiangular-spiral`、`affine-transform-pattern`、`rotation-scale-composition`、`affine-ifs-fractal`、`riemann-sum`、`tangent-approximation`、`linear-transform-grid` |
 | 數列 / 碎形幾何 | `arithmetic-geometric-sequences`、`fibonacci-spiral`、`sierpinski-triangle` |
 | 自訂 p5 引擎 | `vector-field-streamlines`、`complex-arithmetic-geometry`、`complex-polar-form`、`euler-formula-rotation`、`julia-set`、`complex-phase-portrait` |  
-**視覺規格**：見 [`art.md`](art.md)（glow、grid、hierarchy，只換 geometry 不重做 style）。  
+**視覺規格**：見 [`art.md`](art.md)；Works 細節見 [`workart.md`](workart.md)，Explore 細節見 [`exploreart.md`](exploreart.md)。
 **React × p5 架構契約（morph 曲線）**：見 [`reactkey.md`](reactkey.md)。  
 **Explore 互動**（傅立葉級數）見下方「Explore 視覺化」章節；不走 CurveModule / portal 舞台。
 
@@ -114,7 +114,13 @@ src/content/explore/
   fourier-series.md
 
 public/explore/
-  fourier-series-epicycles-cover.png   # ExploreCard 封面
+  fourier-series-epicycles-cover.png   # legacy Fourier ExploreCard 封面
+
+public/images/explore-covers/
+  {slug}.png                           # 新 ExploreCard 封面
+
+scripts/explore-covers/
+  {slug}.*                             # 新 Explore cover 可重現來源檔
 
 src/styles/pages/
   work-detail.css           # .work-detail__stage 舞台佈局
@@ -195,7 +201,7 @@ export const getPublishedAsc = (entries) =>
 | slug | 元件 | 說明 |
 |------|------|------|
 | `fourier-series` | `FourierSeriesExploreRoot` | 1D 方波 / 2D 軌道；epicycles |
-| `trig-wave-interference` | `WaveSuperpositionExploreRoot` | 圖左 sidebar 右；`canvasSize` clamp(300, w×ratio, 520)；見 `art.md` §5.2.2 |
+| `trig-wave-interference` | `WaveSuperpositionExploreRoot` | 圖左 sidebar 右；`canvasSize` clamp(300, w×ratio, 520)；見 `exploreart.md` |
 
 ### 佈局（傅立葉）
 
@@ -257,7 +263,7 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 ```
 
 `ExploreCard.astro` 讀 `entry.data.coverImage`；無則顯示「主題佔位」。  
-命名慣例：`public/explore/{slug}-{主題}-cover.png`。
+現行 Explore cover 命名、來源檔與驗收規格見 [`exploreart.md`](exploreart.md)。
 
 ### Explore vs Works
 
@@ -272,7 +278,7 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 
 ## 作品集縮圖（`WorkCard` + `curveThumbnail`）
 
-> **實作規格（封面優化版）**：現行工程契約見本節；視覺語言見 [`art.md`](art.md#53-列表縮圖)；44 件作品 audit 與驗收清單見 [`docs/thumbnail-cover-optimization.md`](docs/thumbnail-cover-optimization.md)。舊 reveal 快照升級歷史見 [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md)（historical / implemented）。
+> **實作規格（封面優化版）**：現行工程契約見本節；視覺語言見 [`workart.md`](workart.md)；44 件作品 audit 與驗收清單見 [`docs/thumbnail-cover-optimization.md`](docs/thumbnail-cover-optimization.md)。舊 reveal 快照升級歷史見 [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md)（historical / implemented）。
 
 ### 目的
 
@@ -360,7 +366,7 @@ type ThumbnailSpec = {
 
 1. 實作 `CurveModule`
 2. 登記 `src/curve/registry.ts`（slug 與 `{slug}.md` 檔名一致）
-3. 實作 `purpose: 'thumbnail'` 分支或 builder，封面需符合 `art.md` 與 `docs/thumbnail-cover-optimization.md`
+3. 實作 `purpose: 'thumbnail'` 分支或 builder，封面需符合 `workart.md` 與 `docs/thumbnail-cover-optimization.md`
 4. 未登記 → 仍顯示「縮圖佔位」
 
 ### 縮圖踩坑
@@ -771,7 +777,7 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 ## 新增曲線檢查清單
 
 1. `modules/xxx/index.ts` + `content/works/xxx.md`
-2. `xxxRenderPreset`（對齊 `art.md`）
+2. `xxxRenderPreset`（對齊 `workart.md`）
 3. `CurveWorkRoot` 或專用 `XxxCurveRoot`
 4. 採樣域、`revealMode`、`cacheStrategy`
 5. 哪些參數 reset reveal？哪些 lerp？
@@ -839,7 +845,7 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 
 ## 工作流程
 
-1. p5 prototype（視覺先成立 → `art.md`）
+1. p5 prototype（視覺先成立 → `art.md`，Works 細節見 `workart.md`）
 2. 抽 `CurveModule` + 選 Root 型別
 3. Astro + portal 控件 + `registry` 縮圖
 

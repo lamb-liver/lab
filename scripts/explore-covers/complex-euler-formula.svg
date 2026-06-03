@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  
+    <circle cx="560" cy="500" r="210" fill="none" opacity="1" stroke="#D8D8D8" stroke-width="4"/>
+    <line x1="300" y1="500" x2="830" y2="500" stroke="#D8D8D8" stroke-width="3" opacity="0.22" stroke-linecap="round" />
+    <line x1="560" y1="750" x2="560" y2="240" stroke="#D8D8D8" stroke-width="3" opacity="0.22" stroke-linecap="round" />
+    <line x1="717.8792031195879" y1="361.52921888599064" x2="860" y2="505" stroke="#D8D8D8" stroke-width="4" opacity="0.25" stroke-linecap="round" stroke-dasharray="18 18"/>
+    <line x1="560" y1="500" x2="717.8792031195879" y2="361.52921888599064" stroke="#D4B87A" stroke-width="10" opacity="1" stroke-linecap="round" filter="url(#goldGlow)"/>
+    <polygon points="717.8792031195879,361.52921888599064 711.6872020026311,382.63985890868076 696.1412990832381,364.9150021198146" fill="#D4B87A" stroke="#D4B87A" stroke-width="1" opacity="1" stroke-linejoin="round"/>
+    <path d="M 860 505 C 920 360 980 360 1040 505 S 1160 650 1220 505 S 1340 360 1400 505" fill="none" stroke="#5DADE2" stroke-width="8" opacity="0.9" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)"/>
+    <path d="M 860 575 C 920 705 980 705 1040 575 S 1160 445 1220 575 S 1340 705 1400 575" fill="none" stroke="#D4B87A" stroke-width="7" opacity="0.75" stroke-linecap="round" stroke-linejoin="round" />
+    <line x1="840" y1="540" x2="1420" y2="540" stroke="#D8D8D8" stroke-width="3" opacity="0.18" stroke-linecap="round" />
+  
+</svg>

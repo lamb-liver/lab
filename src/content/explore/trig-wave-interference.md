@@ -3,6 +3,7 @@ title: 三角函數的疊加與波的干涉
 description: 兩列正弦波疊加與拍頻；調整振幅、頻率與相位觀察干涉與相消。
 category: 分析
 date: 2026-04-01
+coverImage: /images/explore-covers/trig-wave-interference.png
 featured: false
 draft: false
 ---

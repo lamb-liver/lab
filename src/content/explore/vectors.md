@@ -3,6 +3,7 @@ title: 向量
 description: 以內積、基底線性組合與法向量，理解平面上的向量幾何。
 category: 幾何
 date: 2026-07-08
+coverImage: /images/explore-covers/vectors.png
 featured: false
 draft: false
 ---

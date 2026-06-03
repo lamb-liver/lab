@@ -3,6 +3,7 @@ title: 數列與級數
 description: 等差、等比與遞迴定義離散規律；觀察級數收斂與邏輯斯諦映射的混沌。
 category: 分析
 date: 2026-07-04
+coverImage: /images/explore-covers/sequences-and-series.png
 featured: false
 draft: false
 ---

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  
+    <line x1="345" y1="760" x2="1370" y2="760" stroke="#D8D8D8" stroke-width="4" opacity="0.2" stroke-linecap="round" />
+    <line x1="345" y1="760" x2="345" y2="190" stroke="#D8D8D8" stroke-width="4" opacity="0.2" stroke-linecap="round" />
+    <line x1="345" y1="760" x2="1137" y2="328" stroke="#D8D8D8" stroke-width="5" opacity="0.42" stroke-linecap="round" stroke-dasharray="18 18"/>
+    <path d="M 345.0 760.0 L 364.8 748.9 L 384.6 737.1 L 404.4 724.5 L 424.2 711.2 L 444.0 697.0 L 463.8 682.0 L 483.6 666.0 L 503.4 649.1 L 523.2 631.1 L 543.0 612.0 L 562.8 591.7 L 582.6 570.2 L 602.4 547.3 L 622.2 523.1 L 642.0 497.3 L 661.8 469.9 L 681.6 440.8 L 701.4 410.0 L 721.2 377.2 L 741.0 342.4 L 760.8 305.4 L 780.6 266.2 L 800.4 224.5" fill="none" stroke="#D4B87A" stroke-width="10" opacity="1" stroke-linecap="round" stroke-linejoin="round" filter="url(#goldGlow)"/>
+    <path d="M 675.0 760.0 L 694.8 743.7 L 714.6 728.2 L 734.4 713.6 L 754.2 699.7 L 774.0 686.4 L 793.8 673.8 L 813.6 661.7 L 833.4 650.1 L 853.2 638.9 L 873.0 628.2 L 892.8 617.9 L 912.6 607.9 L 932.4 598.3 L 952.2 589.0 L 972.0 580.0 L 991.8 571.3 L 1011.6 562.8 L 1031.4 554.6 L 1051.2 546.6 L 1071.0 538.9 L 1090.8 531.3 L 1110.6 524.0 L 1130.4 516.8 L 1150.2 509.9 L 1170.0 503.0 L 1189.8 496.4 L 1209.6 489.9 L 1229.4 483.5 L 1249.2 477.3 L 1269.0 471.3 L 1288.8 465.3 L 1308.6 459.5 L 1328.4 453.8" fill="none" stroke="#5DADE2" stroke-width="9" opacity="0.9" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)"/>
+  
+</svg>

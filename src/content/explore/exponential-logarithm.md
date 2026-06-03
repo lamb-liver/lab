@@ -3,6 +3,7 @@ title: 指數與對數
 description: $a^x$ 與 $\log_a x$ 互為反函數；從倍增、尺度到自然底 $e$ 與換底。
 category: 分析
 date: 2026-07-07
+coverImage: /images/explore-covers/exponential-logarithm.png
 featured: false
 draft: false
 ---

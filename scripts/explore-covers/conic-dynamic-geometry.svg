@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  
+    <line x1="300" y1="240" x2="300" y2="760" stroke="#D8D8D8" stroke-width="4" opacity="0.15" stroke-linecap="round" />
+    <line x1="795" y1="230" x2="720" y2="770" stroke="#D8D8D8" stroke-width="4" opacity="0.15" stroke-linecap="round" />
+    <line x1="1210" y1="240" x2="1115" y2="760" stroke="#D8D8D8" stroke-width="4" opacity="0.15" stroke-linecap="round" />
+    <circle cx="410" cy="500" r="10" fill="#D4B87A" opacity="0.7" stroke="none" stroke-width="0"/>
+    <circle cx="750" cy="500" r="10" fill="#D4B87A" opacity="0.7" stroke="none" stroke-width="0"/>
+    <circle cx="1160" cy="500" r="10" fill="#D4B87A" opacity="0.7" stroke="none" stroke-width="0"/>
+    <path d="M 500 320 C 645 320 705 405 705 500 C 705 595 645 680 500 680 C 355 680 295 595 295 500 C 295 405 355 320 500 320 Z" fill="none" stroke="#D4B87A" stroke-width="9" opacity="1" stroke-linecap="round" stroke-linejoin="round" filter="url(#goldGlow)"/>
+    <path d="M 740 705 C 875 645 935 555 935 500 C 935 445 875 355 740 295" fill="none" stroke="#D4B87A" stroke-width="9" opacity="1" stroke-linecap="round" stroke-linejoin="round" filter="url(#goldGlow)"/>
+    <path d="M 1090 300 C 1225 385 1295 455 1335 500 C 1295 545 1225 615 1090 700" fill="none" stroke="#D4B87A" stroke-width="9" opacity="1" stroke-linecap="round" stroke-linejoin="round" filter="url(#goldGlow)"/>
+    <path d="M 1015 300 C 925 405 900 455 895 500 C 900 545 925 595 1015 700" fill="none" stroke="#D4B87A" stroke-width="6" opacity="0.45" stroke-linecap="round" stroke-linejoin="round" />
+  
+</svg>

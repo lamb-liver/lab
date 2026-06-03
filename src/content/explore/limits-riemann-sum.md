@@ -3,6 +3,7 @@ title: 極限與黎曼和
 description: 以矩形和逼近定積分；比較分割法並連結切線斜率與瞬時變化率。
 category: 分析
 date: 2026-07-01
+coverImage: /images/explore-covers/limits-riemann-sum.png
 featured: false
 draft: false
 ---

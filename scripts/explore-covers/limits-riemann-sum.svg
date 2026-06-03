@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  
+    <line x1="220" y1="760" x2="1390" y2="760" stroke="#D8D8D8" stroke-width="4" opacity="0.18" stroke-linecap="round" />
+    <rect x="250" y="500" width="120" height="260" fill="rgba(212,184,122,0.16)" stroke="#D4B87A" stroke-width="5" opacity="0.82"/>
+<rect x="370" y="455" width="120" height="305" fill="rgba(212,184,122,0.16)" stroke="#D4B87A" stroke-width="5" opacity="0.82"/>
+<rect x="490" y="415" width="120" height="345" fill="rgba(212,184,122,0.16)" stroke="#D4B87A" stroke-width="5" opacity="0.82"/>
+<rect x="610" y="382" width="120" height="378" fill="rgba(212,184,122,0.16)" stroke="#D4B87A" stroke-width="5" opacity="0.82"/>
+<rect x="730" y="360" width="120" height="400" fill="rgba(212,184,122,0.16)" stroke="#D4B87A" stroke-width="5" opacity="0.82"/>
+<rect x="850" y="350" width="120" height="410" fill="rgba(212,184,122,0.16)" stroke="#D4B87A" stroke-width="5" opacity="0.82"/>
+<rect x="970" y="362" width="120" height="398" fill="rgba(212,184,122,0.16)" stroke="#D4B87A" stroke-width="5" opacity="0.82"/>
+<rect x="1090" y="395" width="120" height="365" fill="rgba(212,184,122,0.16)" stroke="#D4B87A" stroke-width="5" opacity="0.82"/>
+    <polygon points="380,455 480,455 480,421 380,431" fill="#E76F51" stroke="none" stroke-width="0" opacity="0.22" stroke-linejoin="round"/>
+<polygon points="500,415 600,415 600,391 500,401" fill="#E76F51" stroke="none" stroke-width="0" opacity="0.22" stroke-linejoin="round"/>
+<polygon points="620,382 720,382 720,348 620,358" fill="#E76F51" stroke="none" stroke-width="0" opacity="0.22" stroke-linejoin="round"/>
+<polygon points="740,360 840,360 840,336 740,346" fill="#E76F51" stroke="none" stroke-width="0" opacity="0.22" stroke-linejoin="round"/>
+<polygon points="860,350 960,350 960,316 860,326" fill="#E76F51" stroke="none" stroke-width="0" opacity="0.22" stroke-linejoin="round"/>
+<polygon points="980,362 1080,362 1080,338 980,348" fill="#E76F51" stroke="none" stroke-width="0" opacity="0.22" stroke-linejoin="round"/>
+    <path d="M 210 715 C 360 545 500 390 690 355 C 850 325 990 315 1210 410 C 1330 465 1410 560 1460 650" fill="none" stroke="#D4B87A" stroke-width="10" opacity="1" stroke-linecap="round" stroke-linejoin="round" filter="url(#goldGlow)"/>
+  
+</svg>
