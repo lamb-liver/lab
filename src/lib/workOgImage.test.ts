@@ -6,6 +6,7 @@ import { getCurveThumbnailSvg } from './curveThumbnail';
 import {
   assertSharpCompatibleSvg,
   renderWorkOgPng,
+  resolveWorkOgContent,
   WORK_OG_HEIGHT,
   WORK_OG_WIDTH,
 } from './workOgImage';
@@ -45,5 +46,17 @@ describe('work OG image generation', () => {
       expect(meta.width, `${slug} width`).toBe(WORK_OG_WIDTH);
       expect(meta.height, `${slug} height`).toBe(WORK_OG_HEIGHT);
     }
+  });
+
+  it('uses content title override and curve formula metadata', () => {
+    const content = resolveWorkOgContent('rose-curve', '自訂標題');
+    expect(content.title).toBe('自訂標題');
+    expect(content.formula).toBe('r = cos(kθ)');
+  });
+
+  it('produces distinct PNG bytes across slugs', async () => {
+    const rose = await renderWorkOgPng('rose-curve');
+    const lissajous = await renderWorkOgPng('lissajous-curve');
+    expect(rose.equals(lissajous)).toBe(false);
   });
 });

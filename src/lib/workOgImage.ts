@@ -1,11 +1,15 @@
+import satori from 'satori';
 import sharp from 'sharp';
+import { workCurveBySlug } from '../curve/registry';
 import { getCurveThumbnailSvg } from './curveThumbnail';
+import { getWorkOgFonts } from './workOgFonts';
+import { buildWorkOgElement } from './workOgSatori';
 
 export const WORK_OG_WIDTH = 1200;
 export const WORK_OG_HEIGHT = 630;
 
-const THUMBNAIL_WIDTH = 1200;
-const THUMBNAIL_HEIGHT = 750;
+const THUMBNAIL_WIDTH = 960;
+const THUMBNAIL_HEIGHT = 600;
 const OG_BACKGROUND = '#0a0a0a';
 
 export function assertSharpCompatibleSvg(svg: string, slug: string): void {
@@ -54,7 +58,23 @@ export function getWorkOgImagePath(slug: string): string {
   return `/og/works/${slug}.png`;
 }
 
-export async function renderWorkOgPng(slug: string): Promise<Buffer> {
+export function resolveWorkOgContent(slug: string, titleOverride?: string): {
+  title: string;
+  formula: string;
+} {
+  const mod = workCurveBySlug[slug];
+  if (!mod) {
+    throw new Error(`unknown work slug: ${slug}`);
+  }
+
+  const meta = mod.getMetadata(mod.defaultParams);
+  return {
+    title: titleOverride ?? meta.title,
+    formula: meta.formula.trim(),
+  };
+}
+
+async function renderThumbnailDataUrl(slug: string): Promise<string> {
   const svg = getCurveThumbnailSvg(slug);
   if (!svg) {
     throw new Error(`missing thumbnail SVG for ${slug}`);
@@ -62,11 +82,31 @@ export async function renderWorkOgPng(slug: string): Promise<Buffer> {
 
   assertSharpCompatibleSvg(svg, slug);
 
-  return sharp(Buffer.from(withFixedSvgSize(svg)))
-    .resize(WORK_OG_WIDTH, WORK_OG_HEIGHT, {
+  const png = await sharp(Buffer.from(withFixedSvgSize(svg)))
+    .resize(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, {
       fit: 'contain',
       background: OG_BACKGROUND,
     })
     .png()
     .toBuffer();
+
+  return `data:image/png;base64,${png.toString('base64')}`;
+}
+
+export async function renderWorkOgPng(slug: string, titleOverride?: string): Promise<Buffer> {
+  const content = resolveWorkOgContent(slug, titleOverride);
+  const thumbnailDataUrl = await renderThumbnailDataUrl(slug);
+
+  const svg = await satori(buildWorkOgElement({ ...content, thumbnailDataUrl }), {
+    width: WORK_OG_WIDTH,
+    height: WORK_OG_HEIGHT,
+    fonts: getWorkOgFonts(),
+  });
+
+  return sharp(Buffer.from(svg)).png().toBuffer();
+}
+
+/** Warm font files during build so first OG route does not pay cold-start I/O. */
+export function preloadWorkOgFonts(): void {
+  getWorkOgFonts();
 }

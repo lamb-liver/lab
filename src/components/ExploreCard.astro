@@ -10,17 +10,19 @@ interface Props {
   description: string;
   category: ExploreCategory;
   coverImage?: string;
+  featured?: boolean;
 }
 
-const { slug, title, description, category, coverImage } = Astro.props;
+const { slug, title, description, category, coverImage, featured = false } = Astro.props;
 ---
 
 <article
-  class="card card--explore"
+  class:list={['card', 'card--explore', { 'card--featured': featured }]}
   data-filter-item
   data-filter-category={category}
 >
   <a href={withBase(`/explore/${slug}`)} class="card__link-wrap">
+    <span class="card__kind card__kind--explore">探索</span>
     <div
       class:list={[
         'card__thumb',
@@ -43,7 +45,10 @@ const { slug, title, description, category, coverImage } = Astro.props;
       }
     </div>
     <div class="card__body">
-      <h3 class="card__title">{title}</h3>
+      <div class="card__title-row">
+        <h3 class="card__title">{title}</h3>
+        {featured ? <span class="card__featured-label">精選</span> : null}
+      </div>
       <div class="card__tags">
         <span class="card__tag">{category}</span>
       </div>

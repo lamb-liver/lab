@@ -9,18 +9,21 @@ interface Props {
   title: string;
   description: string;
   tags: string[];
+  featured?: boolean;
 }
 
-const { slug, title, description, tags } = Astro.props;
+const { slug, title, description, tags, featured = false } = Astro.props;
 const thumbSvg = getCurveThumbnailSvg(slug);
 ---
 
 <article
-  class="card card--work"
+  class:list={['card', 'card--work', { 'card--featured': featured }]}
   data-filter-item
   data-filter-tags={tags.join(',')}
+  data-search-slug={slug}
 >
   <a href={withBase(`/works/${slug}`)} class="card__link-wrap">
+    <span class="card__kind card__kind--work">作品</span>
     <div
       class:list={[
         'card__thumb',
@@ -31,7 +34,10 @@ const thumbSvg = getCurveThumbnailSvg(slug);
       {thumbSvg ? <div class="card__thumb-svg" set:html={thumbSvg} /> : <CardThumbFallback />}
     </div>
     <div class="card__body">
-      <h3 class="card__title">{title}</h3>
+      <div class="card__title-row">
+        <h3 class="card__title">{title}</h3>
+        {featured ? <span class="card__featured-label">精選</span> : null}
+      </div>
       <div class="card__tags">
         {tags.map((tag) => <span class="card__tag">{tag}</span>)}
       </div>

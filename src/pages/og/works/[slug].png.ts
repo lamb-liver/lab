@@ -1,21 +1,25 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { getStaticPathsFromCollection } from '../../../content/utils';
-import { renderWorkOgPng } from '../../../lib/workOgImage';
+import { preloadWorkOgFonts, renderWorkOgPng } from '../../../lib/workOgImage';
 
 export async function getStaticPaths() {
   const works = await getCollection('works');
-  return getStaticPathsFromCollection(works).map(({ params }) => ({ params }));
+  preloadWorkOgFonts();
+  return getStaticPathsFromCollection(works).map(({ params, props }) => ({
+    params,
+    props: { title: props.entry.data.title },
+  }));
 }
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, props }) => {
   const slug = params.slug;
   if (!slug) {
     return new Response(null, { status: 404 });
   }
 
   try {
-    const png = await renderWorkOgPng(slug);
+    const png = await renderWorkOgPng(slug, props.title);
     return new Response(png, {
       headers: {
         'Content-Type': 'image/png',

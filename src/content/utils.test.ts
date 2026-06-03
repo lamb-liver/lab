@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import {
   collectExploreCategories,
   collectWorkTags,
+  excludeEntryIds,
+  getFeaturedInteractive,
   getFeaturedOrLatest,
   getPublishedInteractive,
   getStaticPathsFromCollection,
@@ -28,6 +30,30 @@ describe('getPublishedInteractive', () => {
     ];
     const result = getPublishedInteractive(pool, ['rose-curve', 'vector-field-streamlines'], 3);
     expect(result.map((e) => e.id)).toEqual(['vector-field-streamlines', 'rose-curve']);
+  });
+});
+
+describe('getFeaturedInteractive', () => {
+  it('returns only featured interactive slugs, newest first, capped', () => {
+    const pool = [
+      entry('placeholder', '2026-08-01', true),
+      entry('julia-set', '2026-06-01', true),
+      entry('spirograph-curve', '2026-05-01', true),
+      entry('rose-curve', '2026-01-15', false),
+    ];
+    const result = getFeaturedInteractive(
+      pool,
+      ['julia-set', 'spirograph-curve', 'rose-curve'],
+      2,
+    );
+    expect(result.map((e) => e.id)).toEqual(['julia-set', 'spirograph-curve']);
+  });
+});
+
+describe('excludeEntryIds', () => {
+  it('removes entries whose id is in the exclude set', () => {
+    const pool = [entry('a', '2026-01-01'), entry('b', '2026-02-01')];
+    expect(excludeEntryIds(pool, new Set(['a'])).map((e) => e.id)).toEqual(['b']);
   });
 });
 

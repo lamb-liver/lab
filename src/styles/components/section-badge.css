@@ -1,0 +1,71 @@
+.section-badge {
+  display: inline-block;
+  margin-bottom: var(--space-3);
+  padding: 0.2em 0.65em;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+}
+
+.section-badge--work {
+  color: var(--color-accent);
+  border-color: var(--accent-border);
+  background: rgba(192, 255, 107, 0.06);
+}
+
+.section-badge--explore {
+  color: #d4b87a;
+  border-color: rgba(212, 184, 122, 0.35);
+  background: rgba(212, 184, 122, 0.06);
+}
+
+.card__link-wrap .card__kind {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 1;
+}
+
+.card__link-wrap {
+  position: relative;
+}
+
+.card__kind {
+  padding: 0.15em 0.5em;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  line-height: 1.4;
+}
+
+.card__thumb {
+  position: relative;
+}
+
+.card__kind--work {
+  color: var(--color-accent);
+  background: rgba(13, 13, 13, 0.82);
+  border: 1px solid var(--accent-border);
+}
+
+.card__kind--explore {
+  color: #d4b87a;
+  background: rgba(13, 13, 13, 0.82);
+  border: 1px solid rgba(212, 184, 122, 0.35);
+}
+
+.card--featured {
+  border-color: var(--accent-border);
+}
+
+.card__featured-label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+}
