@@ -8,6 +8,7 @@ export const exploreInteractiveSlugs = [
   'differential-equations-geometry',
   'complex-euler-formula',
   'sequences-and-series',
+  'permutations-combinations',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];

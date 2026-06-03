@@ -9,6 +9,7 @@ import DifferentialEquationsGeometryExploreRoot from './DifferentialEquationsGeo
 import LimitsRiemannSumExploreRoot from './LimitsRiemannSumExploreRoot';
 import MatrixLinearTransformExploreRoot from './MatrixLinearTransformExploreRoot';
 import FourierSeriesExploreRoot from './FourierSeriesExploreRoot';
+import PermutationsCombinationsExploreRoot from './PermutationsCombinationsExploreRoot';
 import SequencesAndSeriesExploreRoot from './SequencesAndSeriesExploreRoot';
 import WaveSuperpositionExploreRoot from './WaveSuperpositionExploreRoot';
 
@@ -21,6 +22,7 @@ const rootBySlug = {
   'differential-equations-geometry': DifferentialEquationsGeometryExploreRoot,
   'complex-euler-formula': ComplexEulerFormulaExploreRoot,
   'sequences-and-series': SequencesAndSeriesExploreRoot,
+  'permutations-combinations': PermutationsCombinationsExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 type Props = {
