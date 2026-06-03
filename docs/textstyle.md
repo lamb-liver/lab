@@ -40,7 +40,7 @@
 | `README.md` | 專案說明 + 表格 | slug、路徑、技術棧；可中英並列 |
 | `art.md` / `workart.md` / `exploreart.md` | 視覺規格 | token、alpha 數值、程式對照 |
 | `p5toreact.md` | 整合手冊 | 檢查清單、反模式表、縮圖管線 |
-| `docs/work-thumbnail-spec.md` | 縮圖設計歷史 | **Implemented**；現行權威見 `p5toreact.md` + `curveThumbnail.ts` |
+| `work-thumbnail-spec.md` | 縮圖設計歷史 | **Implemented**；現行權威見 `p5toreact.md` + `curveThumbnail.ts` |
 
 ---
 
@@ -467,7 +467,7 @@ $$
 | `p5toreact.md` | 互動**工程**（模組、hook、檢查清單） |
 | `reactkey.md` | Morph 曲線 React × p5 契約 |
 | `README.md` | 路徑、排序、`date` 語意、專案結構 |
-| `docs/work-thumbnail-spec.md` | 縮圖**設計歷史**（Implemented）；現行見 `p5toreact.md` |
+| `work-thumbnail-spec.md` | 縮圖**設計歷史**（Implemented）；現行見 `p5toreact.md` |
 | `tools/archive/optimize-works-content.mjs` | works 文案**一次性**批次遷移（2026-05-27） |
 | `.cursor/rules/code-review.mdc` | **Local AI review 流程**（Cursor）；非 runtime spec；衝突時以 `src/` 為準 |
 

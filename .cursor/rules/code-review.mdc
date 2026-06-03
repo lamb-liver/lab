@@ -1,5 +1,5 @@
 ---
-description: "Local AI-assisted code review workflow (Cursor). Not canonical runtime spec — see art.md / p5toreact.md."
+description: "Local AI-assisted code review workflow (Cursor). Not canonical runtime spec — see docs/art.md / docs/p5toreact.md."
 alwaysApply: false
 ---
 
@@ -7,9 +7,9 @@ alwaysApply: false
 
 > **定位**：Local AI-assisted review workflow（Cursor 手動請求 review 時使用）。  
 > **不是** canonical runtime specification。  
-> **衝突時**：`src/` 實作 > `art.md` / `p5toreact.md` / `reactkey.md` / `textstyle.md` > 本 rule。
+> **衝突時**：`src/` 實作 > `docs/art.md` / `docs/p5toreact.md` / `docs/reactkey.md` / `docs/textstyle.md` > 本 rule。
 
-需要細節時再讀 [`art.md`](../../art.md)、[`p5toreact.md`](../../p5toreact.md)；morph 曲線另見 [`reactkey.md`](../../reactkey.md)。content 文案改動對 [`textstyle.md`](../../textstyle.md)。
+需要細節時再讀 [`docs/art.md`](../../docs/art.md)、[`docs/p5toreact.md`](../../docs/p5toreact.md)；morph 曲線另見 [`docs/reactkey.md`](../../docs/reactkey.md)。content 文案改動對 [`docs/textstyle.md`](../../docs/textstyle.md)。
 
 ---
 

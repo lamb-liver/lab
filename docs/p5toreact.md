@@ -278,7 +278,7 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 
 ## 作品集縮圖（`WorkCard` + `curveThumbnail`）
 
-> **實作規格（封面優化版）**：現行工程契約見本節；視覺語言見 [`workart.md`](workart.md)；44 件作品 audit 與驗收清單見 [`docs/thumbnail-cover-optimization.md`](docs/thumbnail-cover-optimization.md)。舊 reveal 快照升級歷史見 [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md)（historical / implemented）。
+> **實作規格（封面優化版）**：現行工程契約見本節；視覺語言見 [`workart.md`](workart.md)；44 件作品 audit 與驗收清單見 [`thumbnail-cover-optimization.md`](thumbnail-cover-optimization.md)。舊 reveal 快照升級歷史見 [`work-thumbnail-spec.md`](work-thumbnail-spec.md)（historical / implemented）。
 
 ### 目的
 
@@ -366,7 +366,7 @@ type ThumbnailSpec = {
 
 1. 實作 `CurveModule`
 2. 登記 `src/curve/registry.ts`（slug 與 `{slug}.md` 檔名一致）
-3. 實作 `purpose: 'thumbnail'` 分支或 builder，封面需符合 `workart.md` 與 `docs/thumbnail-cover-optimization.md`
+3. 實作 `purpose: 'thumbnail'` 分支或 builder，封面需符合 `workart.md` 與 `thumbnail-cover-optimization.md`
 4. 未登記 → 仍顯示「縮圖佔位」
 
 ### 縮圖踩坑

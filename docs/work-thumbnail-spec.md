@@ -2,7 +2,7 @@
 
 > **狀態**：**Implemented**（2026-05-27）。本檔保留為設計歷史；**現行權威來源**見下方。  
 > **Primary authority**：
-> - [`p5toreact.md` §作品集縮圖](../p5toreact.md#作品集縮圖workcard--curvethumbnail)
+> - [`p5toreact.md` §作品集縮圖](p5toreact.md#作品集縮圖workcard--curvethumbnail)
 > - [`src/lib/curveThumbnail.ts`](../src/lib/curveThumbnail.ts)
 > - 各模組 `sample(..., { purpose: 'thumbnail', revealProgress: 1 })`  
 > **範圍**：僅 `/works` 列表卡片（`WorkCard` + `curveThumbnail.ts`）。Explore 封面仍用手動 PNG（`coverImage`），本次不改。
@@ -201,7 +201,7 @@ export const STACK_LAYERS = 60;
 | `src/curve/modules/*/geometry.ts` | `getThumbnailTime`、thumbnail 幾何 |
 | `src/curve/modules/*/index.ts` | `sample` thumbnail 分支 |
 | `p5toreact.md` | 文檔 |
-| `docs/work-thumbnail-spec.md` | 本檔（實作後標記完成） |
+| `work-thumbnail-spec.md` | 本檔（實作後標記完成） |
 
 `WorkCard.astro` **不必改**（仍 `getCurveThumbnailSvg(slug)`）。
 
