@@ -1,6 +1,7 @@
 import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
 import { workCurveBySlug } from '../curve/registry';
+import { readContentSlugs } from '../test/contentSlugs';
 import { getCurveThumbnailSvg } from './curveThumbnail';
 import {
   assertSharpCompatibleSvg,
@@ -10,24 +11,29 @@ import {
 } from './workOgImage';
 
 describe('work OG image generation', () => {
-  it('keeps all work thumbnail SVGs compatible with sharp', () => {
-    const slugs = Object.keys(workCurveBySlug);
-    expect(slugs).toHaveLength(44);
+  it('keeps registry aligned with content and SVGs sharp-compatible', () => {
+    const registrySlugs = Object.keys(workCurveBySlug).sort();
+    const contentSlugs = readContentSlugs('works').sort();
+    expect(registrySlugs).toEqual(contentSlugs);
 
-    for (const slug of slugs) {
+    for (const slug of registrySlugs) {
       const svg = getCurveThumbnailSvg(slug);
       expect(svg, `thumbnail should render for ${slug}`).toBeTruthy();
       assertSharpCompatibleSvg(svg!, slug);
     }
   });
 
-  it('renders rose-curve as a 1200x630 PNG proof', async () => {
-    const png = await renderWorkOgPng('rose-curve');
-    const meta = await sharp(png).metadata();
-
-    expect(meta.format).toBe('png');
-    expect(meta.width).toBe(WORK_OG_WIDTH);
-    expect(meta.height).toBe(WORK_OG_HEIGHT);
+  it('allows fragment url() but rejects remote url()', () => {
+    assertSharpCompatibleSvg(
+      '<svg viewBox="0 0 10 10"><rect fill="url(#g)" width="10" height="10"/></svg>',
+      'fragment',
+    );
+    expect(() =>
+      assertSharpCompatibleSvg(
+        '<svg viewBox="0 0 10 10"><rect fill="url(https://example.com/x)" width="10" height="10"/></svg>',
+        'remote',
+      ),
+    ).toThrow(/external url\(\)/);
   });
 
   it('renders all registered work slugs as 1200x630 PNGs', async () => {

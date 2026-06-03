@@ -81,7 +81,11 @@ const ogImage = entry.data.ogImage ?? getWorkOgImagePath(entry.id);
             <strong>{previousWork.data.title}</strong>
           </a>
         ) : (
-          <span class="work-detail__pager-link work-detail__pager-link--disabled" aria-hidden="true">
+          <span
+            class="work-detail__pager-link work-detail__pager-link--disabled"
+            aria-disabled="true"
+            aria-label="沒有上一篇"
+          >
             <span>上一篇</span>
             <strong>無</strong>
           </span>
@@ -94,7 +98,11 @@ const ogImage = entry.data.ogImage ?? getWorkOgImagePath(entry.id);
             <strong>{nextWork.data.title}</strong>
           </a>
         ) : (
-          <span class="work-detail__pager-link work-detail__pager-link--disabled work-detail__pager-link--next" aria-hidden="true">
+          <span
+            class="work-detail__pager-link work-detail__pager-link--disabled work-detail__pager-link--next"
+            aria-disabled="true"
+            aria-label="沒有下一篇"
+          >
             <span>下一篇</span>
             <strong>無</strong>
           </span>

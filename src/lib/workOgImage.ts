@@ -21,9 +21,24 @@ export function assertSharpCompatibleSvg(svg: string, slug: string): void {
     throw new Error(`work OG SVG for ${slug} must not reference external href assets`);
   }
 
-  if (/@font-face\b|url\(/i.test(svg)) {
-    throw new Error(`work OG SVG for ${slug} must not reference external fonts`);
+  if (/@font-face\b/i.test(svg)) {
+    throw new Error(`work OG SVG for ${slug} must not embed @font-face`);
   }
+
+  if (hasExternalSvgUrl(svg)) {
+    throw new Error(`work OG SVG for ${slug} must not reference external url() assets`);
+  }
+}
+
+/** Allow fragment (#id) and data: URLs; block http(s) and other remote fetches sharp cannot resolve. */
+function hasExternalSvgUrl(svg: string): boolean {
+  const urlPattern = /url\s*\(\s*(['"]?)([^'")]+)\1?\s*\)/gi;
+  for (const match of svg.matchAll(urlPattern)) {
+    const ref = match[2].trim();
+    if (ref.startsWith('#') || ref.startsWith('data:')) continue;
+    return true;
+  }
+  return false;
 }
 
 function withFixedSvgSize(svg: string): string {

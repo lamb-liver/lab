@@ -48,6 +48,16 @@ For a new interactive explore page, check:
 - Do not move implementation details such as cache strategy, lerp coefficients, or render passes into content Markdown.
 - Use Traditional Chinese wording for public content.
 
+## Work OG images (`sharp`)
+
+- OG PNGs under `/og/works/*.png` are generated at **`astro build` only** (`src/lib/workOgImage.ts`, `src/pages/og/works/[slug].png.ts`). Production is static GitHub Pages (`dist/`); **no Node or `sharp` at request time**.
+- `sharp` is a **devDependency** (libvips via `@img/sharp-*` optional binaries). CI/local build must run `npm ci` **with devDependencies** on a host that matches an installed platform package (today: `ubuntu-latest` x64 in `.github/workflows/deploy.yml`).
+- Before changing deploy target, confirm the build still emits every OG file:
+  - **Edge / serverless runtime** for on-the-fly OG: generally unsuitable unless you verify the provider’s OS/arch (arm64 vs x64, glibc vs musl) and bundle size limits.
+  - **Docker**: base image arch must match `npm ci` (e.g. `linux/arm64` runner needs `@img/sharp-linux-arm64`, not only x64).
+  - **`npm ci --omit=dev`**: will break OG generation; do not use on the build job.
+- Pages with math in Markdown need `import 'katex/dist/katex.min.css'` on that route (removed from global CDN in `BaseLayout`).
+
 ## Validation Strategy
 
 Use the narrowest reliable validation first:
