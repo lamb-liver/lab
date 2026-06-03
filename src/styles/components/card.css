@@ -21,10 +21,11 @@
   line-height: 0;
 }
 
-.card__thumb-svg {
+.card__thumb-img {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 .card__thumb svg {
@@ -33,7 +34,7 @@
   height: 100%;
 }
 
-.card__thumb--has-svg {
+.card__thumb--has-image {
   display: block;
 }
 

@@ -55,11 +55,30 @@ const pathname = Astro.url.pathname;
   const toggle = document.querySelector('[data-nav-toggle]') as HTMLButtonElement | null;
   const links = document.querySelector('[data-nav-links]') as HTMLElement | null;
 
+  const setOpen = (open: boolean) => {
+    if (!links) return;
+    links.dataset.open = open ? 'true' : 'false';
+    toggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle?.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+  };
+
   toggle?.addEventListener('click', () => {
     if (!links) return;
-    const open = links.dataset.open !== 'true';
-    links.dataset.open = open ? 'true' : 'false';
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    toggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+    setOpen(links.dataset.open !== 'true');
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    if (links?.dataset.open !== 'true') return;
+    setOpen(false);
+    toggle?.focus();
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!links || !toggle || links.dataset.open !== 'true') return;
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (links.contains(target) || toggle.contains(target)) return;
+    setOpen(false);
   });
 </script>

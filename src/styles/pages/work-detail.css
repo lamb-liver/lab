@@ -1,4 +1,8 @@
 /* 互動舞台：canvas 左、控制面板右 */
+.work-detail__top-nav {
+  padding-bottom: var(--space-6);
+}
+
 .work-detail__stage {
   display: grid;
   grid-template-columns: minmax(0, 1fr) min(320px, 34vw);

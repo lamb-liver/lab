@@ -14,8 +14,12 @@ interface Props {
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   ogType?: string;
   twitterCard?: 'summary' | 'summary_large_image';
+  structuredData?: Array<Record<string, unknown>>;
 }
 
 const {
@@ -25,8 +29,12 @@ const {
   ogTitle,
   ogDescription,
   ogImage,
+  ogImageAlt,
+  ogImageWidth,
+  ogImageHeight,
   ogType = 'website',
   twitterCard = 'summary_large_image',
+  structuredData = [],
 } = Astro.props;
 const fullTitle = title === '羊·實驗' ? title : `${title} · 羊·實驗`;
 const site = Astro.site ?? Astro.url;
@@ -34,6 +42,24 @@ const canonicalURL = canonical ?? new URL(pagePathForSite(Astro.url.pathname), s
 const resolvedOgTitle = ogTitle ?? fullTitle;
 const resolvedOgDescription = ogDescription ?? description;
 const ogImageURL = new URL(ogImage ? withBase(ogImage) : withBase('/og-default.png'), site).href;
+const resolvedOgImageAlt = ogImageAlt ?? resolvedOgTitle;
+const inferredOgImageSize =
+  !ogImage || ogImage === '/og-default.png' || ogImage.startsWith('/og/works/')
+    ? { width: ogImageWidth ?? 1200, height: ogImageHeight ?? 630 }
+    : ogImageWidth && ogImageHeight
+      ? { width: ogImageWidth, height: ogImageHeight }
+      : null;
+const siteRootURL = new URL(withBase('/'), site).href;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: '羊·實驗',
+    url: siteRootURL,
+    inLanguage: 'zh-Hant',
+  },
+  ...structuredData,
+].map((data) => JSON.stringify(data).replace(/</g, '\\u003c'));
 ---
 
 <!doctype html>
@@ -42,17 +68,30 @@ const ogImageURL = new URL(ogImage ? withBase(ogImage) : withBase('/og-default.p
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0a0a" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={resolvedOgDescription} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="羊·實驗" />
     <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:alt" content={resolvedOgImageAlt} />
+    {
+      inferredOgImageSize ? (
+        <>
+          <meta property="og:image:width" content={String(inferredOgImageSize.width)} />
+          <meta property="og:image:height" content={String(inferredOgImageSize.height)} />
+        </>
+      ) : null
+    }
     <meta name="twitter:card" content={twitterCard} />
     <meta name="twitter:title" content={resolvedOgTitle} />
     <meta name="twitter:description" content={resolvedOgDescription} />
     <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:image:alt" content={resolvedOgImageAlt} />
+    {jsonLd.map((json) => <script type="application/ld+json" set:html={json} />)}
     <meta name="generator" content={Astro.generator} />
     <title>{fullTitle}</title>
   </head>

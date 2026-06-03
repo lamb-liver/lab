@@ -13,7 +13,8 @@ interface Props {
 }
 
 const { slug, title, description, tags, featured = false } = Astro.props;
-const thumbSvg = getCurveThumbnailSvg(slug);
+const hasThumb = !!getCurveThumbnailSvg(slug);
+const thumbSrc = withBase(`/thumbs/works/${slug}.svg`);
 ---
 
 <article
@@ -27,11 +28,23 @@ const thumbSvg = getCurveThumbnailSvg(slug);
     <div
       class:list={[
         'card__thumb',
-        { 'card__thumb--has-svg': !!thumbSvg, 'card__thumb--fallback': !thumbSvg },
+        { 'card__thumb--has-image': hasThumb, 'card__thumb--fallback': !hasThumb },
       ]}
       aria-hidden="true"
     >
-      {thumbSvg ? <div class="card__thumb-svg" set:html={thumbSvg} /> : <CardThumbFallback />}
+      {
+        hasThumb ? (
+          <img
+            src={thumbSrc}
+            alt=""
+            class="card__thumb-img"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <CardThumbFallback />
+        )
+      }
     </div>
     <div class="card__body">
       <div class="card__title-row">

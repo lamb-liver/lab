@@ -6,7 +6,7 @@ import ListSearchFilterScript from '../../components/ListSearchFilterScript.astr
 import { getCollection } from 'astro:content';
 import { collectExploreCategories, getPublishedAsc } from '../../content/utils';
 import { serializeSearchIndex } from '../../lib/listFilter';
-import '../../styles/components/works-search.css';
+import '../../styles/components/list-search.css';
 
 const explore = getPublishedAsc(await getCollection('explore'));
 const categoryOptions = collectExploreCategories(explore);
@@ -38,11 +38,11 @@ const searchIndex = explore.map((entry) => ({
       </p>
     </header>
 
-    <div class="works-search">
-      <label class="works-search__label" for="explore-search-input">搜尋主題</label>
+    <div class="list-search">
+      <label class="list-search__label" for="explore-search-input">搜尋主題</label>
       <input
         id="explore-search-input"
-        class="works-search__input"
+        class="list-search__input"
         type="search"
         name="q"
         placeholder="搜尋標題或描述…"

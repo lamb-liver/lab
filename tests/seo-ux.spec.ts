@@ -1,6 +1,25 @@
 import { expect, test } from '@playwright/test';
+import { readFileSync, statSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+
+function readJsonLd(htmlTexts: string[]) {
+  return htmlTexts.map((text) => JSON.parse(text)) as Array<Record<string, unknown>>;
+}
 
 test.describe('SEO metadata and UX shell', () => {
+  test('built works collection keeps thumbnails out of inline HTML', () => {
+    const htmlPath = resolve(projectRoot, 'dist/works/index.html');
+    const html = readFileSync(htmlPath, 'utf8');
+
+    expect(statSync(htmlPath).size).toBeLessThan(200 * 1024);
+    expect(html).not.toContain('card__thumb-svg');
+    expect(html).toContain('/thumbs/works/rose-curve.svg');
+    expect(html.match(/<path d=/g)?.length ?? 0).toBeLessThan(50);
+  });
+
   test('works detail exposes a dedicated work OG image', async ({ page, request }) => {
     await page.goto('/works/rose-curve');
 
@@ -16,6 +35,26 @@ test.describe('SEO metadata and UX shell', () => {
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       'content',
       'https://lab.lambliver.dev/og/works/rose-curve.png',
+    );
+    await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
+      'content',
+      '羊·實驗',
+    );
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+      'content',
+      '玫瑰曲線',
+    );
+    await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
+      'content',
+      '1200',
+    );
+    await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute(
+      'content',
+      '630',
+    );
+    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute(
+      'content',
+      '#0a0a0a',
     );
 
     const ogResponse = await request.get('/og/works/rose-curve.png');
@@ -55,6 +94,47 @@ test.describe('SEO metadata and UX shell', () => {
       'content',
       'https://lab.lambliver.dev/explore/fourier-series-epicycles-cover.png',
     );
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+      'content',
+      '傅立葉級數',
+    );
+  });
+
+  test('detail pages expose WebSite, Article, and BreadcrumbList JSON-LD', async ({ page }) => {
+    await page.goto('/works/rose-curve');
+    const workJsonLd = readJsonLd(
+      await page.locator('script[type="application/ld+json"]').allTextContents(),
+    );
+    expect(workJsonLd.some((item) => item['@type'] === 'WebSite')).toBe(true);
+    expect(
+      workJsonLd.some((item) => item['@type'] === 'Article' && item.headline === '玫瑰曲線'),
+    ).toBe(true);
+    expect(workJsonLd.some((item) => item['@type'] === 'BreadcrumbList')).toBe(true);
+
+    await page.goto('/explore/fourier-series');
+    const exploreJsonLd = readJsonLd(
+      await page.locator('script[type="application/ld+json"]').allTextContents(),
+    );
+    expect(
+      exploreJsonLd.some((item) => item['@type'] === 'Article' && item.headline === '傅立葉級數'),
+    ).toBe(true);
+    expect(exploreJsonLd.some((item) => item['@type'] === 'BreadcrumbList')).toBe(true);
+  });
+
+  test('work cards lazy-load external thumbnail SVGs', async ({ page, request }) => {
+    await page.goto('/works');
+
+    const roseThumb = page.locator('[data-search-slug="rose-curve"] .card__thumb-img');
+    await expect(roseThumb).toHaveAttribute('src', '/thumbs/works/rose-curve.svg');
+    await expect(roseThumb).toHaveAttribute('loading', 'lazy');
+    await expect(roseThumb).toHaveAttribute('decoding', 'async');
+
+    const response = await request.get('/thumbs/works/rose-curve.svg');
+    expect(response.ok()).toBe(true);
+    expect(response.headers()['content-type']).toContain('image/svg+xml');
+    const svg = await response.text();
+    expect(svg).toContain('<svg');
+    expect(svg).toContain('<path');
   });
 
   test('rendered math keeps visual KaTeX html without hidden MathML extraction', async ({
@@ -202,6 +282,16 @@ test.describe('SEO metadata and UX shell', () => {
     await expect(page.getByRole('link', { name: '作品集' })).toHaveCount(1);
     await expect(page.getByRole('link', { name: '主題導覽' })).toHaveCount(1);
     await expect(page.getByRole('link', { name: '關於' })).toHaveCount(1);
+
+    await page.keyboard.press('Escape');
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.getByRole('link', { name: '主題導覽' })).toHaveCount(0);
+
+    await menuButton.click();
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'true');
+    await page.mouse.click(12, 820);
+    await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.getByRole('link', { name: '主題導覽' })).toHaveCount(0);
   });
 
   test('interactive pages include server-rendered loading fallback markup', async ({ request }) => {
@@ -215,8 +305,21 @@ test.describe('SEO metadata and UX shell', () => {
   test('detail pages include top return links', async ({ page }) => {
     await page.goto('/works/rose-curve');
     await expect(page.locator('.back-link--top')).toHaveText('← 返回作品集');
+    const workBackLinkBeforeStage = await page.evaluate(() => {
+      const link = document.querySelector('.back-link--top');
+      const stage = document.querySelector('.work-detail__stage');
+      if (!link || !stage) return false;
+      return Boolean(link.compareDocumentPosition(stage) & Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    expect(workBackLinkBeforeStage).toBe(true);
 
     await page.goto('/explore/fourier-series');
     await expect(page.locator('.back-link--top')).toHaveText('← 返回主題導覽');
+  });
+
+  test('prose css no longer carries MathML-only KaTeX selectors', () => {
+    const proseCss = readFileSync(resolve(projectRoot, 'src/styles/prose.css'), 'utf8');
+    expect(proseCss).not.toContain('katex-mathml');
+    expect(proseCss).not.toContain('annotation');
   });
 });

@@ -6,7 +6,7 @@ import WorkCard from '../../components/WorkCard.astro';
 import { getCollection } from 'astro:content';
 import { collectWorkTags, getPublishedAsc } from '../../content/utils';
 import { serializeSearchIndex } from '../../lib/listFilter';
-import '../../styles/components/works-search.css';
+import '../../styles/components/list-search.css';
 
 const works = getPublishedAsc(await getCollection('works'));
 const tagOptions = collectWorkTags(works);
@@ -38,11 +38,11 @@ const searchIndex = works.map((entry) => ({
       </p>
     </header>
 
-    <div class="works-search">
-      <label class="works-search__label" for="works-search-input">搜尋作品</label>
+    <div class="list-search">
+      <label class="list-search__label" for="works-search-input">搜尋作品</label>
       <input
         id="works-search-input"
-        class="works-search__input"
+        class="list-search__input"
         type="search"
         name="q"
         placeholder="搜尋標題或描述…"
