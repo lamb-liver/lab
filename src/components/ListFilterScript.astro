@@ -32,12 +32,66 @@
     }
   }
 
-  function attachListFilter(root: HTMLElement) {
+  function getFilterButton(bar: Element, value: string): HTMLButtonElement | null {
+    const normalized = value.trim().toLowerCase();
+    for (const button of bar.querySelectorAll('button[data-filter-value]')) {
+      const buttonValue = button.getAttribute('data-filter-value')?.trim().toLowerCase();
+      if (buttonValue === normalized) return button as HTMLButtonElement;
+    }
+    return null;
+  }
+
+  function setActiveFilter(bar: Element, activeButton: HTMLButtonElement): void {
+    bar.querySelectorAll('button[data-filter-value]').forEach((button) => {
+      const active = button === activeButton;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  function valueFromUrl(param: string | null): string {
+    if (!param) return '*';
+    const value = new URL(window.location.href).searchParams.get(param);
+    return value?.trim() || '*';
+  }
+
+  function updateFilterUrl(param: string | null, value: string): void {
+    if (!param) return;
+
+    const url = new URL(window.location.href);
+    if (value === '*') {
+      url.searchParams.delete(param);
+    } else {
+      url.searchParams.set(param, value);
+    }
+
+    if (url.href !== window.location.href) {
+      history.pushState(null, '', url);
+    }
+  }
+
+  function applyFilterState(root: HTMLElement, value: string): void {
     const bar = root.querySelector('[data-filter-bar]');
     const grid = root.querySelector('[data-card-grid]');
     if (!bar || !grid) return;
 
     const emptyEl = root.querySelector('[data-filter-empty]');
+    const button = getFilterButton(bar, value) ?? getFilterButton(bar, '*');
+    if (!button) return;
+
+    const nextValue = button.getAttribute('data-filter-value')?.trim().toLowerCase() || '*';
+    setActiveFilter(bar, button);
+    applyListFilter(grid as HTMLElement, nextValue, emptyEl as HTMLElement | null);
+  }
+
+  function attachListFilter(root: HTMLElement) {
+    const bar = root.querySelector('[data-filter-bar]');
+    const grid = root.querySelector('[data-card-grid]');
+    if (!bar || !grid) return;
+
+    const filterParam = root.getAttribute('data-filter-param');
+
+    applyFilterState(root, valueFromUrl(filterParam));
 
     bar.addEventListener('click', (event) => {
       const target = event.target;
@@ -45,20 +99,32 @@
       const btn = target.closest('button[data-filter-value]');
       if (!btn || !bar.contains(btn)) return;
 
-      const value = btn.getAttribute('data-filter-value')?.trim().toLowerCase();
+      const rawValue = btn.getAttribute('data-filter-value')?.trim() ?? '*';
+      const value = rawValue.toLowerCase();
       if (!value) return;
 
-      bar.querySelectorAll('button[data-filter-value]').forEach((b) => {
-        const active = b === btn;
-        b.classList.toggle('is-active', active);
-        b.setAttribute('aria-pressed', active ? 'true' : 'false');
-      });
-
-      applyListFilter(grid as HTMLElement, value, emptyEl as HTMLElement | null);
+      setActiveFilter(bar, btn as HTMLButtonElement);
+      applyListFilter(
+        grid as HTMLElement,
+        value,
+        root.querySelector('[data-filter-empty]') as HTMLElement | null,
+      );
+      updateFilterUrl(filterParam, rawValue);
     });
   }
 
-  document.querySelectorAll('[data-list-filter]').forEach((root) => {
-    attachListFilter(root as HTMLElement);
+  function initializeListFilters(): void {
+    document.querySelectorAll('[data-list-filter]').forEach((root) => {
+      attachListFilter(root as HTMLElement);
+    });
+  }
+
+  initializeListFilters();
+
+  window.addEventListener('popstate', () => {
+    document.querySelectorAll('[data-list-filter]').forEach((root) => {
+      const filterRoot = root as HTMLElement;
+      applyFilterState(filterRoot, valueFromUrl(filterRoot.getAttribute('data-filter-param')));
+    });
   });
 </script>

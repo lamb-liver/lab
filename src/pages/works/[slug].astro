@@ -4,11 +4,13 @@ import { withBase } from '../../lib/withBase';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import WorkInteractiveStage from '../../components/works/WorkInteractiveStage';
 import { getCollection, render } from 'astro:content';
-import { getStaticPathsFromCollection } from '../../content/utils';
+import { getPublishedAsc, getStaticPathsFromCollection } from '../../content/utils';
 import {
   isWorkInteractive,
   workControlsMountId,
 } from '../../works/interactiveRegistry';
+import { getWorkOgImagePath } from '../../lib/workOgImage';
+import 'katex/dist/katex.min.css';
 import '../../styles/prose.css';
 import '../../styles/pages/work-detail.css';
 
@@ -20,18 +22,34 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const interactive = isWorkInteractive(entry.id);
+const works = getPublishedAsc(await getCollection('works'));
+const workIndex = works.findIndex((work) => work.id === entry.id);
+const previousWork = workIndex > 0 ? works[workIndex - 1] : null;
+const nextWork = workIndex >= 0 && workIndex < works.length - 1 ? works[workIndex + 1] : null;
+const ogImage = entry.data.ogImage ?? getWorkOgImagePath(entry.id);
 ---
 
 <BaseLayout
   title={entry.data.title}
   description={entry.data.description}
+  ogImage={ogImage}
   ogType="article"
 >
   {
     interactive ? (
       <div class="work-detail__stage">
         <div class="work-detail__canvas">
-          <WorkInteractiveStage client:only="react" slug={entry.id} />
+          <WorkInteractiveStage client:only="react" slug={entry.id}>
+            <div
+              slot="fallback"
+              class="interactive-loading"
+              role="status"
+              aria-live="polite"
+              aria-label="互動內容載入中"
+            >
+              <span class="interactive-loading__mark"></span>
+            </div>
+          </WorkInteractiveStage>
         </div>
         <aside
           class="controls-panel controls-panel--stage"
@@ -54,6 +72,35 @@ const interactive = isWorkInteractive(entry.id);
     <article class="prose work-detail__prose">
       <Content />
     </article>
+
+    <nav class="work-detail__pager" aria-label="作品導覽">
+      {
+        previousWork ? (
+          <a href={withBase(`/works/${previousWork.id}`)} class="work-detail__pager-link">
+            <span>上一篇</span>
+            <strong>{previousWork.data.title}</strong>
+          </a>
+        ) : (
+          <span class="work-detail__pager-link work-detail__pager-link--disabled" aria-hidden="true">
+            <span>上一篇</span>
+            <strong>無</strong>
+          </span>
+        )
+      }
+      {
+        nextWork ? (
+          <a href={withBase(`/works/${nextWork.id}`)} class="work-detail__pager-link work-detail__pager-link--next">
+            <span>下一篇</span>
+            <strong>{nextWork.data.title}</strong>
+          </a>
+        ) : (
+          <span class="work-detail__pager-link work-detail__pager-link--disabled work-detail__pager-link--next" aria-hidden="true">
+            <span>下一篇</span>
+            <strong>無</strong>
+          </span>
+        )
+      }
+    </nav>
 
     <a href={withBase('/works')} class="back-link">← 返回作品集</a>
   </div>

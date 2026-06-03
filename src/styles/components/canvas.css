@@ -46,3 +46,46 @@
 .interactive-canvas {
   height: 500px;
 }
+
+.interactive-loading {
+  width: 100%;
+  min-height: 320px;
+  height: 100%;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent),
+    var(--color-canvas);
+  background-size: 220% 100%, 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: interactive-loading-sheen 1.2s ease-in-out infinite;
+}
+
+.interactive-loading--explore {
+  height: 500px;
+}
+
+.interactive-loading__mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgba(212, 184, 122, 0.45);
+  border-top-color: rgb(212, 184, 122);
+  border-radius: 50%;
+  animation: interactive-loading-spin 900ms linear infinite;
+}
+
+@keyframes interactive-loading-sheen {
+  from {
+    background-position: 120% 0, 0 0;
+  }
+
+  to {
+    background-position: -120% 0, 0 0;
+  }
+}
+
+@keyframes interactive-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

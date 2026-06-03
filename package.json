@@ -13,6 +13,7 @@
     "preview": "astro preview",
     "test": "vitest run",
     "test:works-smoke": "playwright test tests/work-integration.smoke.spec.ts",
+    "test:seo-ux": "playwright test tests/seo-ux.spec.ts",
     "vite:deps:clean": "node -e \"require('node:fs').rmSync('node_modules/.vite/deps',{recursive:true,force:true})\"",
     "astro": "astro"
   },
@@ -22,11 +23,13 @@
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "astro": "^6.3.5",
+    "katex": "^0.16.47",
     "p5": "^2.2.3",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",

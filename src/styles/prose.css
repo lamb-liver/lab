@@ -82,6 +82,21 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.prose .katex .katex-mathml {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.prose .katex .katex-mathml annotation {
+  display: none;
+}
+
 .prose table {
   display: block;
   width: 100%;

@@ -54,10 +54,6 @@ const ogImageURL = new URL(ogImage ? withBase(ogImage) : withBase('/og-default.p
     <meta name="twitter:description" content={resolvedOgDescription} />
     <meta name="twitter:image" content={ogImageURL} />
     <meta name="generator" content={Astro.generator} />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
-    />
     <title>{fullTitle}</title>
   </head>
   <body>

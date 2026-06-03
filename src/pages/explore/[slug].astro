@@ -6,6 +6,7 @@ import ExploreInteractiveStage from '../../components/explore/ExploreInteractive
 import { getCollection, render } from 'astro:content';
 import { getStaticPathsFromCollection } from '../../content/utils';
 import { isExploreInteractive } from '../../explore/interactiveRegistry';
+import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
 import '../../styles/prose.css';
 import '../../styles/pages/explore-detail.css';
@@ -37,7 +38,17 @@ const ogImage = entry.data.coverImage;
 
     {
       interactive ? (
-        <ExploreInteractiveStage client:only="react" slug={entry.id} />
+        <ExploreInteractiveStage client:only="react" slug={entry.id}>
+          <div
+            slot="fallback"
+            class="interactive-loading interactive-loading--explore"
+            role="status"
+            aria-live="polite"
+            aria-label="互動內容載入中"
+          >
+            <span class="interactive-loading__mark"></span>
+          </div>
+        </ExploreInteractiveStage>
       ) : (
         <CanvasPlaceholder class="interactive-canvas" variant="unavailable" />
       )
