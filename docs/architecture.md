@@ -1,6 +1,6 @@
 # Architecture
 
-This document is the system map for AI agents and maintainers. It does not replace the canonical runtime code or the domain specifications linked from `AGENTS.md`.
+This document is the system map for AI agents and maintainers. It does not replace the canonical runtime code or the domain specifications linked from [`AGENTS.md`](AGENTS.md).
 
 ## Runtime Truth
 

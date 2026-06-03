@@ -11,20 +11,9 @@
 
 ## 文件
 
-| 文件 | 說明 |
-|------|------|
-| [`AGENTS.md`](AGENTS.md) | AI 入口：權威順序、架構入口、編輯原則 |
-| [`docs/art.md`](docs/art.md) | 視覺風格入口（依系統導向 `workart.md` / `exploreart.md`） |
-| [`docs/workart.md`](docs/workart.md) | Works 視覺風格與 build-time SVG 縮圖規格 |
-| [`docs/exploreart.md`](docs/exploreart.md) | Explore 視覺風格與靜態 cover PNG 規格 |
-| [`docs/textstyle.md`](docs/textstyle.md) | 視覺化主題頁 Markdown 文案結構與語氣 |
-| [`docs/p5toreact.md`](docs/p5toreact.md) | p5 sketch → React / CurveModule 整合與踩坑 |
-| [`docs/reactkey.md`](docs/reactkey.md) | Morph 曲線 React × p5 架構契約（模組邊界、ref、快取） |
-| [`docs/architecture.md`](docs/architecture.md) | AI onboarding 系統地圖：data flow、ownership、registry 關係 |
-| [`docs/editing-rules.md`](docs/editing-rules.md) | AI-assisted editing 原則與驗收規則 |
-| [`docs/work-thumbnail-spec.md`](docs/work-thumbnail-spec.md) | 縮圖設計歷史（Implemented）；現行見 `p5toreact.md` + `curveThumbnail.ts` |
+完整索引見 [`docs/README.md`](docs/README.md)（[`docs/AGENTS.md`](docs/AGENTS.md) 為 AI 入口）。
 
-**Authority 層級**（衝突時）：`src/` runtime > [`AGENTS.md`](AGENTS.md) 的權威入口 > `docs/` 規格與系統地圖（`art.md`、`workart.md`、`exploreart.md`、`p5toreact.md`、`reactkey.md`、`textstyle.md` 等） > [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc)（僅 AI review workflow，非 runtime spec）。
+**Authority 層級**（衝突時）：`src/` runtime > [`docs/AGENTS.md`](docs/AGENTS.md) > `docs/` 規格與系統地圖 > [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc)（僅 AI review workflow，非 runtime spec）。
 
 | 工具 | 說明 |
 |------|------|

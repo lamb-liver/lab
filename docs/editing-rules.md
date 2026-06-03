@@ -75,7 +75,7 @@ If several React-backed work pages fail with `jsxDEV is not a function`, treat i
 
 ## Review Checklist
 
-- Does the change preserve the authority order in `AGENTS.md`?
+- Does the change preserve the authority order in [`AGENTS.md`](AGENTS.md)?
 - Did it avoid duplicating canonical rules into another file?
 - Are Works and Explore boundaries still separate?
 - Are registries synchronized?
