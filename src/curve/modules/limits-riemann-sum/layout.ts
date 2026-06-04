@@ -55,6 +55,9 @@ export function measureLimitsCanvas(host: HTMLElement): {
     Math.max(320, Math.round(host.clientWidth || 320)),
   );
   const plotH = w * (350 / 650);
-  const height = Math.max(260, Math.round(plotH + 100));
+  const height =
+    w < 520
+      ? Math.max(460, Math.round(w * 1.55))
+      : Math.max(260, Math.round(plotH + 100));
   return { width: w, height };
 }

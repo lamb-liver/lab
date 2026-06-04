@@ -1,4 +1,4 @@
-export type LimitsMode = 'riemann' | 'tangent';
+export type LimitsMode = 'compare' | 'riemann' | 'tangent';
 
 export type FnKey = 'x2' | 'sin' | 'exp';
 
@@ -18,6 +18,7 @@ export type FunctionDef = {
   df: (x: number) => number;
   exact: number;
   exactLabel: string;
+  comparisonT: number;
 };
 
 export type LimitsRiemannParams = {
@@ -26,4 +27,6 @@ export type LimitsRiemannParams = {
   method: RiemannMethod;
   n: number;
   tangentT: number;
+  localH: number;
+  scale: number;
 };

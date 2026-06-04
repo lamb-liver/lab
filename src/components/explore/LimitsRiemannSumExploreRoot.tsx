@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { getFunctionDef } from '../../curve/modules/limits-riemann-sum/functions';
+import {
+  getFunctionDef,
+  scaleToForwardH,
+  scaleToPartitionCount,
+} from '../../curve/modules/limits-riemann-sum/functions';
 import {
   computePlotRect,
   isInsidePlot,
@@ -22,11 +26,13 @@ import '../../styles/components/explore/limits-riemann-sum-explore.css';
 type P5WithRenderer = p5 & { _renderer?: unknown };
 
 const DEFAULT_PARAMS: LimitsRiemannParams = {
-  mode: 'riemann',
+  mode: 'compare',
   fnKey: 'x2',
   method: 'mid',
   n: 24,
   tangentT: 0.45,
+  localH: 0.18,
+  scale: 0.45,
 };
 
 export default function LimitsRiemannSumExploreRoot() {
@@ -64,6 +70,8 @@ export default function LimitsRiemannSumExploreRoot() {
       method: current.method,
       n: current.n,
       tangentT: current.tangentT,
+      localH: current.localH,
+      scale: current.scale,
     });
   }, []);
 
@@ -134,6 +142,15 @@ export default function LimitsRiemannSumExploreRoot() {
     setParams((prev) => ({ ...prev, mode }));
   };
 
+  const fn = getFunctionDef(params.fnKey);
+  const localHRatio = params.localH / (fn.b - fn.a);
+  const displayN =
+    params.mode === 'compare' ? scaleToPartitionCount(params.scale) : params.n;
+  const displayH =
+    params.mode === 'compare'
+      ? scaleToForwardH(fn, params.scale)
+      : params.localH;
+
   return (
     <div className="limits-riemann-explore">
       <div className="limits-riemann-explore__stage">
@@ -157,8 +174,9 @@ export default function LimitsRiemannSumExploreRoot() {
                 value={params.mode}
                 onChange={(e) => setMode(e.target.value as LimitsMode)}
               >
-                <option value="riemann">黎曼和</option>
-                <option value="tangent">切線逼近</option>
+                <option value="compare">對照</option>
+                <option value="riemann">全域面積</option>
+                <option value="tangent">局部斜率</option>
               </select>
             </label>
 
@@ -168,10 +186,16 @@ export default function LimitsRiemannSumExploreRoot() {
                 className="limits-riemann-explore__select"
                 value={params.fnKey}
                 onChange={(e) =>
-                  setParams((prev) => ({
-                    ...prev,
-                    fnKey: e.target.value as FnKey,
-                  }))
+                  setParams((prev) => {
+                    const nextFnKey = e.target.value as FnKey;
+                    const nextFn = getFunctionDef(nextFnKey);
+                    return {
+                      ...prev,
+                      fnKey: nextFnKey,
+                      localH: scaleToForwardH(nextFn, prev.scale),
+                      tangentT: Math.min(prev.tangentT, nextFn.comparisonT + 0.25),
+                    };
+                  })
                 }
               >
                 <option value="x2">x²</option>
@@ -180,7 +204,33 @@ export default function LimitsRiemannSumExploreRoot() {
               </select>
             </label>
 
-            {params.mode === 'riemann' ? (
+            {params.mode === 'compare' ? (
+              <div className="control-field">
+                <label htmlFor="limits-scale">
+                  尺度
+                  <span className="limits-riemann-explore__val">
+                    {Math.round(params.scale * 100)}%
+                  </span>
+                </label>
+                <div className="range-wrap">
+                  <input
+                    id="limits-scale"
+                    type="range"
+                    className="range"
+                    min={0}
+                    max={1000}
+                    step={1}
+                    value={Math.round(params.scale * 1000)}
+                    onInput={(e) =>
+                      setParams((prev) => ({
+                        ...prev,
+                        scale: Number((e.target as HTMLInputElement).value) / 1000,
+                      }))
+                    }
+                  />
+                </div>
+              </div>
+            ) : params.mode === 'riemann' ? (
               <>
                 <label className="limits-riemann-explore__field">
                   <span className="limits-riemann-explore__field-label">
@@ -205,7 +255,7 @@ export default function LimitsRiemannSumExploreRoot() {
                 <div className="control-field">
                   <label htmlFor="limits-n">
                     分割數 n
-                    <span className="limits-riemann-explore__val">{params.n}</span>
+                    <span className="limits-riemann-explore__val">{displayN}</span>
                   </label>
                   <div className="range-wrap">
                     <input
@@ -227,31 +277,64 @@ export default function LimitsRiemannSumExploreRoot() {
                 </div>
               </>
             ) : (
-              <div className="control-field">
-                <label htmlFor="limits-t">
-                  點 P 位置 t
-                  <span className="limits-riemann-explore__val">
-                    {params.tangentT.toFixed(3)}
-                  </span>
-                </label>
-                <div className="range-wrap">
-                  <input
-                    id="limits-t"
-                    type="range"
-                    className="range"
-                    min={0}
-                    max={1000}
-                    step={1}
-                    value={Math.round(params.tangentT * 1000)}
-                    onInput={(e) =>
-                      setParams((prev) => ({
-                        ...prev,
-                        tangentT: Number((e.target as HTMLInputElement).value) / 1000,
-                      }))
-                    }
-                  />
+              <>
+                <div className="control-field">
+                  <label htmlFor="limits-t">
+                    點 P 位置 t
+                    <span className="limits-riemann-explore__val">
+                      {params.tangentT.toFixed(3)}
+                    </span>
+                  </label>
+                  <div className="range-wrap">
+                    <input
+                      id="limits-t"
+                      type="range"
+                      className="range"
+                      min={0}
+                      max={950}
+                      step={1}
+                      value={Math.round(params.tangentT * 1000)}
+                      onInput={(e) =>
+                        setParams((prev) => ({
+                          ...prev,
+                          tangentT: Number((e.target as HTMLInputElement).value) / 1000,
+                        }))
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
+
+                <div className="control-field">
+                  <label htmlFor="limits-h">
+                    局部跨度 h
+                    <span className="limits-riemann-explore__val">
+                      {displayH.toFixed(4)}
+                    </span>
+                  </label>
+                  <div className="range-wrap">
+                    <input
+                      id="limits-h"
+                      type="range"
+                      className="range"
+                      min={10}
+                      max={350}
+                      step={1}
+                      value={Math.round(localHRatio * 1000)}
+                      onInput={(e) =>
+                        setParams((prev) => {
+                          const ratio =
+                            Number((e.target as HTMLInputElement).value) / 1000;
+                          const currentFn = getFunctionDef(prev.fnKey);
+                          return {
+                            ...prev,
+                            localH: (currentFn.b - currentFn.a) * ratio,
+                          };
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </>
             )}
           </div>
 
