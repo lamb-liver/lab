@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { MutableRefObject } from 'react';
 import type p5 from 'p5';
 import {
   buildDependencyCone,
@@ -14,11 +13,18 @@ import {
 } from '../../curve/modules/combinatorial-path-counting/geometry';
 import { renderPascalsTriangleScene } from '../../systems/rendering/pascalsTriangleRender';
 import { renderCombinatorialPathCountingScene } from '../../systems/rendering/combinatorialPathCountingRender';
+import {
+  buildCombinationStats,
+  catalanContrast,
+  recurrenceFormulaLabel,
+  recurrenceParts,
+  type CombinationMode,
+} from '../../explore/permutations-combinations/geometry';
 import '../../styles/components/explore/permutations-combinations-explore.css';
 
 type P5WithRenderer = p5 & { _renderer?: unknown };
 
-type Mode = 'pascal' | 'path' | 'branch';
+type Mode = CombinationMode;
 type PascalPrime = 2 | 3 | 5 | 7;
 type PathView = 'single' | 'overlay' | 'count';
 
@@ -34,9 +40,9 @@ type Params = {
     n: number;
     view: PathView;
   };
-  branch: {
-    factor: number;
-    depth: number;
+  recurrence: {
+    n: number;
+    k: number;
   };
 };
 
@@ -50,6 +56,8 @@ type Rect = {
 const GOLD = [212, 184, 122] as const;
 const WHITE = [255, 255, 255] as const;
 const BLUE = [93, 173, 226] as const;
+const GREEN = [84, 190, 146] as const;
+const MUTED = [150, 150, 150] as const;
 
 const DEFAULT_PARAMS: Params = {
   mode: 'pascal',
@@ -63,9 +71,9 @@ const DEFAULT_PARAMS: Params = {
     n: 4,
     view: 'overlay',
   },
-  branch: {
-    factor: 2,
-    depth: 5,
+  recurrence: {
+    n: 6,
+    k: 2,
   },
 };
 
@@ -83,93 +91,94 @@ function measurePermutationsCanvas(host: HTMLElement) {
   return { width, height };
 }
 
-function renderBranchScene(
-  p: p5,
-  params: Params['branch'],
-  phaseRef: MutableRefObject<number>,
-) {
+function renderRecurrenceScene(p: p5, params: Params['recurrence']) {
   p.background(10, 10, 10);
 
-  const dtSec = Math.min(p.deltaTime || 16.666, 50) / 1000;
-  phaseRef.current = Math.min(params.depth, phaseRef.current + dtSec * 1.15);
-
   const rect: Rect = {
-    x: 54,
+    x: 44,
     y: 34,
-    w: Math.max(220, p.width - 108),
-    h: Math.max(220, p.height - 82),
+    w: Math.max(240, p.width - 88),
+    h: Math.max(230, p.height - 78),
   };
-  const layers = params.depth + 1;
-  const dx = rect.w / Math.max(1, params.depth);
-  const maxNodes = Math.max(1, params.factor ** params.depth);
+  const safeN = Math.max(3, Math.min(10, Math.round(params.n)));
+  const safeK = Math.max(0, Math.min(safeN, Math.round(params.k)));
+  const parts = recurrenceParts(safeN, safeK);
+  const cone = buildDependencyCone(safeN, safeK);
+  const compact = p.width < 560;
+  const rowGap = rect.h / Math.max(1, safeN);
+  const colGap = Math.min(rect.w / (safeN + 1), rowGap * 1.35);
 
   p.noFill();
   p.stroke(...WHITE, 18);
   p.strokeWeight(1);
-  p.rect(rect.x, rect.y, rect.w, rect.h);
-  for (let i = 0; i <= params.depth; i += 1) {
-    const x = rect.x + dx * i;
-    p.stroke(...WHITE, 12);
-    p.line(x, rect.y, x, rect.y + rect.h);
-  }
+  p.rect(rect.x, rect.y, rect.w, rect.h, 10);
 
-  const nodeAt = (depth: number, index: number) => {
-    const count = params.factor ** depth;
-    const x = rect.x + dx * depth;
-    const y = rect.y + rect.h * ((index + 1) / (count + 1));
+  const nodeAt = (n: number, k: number) => {
+    const x = rect.x + rect.w / 2 + (k - n / 2) * colGap;
+    const y = rect.y + 62 + n * rowGap * 0.82;
     return { x, y };
   };
 
-  for (let depth = 0; depth < params.depth; depth += 1) {
-    const reveal = clamp(phaseRef.current - depth, 0, 1);
-    if (reveal <= 0) continue;
-    const parentCount = params.factor ** depth;
-
-    for (let index = 0; index < parentCount; index += 1) {
-      const parent = nodeAt(depth, index);
-      for (let branch = 0; branch < params.factor; branch += 1) {
-        const child = nodeAt(depth + 1, index * params.factor + branch);
-        const x = p.lerp(parent.x, child.x, reveal);
-        const y = p.lerp(parent.y, child.y, reveal);
-
-        p.stroke(...GOLD, 28 + reveal * 92);
-        p.strokeWeight(1.4);
-        p.line(parent.x, parent.y, x, y);
+  for (let n = 1; n <= safeN; n += 1) {
+    for (let k = 0; k <= n; k += 1) {
+      if (!cone.has(`${n}:${k}`)) continue;
+      const child = nodeAt(n, k);
+      const parents = [
+        { n: n - 1, k: k - 1 },
+        { n: n - 1, k },
+      ];
+      for (const parentCell of parents) {
+        if (parentCell.k < 0 || parentCell.k > parentCell.n) continue;
+        if (!cone.has(`${parentCell.n}:${parentCell.k}`)) continue;
+        const parent = nodeAt(parentCell.n, parentCell.k);
+        const isTargetEdge = n === safeN && k === safeK;
+        p.stroke(...(isTargetEdge ? GOLD : WHITE), isTargetEdge ? 128 : 26);
+        p.strokeWeight(isTargetEdge ? 2.2 : 1);
+        p.line(parent.x, parent.y, child.x, child.y);
       }
     }
   }
 
-  for (let depth = 0; depth < layers; depth += 1) {
-    const reveal = clamp(phaseRef.current - depth + 0.65, 0, 1);
-    if (reveal <= 0) continue;
-    const count = params.factor ** depth;
-    const step = Math.max(1, Math.ceil(count / 180));
-
-    for (let index = 0; index < count; index += step) {
-      const node = nodeAt(depth, index);
-      const density = Math.log(count + 1) / Math.log(maxNodes + 1);
+  for (let n = 0; n <= safeN; n += 1) {
+    for (let k = 0; k <= n; k += 1) {
+      if (!cone.has(`${n}:${k}`)) continue;
+      const node = nodeAt(n, k);
+      const isTarget = n === safeN && k === safeK;
+      const isParent =
+        n === safeN - 1 && (k === safeK - 1 || k === safeK);
+      const value = choose(n, k);
       p.noStroke();
-      p.fill(...GOLD, (70 + density * 150) * reveal);
-      p.circle(node.x, node.y, Math.max(3.5, 8 - depth * 0.45));
+      p.fill(...(isTarget ? GOLD : isParent ? GREEN : BLUE), isTarget ? 230 : isParent ? 190 : 120);
+      p.circle(node.x, node.y, isTarget ? 18 : isParent ? 15 : 11);
+      p.fill(...WHITE, isTarget ? 230 : 170);
+      p.textFont('monospace');
+      p.textSize(isTarget ? 12 : 10);
+      p.textAlign(p.CENTER, p.CENTER);
+      p.text(String(value), node.x, node.y + 0.5);
     }
   }
 
   p.noStroke();
-  p.fill(...WHITE, 120);
+  p.fill(...GOLD, 220);
   p.textFont('monospace');
-  p.textSize(12);
+  p.textSize(13);
   p.textAlign(p.LEFT, p.TOP);
-  p.text(`${params.factor}^${params.depth} = ${fmt(maxNodes)} leaves`, rect.x + 10, rect.y + 10);
+  p.text(`C(${safeN}, ${safeK}) = ${fmt(parts.total)}`, rect.x + 14, rect.y + 14);
 
-  p.fill(...BLUE, 140);
-  p.textAlign(p.RIGHT, p.BOTTOM);
-  p.text('每一層都是一次選擇，總數以乘法展開', rect.x + rect.w - 10, rect.y + rect.h - 10);
+  p.fill(...MUTED, 180);
+  p.textSize(11);
+  p.text(recurrenceFormulaLabel(safeN, safeK), rect.x + 14, rect.y + 34);
+
+  if (!compact) {
+    p.fill(...BLUE, 150);
+    p.textAlign(p.RIGHT, p.BOTTOM);
+    p.text('依賴錐只保留會流入目標格的加總關係', rect.x + rect.w - 12, rect.y + rect.h - 12);
+  }
 }
 
 function renderScene(
   p: p5,
   params: Params,
-  phaseRef: MutableRefObject<number>,
 ) {
   if (params.mode === 'pascal') {
     const row = Math.min(params.pascal.rows, Math.max(0, params.pascal.rows - 2));
@@ -210,39 +219,17 @@ function renderScene(
     return;
   }
 
-  renderBranchScene(p, params.branch, phaseRef);
-}
-
-function modeName(mode: Mode) {
-  if (mode === 'pascal') return '帕斯卡三角形';
-  if (mode === 'path') return '路徑計數';
-  return '遞迴分支';
-}
-
-function pascalValue(n: number, k: number) {
-  return choose(n, k);
+  renderRecurrenceScene(p, params.recurrence);
 }
 
 export default function PermutationsCombinationsExploreRoot() {
   const [params, setParams] = useState<Params>(DEFAULT_PARAMS);
   const paramsRef = useRef(params);
-  const phaseRef = useRef(0);
   const canvasHostRef = useRef<HTMLDivElement>(null);
   const instanceRef = useRef<p5 | null>(null);
 
   useEffect(() => {
-    const previousMode = paramsRef.current.mode;
-    const previousBranch = paramsRef.current.branch;
     paramsRef.current = params;
-
-    if (
-      previousMode !== params.mode ||
-      previousBranch.factor !== params.branch.factor ||
-      previousBranch.depth !== params.branch.depth
-    ) {
-      phaseRef.current = params.mode === 'branch' ? 0 : 1;
-    }
-
     instanceRef.current?.redraw();
   }, [params]);
 
@@ -266,12 +253,8 @@ export default function PermutationsCombinationsExploreRoot() {
         };
 
         p.draw = () => {
-          renderScene(p, paramsRef.current, phaseRef);
-          if (paramsRef.current.mode === 'branch' && phaseRef.current < paramsRef.current.branch.depth) {
-            p.loop();
-          } else {
-            p.noLoop();
-          }
+          renderScene(p, paramsRef.current);
+          p.noLoop();
         };
       };
 
@@ -307,35 +290,21 @@ export default function PermutationsCombinationsExploreRoot() {
 
   const selectedRow = Math.max(0, params.pascal.rows - 2);
   const selectedK = clamp(params.pascal.selectedK, 0, selectedRow);
-  const pathTotal = useMemo(
-    () => choose(params.path.m + params.path.n, params.path.m),
-    [params.path.m, params.path.n],
-  );
-  const branchTotal = params.branch.factor ** params.branch.depth;
 
   const stats = useMemo(() => {
-    if (params.mode === 'pascal') {
-      return [
-        `目前模式：${modeName(params.mode)}`,
-        `觀察 C(${selectedRow}, ${selectedK}) = ${fmt(pascalValue(selectedRow, selectedK))}`,
-        `模 ${params.pascal.prime} 著色保留非零係數`,
-      ];
-    }
+    return buildCombinationStats({
+      mode: params.mode,
+      pascal: {
+        n: selectedRow,
+        k: selectedK,
+        prime: params.pascal.prime,
+      },
+      path: params.path,
+      recurrence: params.recurrence,
+    });
+  }, [params, selectedK, selectedRow]);
 
-    if (params.mode === 'path') {
-      return [
-        `目前模式：${modeName(params.mode)}`,
-        `從 (0,0) 到 (${params.path.m},${params.path.n})`,
-        `路徑總數 C(${params.path.m + params.path.n}, ${params.path.m}) = ${fmt(pathTotal)}`,
-      ];
-    }
-
-    return [
-      `目前模式：${modeName(params.mode)}`,
-      `每層 ${params.branch.factor} 個選擇`,
-      `葉節點 ${params.branch.factor}^${params.branch.depth} = ${fmt(branchTotal)}`,
-    ];
-  }, [branchTotal, params, pathTotal, selectedK, selectedRow]);
+  const catalan = useMemo(() => catalanContrast(4), []);
 
   const setMode = useCallback((mode: Mode) => {
     setParams((prev) => ({ ...prev, mode }));
@@ -364,9 +333,9 @@ export default function PermutationsCombinationsExploreRoot() {
                 value={params.mode}
                 onChange={(e) => setMode(e.target.value as Mode)}
               >
-                <option value="pascal">帕斯卡三角形</option>
-                <option value="path">路徑計數</option>
-                <option value="branch">遞迴分支</option>
+                <option value="pascal">係數表</option>
+                <option value="path">路徑模型</option>
+                <option value="recurrence">遞迴依賴</option>
               </select>
             </label>
 
@@ -482,35 +451,39 @@ export default function PermutationsCombinationsExploreRoot() {
               </>
             ) : null}
 
-            {params.mode === 'branch' ? (
+            {params.mode === 'recurrence' ? (
               <>
                 <RangeControl
-                  id="permutations-branch-factor"
-                  label="每層選擇數"
-                  min={2}
-                  max={5}
+                  id="permutations-recurrence-n"
+                  label="目標列 n"
+                  min={3}
+                  max={10}
                   step={1}
-                  value={params.branch.factor}
-                  display={String(params.branch.factor)}
-                  onValue={(factor) =>
+                  value={params.recurrence.n}
+                  display={String(params.recurrence.n)}
+                  onValue={(n) =>
                     setParams((prev) => ({
                       ...prev,
-                      branch: { ...prev.branch, factor },
+                      recurrence: {
+                        ...prev.recurrence,
+                        n,
+                        k: clamp(prev.recurrence.k, 0, n),
+                      },
                     }))
                   }
                 />
                 <RangeControl
-                  id="permutations-branch-depth"
-                  label="深度"
-                  min={2}
-                  max={7}
+                  id="permutations-recurrence-k"
+                  label={`目標格 k（第 ${params.recurrence.n} 列）`}
+                  min={0}
+                  max={params.recurrence.n}
                   step={1}
-                  value={params.branch.depth}
-                  display={String(params.branch.depth)}
-                  onValue={(depth) =>
+                  value={params.recurrence.k}
+                  display={String(params.recurrence.k)}
+                  onValue={(k) =>
                     setParams((prev) => ({
                       ...prev,
-                      branch: { ...prev.branch, depth },
+                      recurrence: { ...prev.recurrence, k },
                     }))
                   }
                 />
@@ -526,7 +499,17 @@ export default function PermutationsCombinationsExploreRoot() {
               </p>
             ))}
             <p className="permutations-combinations-explore__hint">
-              同一個 C(n,k) 會同時出現在係數、格點路徑與選擇樹中。
+              同一個 C(n,k) 會同時出現在係數、格點路徑與遞迴依賴中。
+            </p>
+          </div>
+
+          <div className="permutations-combinations-explore__block">
+            <p className="permutations-combinations-explore__block-title">卡特蘭對照</p>
+            <p className="permutations-combinations-explore__hint">
+              卡特蘭數不是新的 C(n,k)：它從 C(2n,n) 的平衡路徑中排除越過限制線的路徑。
+            </p>
+            <p className="permutations-combinations-explore__stat">
+              n = 4：全部 {fmt(catalan.totalBalanced)}，合法 {fmt(catalan.legal)}，排除 {fmt(catalan.restrictedOut)}
             </p>
           </div>
         </aside>
