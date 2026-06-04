@@ -9,6 +9,7 @@ export const exploreInteractiveSlugs = [
   'complex-euler-formula',
   'sequences-and-series',
   'permutations-combinations',
+  'probability-statistics',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];
