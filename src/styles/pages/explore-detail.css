@@ -8,7 +8,8 @@
 .explore-detail .diff-eq-explore,
 .explore-detail .complex-euler-explore,
 .explore-detail .sequences-series-explore,
-.explore-detail .permutations-combinations-explore {
+.explore-detail .permutations-combinations-explore,
+.explore-detail .vectors-explore {
   margin-bottom: var(--space-8);
 }
 
@@ -33,6 +34,7 @@
 .explore-detail--interactive .diff-eq-explore,
 .explore-detail--interactive .complex-euler-explore,
 .explore-detail--interactive .sequences-series-explore,
-.explore-detail--interactive .permutations-combinations-explore {
+.explore-detail--interactive .permutations-combinations-explore,
+.explore-detail--interactive .vectors-explore {
   margin-bottom: var(--space-6);
 }

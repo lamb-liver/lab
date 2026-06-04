@@ -13,6 +13,7 @@ import FourierSeriesExploreRoot from './FourierSeriesExploreRoot';
 import PermutationsCombinationsExploreRoot from './PermutationsCombinationsExploreRoot';
 import ProbabilityStatisticsExploreRoot from './ProbabilityStatisticsExploreRoot';
 import SequencesAndSeriesExploreRoot from './SequencesAndSeriesExploreRoot';
+import VectorsExploreRoot from './VectorsExploreRoot';
 import WaveSuperpositionExploreRoot from './WaveSuperpositionExploreRoot';
 
 const rootBySlug = {
@@ -27,6 +28,7 @@ const rootBySlug = {
   'permutations-combinations': PermutationsCombinationsExploreRoot,
   'probability-statistics': ProbabilityStatisticsExploreRoot,
   'exponential-logarithm': ExponentialLogarithmExploreRoot,
+  vectors: VectorsExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 type Props = {
