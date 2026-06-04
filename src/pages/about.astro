@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteSeo } from '../lib/seoCopy';
+import { PERSONAL_SITE_HOST, PERSONAL_SITE_URL } from '../lib/siteLinks';
 import '../styles/pages/about.css';
 
 const contactEmail = 'lambliver.dev@gmail.com';
@@ -68,6 +69,15 @@ const contactEmail = 'lambliver.dev@gmail.com';
               <span id="about-copy-status" class="about-contact__copy-status" aria-live="polite"
               ></span>
             </div>
+          </li>
+          <li>
+            <p class="about-contact__label">個人網站</p>
+            <a
+              href={PERSONAL_SITE_URL}
+              class="about-contact__link"
+              target="_blank"
+              rel="noopener noreferrer">{PERSONAL_SITE_HOST}</a
+            >
           </li>
           <li>
             <p class="about-contact__label">GitHub</p>

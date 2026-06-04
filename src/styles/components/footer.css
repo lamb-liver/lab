@@ -15,6 +15,22 @@
   color: var(--color-text-muted);
 }
 
+.site-footer__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.site-footer__link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.site-footer__link:hover {
+  color: var(--color-accent);
+}
+
 .site-footer__github {
   display: flex;
   align-items: center;
