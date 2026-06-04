@@ -6,6 +6,7 @@ import {
   getFeaturedInteractive,
   getFeaturedOrLatest,
   getPublished,
+  getCollectionPagerNeighbors,
   getPublishedAsc,
   getPublishedInteractive,
   getStaticPathsFromCollection,
@@ -56,6 +57,28 @@ describe('excludeEntryIds', () => {
   it('removes entries whose id is in the exclude set', () => {
     const pool = [entry('a', '2026-01-01'), entry('b', '2026-02-01')];
     expect(excludeEntryIds(pool, new Set(['a'])).map((e) => e.id)).toEqual(['b']);
+  });
+});
+
+describe('getCollectionPagerNeighbors', () => {
+  it('returns null neighbors when slug is missing from the published list', () => {
+    const pool = [entry('a', '2026-01-01'), entry('b', '2026-02-01')];
+    expect(getCollectionPagerNeighbors(pool, 'missing')).toEqual({
+      previous: null,
+      next: null,
+    });
+  });
+
+  it('returns previous and next entries in ascending date order', () => {
+    const pool = [
+      entry('first', '2026-01-01'),
+      entry('middle', '2026-02-01'),
+      entry('last', '2026-03-01'),
+    ];
+    expect(getCollectionPagerNeighbors(pool, 'middle')).toEqual({
+      previous: pool[0],
+      next: pool[2],
+    });
   });
 });
 

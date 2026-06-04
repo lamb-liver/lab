@@ -2,6 +2,9 @@ import { expect, test } from '@playwright/test';
 import { readFileSync, statSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { descriptionHasRawMath } from '../src/content/descriptionMath';
+import { readExploreEntries } from '../src/content/exploreEntries';
+import { getCollectionPagerNeighbors } from '../src/content/utils';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -9,7 +12,11 @@ function readJsonLd(htmlTexts: string[]) {
   return htmlTexts.map((text) => JSON.parse(text)) as Array<Record<string, unknown>>;
 }
 
-const rawMathOrLatex = /(?:\$[^$\n]+\$|\$\$|\\[([]|\\(?:begin|end)\{|\\[a-zA-Z]+)/;
+function expectPlainTextDescriptions(descriptions: string[]) {
+  for (const description of descriptions) {
+    expect(descriptionHasRawMath(description)).toBe(false);
+  }
+}
 
 test.describe('SEO metadata and UX shell', () => {
   test('built works collection keeps thumbnails out of inline HTML', () => {
@@ -235,7 +242,7 @@ test.describe('SEO metadata and UX shell', () => {
   test('explore card descriptions do not expose raw math delimiters', async ({ page }) => {
     await page.goto('/explore');
     const descriptions = await page.locator('.card--explore .card__desc').allTextContents();
-    expect(descriptions.join('\n')).not.toMatch(rawMathOrLatex);
+    expectPlainTextDescriptions(descriptions);
     await expect(
       page.locator('[data-search-slug="exponential-logarithm"] .card__desc'),
     ).toHaveText('比較指數成長與對數反推的鏡像關係；從倍增、尺度到自然底 e 與換底。');
@@ -375,18 +382,37 @@ test.describe('SEO metadata and UX shell', () => {
   test('explore detail pages include same-collection previous and next navigation', async ({
     page,
   }) => {
-    await page.goto('/explore/vectors');
+    const explore = readExploreEntries(projectRoot);
 
-    const pager = page.locator('.explore-detail__pager');
-    await expect(pager).toBeVisible();
-    await expect(pager.getByText('上一篇')).toBeVisible();
-    await expect(pager.getByText('下一篇')).toBeVisible();
-    const links = await pager.locator('a').evaluateAll((items) =>
-      items.map((item) => item.getAttribute('href')),
-    );
-    expect(links.length).toBeGreaterThan(0);
-    expect(links.every((href) => href?.startsWith('/explore/'))).toBe(true);
-    expect(links.every((href) => !href?.startsWith('/works/'))).toBe(true);
+    const newest = getCollectionPagerNeighbors(explore, 'vectors');
+    expect(newest.previous?.id).toBe('exponential-logarithm');
+    expect(newest.next).toBeNull();
+
+    await page.goto('/explore/vectors');
+    const newestPager = page.locator('.explore-detail__pager');
+    await expect(newestPager).toBeVisible();
+    await expect(
+      newestPager.locator('a.explore-detail__pager-link:not(.explore-detail__pager-link--next)'),
+    ).toHaveAttribute('href', `/explore/${newest.previous!.id}`);
+    await expect(
+      newestPager.locator('a.explore-detail__pager-link:not(.explore-detail__pager-link--next) strong'),
+    ).toHaveText(newest.previous!.data.title);
+    await expect(
+      newestPager.locator('.explore-detail__pager-link--next.explore-detail__pager-link--disabled'),
+    ).toBeVisible();
+
+    const middle = getCollectionPagerNeighbors(explore, 'limits-riemann-sum');
+    expect(middle.previous?.id).toBe('matrix-linear-transform');
+    expect(middle.next?.id).toBe('differential-equations-geometry');
+
+    await page.goto('/explore/limits-riemann-sum');
+    const middlePager = page.locator('.explore-detail__pager');
+    const middleLinks = middlePager.locator('a.explore-detail__pager-link');
+    await expect(middleLinks).toHaveCount(2);
+    await expect(middleLinks.nth(0)).toHaveAttribute('href', `/explore/${middle.previous!.id}`);
+    await expect(middleLinks.nth(0).locator('strong')).toHaveText(middle.previous!.data.title);
+    await expect(middleLinks.nth(1)).toHaveAttribute('href', `/explore/${middle.next!.id}`);
+    await expect(middleLinks.nth(1).locator('strong')).toHaveText(middle.next!.data.title);
   });
 
   test('prose css no longer carries MathML-only KaTeX selectors', () => {

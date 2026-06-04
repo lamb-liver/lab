@@ -4,7 +4,10 @@ import { withBase } from '../../lib/withBase';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import WorkInteractiveStage from '../../components/works/WorkInteractiveStage';
 import { getCollection, render } from 'astro:content';
-import { getPublishedAsc, getStaticPathsFromCollection } from '../../content/utils';
+import {
+  getCollectionPagerNeighbors,
+  getStaticPathsFromCollection,
+} from '../../content/utils';
 import {
   isWorkInteractive,
   workControlsMountId,
@@ -22,10 +25,10 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const interactive = isWorkInteractive(entry.id);
-const works = getPublishedAsc(await getCollection('works'));
-const workIndex = works.findIndex((work) => work.id === entry.id);
-const previousWork = workIndex > 0 ? works[workIndex - 1] : null;
-const nextWork = workIndex >= 0 && workIndex < works.length - 1 ? works[workIndex + 1] : null;
+const { previous: previousWork, next: nextWork } = getCollectionPagerNeighbors(
+  await getCollection('works'),
+  entry.id,
+);
 const ogImage = entry.data.ogImage ?? getWorkOgImagePath(entry.id);
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL(withBase('/'), site).href;

@@ -37,6 +37,21 @@ export const getPublishedInteractive = <E extends ContentEntry>(
 export const getPublishedAsc = <E extends ContentEntry>(entries: E[]): E[] =>
   entries.filter(isPublished).sort(sortByDateAsc);
 
+export function getCollectionPagerNeighbors<E extends ContentEntry>(
+  entries: E[],
+  slug: string,
+): { previous: E | null; next: E | null } {
+  const sorted = getPublishedAsc(entries);
+  const index = sorted.findIndex((entry) => entry.id === slug);
+  if (index < 0) {
+    return { previous: null, next: null };
+  }
+  return {
+    previous: index > 0 ? sorted[index - 1]! : null,
+    next: index < sorted.length - 1 ? sorted[index + 1]! : null,
+  };
+}
+
 /** 首頁精選：僅 `featured: true`，date 新→舊，且 slug 在互動 registry 內 */
 export const getFeaturedInteractive = <E extends ContentEntry>(
   entries: E[],
