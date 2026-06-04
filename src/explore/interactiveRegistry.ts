@@ -10,6 +10,7 @@ export const exploreInteractiveSlugs = [
   'sequences-and-series',
   'permutations-combinations',
   'probability-statistics',
+  'exponential-logarithm',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];

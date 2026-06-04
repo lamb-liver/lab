@@ -6,6 +6,7 @@ import {
 import ConicDynamicGeometryExploreRoot from './ConicDynamicGeometryExploreRoot';
 import ComplexEulerFormulaExploreRoot from './ComplexEulerFormulaExploreRoot';
 import DifferentialEquationsGeometryExploreRoot from './DifferentialEquationsGeometryExploreRoot';
+import ExponentialLogarithmExploreRoot from './ExponentialLogarithmExploreRoot';
 import LimitsRiemannSumExploreRoot from './LimitsRiemannSumExploreRoot';
 import MatrixLinearTransformExploreRoot from './MatrixLinearTransformExploreRoot';
 import FourierSeriesExploreRoot from './FourierSeriesExploreRoot';
@@ -25,6 +26,7 @@ const rootBySlug = {
   'sequences-and-series': SequencesAndSeriesExploreRoot,
   'permutations-combinations': PermutationsCombinationsExploreRoot,
   'probability-statistics': ProbabilityStatisticsExploreRoot,
+  'exponential-logarithm': ExponentialLogarithmExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 type Props = {
