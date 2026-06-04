@@ -16,6 +16,14 @@ export const DEFAULT_BEAT = {
   fB: 2.4,
 } as const;
 
+export const DEFAULT_GUIDE = {
+  phase: 0,
+} as const;
+
+export const GUIDE_PARAM_SCHEMA = [
+  { key: 'phase' as const, label: '相位關係 Δφ (×π)', min: 0, max: 1, step: 0.01 },
+];
+
 export const SUPERPOSITION_PARAM_SCHEMA = [
   { key: 'fA' as const, label: '頻率 f_A (Hz)', min: 0.2, max: 2, step: 0.05, group: '波 A' },
   { key: 'aA' as const, label: '振幅 A_A', min: 0.1, max: 1, step: 0.05, group: '波 A' },

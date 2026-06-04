@@ -6,8 +6,33 @@ import {
 import {
   describeBeat,
   describeSuperposition,
+  getGuideState,
   waveSum,
 } from './geometry';
+
+describe('getGuideState', () => {
+  it('labels in-phase guide state as enhanced', () => {
+    const state = getGuideState({ phase: 0 });
+
+    expect(state.zone).toBe('inPhase');
+    expect(state.displacementLabel).toContain('增強');
+  });
+
+  it('labels quadrature guide state as shifted for standing waves and fringes', () => {
+    const state = getGuideState({ phase: 0.5 });
+
+    expect(state.zone).toBe('quadrature');
+    expect(state.standingLabel).toContain('平移');
+    expect(state.fringeLabel).toContain('平移');
+  });
+
+  it('labels anti-phase guide state as cancellation for displacement', () => {
+    const state = getGuideState({ phase: 1 });
+
+    expect(state.zone).toBe('antiPhase');
+    expect(state.displacementLabel).toContain('抵消');
+  });
+});
 
 describe('describeSuperposition', () => {
   it('detects constructive interference', () => {

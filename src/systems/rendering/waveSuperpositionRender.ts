@@ -1,9 +1,15 @@
 import type p5 from 'p5';
-import type { BeatParams, SuperpositionParams, WaveMode } from '../../explore/wave-superposition/geometry';
+import type {
+  BeatParams,
+  GuideParams,
+  SuperpositionParams,
+  WaveMode,
+} from '../../explore/wave-superposition/geometry';
 import {
   beatEnvelopeY,
   beatWaveY,
   beatXSpan,
+  getGuideState,
   waveA,
   waveB,
   waveSum,
@@ -19,6 +25,7 @@ type Point = [number, number];
 export type WaveSuperpositionSnap = {
   mode: WaveMode;
   time: number;
+  guide: GuideParams;
   superposition: SuperpositionParams;
   beat: BeatParams;
 };
@@ -91,6 +98,140 @@ function drawPanel(
   drawGlowCurve(p, buildPts(p, mid, rowH * 0.4, yFn), col);
 }
 
+function drawPanelFrame(
+  p: p5,
+  py: number,
+  rowH: number,
+  title: string,
+  label: string,
+): void {
+  p.stroke(GUIDE[0], GUIDE[1], GUIDE[2], 7);
+  p.strokeWeight(0.5);
+  p.noFill();
+  p.line(0, py + rowH, p.width, py + rowH);
+
+  p.noStroke();
+  p.textAlign(p.LEFT, p.TOP);
+  p.fill(180);
+  p.textSize(11);
+  p.textStyle(p.BOLD);
+  p.text(title, 10, py + 8);
+  p.textStyle(p.NORMAL);
+  p.fill(145);
+  p.textSize(10);
+  p.text(label, 10, py + 24);
+}
+
+function buildGuidePts(
+  p: p5,
+  py: number,
+  rowH: number,
+  yFn: (nx: number) => number,
+  amp = 0.34,
+): Point[] {
+  return buildPts(p, py + rowH * 0.58, rowH * amp, yFn);
+}
+
+function drawGuideDisplacement(
+  p: p5,
+  py: number,
+  rowH: number,
+  phase: number,
+  label: string,
+): void {
+  drawPanelFrame(p, py, rowH, '位移疊加', label);
+  const t = 0;
+  const base = (nx: number) => Math.sin(2 * Math.PI * (nx * 2 - t));
+  const shifted = (nx: number) => Math.sin(2 * Math.PI * (nx * 2 - t) + phase * Math.PI);
+  const sum = (nx: number) => (base(nx) + shifted(nx)) / 2;
+
+  drawGlowCurve(p, buildGuidePts(p, py, rowH, base, 0.22), BLUE);
+  drawGlowCurve(p, buildGuidePts(p, py, rowH, shifted, 0.22), GREEN);
+  drawGlowCurve(p, buildGuidePts(p, py, rowH, sum, 0.34), ACCENT);
+}
+
+function drawGuideStanding(
+  p: p5,
+  py: number,
+  rowH: number,
+  phase: number,
+  time: number,
+  label: string,
+): void {
+  drawPanelFrame(p, py, rowH, '駐波節點', label);
+
+  const mid = py + rowH * 0.58;
+  const ampPx = rowH * 0.35;
+  const kCycles = 2.5;
+  const phaseRad = phase * Math.PI;
+  const envelope = (nx: number) => Math.cos(2 * Math.PI * kCycles * nx + phaseRad / 2);
+  const wave = (nx: number) => envelope(nx) * Math.cos(time * 1.2);
+
+  p.push();
+  p.stroke(GUIDE[0], GUIDE[1], GUIDE[2], 20);
+  p.strokeWeight(1);
+  for (let m = -1; m <= 6; m += 1) {
+    const nodeNx = (0.25 + 0.5 * m - phase / 4) / kCycles;
+    if (nodeNx < 0 || nodeNx > 1) continue;
+    const x = marginX(p.width) + nodeNx * (p.width - 2 * marginX(p.width));
+    p.line(x, mid - ampPx * 0.82, x, mid + ampPx * 0.82);
+  }
+  p.pop();
+
+  drawGlowCurve(p, buildGuidePts(p, py, rowH, (nx) => envelope(nx), 0.27), [160, 160, 160]);
+  drawGlowCurve(p, buildGuidePts(p, py, rowH, wave, 0.35), ACCENT);
+}
+
+function drawGuideFringes(
+  p: p5,
+  py: number,
+  rowH: number,
+  phase: number,
+  label: string,
+): void {
+  drawPanelFrame(p, py, rowH, '雙源條紋', label);
+
+  const mx = marginX(p.width);
+  const x0 = mx;
+  const y0 = py + rowH * 0.34;
+  const w = p.width - 2 * mx;
+  const h = rowH * 0.52;
+  const cx = x0 + w / 2;
+  const cy = y0 + h / 2;
+  const s1 = { x: cx - w * 0.18, y: cy };
+  const s2 = { x: cx + w * 0.18, y: cy };
+
+  p.push();
+  p.noStroke();
+  for (let ix = 0; ix < 92; ix += 1) {
+    for (let iy = 0; iy < 34; iy += 1) {
+      const x = x0 + (ix / 91) * w;
+      const y = y0 + (iy / 33) * h;
+      const d1 = Math.hypot(x - s1.x, y - s1.y);
+      const d2 = Math.hypot(x - s2.x, y - s2.y);
+      const intensity = 0.5 + 0.5 * Math.cos((d1 - d2) * 0.12 + phase * Math.PI);
+      if (intensity < 0.62) continue;
+      p.fill(ACCENT[0], ACCENT[1], ACCENT[2], 12 + intensity * 70);
+      p.rect(x, y, w / 88, h / 30);
+    }
+  }
+
+  p.fill(GUIDE[0], GUIDE[1], GUIDE[2], 55);
+  p.circle(s1.x, s1.y, 5);
+  p.circle(s2.x, s2.y, 5);
+  p.pop();
+}
+
+function drawGuide(p: p5, snap: WaveSuperpositionSnap): void {
+  const { phase } = snap.guide;
+  const state = getGuideState(snap.guide);
+  const rowH = p.height / 3;
+
+  drawGuideDisplacement(p, 0, rowH, phase, state.displacementLabel);
+  drawGuideStanding(p, rowH, rowH, phase, snap.time, state.standingLabel);
+  drawGuideFringes(p, rowH * 2, rowH, phase, state.fringeLabel);
+}
+
 function drawSuperposition(p: p5, snap: WaveSuperpositionSnap): void {
   const { superposition: params, time: t } = snap;
   const rowH = p.height / 3;
@@ -144,7 +285,9 @@ function drawBeat(p: p5, snap: WaveSuperpositionSnap): void {
 
 export function renderWaveSuperpositionScene(p: p5, snap: WaveSuperpositionSnap): void {
   p.background(10, 10, 10);
-  if (snap.mode === 'superposition') {
+  if (snap.mode === 'guide') {
+    drawGuide(p, snap);
+  } else if (snap.mode === 'superposition') {
     drawSuperposition(p, snap);
   } else {
     drawBeat(p, snap);

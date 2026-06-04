@@ -1,13 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import {
+  GUIDE_BASIS,
+  getVectorGuideState,
+  projectOnto,
+  solveBasisCoordinates,
+  type Vec2,
+  type VectorGuideRole,
+} from '../../explore/vectors/geometry';
 import '../../styles/components/explore/vectors-explore.css';
 
-type Mode = 'dot' | 'span' | 'normal';
-
-type Vec2 = {
-  x: number;
-  y: number;
-};
+type Mode = 'guide' | 'dot' | 'span' | 'normal';
 
 type Rect = {
   x: number;
@@ -18,6 +21,9 @@ type Rect = {
 
 type Params = {
   mode: Mode;
+  guideRole: VectorGuideRole;
+  guideP: Vec2;
+  guideU: Vec2;
   unitCircle: boolean;
   u: Vec2;
   v: Vec2;
@@ -31,7 +37,7 @@ type Params = {
 
 type DragHandle = {
   type: 'vector' | 'unit';
-  id: 'u' | 'v' | 'a' | 'b' | 'n';
+  id: 'guideP' | 'guideU' | 'u' | 'v' | 'a' | 'b' | 'n';
   x: number;
   y: number;
   r: number;
@@ -42,12 +48,16 @@ type DragHandle = {
 type P5WithRenderer = p5 & { _renderer?: unknown };
 
 const GOLD = [212, 184, 122] as const;
+const CYAN = [126, 210, 203] as const;
 const WHITE = [255, 255, 255] as const;
 const TEXT = [232, 232, 232] as const;
 const MUTED = [140, 140, 140] as const;
 
 const DEFAULT_PARAMS: Params = {
-  mode: 'dot',
+  mode: 'guide',
+  guideRole: 'position',
+  guideP: { x: 1.8, y: 1.1 },
+  guideU: { x: -0.8, y: 2.2 },
   unitCircle: false,
   u: { x: 2.6, y: 1.3 },
   v: { x: 1.2, y: 2.4 },
@@ -60,9 +70,16 @@ const DEFAULT_PARAMS: Params = {
 };
 
 const MODE_OPTIONS: Array<{ id: Mode; label: string; sidebarTitle: string }> = [
-  { id: 'dot', label: '內積與夾角', sidebarTitle: '內積與夾角' },
-  { id: 'span', label: '線性組合', sidebarTitle: '線性組合與張成' },
-  { id: 'normal', label: '法向量與直線', sidebarTitle: '法向量與直線' },
+  { id: 'guide', label: '導覽', sidebarTitle: '位置、方向與座標' },
+  { id: 'dot', label: '方向 / 投影', sidebarTitle: '方向分量與投影' },
+  { id: 'span', label: '座標 / 基底', sidebarTitle: '座標讀數與基底' },
+  { id: 'normal', label: '法向 / 直線', sidebarTitle: '法向條件與直線' },
+];
+
+const GUIDE_ROLE_OPTIONS: Array<{ id: VectorGuideRole; label: string }> = [
+  { id: 'position', label: '位置' },
+  { id: 'direction', label: '方向' },
+  { id: 'coordinate', label: '座標' },
 ];
 
 function clamp(value: number, min: number, max: number) {
@@ -147,8 +164,10 @@ function measureVectorsCanvas(host: HTMLElement) {
   const width = Math.max(320, Math.floor(host.clientWidth || 680));
   const height =
     width < 560
-      ? Math.round(clamp(width * 0.96, 340, 460))
-      : Math.round(clamp(width * 0.6, 390, 560));
+      ? Math.round(clamp(width * 1.78, 620, 760))
+      : width < 760
+        ? Math.round(clamp(width * 0.78, 470, 560))
+        : Math.round(clamp(width * 0.54, 390, 520));
   return { width, height };
 }
 
@@ -318,8 +337,64 @@ function drawBottomNote(p: p5, stage: Rect, label: string) {
   p.noStroke();
   p.fill(...MUTED, 190);
   p.textSize(12);
-  p.textAlign(p.CENTER, p.BASELINE);
-  p.text(label, stage.x + stage.w / 2, stage.y + stage.h - 18);
+  p.textAlign(p.CENTER, p.TOP);
+  p.text(label, stage.x + 24, stage.y + stage.h - 42, stage.w - 48, 34);
+}
+
+function guidePanelRects(stage: Rect, compact: boolean) {
+  const inner = compact ? insetRect(stage, 16, 72, 16, 66) : insetRect(stage, 22, 72, 22, 66);
+  const gap = compact ? 12 : 14;
+
+  if (compact) {
+    const h = (inner.h - gap * 2) / 3;
+    return {
+      position: { x: inner.x, y: inner.y, w: inner.w, h },
+      direction: { x: inner.x, y: inner.y + h + gap, w: inner.w, h },
+      coordinate: { x: inner.x, y: inner.y + (h + gap) * 2, w: inner.w, h },
+    } satisfies Record<VectorGuideRole, Rect>;
+  }
+
+  if (inner.w < 720) {
+    const topH = (inner.h - gap) * 0.52;
+    const topW = (inner.w - gap) / 2;
+    return {
+      position: { x: inner.x, y: inner.y, w: topW, h: topH },
+      direction: { x: inner.x + topW + gap, y: inner.y, w: topW, h: topH },
+      coordinate: { x: inner.x, y: inner.y + topH + gap, w: inner.w, h: inner.h - topH - gap },
+    } satisfies Record<VectorGuideRole, Rect>;
+  }
+
+  const w = (inner.w - gap * 2) / 3;
+  return {
+    position: { x: inner.x, y: inner.y, w, h: inner.h },
+    direction: { x: inner.x + w + gap, y: inner.y, w, h: inner.h },
+    coordinate: { x: inner.x + (w + gap) * 2, y: inner.y, w, h: inner.h },
+  } satisfies Record<VectorGuideRole, Rect>;
+}
+
+function drawGuidePanelFrame(
+  p: p5,
+  rect: Rect,
+  title: string,
+  subtitle: string,
+  active: boolean,
+) {
+  p.noFill();
+  p.stroke(...(active ? GOLD : WHITE), active ? 135 : 26);
+  p.strokeWeight(active ? 1.6 : 1);
+  p.rect(rect.x, rect.y, rect.w, rect.h, 12);
+
+  p.noStroke();
+  p.fill(...(active ? GOLD : TEXT), active ? 235 : 205);
+  p.textStyle(p.BOLD);
+  p.textSize(12);
+  p.textAlign(p.LEFT, p.TOP);
+  p.text(title, rect.x + 12, rect.y + 10);
+
+  p.textStyle(p.NORMAL);
+  p.fill(...MUTED, 190);
+  p.textSize(10.5);
+  p.text(subtitle, rect.x + 12, rect.y + 28, rect.w - 24, 28);
 }
 
 function drawVectorHandle(
@@ -512,12 +587,148 @@ function drawNormalLine(p: p5, plot: Rect, params: Params, scale: number) {
   p.text('closest point', sf.x + 8, sf.y + 8);
 }
 
+function drawObliqueBasisGrid(p: p5, plot: Rect, scale: number) {
+  withClip(p, plot, () => {
+    p.strokeWeight(1);
+
+    for (let i = -4; i <= 4; i += 1) {
+      const a1 = add2(scale2(GUIDE_BASIS.e1, i), scale2(GUIDE_BASIS.e2, -6));
+      const a2 = add2(scale2(GUIDE_BASIS.e1, i), scale2(GUIDE_BASIS.e2, 6));
+      const b1 = add2(scale2(GUIDE_BASIS.e2, i), scale2(GUIDE_BASIS.e1, -6));
+      const b2 = add2(scale2(GUIDE_BASIS.e2, i), scale2(GUIDE_BASIS.e1, 6));
+      const sa1 = worldToScreen(plot, a1, scale);
+      const sa2 = worldToScreen(plot, a2, scale);
+      const sb1 = worldToScreen(plot, b1, scale);
+      const sb2 = worldToScreen(plot, b2, scale);
+
+      p.stroke(...CYAN, i === 0 ? 48 : 18);
+      p.line(sa1.x, sa1.y, sa2.x, sa2.y);
+      p.stroke(...GOLD, i === 0 ? 48 : 18);
+      p.line(sb1.x, sb1.y, sb2.x, sb2.y);
+    }
+  });
+}
+
+function drawGuidePositionPanel(
+  p: p5,
+  rect: Rect,
+  params: Params,
+  handles: DragHandle[],
+  active: boolean,
+) {
+  drawGuidePanelFrame(p, rect, '位置', 'p 是平面上的點', active);
+  const plot = insetRect(rect, 14, 52, 14, 16);
+  const scale = 4;
+  drawVectorGrid(p, plot, scale, true);
+
+  const origin = worldToScreen(plot, { x: 0, y: 0 }, scale);
+  const pEnd = worldToScreen(plot, params.guideP, scale);
+  drawArrowGlow(p, origin, pEnd, 235);
+  drawVectorHandle(p, handles, 'guideP', pEnd, plot, scale);
+  drawPointLabel(p, pEnd.x + 8, pEnd.y - 8, `p (${fmt(params.guideP.x)}, ${fmt(params.guideP.y)})`);
+}
+
+function drawGuideDirectionPanel(
+  p: p5,
+  rect: Rect,
+  params: Params,
+  handles: DragHandle[],
+  active: boolean,
+) {
+  drawGuidePanelFrame(p, rect, '方向', 'u 沿 p 方向的投影', active);
+  const plot = insetRect(rect, 14, 52, 14, 16);
+  const scale = 4;
+  drawVectorGrid(p, plot, scale, true);
+
+  const projection = projectOnto(params.guideP, params.guideU);
+  const origin = worldToScreen(plot, { x: 0, y: 0 }, scale);
+  const pEnd = worldToScreen(plot, params.guideP, scale);
+  const uEnd = worldToScreen(plot, params.guideU, scale);
+
+  if (projection.viable) {
+    const foot = worldToScreen(plot, projection.vector, scale);
+    p.stroke(...WHITE, 42);
+    p.strokeWeight(1);
+    drawDashedLine(p, uEnd.x, uEnd.y, foot.x, foot.y, [4, 5]);
+
+    p.stroke(...GOLD, 130);
+    p.strokeWeight(3);
+    p.line(origin.x, origin.y, foot.x, foot.y);
+    drawPointLabel(p, foot.x + 7, foot.y + 8, 'proj_p u');
+  }
+
+  drawArrowGlow(p, origin, pEnd, 230);
+  drawArrowGlow(p, origin, uEnd, 200, CYAN);
+  drawVectorHandle(p, handles, 'guideP', pEnd, plot, scale);
+  drawVectorHandle(p, handles, 'guideU', uEnd, plot, scale);
+  drawPointLabel(p, pEnd.x + 8, pEnd.y - 8, 'p');
+  drawPointLabel(p, uEnd.x + 8, uEnd.y - 8, 'u');
+}
+
+function drawGuideCoordinatePanel(
+  p: p5,
+  rect: Rect,
+  params: Params,
+  handles: DragHandle[],
+  active: boolean,
+) {
+  drawGuidePanelFrame(p, rect, '座標', '固定斜交基底讀 p', active);
+  const plot = insetRect(rect, 14, 52, 14, 16);
+  const scale = 4;
+  drawVectorGrid(p, plot, scale, true);
+  drawObliqueBasisGrid(p, plot, scale);
+
+  const basis = solveBasisCoordinates(params.guideP, GUIDE_BASIS.e1, GUIDE_BASIS.e2);
+  const origin = worldToScreen(plot, { x: 0, y: 0 }, scale);
+  const e1End = worldToScreen(plot, GUIDE_BASIS.e1, scale);
+  const e2End = worldToScreen(plot, GUIDE_BASIS.e2, scale);
+  const pEnd = worldToScreen(plot, params.guideP, scale);
+
+  drawArrowGlow(p, origin, e1End, 145, CYAN);
+  drawArrowGlow(p, origin, e2End, 145);
+
+  if (basis.viable) {
+    const se1 = scale2(GUIDE_BASIS.e1, basis.s);
+    const tFromSe1 = add2(se1, scale2(GUIDE_BASIS.e2, basis.t));
+    const se1End = worldToScreen(plot, se1, scale);
+    const tEnd = worldToScreen(plot, tFromSe1, scale);
+    p.stroke(...WHITE, 38);
+    p.strokeWeight(1);
+    drawDashedLine(p, se1End.x, se1End.y, tEnd.x, tEnd.y, [5, 6]);
+    drawDashedLine(p, origin.x, origin.y, se1End.x, se1End.y, [5, 6]);
+  }
+
+  drawArrowGlow(p, origin, pEnd, 245);
+  drawVectorHandle(p, handles, 'guideP', pEnd, plot, scale);
+  drawPointLabel(p, e1End.x + 7, e1End.y + 14, 'e1');
+  drawPointLabel(p, e2End.x + 7, e2End.y - 6, 'e2');
+  drawPointLabel(p, pEnd.x + 8, pEnd.y - 18, 'p');
+}
+
+function drawGuideMode(p: p5, params: Params, handles: DragHandle[]) {
+  const compact = p.width < 560;
+  const stage = drawFrame(p, 'VECTOR GUIDE', 'one vector, three readings');
+  const rects = guidePanelRects(stage, compact);
+  const guideState = getVectorGuideState(params);
+
+  drawGuidePositionPanel(p, rects.position, params, handles, params.guideRole === 'position');
+  drawGuideDirectionPanel(p, rects.direction, params, handles, params.guideRole === 'direction');
+  drawGuideCoordinatePanel(
+    p,
+    rects.coordinate,
+    params,
+    handles,
+    params.guideRole === 'coordinate',
+  );
+  drawBottomNote(p, stage, guideState.summary);
+}
+
 function drawDotMode(p: p5, params: Params, handles: DragHandle[]) {
   const compact = p.width < 560;
   const stage = drawFrame(
     p,
     'VECTOR GEOMETRY',
-    params.unitCircle ? 'unit vectors and cosine projection' : 'dot product and projection',
+    params.unitCircle ? 'unit vectors and cosine projection' : 'direction and projection',
   );
   const plot = plotRect(stage, compact);
 
@@ -557,7 +768,7 @@ function drawDotMode(p: p5, params: Params, handles: DragHandle[]) {
     drawPointLabel(p, foot.x + 6, foot.y + 8, `cos = ${fmt(Math.cos(theta), 3)}`);
     drawAngleArc(p, plot, ua, ub, scale, 0.35);
     drawPlotLabel(p, plot, 'a-hat dot b-hat = cos(theta)');
-    drawBottomNote(p, stage, '單位向量時，內積只剩 cos(theta)，也就是投影長度');
+    drawBottomNote(p, stage, '單位向量時，方向分量只剩 cos(theta)，也就是投影長度');
     return;
   }
 
@@ -585,12 +796,12 @@ function drawDotMode(p: p5, params: Params, handles: DragHandle[]) {
     drawPlotLabel(p, plot, dot > 0 ? 'a dot b > 0' : 'a dot b < 0');
   }
 
-  drawBottomNote(p, stage, '拖動兩個向量端點；內積把夾角與長度壓縮成一個數');
+  drawBottomNote(p, stage, '拖動兩個向量端點；投影把其中一支向量讀成指定方向的分量');
 }
 
 function drawSpanMode(p: p5, params: Params, handles: DragHandle[]) {
   const compact = p.width < 560;
-  const stage = drawFrame(p, 'VECTOR GEOMETRY', 'linear combination and span');
+  const stage = drawFrame(p, 'VECTOR GEOMETRY', 'basis coordinates and span');
   const plot = plotRect(stage, compact);
   const scale = 4;
 
@@ -621,12 +832,12 @@ function drawSpanMode(p: p5, params: Params, handles: DragHandle[]) {
 
   const det = cross2(params.a, params.b);
   drawPlotLabel(p, plot, Math.abs(det) < 0.08 ? 'span: line' : 'span: plane');
-  drawBottomNote(p, stage, '拖動基底向量 a、b；調整 s、t 觀察線性組合的位置');
+  drawBottomNote(p, stage, '拖動基底向量 a、b；調整 s、t 觀察同一平面中的座標讀數');
 }
 
 function drawNormalMode(p: p5, params: Params, handles: DragHandle[]) {
   const compact = p.width < 560;
-  const stage = drawFrame(p, 'VECTOR GEOMETRY', 'normal vector and line');
+  const stage = drawFrame(p, 'VECTOR GEOMETRY', 'normal direction and line');
   const plot = plotRect(stage, compact);
   const scale = 4;
 
@@ -644,6 +855,10 @@ function drawNormalMode(p: p5, params: Params, handles: DragHandle[]) {
 }
 
 function buildStats(params: Params) {
+  if (params.mode === 'guide') {
+    return getVectorGuideState(params).stats;
+  }
+
   if (params.mode === 'dot') {
     const angle = (angleBetween(params.u, params.v) * 180) / Math.PI;
 
@@ -722,6 +937,7 @@ export default function VectorsExploreRoot() {
     const handles: DragHandle[] = [];
     const current = paramsRef.current;
 
+    if (current.mode === 'guide') drawGuideMode(p, current, handles);
     if (current.mode === 'dot') drawDotMode(p, current, handles);
     if (current.mode === 'span') drawSpanMode(p, current, handles);
     if (current.mode === 'normal') drawNormalMode(p, current, handles);
@@ -849,6 +1065,7 @@ export default function VectorsExploreRoot() {
   }, [setParams]);
 
   const stats = useMemo(() => buildStats(params), [params]);
+  const guideState = useMemo(() => getVectorGuideState(params), [params]);
   const activeMode = MODE_OPTIONS.find((mode) => mode.id === params.mode) ?? MODE_OPTIONS[0];
 
   return (
@@ -894,7 +1111,7 @@ export default function VectorsExploreRoot() {
 
           {params.mode === 'dot' && (
             <div className="vectors-explore__block">
-              <p className="vectors-explore__block-title">內積</p>
+              <p className="vectors-explore__block-title">方向 / 投影</p>
               <label className="vectors-explore__check">
                 <input
                   type="checkbox"
@@ -911,9 +1128,42 @@ export default function VectorsExploreRoot() {
             </div>
           )}
 
+          {params.mode === 'guide' && (
+            <div className="vectors-explore__block">
+              <p className="vectors-explore__block-title">讀圖焦點</p>
+              <div
+                className="vectors-explore__role-list"
+                role="tablist"
+                aria-label="讀圖焦點"
+              >
+                {GUIDE_ROLE_OPTIONS.map((role) => (
+                  <button
+                    key={role.id}
+                    type="button"
+                    className={
+                      params.guideRole === role.id
+                        ? 'vectors-explore__mode vectors-explore__mode--active'
+                        : 'vectors-explore__mode'
+                    }
+                    aria-pressed={params.guideRole === role.id}
+                    onClick={() =>
+                      setParams((prev) => ({
+                        ...prev,
+                        guideRole: role.id,
+                      }))
+                    }
+                  >
+                    {role.label}
+                  </button>
+                ))}
+              </div>
+              <p className="vectors-explore__muted">{guideState.summary}</p>
+            </div>
+          )}
+
           {params.mode === 'span' && (
             <div className="vectors-explore__block">
-              <p className="vectors-explore__block-title">係數</p>
+              <p className="vectors-explore__block-title">座標係數</p>
               {(['s', 't'] as const).map((key) => (
                 <div key={key} className="control-field">
                   <label htmlFor={`vectors-${key}`}>
@@ -944,7 +1194,7 @@ export default function VectorsExploreRoot() {
 
           {params.mode === 'normal' && (
             <div className="vectors-explore__block">
-              <p className="vectors-explore__block-title">直線</p>
+              <p className="vectors-explore__block-title">法向 / 直線</p>
               <div className="control-field">
                 <label htmlFor="vectors-c">
                   常數 c

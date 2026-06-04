@@ -13,9 +13,8 @@ export const CANVAS_HEIGHT_MAX = 520;
 export const CANVAS_VH_CAP_RATIO = 0.42;
 
 function aspectForMode(mode: WaveMode): number {
-  return mode === 'superposition'
-    ? SUPERPOSITION_ASPECT
-    : SUPERPOSITION_ASPECT * BEAT_HEIGHT_SCALE;
+  if (mode === 'beat') return SUPERPOSITION_ASPECT * BEAT_HEIGHT_SCALE;
+  return SUPERPOSITION_ASPECT;
 }
 
 /**

@@ -12,7 +12,66 @@ export type BeatParams = {
   fB: number;
 };
 
-export type WaveMode = 'superposition' | 'beat';
+export type GuideParams = {
+  phase: number;
+};
+
+export type WaveMode = 'guide' | 'superposition' | 'beat';
+
+export type GuideState = {
+  zone: 'inPhase' | 'quadrature' | 'antiPhase' | 'mixed';
+  summary: string;
+  displacementLabel: string;
+  standingLabel: string;
+  fringeLabel: string;
+};
+
+function clampPhase(phase: number): number {
+  if (!Number.isFinite(phase)) return 0;
+  return Math.max(0, Math.min(1, phase));
+}
+
+export function getGuideState(params: GuideParams): GuideState {
+  const phase = clampPhase(params.phase);
+
+  if (phase <= 0.12) {
+    return {
+      zone: 'inPhase',
+      summary: '同相：位移增強、節點基準、亮紋對齊',
+      displacementLabel: '同相增強',
+      standingLabel: '節點在基準位置',
+      fringeLabel: '亮紋對齊中心',
+    };
+  }
+
+  if (Math.abs(phase - 0.5) <= 0.12) {
+    return {
+      zone: 'quadrature',
+      summary: '正交：位移部分抵消、節點與條紋平移',
+      displacementLabel: '部分抵消',
+      standingLabel: '節點平移',
+      fringeLabel: '條紋平移',
+    };
+  }
+
+  if (phase >= 0.88) {
+    return {
+      zone: 'antiPhase',
+      summary: '反相：位移抵消、節點位移半格、暗紋對齊',
+      displacementLabel: '反相抵消',
+      standingLabel: '節點位移半格',
+      fringeLabel: '暗紋對齊中心',
+    };
+  }
+
+  return {
+    zone: 'mixed',
+    summary: '混合相位：增強與抵消在空間中交錯',
+    displacementLabel: '混合增減',
+    standingLabel: '節點連續平移',
+    fringeLabel: '亮暗條紋連續平移',
+  };
+}
 
 export function describeSuperposition(params: SuperpositionParams): string {
   const { fA, fB, pA, pB } = params;

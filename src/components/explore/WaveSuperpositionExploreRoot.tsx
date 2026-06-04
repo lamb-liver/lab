@@ -7,14 +7,22 @@ import {
 import {
   BEAT_PARAM_SCHEMA,
   DEFAULT_BEAT,
+  DEFAULT_GUIDE,
   DEFAULT_SUPERPOSITION,
+  GUIDE_PARAM_SCHEMA,
   SPEED_SCALE,
   SUPERPOSITION_PARAM_SCHEMA,
 } from '../../explore/wave-superposition/constants';
-import type { BeatParams, SuperpositionParams, WaveMode } from '../../explore/wave-superposition/geometry';
+import type {
+  BeatParams,
+  GuideParams,
+  SuperpositionParams,
+  WaveMode,
+} from '../../explore/wave-superposition/geometry';
 import {
   describeBeat,
   describeSuperposition,
+  getGuideState,
 } from '../../explore/wave-superposition/geometry';
 import { renderWaveSuperpositionScene } from '../../systems/rendering/waveSuperpositionRender';
 import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
@@ -35,7 +43,8 @@ function measureWaveCanvas(host: HTMLElement, mode: WaveMode): { width: number; 
 }
 
 export default function WaveSuperpositionExploreRoot() {
-  const [mode, setMode] = useState<WaveMode>('superposition');
+  const [mode, setMode] = useState<WaveMode>('guide');
+  const [guide, setGuide] = useState<GuideParams>({ ...DEFAULT_GUIDE });
   const [superposition, setSuperposition] = useState<SuperpositionParams>({
     ...DEFAULT_SUPERPOSITION,
   });
@@ -45,6 +54,7 @@ export default function WaveSuperpositionExploreRoot() {
   const snapRef = useRef({
     mode,
     time: 0,
+    guide,
     superposition,
     beat,
   });
@@ -54,15 +64,18 @@ export default function WaveSuperpositionExploreRoot() {
   }, [mode]);
 
   useEffect(() => {
-    snapRef.current = { ...snapRef.current, mode, superposition, beat };
-  }, [mode, superposition, beat]);
+    snapRef.current = { ...snapRef.current, mode, guide, superposition, beat };
+  }, [mode, guide, superposition, beat]);
+
+  const guideState = useMemo(() => getGuideState(guide), [guide]);
 
   const infoText = useMemo(
-    () =>
-      mode === 'superposition'
-        ? describeSuperposition(superposition)
-        : describeBeat(beat),
-    [mode, superposition, beat],
+    () => {
+      if (mode === 'guide') return guideState.summary;
+      if (mode === 'superposition') return describeSuperposition(superposition);
+      return describeBeat(beat);
+    },
+    [beat, guideState.summary, mode, superposition],
   );
 
   const draw = useCallback((p: p5) => {
@@ -85,11 +98,12 @@ export default function WaveSuperpositionExploreRoot() {
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureRect);
 
-  const toggleMode = () => {
-    setMode((m) => (m === 'superposition' ? 'beat' : 'superposition'));
-  };
-
   const superpositionGroups = ['波 A', '波 B'] as const;
+  const modeOptions: Array<{ key: WaveMode; label: string }> = [
+    { key: 'guide', label: '導覽' },
+    { key: 'superposition', label: '疊加' },
+    { key: 'beat', label: '拍頻' },
+  ];
 
   return (
     <div className="wave-explore">
@@ -105,20 +119,65 @@ export default function WaveSuperpositionExploreRoot() {
         </div>
 
         <aside className="wave-explore__sidebar">
-          <button
-            type="button"
-            className="wave-explore__mode-btn"
-            onClick={toggleMode}
-            aria-pressed={mode === 'beat'}
-          >
-            {mode === 'superposition' ? '切換：拍頻模式' : '切換：疊加模式'}
-          </button>
+          <div className="wave-explore__mode-tabs" aria-label="模式">
+            {modeOptions.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className="wave-explore__mode-btn"
+                data-active={mode === option.key}
+                onClick={() => setMode(option.key)}
+                aria-pressed={mode === option.key}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
 
           <p className="wave-explore__state" aria-live="polite" role="status">
             {infoText}
           </p>
 
-          {mode === 'superposition' ? (
+          {mode === 'guide' ? (
+            <div className="wave-explore__control-block">
+              <p className="wave-explore__group-label">相位導覽</p>
+              {GUIDE_PARAM_SCHEMA.map((schema) => (
+                <div key={schema.key} className="control-field">
+                  <label htmlFor={`guide-${schema.key}`}>
+                    {schema.label}
+                    <span className="wave-explore__val">
+                      {guide[schema.key].toFixed(2)}
+                    </span>
+                  </label>
+                  <div className="range-wrap">
+                    <input
+                      id={`guide-${schema.key}`}
+                      type="range"
+                      className="range"
+                      min={schema.min}
+                      max={schema.max}
+                      step={schema.step}
+                      value={guide[schema.key]}
+                      onInput={(e) =>
+                        setGuide((prev) => ({
+                          ...prev,
+                          [schema.key]: Number((e.target as HTMLInputElement).value),
+                        }))
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
+              <div className="wave-explore__guide-labels">
+                <p>{guideState.displacementLabel}</p>
+                <p>{guideState.standingLabel}</p>
+                <p>{guideState.fringeLabel}</p>
+              </div>
+              <p className="wave-explore__note">
+                克拉尼圖形延伸的是節線概念；其形狀由振動板本徵模態決定。
+              </p>
+            </div>
+          ) : mode === 'superposition' ? (
             superpositionGroups.map((group) => (
               <div key={group} className="wave-explore__control-block">
                 <p className="wave-explore__group-label">{group}</p>
@@ -189,7 +248,9 @@ export default function WaveSuperpositionExploreRoot() {
           )}
 
           <p className="wave-explore__formula">
-            f(x) = A₁sin(ω₁x + φ₁) + A₂sin(ω₂x + φ₂)
+            {mode === 'guide'
+              ? 'Δφ 控制相位偏移；克拉尼圖形由本徵模態決定。'
+              : 'f(x) = A₁sin(ω₁x + φ₁) + A₂sin(ω₂x + φ₂)'}
           </p>
         </aside>
       </div>
