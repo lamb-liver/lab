@@ -5,6 +5,8 @@ import {
   excludeEntryIds,
   getFeaturedInteractive,
   getFeaturedOrLatest,
+  getPublished,
+  getPublishedAsc,
   getPublishedInteractive,
   getStaticPathsFromCollection,
 } from './utils';
@@ -54,6 +56,28 @@ describe('excludeEntryIds', () => {
   it('removes entries whose id is in the exclude set', () => {
     const pool = [entry('a', '2026-01-01'), entry('b', '2026-02-01')];
     expect(excludeEntryIds(pool, new Set(['a'])).map((e) => e.id)).toEqual(['b']);
+  });
+});
+
+describe('published sorting', () => {
+  it('uses id as a stable tie-breaker for same-date newest-first lists', () => {
+    const result = getPublished([
+      entry('z-topic', '2026-01-01'),
+      entry('a-topic', '2026-01-01'),
+      entry('newer', '2026-02-01'),
+    ]);
+
+    expect(result.map((e) => e.id)).toEqual(['newer', 'a-topic', 'z-topic']);
+  });
+
+  it('uses id as a stable tie-breaker for same-date oldest-first lists', () => {
+    const result = getPublishedAsc([
+      entry('z-topic', '2026-01-01'),
+      entry('a-topic', '2026-01-01'),
+      entry('newer', '2026-02-01'),
+    ]);
+
+    expect(result.map((e) => e.id)).toEqual(['a-topic', 'z-topic', 'newer']);
   });
 });
 

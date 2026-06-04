@@ -17,6 +17,7 @@
 | [`art.md`](art.md) | 視覺風格入口 |
 | [`workart.md`](workart.md) | Works 視覺與 build-time SVG 縮圖 |
 | [`exploreart.md`](exploreart.md) | Explore 視覺與靜態 cover PNG |
+| [`exploreplan.md`](exploreplan.md) | Explore 主題導覽規劃與去重規則 |
 | [`p5toreact.md`](p5toreact.md) | p5 → React / CurveModule 整合 |
 | [`reactkey.md`](reactkey.md) | Morph 曲線 lifecycle 契約 |
 | [`textstyle.md`](textstyle.md) | Content 文案結構與語氣 |

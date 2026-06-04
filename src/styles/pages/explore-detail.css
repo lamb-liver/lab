@@ -26,6 +26,60 @@
   margin-top: var(--space-2);
 }
 
+.explore-detail__pager {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+  max-width: 68ch;
+}
+
+.explore-detail__pager-link {
+  min-height: 5.5rem;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+
+.explore-detail__pager-link:hover {
+  border-color: var(--accent-border);
+  color: var(--color-accent);
+}
+
+.explore-detail__pager-link span {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.explore-detail__pager-link strong {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.explore-detail__pager-link--next {
+  text-align: right;
+}
+
+.explore-detail__pager-link--disabled {
+  color: var(--color-text-muted);
+  opacity: 0.45;
+}
+
+.explore-detail__pager-link--disabled:hover {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
 .explore-detail--interactive .fourier-explore,
 .explore-detail--interactive .wave-explore,
 .explore-detail--interactive .conic-dynamic-explore,
@@ -37,4 +91,14 @@
 .explore-detail--interactive .permutations-combinations-explore,
 .explore-detail--interactive .vectors-explore {
   margin-bottom: var(--space-6);
+}
+
+@media (max-width: 1023px) {
+  .explore-detail__pager {
+    grid-template-columns: 1fr;
+  }
+
+  .explore-detail__pager-link--next {
+    text-align: left;
+  }
 }

@@ -18,7 +18,10 @@ type ContentFile = {
 const CONTENT_COLLECTIONS: ContentCollectionName[] = ['works', 'explore'];
 
 const RAW_MATH_DELIMITER = /(^|[^\\])\$[^$\n]+\$/;
-const ESCAPED_MATH_DELIMITER = /\\\(|\\\[/;
+const RAW_DISPLAY_MATH_DELIMITER = /(^|[^\\])\$\$/;
+const ESCAPED_MATH_DELIMITER = /\\[([]/;
+const LATEX_ENVIRONMENT = /\\(?:begin|end)\{/;
+const LATEX_COMMAND = /\\[a-zA-Z]+/;
 
 const INTERACTION_SIGNAL =
   /(滑桿|拖動|調整|切換|模式|顯示|可選|開啟|關閉|控制|輸入|標示|標註|標記|高亮|比較|觀察|選擇|同步|即時|改變|增大|增減|提高|限制|驅動|繪製|疊加|生成|枚舉|累計|記錄|對照|隨時間|沿|連續|動畫|著色|拖|調大|調小|重算|更新|切|加|減|移動|平移|縮放|旋轉|逼近|收斂|面積表|連結|步數|可調|排列|趨近|開門|組合|積分|累積|細節)/;
@@ -51,7 +54,10 @@ export function auditContentFiles(files = readContentFiles()): ContentAuditIssue
     if (
       description &&
       (RAW_MATH_DELIMITER.test(description.value) ||
-        ESCAPED_MATH_DELIMITER.test(description.value))
+        RAW_DISPLAY_MATH_DELIMITER.test(description.value) ||
+        ESCAPED_MATH_DELIMITER.test(description.value) ||
+        LATEX_ENVIRONMENT.test(description.value) ||
+        LATEX_COMMAND.test(description.value))
     ) {
       issues.push({
         file: file.path,

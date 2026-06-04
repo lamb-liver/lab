@@ -13,11 +13,11 @@ export const isPublished = (entry: ContentEntry): boolean => !entry.data.draft;
 
 /** date 新→舊（首頁取最新 N 篇、需「最新在前」時用） */
 export const sortByDateDesc = (a: ContentEntry, b: ContentEntry): number =>
-  b.data.date.getTime() - a.data.date.getTime();
+  b.data.date.getTime() - a.data.date.getTime() || a.id.localeCompare(b.id);
 
 /** date 舊→新（作品集列表：越新越靠後） */
 export const sortByDateAsc = (a: ContentEntry, b: ContentEntry): number =>
-  a.data.date.getTime() - b.data.date.getTime();
+  a.data.date.getTime() - b.data.date.getTime() || a.id.localeCompare(b.id);
 
 export const getPublished = <E extends ContentEntry>(entries: E[]): E[] =>
   entries.filter(isPublished).sort(sortByDateDesc);

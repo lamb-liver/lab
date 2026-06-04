@@ -9,6 +9,8 @@ function readJsonLd(htmlTexts: string[]) {
   return htmlTexts.map((text) => JSON.parse(text)) as Array<Record<string, unknown>>;
 }
 
+const rawMathOrLatex = /(?:\$[^$\n]+\$|\$\$|\\[([]|\\(?:begin|end)\{|\\[a-zA-Z]+)/;
+
 test.describe('SEO metadata and UX shell', () => {
   test('built works collection keeps thumbnails out of inline HTML', () => {
     const htmlPath = resolve(projectRoot, 'dist/works/index.html');
@@ -75,6 +77,48 @@ test.describe('SEO metadata and UX shell', () => {
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
       'content',
       /https:\/\/lab\.lambliver\.dev\/explore\/?$/,
+    );
+  });
+
+  test('about page uses the shared layout SEO metadata', async ({ page }) => {
+    await page.goto('/about');
+
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      /https:\/\/lab\.lambliver\.dev\/about\/?$/,
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      '關於 · 羊·實驗',
+    );
+    await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website');
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+      'content',
+      /https:\/\/lab\.lambliver\.dev\/about\/?$/,
+    );
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      'https://lab.lambliver.dev/og-default.png',
+    );
+    await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
+      'content',
+      '1200',
+    );
+    await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute(
+      'content',
+      '630',
+    );
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+      'content',
+      'summary_large_image',
+    );
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
+      'content',
+      '關於 · 羊·實驗',
+    );
+    await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
+      'content',
+      'https://lab.lambliver.dev/og-default.png',
     );
   });
 
@@ -191,7 +235,15 @@ test.describe('SEO metadata and UX shell', () => {
   test('explore card descriptions do not expose raw math delimiters', async ({ page }) => {
     await page.goto('/explore');
     const descriptions = await page.locator('.card--explore .card__desc').allTextContents();
-    expect(descriptions.join('\n')).not.toMatch(/\$[^$\n]+\$/);
+    expect(descriptions.join('\n')).not.toMatch(rawMathOrLatex);
+    await expect(
+      page.locator('[data-search-slug="exponential-logarithm"] .card__desc'),
+    ).toHaveText('比較指數成長與對數反推的鏡像關係；從倍增、尺度到自然底 e 與換底。');
+    await expect(
+      page.locator('[data-search-slug="permutations-combinations"] .card__desc'),
+    ).toHaveText(
+      '追蹤同一個組合數如何在二項式係數、格點路徑與遞迴依賴中反覆出現；並比較卡特蘭數如何由限制條件篩出子集合。',
+    );
   });
 
   test('works filter reads, writes, and restores the tag query param', async ({ page }) => {
@@ -257,12 +309,15 @@ test.describe('SEO metadata and UX shell', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto('/works');
-    await expect(page.locator('[data-nav-toggle]')).toBeHidden();
-    await expect(page.getByRole('link', { name: '作品集' })).toHaveCount(1);
-    const exploreLink = page.getByRole('link', { name: '主題導覽' });
-    await expect(exploreLink).toHaveCount(1);
-    await expect(exploreLink).toHaveAttribute('href', '/explore');
+    for (const route of ['/', '/works', '/explore']) {
+      await page.goto(route);
+      await expect(page.locator('[data-nav-toggle]')).toBeHidden();
+      await expect(page.locator('.site-nav__link[href="/explore"]')).toHaveText('主題導覽');
+      await expect(page.locator('.site-nav__link[href="/explore"]')).toHaveAttribute(
+        'href',
+        '/explore',
+      );
+    }
   });
 
   test('mobile nav exposes links only after opening the controlled menu', async ({ page }) => {
@@ -315,6 +370,23 @@ test.describe('SEO metadata and UX shell', () => {
 
     await page.goto('/explore/fourier-series');
     await expect(page.locator('.back-link--top')).toHaveText('← 返回主題導覽');
+  });
+
+  test('explore detail pages include same-collection previous and next navigation', async ({
+    page,
+  }) => {
+    await page.goto('/explore/vectors');
+
+    const pager = page.locator('.explore-detail__pager');
+    await expect(pager).toBeVisible();
+    await expect(pager.getByText('上一篇')).toBeVisible();
+    await expect(pager.getByText('下一篇')).toBeVisible();
+    const links = await pager.locator('a').evaluateAll((items) =>
+      items.map((item) => item.getAttribute('href')),
+    );
+    expect(links.length).toBeGreaterThan(0);
+    expect(links.every((href) => href?.startsWith('/explore/'))).toBe(true);
+    expect(links.every((href) => !href?.startsWith('/works/'))).toBe(true);
   });
 
   test('prose css no longer carries MathML-only KaTeX selectors', () => {

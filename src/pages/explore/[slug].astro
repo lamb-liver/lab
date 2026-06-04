@@ -4,7 +4,7 @@ import { withBase } from '../../lib/withBase';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import ExploreInteractiveStage from '../../components/explore/ExploreInteractiveStage';
 import { getCollection, render } from 'astro:content';
-import { getStaticPathsFromCollection } from '../../content/utils';
+import { getPublishedAsc, getStaticPathsFromCollection } from '../../content/utils';
 import { isExploreInteractive } from '../../explore/interactiveRegistry';
 import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
@@ -19,6 +19,10 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const interactive = isExploreInteractive(entry.id);
+const explore = getPublishedAsc(await getCollection('explore'));
+const exploreIndex = explore.findIndex((item) => item.id === entry.id);
+const previousExplore = exploreIndex > 0 ? explore[exploreIndex - 1] : null;
+const nextExplore = exploreIndex >= 0 && exploreIndex < explore.length - 1 ? explore[exploreIndex + 1] : null;
 const ogImage = entry.data.coverImage;
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL(withBase('/'), site).href;
@@ -88,6 +92,43 @@ const structuredData = [
     <article class="prose">
       <Content />
     </article>
+
+    <nav class="explore-detail__pager" aria-label="主題導覽">
+      {
+        previousExplore ? (
+          <a href={withBase(`/explore/${previousExplore.id}`)} class="explore-detail__pager-link">
+            <span>上一篇</span>
+            <strong>{previousExplore.data.title}</strong>
+          </a>
+        ) : (
+          <span
+            class="explore-detail__pager-link explore-detail__pager-link--disabled"
+            aria-disabled="true"
+            aria-label="沒有上一篇"
+          >
+            <span>上一篇</span>
+            <strong>無</strong>
+          </span>
+        )
+      }
+      {
+        nextExplore ? (
+          <a href={withBase(`/explore/${nextExplore.id}`)} class="explore-detail__pager-link explore-detail__pager-link--next">
+            <span>下一篇</span>
+            <strong>{nextExplore.data.title}</strong>
+          </a>
+        ) : (
+          <span
+            class="explore-detail__pager-link explore-detail__pager-link--disabled explore-detail__pager-link--next"
+            aria-disabled="true"
+            aria-label="沒有下一篇"
+          >
+            <span>下一篇</span>
+            <strong>無</strong>
+          </span>
+        )
+      }
+    </nav>
 
     <a href={withBase('/explore')} class="back-link">← 返回主題導覽</a>
   </div>

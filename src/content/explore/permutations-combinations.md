@@ -1,6 +1,6 @@
 ---
 title: 排列組合
-description: 追蹤同一個 C(n,k) 如何在二項式係數、格點路徑與遞迴依賴中反覆出現；並比較卡特蘭數如何由限制條件篩出子集合。
+description: 追蹤同一個組合數如何在二項式係數、格點路徑與遞迴依賴中反覆出現；並比較卡特蘭數如何由限制條件篩出子集合。
 category: 代數
 date: 2026-07-05
 coverImage: /images/explore-covers/permutations-combinations.png

@@ -35,6 +35,7 @@ Cursor rules are not canonical runtime specifications.
 | Visual language entrypoint | `art.md` |
 | Works visual language | `workart.md` |
 | Explore visual language | `exploreart.md` |
+| Explore planning and anti-duplication | `exploreplan.md` |
 | p5 to React integration and rendering pipeline | `p5toreact.md` |
 | Morph animation lifecycle | `reactkey.md` |
 | Content writing style | `textstyle.md` |
