@@ -11,6 +11,7 @@ import {
   getPublishedInteractive,
 } from '../content/utils';
 import { workInteractiveSlugs } from '../works/interactiveRegistry';
+import { siteSeo } from '../lib/seoCopy';
 import { withBase } from '../lib/withBase';
 import '../styles/pages/home.css';
 
@@ -34,10 +35,7 @@ const latestExplore = excludeEntryIds(
 ).slice(0, 3);
 ---
 
-<BaseLayout
-  title="羊·實驗"
-  description="羊·實驗：以互動視覺化與 generative art 呈現數學公式、曲線與演算法。作品集深度展示單一主題，視覺化串連跨概念實驗。"
->
+<BaseLayout title={siteSeo.home.title} description={siteSeo.home.description}>
   <section class="hero-section">
     <HeroCanvasShell />
     <div class="hero-content">

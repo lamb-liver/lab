@@ -5,6 +5,7 @@ import '../styles/scrollbar.css';
 import '../styles/layout.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT, isDefaultOgImage } from '../lib/defaultOg';
 import { pagePathForSite, withBase } from '../lib/withBase';
 
 interface Props {
@@ -41,10 +42,13 @@ const site = Astro.site ?? Astro.url;
 const canonicalURL = canonical ?? new URL(pagePathForSite(Astro.url.pathname), site).href;
 const resolvedOgTitle = ogTitle ?? fullTitle;
 const resolvedOgDescription = ogDescription ?? description;
-const ogImageURL = new URL(ogImage ? withBase(ogImage) : withBase('/og-default.png'), site).href;
-const resolvedOgImageAlt = ogImageAlt ?? resolvedOgTitle;
+const usesDefaultOgImage = isDefaultOgImage(ogImage);
+const resolvedOgImagePath = usesDefaultOgImage ? DEFAULT_OG_IMAGE : ogImage!;
+const ogImageURL = new URL(withBase(resolvedOgImagePath), site).href;
+const resolvedOgImageAlt =
+  ogImageAlt ?? (usesDefaultOgImage ? DEFAULT_OG_IMAGE_ALT : resolvedOgTitle);
 const inferredOgImageSize =
-  !ogImage || ogImage === '/og-default.png' || ogImage.startsWith('/og/works/')
+  usesDefaultOgImage || resolvedOgImagePath.startsWith('/og/works/')
     ? { width: ogImageWidth ?? 1200, height: ogImageHeight ?? 630 }
     : ogImageWidth && ogImageHeight
       ? { width: ogImageWidth, height: ogImageHeight }

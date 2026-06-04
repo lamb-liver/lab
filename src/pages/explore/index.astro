@@ -6,6 +6,7 @@ import ListSearchFilterScript from '../../components/ListSearchFilterScript.astr
 import { getCollection } from 'astro:content';
 import { collectExploreCategories, getPublishedAsc } from '../../content/utils';
 import { serializeSearchIndex } from '../../lib/listFilter';
+import { siteSeo } from '../../lib/seoCopy';
 import '../../styles/components/list-search.css';
 
 const explore = getPublishedAsc(await getCollection('explore'));
@@ -17,12 +18,7 @@ const searchIndex = explore.map((entry) => ({
 }));
 ---
 
-<BaseLayout
-  title="數學主題導覽"
-  description="從幾何、代數、分析到機率統計，透過互動視覺化理解每個數學主題的核心圖像。"
-  ogImage="/og-default.png"
-  ogType="website"
->
+<BaseLayout title={siteSeo.explore.title} description={siteSeo.explore.description} ogType="website">
   <div
     class="container"
     data-list-filter

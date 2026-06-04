@@ -1,16 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteSeo } from '../lib/seoCopy';
 import '../styles/pages/about.css';
 
 const contactEmail = 'lambliver.dev@gmail.com';
 ---
 
-<BaseLayout
-  title="關於"
-  description="關於羊·實驗與作者背景，記錄以程式呈現數學形狀、演算法與互動作品的原因。"
-  ogImage="/og-default.png"
-  ogType="website"
->
+<BaseLayout title={siteSeo.about.title} description={siteSeo.about.description} ogType="website">
   <div class="container">
     <div class="about-page">
       <header class="page-header">

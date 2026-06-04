@@ -5,8 +5,11 @@ import { fileURLToPath } from 'node:url';
 import { descriptionHasRawMath } from '../src/content/descriptionMath';
 import { readExploreEntries } from '../src/content/exploreEntries';
 import { getCollectionPagerNeighbors } from '../src/content/utils';
+import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from '../src/lib/defaultOg';
+import { siteSeo } from '../src/lib/seoCopy';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const defaultOgImageUrl = `https://lab.lambliver.dev${DEFAULT_OG_IMAGE}`;
 
 function readJsonLd(htmlTexts: string[]) {
   return htmlTexts.map((text) => JSON.parse(text)) as Array<Record<string, unknown>>;
@@ -78,12 +81,40 @@ test.describe('SEO metadata and UX shell', () => {
       'content',
       /https:\/\/lab\.lambliver\.dev\/works\/?$/,
     );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      `${siteSeo.works.title} · 羊·實驗`,
+    );
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      'content',
+      siteSeo.works.description,
+    );
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      defaultOgImageUrl,
+    );
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+      'content',
+      DEFAULT_OG_IMAGE_ALT,
+    );
 
     await page.goto('/explore');
     await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website');
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
       'content',
       /https:\/\/lab\.lambliver\.dev\/explore\/?$/,
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      `${siteSeo.explore.title} · 羊·實驗`,
+    );
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      'content',
+      siteSeo.explore.description,
+    );
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      defaultOgImageUrl,
     );
   });
 
@@ -105,7 +136,15 @@ test.describe('SEO metadata and UX shell', () => {
     );
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       'content',
-      'https://lab.lambliver.dev/og-default.png',
+      defaultOgImageUrl,
+    );
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+      'content',
+      DEFAULT_OG_IMAGE_ALT,
+    );
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      'content',
+      siteSeo.about.description,
     );
     await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
       'content',
@@ -125,7 +164,29 @@ test.describe('SEO metadata and UX shell', () => {
     );
     await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
       'content',
-      'https://lab.lambliver.dev/og-default.png',
+      defaultOgImageUrl,
+    );
+  });
+
+  test('home page uses default spirograph OG and aligned metadata', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      'content',
+      siteSeo.home.description,
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', siteSeo.home.title);
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      'content',
+      siteSeo.home.description,
+    );
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      defaultOgImageUrl,
+    );
+    await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+      'content',
+      DEFAULT_OG_IMAGE_ALT,
     );
   });
 
