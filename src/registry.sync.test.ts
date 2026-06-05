@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { exploreStageRootSlugs } from './components/explore/ExploreInteractiveStage';
 import { workStageRootSlugs } from './components/works/WorkInteractiveStage';
 import { exploreInteractiveSlugs } from './explore/interactiveRegistry';
 import { workCurveBySlug } from './curve/registry';
@@ -24,6 +25,8 @@ describe('registry ↔ content 同步', () => {
 
   it('exploreInteractiveSlugs 皆存在於 content/explore', () => {
     const contentSlugs = readContentSlugs('explore');
+    expect(exploreStageRootSlugs).toEqual([...exploreInteractiveSlugs].sort());
+
     for (const slug of exploreInteractiveSlugs) {
       expect(contentSlugs, `interactive slug missing content: ${slug}`).toContain(slug);
     }

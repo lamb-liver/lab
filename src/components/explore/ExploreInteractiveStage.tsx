@@ -31,6 +31,8 @@ const rootBySlug = {
   vectors: VectorsExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
+export const exploreStageRootSlugs = Object.keys(rootBySlug).sort() as ExploreInteractiveSlug[];
+
 type Props = {
   slug: string;
 };

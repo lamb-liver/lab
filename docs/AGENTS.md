@@ -49,6 +49,11 @@ Before modifying rendering systems:
 - Check thumbnail generation assumptions when `CurveModule.sample()` changes.
 - Check animation lifecycle stability when refs, `draw`, or p5 hooks change.
 - Run focused tests first, then `npm run build` for cross-file integration changes.
+For frontend changes, use `frontend-validation.md` as the default gate:
+
+- Run `npm run validate:frontend -- --url <local-route>` for build, test, and DOM verification.
+- Add `--screenshot` only when visual evidence is needed.
+- If DOM is verified by a browser tool instead of the script, report the route and checked elements/interactions.
 
 ## Boundaries
 

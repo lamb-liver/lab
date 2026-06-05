@@ -8,7 +8,8 @@
 |------|------|
 | [`AGENTS.md`](AGENTS.md) | AI 入口：權威順序、架構入口、編輯原則 |
 | [`architecture.md`](architecture.md) | 系統地圖：data flow、ownership、registry |
-| [`editing-rules.md`](editing-rules.md) | 編輯與驗收規則 |
+| [editing-rules.md](editing-rules.md) | 編輯與驗收規則 |
+| [`frontend-validation.md`](frontend-validation.md) | 前端驗證流程：build / test / DOM，僅在需要視覺證據時 screenshot |
 
 ## 視覺與互動規格
 

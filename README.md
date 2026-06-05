@@ -29,6 +29,7 @@
 | 項目 | 說明 |
 |------|------|
 | 建置產物 | `npm run build` → `dist/`（`index.html` 在根目錄） |
+| 前端驗證 | `npm run validate:frontend -- --url http://127.0.0.1:4321/`；screenshot 只在需要視覺證據時加 `--screenshot` |
 | 自動部署 | `main` push → [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) → GitHub Pages（上傳整個 `dist`） |
 | 自訂網域 | `public/CNAME` → `lab.lambliver.dev`；並在 repo **Settings → Pages → Custom domain** 填同一網域 |
 | DNS | 將 `lab.lambliver.dev` CNAME 指向 GitHub Pages（或依 Pages 提示設定 A 記錄） |
