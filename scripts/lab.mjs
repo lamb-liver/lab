@@ -28,6 +28,12 @@ function usage() {
     '  test:content-audit [vitest args...]',
     '  test:works-smoke [playwright args...]',
     '  test:seo-ux [playwright args...]',
+    '  smoke:work <slug> [playwright args...]',
+    '  smoke:explore <slug> [playwright args...]',
+    '  covers:explore',
+    '  audit:explore-covers',
+    '  audit:integration',
+    '  validate:changed [--dry-run] [--base ref]',
     '  scaffold:explore [args...]',
     '  scaffold:work [args...]',
     '  vite:deps:clean',
@@ -312,12 +318,30 @@ function main() {
   if (command === 'test:seo-ux') {
     return runBin('playwright', ['test', 'tests/seo-ux.spec.ts', ...args]);
   }
+  if (command === 'smoke:work') {
+    return runNodeScript(resolve(repoRoot, 'scripts/run-smoke.mjs'), ['work', ...args]);
+  }
+  if (command === 'smoke:explore') {
+    return runNodeScript(resolve(repoRoot, 'scripts/run-smoke.mjs'), ['explore', ...args]);
+  }
 
   if (command === 'scaffold:explore') {
     return runNodeScript(resolve(repoRoot, 'scripts/scaffold-explore-integration.mjs'), args);
   }
   if (command === 'scaffold:work') {
     return runNodeScript(resolve(repoRoot, 'scripts/scaffold-work-integration.mjs'), args);
+  }
+  if (command === 'covers:explore') {
+    return runNodeScript(resolve(repoRoot, 'scripts/explore-covers/generate.mjs'), args);
+  }
+  if (command === 'audit:explore-covers') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-explore-covers.mjs'), args);
+  }
+  if (command === 'audit:integration') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-integration.mjs'), args);
+  }
+  if (command === 'validate:changed') {
+    return runNodeScript(resolve(repoRoot, 'scripts/validate-changed.mjs'), args);
   }
   if (command === 'vite:deps:clean') return cleanViteDeps();
 
