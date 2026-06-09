@@ -165,7 +165,7 @@ export default function FunctionEquationsExploreRoot() {
             ref={canvasHostRef}
             className="fn-eq-explore__canvas"
             role="img"
-            aria-label="函數與方程主題導覽互動視覺化"
+            aria-label="函數圖形與方程解集主題導覽互動視覺化"
           />
         </div>
 

@@ -34,8 +34,8 @@ describe('content audit', () => {
 
   it('covers every content file in works and explore', () => {
     const files = readContentFiles();
-    expect(files).toHaveLength(60);
-    expect(files.filter((file) => file.collection === 'works')).toHaveLength(47);
-    expect(files.filter((file) => file.collection === 'explore')).toHaveLength(13);
+    expect(files).toHaveLength(92);
+    expect(files.filter((file) => file.collection === 'works')).toHaveLength(72);
+    expect(files.filter((file) => file.collection === 'explore')).toHaveLength(20);
   });
 });

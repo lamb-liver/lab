@@ -144,7 +144,7 @@ export default function TrigonometryFundamentalsExploreRoot() {
             ref={canvasHostRef}
             className="trig-explore__canvas"
             role="img"
-            aria-label="三角函數主題導覽互動視覺化"
+            aria-label="三角函數的幾何定義與恆等式主題導覽互動視覺化"
           />
         </div>
 

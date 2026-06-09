@@ -1,5 +1,5 @@
 ---
-title: 函數與方程
+title: 函數圖形與方程解集
 description: 同一張函數圖形既能用變換改形，也能用與 x 軸的相對位置讀出方程解與不等式解集。
 category: 代數
 date: 2026-09-01
@@ -48,6 +48,8 @@ $$
 
 ## 相關作品
 
+- [有理函數與漸近線](/explore/rational-functions-asymptotes)
+- [原函數與導函數圖形對照](/works/function-derivative-graph)
 - [函數圖形變換](/works/function-graph-transform)
 - [二次函數配方視覺化](/works/quadratic-completing-square)
 - [多項式零點與重根](/works/polynomial-roots-multiplicity)

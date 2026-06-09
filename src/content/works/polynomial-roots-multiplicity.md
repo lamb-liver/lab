@@ -35,7 +35,7 @@ $$
 
 ## 相關作品
 
-- [函數與方程](/explore/function-equations)
+- [函數圖形與方程解集](/explore/function-equations)
 - [二次函數配方視覺化](/works/quadratic-completing-square)
 - [函數圖形變換](/works/function-graph-transform)
 

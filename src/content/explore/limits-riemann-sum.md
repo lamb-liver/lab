@@ -36,6 +36,7 @@ $$
 
 ## 相關作品
 
+- [原函數與導函數圖形對照](/works/function-derivative-graph)
 - [黎曼和動態圖](/works/riemann-sum)
 - [切線逼近動畫](/works/tangent-approximation)
 - [等角螺線](/works/equiangular-spiral)

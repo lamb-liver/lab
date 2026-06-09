@@ -38,7 +38,7 @@ $$
 
 - [正弦定理與餘弦定理](/works/law-of-sines-cosines)
 - [三角恆等式與角度合成](/works/trig-angle-identities)
-- [三角函數](/explore/trigonometry-fundamentals)
+- [三角函數的幾何定義與恆等式](/explore/trigonometry-fundamentals)
 
 ## 延伸閱讀
 

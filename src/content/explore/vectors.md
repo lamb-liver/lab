@@ -1,6 +1,6 @@
 ---
-title: 向量
-description: 把向量視為可在位置、方向與座標間切換的讀圖工具；用同一張圖串起投影、內積、基底與法向量。
+title: 平面向量
+description: 把平面向量視為可在位置、方向與座標間切換的讀圖工具；用同一張圖串起投影、內積、基底與法向量。
 category: 幾何
 date: 2026-07-08
 coverImage: /images/explore-covers/vectors.png

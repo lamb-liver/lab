@@ -34,3 +34,4 @@ pnpm-debug.log*
 # local-only workspace files
 .vscode/
 *.local
+content-update-inventory.local.md

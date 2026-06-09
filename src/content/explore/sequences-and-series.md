@@ -40,6 +40,7 @@ $$
 
 ## 相關作品
 
+- [泰勒多項式逼近](/works/taylor-polynomial-approximation)
 - [等差等比數列的幾何視覺](/works/arithmetic-geometric-sequences)
 - [費波那契螺線](/works/fibonacci-spiral)
 - [謝爾賓斯基三角形](/works/sierpinski-triangle)

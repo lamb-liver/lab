@@ -41,7 +41,7 @@ $$
 
 - [單位圓與三角函數定義](/works/unit-circle-trig-definition)
 - [三角恆等式與角度合成](/works/trig-angle-identities)
-- [三角函數](/explore/trigonometry-fundamentals)
+- [三角函數的幾何定義與恆等式](/explore/trigonometry-fundamentals)
 
 ## 延伸閱讀
 

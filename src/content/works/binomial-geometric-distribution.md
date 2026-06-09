@@ -1,0 +1,58 @@
+---
+title: 二項分布與幾何分布
+description: 切換二項 B(n,p) 與幾何 Geo(p)，調整 p 觀察長條形狀與 E(X)、Var(X) 的公式差異。
+tags:
+  - 機率統計
+date: 2026-10-09
+featured: false
+draft: true
+---
+
+## 參數方程
+
+二項分布 $\mathrm{B}(n,p)$：$n$ 次獨立試驗、每次成功機率 $p$，成功次數 $X\in\{0,1,\ldots,n\}$
+
+$$
+P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}
+$$
+
+$$
+E(X)=np,\quad \mathrm{Var}(X)=np(1-p)
+$$
+
+幾何分布 $\mathrm{Geo}(p)$：每次試驗成功機率 $p$，$X$ 為第一次成功前的失敗次數，$X\in\{0,1,2,\ldots\}$
+
+$$
+P(X=k)=(1-p)^k p
+$$
+
+$$
+E(X)=\frac{1-p}{p},\quad \mathrm{Var}(X)=\frac{1-p}{p^2}
+$$
+
+本作品採用「第一次成功前的失敗次數」版本，因此幾何分布的取值從 $0$ 開始。若以「第一次成功所需試驗次數」定義，取值會改為 $\{1,2,\ldots\}$，且 $E(X)=1/p$。
+
+## 互動說明
+
+- **分布切換**：在二項與幾何之間切換，長條圖與公式區同步更新
+- **參數 p**：拖動成功機率 $p$，觀察長條形狀與 $E(X)$、$\mathrm{Var}(X)$ 變化
+- **試驗次數 n**：二項模式下調整 $n$，觀察長條個數與峰值位置
+- **重心與展寬**：疊加 $E(X)$ 標記與 $\pm\sigma$ 區間，對照兩種分布的集中程度
+
+## 觀察重點
+
+- 二項分布有上界 $n$，長條只在 $0$ 到 $n$；幾何分布尾端可延伸到很大取值，右尾較長。
+- $p$ 增大時，兩者的 $E(X)$ 都趨向較小值，但變化速率不同：二項的 $E=np$ 線性於 $p$，幾何的 $E=(1-p)/p$ 非線性。
+- 兩者共用「每次試驗成功機率 $p$」的假設，但一個計數固定次數內的成功數，一個計數等到第一次成功前的等待次數。
+
+## 相關作品
+
+- [離散分布與期望值](/works/discrete-pmf-expectation)
+- [變異數與分散程度](/works/variance-spread-visualization)
+- [二項分佈到常態分佈](/works/binomial-to-normal)
+- [離散隨機變數與分布](/explore/discrete-random-variables)
+
+## 延伸閱讀
+
+- [二項分布（維基百科）](https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E9%A0%85%E5%88%86%E4%BD%88)
+- [幾何分布（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%B9%BE%E4%BD%95%E5%88%86%E4%BD%88)

@@ -35,6 +35,7 @@ $$
 
 ## 相關作品
 
+- [特徵向量與伸縮比](/works/eigenvector-geometry)
 - [線性變換網格](/works/linear-transform-grid)
 - [仿射變換圖樣](/works/affine-transform-pattern)
 - [旋轉縮放疊加](/works/rotation-scale-composition)

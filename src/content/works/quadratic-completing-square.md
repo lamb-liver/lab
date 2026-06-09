@@ -46,7 +46,7 @@ $$
 
 ## 相關作品
 
-- [函數與方程](/explore/function-equations)
+- [函數圖形與方程解集](/explore/function-equations)
 - [函數圖形變換](/works/function-graph-transform)
 - [多項式零點與重根](/works/polynomial-roots-multiplicity)
 - [切線逼近動畫](/works/tangent-approximation)

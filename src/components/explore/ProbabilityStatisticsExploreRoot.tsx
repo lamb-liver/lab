@@ -1112,7 +1112,7 @@ export default function ProbabilityStatisticsExploreRoot() {
             ref={canvasHostRef}
             className="probability-statistics-explore__canvas"
             role="img"
-            aria-label="機率與統計互動視覺化"
+            aria-label="古典機率與條件機率互動視覺化"
           />
         </div>
 

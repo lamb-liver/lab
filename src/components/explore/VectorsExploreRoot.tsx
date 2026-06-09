@@ -1078,7 +1078,7 @@ export default function VectorsExploreRoot() {
             ref={canvasHostRef}
             className="vectors-explore__canvas"
             role="img"
-            aria-label="向量幾何互動圖"
+            aria-label="平面向量幾何互動圖"
           />
         </div>
 
