@@ -89,14 +89,13 @@
     const query = searchInput.value;
     const hasSearchQuery = query.trim().length > 0;
     const slugs = hasSearchQuery ? searchSlugs(searchIndexId, query) : null;
-    const visibleCount = applyListGridFilter(
+    const { visibleCount, totalCount } = applyListGridFilter(
       grid as HTMLElement,
       filterValue,
       slugs,
       hasSearchQuery,
       emptyEl,
     );
-    const totalCount = grid.querySelectorAll('[data-filter-item]').length;
     updateListFilterCount(root, visibleCount, totalCount);
   }
 
@@ -120,14 +119,13 @@
       const query = searchInput.value;
       const hasSearchQuery = query.trim().length > 0;
       const slugs = hasSearchQuery ? searchSlugs(searchIndexId, query) : null;
-      const visibleCount = applyListGridFilter(
+      const { visibleCount, totalCount } = applyListGridFilter(
         grid as HTMLElement,
         readActiveFilter(),
         slugs,
         hasSearchQuery,
         emptyEl,
       );
-      const totalCount = grid.querySelectorAll('[data-filter-item]').length;
       updateListFilterCount(root, visibleCount, totalCount);
     };
 

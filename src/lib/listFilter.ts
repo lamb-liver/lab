@@ -48,10 +48,12 @@ export function applyListGridFilter(
   searchSlugs: Set<string> | null,
   hasSearchQuery: boolean,
   emptyEl: HTMLElement | null,
-): number {
+): { visibleCount: number; totalCount: number } {
+  const items = grid.querySelectorAll('[data-filter-item]');
+  const totalCount = items.length;
   let visibleCount = 0;
 
-  grid.querySelectorAll('[data-filter-item]').forEach((card) => {
+  items.forEach((card) => {
     const el = card as HTMLElement;
     const slug = el.getAttribute('data-search-slug') ?? '';
 
@@ -70,7 +72,7 @@ export function applyListGridFilter(
     emptyEl.hidden = visibleCount > 0;
   }
 
-  return visibleCount;
+  return { visibleCount, totalCount };
 }
 
 export function updateListFilterCount(

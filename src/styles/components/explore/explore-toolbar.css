@@ -1,6 +1,12 @@
 /**
  * Explore 共用 toolbar / mode 控件 token（D8）。
  *
+ * ## 適用範圍（重要）
+ *
+ * 本檔是 **toolbar 型** Explore（canvas 下工具列、如 Fourier）的共用樣式，
+ * **不是**所有 Explore 互動頁的唯一標準。新 Explore 優先 stage + sidebar
+ *（visual 左 / 控件右）——見 docs/exploreart.md §3.1、§3.3。
+ *
  * ## 命名約定（刻意設計，非 accidental globals）
  *
  * 以下 attribute selector 會自動套用到符合慣例的 class，**零配置**：
@@ -37,9 +43,7 @@
 }
 
 [class*='-explore__mode-btn'],
-[class*='-explore__mode']:where(button),
-.probability-statistics-explore__mode,
-.exponential-logarithm-explore__mode {
+[class*='-explore__mode']:where(button) {
   font-family: var(--font-mono);
   font-size: var(--explore-mode-font-size);
   color: var(--color-text);

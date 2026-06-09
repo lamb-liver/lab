@@ -44,14 +44,19 @@ Explore 封面是主題概念入口，不是完整 UI 截圖，也不是單一 W
 ### 3.1 通用規則
 
 - 控件內嵌於各 `*ExploreRoot`，非 Works 頁的 `createPortal`。
+- **Layout 優先順序**（新主題預設）：
+  ```text
+  stage + sidebar（visual 左 / 控件右；手機 visual 上 / sidebar 下）
+  ```
+  例如 Wave Superposition。僅在概念適合時才用 **toolbar 型**（canvas 下 `.…-explore__toolbar`，如 Fourier）。
 - Reveal 用 `deltaTime`；避免固定每幀增量。
 - Mode / N 等離散參數應走 path cache；draw 只做 slice + guide。
 - Canvas 內避免長文、完整公式清單、debug panel。
 - 未列出專屬 layout 的 Explore root，先遵守本節通用規則；不得自行引入 Works portal 或重做控制面板架構。
-- **共用控件 CSS**（詳情頁由 `[slug].astro` 引入）：
-  - `src/styles/components/explore/explore-toolbar.css` — toolbar 間距、mode 字級/邊框、`--explore-accent`
-  - `src/styles/components/explore-touch.css` — mode 最小觸控區
-- 新增 `*ExploreRoot` 的 toolbar / mode 按鈕時，先對齊 §3.1.1 命名約定，再寫主題專屬 layout。站點殼層規格見 [`site-ux.md`](site-ux.md) §5。
+- **共用控件 CSS**（詳情頁由 `[slug].astro` 引入；**toolbar 型專用**，非所有 Explore 的 layout 標準）：
+  - `src/styles/components/explore/explore-toolbar.css` — toolbar 型：間距、mode 字級/邊框、`--explore-accent`
+  - `src/styles/components/explore-touch.css` — mode 按鈕最小觸控區（toolbar 與 sidebar 內 button 皆可共用）
+- **toolbar 型** `*ExploreRoot` 的 mode / toolbar 按鈕對齊 §3.1.1；**sidebar 型** 寫主題 layout CSS，勿為套用 toolbar 而改 DOM 結構。站點殼層見 [`site-ux.md`](site-ux.md) §5。
 
 #### 3.1.1 Toolbar / mode 命名約定（`explore-toolbar.css`）
 

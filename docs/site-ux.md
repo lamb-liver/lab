@@ -101,6 +101,9 @@ Explore 詳情維持 **標題 → 互動 → prose**；頂部同樣有 `.detail-
 
 ## 5. Explore 互動控件 CSS
 
+> **適用範圍**：`explore-toolbar.css` / `explore-touch.css` 是 **toolbar 型** Explore（canvas 下工具列、或 mode 按鈕列）的共用 token，**不是**所有 Explore 詳情頁的唯一標準。  
+> **新 Explore 優先**採 **stage + sidebar**（visual 左、控件右；手機 canvas 上、sidebar 下）——見 [`exploreart.md`](exploreart.md) §3.1、§3.3 Wave 等。僅在 layout 確實為 toolbar 時才對齊 §5.1 命名約定；sidebar 型主題寫主題 CSS，勿強改 toolbar 佈局。
+
 Explore 詳情頁引入（`explore/[slug].astro`）：
 
 | 檔案 | 職責 |
@@ -123,7 +126,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 檔案頂部 comment 與 [`exploreart.md`](exploreart.md) §3.1 為 canonical 說明；修改 selector 前必讀。
 
-各 `*ExploreRoot` **保留** layout 專屬規則（如 wave sidebar grid）；新增 mode/toolbar 時先對齊命名約定，再寫主題專屬 layout。
+各 `*ExploreRoot` **保留** layout 專屬規則（如 wave sidebar grid）。**先選 layout 型態**（stage/sidebar vs toolbar），再決定是否沿用本節 token；sidebar 內的 mode 按鈕仍可共用 `explore-touch.css` 觸控區，但不代表要把控件移到 canvas 下方。
 
 ---
 
@@ -170,7 +173,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 | 項目 | 行為 |
 |------|------|
-| `prefers-reduced-motion: reduce` | 關閉 `.page-enter` 淡入、`.interactive-loading` 動畫；Hero 不掛 p5（`HeroCanvas.tsx`） |
+| `prefers-reduced-motion: reduce` | 關閉 `.page-enter` 淡入、`.interactive-loading` 動畫；Hero 不掛 p5（`HeroCanvas.tsx`）。**Phase 4**：補靜態 Hero 佔位（同尺寸、不動畫、不掛 p5），避免首頁 Hero 區空白 |
 | `:focus-visible` | 全站 accent outline（`base.css`） |
 | 手機選單 | `aria-expanded`、Escape 關閉、點外關閉（`Nav.astro`） |
 
@@ -178,6 +181,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 ## 9. 刻意延後（非現行規格）
 
+- Hero reduced motion **靜態佔位**（金色幾何 SVG/CSS，維持 hero 高度）
 - Skip link / 可見 TOC
 - 上下篇依 tag 相鄰
 - Explore vectors 等 **bottom sheet** 重構
