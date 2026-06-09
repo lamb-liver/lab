@@ -7,6 +7,7 @@ import ConicDynamicGeometryExploreRoot from './ConicDynamicGeometryExploreRoot';
 import ComplexEulerFormulaExploreRoot from './ComplexEulerFormulaExploreRoot';
 import DifferentialEquationsGeometryExploreRoot from './DifferentialEquationsGeometryExploreRoot';
 import ExponentialLogarithmExploreRoot from './ExponentialLogarithmExploreRoot';
+import FunctionEquationsExploreRoot from './FunctionEquationsExploreRoot';
 import LimitsRiemannSumExploreRoot from './LimitsRiemannSumExploreRoot';
 import MatrixLinearTransformExploreRoot from './MatrixLinearTransformExploreRoot';
 import FourierSeriesExploreRoot from './FourierSeriesExploreRoot';
@@ -31,6 +32,7 @@ const rootBySlug = {
   'exponential-logarithm': ExponentialLogarithmExploreRoot,
   vectors: VectorsExploreRoot,
   'trigonometry-fundamentals': TrigonometryFundamentalsExploreRoot,
+  'function-equations': FunctionEquationsExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 export const exploreStageRootSlugs = Object.keys(rootBySlug).sort() as ExploreInteractiveSlug[];

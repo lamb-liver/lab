@@ -13,6 +13,7 @@ export const exploreInteractiveSlugs = [
   'exponential-logarithm',
   'vectors',
   'trigonometry-fundamentals',
+  'function-equations',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];

@@ -47,6 +47,10 @@ export const workInteractiveSlugs = [
   'logarithmic-scale',
   'natural-log-e-geometry',
   'logistic-curve',
+  'function-graph-transform',
+  'quadratic-completing-square',
+  'polynomial-roots-multiplicity',
+  'inverse-function-reflection',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
@@ -100,6 +104,10 @@ export const workInteractionHints = {
   'logarithmic-scale': 'button',
   'natural-log-e-geometry': 'button',
   'logistic-curve': 'button',
+  'function-graph-transform': 'input',
+  'quadratic-completing-square': 'input',
+  'polynomial-roots-multiplicity': 'input',
+  'inverse-function-reflection': 'input',
 } satisfies Record<WorkInteractiveSlug, WorkInteractionHint>;
 
 export function isWorkInteractive(slug: string): slug is WorkInteractiveSlug {

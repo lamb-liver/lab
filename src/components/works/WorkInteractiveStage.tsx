@@ -48,6 +48,10 @@ import ExponentialGrowthDecayCurveRoot from './ExponentialGrowthDecayCurveRoot';
 import LogarithmicScaleCurveRoot from './LogarithmicScaleCurveRoot';
 import NaturalLogEGeometryCurveRoot from './NaturalLogEGeometryCurveRoot';
 import LogisticCurveCurveRoot from './LogisticCurveCurveRoot';
+import FunctionGraphTransformCurveRoot from './FunctionGraphTransformCurveRoot';
+import QuadraticCompletingSquareCurveRoot from './QuadraticCompletingSquareCurveRoot';
+import PolynomialRootsMultiplicityCurveRoot from './PolynomialRootsMultiplicityCurveRoot';
+import InverseFunctionReflectionCurveRoot from './InverseFunctionReflectionCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -99,6 +103,10 @@ const rootBySlug = {
   'logarithmic-scale': LogarithmicScaleCurveRoot,
   'natural-log-e-geometry': NaturalLogEGeometryCurveRoot,
   'logistic-curve': LogisticCurveCurveRoot,
+  'function-graph-transform': FunctionGraphTransformCurveRoot,
+  'quadratic-completing-square': QuadraticCompletingSquareCurveRoot,
+  'polynomial-roots-multiplicity': PolynomialRootsMultiplicityCurveRoot,
+  'inverse-function-reflection': InverseFunctionReflectionCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

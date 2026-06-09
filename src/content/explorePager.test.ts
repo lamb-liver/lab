@@ -20,12 +20,13 @@ describe('explore collection pager', () => {
       'exponential-logarithm',
       'vectors',
       'trigonometry-fundamentals',
+      'function-equations',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'trigonometry-fundamentals');
-    expect(previous?.id).toBe('vectors');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'function-equations');
+    expect(previous?.id).toBe('trigonometry-fundamentals');
     expect(next).toBeNull();
   });
 

@@ -309,6 +309,72 @@ function conicDynamicGeometry() {
   `);
 }
 
+function functionEquations() {
+  const ox = 260;
+  const oy = 700;
+  const pw = 1080;
+  const ph = 390;
+  const halfY = 5;
+
+  function map(x, y) {
+    return [
+      ox + ((x + 5) / 10) * pw,
+      oy - ((y + halfY) / (halfY * 2)) * ph,
+    ];
+  }
+
+  function curvePath(fn, x0 = -4.6, x1 = 4.6, step = 0.08) {
+    const pts = [];
+    for (let x = x0; x <= x1 + 1e-9; x += step) {
+      const y = fn(x);
+      if (!Number.isFinite(y) || Math.abs(y) > halfY * 0.98) continue;
+      const [px, py] = map(x, y);
+      pts.push(`${pts.length ? 'L' : 'M'} ${px.toFixed(1)} ${py.toFixed(1)}`);
+    }
+    return pts.join(' ');
+  }
+
+  const ghost = curvePath((x) => x * x);
+  const active = curvePath((x) => 0.82 * ((1.15 * (x - 0.9)) ** 2) - 1.35);
+  const cubic = curvePath((x) => 0.18 * (x + 2.2) * (x - 0.15) ** 2 * (x - 2.1), -4.2, 4.2, 0.07);
+
+  const axisA = map(-5, 0);
+  const axisB = map(5, 0);
+  const nlY = 790;
+  const nlX0 = 300;
+  const nlX1 = 1300;
+  const seg = (a, b) =>
+    line(
+      nlX0 + ((a + 5) / 10) * (nlX1 - nlX0),
+      nlY,
+      nlX0 + ((b + 5) / 10) * (nlX1 - nlX0),
+      nlY,
+      C.gold,
+      8,
+      0.92,
+    );
+
+  const roots = [-1.55, 2.35];
+  const rootDots = roots
+    .map((x) => {
+      const [px, py] = map(x, 0);
+      return circle(px, py, 12, C.gold, 0.95);
+    })
+    .join('\n');
+
+  return doc(`
+    ${line(axisA[0], axisA[1], axisB[0], axisB[1], C.guide, 4, 0.22)}
+    ${line(nlX0, nlY, nlX1, nlY, C.guide, 4, 0.18)}
+    ${seg(-4.8, -1.55)}
+    ${seg(2.35, 4.8)}
+    ${path(ghost, C.guide, 6, 0.28)}
+    ${path(cubic, C.guide, 5, 0.2)}
+    ${path(active, C.gold, 10, 1, 'filter="url(#goldGlow)"')}
+    ${rootDots}
+    ${circle(...map(0.9, -1.35), 14, C.gold, 0.9)}
+  `);
+}
+
 function trigonometryFundamentals() {
   const cx = 560;
   const cy = 500;
@@ -353,6 +419,7 @@ const covers = {
   'trig-wave-interference': trigWaveInterference,
   'conic-dynamic-geometry': conicDynamicGeometry,
   'trigonometry-fundamentals': trigonometryFundamentals,
+  'function-equations': functionEquations,
 };
 
 for (const [slug, build] of Object.entries(covers)) {

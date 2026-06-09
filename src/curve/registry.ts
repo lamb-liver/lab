@@ -46,6 +46,10 @@ import { exponentialGrowthDecayModule } from './modules/exponential-growth-decay
 import { logarithmicScaleModule } from './modules/logarithmic-scale';
 import { naturalLogEGeometryModule } from './modules/natural-log-e-geometry';
 import { logisticCurveModule } from './modules/logistic-curve';
+import { functionGraphTransformModule } from './modules/function-graph-transform';
+import { quadraticCompletingSquareModule } from './modules/quadratic-completing-square';
+import { polynomialRootsMultiplicityModule } from './modules/polynomial-roots-multiplicity';
+import { inverseFunctionReflectionModule } from './modules/inverse-function-reflection';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -96,4 +100,8 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'logarithmic-scale': logarithmicScaleModule,
   'natural-log-e-geometry': naturalLogEGeometryModule,
   'logistic-curve': logisticCurveModule,
+  'function-graph-transform': functionGraphTransformModule,
+  'quadratic-completing-square': quadraticCompletingSquareModule,
+  'polynomial-roots-multiplicity': polynomialRootsMultiplicityModule,
+  'inverse-function-reflection': inverseFunctionReflectionModule,
 };
