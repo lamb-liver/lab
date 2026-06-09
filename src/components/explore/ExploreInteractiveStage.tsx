@@ -13,6 +13,7 @@ import FourierSeriesExploreRoot from './FourierSeriesExploreRoot';
 import PermutationsCombinationsExploreRoot from './PermutationsCombinationsExploreRoot';
 import ProbabilityStatisticsExploreRoot from './ProbabilityStatisticsExploreRoot';
 import SequencesAndSeriesExploreRoot from './SequencesAndSeriesExploreRoot';
+import TrigonometryFundamentalsExploreRoot from './TrigonometryFundamentalsExploreRoot';
 import VectorsExploreRoot from './VectorsExploreRoot';
 import WaveSuperpositionExploreRoot from './WaveSuperpositionExploreRoot';
 
@@ -29,6 +30,7 @@ const rootBySlug = {
   'probability-statistics': ProbabilityStatisticsExploreRoot,
   'exponential-logarithm': ExponentialLogarithmExploreRoot,
   vectors: VectorsExploreRoot,
+  'trigonometry-fundamentals': TrigonometryFundamentalsExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 export const exploreStageRootSlugs = Object.keys(rootBySlug).sort() as ExploreInteractiveSlug[];

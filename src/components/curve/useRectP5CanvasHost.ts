@@ -6,15 +6,19 @@ export type CanvasSize = { width: number; height: number };
 type MeasureRect = (host: HTMLElement) => CanvasSize;
 type P5WithRenderer = p5 & { _renderer?: unknown };
 
+export type ExtendSketch = (p: p5, host: HTMLElement) => void;
+
 /** 矩形 p5 instance：setup、ResizeObserver、cleanup */
 export function useRectP5CanvasHost(
   draw: (p: p5) => void,
   deps: unknown[],
   measureRect: MeasureRect,
+  extendSketch?: ExtendSketch,
 ) {
   const canvasHostRef = useRef<HTMLDivElement>(null);
   const drawRef = useRef(draw);
   const measureRef = useRef(measureRect);
+  const extendSketchRef = useRef(extendSketch);
 
   useEffect(() => {
     drawRef.current = draw;
@@ -23,6 +27,10 @@ export function useRectP5CanvasHost(
   useEffect(() => {
     measureRef.current = measureRect;
   }, [measureRect]);
+
+  useEffect(() => {
+    extendSketchRef.current = extendSketch;
+  }, [extendSketch]);
 
   useEffect(() => {
     const host = canvasHostRef.current;
@@ -43,6 +51,7 @@ export function useRectP5CanvasHost(
         };
 
         p.draw = () => drawRef.current(p);
+        extendSketchRef.current?.(p, host);
       };
 
       const instance = new P5(sketch, host);

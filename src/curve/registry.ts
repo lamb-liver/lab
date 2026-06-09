@@ -21,6 +21,9 @@ import { vectorFieldPatternsModule } from './modules/vector-field-patterns';
 import { vectorFieldStreamlinesModule } from './modules/vector-field-streamlines';
 import { vectorAdditionScalarModule } from './modules/vector-addition-scalar';
 import { dotProductGeometryModule } from './modules/dot-product-geometry';
+import { lawOfSinesCosinesModule } from './modules/law-of-sines-cosines';
+import { unitCircleTrigDefinitionModule } from './modules/unit-circle-trig-definition';
+import { trigAngleIdentitiesModule } from './modules/trig-angle-identities';
 import { vectorProjectionModule } from './modules/vector-projection';
 import { complexArithmeticGeometryModule } from './modules/complex-arithmetic-geometry';
 import { complexPolarFormModule } from './modules/complex-polar-form';
@@ -68,6 +71,9 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'vector-field-streamlines': vectorFieldStreamlinesModule,
   'vector-addition-scalar': vectorAdditionScalarModule,
   'dot-product-geometry': dotProductGeometryModule,
+  'law-of-sines-cosines': lawOfSinesCosinesModule,
+  'unit-circle-trig-definition': unitCircleTrigDefinitionModule,
+  'trig-angle-identities': trigAngleIdentitiesModule,
   'vector-projection': vectorProjectionModule,
   'complex-arithmetic-geometry': complexArithmeticGeometryModule,
   'complex-polar-form': complexPolarFormModule,

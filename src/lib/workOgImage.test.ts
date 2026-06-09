@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
 import { workCurveBySlug } from '../curve/registry';
-import { readContentSlugs } from '../test/contentSlugs';
+import { readPublishedContentSlugs } from '../test/contentSlugs';
 import { getCurveThumbnailSvg } from './curveThumbnail';
 import {
   assertSharpCompatibleSvg,
@@ -14,7 +14,7 @@ import {
 describe('work OG image generation', () => {
   it('keeps registry aligned with content and SVGs sharp-compatible', () => {
     const registrySlugs = Object.keys(workCurveBySlug).sort();
-    const contentSlugs = readContentSlugs('works').sort();
+    const contentSlugs = readPublishedContentSlugs('works').sort();
     expect(registrySlugs).toEqual(contentSlugs);
 
     for (const slug of registrySlugs) {

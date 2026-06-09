@@ -23,6 +23,9 @@ import VectorFieldPatternsCurveRoot from './VectorFieldPatternsCurveRoot';
 import VectorFieldStreamlinesCurveRoot from './VectorFieldStreamlinesCurveRoot';
 import VectorAdditionScalarCurveRoot from './VectorAdditionScalarCurveRoot';
 import DotProductGeometryCurveRoot from './DotProductGeometryCurveRoot';
+import LawOfSinesCosinesCurveRoot from './LawOfSinesCosinesCurveRoot';
+import UnitCircleTrigDefinitionCurveRoot from './UnitCircleTrigDefinitionCurveRoot';
+import TrigAngleIdentitiesCurveRoot from './TrigAngleIdentitiesCurveRoot';
 import VectorProjectionCurveRoot from './VectorProjectionCurveRoot';
 import ComplexArithmeticGeometryCurveRoot from './ComplexArithmeticGeometryCurveRoot';
 import ComplexPolarFormCurveRoot from './ComplexPolarFormCurveRoot';
@@ -71,6 +74,9 @@ const rootBySlug = {
   'vector-field-streamlines': VectorFieldStreamlinesCurveRoot,
   'vector-addition-scalar': VectorAdditionScalarCurveRoot,
   'dot-product-geometry': DotProductGeometryCurveRoot,
+  'law-of-sines-cosines': LawOfSinesCosinesCurveRoot,
+  'unit-circle-trig-definition': UnitCircleTrigDefinitionCurveRoot,
+  'trig-angle-identities': TrigAngleIdentitiesCurveRoot,
   'vector-projection': VectorProjectionCurveRoot,
   'complex-arithmetic-geometry': ComplexArithmeticGeometryCurveRoot,
   'complex-polar-form': ComplexPolarFormCurveRoot,

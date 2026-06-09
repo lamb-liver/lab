@@ -77,9 +77,9 @@ function bboxX(spec: ThumbnailSpec): { minX: number; maxX: number } | null {
 }
 
 describe('work thumbnail registry', () => {
-  it('renders structurally valid svg for all 44 registered work slugs', () => {
+  it('renders structurally valid svg for all 47 registered work slugs', () => {
     const slugs = Object.keys(workCurveBySlug);
-    expect(slugs).toHaveLength(44);
+    expect(slugs).toHaveLength(47);
 
     for (const slug of slugs) {
       const svg = getCurveThumbnailSvg(slug);

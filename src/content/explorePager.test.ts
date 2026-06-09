@@ -11,6 +11,7 @@ describe('explore collection pager', () => {
       'trig-wave-interference',
       'conic-dynamic-geometry',
       'matrix-linear-transform',
+      'trigonometry-fundamentals',
       'limits-riemann-sum',
       'differential-equations-geometry',
       'complex-euler-formula',
@@ -30,7 +31,7 @@ describe('explore collection pager', () => {
 
   it('resolves neighbors for a middle explore slug', () => {
     const { previous, next } = getCollectionPagerNeighbors(explore, 'limits-riemann-sum');
-    expect(previous?.id).toBe('matrix-linear-transform');
+    expect(previous?.id).toBe('trigonometry-fundamentals');
     expect(next?.id).toBe('differential-equations-geometry');
   });
 });

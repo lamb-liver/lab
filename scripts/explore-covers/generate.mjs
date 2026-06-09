@@ -309,6 +309,48 @@ function conicDynamicGeometry() {
   `);
 }
 
+function trigonometryFundamentals() {
+  const cx = 640;
+  const cy = 520;
+  const r = 230;
+  const theta = Math.PI / 4;
+  const alpha = Math.PI / 5;
+  const beta = Math.PI / 4;
+  const sum = alpha + beta;
+
+  const px = cx + Math.cos(theta) * r;
+  const py = cy - Math.sin(theta) * r;
+  const ax = cx + Math.cos(alpha) * r;
+  const ay = cy - Math.sin(alpha) * r;
+  const sx = cx + Math.cos(sum) * r;
+  const sy = cy - Math.sin(sum) * r;
+
+  const tri = [
+    [980, 720],
+    [1180, 720],
+    [1080, 545],
+  ];
+
+  return doc(`
+    ${circle(cx, cy, r, 'none', 1, C.guide, 4)}
+    ${line(cx - r * 1.15, cy, cx + r * 1.15, cy, C.guide, 3, 0.18)}
+    ${line(cx, cy + r * 1.15, cx, cy - r * 1.15, C.guide, 3, 0.18)}
+    ${line(px, py, px, cy, C.guide, 4, 0.28, 'stroke-dasharray="16 14"')}
+    ${line(px, py, cx, py, C.guide, 4, 0.28, 'stroke-dasharray="16 14"')}
+    ${line(cx, cy, ax, ay, C.guide, 6, 0.42)}
+    ${line(cx, cy, sx, sy, C.gold, 10, 1, 'filter="url(#goldGlow)"')}
+    ${line(cx, cy, px, py, C.gold, 9, 0.82, 'filter="url(#goldGlow)"')}
+    ${path(`M ${cx} ${cy - r * 0.28} A ${r * 0.28} ${r * 0.28} 0 0 0 ${cx + Math.cos(theta) * r * 0.28} ${cy - Math.sin(theta) * r * 0.28}`, C.gold, 5, 0.72)}
+    ${path(`M ${ax} ${ay} A ${r} ${r} 0 0 0 ${sx} ${sy}`, C.guide, 4, 0.24, 'stroke-dasharray="14 14" fill="none"')}
+    ${circle(px, py, 14, C.gold, 0.95)}
+    ${circle(sx, sy, 12, C.gold, 0.82)}
+    ${poly(tri, 'rgba(212,184,122,0.1)', C.gold, 0.55, 5)}
+    ${line(tri[0][0], tri[0][1], tri[1][0], tri[1][1], C.gold, 7, 0.72)}
+    ${line(tri[1][0], tri[1][1], tri[2][0], tri[2][1], C.guide, 5, 0.28)}
+    ${line(tri[2][0], tri[2][1], tri[0][0], tri[0][1], C.guide, 5, 0.28)}
+  `);
+}
+
 const covers = {
   'limits-riemann-sum': limitsRiemannSum,
   'differential-equations-geometry': differentialEquations,
@@ -321,6 +363,7 @@ const covers = {
   'matrix-linear-transform': matrixLinearTransform,
   'trig-wave-interference': trigWaveInterference,
   'conic-dynamic-geometry': conicDynamicGeometry,
+  'trigonometry-fundamentals': trigonometryFundamentals,
 };
 
 for (const [slug, build] of Object.entries(covers)) {

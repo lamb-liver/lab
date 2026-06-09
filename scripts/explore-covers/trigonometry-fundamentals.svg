@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  
+    <circle cx="640" cy="520" r="230" fill="none" opacity="1" stroke="#D8D8D8" stroke-width="4"/>
+    <line x1="375.5" y1="520" x2="904.5" y2="520" stroke="#D8D8D8" stroke-width="3" opacity="0.18" stroke-linecap="round" />
+    <line x1="640" y1="784.5" x2="640" y2="255.5" stroke="#D8D8D8" stroke-width="3" opacity="0.18" stroke-linecap="round" />
+    <line x1="802.6345596729059" y1="357.3654403270941" x2="802.6345596729059" y2="520" stroke="#D8D8D8" stroke-width="4" opacity="0.28" stroke-linecap="round" stroke-dasharray="16 14"/>
+    <line x1="802.6345596729059" y1="357.3654403270941" x2="640" y2="357.3654403270941" stroke="#D8D8D8" stroke-width="4" opacity="0.28" stroke-linecap="round" stroke-dasharray="16 14"/>
+    <line x1="640" y1="520" x2="826.073908706238" y2="384.8093919727312" stroke="#D8D8D8" stroke-width="6" opacity="0.42" stroke-linecap="round" />
+    <line x1="640" y1="520" x2="675.9799269592531" y2="292.8316816631183" stroke="#D4B87A" stroke-width="10" opacity="1" stroke-linecap="round" filter="url(#goldGlow)"/>
+    <line x1="640" y1="520" x2="802.6345596729059" y2="357.3654403270941" stroke="#D4B87A" stroke-width="9" opacity="0.82" stroke-linecap="round" filter="url(#goldGlow)"/>
+    <path d="M 640 455.6 A 64.4 64.4 0 0 0 685.5376767084136 474.46232329158636" fill="none" stroke="#D4B87A" stroke-width="5" opacity="0.72" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 826.073908706238 384.8093919727312 A 230 230 0 0 0 675.9799269592531 292.8316816631183" fill="none" stroke="#D8D8D8" stroke-width="4" opacity="0.24" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="14 14" fill="none"/>
+    <circle cx="802.6345596729059" cy="357.3654403270941" r="14" fill="#D4B87A" opacity="0.95" stroke="none" stroke-width="0"/>
+    <circle cx="675.9799269592531" cy="292.8316816631183" r="12" fill="#D4B87A" opacity="0.82" stroke="none" stroke-width="0"/>
+    <polygon points="980,720 1180,720 1080,545" fill="rgba(212,184,122,0.1)" stroke="#D4B87A" stroke-width="5" opacity="0.55" stroke-linejoin="round"/>
+    <line x1="980" y1="720" x2="1180" y2="720" stroke="#D4B87A" stroke-width="7" opacity="0.72" stroke-linecap="round" />
+    <line x1="1180" y1="720" x2="1080" y2="545" stroke="#D8D8D8" stroke-width="5" opacity="0.28" stroke-linecap="round" />
+    <line x1="1080" y1="545" x2="980" y2="720" stroke="#D8D8D8" stroke-width="5" opacity="0.28" stroke-linecap="round" />
+  
+</svg>
