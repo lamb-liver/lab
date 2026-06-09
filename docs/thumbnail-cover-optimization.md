@@ -99,7 +99,7 @@ coordinateSystem?: 'math' | 'canvas'
 | 2 | 結果型與點雲型 | 調整 bbox、密度、線寬、主體比例 |
 | 3 | 多層 / 過程型 | 避免鬼線、平線、完成態不明 |
 | 4 | 向量 / 複數 / 函數 / 級數型 | 補強主關係與 guide 層級 |
-| 5 | 全 44 件總覽 | 一致性微調，不重寫單件構圖 |
+| 5 | 全 47 件總覽 | 一致性微調，不重寫單件構圖 |
 
 ---
 
@@ -151,6 +151,9 @@ coordinateSystem?: 'math' | 'canvas'
 | `logarithmic-scale` | concept | 對數尺度壓縮乘法距離 | 對數軸、刻度距離 | 純座標軸 | 已截圖驗收 |
 | `natural-log-e-geometry` | concept | `1/x` 下方面積定義 ln | 曲線、填色面積、邊界 | 只畫曲線 | 已截圖驗收 |
 | `logistic-curve` | result-concept | S 型成長與承載上限 | S 曲線、水平上限 guide | 普通斜線 | 已截圖驗收 |
+| `unit-circle-trig-definition` | concept | sin、cos 由單位圓座標定義 | 單位圓、金色半徑、投影虛線 | 只有折線、無圓周 | 待截圖驗收 |
+| `law-of-sines-cosines` | concept | 邊角比與外接圓綁在同一比例 | 三角形、外接圓 guide、底邊強調 | 只有三邊、無外接圓 | 待截圖驗收 |
+| `trig-angle-identities` | concept | 兩角合成由中點角 m 與偏移 d 讀出 | 單位圓、兩半徑、m 導引 | 只有弦線、無圓與 m | 待截圖驗收 |
 
 ---
 
@@ -158,7 +161,7 @@ coordinateSystem?: 'math' | 'canvas'
 
 自動測試只驗結構穩定性，不驗語意命名：
 
-1. 所有 44 slug 都可 render SVG。
+1. 所有 47 slug 都可 render SVG。
 2. SVG 不空白，至少有一個 `<path>` 或 `<circle>`。
 3. SVG 不含 `NaN` / `Infinity`。
 4. thumbnail sample 的 bbox 不為零。

@@ -30,14 +30,15 @@ describe('unit-circle-trig-definition module', () => {
     expect(meta.stats.find((s) => s.key === 'quadrant')?.value).toContain('第一象限');
   });
 
-  it('thumbnail sample returns projection paths', () => {
+  it('thumbnail sample returns unit circle and projection paths', () => {
     const spec = unitCircleTrigDefinitionModule.sample(
       asUnitCircleTrigDefinitionParams({ theta: Math.PI / 4 }),
       { step: 1, purpose: 'thumbnail' },
     );
     expect(spec).toHaveProperty('paths');
     if ('paths' in spec) {
-      expect(spec.paths.length).toBeGreaterThanOrEqual(3);
+      expect(spec.paths.length).toBeGreaterThanOrEqual(4);
+      expect(spec.paths[0]?.points.length).toBeGreaterThan(40);
     }
   });
 

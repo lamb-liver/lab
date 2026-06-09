@@ -33,14 +33,15 @@ describe('law-of-sines-cosines module', () => {
     expect(cosine.stats).toHaveLength(4);
   });
 
-  it('thumbnail sample returns triangle paths', () => {
+  it('thumbnail sample returns circumcircle and triangle paths', () => {
     const spec = lawOfSinesCosinesModule.sample(
       asLawOfSinesCosinesParams({ mode: 'sine', triangle: DEFAULT_TRIANGLE }),
       { step: 1, purpose: 'thumbnail' },
     );
     expect(spec).toHaveProperty('paths');
     if ('paths' in spec) {
-      expect(spec.paths.length).toBeGreaterThanOrEqual(3);
+      expect(spec.paths.length).toBeGreaterThanOrEqual(4);
+      expect(spec.paths[0]?.points.length).toBeGreaterThan(40);
     }
   });
 

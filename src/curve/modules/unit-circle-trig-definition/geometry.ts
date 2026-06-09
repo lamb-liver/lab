@@ -1,3 +1,4 @@
+import { TWO_PI } from '../../constants';
 import type { CurvePoint, ThumbnailSpec } from '../../types';
 
 export const TAU = Math.PI * 2;
@@ -218,9 +219,20 @@ function toCurvePoint(x: number, y: number, theta: number, scale = 42): CurvePoi
   };
 }
 
+function sampleUnitCircleOutline(scale: number): CurvePoint[] {
+  const step = TWO_PI / 48;
+  const points: CurvePoint[] = [];
+  for (let a = 0; a <= TWO_PI + step; a += step) {
+    points.push(toCurvePoint(Math.cos(a), Math.sin(a), a, scale));
+  }
+  return points;
+}
+
 export function sampleUnitCircleTrigDefinitionThumbnail(): ThumbnailSpec {
-  const c = Math.cos(Math.PI / 4);
-  const s = Math.sin(Math.PI / 4);
+  const scale = 42;
+  const theta = Math.PI / 4;
+  const c = Math.cos(theta);
+  const s = Math.sin(theta);
   const O = { x: 0, y: 0 };
   const P = { x: c, y: s };
   const X = { x: c, y: 0 };
@@ -229,16 +241,22 @@ export function sampleUnitCircleTrigDefinitionThumbnail(): ThumbnailSpec {
   return {
     paths: [
       {
-        points: [toCurvePoint(O.x, O.y, 0), toCurvePoint(P.x, P.y, 1)],
+        points: sampleUnitCircleOutline(scale),
+        opacity: 0.35,
+        strokeWidth: 0.8,
+        excludeFromBbox: true,
+      },
+      {
+        points: [toCurvePoint(O.x, O.y, 0, scale), toCurvePoint(P.x, P.y, 1, scale)],
         strokeWidth: 1.6,
       },
       {
-        points: [toCurvePoint(O.x, O.y, 0), toCurvePoint(X.x, X.y, 1)],
+        points: [toCurvePoint(P.x, P.y, 1, scale), toCurvePoint(X.x, X.y, 2, scale)],
         opacity: 0.28,
         strokeWidth: 0.9,
       },
       {
-        points: [toCurvePoint(O.x, O.y, 0), toCurvePoint(Y.x, Y.y, 1)],
+        points: [toCurvePoint(P.x, P.y, 2, scale), toCurvePoint(Y.x, Y.y, 3, scale)],
         opacity: 0.28,
         strokeWidth: 0.9,
       },

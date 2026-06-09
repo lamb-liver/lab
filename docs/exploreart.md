@@ -159,6 +159,7 @@ Explore list card 使用 `ExploreCard` + frontmatter `coverImage`。
 - `matrix-linear-transform`：變形後金色網格為主；原始直角網格 ghost guide opacity `0.05-0.08`；中央突出單位方形變成的平行四邊形。
 - `trig-wave-interference`：兩條來源波 opacity `0.28-0.4`；合成波與包絡線較亮，避免所有波線同權重。
 - `conic-dynamic-geometry`：正式實作前先做低成本 375px 草稿。優先三段式橫向構圖，左橢圓、中拋物線、右雙曲線；三段大致各佔中央寬度 30%，留 5% 間距；共享 guide 只作輔助。若草稿不可辨，改為放大三段側向排列並弱化共享 guide，不改成單一曲線。
+- `trigonometry-fundamentals`：中央單位圓為主（金色半徑 + 投影虛線 + 小角度弧）；右下三角形與外接圓 guide 只作次要提示，opacity 0.22–0.32，不得與單位圓同權重。
 
 ### 保留現有
 

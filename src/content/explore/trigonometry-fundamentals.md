@@ -2,7 +2,7 @@
 title: 三角函數
 description: 從單位圓定義 sin、cos、tan，連接三角形邊角關係，再用角度合成理解三角恆等式。
 category: 幾何
-date: 2026-06-09
+date: 2026-08-29
 coverImage: /images/explore-covers/trigonometry-fundamentals.png
 featured: false
 draft: false

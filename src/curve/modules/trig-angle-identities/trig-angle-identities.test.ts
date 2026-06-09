@@ -45,14 +45,15 @@ describe('trig-angle-identities module', () => {
     expect(formulaDisplayLine(formulaFromId('sinSum'))).toContain('2sinm');
   });
 
-  it('thumbnail sample returns two direction paths', () => {
+  it('thumbnail sample returns unit circle, directions, and m guide', () => {
     const spec = trigAngleIdentitiesModule.sample(
       asTrigAngleIdentitiesModuleParams({ formulaId: 'sinSum' }),
       { step: 1, purpose: 'thumbnail' },
     );
     expect(spec).toHaveProperty('paths');
     if ('paths' in spec) {
-      expect(spec.paths.length).toBeGreaterThanOrEqual(2);
+      expect(spec.paths.length).toBeGreaterThanOrEqual(5);
+      expect(spec.paths[0]?.points.length).toBeGreaterThan(40);
     }
   });
 

@@ -183,30 +183,48 @@ function toCurvePoint(v: Vec2, theta: number, scale = 42): CurvePoint {
   };
 }
 
+function sampleCircumcirclePath(A: Vec2, B: Vec2, C: Vec2, scale = 42): CurvePoint[] | null {
+  const cc = circumcircleFromTriangle(A, B, C);
+  if (!cc) return null;
+
+  const step = (Math.PI * 2) / 48;
+  const points: CurvePoint[] = [];
+  for (let a = 0; a <= Math.PI * 2 + step; a += step) {
+    points.push(
+      toCurvePoint(
+        { x: cc.o.x + Math.cos(a) * cc.r, y: cc.o.y + Math.sin(a) * cc.r },
+        a,
+        scale,
+      ),
+    );
+  }
+  return points;
+}
+
 export function sampleLawOfSinesCosinesThumbnail(
   params: LawOfSinesCosinesParams,
 ): ThumbnailSpec {
   const { A, B, C } = params.triangle;
-  const a = toCurvePoint(B, 0);
-  const b = toCurvePoint(C, 1);
-  const c = toCurvePoint(A, 2);
+  const a = toCurvePoint(A, 0);
+  const b = toCurvePoint(B, 1);
+  const c = toCurvePoint(C, 2);
+  const circumcircle = sampleCircumcirclePath(A, B, C);
+  const paths: ThumbnailSpec['paths'] = [];
 
-  return {
-    paths: [
-      {
-        points: [a, b],
-        strokeWidth: 1.5,
-      },
-      {
-        points: [b, c],
-        opacity: 0.24,
-        strokeWidth: 0.9,
-      },
-      {
-        points: [c, a],
-        opacity: 0.24,
-        strokeWidth: 0.9,
-      },
-    ],
-  };
+  if (circumcircle) {
+    paths.push({
+      points: circumcircle,
+      opacity: 0.28,
+      strokeWidth: 0.85,
+      excludeFromBbox: true,
+    });
+  }
+
+  paths.push(
+    { points: [a, b], strokeWidth: 1.5 },
+    { points: [b, c], opacity: 0.28, strokeWidth: 0.9 },
+    { points: [c, a], opacity: 0.28, strokeWidth: 0.9 },
+  );
+
+  return { paths };
 }

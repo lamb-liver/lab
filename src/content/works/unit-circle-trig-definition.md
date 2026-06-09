@@ -3,7 +3,7 @@ title: 單位圓與三角函數定義
 description: 拖動單位圓上的角 θ，同步讀取 cos θ、sin θ、tan θ 與象限正負。
 tags:
   - 幾何
-date: 2026-06-09
+date: 2026-08-26
 featured: false
 draft: false
 ---

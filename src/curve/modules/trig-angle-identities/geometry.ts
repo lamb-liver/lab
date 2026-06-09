@@ -1,3 +1,4 @@
+import { TWO_PI } from '../../constants';
 import type { CurvePoint, ThumbnailSpec } from '../../types';
 
 export const TAU = Math.PI * 2;
@@ -286,37 +287,51 @@ function toCurvePoint(x: number, y: number, theta: number, scale = 42): CurvePoi
   };
 }
 
+function sampleUnitCircleOutline(scale: number): CurvePoint[] {
+  const step = TWO_PI / 48;
+  const points: CurvePoint[] = [];
+  for (let a = 0; a <= TWO_PI + step; a += step) {
+    points.push(toCurvePoint(Math.cos(a), Math.sin(a), a, scale));
+  }
+  return points;
+}
+
 export function sampleTrigAngleIdentitiesThumbnail(): ThumbnailSpec {
+  const scale = 42;
   const alpha = (2 * Math.PI) / 3;
   const beta = Math.PI / 6;
+  const mid = (alpha + beta) / 2;
   const O = { x: 0, y: 0 };
   const A = { x: Math.cos(alpha), y: Math.sin(alpha) };
   const B = { x: Math.cos(beta), y: Math.sin(beta) };
+  const M = { x: Math.cos(mid), y: Math.sin(mid) };
 
   return {
     paths: [
       {
-        points: [toCurvePoint(O.x, O.y, 0), toCurvePoint(A.x, A.y, 1)],
+        points: sampleUnitCircleOutline(scale),
+        opacity: 0.32,
+        strokeWidth: 0.8,
+        excludeFromBbox: true,
+      },
+      {
+        points: [toCurvePoint(O.x, O.y, 0, scale), toCurvePoint(A.x, A.y, 1, scale)],
         strokeWidth: 1.6,
       },
       {
-        points: [toCurvePoint(O.x, O.y, 0), toCurvePoint(B.x, B.y, 1)],
-        strokeWidth: 1.3,
+        points: [toCurvePoint(O.x, O.y, 0, scale), toCurvePoint(B.x, B.y, 1, scale)],
+        strokeWidth: 1.2,
         opacity: 0.72,
       },
       {
-        points: [toCurvePoint(A.x, A.y, 1), toCurvePoint(B.x, B.y, 2)],
-        opacity: 0.22,
-        strokeWidth: 0.8,
-      },
-    ],
-    circles: [
-      {
-        x: 0,
-        y: 0,
-        r: 42,
+        points: [toCurvePoint(O.x, O.y, 0, scale), toCurvePoint(M.x, M.y, 2, scale)],
+        opacity: 0.34,
         strokeWidth: 0.9,
-        opacity: 0.28,
+      },
+      {
+        points: [toCurvePoint(A.x, A.y, 2, scale), toCurvePoint(B.x, B.y, 3, scale)],
+        opacity: 0.18,
+        strokeWidth: 0.75,
       },
     ],
   };
