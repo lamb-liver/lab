@@ -1,3 +1,8 @@
+/**
+ * List filter pure logic: token normalization, grid visibility, URL param sync helpers.
+ * DOM wiring, Fuse search, and event listeners live in ListSearchFilterScript.astro.
+ */
+
 export function normalizeFilterToken(value: string): string {
   return value.trim().toLowerCase();
 }
@@ -43,7 +48,7 @@ export function applyListGridFilter(
   searchSlugs: Set<string> | null,
   hasSearchQuery: boolean,
   emptyEl: HTMLElement | null,
-): void {
+): number {
   let visibleCount = 0;
 
   grid.querySelectorAll('[data-filter-item]').forEach((card) => {
@@ -64,6 +69,37 @@ export function applyListGridFilter(
   if (emptyEl) {
     emptyEl.hidden = visibleCount > 0;
   }
+
+  return visibleCount;
+}
+
+export function updateListFilterCount(
+  root: HTMLElement,
+  visibleCount: number,
+  totalCount: number,
+): void {
+  const el = root.querySelector('[data-filter-count]');
+  if (!el) return;
+
+  const unit = root.getAttribute('data-filter-count-unit') || '篇';
+
+  if (visibleCount === totalCount) {
+    el.textContent = `共 ${totalCount} ${unit}`;
+  } else {
+    el.textContent = `顯示 ${visibleCount} / ${totalCount} ${unit}`;
+  }
+}
+
+export function clearListFilters(root: HTMLElement): void {
+  const filterParam = root.getAttribute('data-filter-param');
+  const searchParam = root.getAttribute('data-search-param');
+  const bar = root.querySelector('[data-filter-bar]');
+  const searchInput = root.querySelector('[data-list-search-input]') as HTMLInputElement | null;
+  const allButton = bar ? getFilterButton(bar, '*') : null;
+
+  if (searchInput) searchInput.value = '';
+  if (allButton && bar) setActiveFilter(bar, allButton);
+  clearUrlParams([filterParam, searchParam]);
 }
 
 export const applyWorksGridFilter = applyListGridFilter;
@@ -102,7 +138,25 @@ export function updateUrlParam(param: string | null, value: string): void {
   }
 
   if (url.href !== window.location.href) {
-    history.pushState(null, '', url);
+    history.pushState(null, '', url.href);
+  }
+}
+
+/** Remove multiple query params in a single history entry. */
+export function clearUrlParams(params: (string | null)[]): void {
+  const url = new URL(window.location.href);
+  let changed = false;
+
+  for (const param of params) {
+    if (!param) continue;
+    if (url.searchParams.has(param)) {
+      url.searchParams.delete(param);
+      changed = true;
+    }
+  }
+
+  if (changed && url.href !== window.location.href) {
+    history.pushState(null, '', url.href);
   }
 }
 

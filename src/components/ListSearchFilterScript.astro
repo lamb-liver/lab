@@ -1,10 +1,16 @@
 <script>
+  /**
+   * Client-side list pages: Fuse search, DOM events, filter-bar scroll hints.
+   * Pure filter/count/URL logic lives in ../lib/listFilter.ts.
+   */
   import Fuse from 'fuse.js';
   import {
     applyListGridFilter,
+    clearListFilters,
     getFilterButton,
     readUrlParam,
     setActiveFilter,
+    updateListFilterCount,
     updateUrlParam,
   } from '../lib/listFilter.ts';
 
@@ -44,6 +50,24 @@
     return new Set(getFuse(indexId).search(trimmed).map((result) => result.item.slug));
   }
 
+  function attachFilterScrollHint(scrollRoot: HTMLElement): void {
+    const bar = scrollRoot.querySelector('[data-filter-bar]') as HTMLElement | null;
+    if (!bar) return;
+
+    const update = (): void => {
+      const canScroll = bar.scrollWidth > bar.clientWidth + 1;
+      const atEnd = bar.scrollLeft + bar.clientWidth >= bar.scrollWidth - 2;
+      scrollRoot.dataset.canScrollEnd = canScroll && !atEnd ? 'true' : 'false';
+    };
+
+    bar.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(update).observe(bar);
+    }
+    update();
+  }
+
   function applySearchFilterState(root: HTMLElement): void {
     const bar = root.querySelector('[data-filter-bar]');
     const grid = root.querySelector('[data-card-grid]');
@@ -65,7 +89,15 @@
     const query = searchInput.value;
     const hasSearchQuery = query.trim().length > 0;
     const slugs = hasSearchQuery ? searchSlugs(searchIndexId, query) : null;
-    applyListGridFilter(grid as HTMLElement, filterValue, slugs, hasSearchQuery, emptyEl);
+    const visibleCount = applyListGridFilter(
+      grid as HTMLElement,
+      filterValue,
+      slugs,
+      hasSearchQuery,
+      emptyEl,
+    );
+    const totalCount = grid.querySelectorAll('[data-filter-item]').length;
+    updateListFilterCount(root, visibleCount, totalCount);
   }
 
   function attachListSearchFilter(root: HTMLElement): void {
@@ -79,23 +111,27 @@
     const searchIndexId = root.getAttribute('data-search-index-id') || 'list-search-index';
     const emptyEl = root.querySelector('[data-filter-empty]') as HTMLElement | null;
 
-    let activeFilter = '*';
+    const readActiveFilter = (): string => {
+      const activeBtn = bar.querySelector('button[data-filter-value].is-active');
+      return activeBtn?.getAttribute('data-filter-value')?.trim().toLowerCase() || '*';
+    };
 
     const applyAll = (): void => {
       const query = searchInput.value;
       const hasSearchQuery = query.trim().length > 0;
       const slugs = hasSearchQuery ? searchSlugs(searchIndexId, query) : null;
-      applyListGridFilter(
+      const visibleCount = applyListGridFilter(
         grid as HTMLElement,
-        activeFilter,
+        readActiveFilter(),
         slugs,
         hasSearchQuery,
         emptyEl,
       );
+      const totalCount = grid.querySelectorAll('[data-filter-item]').length;
+      updateListFilterCount(root, visibleCount, totalCount);
     };
 
     const syncFilterFromButton = (button: HTMLButtonElement): void => {
-      activeFilter = button.getAttribute('data-filter-value')?.trim().toLowerCase() || '*';
       setActiveFilter(bar, button);
     };
 
@@ -130,10 +166,20 @@
       applyAll();
       updateUrlParam(searchParam, searchInput.value);
     });
+
+    const clearButton = root.querySelector('[data-filter-clear]');
+    clearButton?.addEventListener('click', () => {
+      clearListFilters(root);
+      applyAll();
+    });
   }
 
   document.querySelectorAll('[data-list-filter][data-search-param]').forEach((root) => {
     attachListSearchFilter(root as HTMLElement);
+  });
+
+  document.querySelectorAll('[data-filter-scroll]').forEach((scrollRoot) => {
+    attachFilterScrollHint(scrollRoot as HTMLElement);
   });
 
   window.addEventListener('popstate', () => {

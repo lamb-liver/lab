@@ -27,6 +27,7 @@
 
   --container-max: 1200px;
   --nav-height: 64px;
+  --touch-target-min: 2.75rem;
 
   --accent-border: rgba(192, 255, 107, 0.4);
 }

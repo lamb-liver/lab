@@ -48,6 +48,24 @@ Explore 封面是主題概念入口，不是完整 UI 截圖，也不是單一 W
 - Mode / N 等離散參數應走 path cache；draw 只做 slice + guide。
 - Canvas 內避免長文、完整公式清單、debug panel。
 - 未列出專屬 layout 的 Explore root，先遵守本節通用規則；不得自行引入 Works portal 或重做控制面板架構。
+- **共用控件 CSS**（詳情頁由 `[slug].astro` 引入）：
+  - `src/styles/components/explore/explore-toolbar.css` — toolbar 間距、mode 字級/邊框、`--explore-accent`
+  - `src/styles/components/explore-touch.css` — mode 最小觸控區
+- 新增 `*ExploreRoot` 的 toolbar / mode 按鈕時，先對齊 §3.1.1 命名約定，再寫主題專屬 layout。站點殼層規格見 [`site-ux.md`](site-ux.md) §5。
+
+#### 3.1.1 Toolbar / mode 命名約定（`explore-toolbar.css`）
+
+共用樣式靠 **suffix / substring attribute selector** 零配置套用（刻意設計，非 accidental global）：
+
+| Selector | 新主題應使用的 class 慣例 |
+|----------|---------------------------|
+| `[class$='-explore__toolbar']` | `.{topic}-explore__toolbar` |
+| `[class*='-explore__mode-btn']` | `.{topic}-explore__mode-btn` |
+| `[class*='-explore__mode']:where(button)` | 短名 `__mode` 的 `<button>` |
+
+- Specificity 與 class 相同。偏離共用樣式 → 在主題 CSS **覆寫**（import 順序在 `explore-toolbar.css` 之後），或改用不觸發 selector 的 class 名。
+- `fourier-explore.css` 等檔案只保留 **layout 專屬** 規則；與 toolbar/mode 重複的 spacing、字級、邊框應刪除，否則共用層失效。
+- Canonical comment：`src/styles/components/explore/explore-toolbar.css` 檔首。
 
 ### 3.2 Fourier（`fourier-series`）
 
@@ -207,5 +225,6 @@ Gate：
 - [ ] Reveal 用 `deltaTime`，非固定每幀增量。
 - [ ] Mode / N 離散參數有 cache；draw 只做 slice + guide。
 - [ ] 控件內嵌於 Explore root，不走 Works portal。
+- [ ] mode / toolbar 樣式優先沿用 `explore-toolbar.css` + `explore-touch.css`。
 - [ ] 列表 `coverImage` 只有在實際資產存在時才設定。
 - [ ] 新封面同時納入 PNG 與可重現來源檔。

@@ -1,13 +1,19 @@
 ---
 import '../styles/components/footer.css';
 import { PERSONAL_SITE_HOST, PERSONAL_SITE_URL } from '../lib/siteLinks';
+import { withBase } from '../lib/withBase';
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <span>羊·實驗 © {year}</span>
+    <span class="site-footer__brand">羊·實驗 © {year}</span>
+    <nav class="site-footer__nav" aria-label="網站導覽">
+      <a href={withBase('/works')} class="site-footer__link">作品集</a>
+      <a href={withBase('/explore')} class="site-footer__link">主題導覽</a>
+      <a href={withBase('/about')} class="site-footer__link">關於</a>
+    </nav>
     <div class="site-footer__links">
       <a
         href={PERSONAL_SITE_URL}

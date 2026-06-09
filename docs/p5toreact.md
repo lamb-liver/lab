@@ -123,11 +123,25 @@ scripts/explore-covers/
   {slug}.*                             # 新 Explore cover 可重現來源檔
 
 src/styles/pages/
-  work-detail.css           # .work-detail__stage 舞台佈局
+  work-detail.css           # .work-detail__stage、accordion、controls 分組
+
+src/styles/components/
+  breadcrumb.css            # .detail-top-nav、breadcrumb
+  filter.css, list-search.css
+  explore-touch.css
 
 src/styles/components/explore/
-  fourier-explore.css       # explore 工具列
+  explore-toolbar.css       # Explore 共用 toolbar / mode token
+  fourier-explore.css       # explore 主題專屬 layout
+
+src/lib/
+  listFilter.ts             # 列表 filter 純邏輯（DOM 在 ListSearchFilterScript.astro）
+
+src/components/
+  Breadcrumb.astro, ListSearchFilterScript.astro
 ```
+
+站點殼層 UX（breadcrumb、列表 filter、Footer、首頁 section）見 [`site-ux.md`](site-ux.md)。
 
 ---
 
@@ -148,29 +162,42 @@ src/styles/components/explore/
 
 ~~依 `entry.id` if/else 掛載各 `*CurveRoot`~~ — 改由 Stage + registry 查表。
 
-### 舞台佈局（canvas 左 · 控制右）
+### 舞台佈局（canvas 左 · 控制右 · 互動優先）
 
-互動作品使用 **`.work-detail__stage`** 雙欄 grid，進頁即可在 canvas 右側看到滑桿，無需捲到 Markdown 區：
+互動作品：**compact header 在舞台上方**，進頁即可看到標題與 canvas；控制緊接 canvas，prose 在舞台下方。
 
 ```html
+<div class="container detail-top-nav">
+  <Breadcrumb … />
+  <a class="back-link back-link--top">← 返回作品集</a>
+</div>
+<header class="container work-detail__header">
+  <h1>…</h1> <!-- 全頁唯一 h1 -->
+  <div class="work-detail__header-tags">…</div>
+</header>
 <div class="work-detail__stage">
   <div class="work-detail__canvas">
     <*CurveRoot />          <!-- 只渲染 canvas host -->
   </div>
-  <aside class="controls-panel controls-panel--stage" id="{slug}-controls" />
+  <details class="work-detail__controls">
+    <summary class="work-detail__controls-toggle">調整參數</summary>
+    <aside class="controls-panel controls-panel--stage" id="{slug}-controls" />
+  </details>
 </div>
 <div class="container work-detail">
-  <h1>…</h1>
-  <article class="prose">…</article>   <!-- 說明全文寬，在舞台下方 -->
+  <article class="prose">…</article>   <!-- 說明全文在舞台下方 -->
 </div>
 ```
 
-React 以 `createPortal` 將控制面板掛入右側 `.controls-panel--stage`（`sticky`，高度 `min(70vh, 680px)`）。
+React 以 `createPortal` 將控制面板掛入 `.controls-panel--stage`（`sticky`，高度 `min(70vh, 680px)`）。  
+`CurveWorkRoot` portal 內含 `ParamControls` + `StatsPanel`（無單群組 section label；多群組自訂 Root 見 [`site-ux.md`](site-ux.md) §4.4）。
 
 | 斷點 | 行為 |
 |------|------|
-| ≥1024px | canvas **左** · 控制 **右**（320px 欄） |
-| <1024px | canvas 上 · 控制下（仍緊接 canvas，在 prose 之前） |
+| ≥1024px | canvas **左** · 控制 **右**（320px 欄）；`<details>` 視覺上恆開，summary 隱藏 |
+| <1024px | canvas 上 · 控制下；`<details>` **預設收合**，summary 可展開 |
+
+`<details>` 收合時 `<aside>` 仍在 DOM；參數初始值來自 React `defaultParams`，不讀 slider DOM。見 [`site-ux.md`](site-ux.md) §4.3。
 
 **不要**把 portal 目標放在 `.detail-grid` 的 prose 旁——控制會被擠到頁面中段以下。
 
@@ -192,6 +219,17 @@ export const getPublishedAsc = (entries) =>
 
 `featured: true` 決定是否進首頁池；**不**改變 `/works` 的 asc 規則。
 
+### 列表搜尋與篩選
+
+| 層 | 檔案 | 職責 |
+|----|------|------|
+| 邏輯 | `src/lib/listFilter.ts` | grid 顯示/計數、URL param、清除篩選 |
+| 客戶端 | `ListSearchFilterScript.astro` | Fuse、`data-filter-scroll` fade、事件 |
+
+列表頁容器：`data-list-filter` + `data-filter-param` + `data-search-param`。  
+結果計數：`[data-filter-count]`；空結果：`[data-filter-clear]`。  
+完整 UX 契約見 [`site-ux.md`](site-ux.md) §6。
+
 ---
 
 ## Explore 視覺化（`/explore/[slug]`）
@@ -212,7 +250,9 @@ export const getPublishedAsc = (entries) =>
     └── .fourier-explore__meta    ← 公式（降權）
 ```
 
-掛載：`pages/explore/[slug].astro` 查 `isExploreInteractive` → `ExploreInteractiveStage`；Markdown prose 在互動區下方。
+掛載：`pages/explore/[slug].astro` 查 `isExploreInteractive` → `ExploreInteractiveStage`；頂部 `.detail-top-nav`（breadcrumb + 返回）；Markdown prose 在互動區下方。
+
+Explore 詳情引入 `explore-toolbar.css` + `explore-touch.css`（見 [`site-ux.md`](site-ux.md) §5）。
 
 新增互動 explore：`explore/interactiveRegistry.ts` + `ExploreInteractiveStage.tsx` 的 `rootBySlug`。
 

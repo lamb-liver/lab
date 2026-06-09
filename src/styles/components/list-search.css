@@ -2,6 +2,12 @@
   margin-bottom: var(--space-6);
 }
 
+.list-filter-count {
+  margin: 0 0 var(--space-6);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
 .list-search__label {
   position: absolute;
   width: 1px;
@@ -38,6 +44,12 @@
 .list-search__input:focus {
   outline: none;
   border-color: var(--color-accent);
+}
+
+@media (max-width: 767px) {
+  .list-search__input {
+    font-size: 1rem;
+  }
 }
 
 .list-search__input::-webkit-search-cancel-button {

@@ -4,7 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { descriptionHasRawMath } from '../src/content/descriptionMath';
 import { readExploreEntries } from '../src/content/exploreEntries';
-import { getCollectionPagerNeighbors } from '../src/content/utils';
+import { getCollectionPagerNeighbors, getPublishedAsc } from '../src/content/utils';
 import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from '../src/lib/defaultOg';
 import { siteSeo } from '../src/lib/seoCopy';
 
@@ -392,29 +392,31 @@ test.describe('SEO metadata and UX shell', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/works');
 
+    const navLinks = page.locator('#site-nav-links');
+
     await expect(page.getByRole('button', { name: '開啟選單' })).toBeVisible();
     const menuButton = page.locator('[data-nav-toggle]');
     await expect(menuButton).toBeVisible();
     await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-    await expect(page.locator('#site-nav-links')).toBeHidden();
-    await expect(page.getByRole('link', { name: '主題導覽' })).toHaveCount(0);
+    await expect(navLinks).toBeHidden();
+    await expect(navLinks.getByRole('link', { name: '主題導覽' })).toHaveCount(0);
 
     await menuButton.click();
     await expect(menuButton).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.locator('#site-nav-links')).toBeVisible();
-    await expect(page.getByRole('link', { name: '作品集' })).toHaveCount(1);
-    await expect(page.getByRole('link', { name: '主題導覽' })).toHaveCount(1);
-    await expect(page.getByRole('link', { name: '關於' })).toHaveCount(1);
+    await expect(navLinks).toBeVisible();
+    await expect(navLinks.getByRole('link', { name: '作品集' })).toHaveCount(1);
+    await expect(navLinks.getByRole('link', { name: '主題導覽' })).toHaveCount(1);
+    await expect(navLinks.getByRole('link', { name: '關於' })).toHaveCount(1);
 
     await page.keyboard.press('Escape');
     await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-    await expect(page.getByRole('link', { name: '主題導覽' })).toHaveCount(0);
+    await expect(navLinks.getByRole('link', { name: '主題導覽' })).toHaveCount(0);
 
     await menuButton.click();
     await expect(menuButton).toHaveAttribute('aria-expanded', 'true');
     await page.mouse.click(12, 820);
     await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-    await expect(page.getByRole('link', { name: '主題導覽' })).toHaveCount(0);
+    await expect(navLinks.getByRole('link', { name: '主題導覽' })).toHaveCount(0);
   });
 
   test('interactive pages include server-rendered loading fallback markup', async ({ request }) => {
@@ -444,12 +446,15 @@ test.describe('SEO metadata and UX shell', () => {
     page,
   }) => {
     const explore = readExploreEntries(projectRoot);
+    const sorted = getPublishedAsc(explore);
+    expect(sorted.length).toBeGreaterThan(2);
 
-    const newest = getCollectionPagerNeighbors(explore, 'vectors');
-    expect(newest.previous?.id).toBe('exponential-logarithm');
+    const newestEntry = sorted[sorted.length - 1]!;
+    const newest = getCollectionPagerNeighbors(explore, newestEntry.id);
+    expect(newest.previous?.id).toBe(sorted[sorted.length - 2]!.id);
     expect(newest.next).toBeNull();
 
-    await page.goto('/explore/vectors');
+    await page.goto(`/explore/${newestEntry.id}`);
     const newestPager = page.locator('.explore-detail__pager');
     await expect(newestPager).toBeVisible();
     await expect(

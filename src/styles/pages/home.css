@@ -65,7 +65,8 @@
 }
 
 .home-featured-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* minmax(320px) → 約 ≤1024px 容器寬自然 2 欄，避免另設 1100px 斷點與全站 1023/1024 混搭 */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
 }
 
 .home-section-header {
@@ -213,13 +214,13 @@
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
 }
 
-@media (max-width: 1023px) {
-  .home-featured-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 767px) {
+  .home-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
   .home-featured-grid {
     grid-template-columns: 1fr;
   }

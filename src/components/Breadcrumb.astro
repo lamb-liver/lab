@@ -1,0 +1,38 @@
+---
+import '../styles/components/breadcrumb.css';
+import { withBase } from '../lib/withBase';
+
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="麵包屑">
+  <ol class="breadcrumb__list">
+    {
+      items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        return (
+          <li class="breadcrumb__item">
+            {item.href && !isLast ? (
+              <a href={withBase(item.href)} class="breadcrumb__link">
+                {item.label}
+              </a>
+            ) : (
+              <span class="breadcrumb__current" aria-current="page">
+                {item.label}
+              </span>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>

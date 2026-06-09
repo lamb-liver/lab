@@ -51,6 +51,8 @@ const searchIndex = works.map((entry) => ({
 
     <TagFilter tags={tagOptions} />
 
+    <p class="list-filter-count" data-filter-count aria-live="polite">共 {works.length} 篇</p>
+
     <script
       type="application/json"
       id="works-search-index"
@@ -70,7 +72,10 @@ const searchIndex = works.map((entry) => ({
       }
     </div>
 
-    <p class="filter-empty" data-filter-empty hidden>找不到符合的作品</p>
+    <p class="filter-empty" data-filter-empty hidden>
+      找不到符合的作品
+      <button type="button" class="filter-empty__clear" data-filter-clear>清除篩選</button>
+    </p>
   </div>
   <ListSearchFilterScript />
 </BaseLayout>

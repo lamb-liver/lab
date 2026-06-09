@@ -12,6 +12,7 @@ This document is the system map for AI agents and maintainers. It does not repla
 |--------|------|------------------|
 | Works content | `src/content/works/*.md` | `textstyle.md` |
 | Explore content | `src/content/explore/*.md` | `textstyle.md` |
+| Site shell UX | Astro layouts, list filter, nav/footer | `site-ux.md` |
 | Work geometry modules | `src/curve/modules/*` | `p5toreact.md` |
 | Work runtime mounting | `src/components/works/*CurveRoot.tsx`, `WorkInteractiveStage.tsx` | `p5toreact.md`, `reactkey.md` |
 | Shared rendering | `src/systems/rendering/*` | `art.md`, `workart.md`, `exploreart.md`, `p5toreact.md` |
@@ -67,6 +68,19 @@ src/content/explore/{slug}.md
 ```
 
 Explore list cards use static `coverImage` assets, not `curveThumbnail.ts`.
+
+## Site Shell and List Filter
+
+List and search UX is intentionally split:
+
+```text
+src/lib/listFilter.ts              # pure filter/count/URL helpers
+src/components/ListSearchFilterScript.astro   # Fuse + DOM events + scroll fade
+src/pages/works/index.astro
+src/pages/explore/index.astro
+```
+
+Detail pages use `Breadcrumb.astro` + `.detail-top-nav` for context navigation vs quick back links. Full contract: `site-ux.md`.
 
 ## Registry Relationships
 

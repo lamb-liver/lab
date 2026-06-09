@@ -1,0 +1,71 @@
+/**
+ * Explore 共用 toolbar / mode 控件 token（D8）。
+ *
+ * ## 命名約定（刻意設計，非 accidental globals）
+ *
+ * 以下 attribute selector 會自動套用到符合慣例的 class，**零配置**：
+ *
+ * | Selector | 約定 |
+ * |----------|------|
+ * | `[class$='-explore__toolbar']` | 工具列容器，class 以 `-explore__toolbar` 結尾 |
+ * | `[class*='-explore__mode-btn']` | mode 切換按鈕 |
+ * | `[class*='-explore__mode']:where(button)` | 同上，部分主題用 `__mode` |
+ *
+ * Specificity 等同 class selector。若某主題需**刻意偏離**共用樣式：
+ * 1. 在該主題 CSS（於本檔 import **之後**）用更具體 selector 覆寫；或
+ * 2. 避免使用上述 suffix，改用主題專屬 class 名。
+ *
+ * 新增 Explore root 時，優先 extend 本節 selector，勿複製整段 toolbar/mode 規則。
+ * 完整說明見 docs/exploreart.md §3.1、docs/site-ux.md §5。
+ */
+
+:root {
+  --explore-accent: rgb(212, 184, 122);
+  --explore-toolbar-bg: var(--color-bg);
+  --explore-mode-font-size: 0.6875rem;
+  --explore-mode-pad: var(--space-2) var(--space-3);
+}
+
+[class$='-explore__toolbar'] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  background: var(--explore-toolbar-bg);
+}
+
+[class*='-explore__mode-btn'],
+[class*='-explore__mode']:where(button),
+.probability-statistics-explore__mode,
+.exponential-logarithm-explore__mode {
+  font-family: var(--font-mono);
+  font-size: var(--explore-mode-font-size);
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: var(--explore-mode-pad);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+[class*='-explore__mode-btn']:hover,
+[class*='-explore__mode']:where(button):hover {
+  border-color: var(--color-text-muted);
+}
+
+[class*='-explore__meta-label'],
+[class*='-explore__title']:not([class*='__visual-title']),
+[class*='-explore__visual-title'] {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+@media (min-width: 640px) {
+  [class$='-explore__toolbar'] {
+    flex-wrap: nowrap;
+  }
+}

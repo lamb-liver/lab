@@ -41,6 +41,13 @@
   animation: page-fade-in 300ms ease forwards;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 @keyframes page-fade-in {
   to {
     opacity: 1;

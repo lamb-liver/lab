@@ -122,8 +122,12 @@ Guide 只提供空間感，不是主體。
 
 - 舞台：`.work-detail__stage`，canvas 左、`.controls-panel--stage` 右（React portal）。
 - 桌面 `>=1024px`：右欄 `sticky`；手機：canvas 上、控制下（均在 prose 之前）。
-- 控件：`ParamControls` + `StatsPanel`（需要時加 `DeltaPhaseControl`），由 `getMetadata` 驅動公式與 stats。
+- **互動優先**：compact header（`.work-detail__header`：`h1` + tags）在舞台**上方**；prose 在舞台下方。詳情頂部 breadcrumb + 返回分工見 [`site-ux.md`](site-ux.md) §3–§4。
+- 手機 `<1024px`：控制區包在 `<details.work-detail__controls>`，summary「調整參數」，預設收合；portal 目標 `<aside>` 收合時仍在 DOM，參數來自 React state 非 input 初值。
+- 控件：`ParamControls` + `StatsPanel`（需要時 `DeltaPhaseControl` 或 `curve-work-mode-toggle`）；由 `getMetadata` 驅動公式與 stats。
+- **分組小標**（`.controls-panel__section-label`）：僅用於自訂 `*CurveRoot` 且面板有 **≥2 語意群組** 時；標準 `CurveWorkRoot` **不加**「參數」小標。見 [`site-ux.md`](site-ux.md) §4.4。
 - Canvas 內不放大段說明文字、公式清單或狀態面板；這些交給右側 React controls / Markdown。
+- 上下篇 label：**較早一篇 / 較新一篇**（依 date 舊→新排序，語意不暗示主題連續）。
 
 ---
 
@@ -172,6 +176,7 @@ thumbnail    -> sample(..., { purpose: 'thumbnail' })
 - [ ] `curveStyle` 使用 accent `(212, 184, 122)` + 分層 glow
 - [ ] ghost 弱於 reveal；grid/guide 僅低 alpha 線框
 - [ ] `work-detail__stage` 右欄 portal；滑桿一屏可見
+- [ ] 手機 accordion 收合不阻斷 portal mount（見 [`site-ux.md`](site-ux.md) §4.3）
 - [ ] 連續 lerp 參數遵守 `reactkey.md`
 - [ ] 未重做 glow / hierarchy 語言
 
@@ -220,4 +225,5 @@ p5 Web Editor prototype
 | 渲染 preset | `src/systems/rendering/presets.ts` |
 | 作品舞台 CSS | `src/styles/pages/work-detail.css` |
 | p5 / React 整合 | `p5toreact.md` |
+| 站點 UX（breadcrumb、列表 filter） | `site-ux.md` |
 | Morph 曲線契約 | `reactkey.md` |

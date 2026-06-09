@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { withBase } from '../../lib/withBase';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import ExploreInteractiveStage from '../../components/explore/ExploreInteractiveStage';
@@ -13,6 +14,8 @@ import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
 import '../../styles/prose.css';
 import '../../styles/pages/explore-detail.css';
+import '../../styles/components/explore-touch.css';
+import '../../styles/components/explore/explore-toolbar.css';
 
 export async function getStaticPaths() {
   const explore = await getCollection('explore');
@@ -65,7 +68,16 @@ const structuredData = [
   structuredData={structuredData}
 >
   <div class={`container explore-detail${interactive ? ' explore-detail--interactive' : ''}`}>
-    <a href={withBase('/explore')} class="back-link back-link--top">← 返回主題導覽</a>
+    <div class="detail-top-nav">
+      <Breadcrumb
+        items={[
+          { label: '首頁', href: '/' },
+          { label: '主題導覽', href: '/explore' },
+          { label: entry.data.title },
+        ]}
+      />
+      <a href={withBase('/explore')} class="back-link back-link--top">← 返回主題導覽</a>
+    </div>
 
     <header class="page-header">
       <h1>{entry.data.title}</h1>
@@ -100,16 +112,16 @@ const structuredData = [
       {
         previousExplore ? (
           <a href={withBase(`/explore/${previousExplore.id}`)} class="explore-detail__pager-link">
-            <span>上一篇</span>
+            <span>較早一篇</span>
             <strong>{previousExplore.data.title}</strong>
           </a>
         ) : (
           <span
             class="explore-detail__pager-link explore-detail__pager-link--disabled"
             aria-disabled="true"
-            aria-label="沒有上一篇"
+            aria-label="沒有較早一篇"
           >
-            <span>上一篇</span>
+            <span>較早一篇</span>
             <strong>無</strong>
           </span>
         )
@@ -117,16 +129,16 @@ const structuredData = [
       {
         nextExplore ? (
           <a href={withBase(`/explore/${nextExplore.id}`)} class="explore-detail__pager-link explore-detail__pager-link--next">
-            <span>下一篇</span>
+            <span>較新一篇</span>
             <strong>{nextExplore.data.title}</strong>
           </a>
         ) : (
           <span
             class="explore-detail__pager-link explore-detail__pager-link--disabled explore-detail__pager-link--next"
             aria-disabled="true"
-            aria-label="沒有下一篇"
+            aria-label="沒有較新一篇"
           >
-            <span>下一篇</span>
+            <span>較新一篇</span>
             <strong>無</strong>
           </span>
         )

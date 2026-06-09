@@ -1,6 +1,36 @@
 /* 互動舞台：canvas 左、控制面板右 */
-.work-detail__top-nav {
-  padding-bottom: var(--space-6);
+.work-detail__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3) var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.work-detail__header-title {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  min-width: 0;
+}
+
+.work-detail__header-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.work-detail__header-tag {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-sm);
 }
 
 .work-detail__stage {
@@ -26,14 +56,6 @@
 
 .work-detail__canvas .curve-work-canvas-host.work-canvas {
   height: 100%;
-}
-
-.work-detail__title {
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin-top: var(--space-8);
 }
 
 .work-detail__prose {
@@ -118,6 +140,47 @@
   min-height: min(70vh, 680px);
 }
 
+.work-detail__controls {
+  min-width: 0;
+}
+
+/* details 收合僅隱藏視覺；aside 仍在 DOM，React portal 與 defaultParams 不受影響 */
+.work-detail__controls-toggle {
+  display: none;
+  list-style: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.work-detail__controls-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.work-detail__controls-toggle::after {
+  content: '';
+  flex-shrink: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid var(--color-text-muted);
+  border-bottom: 1.5px solid var(--color-text-muted);
+  transform: rotate(45deg);
+  transform-origin: 50% 35%;
+  transition: transform 200ms ease;
+}
+
+.work-detail__controls[open] .work-detail__controls-toggle::after {
+  transform: rotate(-135deg);
+}
+
 .control-field {
   display: flex;
   flex-direction: column;
@@ -136,6 +199,19 @@
   color: var(--color-text-muted);
 }
 
+.controls-panel__section-label {
+  margin: 0 0 var(--space-4);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.controls-panel__section .control-field + .control-field {
+  margin-top: 0;
+}
+
 @media (max-width: 1023px) {
   .work-detail__stage {
     grid-template-columns: 1fr;
@@ -146,12 +222,16 @@
     min-height: min(50vh, 480px);
   }
 
+  .work-detail__controls-toggle {
+    display: flex;
+  }
+
   .controls-panel--stage {
     position: static;
     max-height: none;
     min-height: 0;
     border-left: none;
-    border-top: 1px solid var(--color-border);
+    border-top: none;
   }
 
   .work-detail__pager {
@@ -160,5 +240,11 @@
 
   .work-detail__pager-link--next {
     text-align: left;
+  }
+}
+
+@media (min-width: 1024px) {
+  .work-detail__controls .controls-panel--stage {
+    display: flex !important;
   }
 }

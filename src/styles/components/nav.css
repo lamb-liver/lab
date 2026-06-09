@@ -47,6 +47,8 @@
 
 .site-nav__menu-button {
   display: none;
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
   padding: var(--space-2);
   color: var(--color-text);
   cursor: pointer;

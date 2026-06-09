@@ -6,13 +6,30 @@
 
 .site-footer__inner {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-4) var(--space-6);
   max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--space-6);
   font-size: 0.875rem;
   color: var(--color-text-muted);
+}
+
+.site-footer__brand {
+  flex-shrink: 0;
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.site-footer__nav .site-footer__link {
+  font-size: 0.8125rem;
 }
 
 .site-footer__links {
@@ -45,4 +62,17 @@
 .site-footer__github svg {
   width: 20px;
   height: 20px;
+}
+
+@media (max-width: 767px) {
+  .site-footer__inner {
+    flex-direction: column;
+    gap: var(--space-4);
+    text-align: center;
+  }
+
+  .site-footer__nav,
+  .site-footer__links {
+    justify-content: center;
+  }
 }

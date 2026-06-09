@@ -74,6 +74,16 @@
   animation: interactive-loading-spin 900ms linear infinite;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .interactive-loading {
+    animation: none;
+  }
+
+  .interactive-loading__mark {
+    animation: none;
+  }
+}
+
 @keyframes interactive-loading-sheen {
   from {
     background-position: 120% 0, 0 0;

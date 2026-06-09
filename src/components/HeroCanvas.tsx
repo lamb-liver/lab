@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useSyncExternalStore } from 'react';
 import type p5 from 'p5';
 import {
   createRotationScaleCompositionAnimState,
@@ -17,6 +17,20 @@ const HERO_PARAMS = {
   evolutionSpeed: 0,
 };
 
+function subscribeReducedMotion(onStoreChange: () => void) {
+  const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+  media.addEventListener('change', onStoreChange);
+  return () => media.removeEventListener('change', onStoreChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(subscribeReducedMotion, getReducedMotionSnapshot, () => false);
+}
+
 function measureHeroCanvas(host: HTMLElement) {
   return {
     width: Math.max(MIN_HERO_CANVAS_SIZE, host.clientWidth),
@@ -24,7 +38,7 @@ function measureHeroCanvas(host: HTMLElement) {
   };
 }
 
-export default function HeroCanvas() {
+function HeroCanvasAnimated() {
   const animRef = useRef(createRotationScaleCompositionAnimState(HERO_PARAMS));
 
   const draw = useCallback((p: p5) => {
@@ -54,4 +68,10 @@ export default function HeroCanvas() {
       aria-hidden="true"
     />
   );
+}
+
+export default function HeroCanvas() {
+  const reducedMotion = usePrefersReducedMotion();
+  if (reducedMotion) return null;
+  return <HeroCanvasAnimated />;
 }

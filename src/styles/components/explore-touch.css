@@ -1,0 +1,12 @@
+/* Explore 互動控件：統一最小觸控區（視覺可小，hit area ≥44px） */
+
+[class*='-explore__mode-btn'],
+[class*='-explore__mode']:where(button),
+.probability-statistics-explore__mode,
+.exponential-logarithm-explore__mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+}

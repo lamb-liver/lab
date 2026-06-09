@@ -25,6 +25,7 @@ const searchIndex = explore.map((entry) => ({
     data-filter-param="category"
     data-search-param="q"
     data-search-index-id="explore-search-index"
+    data-filter-count-unit="個主題"
   >
     <header class="page-header">
       <span class="section-badge section-badge--explore">互動視覺化</span>
@@ -50,6 +51,8 @@ const searchIndex = explore.map((entry) => ({
 
     <CategoryFilter categories={categoryOptions} />
 
+    <p class="list-filter-count" data-filter-count aria-live="polite">共 {explore.length} 個主題</p>
+
     <script
       type="application/json"
       id="explore-search-index"
@@ -70,7 +73,10 @@ const searchIndex = explore.map((entry) => ({
       }
     </div>
 
-    <p class="filter-empty" data-filter-empty hidden>目前無符合此分類的內容</p>
+    <p class="filter-empty" data-filter-empty hidden>
+      目前無符合此分類的內容
+      <button type="button" class="filter-empty__clear" data-filter-clear>清除篩選</button>
+    </p>
   </div>
   <ListSearchFilterScript />
 </BaseLayout>
