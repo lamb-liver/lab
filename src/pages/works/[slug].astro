@@ -108,8 +108,15 @@ const structuredData = [
             </div>
           </WorkInteractiveStage>
         </div>
-        <details class="work-detail__controls">
-          <summary class="work-detail__controls-toggle">調整參數</summary>
+        <p class="work-detail__canvas-scroll-hint" aria-hidden="true">上下滑動以瀏覽參數與文章</p>
+        <details class="work-detail__controls" data-work-controls>
+          <summary class="work-detail__controls-toggle">
+            <span class="work-detail__controls-toggle-label">
+              <span class="work-detail__controls-toggle-text">調整參數</span>
+              <span class="work-detail__controls-toggle-text--open">收合參數</span>
+              <span class="work-detail__controls-toggle-hint">點開後向下滑動以調整</span>
+            </span>
+          </summary>
           <aside
             class="controls-panel controls-panel--stage"
             id={workControlsMountId(entry.id)}
@@ -166,4 +173,28 @@ const structuredData = [
 
     <a href={withBase('/works')} class="back-link">← 返回作品集</a>
   </div>
+  {
+    interactive ? (
+      <script is:inline>
+        {`(function () {
+  function bindWorkControlsAccordion() {
+    document.querySelectorAll('[data-work-controls]').forEach(function (details) {
+      if (details.dataset.workControlsBound) return;
+      details.dataset.workControlsBound = 'true';
+      details.addEventListener('toggle', function () {
+        if (!details.open) return;
+        var panel = details.querySelector('.controls-panel--stage');
+        if (!panel) return;
+        requestAnimationFrame(function () {
+          var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          panel.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+        });
+      });
+    });
+  }
+  bindWorkControlsAccordion();
+})();`}
+      </script>
+    ) : null
+  }
 </BaseLayout>

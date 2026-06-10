@@ -82,7 +82,8 @@ Explore 詳情維持 **標題 → 互動 → prose**；頂部同樣有 `.detail-
 
 - canvas 上、控制下（仍在 prose 之前）
 - 控制區包在 `<details class="work-detail__controls">`：
-  - `<summary>調整參數</summary>` + chevron（CSS border 绘制，`[open]` 时 rotate）
+  - `<summary>調整參數</summary>` + 收合時提示「點開後向下滑動」；展開後自動 `scrollIntoView` 至控制面板
+  - canvas 下方手機專用滑動提示列；canvas 區 `touch-action: pan-y` 不攔截垂直捲動
   - **預設收合**，減少滑到 prose 前的垂直深度
 
 ### 4.3 Accordion 與 portal 安全
