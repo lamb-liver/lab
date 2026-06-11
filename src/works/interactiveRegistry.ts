@@ -51,6 +51,9 @@ export const workInteractiveSlugs = [
   'quadratic-completing-square',
   'polynomial-roots-multiplicity',
   'inverse-function-reflection',
+  'eigenvector-geometry',
+  'function-derivative-graph',
+  'taylor-polynomial-approximation',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
@@ -108,6 +111,9 @@ export const workInteractionHints = {
   'quadratic-completing-square': 'input',
   'polynomial-roots-multiplicity': 'input',
   'inverse-function-reflection': 'input',
+  'eigenvector-geometry': 'input',
+  'function-derivative-graph': 'input',
+  'taylor-polynomial-approximation': 'input',
 } satisfies Record<WorkInteractiveSlug, WorkInteractionHint>;
 
 export function isWorkInteractive(slug: string): slug is WorkInteractiveSlug {

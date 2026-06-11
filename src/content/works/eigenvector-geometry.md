@@ -5,7 +5,7 @@ tags:
   - 線性代數
 date: 2026-10-20
 featured: false
-draft: true
+draft: false
 ---
 
 ## 參數方程

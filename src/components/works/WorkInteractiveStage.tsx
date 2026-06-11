@@ -52,6 +52,9 @@ import FunctionGraphTransformCurveRoot from './FunctionGraphTransformCurveRoot';
 import QuadraticCompletingSquareCurveRoot from './QuadraticCompletingSquareCurveRoot';
 import PolynomialRootsMultiplicityCurveRoot from './PolynomialRootsMultiplicityCurveRoot';
 import InverseFunctionReflectionCurveRoot from './InverseFunctionReflectionCurveRoot';
+import EigenvectorGeometryCurveRoot from './EigenvectorGeometryCurveRoot';
+import FunctionDerivativeGraphCurveRoot from './FunctionDerivativeGraphCurveRoot';
+import TaylorPolynomialApproximationCurveRoot from './TaylorPolynomialApproximationCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -107,6 +110,9 @@ const rootBySlug = {
   'quadratic-completing-square': QuadraticCompletingSquareCurveRoot,
   'polynomial-roots-multiplicity': PolynomialRootsMultiplicityCurveRoot,
   'inverse-function-reflection': InverseFunctionReflectionCurveRoot,
+  'eigenvector-geometry': EigenvectorGeometryCurveRoot,
+  'function-derivative-graph': FunctionDerivativeGraphCurveRoot,
+  'taylor-polynomial-approximation': TaylorPolynomialApproximationCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.
