@@ -34,24 +34,28 @@ const searchIndex = works.map((entry) => ({
       </p>
     </header>
 
-    <div class="list-search">
-      <label class="list-search__label" for="works-search-input">搜尋作品</label>
-      <input
-        id="works-search-input"
-        class="list-search__input"
-        type="search"
-        name="q"
-        placeholder="搜尋標題或描述…"
-        autocomplete="off"
-        spellcheck="false"
-        data-works-search-input
-        data-list-search-input
-      />
-    </div>
+    <section class="list-controls" aria-label="作品列表工具">
+      <div class="list-controls__top">
+        <div class="list-search">
+          <label class="list-search__label" for="works-search-input">搜尋作品</label>
+          <input
+            id="works-search-input"
+            class="list-search__input"
+            type="search"
+            name="q"
+            placeholder="搜尋標題或描述…"
+            autocomplete="off"
+            spellcheck="false"
+            data-works-search-input
+            data-list-search-input
+          />
+        </div>
 
-    <TagFilter tags={tagOptions} />
+        <p class="list-filter-count" data-filter-count aria-live="polite">共 {works.length} 篇</p>
+      </div>
 
-    <p class="list-filter-count" data-filter-count aria-live="polite">共 {works.length} 篇</p>
+      <TagFilter tags={tagOptions} />
+    </section>
 
     <script
       type="application/json"

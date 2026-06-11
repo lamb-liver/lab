@@ -17,8 +17,9 @@ function usage() {
     '  npm run audit:explore-covers',
     '  npm run audit:explore-covers -- --json',
     '',
-    'Checks src/content/explore coverImage, public/images/explore-covers PNGs,',
-    'and scripts/explore-covers SVG sources. fourier-series keeps its legacy cover.',
+    'Checks published src/content/explore coverImage, public/images/explore-covers PNGs,',
+    'and scripts/explore-covers SVG sources. Draft entries are not required.',
+    'fourier-series keeps its legacy cover.',
   ].join('\n');
 }
 
@@ -34,6 +35,7 @@ function readExploreEntries() {
         slug,
         path,
         coverImage: readFrontmatterValue(body, 'coverImage'),
+        draft: readFrontmatterValue(body, 'draft') === 'true',
       };
     });
 }
@@ -79,11 +81,12 @@ function listSlugs(dir, extension) {
 export function auditExploreCovers() {
   const issues = [];
   const entries = readExploreEntries();
+  const publishedEntries = entries.filter((entry) => !entry.draft);
   const contentSlugs = new Set(entries.map((entry) => entry.slug));
   const svgSlugs = listSlugs(coverSourceDir, '.svg');
   const pngSlugs = listSlugs(coverPublicDir, '.png');
 
-  for (const entry of entries) {
+  for (const entry of publishedEntries) {
     const legacyCover = legacyCovers.get(entry.slug);
     const expectedCover = legacyCover ?? `/images/explore-covers/${entry.slug}.png`;
 
@@ -158,7 +161,7 @@ export function auditExploreCovers() {
   }
 
   return {
-    checked: entries.length,
+    checked: publishedEntries.length,
     issues,
   };
 }

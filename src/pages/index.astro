@@ -144,19 +144,17 @@ const latestExplore = excludeEntryIds(
       <div class="home-topic-list">
         {
           latestExplore.map((entry) => (
-            <article class="home-topic-item">
+            <a class="home-topic-item" href={withBase(`/explore/${entry.id}`)}>
               <div class="home-topic-item__meta">
                 <span class="section-badge section-badge--explore">互動視覺化</span>
                 <span class="home-topic-item__category">{entry.data.category}</span>
               </div>
               <h3 class="home-topic-item__title">
-                <a href={withBase(`/explore/${entry.id}`)}>{entry.data.title}</a>
+                {entry.data.title}
               </h3>
               <p class="home-topic-item__desc">{entry.data.description}</p>
-              <a class="home-topic-item__link" href={withBase(`/explore/${entry.id}`)}>
-                進入主題 →
-              </a>
-            </article>
+              <span class="home-topic-item__link">進入主題 →</span>
+            </a>
           ))
         }
       </div>

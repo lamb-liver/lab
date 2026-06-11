@@ -35,23 +35,29 @@ const searchIndex = explore.map((entry) => ({
       </p>
     </header>
 
-    <div class="list-search">
-      <label class="list-search__label" for="explore-search-input">搜尋主題</label>
-      <input
-        id="explore-search-input"
-        class="list-search__input"
-        type="search"
-        name="q"
-        placeholder="搜尋標題或描述…"
-        autocomplete="off"
-        spellcheck="false"
-        data-list-search-input
-      />
-    </div>
+    <section class="list-controls" aria-label="主題列表工具">
+      <div class="list-controls__top">
+        <div class="list-search">
+          <label class="list-search__label" for="explore-search-input">搜尋主題</label>
+          <input
+            id="explore-search-input"
+            class="list-search__input"
+            type="search"
+            name="q"
+            placeholder="搜尋標題或描述…"
+            autocomplete="off"
+            spellcheck="false"
+            data-list-search-input
+          />
+        </div>
 
-    <CategoryFilter categories={categoryOptions} />
+        <p class="list-filter-count" data-filter-count aria-live="polite">
+          共 {explore.length} 個主題
+        </p>
+      </div>
 
-    <p class="list-filter-count" data-filter-count aria-live="polite">共 {explore.length} 個主題</p>
+      <CategoryFilter categories={categoryOptions} />
+    </section>
 
     <script
       type="application/json"

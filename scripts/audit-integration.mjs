@@ -24,16 +24,51 @@ function usage() {
     '  npm run audit:integration',
     '  npm run audit:integration -- --json',
     '',
-    'Static checks for Works and Explore integration surfaces: content, module,',
+    'Static checks for Works and Explore integration surfaces: published content, module,',
     'renderer/hook imports, Root components, registries, Stage maps, and covers.',
   ].join('\n');
 }
 
-function contentSlugs(dir) {
-  return readdirSync(dir)
+function contentSlugSets(dir) {
+  const all = new Set();
+  const published = new Set();
+
+  for (const name of readdirSync(dir)
     .filter((name) => name.endsWith('.md') || name.endsWith('.mdx'))
-    .map((name) => basename(name).replace(/\.mdx?$/, ''))
-    .sort();
+    .sort()) {
+    const slug = basename(name).replace(/\.mdx?$/, '');
+    const body = read(join(dir, name));
+    all.add(slug);
+    if (readFrontmatterValue(body, 'draft') !== 'true') {
+      published.add(slug);
+    }
+  }
+
+  return { all, published };
+}
+
+function readFrontmatterValue(body, key) {
+  const lines = body.split('\n');
+  if (lines[0] !== '---') return null;
+
+  for (let i = 1; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (line === '---') return null;
+    const match = line.match(new RegExp(`^${key}:\\s*(.+?)\\s*$`));
+    if (match) return stripQuotes(match[1]);
+  }
+  return null;
+}
+
+function stripQuotes(value) {
+  const trimmed = value.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1);
+  }
+  return trimmed;
 }
 
 function read(path) {
@@ -122,7 +157,7 @@ function hasRelativeImportIssues(filePath, source, issues, owner) {
 }
 
 function checkWorkSurfaces(issues) {
-  const content = new Set(contentSlugs(paths.workContent));
+  const content = contentSlugSets(paths.workContent);
   const workRegistry = read(paths.workRegistry);
   const curveRegistry = read(paths.curveRegistry);
   const workStage = read(paths.workStage);
@@ -130,10 +165,15 @@ function checkWorkSurfaces(issues) {
   const curveBySlug = parseWorkCurveMap(curveRegistry);
   const stageBySlug = parseObjectMap(workStage, 'rootBySlug');
   const stageImports = parseImports(workStage);
-  const allSlugs = new Set([...content, ...interactiveSlugs, ...curveBySlug.keys(), ...stageBySlug.keys()]);
+  const allSlugs = new Set([
+    ...content.published,
+    ...interactiveSlugs,
+    ...curveBySlug.keys(),
+    ...stageBySlug.keys(),
+  ]);
 
   for (const slug of [...allSlugs].sort()) {
-    if (!content.has(slug)) {
+    if (!content.all.has(slug)) {
       issues.push({ area: 'works', slug, file: paths.workContent, message: 'missing content file' });
     }
     if (!interactiveSlugs.has(slug)) {
@@ -210,16 +250,20 @@ function checkWorkSurfaces(issues) {
 }
 
 function checkExploreSurfaces(issues) {
-  const content = new Set(contentSlugs(paths.exploreContent));
+  const content = contentSlugSets(paths.exploreContent);
   const exploreRegistry = read(paths.exploreRegistry);
   const exploreStage = read(paths.exploreStage);
   const interactiveSlugs = new Set(parseStringArray(exploreRegistry, 'exploreInteractiveSlugs'));
   const stageBySlug = parseObjectMap(exploreStage, 'rootBySlug');
   const stageImports = parseImports(exploreStage);
-  const allSlugs = new Set([...content, ...interactiveSlugs, ...stageBySlug.keys()]);
+  const allSlugs = new Set([
+    ...content.published,
+    ...interactiveSlugs,
+    ...stageBySlug.keys(),
+  ]);
 
   for (const slug of [...allSlugs].sort()) {
-    if (!content.has(slug)) {
+    if (!content.all.has(slug)) {
       issues.push({ area: 'explore', slug, file: paths.exploreContent, message: 'missing content file' });
     }
     if (!interactiveSlugs.has(slug)) {
