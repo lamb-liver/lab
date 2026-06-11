@@ -6,7 +6,7 @@
   font-size: 2.5rem;
   font-weight: 400;
   line-height: 1.1;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
 }
 
 .about-section {
@@ -31,7 +31,7 @@
   margin-top: 1.25rem;
 }
 
-/* 聯絡方式：對齊 lambliver-portfolio（muted 標籤 + hover 淡綠底，無底線） */
+/* 聯絡方式：對齊 lambliver-portfolio（muted 標籤 + hover 淡金底，無底線） */
 
 .about-section--contact .about-contact-list {
   margin-top: var(--space-10);
@@ -81,8 +81,9 @@
 }
 
 .about-contact__copy:hover {
-  color: var(--color-text);
+  color: var(--color-accent);
   border-color: var(--accent-border);
+  background: var(--color-accent-soft);
 }
 
 .about-contact__copy:focus-visible {

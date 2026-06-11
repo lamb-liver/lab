@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="blueGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <line x1="250" y1="500" x2="1370" y2="500" stroke="#D8D8D8" stroke-width="4" opacity="0.18" stroke-linecap="round"/>
+  <line x1="800" y1="190" x2="800" y2="820" stroke="#D8D8D8" stroke-width="4" opacity="0.16" stroke-linecap="round"/>
+  <line x1="945" y1="180" x2="945" y2="820" stroke="#E76F51" stroke-width="7" opacity="0.58" stroke-linecap="round" stroke-dasharray="22 22"/>
+  <line x1="250" y1="395" x2="1370" y2="395" stroke="#5DADE2" stroke-width="7" opacity="0.58" stroke-linecap="round" stroke-dasharray="22 22" filter="url(#blueGlow)"/>
+  <path d="M 260 620 C 360 590 470 545 590 505 C 705 466 790 435 885 408"
+        fill="none" stroke="#D4B87A" stroke-width="12" opacity="1" stroke-linecap="round" stroke-linejoin="round" filter="url(#goldGlow)"/>
+  <path d="M 1008 750 C 1050 650 1108 555 1195 500 C 1262 458 1325 430 1395 410"
+        fill="none" stroke="#D4B87A" stroke-width="12" opacity="1" stroke-linecap="round" stroke-linejoin="round" filter="url(#goldGlow)"/>
+  <circle cx="590" cy="505" r="15" fill="#8BCC97" opacity="0.96"/>
+  <circle cx="710" cy="466" r="19" fill="#0A0A0A" opacity="1" stroke="#D4B87A" stroke-width="7"/>
+  <path d="M 1120 728 C 1190 650 1275 565 1380 490" fill="none" stroke="#D8D8D8" stroke-width="5" opacity="0.18" stroke-linecap="round"/>
+</svg>
