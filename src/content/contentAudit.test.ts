@@ -1,5 +1,13 @@
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { auditContentFiles, readContentFiles } from './contentAudit';
+
+function countContentFiles(collection: 'works' | 'explore') {
+  return readdirSync(join(process.cwd(), 'src/content', collection)).filter(
+    (name) => name.endsWith('.md') || name.endsWith('.mdx'),
+  ).length;
+}
 
 describe('content audit', () => {
   it('keeps frontmatter math and interaction/observation sections aligned', () => {
@@ -110,8 +118,11 @@ describe('content audit', () => {
 
   it('covers every content file in works and explore', () => {
     const files = readContentFiles();
-    expect(files).toHaveLength(92);
-    expect(files.filter((file) => file.collection === 'works')).toHaveLength(72);
-    expect(files.filter((file) => file.collection === 'explore')).toHaveLength(20);
+    const worksCount = countContentFiles('works');
+    const exploreCount = countContentFiles('explore');
+
+    expect(files).toHaveLength(worksCount + exploreCount);
+    expect(files.filter((file) => file.collection === 'works')).toHaveLength(worksCount);
+    expect(files.filter((file) => file.collection === 'explore')).toHaveLength(exploreCount);
   });
 });
