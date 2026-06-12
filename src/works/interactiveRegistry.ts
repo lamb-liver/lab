@@ -54,8 +54,6 @@ export const workInteractiveSlugs = [
   'eigenvector-geometry',
   'function-derivative-graph',
   'taylor-polynomial-approximation',
-  'rational-vertical-horizontal-asymptotes',
-  'rational-oblique-asymptote',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
@@ -116,8 +114,6 @@ export const workInteractionHints = {
   'eigenvector-geometry': 'input',
   'function-derivative-graph': 'input',
   'taylor-polynomial-approximation': 'input',
-  'rational-vertical-horizontal-asymptotes': 'input',
-  'rational-oblique-asymptote': 'input',
 } satisfies Record<WorkInteractiveSlug, WorkInteractionHint>;
 
 export function isWorkInteractive(slug: string): slug is WorkInteractiveSlug {

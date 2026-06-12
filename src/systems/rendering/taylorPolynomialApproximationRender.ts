@@ -272,15 +272,10 @@ function drawCenterPoint(
 
 function drawSceneHud(p: p5, snap: TaylorPolynomialApproximationSnap): void {
   p.noStroke();
-  p.fill(...PALETTE.text, 235);
-  p.textSize(15);
-  p.textStyle(p.BOLD);
-  p.text('泰勒多項式逼近', 18, 24);
-
-  p.textStyle(p.NORMAL);
   p.textSize(12);
+  p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 230);
-  p.text(`${snap.preset.formula} · n=${snap.n} · 拖動展開中心 a`, 18, 45);
+  p.text(`${snap.preset.formula} · n=${snap.n} · 拖動展開中心 a`, 18, 24);
 
   p.textAlign(p.RIGHT, p.TOP);
   p.fill(...PALETTE.muted, 210);

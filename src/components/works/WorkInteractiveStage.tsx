@@ -55,8 +55,6 @@ import InverseFunctionReflectionCurveRoot from './InverseFunctionReflectionCurve
 import EigenvectorGeometryCurveRoot from './EigenvectorGeometryCurveRoot';
 import FunctionDerivativeGraphCurveRoot from './FunctionDerivativeGraphCurveRoot';
 import TaylorPolynomialApproximationCurveRoot from './TaylorPolynomialApproximationCurveRoot';
-import RationalVerticalHorizontalAsymptotesCurveRoot from './RationalVerticalHorizontalAsymptotesCurveRoot';
-import RationalObliqueAsymptoteCurveRoot from './RationalObliqueAsymptoteCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -115,8 +113,6 @@ const rootBySlug = {
   'eigenvector-geometry': EigenvectorGeometryCurveRoot,
   'function-derivative-graph': FunctionDerivativeGraphCurveRoot,
   'taylor-polynomial-approximation': TaylorPolynomialApproximationCurveRoot,
-  'rational-vertical-horizontal-asymptotes': RationalVerticalHorizontalAsymptotesCurveRoot,
-  'rational-oblique-asymptote': RationalObliqueAsymptoteCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

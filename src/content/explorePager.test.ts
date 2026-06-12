@@ -21,13 +21,12 @@ describe('explore collection pager', () => {
       'vectors',
       'trigonometry-fundamentals',
       'function-equations',
-      'rational-functions-asymptotes',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'rational-functions-asymptotes');
-    expect(previous?.id).toBe('function-equations');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'function-equations');
+    expect(previous?.id).toBe('trigonometry-fundamentals');
     expect(next).toBeNull();
   });
 

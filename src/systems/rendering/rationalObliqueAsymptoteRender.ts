@@ -196,14 +196,10 @@ function drawSceneHud(
   model: ReturnType<typeof buildRationalObliqueModel>,
 ): void {
   p.noStroke();
-  p.fill(...PALETTE.text, 235);
-  p.textSize(15);
-  p.textStyle(p.BOLD);
-  p.text('斜漸近線與多項式除法', 18, 26);
-  p.textStyle(p.NORMAL);
   p.textSize(12);
+  p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 220);
-  p.text(`${snap.mode.name} · ${model.guide.label}`, 18, 47);
+  p.text(`${snap.mode.name} · ${model.guide.label}`, 18, 26);
 
   p.textAlign(p.RIGHT, p.TOP);
   p.text(model.warning || snap.mode.note, snap.size - 18, 18);

@@ -255,15 +255,10 @@ function drawHoles(
 
 function drawSceneHud(p: p5, snap: RationalFunctionsAsymptotesSnap): void {
   p.noStroke();
-  p.fill(...PALETTE.text, 235);
-  p.textSize(15);
-  p.textStyle(p.BOLD);
-  p.text('有理函數與漸近線', 18, 24);
-
-  p.textStyle(p.NORMAL);
   p.textSize(12);
+  p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 230);
-  p.text(`${snap.model.family} · ${snap.model.far.label}`, 18, 45);
+  p.text(`${snap.model.family} · ${snap.model.far.label}`, 18, 24);
 
   p.textAlign(p.RIGHT, p.TOP);
   p.fill(...PALETTE.muted, 210);

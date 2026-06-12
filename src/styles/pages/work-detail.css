@@ -12,7 +12,7 @@
   font-size: clamp(1.125rem, 2.5vw, 1.5rem);
   font-weight: 400;
   line-height: 1.2;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   min-width: 0;
 }
 
@@ -27,11 +27,10 @@
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-accent-strong);
+  color: var(--color-accent);
   padding: var(--space-1) var(--space-2);
   border: 1px solid var(--accent-border);
   border-radius: var(--radius-sm);
-  background: var(--color-accent-soft);
 }
 
 .work-detail__stage {
@@ -42,6 +41,8 @@
 }
 
 .work-detail__canvas {
+  grid-column: 1;
+  grid-row: 1;
   background: #0a0a0a;
   min-height: 320px;
   display: flex;
@@ -50,6 +51,7 @@
 }
 
 .work-detail__canvas-scroll-hint {
+  grid-column: 1 / -1;
   display: none;
 }
 
@@ -82,15 +84,13 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text);
-  background: rgba(255, 255, 255, 0.012);
   text-decoration: none;
-  transition: border-color 200ms ease, color 200ms ease, background-color 200ms ease;
+  transition: border-color 200ms ease, color 200ms ease;
 }
 
 .work-detail__pager-link:hover {
   border-color: var(--accent-border);
   color: var(--color-accent);
-  background: var(--color-accent-soft);
 }
 
 .work-detail__pager-link span {
@@ -127,12 +127,9 @@
 .controls-panel {
   min-height: 200px;
   padding: var(--space-6);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent),
-    var(--color-surface);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-inset);
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
@@ -151,6 +148,8 @@
 }
 
 .work-detail__controls {
+  grid-column: 2;
+  grid-row: 1;
   min-width: 0;
 }
 
@@ -258,6 +257,21 @@
     min-height: 0;
   }
 
+  .work-detail__canvas {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .work-detail__canvas-scroll-hint {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .work-detail__controls {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
   /* 畫布不攔截垂直滑動；Works 互動靠右側／下方控件，不需 canvas 手勢 */
   .work-detail__canvas,
   .work-detail__canvas .curve-work-canvas-host,
@@ -283,6 +297,10 @@
 
   .work-detail__controls-toggle {
     display: flex;
+  }
+
+  .work-detail__controls:not([open]) .controls-panel--stage {
+    display: none;
   }
 
   .controls-panel--stage {

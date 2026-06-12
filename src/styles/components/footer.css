@@ -2,9 +2,6 @@
   border-top: 1px solid var(--color-border);
   padding-block: var(--space-8);
   margin-top: var(--space-16);
-  background:
-    linear-gradient(180deg, rgba(212, 184, 122, 0.026), transparent 60%),
-    rgba(9, 9, 9, 0.42);
 }
 
 .site-footer__inner {
@@ -22,7 +19,6 @@
 
 .site-footer__brand {
   flex-shrink: 0;
-  font-family: var(--font-mono);
 }
 
 .site-footer__nav {

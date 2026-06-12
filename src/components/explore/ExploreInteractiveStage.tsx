@@ -13,7 +13,6 @@ import MatrixLinearTransformExploreRoot from './MatrixLinearTransformExploreRoot
 import FourierSeriesExploreRoot from './FourierSeriesExploreRoot';
 import PermutationsCombinationsExploreRoot from './PermutationsCombinationsExploreRoot';
 import ProbabilityStatisticsExploreRoot from './ProbabilityStatisticsExploreRoot';
-import RationalFunctionsAsymptotesExploreRoot from './RationalFunctionsAsymptotesExploreRoot';
 import SequencesAndSeriesExploreRoot from './SequencesAndSeriesExploreRoot';
 import TrigonometryFundamentalsExploreRoot from './TrigonometryFundamentalsExploreRoot';
 import VectorsExploreRoot from './VectorsExploreRoot';
@@ -34,7 +33,6 @@ const rootBySlug = {
   vectors: VectorsExploreRoot,
   'trigonometry-fundamentals': TrigonometryFundamentalsExploreRoot,
   'function-equations': FunctionEquationsExploreRoot,
-  'rational-functions-asymptotes': RationalFunctionsAsymptotesExploreRoot,
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 export const exploreStageRootSlugs = Object.keys(rootBySlug).sort() as ExploreInteractiveSlug[];

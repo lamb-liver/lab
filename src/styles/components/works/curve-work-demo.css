@@ -65,7 +65,7 @@
 }
 
 .curve-work-mode-button[aria-pressed='true'] {
-  background: var(--color-accent-soft);
+  background: rgba(192, 255, 107, 0.08);
   color: var(--color-text);
 }
 

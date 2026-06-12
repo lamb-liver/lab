@@ -276,14 +276,10 @@ function drawSceneHud(
   model: ReturnType<typeof buildRationalAsymptoteModel>,
 ): void {
   p.noStroke();
-  p.fill(...PALETTE.text, 235);
-  p.textSize(15);
-  p.textStyle(p.BOLD);
-  p.text('垂直與水平漸近線', 18, 26);
-  p.textStyle(p.NORMAL);
   p.textSize(12);
+  p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 220);
-  p.text(`${snap.preset.modeName} · ${model.horizontal.label}`, 18, 47);
+  p.text(`${snap.preset.modeName} · ${model.horizontal.label}`, 18, 26);
 
   p.textAlign(p.RIGHT, p.TOP);
   p.text(model.warning || snap.preset.note, snap.size - 18, 18);

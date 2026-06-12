@@ -218,16 +218,11 @@ function drawGeneralVector(
 
 function drawHud(p: p5, snap: EigenvectorGeometrySnap, eigen: EigenData): void {
   p.noStroke();
-  p.fill(...PALETTE.text, 235);
   p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC", sans-serif');
-  p.textSize(15);
-  p.textStyle(p.BOLD);
-  p.text('特徵向量與伸縮比', 18, 24);
-
-  p.textStyle(p.NORMAL);
   p.textSize(12);
+  p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 230);
-  p.text(`${eigenStatusText(eigen)} · 拖動藍色 u`, 18, 45);
+  p.text(`${eigenStatusText(eigen)} · 拖動藍色 u`, 18, 24);
 
   if (!snap.presetNote) return;
   p.textAlign(p.RIGHT, p.TOP);

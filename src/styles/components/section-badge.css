@@ -2,7 +2,6 @@
   display: inline-block;
   margin-bottom: var(--space-3);
   padding: 0.2em 0.65em;
-  font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -12,15 +11,15 @@
 }
 
 .section-badge--work {
-  color: var(--color-accent-strong);
+  color: var(--color-accent);
   border-color: var(--accent-border);
-  background: var(--color-accent-soft);
+  background: rgba(192, 255, 107, 0.06);
 }
 
 .section-badge--explore {
-  color: var(--color-accent-strong);
-  border-color: var(--accent-border);
-  background: var(--color-accent-soft);
+  color: #d4b87a;
+  border-color: rgba(212, 184, 122, 0.35);
+  background: rgba(212, 184, 122, 0.06);
 }
 
 .card__link-wrap .card__kind {
@@ -49,15 +48,15 @@
 }
 
 .card__kind--work {
-  color: var(--color-accent-strong);
-  background: rgba(9, 9, 9, 0.82);
+  color: var(--color-accent);
+  background: rgba(13, 13, 13, 0.82);
   border: 1px solid var(--accent-border);
 }
 
 .card__kind--explore {
-  color: var(--color-accent-strong);
-  background: rgba(9, 9, 9, 0.82);
-  border: 1px solid var(--accent-border);
+  color: #d4b87a;
+  background: rgba(13, 13, 13, 0.82);
+  border: 1px solid rgba(212, 184, 122, 0.35);
 }
 
 .card--featured {
@@ -65,9 +64,8 @@
 }
 
 .card__featured-label {
-  font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.05em;
-  color: var(--color-accent-strong);
+  color: var(--color-accent);
 }

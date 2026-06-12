@@ -95,6 +95,20 @@ const structuredData = [
   {
     interactive ? (
       <div class="work-detail__stage">
+        <details class="work-detail__controls" data-work-controls open>
+          <summary class="work-detail__controls-toggle">
+            <span class="work-detail__controls-toggle-label">
+              <span class="work-detail__controls-toggle-text">調整參數</span>
+              <span class="work-detail__controls-toggle-text--open">收合參數</span>
+              <span class="work-detail__controls-toggle-hint">點開後向下滑動以調整</span>
+            </span>
+          </summary>
+          <aside
+            class="controls-panel controls-panel--stage"
+            id={workControlsMountId(entry.id)}
+            aria-label="參數控制區"
+          />
+        </details>
         <div class="work-detail__canvas">
           <WorkInteractiveStage client:only="react" slug={entry.id}>
             <div
@@ -109,20 +123,6 @@ const structuredData = [
           </WorkInteractiveStage>
         </div>
         <p class="work-detail__canvas-scroll-hint" aria-hidden="true">上下滑動以瀏覽參數與文章</p>
-        <details class="work-detail__controls" data-work-controls>
-          <summary class="work-detail__controls-toggle">
-            <span class="work-detail__controls-toggle-label">
-              <span class="work-detail__controls-toggle-text">調整參數</span>
-              <span class="work-detail__controls-toggle-text--open">收合參數</span>
-              <span class="work-detail__controls-toggle-hint">點開後向下滑動以調整</span>
-            </span>
-          </summary>
-          <aside
-            class="controls-panel controls-panel--stage"
-            id={workControlsMountId(entry.id)}
-            aria-label="參數控制區"
-          />
-        </details>
       </div>
     ) : (
       <CanvasPlaceholder class="work-canvas" variant="unavailable" />
@@ -176,13 +176,35 @@ const structuredData = [
   {
     interactive ? (
       <script is:inline>
-        {`(function () {
+        (function () {
   function bindWorkControlsAccordion() {
     document.querySelectorAll('[data-work-controls]').forEach(function (details) {
       if (details.dataset.workControlsBound) return;
       details.dataset.workControlsBound = 'true';
+      var media = window.matchMedia('(min-width: 1024px)');
+      var syncing = false;
+      function syncOpenState() {
+        syncing = true;
+        if (media.matches) {
+          details.open = true;
+          details.dataset.workControlsUserToggled = '';
+        } else if (!details.dataset.workControlsUserToggled) {
+          details.open = false;
+        }
+        syncing = false;
+      }
+      syncOpenState();
+      if (typeof media.addEventListener === 'function') {
+        media.addEventListener('change', syncOpenState);
+      } else if (typeof media.addListener === 'function') {
+        media.addListener(syncOpenState);
+      }
       details.addEventListener('toggle', function () {
-        if (!details.open) return;
+        if (syncing) return;
+        if (!syncing && !media.matches) {
+          details.dataset.workControlsUserToggled = 'true';
+        }
+        if (!details.open || media.matches) return;
         var panel = details.querySelector('.controls-panel--stage');
         if (!panel) return;
         requestAnimationFrame(function () {
@@ -193,7 +215,7 @@ const structuredData = [
     });
   }
   bindWorkControlsAccordion();
-})();`}
+})();
       </script>
     ) : null
   }

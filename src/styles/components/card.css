@@ -1,16 +1,12 @@
 @import './section-badge.css';
 
 .card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 38%),
-    var(--color-surface);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: var(--shadow-inset);
   transition:
     transform 200ms ease,
     border-color 200ms ease,
@@ -18,41 +14,17 @@
     box-shadow 200ms ease;
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 1;
-  height: 1px;
-  background: linear-gradient(90deg, var(--color-accent), transparent 70%);
-  opacity: 0;
-  transition: opacity 200ms ease;
-  pointer-events: none;
-}
-
 .card:hover,
 .card:focus-within {
   transform: translateY(-2px);
-  background:
-    linear-gradient(180deg, rgba(212, 184, 122, 0.05), transparent 42%),
-    var(--color-surface-raised);
+  background: rgba(255, 255, 255, 0.035);
   border-color: var(--accent-border);
-  box-shadow: var(--shadow-surface), var(--shadow-inset);
-}
-
-.card:hover::before,
-.card:focus-within::before {
-  opacity: 0.72;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
 }
 
 .card__thumb {
   aspect-ratio: 16 / 10;
-  background:
-    linear-gradient(90deg, rgba(212, 184, 122, 0.045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(111, 198, 185, 0.035) 1px, transparent 1px),
-    var(--color-canvas);
-  background-size: 40px 40px;
-  border-bottom: 1px solid var(--color-border);
+  background: #0a0a0a;
   overflow: hidden;
   line-height: 0;
 }
@@ -88,7 +60,6 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: saturate(0.92) contrast(1.04);
 }
 
 .card__thumb-fallback {
@@ -123,7 +94,7 @@
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.1;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
 }
 
 .card__tags {
@@ -133,12 +104,11 @@
 }
 
 .card__tag {
-  font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-accent-strong);
+  color: var(--color-accent);
 }
 
 .card__desc {
@@ -166,7 +136,6 @@
 
 .card__link {
   display: inline-block;
-  font-family: var(--font-mono);
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text-muted);
