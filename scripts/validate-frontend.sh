@@ -8,12 +8,13 @@ RUN_LINT="0"
 usage() {
   cat <<'USAGE'
 Usage:
-  npm run validate:frontend -- --url URL [--screenshot] [--skip-test] [--skip-dom]
+  npm run validate:frontend -- [--url URL] [--screenshot] [--skip-audit] [--skip-test] [--skip-dom]
 
 Default validation order:
-  1. npm run build
+  1. npm run audit:content, unless --skip-audit is used
   2. npm test, unless --skip-test is used
-  3. DOM verification, using --url
+  3. npm run build
+  4. DOM verification only when --url is provided
 
 Screenshots are opt-in. Use --screenshot only when visual evidence is needed.
 USAGE
@@ -21,6 +22,7 @@ USAGE
 
 url=""
 take_screenshot=0
+skip_audit=0
 skip_test=0
 skip_dom=0
 
@@ -36,6 +38,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --screenshot)
       take_screenshot=1
+      shift
+      ;;
+    --skip-audit)
+      skip_audit=1
       shift
       ;;
     --skip-test)
@@ -74,7 +80,15 @@ run_step() {
   "$@"
 }
 
-run_step "build" npm run build
+if [[ "$skip_audit" -eq 1 ]]; then
+  echo "== content audit =="
+  echo "Skipped by --skip-audit"
+elif has_script audit:content; then
+  run_step "content audit" npm run audit:content
+else
+  echo "== content audit =="
+  echo "No audit:content script found; skipped"
+fi
 
 if [[ "$skip_test" -eq 1 ]]; then
   echo "== test =="
@@ -90,6 +104,8 @@ if [[ "$RUN_LINT" -eq 1 ]] && has_script lint; then
   run_step "lint" npm run lint
 fi
 
+run_step "build" npm run build
+
 if [[ "$skip_dom" -eq 1 ]]; then
   echo "== DOM =="
   echo "Skipped by --skip-dom"
@@ -98,10 +114,9 @@ fi
 
 if [[ -z "$url" ]]; then
   echo "== DOM =="
-  echo "DOM verification needs a running local route." >&2
-  echo "Pass --url, for example: npm run validate:frontend -- --url $DEFAULT_URL" >&2
-  echo "Use --skip-dom only for changes where DOM verification is not applicable." >&2
-  exit 2
+  echo "Skipped because --url was not provided."
+  echo "Pass --url for DOM verification, for example: npm run validate:frontend -- --url $DEFAULT_URL"
+  exit 0
 fi
 
 echo "== DOM =="

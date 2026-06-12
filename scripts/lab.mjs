@@ -31,8 +31,11 @@ function usage() {
     '  smoke:work <slug> [playwright args...]',
     '  smoke:explore <slug> [playwright args...]',
     '  covers:explore',
+    '  audit:content',
     '  audit:explore-covers',
     '  audit:integration',
+    '  new:work [args...]',
+    '  new:explore [args...]',
     '  validate:changed [--dry-run] [--base ref]',
     '  scaffold:explore [args...]',
     '  scaffold:work [args...]',
@@ -331,8 +334,17 @@ function main() {
   if (command === 'scaffold:work') {
     return runNodeScript(resolve(repoRoot, 'scripts/scaffold-work-integration.mjs'), args);
   }
+  if (command === 'new:explore') {
+    return runNodeScript(resolve(repoRoot, 'scripts/new-explore.mjs'), args);
+  }
+  if (command === 'new:work') {
+    return runNodeScript(resolve(repoRoot, 'scripts/new-work.mjs'), args);
+  }
   if (command === 'covers:explore') {
     return runNodeScript(resolve(repoRoot, 'scripts/explore-covers/generate.mjs'), args);
+  }
+  if (command === 'audit:content') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-content.mjs'), args);
   }
   if (command === 'audit:explore-covers') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-explore-covers.mjs'), args);

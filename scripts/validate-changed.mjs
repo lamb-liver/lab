@@ -205,12 +205,14 @@ function selectCommands(files) {
     if (file === 'package.json' || file === 'scripts/lab.mjs' || file.startsWith('scripts/')) {
       add(commands, command('script entrypoints', ['npm', 'run', 'lab', '--', '--help']));
       if (file.includes('audit')) {
+        add(commands, command('content release audit', ['npm', 'run', 'audit:content']));
         add(commands, command('integration audit', ['npm', 'run', 'audit:integration']));
       }
       continue;
     }
 
     if (file.startsWith('src/content/works/') || file.startsWith('src/content/explore/')) {
+      add(commands, command('content release audit', ['npm', 'run', 'audit:content']));
       add(commands, command('content audit', ['npm', 'run', 'test:content-audit']));
       add(commands, command('registry sync', ['npm', 'run', 'test', '--', 'src/registry.sync.test.ts']));
     }
