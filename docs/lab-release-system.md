@@ -230,6 +230,8 @@ Before the `社團發布前` release:
 - Main pages work at 390px mobile width.
 - Home, works, explore, and representative detail pages open correctly.
 
+See `public-pages-audit.md` for the current post-release audit of public Works and Explore pages.
+
 ## 社團發布前 Release Checklist
 
 Use this checklist before publishing Lab content. Do not rely on memory.
