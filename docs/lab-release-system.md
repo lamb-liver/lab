@@ -232,6 +232,8 @@ Before the `社團發布前` release:
 
 See `public-pages-audit.md` for the current post-release audit of public Works and Explore pages.
 
+For math semantics, use `math-content-review-checklist.md`; `audit:content` only covers structural release readiness.
+
 ## 社團發布前 Release Checklist
 
 Use this checklist before publishing Lab content. Do not rely on memory.
@@ -273,6 +275,7 @@ Before changing any item from draft to public:
 - Confirm published pages do not contain placeholder/debug text such as `TODO`, `FIXME`, `placeholder`, `debug`, `lorem`, `待補`, `暫定`, or `測試用`.
 - Confirm Works and Explore links are reasonable: published Explore pages should not link to missing or draft Works.
 - Confirm descriptions are concise enough for lists and metadata; rewrite long descriptions before release.
+- For math semantics, run the manual `math-content-review-checklist.md`; do not rely on `audit:content` for definitions, formulas, edge cases, or overclaims.
 - Confirm Explore `category` is one of `幾何`, `代數`, `統計`, `拓樸`, or `分析`.
 - Confirm `new:work` and `new:explore` output remains draft skeleton content until manually completed.
 - Do not publish generated skeletons or placeholder content.
