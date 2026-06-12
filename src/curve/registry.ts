@@ -53,6 +53,8 @@ import { inverseFunctionReflectionModule } from './modules/inverse-function-refl
 import { eigenvectorGeometryModule } from './modules/eigenvector-geometry';
 import { functionDerivativeGraphModule } from './modules/function-derivative-graph';
 import { taylorPolynomialApproximationModule } from './modules/taylor-polynomial-approximation';
+import { rationalVerticalHorizontalAsymptotesModule } from './modules/rational-vertical-horizontal-asymptotes';
+import { rationalObliqueAsymptoteModule } from './modules/rational-oblique-asymptote';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -110,4 +112,6 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'eigenvector-geometry': eigenvectorGeometryModule,
   'function-derivative-graph': functionDerivativeGraphModule,
   'taylor-polynomial-approximation': taylorPolynomialApproximationModule,
+  'rational-vertical-horizontal-asymptotes': rationalVerticalHorizontalAsymptotesModule,
+  'rational-oblique-asymptote': rationalObliqueAsymptoteModule,
 };

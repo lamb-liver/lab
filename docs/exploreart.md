@@ -52,6 +52,7 @@ Explore 封面是主題概念入口，不是完整 UI 截圖，也不是單一 W
 - Reveal 用 `deltaTime`；避免固定每幀增量。
 - Mode / N 等離散參數應走 path cache；draw 只做 slice + guide。
 - Canvas 內避免長文、完整公式清單、debug panel。
+- Canvas HUD 不重複 Explore 頁面標題；主題名稱只出現在頁面 header。p5 內只保留必要模式、短狀態或局部標籤，避免和 `h1` 形成雙標題。
 - 未列出專屬 layout 的 Explore root，先遵守本節通用規則；不得自行引入 Works portal 或重做控制面板架構。
 - **共用控件 CSS**（詳情頁由 `[slug].astro` 引入；**toolbar 型專用**，非所有 Explore 的 layout 標準）：
   - `src/styles/components/explore/explore-toolbar.css` — toolbar 型：間距、mode 字級/邊框、`--explore-accent`

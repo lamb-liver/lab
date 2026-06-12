@@ -14,6 +14,7 @@ export const exploreInteractiveSlugs = [
   'vectors',
   'trigonometry-fundamentals',
   'function-equations',
+  'rational-functions-asymptotes',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];

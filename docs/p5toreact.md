@@ -176,13 +176,13 @@ src/components/
   <div class="work-detail__header-tags">…</div>
 </header>
 <div class="work-detail__stage">
-  <div class="work-detail__canvas">
-    <*CurveRoot />          <!-- 只渲染 canvas host -->
-  </div>
   <details class="work-detail__controls">
     <summary class="work-detail__controls-toggle">調整參數</summary>
     <aside class="controls-panel controls-panel--stage" id="{slug}-controls" />
   </details>
+  <div class="work-detail__canvas">
+    <*CurveRoot />          <!-- 只渲染 canvas host，控制以 portal 掛到上方 aside -->
+  </div>
 </div>
 <div class="container work-detail">
   <article class="prose">…</article>   <!-- 說明全文在舞台下方 -->
@@ -191,6 +191,7 @@ src/components/
 
 React 以 `createPortal` 將控制面板掛入 `.controls-panel--stage`（`sticky`，高度 `min(70vh, 680px)`）。  
 `CurveWorkRoot` portal 內含 `ParamControls` + `StatsPanel`（無單群組 section label；多群組自訂 Root 見 [`site-ux.md`](site-ux.md) §4.4）。
+DOM 順序須讓 `<details.work-detail__controls>` / `<aside id="{slug}-controls">` 早於 React island 存在；CSS grid 再把 canvas 放左、控制放右。若先 hydrate `CurveRoot` 才出現 portal mount，參數控制會消失。
 
 | 斷點 | 行為 |
 |------|------|
@@ -200,6 +201,7 @@ React 以 `createPortal` 將控制面板掛入 `.controls-panel--stage`（`stick
 `<details>` 收合時 `<aside>` 仍在 DOM；參數初始值來自 React `defaultParams`，不讀 slider DOM。見 [`site-ux.md`](site-ux.md) §4.3。
 
 **不要**把 portal 目標放在 `.detail-grid` 的 prose 旁——控制會被擠到頁面中段以下。
+**不要**在 renderer 內重畫頁面標題——Canvas HUD 只留必要短讀數或模式，標題由 Astro header 提供。
 
 ---
 
