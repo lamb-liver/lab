@@ -5,6 +5,14 @@ import { basename, dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const packageAndConfigFiles = new Set([
+  'package.json',
+  'package-lock.json',
+  'astro.config.mjs',
+  'tsconfig.json',
+  'vitest.config.ts',
+  'playwright.config.ts',
+]);
 
 function usage() {
   return [
@@ -198,11 +206,21 @@ function selectCommands(files) {
   const workModuleByDir = parseWorkModuleMap();
   const workRootMap = buildStageFileMap('src/components/works/WorkInteractiveStage.tsx');
   const exploreRootMap = buildStageFileMap('src/components/explore/ExploreInteractiveStage.tsx');
+  const interactiveWorkSlugs = new Set(workRootMap.values());
+  const interactiveExploreSlugs = new Set(exploreRootMap.values());
   const { hookToSlug, rendererToSlug } = buildWorkHookAndRendererMaps(workRootMap);
   const exploreCssMap = buildExploreCssMap(exploreRootMap);
 
   for (const file of files) {
-    if (file === 'package.json' || file === 'scripts/lab.mjs' || file.startsWith('scripts/')) {
+    if (packageAndConfigFiles.has(file)) {
+      add(commands, command('frontend validation', ['npm', 'run', 'validate:frontend', '--', '--skip-dom']));
+      if (file === 'package.json') {
+        add(commands, command('script entrypoints', ['npm', 'run', 'lab', '--', '--help']));
+      }
+      continue;
+    }
+
+    if (file === 'scripts/lab.mjs' || file.startsWith('scripts/')) {
       add(commands, command('script entrypoints', ['npm', 'run', 'lab', '--', '--help']));
       if (file.includes('audit')) {
         add(commands, command('content release audit', ['npm', 'run', 'audit:content']));
@@ -219,12 +237,16 @@ function selectCommands(files) {
 
     if (file.startsWith('src/content/works/')) {
       const slug = basename(file).replace(/\.mdx?$/, '');
-      add(commands, command(`work smoke ${slug}`, ['npm', 'run', 'smoke:work', '--', slug]));
+      if (interactiveWorkSlugs.has(slug)) {
+        add(commands, command(`work smoke ${slug}`, ['npm', 'run', 'smoke:work', '--', slug]));
+      }
     }
 
     if (file.startsWith('src/content/explore/')) {
       const slug = basename(file).replace(/\.mdx?$/, '');
-      add(commands, command(`explore smoke ${slug}`, ['npm', 'run', 'smoke:explore', '--', slug]));
+      if (interactiveExploreSlugs.has(slug)) {
+        add(commands, command(`explore smoke ${slug}`, ['npm', 'run', 'smoke:explore', '--', slug]));
+      }
     }
 
     if (file.startsWith('src/curve/modules/')) {
