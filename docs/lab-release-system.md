@@ -203,18 +203,19 @@ Done:
 - Feedback can be turned into GitHub Issues.
 - Feedback issues use the `feedback` label.
 
-### Prepare release: 社團發布前
+### Prepare 社團發布前 release checklist
 
 - type: `release`
 - project: `lab`
 - priority: `P2`
-- status: `inbox`
+- status: `done`
 - release: `社團發布前`
 
 Done:
 
-- Selected public pages pass content audit, tests, build, and smoke checks.
-- Home, works, explore, and representative detail pages open correctly.
+- The `社團發布前 Release Checklist` section exists in this document.
+- The checklist covers validation, content publication, mobile checks, release scope, post-release checks, and rollback.
+- DOM smoke stays opt-in through `--url`.
 
 ## Release Gate
 
@@ -223,10 +224,105 @@ Before the `社團發布前` release:
 - `npm run audit:content` passes.
 - `npm test` passes.
 - `npm run build` passes.
+- `npm run validate:frontend -- --skip-dom` passes.
 - Published Explore entries have covers.
 - Published pages do not contain placeholder/debug text.
 - Main pages work at 390px mobile width.
 - Home, works, explore, and representative detail pages open correctly.
+
+## 社團發布前 Release Checklist
+
+Use this checklist before publishing Lab content. Do not rely on memory.
+
+### 1. Basic validation
+
+Run these commands before release:
+
+```bash
+npm run audit:content
+npm test
+npm run build
+npm run validate:frontend -- --skip-dom
+```
+
+Expected result:
+
+- `audit:content` passes.
+- Tests pass.
+- Build passes.
+- `validate:frontend -- --skip-dom` runs the first-stage gate: content audit, tests, then build.
+
+DOM smoke and screenshots are opt-in:
+
+- Use DOM smoke only when checking a local or deployed route:
+  `npm run validate:frontend -- --url <local-or-deployed-route>`
+- Add screenshot capture only when visual evidence is needed.
+- Do not make DOM smoke mandatory by default.
+
+### 2. Content publication checks
+
+Before changing any item from draft to public:
+
+- List every Work and Explore item intended for this release.
+- Confirm unfinished items remain `draft: true`.
+- Confirm published items use the intended `draft: false` state.
+- Confirm every published Explore item has `coverImage`.
+- Confirm every published Explore cover points to an existing public asset.
+- Confirm published pages do not contain placeholder/debug text such as `TODO`, `FIXME`, `placeholder`, `debug`, `lorem`, `待補`, `暫定`, or `測試用`.
+- Confirm Works and Explore links are reasonable: published Explore pages should not link to missing or draft Works.
+- Confirm descriptions are concise enough for lists and metadata; rewrite long descriptions before release.
+- Confirm Explore `category` is one of `幾何`, `代數`, `統計`, `拓樸`, or `分析`.
+- Confirm `new:work` and `new:explore` output remains draft skeleton content until manually completed.
+- Do not publish generated skeletons or placeholder content.
+
+### 3. Mobile checks
+
+Check the main release surfaces at 390px and 430px widths:
+
+- Home page opens and does not break layout.
+- Works list opens and cards, filters, and search remain usable.
+- Explore list opens and cards, filters, and search remain usable.
+- Representative Work detail pages open correctly.
+- Representative Explore detail pages open correctly.
+- DOM controls do not cover the canvas or main content.
+- Canvas, stats, controls, and article content remain readable without horizontal overflow.
+
+### 4. Release scope checks
+
+Before publishing:
+
+- Write down the exact Works and Explore entries included in this release.
+- Keep unfinished content as draft.
+- Keep experimental, incomplete, or placeholder entries out of public entry points.
+- Do not auto-edit registries from generator output.
+- Only add registry wiring when the interactive surface is ready and intentionally public.
+- Use `npm run validate:changed -- --dry-run` to confirm the focused validation tasks selected for the current diff are reasonable.
+
+### 5. Post-release checks
+
+After deployment:
+
+- Open the formal production URL.
+- Open Home, Works list, Explore list, and representative detail pages.
+- Check sitemap output and canonical URLs for obvious mistakes.
+- If Umami is not connected yet, keep it marked as a P2 follow-up.
+- If giscus is not connected yet, keep it marked as a P2 follow-up.
+- If Umami is connected, confirm pageviews are recorded.
+- If giscus is connected, confirm comments can load and post in the intended GitHub Discussions area.
+
+### 6. Rollback or correction
+
+If a release gate fails:
+
+- Do not publish.
+- Fix the failed audit, test, build, or content issue first.
+- Re-run the relevant focused check, then re-run `npm run validate:frontend -- --skip-dom`.
+
+If a content error is found after deployment:
+
+- Prefer changing the affected item back to `draft: true` when the page should disappear from public surfaces.
+- Revert the related commit when the released change is broadly unsafe or wrong.
+- For small wording or metadata mistakes, patch the content directly and re-run the release gate.
 
 ## Non-Goals
 
