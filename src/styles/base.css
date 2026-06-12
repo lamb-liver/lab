@@ -15,7 +15,13 @@ body {
   font-weight: 400;
   line-height: 1.5;
   color: var(--color-text);
-  background: var(--color-bg);
+  background:
+    linear-gradient(rgba(var(--color-accent-rgb), 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--color-accent-rgb), 0.018) 1px, transparent 1px),
+    linear-gradient(180deg, #0b0b0b 0%, var(--color-bg) 48%, #0d0b08 100%);
+  background-size: 32px 32px, 32px 32px, auto;
+  background-attachment: fixed;
+  text-rendering: optimizeLegibility;
 }
 
 img,

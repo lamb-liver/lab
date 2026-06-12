@@ -19,7 +19,7 @@
     bottom: var(--space-2);
     width: 2.75rem;
     pointer-events: none;
-    background: linear-gradient(to left, var(--color-bg) 15%, transparent);
+    background: linear-gradient(to left, rgba(9, 9, 9, 0.96) 15%, transparent);
     opacity: 0;
     transition: opacity 200ms ease;
   }
@@ -58,19 +58,20 @@
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.018);
   transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
 }
 
 .filter-btn:hover {
   color: var(--color-accent);
   border-color: var(--accent-border);
-  background: rgba(192, 255, 107, 0.05);
+  background: rgba(var(--color-accent-rgb), 0.055);
 }
 
 .filter-btn.is-active {
   color: var(--color-accent);
   border-color: var(--accent-border);
-  background: rgba(192, 255, 107, 0.08);
+  background: rgba(var(--color-accent-rgb), 0.095);
 }
 
 /* [hidden] loses to .card { display: flex } without this */

@@ -43,12 +43,14 @@
   border-radius: var(--radius-md);
   color: var(--color-text);
   text-decoration: none;
-  transition: border-color 200ms ease, color 200ms ease;
+  background: rgba(255, 255, 255, 0.018);
+  transition: border-color 200ms ease, color 200ms ease, background-color 200ms ease;
 }
 
 .explore-detail__pager-link:hover {
   border-color: var(--accent-border);
   color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.045);
 }
 
 .explore-detail__pager-link span {
