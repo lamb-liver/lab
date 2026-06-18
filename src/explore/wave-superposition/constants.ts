@@ -1,7 +1,5 @@
 export const SPEED_SCALE = 0.25;
 
-export const CANVAS_MAX_WIDTH = 680;
-
 export const DEFAULT_SUPERPOSITION = {
   fA: 1,
   aA: 0.8,
