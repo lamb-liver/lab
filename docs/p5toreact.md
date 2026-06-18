@@ -200,7 +200,7 @@ DOM 順序須讓 `<details.work-detail__controls>` / `<aside id="{slug}-controls
 
 `<details>` 收合時 `<aside>` 仍在 DOM；參數初始值來自 React `defaultParams`，不讀 slider DOM。見 [`site-ux.md`](site-ux.md) §4.3。
 
-**不要**把 portal 目標放在 `.detail-grid` 的 prose 旁——控制會被擠到頁面中段以下。
+**不要**把 portal 目標放在 prose 區塊旁——控制會被擠到頁面中段以下。
 **不要**在 renderer 內重畫頁面標題——Canvas HUD 只留必要短讀數或模式，標題由 Astro header 提供。
 
 ---
@@ -859,7 +859,7 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 | 縮圖 `:global(svg)` / flex 置中 | `.card__thumb svg` + `display: block` |
 | 忘記 `registry` | 卡片無預覽圖 |
 | `/works` 用 `getPublished` | 改用 `getPublishedAsc` |
-| 控制 panel 放在 prose 旁 `detail-grid` | 改用 `work-detail__stage` 右欄 |
+| 控制 panel 放在 prose 區塊旁 | 改用 `work-detail__stage` 右欄 |
 | 寬版 prototype 的 canvas 文字原樣保留 | 文字移到 React controls / Markdown；canvas 只留幾何與低權重 guide |
 | 寬版 prototype 座標塞進作品方形 canvas | 改成近方形 world view，讓主幾何佔畫面 70%–85% |
 | explore reveal 固定每幀 `+= 0.002` | per-second reveal 用 clamped `dtSec`；per-frame 速度才用 `frameScale` |
