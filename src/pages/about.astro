@@ -97,23 +97,46 @@ const contactEmail = 'lambliver.dev@gmail.com';
       var button = document.querySelector('[data-copy-email]');
       var status = document.getElementById('about-copy-status');
       if (!button || !status) return;
+      var statusTimer = 0;
+      var disposed = false;
+
+      function clearStatusTimer() {
+        if (!statusTimer) return;
+        window.clearTimeout(statusTimer);
+        statusTimer = 0;
+      }
+
+      function cleanup() {
+        disposed = true;
+        clearStatusTimer();
+      }
 
       button.addEventListener('click', function () {
+        if (disposed) return;
         var email = button.getAttribute('data-copy-email');
         if (!email) return;
 
         navigator.clipboard
           .writeText(email)
           .then(function () {
+            if (disposed) return;
+            clearStatusTimer();
             status.textContent = '已複製';
-            window.setTimeout(function () {
+            statusTimer = window.setTimeout(function () {
+              if (disposed) return;
               status.textContent = '';
+              statusTimer = 0;
             }, 2000);
           })
           .catch(function () {
+            if (disposed) return;
+            clearStatusTimer();
             status.textContent = '複製失敗，請手動選取';
           });
       });
+
+      window.addEventListener('pagehide', cleanup, { once: true });
+      document.addEventListener('astro:before-swap', cleanup, { once: true });
     })();
   </script>
 </BaseLayout>

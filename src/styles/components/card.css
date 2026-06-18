@@ -144,10 +144,6 @@
   flex: 1;
 }
 
-.card--explore .card__footer {
-  margin-top: var(--space-4);
-}
-
 .card__link-wrap {
   display: flex;
   flex-direction: column;
@@ -158,19 +154,6 @@
 
 .card__link-wrap:hover {
   color: inherit;
-}
-
-.card__link {
-  display: inline-block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  transition: color 200ms ease;
-}
-
-.card:hover .card__link,
-.card:focus-within .card__link {
-  color: var(--color-accent);
 }
 
 @media (prefers-reduced-motion: reduce) {

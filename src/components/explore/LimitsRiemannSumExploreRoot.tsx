@@ -21,9 +21,8 @@ import {
   buildLimitsSidebarState,
   renderLimitsRiemannSumScene,
 } from '../../systems/rendering/limitsRiemannSumRender';
+import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/limits-riemann-sum-explore.css';
-
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 const DEFAULT_PARAMS: LimitsRiemannParams = {
   mode: 'compare',
@@ -75,68 +74,23 @@ export default function LimitsRiemannSumExploreRoot() {
     });
   }, []);
 
-  const canvasHostRef = useRef<HTMLDivElement>(null);
-  const drawRef = useRef(draw);
   const updateTangentRef = useRef(updateTangentFromMouse);
-
-  useEffect(() => {
-    drawRef.current = draw;
-  }, [draw]);
 
   useEffect(() => {
     updateTangentRef.current = updateTangentFromMouse;
   }, [updateTangentFromMouse]);
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measureLimitsCanvas(host);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        };
-
-        p.draw = () => drawRef.current(p);
-
-        p.mousePressed = () => updateTangentRef.current(p);
-        p.mouseDragged = () => updateTangentRef.current(p);
-      };
-
-      const instance = new P5(sketch, host);
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
-
-        const { width, height } = measureLimitsCanvas(host);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-      };
-    };
-
-    boot();
-
-    return () => {
-      disposed = true;
-      cleanup?.();
-    };
+  const extendSketch = useCallback((p: p5) => {
+    p.mousePressed = () => updateTangentRef.current(p);
+    p.mouseDragged = () => updateTangentRef.current(p);
   }, []);
+
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw],
+    measureLimitsCanvas,
+    extendSketch,
+  );
 
   const setMode = (mode: LimitsMode) => {
     setParams((prev) => ({ ...prev, mode }));

@@ -1,28 +1,7 @@
 @import '../range.css';
 
-.wave-explore {
-  width: 100%;
-  background: #0a0a0a;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
 .wave-explore__stage {
-  display: grid;
   grid-template-columns: minmax(0, 1fr) min(300px, 32vw);
-  align-items: start;
-  contain: layout;
-}
-
-.wave-explore__visual {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  padding: var(--space-4) var(--space-5);
-  background: #0a0a0a;
 }
 
 .wave-explore__visual-title {
@@ -35,33 +14,8 @@
   color: var(--color-text-muted);
 }
 
-.wave-explore__canvas {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.wave-explore__canvas canvas {
-  display: block;
-  max-width: 100%;
-  width: auto !important;
-  height: auto !important;
-}
-
 .wave-explore__sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-5);
   background: var(--color-bg);
-  border-left: 1px solid var(--color-border);
-  position: sticky;
-  top: var(--nav-height);
-  align-self: start;
-  max-height: calc(100vh - var(--nav-height));
-  overflow-y: auto;
-  overscroll-behavior: contain;
 }
 
 .wave-explore__mode-tabs {

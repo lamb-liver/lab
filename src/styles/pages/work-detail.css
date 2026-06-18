@@ -328,6 +328,6 @@
 
 @media (min-width: 1024px) {
   .work-detail__controls .controls-panel--stage {
-    display: flex !important;
+    display: flex;
   }
 }

@@ -17,31 +17,6 @@ export function getCardFilterTokens(el: HTMLElement): string[] {
     .map((s) => s.toLowerCase());
 }
 
-export function applyTagFilter(
-  grid: HTMLElement,
-  tagValue: string,
-  emptyEl: HTMLElement | null,
-): void {
-  let visibleCount = 0;
-
-  grid.querySelectorAll('[data-filter-item]').forEach((card) => {
-    const el = card as HTMLElement;
-    if (tagValue === '*') {
-      el.hidden = false;
-      visibleCount += 1;
-      return;
-    }
-
-    const show = getCardFilterTokens(el).includes(tagValue);
-    el.hidden = !show;
-    if (show) visibleCount += 1;
-  });
-
-  if (emptyEl) {
-    emptyEl.hidden = tagValue === '*' || visibleCount > 0;
-  }
-}
-
 export function applyListGridFilter(
   grid: HTMLElement,
   filterValue: string,
@@ -103,8 +78,6 @@ export function clearListFilters(root: HTMLElement): void {
   if (allButton && bar) setActiveFilter(bar, allButton);
   clearUrlParams([filterParam, searchParam]);
 }
-
-export const applyWorksGridFilter = applyListGridFilter;
 
 export function getFilterButton(bar: Element, value: string): HTMLButtonElement | null {
   const normalized = normalizeFilterToken(value);

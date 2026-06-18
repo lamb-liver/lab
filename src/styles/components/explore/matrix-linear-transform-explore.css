@@ -1,27 +1,7 @@
 @import '../range.css';
 
-.matrix-linear-explore {
-  width: 100%;
-  background: #0a0a0a;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
 .matrix-linear-explore__stage {
-  display: grid;
   grid-template-columns: minmax(0, 1fr) min(300px, 34vw);
-  align-items: start;
-  contain: layout;
-}
-
-.matrix-linear-explore__visual {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  min-width: 0;
-  padding: var(--space-4) var(--space-5);
-  background: #0a0a0a;
 }
 
 .matrix-linear-explore__visual-title {
@@ -41,40 +21,9 @@
   opacity: 0.85;
 }
 
-.matrix-linear-explore__canvas {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.matrix-linear-explore__canvas canvas {
-  display: block;
-  max-width: 100%;
-  width: auto !important;
-  height: auto !important;
-}
-
 .matrix-linear-explore__sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-5);
-  background: rgb(12, 12, 12);
-  border-left: 1px solid var(--color-border);
-  position: sticky;
-  top: var(--nav-height);
-  align-self: start;
-  max-height: calc(100vh - var(--nav-height));
-  overflow-y: auto;
-  overscroll-behavior: contain;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-}
-
-.matrix-linear-explore__block {
-  display: grid;
-  gap: var(--space-3);
 }
 
 .matrix-linear-explore__block-title {
@@ -125,7 +74,7 @@
 }
 
 .matrix-linear-explore__det--warn {
-  color: rgba(255, 120, 95, 0.86) !important;
+  color: rgba(255, 120, 95, 0.86);
 }
 
 .matrix-linear-explore__formula-block {
