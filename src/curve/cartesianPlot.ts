@@ -1,6 +1,3 @@
-export const CARTESIAN_PLOT_X_MIN = -5;
-export const CARTESIAN_PLOT_X_MAX = 5;
-
 export const VIEW_LERP_PER_SEC = 8;
 export const MAX_VISUAL_DELTA_MS = 50;
 
