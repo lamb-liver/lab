@@ -13,8 +13,6 @@ export const EPS = 1e-8;
 export const PRESET_EPS = 0.025;
 export const LABEL_CLOSE_PX = 38;
 
-export const ROOT_COUNT = 3;
-
 export const PRESETS = [
   { label: '三穿越', a: 0.35, roots: [-2.4, 0.1, 2.2] as const, mult: [1, 1, 1] as const },
   { label: '一重根', a: 0.35, roots: [-2.4, 0.1, 2.2] as const, mult: [1, 2, 1] as const },
