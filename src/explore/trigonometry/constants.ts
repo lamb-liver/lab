@@ -6,12 +6,6 @@ export const TRIG_MODE_CIRCLE = 'circle' as const;
 export const TRIG_MODE_TRIANGLE = 'triangle' as const;
 export const TRIG_MODE_IDENTITY = 'identity' as const;
 
-export const TRIG_MODES: TrigMode[] = [
-  TRIG_MODE_CIRCLE,
-  TRIG_MODE_TRIANGLE,
-  TRIG_MODE_IDENTITY,
-];
-
 export const MODE_OPTIONS: Array<{ id: TrigMode; label: string; caption: string }> = [
   { id: TRIG_MODE_CIRCLE, label: '從圓到定義', caption: '單位圓：座標先給出 sin、cos，tan 由比值讀出。' },
   { id: TRIG_MODE_TRIANGLE, label: '從角到三角形', caption: '三角形：邊長、角度與外接圓半徑互相轉換。' },
