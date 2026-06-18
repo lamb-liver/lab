@@ -13,7 +13,6 @@ export const MODE_RECURSIVE = 0;
 export const MODE_CHAOS = 1;
 export const MODE_COMPARE = 2;
 export const MAX_DEPTH = 8;
-export const HAUSDORFF_DIMENSION = Math.log(3) / Math.log(2);
 
 export type SierpinskiMode = 'recursive' | 'chaos' | 'compare';
 
