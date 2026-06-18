@@ -5,7 +5,6 @@ export const TAU = Math.PI * 2;
 export const EPS = 0.0001;
 export const ANGLE_MIN = -TAU * 2;
 export const ANGLE_MAX = TAU * 2;
-export const DRAG_RADIUS = 34;
 export const SMOOTH_RATE_PER_SEC = 14;
 export const VALUE_SCALE = 0.43;
 
