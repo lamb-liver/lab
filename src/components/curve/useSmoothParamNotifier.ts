@@ -68,19 +68,3 @@ export function useSmoothParamNotifier(
     }
   }, []);
 }
-
-export function useQuantizedScalarNotifier(onChange: (value: number) => void, quantize: (v: number) => string = (v) => v.toFixed(2)) {
-  const lastRef = useRef('');
-  const onChangeRef = useRef(onChange);
-
-  useEffect(() => {
-    onChangeRef.current = onChange;
-  }, [onChange]);
-
-  return useCallback((value: number) => {
-    const q = quantize(value);
-    if (lastRef.current === q) return;
-    lastRef.current = q;
-    onChangeRef.current(value);
-  }, [quantize]);
-}

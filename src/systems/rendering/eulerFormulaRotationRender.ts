@@ -145,8 +145,6 @@ export function renderEulerFormulaRotationScene(
   node(p, waveStartX, endpointY, 4, 120);
 }
 
-export const EULER_TRACK_SAMPLES = TRACK_SAMPLES;
-
 export function pushTrackValue(values: number[], next: number): number[] {
   const out = values.slice(1);
   out.push(next);

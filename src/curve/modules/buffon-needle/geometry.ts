@@ -29,11 +29,6 @@ export function deriveBuffonData(params: ParamValues) {
   return { l, d, speed, theoreticalP };
 }
 
-export function estimatePi(l: number, d: number, totalThrows: number, hitCount: number): number {
-  if (hitCount <= 0) return 0;
-  return (2 * l * totalThrows) / (d * hitCount);
-}
-
 export function getFieldRect() {
   return { x: 90, y: 380, w: 650, h: 330 };
 }

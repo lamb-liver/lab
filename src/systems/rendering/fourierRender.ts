@@ -82,11 +82,3 @@ export function applyFourierTransform(p: p5, mode: FourierMode): void {
     p.translate(-FOURIER_1D_X_OFFSET, 0);
   }
 }
-
-export function fourierOriginX(mode: FourierMode, canvasWidth: number): number {
-  return mode === '1D' ? 0 : canvasWidth / 2;
-}
-
-export function fourierOriginY(mode: FourierMode, canvasHeight: number): number {
-  return mode === '1D' ? 0 : canvasHeight / 2;
-}

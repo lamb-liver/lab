@@ -385,8 +385,4 @@ export function curvesForView(params: FunctionEquationsParams): CurvePoint[][] {
   return [xs.map((x) => ({ x, y: polyValue(params.polynomial, x) }))];
 }
 
-export function toggleMultiplicity(current: Multiplicity): Multiplicity {
-  return current === 1 ? 2 : 1;
-}
-
 export { DEFAULT_PARAMS };
