@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   createConicDynamicAnimState,
   stepConicDynamicAnimation,
@@ -22,8 +23,6 @@ const CANVAS_MIN_W = 280;
 const CANVAS_MAX_W = 720;
 
 const SIDEBAR_UPDATE_INTERVAL_MS = 120;
-
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 const DEFAULT_PARAMS: ConicDynamicParams = {
   mode: 'eccentricity',
@@ -180,7 +179,7 @@ export default function ConicDynamicGeometryExploreRoot() {
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
 
         const { width, height } = measureConicCanvas(host);
         instance.resizeCanvas(width, height);

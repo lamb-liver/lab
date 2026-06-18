@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from '../curve/p5RendererReady';
 import { TAU } from '../../curve/modules/complex-euler-formula/constants';
 import { formatAngle } from '../../curve/modules/complex-euler-formula/complex';
 import {
@@ -29,8 +30,6 @@ const DEFAULT_PARAMS: ComplexEulerParams = {
   n: 3,
   deTheta: Math.PI / 5,
 };
-
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 type DragTarget = 'z1' | 'z2' | null;
 
@@ -138,7 +137,7 @@ export default function ComplexEulerFormulaExploreRoot() {
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
 
         const { width, height } = measureComplexEulerCanvas(host);
         instance.resizeCanvas(width, height);

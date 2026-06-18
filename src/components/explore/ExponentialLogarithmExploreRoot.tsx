@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from '../curve/p5RendererReady';
 import '../../styles/components/explore/exponential-logarithm-explore.css';
 
-type P5WithRenderer = p5 & { _renderer?: unknown };
 type Mode = 'inverse' | 'e' | 'compare';
 type AxisMode = 'linear' | 'logY';
 
@@ -842,7 +842,7 @@ export default function ExponentialLogarithmExploreRoot() {
   const syncCanvasSize = useCallback(() => {
     const host = canvasHostRef.current;
     const instance = instanceRef.current;
-    if (!host || !instance || !(instance as P5WithRenderer)._renderer) return;
+    if (!host || !instance || !isP5RendererReady(instance)) return;
 
     const { width, height } = measureExponentialCanvas(host, paramsRef.current.mode);
     if (Math.abs(instance.width - width) > 1 || Math.abs(instance.height - height) > 1) {
@@ -890,7 +890,7 @@ export default function ExponentialLogarithmExploreRoot() {
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
 
         const { width, height } = measureExponentialCanvas(host, paramsRef.current.mode);
         instance.resizeCanvas(width, height);

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   buildDependencyCone,
   buildPascalFrameData,
@@ -21,8 +22,6 @@ import {
   type CombinationMode,
 } from '../../explore/permutations-combinations/geometry';
 import '../../styles/components/explore/permutations-combinations-explore.css';
-
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 type Mode = CombinationMode;
 type PascalPrime = 2 | 3 | 5 | 7;
@@ -263,7 +262,7 @@ export default function PermutationsCombinationsExploreRoot() {
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
 
         const { width, height } = measurePermutationsCanvas(host);
         instance.resizeCanvas(width, height);

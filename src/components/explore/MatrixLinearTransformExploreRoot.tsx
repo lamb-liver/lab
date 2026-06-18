@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   createMatrixLinearAnimState,
   stepMatrixLinearAnimation,
@@ -29,8 +30,6 @@ const DEFAULT_PARAMS: MatrixLinearParams = {
 };
 
 const SIDEBAR_UPDATE_INTERVAL_MS = 120;
-
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 function measureMatrixCanvas(host: HTMLElement): CanvasSize {
   const w = Math.min(
@@ -143,7 +142,7 @@ export default function MatrixLinearTransformExploreRoot() {
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
 
         const { width, height } = measureMatrixCanvas(host);
         instance.resizeCanvas(width, height);

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   GUIDE_BASIS,
   getVectorGuideState,
@@ -44,8 +45,6 @@ type DragHandle = {
   plot: Rect;
   scale: number;
 };
-
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 const GOLD = [212, 184, 122] as const;
 const CYAN = [126, 210, 203] as const;
@@ -1039,7 +1038,7 @@ export default function VectorsExploreRoot() {
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
 
         const { width, height } = measureVectorsCanvas(host);
         instance.resizeCanvas(width, height);

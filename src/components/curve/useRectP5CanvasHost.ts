@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from './p5RendererReady';
 
 export type CanvasSize = { width: number; height: number };
 
 type MeasureRect = (host: HTMLElement) => CanvasSize;
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 export type ExtendSketch = (p: p5, host: HTMLElement) => void;
 
@@ -58,7 +58,7 @@ export function useRectP5CanvasHost(
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
         const { width, height } = measureRef.current(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));

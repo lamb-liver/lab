@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from './p5RendererReady';
 import {
   clampDragWorld,
   createVectorAdditionScalarLayout,
@@ -20,7 +21,6 @@ type Options = {
 };
 
 const HIT_RADIUS = 18;
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 function distance(a: { x: number; y: number }, b: { x: number; y: number }): number {
   return Math.hypot(a.x - b.x, a.y - b.y);
@@ -141,7 +141,7 @@ export function useVectorAdditionScalarP5({
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
         const size = measureWorkCanvasSize(host);
         instance.resizeCanvas(size, size);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));

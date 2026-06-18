@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from '../curve/p5RendererReady';
 import '../../styles/components/explore/sequences-and-series-explore.css';
-
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 type Mode = 'sequence' | 'series' | 'logistic';
 type SequenceType = 'arith' | 'geom' | 'recurrence';
@@ -446,7 +445,7 @@ export default function SequencesAndSeriesExploreRoot() {
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
 
         const { width, height } = measureSequencesCanvas(host);
         instance.resizeCanvas(width, height);

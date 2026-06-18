@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
+import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   RATIONAL_PARAM_META,
   RATIONAL_PRESETS,
@@ -21,8 +22,6 @@ import type {
 } from '../../explore/rational-functions-asymptotes/types';
 import { renderRationalFunctionsAsymptotesExploreScene } from '../../systems/rendering/rationalFunctionsAsymptotesExploreRender';
 import '../../styles/components/explore/rational-functions-asymptotes-explore.css';
-
-type P5WithRenderer = p5 & { _renderer?: unknown };
 
 export default function RationalFunctionsAsymptotesExploreRoot() {
   const [presetId, setPresetId] = useState<RationalPresetId>('factor');
@@ -95,7 +94,7 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
-        if (!(instance as P5WithRenderer)._renderer) return;
+        if (!isP5RendererReady(instance)) return;
         const { width, height } = measureRationalExploreCanvas(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
