@@ -19,6 +19,11 @@ export type VectorAdditionScalarLayout = {
 };
 
 export const VECTOR_DRAG_LIMIT = 3;
+const GUIDE_STROKE = 'rgba(255, 255, 255, 0.26)';
+const GOLD_STROKE = 'rgb(212, 184, 122)';
+const BLUE_STROKE = 'rgba(130, 170, 220, 0.82)';
+const SUM_FILL = 'rgba(212, 184, 122, 0.82)';
+const VECTOR_FILL = 'rgba(130, 170, 220, 0.72)';
 
 export function add(a: Vec2, b: Vec2): Vec2 {
   return { x: a.x + b.x, y: a.y + b.y };
@@ -107,6 +112,27 @@ function toCurvePoint(v: Vec2, theta: number, scale = 82): CurvePoint {
   };
 }
 
+function arrowHead(from: Vec2, to: Vec2, theta: number): CurvePoint[] {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+  const size = 0.18;
+  const wing = 0.11;
+
+  return [
+    toCurvePoint(to, theta),
+    toCurvePoint({ x: to.x - ux * size - uy * wing, y: to.y - uy * size + ux * wing }, theta + 0.1),
+    toCurvePoint({ x: to.x - ux * size + uy * wing, y: to.y - uy * size - ux * wing }, theta + 0.2),
+  ];
+}
+
+function marker(v: Vec2, r = 3.2): { x: number; y: number; r: number; fill: string; opacity: number } {
+  const point = toCurvePoint(v, 0);
+  return { x: point.x, y: point.y, r, fill: GOLD_STROKE, opacity: 0.95 };
+}
+
 export function sampleVectorAdditionScalarThumbnail(
   params: VectorAdditionScalarParams,
 ): ThumbnailSpec {
@@ -119,30 +145,51 @@ export function sampleVectorAdditionScalarThumbnail(
     paths: [
       {
         points: [toCurvePoint(u, 0), toCurvePoint(sum, 1)],
+        stroke: GUIDE_STROKE,
         opacity: 0.25,
         strokeWidth: 0.8,
       },
       {
         points: [toCurvePoint(v, 0), toCurvePoint(sum, 1)],
+        stroke: GUIDE_STROKE,
         opacity: 0.25,
         strokeWidth: 0.8,
       },
       {
         points: [toCurvePoint(origin, 0), toCurvePoint(u, 1)],
+        stroke: BLUE_STROKE,
         strokeWidth: 1.2,
       },
       {
         points: [toCurvePoint(origin, 0), toCurvePoint(v, 1)],
+        stroke: BLUE_STROKE,
         strokeWidth: 1.2,
       },
       {
         points: [toCurvePoint(origin, 0), toCurvePoint(sum, 1)],
-        strokeWidth: 1.8,
+        stroke: GOLD_STROKE,
+        strokeWidth: 2.1,
       },
       {
         points: [toCurvePoint(origin, 0), toCurvePoint(scaled, 1)],
+        stroke: 'rgba(255, 255, 255, 0.62)',
         strokeWidth: 1.5,
       },
+      { points: arrowHead(origin, u, 2), closed: true, fill: VECTOR_FILL, opacity: 0.92 },
+      { points: arrowHead(origin, v, 3), closed: true, fill: VECTOR_FILL, opacity: 0.92 },
+      { points: arrowHead(origin, sum, 4), closed: true, fill: SUM_FILL, opacity: 0.98 },
+      {
+        points: arrowHead(origin, scaled, 5),
+        closed: true,
+        fill: 'rgba(255, 255, 255, 0.54)',
+        opacity: 0.88,
+      },
+    ],
+    circles: [
+      { ...marker(origin, 2.4), fill: 'rgba(255, 255, 255, 0.72)' },
+      marker(u),
+      marker(v),
+      marker(sum, 4.2),
     ],
   };
 }

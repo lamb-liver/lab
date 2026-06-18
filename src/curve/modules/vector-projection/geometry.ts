@@ -46,6 +46,11 @@ export type VectorProjectionLayout = {
 
 export const VECTOR_PROJECTION_DRAG_LIMIT = 6;
 const EPS = 1e-6;
+const GUIDE_STROKE = 'rgba(255, 255, 255, 0.3)';
+const GOLD_STROKE = 'rgb(212, 184, 122)';
+const BLUE_STROKE = 'rgba(130, 170, 220, 0.82)';
+const GOLD_FILL = 'rgba(212, 184, 122, 0.82)';
+const BLUE_FILL = 'rgba(130, 170, 220, 0.72)';
 
 export function vectorFromParams(
   params: Pick<VectorProjectionParams, 'ax' | 'ay' | 'bx' | 'by'>,
@@ -245,36 +250,99 @@ function toCurvePoint(v: Vec2, theta: number, scale = 42): CurvePoint {
   };
 }
 
+function arrowHead(from: Vec2, to: Vec2, theta: number): CurvePoint[] {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+  const size = 0.34;
+  const wing = 0.2;
+
+  return [
+    toCurvePoint(to, theta),
+    toCurvePoint({ x: to.x - ux * size - uy * wing, y: to.y - uy * size + ux * wing }, theta + 0.1),
+    toCurvePoint({ x: to.x - ux * size + uy * wing, y: to.y - uy * size - ux * wing }, theta + 0.2),
+  ];
+}
+
+function marker(v: Vec2, fill = GOLD_STROKE, r = 0.09): { x: number; y: number; r: number; fill: string; opacity: number } {
+  const point = toCurvePoint(v, 0);
+  return { x: point.x, y: point.y, r: r * 42, fill, opacity: 0.95 };
+}
+
+function rightAngleMarker(data: ProjectionData): CurvePoint[] {
+  const size = 0.28;
+  const alongBase = scaleVec(data.e1, -size);
+  const alongPerp = scaleVec(data.e2, size);
+  const p1 = add(data.proj, alongBase);
+  const p2 = add(p1, alongPerp);
+  const p3 = add(data.proj, alongPerp);
+  return [toCurvePoint(p1, 0), toCurvePoint(p2, 1), toCurvePoint(p3, 2)];
+}
+
 export function sampleVectorProjectionThumbnail(
   params: VectorProjectionParams,
 ): ThumbnailSpec {
   const { a, b } = vectorFromParams(params);
   const data = getProjectionData(params);
   const origin = { x: 0, y: 0 };
+  const baseAxisStart = scaleVec(data.base, -0.12);
+  const baseAxisEnd = scaleVec(data.base, 1.12);
 
   return {
     paths: [
       {
         points: [toCurvePoint(data.target, 0), toCurvePoint(data.proj, 1)],
-        opacity: 0.24,
+        stroke: GUIDE_STROKE,
+        opacity: 0.34,
         strokeWidth: 0.8,
       },
       {
         points: [toCurvePoint(origin, 0), toCurvePoint(data.proj, 1)],
-        strokeWidth: 1.5,
+        stroke: GOLD_STROKE,
+        strokeWidth: 2,
       },
       {
         points: [toCurvePoint(data.proj, 0), toCurvePoint(data.target, 1)],
-        strokeWidth: 1.2,
+        stroke: BLUE_STROKE,
+        strokeWidth: 1.45,
       },
       {
         points: [toCurvePoint(origin, 0), toCurvePoint(a, 1)],
+        stroke: params.projectionMode === 'a_on_b' ? 'rgba(255, 255, 255, 0.64)' : BLUE_STROKE,
         strokeWidth: 1.6,
       },
       {
         points: [toCurvePoint(origin, 0), toCurvePoint(b, 1)],
+        stroke: params.projectionMode === 'a_on_b' ? BLUE_STROKE : 'rgba(255, 255, 255, 0.64)',
         strokeWidth: 1.4,
       },
+      {
+        points: [toCurvePoint(baseAxisStart, 0), toCurvePoint(baseAxisEnd, 1)],
+        stroke: 'rgba(255, 255, 255, 0.18)',
+        strokeWidth: 0.7,
+        opacity: 0.9,
+      },
+      {
+        points: rightAngleMarker(data),
+        stroke: 'rgba(255, 255, 255, 0.7)',
+        strokeWidth: 0.85,
+        opacity: 0.95,
+      },
+      { points: arrowHead(origin, data.proj, 2), closed: true, fill: GOLD_FILL, opacity: 0.96 },
+      { points: arrowHead(data.proj, data.target, 3), closed: true, fill: BLUE_FILL, opacity: 0.9 },
+      {
+        points: arrowHead(origin, data.target, 4),
+        closed: true,
+        fill: 'rgba(255, 255, 255, 0.52)',
+        opacity: 0.86,
+      },
+    ],
+    circles: [
+      marker(origin, 'rgba(255, 255, 255, 0.72)', 0.07),
+      marker(data.proj, GOLD_STROKE, 0.1),
+      marker(data.target, BLUE_STROKE, 0.09),
     ],
   };
 }

@@ -307,9 +307,9 @@ export function buildEigenvectorThumbnail(params: Record<string, number>): Thumb
           scaleVec(direction.v, -3.5),
           scaleVec(direction.v, 3.5),
         ]),
-        opacity: 0.95,
-        stroke: '#c0ff6b',
-        strokeWidth: 2,
+        opacity: 0.72,
+        stroke: '#5dade2',
+        strokeWidth: 1.35,
       });
     }
   }

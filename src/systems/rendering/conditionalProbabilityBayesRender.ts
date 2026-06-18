@@ -95,6 +95,72 @@ function drawArea(
   p.rect(box.x, box.y + box.h - abH, aW, abH);
   p.fill(BLUE.r, BLUE.g, BLUE.b, 130);
   p.rect(box.x + aW, box.y + box.h - notAbH, box.w - aW, notAbH);
+  p.stroke(255, 255, 255, 28);
+  p.strokeWeight(1);
+  p.line(box.x + aW, box.y, box.x + aW, box.y + box.h);
+  drawAreaLabels(p, data, box, aW, abH, notAbH, reveal);
+  drawEvidenceBar(p, data, box, reveal);
+}
+
+function drawAreaLabels(
+  p: p5,
+  data: ReturnType<typeof deriveData>,
+  box: { x: number; y: number; w: number; h: number },
+  aW: number,
+  abH: number,
+  notAbH: number,
+  reveal: number,
+): void {
+  const alpha = Math.min(1, reveal * 1.3);
+  drawLabel(p, data.A, box.x + Math.max(18, aW / 2), box.y - 10, GUIDE, 120 * alpha, p.CENTER);
+  drawLabel(p, '¬A', box.x + aW + (box.w - aW) / 2, box.y - 10, GUIDE, 95 * alpha, p.CENTER);
+  if (aW > 34 && abH > 24) {
+    drawLabel(p, `${data.A}∩${data.B}`, box.x + aW / 2, box.y + box.h - abH / 2 + 4, GOLD, 180 * alpha, p.CENTER);
+  }
+  if (box.w - aW > 76 && notAbH > 24) {
+    drawLabel(p, `¬A∩${data.B}`, box.x + aW + (box.w - aW) / 2, box.y + box.h - notAbH / 2 + 4, BLUE, 170 * alpha, p.CENTER);
+  }
+}
+
+function drawEvidenceBar(
+  p: p5,
+  data: ReturnType<typeof deriveData>,
+  box: { x: number; y: number; w: number; h: number },
+  reveal: number,
+): void {
+  if (data.pB <= 0) return;
+  const alpha = Math.min(1, reveal * 1.2);
+  const x = box.x;
+  const y = Math.min(box.y + box.h + 24, BAYES_VIEW.height - 38);
+  const w = box.w;
+  const h = 18;
+  const goldW = w * data.posterior;
+  p.noStroke();
+  p.fill(255, 255, 255, 16 * alpha);
+  p.rect(x, y, w, h, 4);
+  p.fill(GOLD.r, GOLD.g, GOLD.b, 170 * alpha);
+  p.rect(x, y, goldW, h, 4);
+  p.fill(BLUE.r, BLUE.g, BLUE.b, 130 * alpha);
+  p.rect(x + goldW, y, w - goldW, h, 4);
+  drawLabel(p, `P(${data.B}) = ${percent(data.pB)}`, x, y + h + 15, GUIDE, 110 * alpha, p.LEFT);
+  drawLabel(p, `P(A|${data.B})`, x + goldW, y - 5, GOLD, 140 * alpha, p.CENTER);
+}
+
+function drawLabel(
+  p: p5,
+  label: string,
+  x: number,
+  y: number,
+  color: typeof GOLD,
+  alpha: number,
+  align: typeof p.LEFT | typeof p.CENTER | typeof p.RIGHT,
+): void {
+  p.noStroke();
+  p.fill(color.r, color.g, color.b, alpha);
+  p.textAlign(align, p.CENTER);
+  p.textSize(10);
+  p.text(label, x, y);
+  p.textAlign(p.LEFT, p.BASELINE);
 }
 
 function drawBars(p: p5, data: ReturnType<typeof deriveData>, reveal: number): void {

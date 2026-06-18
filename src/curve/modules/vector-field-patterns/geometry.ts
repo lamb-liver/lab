@@ -249,23 +249,123 @@ export function worldToScreen(layout: VectorFieldLayout, point: Vec2): Vec2 {
   };
 }
 
-function toCurvePoint(v: Vec2, index: number, scale = 42): CurvePoint {
+function canvasPoint(x: number, y: number, index: number): CurvePoint {
   return {
-    x: v.x * scale,
-    y: -v.y * scale,
+    x,
+    y,
     theta: index,
     arcLength: index,
   };
 }
 
-export function sampleVectorFieldPatternThumbnail(pattern: VectorFieldPattern): ThumbnailSpec {
-  const field = getFieldConfig(pattern);
-  const streamlines = buildStreamlines(field, 13).slice(0, 24);
+function previewField(type: VectorFieldPattern, point: Vec2): Vec2 {
+  if (type === 'sink') return { x: -point.x, y: -point.y };
+  if (type === 'vortex') return { x: -point.y, y: point.x };
+  if (type === 'saddle') return { x: point.x, y: -point.y };
+  return { x: point.x, y: point.y };
+}
+
+function panelPoint(center: Vec2, point: Vec2): Vec2 {
+  const scale = 22;
   return {
-    paths: streamlines.map((path) => ({
-      points: path.map((point, index) => toCurvePoint(point, index)),
-      strokeWidth: 1,
-      opacity: 0.75,
-    })),
+    x: center.x + point.x * scale,
+    y: center.y - point.y * scale,
   };
+}
+
+function arrowHead(from: Vec2, to: Vec2, theta: number): CurvePoint[] {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len;
+  const uy = dy / len;
+  const size = 7;
+  const wing = 4;
+
+  return [
+    canvasPoint(to.x, to.y, theta),
+    canvasPoint(to.x - ux * size - uy * wing, to.y - uy * size + ux * wing, theta + 0.1),
+    canvasPoint(to.x - ux * size + uy * wing, to.y - uy * size - ux * wing, theta + 0.2),
+  ];
+}
+
+function panelFrame(center: Vec2, index: number): CurvePoint[] {
+  const w = 118;
+  const h = 64;
+  const x0 = center.x - w / 2;
+  const x1 = center.x + w / 2;
+  const y0 = center.y - h / 2;
+  const y1 = center.y + h / 2;
+  return [
+    canvasPoint(x0, y0, index),
+    canvasPoint(x1, y0, index + 0.1),
+    canvasPoint(x1, y1, index + 0.2),
+    canvasPoint(x0, y1, index + 0.3),
+  ];
+}
+
+export function sampleVectorFieldPatternThumbnail(_pattern: VectorFieldPattern): ThumbnailSpec {
+  const panels: Array<{ type: VectorFieldPattern; center: Vec2; stroke: string }> = [
+    { type: 'source', center: { x: 82, y: 60 }, stroke: 'rgba(212, 184, 122, 0.95)' },
+    { type: 'sink', center: { x: 238, y: 60 }, stroke: 'rgba(130, 170, 220, 0.9)' },
+    { type: 'vortex', center: { x: 82, y: 146 }, stroke: 'rgba(212, 184, 122, 0.82)' },
+    { type: 'saddle', center: { x: 238, y: 146 }, stroke: 'rgba(255, 255, 255, 0.72)' },
+  ];
+  const seeds: Vec2[] = [
+    { x: -0.78, y: -0.78 },
+    { x: 0, y: -0.82 },
+    { x: 0.78, y: -0.78 },
+    { x: -0.82, y: 0 },
+    { x: 0.82, y: 0 },
+    { x: -0.78, y: 0.78 },
+    { x: 0, y: 0.82 },
+    { x: 0.78, y: 0.78 },
+  ];
+  const paths: ThumbnailSpec['paths'] = [];
+  const circles: NonNullable<ThumbnailSpec['circles']> = [];
+
+  panels.forEach((panel, panelIndex) => {
+    paths.push({
+      points: panelFrame(panel.center, panelIndex),
+      closed: true,
+      stroke: 'rgba(255, 255, 255, 0.14)',
+      strokeWidth: 0.7,
+      opacity: 0.8,
+    });
+
+    seeds.forEach((seed, seedIndex) => {
+      const direction = normalize(previewField(panel.type, seed));
+      const start = panelPoint(panel.center, {
+        x: seed.x - direction.x * 0.24,
+        y: seed.y - direction.y * 0.24,
+      });
+      const end = panelPoint(panel.center, {
+        x: seed.x + direction.x * 0.24,
+        y: seed.y + direction.y * 0.24,
+      });
+      const theta = panelIndex * 10 + seedIndex;
+      paths.push({
+        points: [canvasPoint(start.x, start.y, theta), canvasPoint(end.x, end.y, theta + 0.5)],
+        stroke: panel.stroke,
+        strokeWidth: panel.type === 'saddle' ? 1.25 : 1.45,
+        opacity: 0.9,
+      });
+      paths.push({
+        points: arrowHead(start, end, theta + 0.7),
+        closed: true,
+        fill: panel.stroke,
+        opacity: 0.9,
+      });
+    });
+
+    circles.push({
+      x: panel.center.x,
+      y: panel.center.y,
+      r: panel.type === 'vortex' ? 3.8 : 3,
+      fill: panel.type === 'saddle' ? 'rgba(255, 255, 255, 0.7)' : panel.stroke,
+      opacity: 0.9,
+    });
+  });
+
+  return { coordinateSystem: 'canvas', paths, circles };
 }

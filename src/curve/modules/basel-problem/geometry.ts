@@ -235,20 +235,46 @@ export function buildSincCurve(params: ParamValues, revealProgress = 1): {
 }
 
 export function buildBaselThumbnail(params: ParamValues): ThumbnailSpec {
-  const series = buildPartialSeries({ ...params, p: 2 }, 1);
-  const sinc = buildSincCurve({ ...params, p: 2 }, 1);
-  const fillPaths = sinc.partialFill.slice(0, 8).map((fill, index) => ({
-    points: rectPoints(fill.x, BASEL_VIEW.height - 166, fill.width, 56, index * 10),
+  const bounds = chartBounds();
+  const series = buildPartialSeries({ ...params, N: 18, p: 2 }, 1);
+  const baselineY = bounds.y + bounds.height;
+  const limitY = bounds.y + mapRange(PI2_OVER_6, 0, series.limit, bounds.height, 0);
+  const areaPoints = [
+    { x: bounds.x, y: baselineY },
+    ...series.points,
+    { x: bounds.x + bounds.width, y: baselineY },
+  ];
+  const termBars = Array.from({ length: 9 }, (_, index) => {
+    const n = index + 1;
+    const barW = 26;
+    const gap = 10;
+    const height = (1 / (n * n) / PI2_OVER_6) * bounds.height * 0.68;
+    return {
+      x: bounds.x + 26 + index * (barW + gap),
+      y: baselineY - height,
+      w: barW,
+      h: height,
+    };
+  });
+  const barPaths = termBars.map((bar, index) => ({
+    points: rectPoints(bar.x, bar.y, bar.w, bar.h, index * 10),
     closed: true,
-    fill: index === 0 ? 'rgba(212, 184, 122, 0.32)' : 'rgba(212, 184, 122, 0.18)',
-    stroke: 'rgba(212, 184, 122, 0.58)',
+    fill: index === 0 ? 'rgba(212, 184, 122, 0.34)' : 'rgba(212, 184, 122, 0.16)',
+    stroke: 'rgba(212, 184, 122, 0.42)',
     strokeWidth: 0.55,
     opacity: 0.9,
   }));
   return {
     coordinateSystem: 'canvas',
     paths: [
-      ...fillPaths,
+      ...barPaths,
+      {
+        points: pointsToCurvePoints(areaPoints),
+        closed: true,
+        fill: 'rgba(212, 184, 122, 0.14)',
+        stroke: 'none',
+        opacity: 1,
+      },
       {
         points: pointsToCurvePoints(series.points),
         opacity: 1,
@@ -256,16 +282,17 @@ export function buildBaselThumbnail(params: ParamValues): ThumbnailSpec {
       },
       {
         points: pointsToCurvePoints([
-          { x: chartBounds().x, y: chartBounds().y + mapRange(PI2_OVER_6, 0, series.limit, chartBounds().height, 0) },
-          {
-            x: chartBounds().x + chartBounds().width,
-            y: chartBounds().y + mapRange(PI2_OVER_6, 0, series.limit, chartBounds().height, 0),
-          },
+          { x: bounds.x, y: limitY },
+          { x: bounds.x + bounds.width, y: limitY },
         ]),
-        opacity: 0.35,
-        strokeWidth: 0.8,
+        stroke: 'rgba(255, 255, 255, 0.62)',
+        opacity: 0.8,
+        strokeWidth: 0.9,
       },
     ],
+    circles: series.points
+      .filter((point) => point.n === 1 || point.n === 2 || point.n === 4 || point.n === 9 || point.n === 18)
+      .map((point) => ({ x: point.x, y: point.y, r: 3.2, fill: 'rgb(212, 184, 122)', opacity: 0.95 })),
   };
 }
 

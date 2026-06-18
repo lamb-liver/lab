@@ -125,6 +125,9 @@ export function buildBayesThumbnail(): ThumbnailSpec {
   const aW = area.w * data.pA;
   const abH = area.h * data.pBgA;
   const notAbH = area.h * data.pBgNotA;
+  const barY = area.y + area.h + 22;
+  const barH = 18;
+  const goldW = area.w * (data.jointAB / data.pB);
   const areaPaths: ThumbnailSpec['paths'] = [
     {
       points: rectToCurvePoints(area.x, area.y, area.w, area.h, 10),
@@ -165,6 +168,42 @@ export function buildBayesThumbnail(): ThumbnailSpec {
       stroke: BLUE_STROKE,
       strokeWidth: 0.6,
       opacity: 1,
+    },
+    {
+      points: rectToCurvePoints(area.x, barY, area.w, barH, 15),
+      closed: true,
+      fill: 'rgba(255, 255, 255, 0.05)',
+      stroke: GUIDE_STROKE,
+      strokeWidth: 0.55,
+      opacity: 0.9,
+    },
+    {
+      points: rectToCurvePoints(area.x, barY, goldW, barH, 16),
+      closed: true,
+      fill: 'rgba(212, 184, 122, 0.72)',
+      stroke: GOLD_STROKE,
+      strokeWidth: 0.5,
+      opacity: 1,
+    },
+    {
+      points: rectToCurvePoints(area.x + goldW, barY, area.w - goldW, barH, 17),
+      closed: true,
+      fill: 'rgba(130, 170, 220, 0.5)',
+      stroke: BLUE_STROKE,
+      strokeWidth: 0.45,
+      opacity: 0.92,
+    },
+    {
+      points: segment(area.x + aW * 0.5, area.y + area.h - abH, area.x + goldW * 0.5, barY, 18),
+      stroke: 'rgba(212, 184, 122, 0.55)',
+      strokeWidth: 0.65,
+      opacity: 0.85,
+    },
+    {
+      points: segment(area.x + aW + (area.w - aW) * 0.5, area.y + area.h - notAbH, area.x + goldW + (area.w - goldW) * 0.5, barY, 19),
+      stroke: 'rgba(130, 170, 220, 0.45)',
+      strokeWidth: 0.6,
+      opacity: 0.75,
     },
   ];
 

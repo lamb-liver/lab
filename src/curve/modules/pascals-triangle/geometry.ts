@@ -150,7 +150,7 @@ export function buildPascalThumbnail(params: ParamValues): ThumbnailSpec {
         r: cell.r * 3.2,
         fill: ACCENT_FILL,
         stroke: 'none',
-        opacity: fillAlpha * 0.18,
+        opacity: fillAlpha * 0.1,
       });
       core.push({
         x: cell.x,
@@ -158,7 +158,7 @@ export function buildPascalThumbnail(params: ParamValues): ThumbnailSpec {
         r: cell.r * 1.65,
         fill: ACCENT_FILL,
         stroke: 'none',
-        opacity: fillAlpha,
+        opacity: fillAlpha * 0.82,
       });
     }
   }

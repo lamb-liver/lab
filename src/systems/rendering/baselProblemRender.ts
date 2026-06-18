@@ -59,9 +59,15 @@ function drawPartial(p: p5, params: ParamValues, revealProgress: number): void {
   const bounds = chartBounds();
   const series = buildPartialSeries(params, revealProgress);
   drawAxes(p, bounds);
+  drawSeriesArea(p, series.points, bounds, PRIMARY);
+  drawTermStems(p, series.points, bounds, PRIMARY);
   if ((params.p ?? 2) > 1) {
     const y = bounds.y + mapRange(series.limit, 0, series.limit, bounds.height, 0);
     drawLimitLine(p, y, PRIMARY, Math.abs((params.p ?? 2) - 2) < 1e-6 ? 'π²/6' : 'limit');
+    const last = series.points.at(-1);
+    if (last && Math.abs((params.p ?? 2) - 2) < 1e-6) {
+      drawGapLine(p, last.x, last.y, y);
+    }
   }
   drawGlowPolyline(p, [{ x: bounds.x, y: bounds.y + bounds.height }, ...series.points], PRIMARY);
   for (const point of series.points) {
@@ -69,10 +75,11 @@ function drawPartial(p: p5, params: ParamValues, revealProgress: number): void {
       drawGlowPoint(p, point.x, point.y, PRIMARY, 6);
     }
   }
+  drawBaselGauge(p, series.sum, BASEL_VIEW.height - 70);
 }
 
 function drawArea(p: p5, params: ParamValues, revealProgress: number): void {
-  const { squares } = buildAreaSquares(params, revealProgress);
+  const { squares, sum } = buildAreaSquares(params, revealProgress);
   for (const square of squares) {
     if (square.size <= 0.1) continue;
     const alpha = Math.max(0.08, 0.22 - square.n * 0.004);
@@ -81,6 +88,7 @@ function drawArea(p: p5, params: ParamValues, revealProgress: number): void {
       drawText(p, `1/${square.n}²`, square.x + square.size / 2, square.y + square.size / 2 + 4, 10, GUIDE, 90, p.CENTER);
     }
   }
+  drawBaselGauge(p, sum, BASEL_VIEW.height - 70);
 }
 
 function drawCompare(p: p5, params: ParamValues, revealProgress: number): void {
@@ -208,6 +216,71 @@ function drawAxesLine(p: p5, x1: number, y1: number, x2: number, y2: number): vo
   p.strokeWeight(1);
   p.line(x1, y1, x2, y2);
   p.pop();
+}
+
+function drawSeriesArea(
+  p: p5,
+  points: Array<{ x: number; y: number }>,
+  bounds: ReturnType<typeof chartBounds>,
+  col: typeof PRIMARY,
+): void {
+  if (points.length < 2) return;
+  const baseline = bounds.y + bounds.height;
+  p.push();
+  p.noStroke();
+  p.fill(col.r, col.g, col.b, 18);
+  p.beginShape();
+  p.vertex(bounds.x, baseline);
+  for (const point of points) p.vertex(point.x, point.y);
+  p.vertex(bounds.x + bounds.width, baseline);
+  p.endShape(p.CLOSE);
+  p.pop();
+}
+
+function drawTermStems(
+  p: p5,
+  points: Array<{ n: number; x: number; y: number }>,
+  bounds: ReturnType<typeof chartBounds>,
+  col: typeof PRIMARY,
+): void {
+  const baseline = bounds.y + bounds.height;
+  const stride = Math.max(1, Math.ceil(points.length / 14));
+  p.push();
+  p.stroke(col.r, col.g, col.b, 42);
+  p.strokeWeight(1);
+  for (const point of points) {
+    if (point.n === 1 || point.n === 2 || point.n % stride === 0) {
+      p.line(point.x, baseline, point.x, point.y);
+    }
+  }
+  p.pop();
+}
+
+function drawGapLine(p: p5, x: number, sumY: number, limitY: number): void {
+  p.push();
+  p.stroke(255, 255, 255, 46);
+  p.strokeWeight(1);
+  p.line(x, sumY, x, limitY);
+  p.pop();
+  drawText(p, '剩餘差距', x - 8, (sumY + limitY) / 2, 9, GUIDE, 82, p.RIGHT);
+}
+
+function drawBaselGauge(p: p5, sum: number, y: number): void {
+  const x = BASEL_VIEW.width - 390;
+  const w = 300;
+  const h = 24;
+  const ratio = Math.max(0, Math.min(1, sum / PI2_OVER_6));
+  p.push();
+  p.noFill();
+  p.stroke(GUIDE.r, GUIDE.g, GUIDE.b, 34);
+  p.strokeWeight(1);
+  p.rect(x, y, w, h, 3);
+  p.noStroke();
+  p.fill(PRIMARY.r, PRIMARY.g, PRIMARY.b, 120);
+  p.rect(x, y, w * ratio, h, 3);
+  p.pop();
+  drawText(p, `Sₙ ${sum.toFixed(4)}`, x, y - 8, 10, GUIDE, 95, p.LEFT);
+  drawText(p, `π²/6 ${PI2_OVER_6.toFixed(4)}`, x + w, y - 8, 10, PRIMARY, 140, p.RIGHT);
 }
 
 function drawLimitLine(p: p5, y: number, col: typeof PRIMARY, label: string): void {

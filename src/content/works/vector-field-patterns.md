@@ -36,4 +36,4 @@ $$
 ## 延伸閱讀
 
 - [向量場（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%90%91%E9%87%8F%E5%A0%B4)
-- [奇點（動力系統）](https://zh.wikipedia.org/zh-tw/%E5%A5%87%E9%BB%9E_(%E5%8B%95%E5%8A%9B%E7%B3%BB%E7%B5%B1)
+- [相圖（動態系統）（維基百科）](https://zh.wikipedia.org/zh-tw/%E7%9B%B8%E5%9C%96_%28%E5%8B%95%E6%85%8B%E7%B3%BB%E7%B5%B1%29)

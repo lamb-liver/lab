@@ -291,11 +291,11 @@ function drawSampleSpace(p: p5, r: Rect, s: ConditionalState) {
   p.stroke(...WHITE, 42);
   p.line(r.x + bW, r.y, r.x + bW, r.y + r.h);
 
-  drawGlowRect(p, r.x, r.y, abW, r.h, 14, 115);
+  drawGlowRect(p, r.x, r.y, abW, r.h, 14, 92);
 
   if (aOutsideW > 1) {
     p.noStroke();
-    p.fill(...GOLD, 30);
+    p.fill(...GOLD, 22);
     p.rect(r.x + bW, r.y, aOutsideW, r.h, 0, 14, 14, 0);
   }
 
@@ -331,7 +331,7 @@ function drawConditionedSpace(p: p5, r: Rect, ratio: number) {
   p.noFill();
   p.rect(r.x, r.y, r.w, r.h, 12);
 
-  drawGlowRect(p, r.x, r.y, wA, r.h, 12, 130);
+  drawGlowRect(p, r.x, r.y, wA, r.h, 12, 100);
 
   p.stroke(...WHITE, 38);
   p.line(r.x + wA, r.y, r.x + wA, r.y + r.h);

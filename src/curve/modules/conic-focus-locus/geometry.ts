@@ -1,4 +1,4 @@
-import type { CurvePoint } from '../../types';
+import type { CurvePoint, ThumbnailSpec } from '../../types';
 
 export const CURVE_DENSITY = 0.02;
 export const BASE_CANVAS = 600;
@@ -82,4 +82,63 @@ export function sampleConicFocusLocusCurve(
   }
 
   return points;
+}
+
+export function buildConicFocusLocusThumbnail(
+  semiMajorAxis: number,
+  eccentricity: number,
+): ThumbnailSpec {
+  const { a, b, c } = ellipseParameters(semiMajorAxis, eccentricity);
+  const focuses = focusPoints(c);
+  const orbit = orbitPoint(a, b, Math.PI * 0.28);
+  const ellipse = sampleConicFocusLocusCurve(semiMajorAxis, eccentricity, CURVE_DENSITY);
+  const focusLines = focuses.map((focus, index) => ({
+    points: lineToCurvePoints(focus, orbit, index * 10),
+    stroke: index === 0 ? 'rgba(212, 184, 122, 0.88)' : 'rgba(130, 170, 220, 0.68)',
+    strokeWidth: 1.05,
+    opacity: 0.95,
+  }));
+
+  return {
+    paths: [
+      {
+        points: ellipse,
+        opacity: 0.42,
+        strokeWidth: 0.9,
+      },
+      {
+        points: sampleConicFocusLocusCurve(semiMajorAxis, eccentricity, 0.08)
+          .filter((point) => point.theta >= 0 && point.theta <= Math.PI * 0.58),
+        stroke: 'rgb(212, 184, 122)',
+        strokeWidth: 1.35,
+        opacity: 1,
+      },
+      ...focusLines,
+    ],
+    circles: [
+      ...focuses.map((focus, index) => ({
+        x: focus.x,
+        y: focus.y,
+        r: 4.6,
+        fill: index === 0 ? 'rgba(212, 184, 122, 0.82)' : 'rgba(130, 170, 220, 0.72)',
+        stroke: 'rgba(255, 255, 255, 0.35)',
+        strokeWidth: 0.45,
+      })),
+      {
+        x: orbit.x,
+        y: orbit.y,
+        r: 5.8,
+        fill: 'rgb(212, 184, 122)',
+        stroke: 'rgba(255, 255, 255, 0.45)',
+        strokeWidth: 0.55,
+      },
+    ],
+  };
+}
+
+function lineToCurvePoints(a: Point2, b: Point2, thetaBase: number): CurvePoint[] {
+  return [
+    { x: a.x, y: a.y, theta: thetaBase, arcLength: 0 },
+    { x: b.x, y: b.y, theta: thetaBase + 1, arcLength: Math.hypot(b.x - a.x, b.y - a.y) },
+  ];
 }

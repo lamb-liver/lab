@@ -3,7 +3,7 @@ import type { CurveModule, ParamSchema } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP, REVEAL_SPEED } from './animation';
-import { CURVE_DENSITY, sampleConicFocusLocusCurve } from './geometry';
+import { buildConicFocusLocusThumbnail, CURVE_DENSITY, sampleConicFocusLocusCurve } from './geometry';
 
 const paramSchema: ParamSchema = [
   {
@@ -36,12 +36,14 @@ export const conicFocusLocusModule: CurveModule = {
   id: 'conic-focus-locus',
   paramSchema,
   defaultParams: defaultsFromSchema(paramSchema),
-  sample: (params, { step }) =>
-    sampleConicFocusLocusCurve(
-      params.semiMajorAxis,
-      params.eccentricity,
-      step,
-    ),
+  sample: (params, { purpose, step }) =>
+    purpose === 'thumbnail'
+      ? buildConicFocusLocusThumbnail(params.semiMajorAxis, params.eccentricity)
+      : sampleConicFocusLocusCurve(
+          params.semiMajorAxis,
+          params.eccentricity,
+          step,
+        ),
   getMetadata: (params, runtime) => {
     const smooth = resolveSmoothParams(params, runtime);
     return {
