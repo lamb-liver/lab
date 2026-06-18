@@ -20,8 +20,3 @@ export type FocusScene = {
   directrixX?: number;
   paths: ConicPath[];
 };
-
-export type EccentricityScene = {
-  type: 'eccentricity';
-  point: PathPoint | null;
-};
