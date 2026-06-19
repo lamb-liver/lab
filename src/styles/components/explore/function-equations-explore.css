@@ -7,7 +7,7 @@
 .fn-eq-explore__visual-title {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: rgba(232, 232, 232, 0.65);
@@ -16,7 +16,7 @@
 .fn-eq-explore__visual-sub {
   margin: var(--space-1) 0 var(--space-3);
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   color: rgb(212, 184, 122);
   opacity: 0.85;
 }
@@ -82,7 +82,7 @@
 .fn-eq-explore__group-label {
   margin: 0;
   color: rgba(136, 136, 136, 1);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.04em;
 }
@@ -108,7 +108,7 @@
 
 .fn-eq-explore__mult-label {
   color: rgba(136, 136, 136, 1);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
 }
 
 .fn-eq-explore__mult-btns {
@@ -119,7 +119,7 @@
 .fn-eq-explore__note {
   margin: 0;
   color: rgba(120, 120, 120, 1);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   line-height: 1.45;
 }
 

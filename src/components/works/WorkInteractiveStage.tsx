@@ -24,6 +24,8 @@ import VectorFieldStreamlinesCurveRoot from './VectorFieldStreamlinesCurveRoot';
 import VectorAdditionScalarCurveRoot from './VectorAdditionScalarCurveRoot';
 import DotProductGeometryCurveRoot from './DotProductGeometryCurveRoot';
 import LawOfSinesCosinesCurveRoot from './LawOfSinesCosinesCurveRoot';
+import RadianArcLengthCurveRoot from './RadianArcLengthCurveRoot';
+import SinusoidAmplitudePeriodPhaseCurveRoot from './SinusoidAmplitudePeriodPhaseCurveRoot';
 import UnitCircleTrigDefinitionCurveRoot from './UnitCircleTrigDefinitionCurveRoot';
 import TrigAngleIdentitiesCurveRoot from './TrigAngleIdentitiesCurveRoot';
 import VectorProjectionCurveRoot from './VectorProjectionCurveRoot';
@@ -84,6 +86,8 @@ const rootBySlug = {
   'vector-addition-scalar': VectorAdditionScalarCurveRoot,
   'dot-product-geometry': DotProductGeometryCurveRoot,
   'law-of-sines-cosines': LawOfSinesCosinesCurveRoot,
+  'radian-arc-length': RadianArcLengthCurveRoot,
+  'sinusoid-amplitude-period-phase': SinusoidAmplitudePeriodPhaseCurveRoot,
   'unit-circle-trig-definition': UnitCircleTrigDefinitionCurveRoot,
   'trig-angle-identities': TrigAngleIdentitiesCurveRoot,
   'vector-projection': VectorProjectionCurveRoot,

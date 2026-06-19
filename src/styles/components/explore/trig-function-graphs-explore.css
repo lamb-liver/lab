@@ -1,10 +1,10 @@
 @import '../range.css';
 
-.trig-explore__stage {
+.trig-graphs-explore__stage {
   grid-template-columns: minmax(0, 1fr) min(300px, 34vw);
 }
 
-.trig-explore__visual-title {
+.trig-graphs-explore__visual-title {
   margin: 0;
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -13,7 +13,7 @@
   color: rgba(232, 232, 232, 0.65);
 }
 
-.trig-explore__visual-sub {
+.trig-graphs-explore__visual-sub {
   margin: var(--space-1) 0 var(--space-3);
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -21,24 +21,24 @@
   opacity: 0.85;
 }
 
-.trig-explore__canvas canvas {
+.trig-graphs-explore__canvas canvas {
   cursor: crosshair;
   touch-action: none;
 }
 
-.trig-explore__sidebar {
+.trig-graphs-explore__sidebar {
   font-family: var(--font-mono);
   font-size: 0.75rem;
 }
 
-.trig-explore__mode-tabs {
+.trig-graphs-explore__mode-tabs {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2);
 }
 
-.trig-explore__mode-btn,
-.trig-explore__advanced-btn,
-.trig-explore__reset-btn {
+.trig-graphs-explore__mode-btn,
+.trig-graphs-explore__toggle-btn {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--color-text);
@@ -47,77 +47,86 @@
   border-radius: var(--radius-sm);
   padding: var(--space-2) var(--space-3);
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
-.trig-explore__mode-btn:hover,
-.trig-explore__mode-btn[data-active='true'],
-.trig-explore__advanced-btn:hover,
-.trig-explore__advanced-btn[data-active='true'] {
+.trig-graphs-explore__toggle-btn {
+  text-align: left;
+}
+
+.trig-graphs-explore__mode-btn:hover,
+.trig-graphs-explore__mode-btn[data-active='true'],
+.trig-graphs-explore__toggle-btn:hover,
+.trig-graphs-explore__toggle-btn[data-active='true'] {
   border-color: rgba(212, 184, 122, 0.55);
   color: rgb(212, 184, 122);
   background: rgba(212, 184, 122, 0.08);
 }
 
-.trig-explore__state {
+.trig-graphs-explore__state {
   margin: 0;
   font-size: 0.8125rem;
   color: rgb(212, 184, 122);
   line-height: 1.45;
 }
 
-.trig-explore__control-block {
+.trig-graphs-explore__control-block {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
 
-.trig-explore__group-label {
+.trig-graphs-explore__group-label {
   margin: 0;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
   color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
-.trig-explore__note,
-.trig-explore__stat-line,
-.trig-explore__formula-line {
-  margin: 0;
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  line-height: 1.45;
+.trig-graphs-explore__stats,
+.trig-graphs-explore__formula {
+  padding-top: var(--space-1);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.trig-explore__stat-line {
+.trig-graphs-explore__stat-line,
+.trig-graphs-explore__formula-line {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.trig-graphs-explore__stat-line {
   color: rgba(232, 232, 232, 0.88);
 }
 
-.trig-explore__formula-line {
-  font-size: 0.75rem;
+.trig-graphs-explore__formula-line {
+  color: rgba(212, 184, 122, 0.78);
 }
 
-.trig-explore__val {
+.trig-graphs-explore__val {
   color: rgb(212, 184, 122);
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.trig-explore .control-field label {
+.trig-graphs-explore .control-field label {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: var(--space-3);
+  margin-bottom: var(--space-2);
   font-size: 0.75rem;
   color: var(--color-text);
-  margin-bottom: var(--space-2);
 }
 
-@media (max-width: 1023px) {
-  .trig-explore__stage {
+@media (max-width: 768px) {
+  .trig-graphs-explore__stage {
     grid-template-columns: 1fr;
   }
 
-  .trig-explore__sidebar {
+  .trig-graphs-explore__sidebar {
     position: static;
     max-height: none;
     border-left: none;

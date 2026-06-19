@@ -5,7 +5,7 @@ tags:
   - 幾何
 date: 2026-10-01
 featured: false
-draft: true
+draft: false
 ---
 
 ## 參數方程
@@ -37,8 +37,6 @@ $$
 
 ## 相關作品
 
-- [單位圓展開成正弦圖形](/works/sine-graph-unfold)
-- [正弦型函數的振幅與相位](/works/sinusoid-amplitude-period-phase)
 - [單位圓與三角函數定義](/works/unit-circle-trig-definition)
 - [三角函數圖形與弧度](/explore/trig-function-graphs)
 

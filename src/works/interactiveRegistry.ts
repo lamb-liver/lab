@@ -23,6 +23,8 @@ export const workInteractiveSlugs = [
   'vector-addition-scalar',
   'dot-product-geometry',
   'law-of-sines-cosines',
+  'radian-arc-length',
+  'sinusoid-amplitude-period-phase',
   'unit-circle-trig-definition',
   'trig-angle-identities',
   'vector-projection',

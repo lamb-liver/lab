@@ -54,27 +54,23 @@
 
 ## 四、尚待上線 Explore
 
-目前草案 Explore 為 5 篇；`rational-functions-asymptotes` 已從草案移到已發布。
+目前草案 Explore 為 4 篇；`trig-function-graphs` 已從草案移到已發布。
 
 | 優先 | slug | 標題 | 定位 | 難易度 | 必要性 | 檔案 |
 |------|------|------|------|--------|--------|------|
-| 1 | `trig-function-graphs` | 三角函數圖形與弧度 | 弧度、`y = sin x` 展開、振幅／週期／相位 | 中 | 高 | `src/content/explore/trig-function-graphs.md` |
-| 2 | `data-analysis` | 數據分析 | 散布、相關、迴歸、盒鬚圖 | 中 | 高 | `src/content/explore/data-analysis.md` |
-| 3 | `discrete-random-variables` | 離散隨機變數與分布 | PMF、期望值、變異數、二項／幾何 | 中 | 高 | `src/content/explore/discrete-random-variables.md` |
-| 4 | `space-vectors-planes-lines` | 空間向量與平面直線 | 3D、線面、外積 | 高 | 中高 | `src/content/explore/space-vectors-planes-lines.md` |
-| 5 | `linear-programming` | 線性規劃 | 可行域、等值線、頂點最優 | 中高 | 中高 | `src/content/explore/linear-programming.md` |
+| 1 | `data-analysis` | 數據分析 | 散布、相關、迴歸、盒鬚圖 | 中 | 高 | `src/content/explore/data-analysis.md` |
+| 2 | `discrete-random-variables` | 離散隨機變數與分布 | PMF、期望值、變異數、二項／幾何 | 中 | 高 | `src/content/explore/discrete-random-variables.md` |
+| 3 | `space-vectors-planes-lines` | 空間向量與平面直線 | 3D、線面、外積 | 高 | 中高 | `src/content/explore/space-vectors-planes-lines.md` |
+| 4 | `linear-programming` | 線性規劃 | 可行域、等值線、頂點最優 | 中高 | 中高 | `src/content/explore/linear-programming.md` |
 
 ---
 
 ## 五、尚待上線 Works
 
-目前草案 Works 為 16 篇；原 P0 的 5 篇 Work 已發布。
+目前草案 Works 為 13 篇；原 P0 的 7 篇 Work 已發布。
 
 | 優先 | slug | 標題 | 掛載主題 | 必要性 | 難易度 | 檔案 |
 |------|------|------|----------|--------|--------|------|
-| 1.1 | `radian-arc-length` | 弧度與圓弧長 | 三角函數圖形與弧度 | 高 | 中低 | `src/content/works/radian-arc-length.md` |
-| 1.2 | `sine-graph-unfold` | 單位圓展開成正弦圖形 | 三角函數圖形與弧度 | 高 | 中 | `src/content/works/sine-graph-unfold.md` |
-| 1.3 | `sinusoid-amplitude-period-phase` | 正弦型函數的振幅與相位 | 三角函數圖形與弧度 | 高 | 中 | `src/content/works/sinusoid-amplitude-period-phase.md` |
 | 2.1 | `scatter-correlation-regression` | 散布圖、相關與迴歸線 | 數據分析 | 高 | 中 | `src/content/works/scatter-correlation-regression.md` |
 | 2.2 | `regression-outlier-influence` | 離群值對迴歸的影響 | 數據分析 | 高 | 中 | `src/content/works/regression-outlier-influence.md` |
 | 2.3 | `percentile-box-plot` | 百分位數與盒鬚圖 | 數據分析 | 高 | 中低 | `src/content/works/percentile-box-plot.md` |
@@ -96,7 +92,7 @@
 | 主題線 | Explore | 狀態 | 核心定位 |
 |--------|---------|------|----------|
 | 三角 | 三角函數的幾何定義與恆等式 | 已發布 | 單位圓、恆等式、角度合成 |
-| 三角 | 三角函數圖形與弧度 | draft | 弧度、圖形、振幅／週期／相位 |
+| 三角 | 三角函數圖形與弧度 | 已發布 | 弧度、圖形、振幅／週期／相位 |
 | 機率 | 古典機率與條件機率 | 已發布 | 條件機率、Bayes、CLT 模式、蒙提霍爾 |
 | 統計 | 數據分析 | draft | 散布、相關、迴歸、盒鬚圖 |
 | 統計 | 離散隨機變數與分布 | draft | PMF、期望、變異數、分布 |
@@ -169,16 +165,12 @@
 
 ```text
 src/content/explore/
-  trig-function-graphs.md
   data-analysis.md
   discrete-random-variables.md
   space-vectors-planes-lines.md
   linear-programming.md
 
 src/content/works/
-  radian-arc-length.md
-  sine-graph-unfold.md
-  sinusoid-amplitude-period-phase.md
   scatter-correlation-regression.md
   regression-outlier-influence.md
   percentile-box-plot.md

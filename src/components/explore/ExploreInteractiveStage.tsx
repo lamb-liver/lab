@@ -15,12 +15,14 @@ import PermutationsCombinationsExploreRoot from './PermutationsCombinationsExplo
 import ProbabilityStatisticsExploreRoot from './ProbabilityStatisticsExploreRoot';
 import RationalFunctionsAsymptotesExploreRoot from './RationalFunctionsAsymptotesExploreRoot';
 import SequencesAndSeriesExploreRoot from './SequencesAndSeriesExploreRoot';
+import TrigFunctionGraphsExploreRoot from './TrigFunctionGraphsExploreRoot';
 import TrigonometryFundamentalsExploreRoot from './TrigonometryFundamentalsExploreRoot';
 import VectorsExploreRoot from './VectorsExploreRoot';
 import WaveSuperpositionExploreRoot from './WaveSuperpositionExploreRoot';
 
 const rootBySlug = {
   'fourier-series': FourierSeriesExploreRoot,
+  'trig-function-graphs': TrigFunctionGraphsExploreRoot,
   'trig-wave-interference': WaveSuperpositionExploreRoot,
   'conic-dynamic-geometry': ConicDynamicGeometryExploreRoot,
   'matrix-linear-transform': MatrixLinearTransformExploreRoot,

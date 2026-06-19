@@ -28,7 +28,7 @@
 :root {
   --explore-accent: rgb(212, 184, 122);
   --explore-toolbar-bg: var(--color-bg);
-  --explore-mode-font-size: 0.6875rem;
+  --explore-mode-font-size: 0.75rem;
   --explore-mode-pad: var(--space-2) var(--space-3);
 }
 

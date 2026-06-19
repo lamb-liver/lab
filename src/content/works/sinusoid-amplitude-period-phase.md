@@ -1,11 +1,11 @@
 ---
-title: 正弦型函數的振幅與相位
+title: 正弦型函數的振幅、週期與相位
 description: 拖動 A、T、φ 與 k，觀察 y=A sin(2π/T·(x−φ))+k 相對基本正弦波的伸縮與平移。
 tags:
   - 幾何
 date: 2026-10-03
 featured: false
-draft: true
+draft: false
 ---
 
 ## 參數方程
@@ -25,9 +25,9 @@ $$
 
 ## 互動說明
 
-- **垂直尺度 A**：拖動滑桿，觀察振幅 $|A|$ 與 $A<0$ 時的上下翻轉，基本正弦 ghost 疊加對照
+- **垂直尺度 A**：拖動滑桿，觀察振幅 $|A|$ 與 $A<0$ 時的上下翻轉，並與基本正弦對照曲線比較
 - **週期 T**：調整週期，觀察一個週期內波峰數量與水平壓縮／拉伸
-- **相位 φ**：平移波形起點，觀察與 ghost 的左右錯位
+- **相位 φ**：平移波形起點，觀察與基本正弦對照曲線的左右錯位
 - **中心線 k**：上下平移整條曲線，標示 $y=k$ 輔助線
 - **數值讀取**：側欄同步顯示 $A$、$T$、$\phi$、$k$ 與當前波峰座標
 
@@ -39,7 +39,7 @@ $$
 
 ## 相關作品
 
-- [單位圓展開成正弦圖形](/works/sine-graph-unfold)
+- [弧度與圓弧長](/works/radian-arc-length)
 - [函數圖形變換](/works/function-graph-transform)
 - [三角函數的疊加與波的干涉](/explore/trig-wave-interference)
 - [三角函數圖形與弧度](/explore/trig-function-graphs)

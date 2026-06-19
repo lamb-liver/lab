@@ -31,7 +31,7 @@
   flex: 0 0 auto;
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   padding-bottom: var(--space-2);
 }
@@ -41,7 +41,7 @@
 }
 
 .fourier-explore__title {
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   color: var(--explore-accent, rgb(212, 184, 122));
 }
 
@@ -49,7 +49,7 @@
 .fourier-explore__mode {
   margin-top: var(--space-1);
   font-family: var(--font-mono);
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   line-height: 1.5;
 }

@@ -5,6 +5,10 @@ import { isP5RendererReady } from './p5RendererReady';
 export type CanvasSize = { width: number; height: number };
 
 type MeasureRect = (host: HTMLElement) => CanvasSize;
+type RectP5Options = {
+  loop?: boolean;
+  redrawKey?: unknown;
+};
 
 export type ExtendSketch = (p: p5, host: HTMLElement) => void;
 
@@ -14,11 +18,14 @@ export function useRectP5CanvasHost(
   deps: unknown[],
   measureRect: MeasureRect,
   extendSketch?: ExtendSketch,
+  options: RectP5Options = {},
 ) {
   const canvasHostRef = useRef<HTMLDivElement>(null);
+  const instanceRef = useRef<p5 | null>(null);
   const drawRef = useRef(draw);
   const measureRef = useRef(measureRect);
   const extendSketchRef = useRef(extendSketch);
+  const shouldLoop = options.loop ?? true;
 
   useEffect(() => {
     drawRef.current = draw;
@@ -31,6 +38,10 @@ export function useRectP5CanvasHost(
   useEffect(() => {
     extendSketchRef.current = extendSketch;
   }, [extendSketch]);
+
+  useEffect(() => {
+    if (!shouldLoop) instanceRef.current?.redraw();
+  }, [shouldLoop, options.redrawKey]);
 
   useEffect(() => {
     const host = canvasHostRef.current;
@@ -48,6 +59,10 @@ export function useRectP5CanvasHost(
           const { width, height } = measureRef.current(host);
           p.createCanvas(width, height);
           p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
+          if (!shouldLoop) {
+            p.noLoop();
+            p.redraw();
+          }
         };
 
         p.draw = () => drawRef.current(p);
@@ -55,6 +70,7 @@ export function useRectP5CanvasHost(
       };
 
       const instance = new P5(sketch, host);
+      instanceRef.current = instance;
 
       const ro = new ResizeObserver(() => {
         if (disposed) return;
@@ -62,12 +78,14 @@ export function useRectP5CanvasHost(
         const { width, height } = measureRef.current(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
+        if (!shouldLoop) instance.redraw();
       });
       ro.observe(host);
 
       cleanup = () => {
         disposed = true;
         ro.disconnect();
+        if (instanceRef.current === instance) instanceRef.current = null;
         instance.remove();
       };
     };

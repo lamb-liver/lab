@@ -1,6 +1,7 @@
 /** 互動 explore slug（與 `content/explore/{slug}.md`、`ExploreInteractiveStage` 同步） */
 export const exploreInteractiveSlugs = [
   'fourier-series',
+  'trig-function-graphs',
   'trig-wave-interference',
   'conic-dynamic-geometry',
   'matrix-linear-transform',

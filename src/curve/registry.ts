@@ -22,6 +22,8 @@ import { vectorFieldStreamlinesModule } from './modules/vector-field-streamlines
 import { vectorAdditionScalarModule } from './modules/vector-addition-scalar';
 import { dotProductGeometryModule } from './modules/dot-product-geometry';
 import { lawOfSinesCosinesModule } from './modules/law-of-sines-cosines';
+import { radianArcLengthModule } from './modules/radian-arc-length';
+import { sinusoidAmplitudePeriodPhaseModule } from './modules/sinusoid-amplitude-period-phase';
 import { unitCircleTrigDefinitionModule } from './modules/unit-circle-trig-definition';
 import { trigAngleIdentitiesModule } from './modules/trig-angle-identities';
 import { vectorProjectionModule } from './modules/vector-projection';
@@ -81,6 +83,8 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'vector-addition-scalar': vectorAdditionScalarModule,
   'dot-product-geometry': dotProductGeometryModule,
   'law-of-sines-cosines': lawOfSinesCosinesModule,
+  'radian-arc-length': radianArcLengthModule,
+  'sinusoid-amplitude-period-phase': sinusoidAmplitudePeriodPhaseModule,
   'unit-circle-trig-definition': unitCircleTrigDefinitionModule,
   'trig-angle-identities': trigAngleIdentitiesModule,
   'vector-projection': vectorProjectionModule,

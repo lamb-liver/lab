@@ -5,7 +5,7 @@ category: 分析
 date: 2026-10-01
 coverImage: /images/explore-covers/trig-function-graphs.png
 featured: false
-draft: true
+draft: false
 ---
 
 ## 基本概念
@@ -43,8 +43,8 @@ $$
 ## 相關作品
 
 - [弧度與圓弧長](/works/radian-arc-length)
-- [單位圓展開成正弦圖形](/works/sine-graph-unfold)
-- [正弦型函數的振幅與相位](/works/sinusoid-amplitude-period-phase)
+- [正弦型函數的振幅、週期與相位](/works/sinusoid-amplitude-period-phase)
+- [函數圖形變換](/works/function-graph-transform)
 
 ## 延伸閱讀
 

@@ -406,6 +406,50 @@ function trigonometryFundamentals() {
   `);
 }
 
+function trigFunctionGraphs() {
+  const cx = 420;
+  const cy = 500;
+  const r = 170;
+  const theta = Math.PI * 0.72;
+  const px = cx + Math.cos(theta) * r;
+  const py = cy - Math.sin(theta) * r;
+  const gx0 = 760;
+  const gy0 = 700;
+  const gw = 620;
+  const gh = 360;
+  const wave = [];
+  const trans = [];
+
+  for (let i = 0; i <= 180; i += 1) {
+    const t = i / 180;
+    const x = gx0 + gw * t;
+    const a = -Math.PI + Math.PI * 5 * t;
+    const y = gy0 - (Math.sin(a) + 1.15) / 2.3 * gh;
+    const ty = gy0 - (1.2 * Math.sin(a - 0.5) + 1.15) / 2.3 * gh - 28;
+    wave.push(`${i ? 'L' : 'M'} ${x.toFixed(1)} ${y.toFixed(1)}`);
+    trans.push(`${i ? 'L' : 'M'} ${x.toFixed(1)} ${ty.toFixed(1)}`);
+  }
+
+  const thetaX = gx0 + ((theta + Math.PI) / (Math.PI * 5)) * gw;
+  const thetaY = gy0 - (Math.sin(theta) + 1.15) / 2.3 * gh;
+
+  return doc(`
+    ${circle(cx, cy, r, 'none', 1, C.guide, 4)}
+    ${line(cx - r * 1.12, cy, cx + r * 1.12, cy, C.guide, 3, 0.18)}
+    ${line(cx, cy + r * 1.12, cx, cy - r * 1.12, C.guide, 3, 0.18)}
+    ${path(`M ${cx + r * 0.72} ${cy} A ${r * 0.72} ${r * 0.72} 0 0 0 ${px} ${py}`, C.gold, 6, 0.78)}
+    ${line(cx, cy, px, py, C.gold, 10, 1, 'filter="url(#goldGlow)"')}
+    ${line(px, py, px, cy, C.guide, 4, 0.28, 'stroke-dasharray="16 14"')}
+    ${circle(px, py, 14, C.gold, 0.95)}
+    ${line(gx0, gy0 - gh / 2, gx0 + gw, gy0 - gh / 2, C.guide, 4, 0.2)}
+    ${line(gx0 + 120, gy0 - gh, gx0 + 120, gy0, C.guide, 3, 0.12)}
+    ${path(wave.join(' '), C.gold, 10, 1, 'filter="url(#goldGlow)"')}
+    ${path(trans.join(' '), C.blue, 7, 0.58, 'filter="url(#softGlow)"')}
+    ${line(px, py, thetaX, thetaY, C.guide, 4, 0.24, 'stroke-dasharray="18 18"')}
+    ${circle(thetaX, thetaY, 13, C.gold, 0.95)}
+  `);
+}
+
 const covers = {
   'limits-riemann-sum': limitsRiemannSum,
   'differential-equations-geometry': differentialEquations,
@@ -419,6 +463,7 @@ const covers = {
   'trig-wave-interference': trigWaveInterference,
   'conic-dynamic-geometry': conicDynamicGeometry,
   'trigonometry-fundamentals': trigonometryFundamentals,
+  'trig-function-graphs': trigFunctionGraphs,
   'function-equations': functionEquations,
 };
 
