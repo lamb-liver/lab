@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   LEAD_A_MAX,
   LEAD_A_MIN,
@@ -67,8 +66,6 @@ export const polynomialRootsMultiplicityModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.12, revealSpeed: 0 },
 };

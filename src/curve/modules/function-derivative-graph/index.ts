@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   FUNCTION_DERIVATIVE_PRESETS,
   buildFunctionDerivativeThumbnail,
@@ -50,8 +49,6 @@ export const functionDerivativeGraphModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.12, revealSpeed: 0 },
 };

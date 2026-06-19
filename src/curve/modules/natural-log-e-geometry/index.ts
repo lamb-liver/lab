@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MODE_AREA,
   MODE_INVERSE,
@@ -62,8 +61,6 @@ export const naturalLogEGeometryModule: CurveModule = {
       stats,
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.025, revealSpeed: NAT_LOG_REVEAL_SPEED },
 };

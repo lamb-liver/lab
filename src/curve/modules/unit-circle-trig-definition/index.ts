@@ -1,4 +1,3 @@
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
   asUnitCircleParams,
@@ -66,8 +65,6 @@ export const unitCircleTrigDefinitionModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
 };
 
 export { DEFAULT_UNIT_CIRCLE_TRIG_DEFINITION_PARAMS };

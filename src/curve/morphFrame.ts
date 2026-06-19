@@ -12,14 +12,14 @@ export type MorphDrawFrameResult = {
   points: ReadonlyArray<CurvePoint>;
 };
 
-/** cacheStrategy `none` 時每幀 resample；其餘走 morph 快取 */
+/** cacheStrategy 省略或 `none` 時每幀 resample；其餘走 morph 快取 */
 export function getMorphDisplayPoints(
   module: CurveModule,
   params: ParamValues,
   step: number,
   cache: MorphPathCache,
 ): ReadonlyArray<CurvePoint> {
-  if (module.cacheStrategy?.kind === 'none') {
+  if (!module.cacheStrategy || module.cacheStrategy.kind === 'none') {
     return module.sample(params, { step });
   }
   return cache.getPoints(params, step);

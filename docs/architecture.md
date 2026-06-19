@@ -16,7 +16,7 @@ This document is the system map for AI agents and maintainers. It does not repla
 | Work geometry modules | `src/curve/modules/*` | `p5toreact.md` |
 | Work runtime mounting | `src/components/works/*CurveRoot.tsx`, `WorkInteractiveStage.tsx` | `p5toreact.md`, `reactkey.md` |
 | Shared rendering | `src/systems/rendering/*` | `art.md`, `workart.md`, `exploreart.md`, `p5toreact.md` |
-| Work thumbnails | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | `workart.md`, `p5toreact.md`, `work-thumbnail-spec.md` |
+| Work thumbnails | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | `workart.md`, `p5toreact.md` |
 | Explore interactives | `src/explore/*`, `src/components/explore/*ExploreRoot.tsx` | `exploreart.md`, `p5toreact.md` |
 
 ## Works Data Flow
@@ -75,7 +75,7 @@ List and search UX is intentionally split:
 
 ```text
 src/lib/listFilter.ts              # pure filter/count/URL helpers
-src/components/ListSearchFilterScript.astro   # Fuse + DOM events + scroll fade
+src/components/ListSearchFilterScript.astro   # search + DOM events + scroll fade
 src/pages/works/index.astro
 src/pages/explore/index.astro
 ```
@@ -108,4 +108,4 @@ Keep these synchronized when adding an interactive explore page:
 
 ## Historical Documents
 
-`work-thumbnail-spec.md` is design history for the thumbnail upgrade. The active implementation contract lives in `workart.md`, `p5toreact.md`, and `src/lib/curveThumbnail.ts`.
+Thumbnail implementation history is not a runtime contract. The active thumbnail contract lives in `workart.md`, `p5toreact.md`, and `src/lib/curveThumbnail.ts`.

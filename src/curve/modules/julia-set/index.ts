@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { JULIA_CFG } from './config';
 import { sampleJuliaSetThumbnail } from './geometry';
 
@@ -55,8 +54,6 @@ export const juliaSetModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   animation: { lerp: JULIA_CFG.LERP_F, revealSpeed: 0 },
 };
 

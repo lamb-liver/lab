@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ThumbnailPath, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { REVEAL_SPEED, SOURCE_DISTANCE_LERP } from './animation';
 import { DEFAULT_SAMPLE_STEP, sampleInterferenceFringesCurve } from './geometry';
 
@@ -65,8 +64,6 @@ export const interferenceFringesModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: DEFAULT_SAMPLE_STEP,
   animation: { lerp: SOURCE_DISTANCE_LERP, revealSpeed: REVEAL_SPEED },
 };

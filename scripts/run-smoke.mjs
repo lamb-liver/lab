@@ -12,7 +12,7 @@ const configs = {
     envKey: 'SMOKE_WORK_SLUG',
     registryPath: resolve(repoRoot, 'src/works/interactiveRegistry.ts'),
     arrayName: 'workInteractiveSlugs',
-    spec: 'tests/work-single.smoke.spec.ts',
+    spec: 'tests/work-integration.smoke.spec.ts',
     routePrefix: '/works',
   },
   explore: {

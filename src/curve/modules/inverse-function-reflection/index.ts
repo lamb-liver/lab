@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { EXP_BASE_MAX, EXP_BASE_MIN } from './constants';
 import {
   buildInverseFunctionReflectionThumbnail,
@@ -47,8 +46,6 @@ export const inverseFunctionReflectionModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.12, revealSpeed: 0 },
 };

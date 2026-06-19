@@ -1,9 +1,8 @@
 <script>
   /**
-   * Client-side list pages: Fuse search, DOM events, filter-bar scroll hints.
+   * Client-side list pages: native substring search, DOM events, filter-bar scroll hints.
    * Pure filter/count/URL logic lives in ../lib/listFilter.ts.
    */
-  import Fuse from 'fuse.js';
   import {
     applyListGridFilter,
     clearListFilters,
@@ -16,8 +15,6 @@
 
   type SearchRecord = { slug: string; title: string; description: string };
 
-  const fuseByIndexId = new Map<string, Fuse<SearchRecord>>();
-
   function loadSearchIndex(indexId: string): SearchRecord[] {
     const el = document.getElementById(indexId);
     if (!el?.textContent) return [];
@@ -28,26 +25,20 @@
     }
   }
 
-  function getFuse(indexId: string): Fuse<SearchRecord> {
-    const cached = fuseByIndexId.get(indexId);
-    if (cached) return cached;
-
-    const fuse = new Fuse(loadSearchIndex(indexId), {
-      keys: [
-        { name: 'title', weight: 0.65 },
-        { name: 'description', weight: 0.35 },
-      ],
-      threshold: 0.38,
-      ignoreLocation: true,
-    });
-    fuseByIndexId.set(indexId, fuse);
-    return fuse;
+  function normalizeSearchText(value: string): string {
+    return value.trim().toLocaleLowerCase('zh-TW');
   }
 
   function searchSlugs(indexId: string, query: string): Set<string> {
-    const trimmed = query.trim();
-    if (!trimmed) return new Set();
-    return new Set(getFuse(indexId).search(trimmed).map((result) => result.item.slug));
+    const needle = normalizeSearchText(query);
+    if (!needle) return new Set();
+    return new Set(
+      loadSearchIndex(indexId)
+        .filter((record) =>
+          normalizeSearchText(`${record.title} ${record.description}`).includes(needle),
+        )
+        .map((record) => record.slug),
+    );
   }
 
   function attachFilterScrollHint(scrollRoot: HTMLElement): void {

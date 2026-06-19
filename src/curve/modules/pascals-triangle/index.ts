@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   PASCAL_PRIMES,
   buildPascalFrameData,
@@ -41,8 +40,6 @@ export const pascalsTriangleModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: PASCAL_REVEAL_SPEED, revealSpeed: PASCAL_REVEAL_SPEED },
 };

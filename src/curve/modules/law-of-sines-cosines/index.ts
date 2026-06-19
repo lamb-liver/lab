@@ -1,4 +1,3 @@
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
   asLawParams,
@@ -61,8 +60,6 @@ export const lawOfSinesCosinesModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
 };
 
 export { DEFAULT_LAW_OF_SINES_COSINES_PARAMS };

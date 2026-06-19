@@ -85,14 +85,12 @@ export type CurveCache = {
 export function createCurveCache(module: CurveModule): CurveCache {
   const strategy: CacheStrategy = module.cacheStrategy ?? { kind: 'none' };
   const numericCache = new Map<number, CurvePoint[]>();
-  const stringCache = new Map<string, CurvePoint[]>();
 
   const sampleAt = (params: ParamValues, step: number): CurvePoint[] =>
     module.sample(params, { step });
 
   const clear = (): void => {
     numericCache.clear();
-    stringCache.clear();
   };
 
   const rebuildForTarget = (targetParams: ParamValues, step: number): void => {
@@ -105,9 +103,6 @@ export function createCurveCache(module: CurveModule): CurveCache {
         sampleAt({ ...targetParams, [key]: kInt }, step),
       );
       return;
-    }
-    if (strategy.kind === 'exact') {
-      stringCache.set(strategy.cacheKey(targetParams), sampleAt(targetParams, step));
     }
   };
 
@@ -130,16 +125,6 @@ export function createCurveCache(module: CurveModule): CurveCache {
   const getDisplayPoints = (params: ParamValues, step: number): CurvePoint[] => {
     if (strategy.kind === 'none') {
       return sampleAt(params, step);
-    }
-
-    if (strategy.kind === 'exact') {
-      const key = strategy.cacheKey(params);
-      let pts = stringCache.get(key);
-      if (!pts) {
-        pts = sampleAt(params, step);
-        stringCache.set(key, pts);
-      }
-      return pts;
     }
 
     const v = params[strategy.paramKey];

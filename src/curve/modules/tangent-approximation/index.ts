@@ -2,7 +2,6 @@ import { BASE_CANVAS_SIZE } from '../../constants';
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { COLLAPSE_SPEED, PARAM_LERP } from './animation';
 import {
   buildFunctionCurvePoints,
@@ -95,8 +94,6 @@ export const tangentApproximationModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: PARAM_LERP, revealSpeed: COLLAPSE_SPEED },
 };

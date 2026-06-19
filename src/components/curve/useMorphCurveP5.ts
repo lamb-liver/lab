@@ -5,6 +5,7 @@ import { executeMorphDrawFrame } from '../../curve/morphFrame';
 import type { MorphAnimStep } from '../../curve/morphFrame';
 import type { AnimationState, CurveModule, ParamValues } from '../../curve/types';
 import { renderFrame } from '../../systems/rendering/frame';
+import { lissajousRenderPreset } from '../../systems/rendering/presets';
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 export type { MorphAnimStep };
@@ -36,6 +37,7 @@ export function useMorphCurveP5({
   onRevealPctChange,
   smoothSync = [],
 }: Options) {
+  const renderPreset = module.renderPreset ?? lissajousRenderPreset;
   const animRef = useRef<AnimationState>({
     params: { ...defaultParams },
     targetParams: { ...defaultParams },
@@ -112,10 +114,10 @@ export function useMorphCurveP5({
           revealProgress: anim.revealProgress,
           points,
         },
-        module.renderPreset,
+        renderPreset,
       );
     },
-    [module, sampleStep, revealSpeed],
+    [module, sampleStep, revealSpeed, renderPreset],
   );
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);

@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   PARAM_LERP,
   buildParametricCurve,
@@ -77,8 +76,6 @@ export const catenaryModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: PARAM_LERP, revealSpeed: 0 },
 };

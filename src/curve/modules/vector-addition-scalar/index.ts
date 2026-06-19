@@ -1,4 +1,3 @@
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
   add,
@@ -65,8 +64,6 @@ export const vectorAdditionScalarModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   animation: { lerp: 1, revealSpeed: 0 },
 };
 

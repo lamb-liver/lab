@@ -4,7 +4,6 @@ import {
   collectWorkTags,
   excludeEntryIds,
   getFeaturedInteractive,
-  getFeaturedOrLatest,
   getPublished,
   getCollectionPagerNeighbors,
   getPublishedAsc,
@@ -101,30 +100,6 @@ describe('published sorting', () => {
     ]);
 
     expect(result.map((e) => e.id)).toEqual(['a-topic', 'z-topic', 'newer']);
-  });
-});
-
-describe('getFeaturedOrLatest', () => {
-  const pool = [
-    entry('a', '2026-01-01', true),
-    entry('b', '2026-02-01', false),
-    entry('c', '2026-03-01', true),
-    entry('d', '2026-04-01', false),
-  ];
-
-  it('backfills with non-featured when featured pool smaller than limit', () => {
-    const result = getFeaturedOrLatest(pool, 3);
-    expect(result.map((e) => e.id)).toEqual(['c', 'a', 'd']);
-  });
-
-  it('falls back to all published when no featured', () => {
-    const noFeatured = pool.map((e) => ({ ...e, data: { ...e.data, featured: false } }));
-    expect(getFeaturedOrLatest(noFeatured, 2).map((e) => e.id)).toEqual(['d', 'c']);
-  });
-
-  it('excludes draft entries', () => {
-    const withDraft = [...pool, entry('draft', '2026-05-01', true, true)];
-    expect(getFeaturedOrLatest(withDraft, 5).some((e) => e.id === 'draft')).toBe(false);
   });
 });
 

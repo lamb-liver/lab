@@ -138,7 +138,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 | 層 | 檔案 | 職責 |
 |----|------|------|
 | 純邏輯 | `src/lib/listFilter.ts` | tag/category 比對、grid 顯示計數、URL param、`clearListFilters` |
-| 客戶端 | `ListSearchFilterScript.astro` | Fuse 搜尋、事件、filter 橫滑 fade、`ResizeObserver` |
+| 客戶端 | `ListSearchFilterScript.astro` | 搜尋、事件、filter 橫滑 fade、`ResizeObserver` |
 
 **不要**在 `listFilter.ts` 讀 DOM；**不要**在 script 內重寫 filter 比對邏輯。
 
@@ -150,7 +150,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 ### 6.3 手機 filter 橫滑
 
-- `TagFilter` / `CategoryFilter` 外包 `.filter-scroll[data-filter-scroll]`
+- `FilterBar` 外包 `.filter-scroll[data-filter-scroll]`
 - ≤767px：橫向 scroll + scroll-snap；右側 **fade gradient**（`data-can-scroll-end="true"` 时显示）
 - iOS 搜尋框：`list-search__input` 在 ≤767px 使用 `font-size: 1rem`（避免 focus 縮放）
 

@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MODE_PARTIAL,
   baselModeFromValue,
@@ -49,8 +48,6 @@ export const baselProblemModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: BASEL_REVEAL_LERP, revealSpeed: BASEL_REVEAL_LERP },
 };

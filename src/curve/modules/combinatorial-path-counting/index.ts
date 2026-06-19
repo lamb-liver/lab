@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MODE_SINGLE,
   buildCombinatorialThumbnail,
@@ -49,8 +48,6 @@ export const combinatorialPathCountingModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: COMBINATORIAL_PATH_SPEED, revealSpeed: COMBINATORIAL_PATH_SPEED },
 };

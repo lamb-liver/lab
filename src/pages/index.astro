@@ -12,7 +12,6 @@ import {
 } from '../content/utils';
 import { workInteractiveSlugs } from '../works/interactiveRegistry';
 import { siteSeo } from '../lib/seoCopy';
-import { withBase } from '../lib/withBase';
 import '../styles/pages/home.css';
 
 const works = await getCollection('works');
@@ -47,7 +46,7 @@ const latestExplore = excludeEntryIds(
   <section class="section home-nav-section">
     <div class="container">
       <div class="home-nav-grid">
-        <a href={withBase('/works')} class="home-nav-card home-nav-card--work">
+        <a href="/works" class="home-nav-card home-nav-card--work">
           <span class="section-badge section-badge--work">深度作品</span>
           <h2 class="home-nav-card__title">作品集</h2>
           <p class="home-nav-card__desc">
@@ -55,7 +54,7 @@ const latestExplore = excludeEntryIds(
           </p>
           <span class="home-nav-card__cta">進入作品集 →</span>
         </a>
-        <a href={withBase('/explore')} class="home-nav-card home-nav-card--explore">
+        <a href="/explore" class="home-nav-card home-nav-card--explore">
           <span class="section-badge section-badge--explore">互動視覺化</span>
           <h2 class="home-nav-card__title">主題導覽</h2>
           <p class="home-nav-card__desc">
@@ -113,7 +112,7 @@ const latestExplore = excludeEntryIds(
             每篇聚焦一個數學對象：公式、可調參數互動，以及完整視覺解釋。
           </p>
         </div>
-        <a href={withBase('/works')} class="home-section-link">查看全部 →</a>
+        <a href="/works" class="home-section-link">查看全部 →</a>
       </div>
       <div class="card-grid">
         {
@@ -139,12 +138,12 @@ const latestExplore = excludeEntryIds(
             依主題進入數學概念，用互動視覺化建立核心圖像。
           </p>
         </div>
-        <a href={withBase('/explore')} class="home-section-link">查看全部 →</a>
+        <a href="/explore" class="home-section-link">查看全部 →</a>
       </div>
       <div class="home-topic-list">
         {
           latestExplore.map((entry) => (
-            <a class="home-topic-item" href={withBase(`/explore/${entry.id}`)}>
+            <a class="home-topic-item" href={`/explore/${entry.id}`}>
               <div class="home-topic-item__meta">
                 <span class="section-badge section-badge--explore">互動視覺化</span>
                 <span class="home-topic-item__category">{entry.data.category}</span>

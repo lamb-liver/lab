@@ -1,6 +1,5 @@
 ---
 import '../styles/components/nav.css';
-import { isActivePath, withBase } from '../lib/withBase';
 
 const links = [
   { path: '/works', label: '作品集' },
@@ -9,11 +8,16 @@ const links = [
 ];
 
 const pathname = Astro.url.pathname;
+
+function isActivePath(path: string, current: string): boolean {
+  if (path === '/') return current === '/';
+  return current === path || current.startsWith(`${path}/`);
+}
 ---
 
 <header class="site-nav">
   <div class="site-nav__inner">
-    <a href={withBase('/')} class="site-nav__logo">羊·實驗</a>
+    <a href="/" class="site-nav__logo">羊·實驗</a>
 
     <button
       class="site-nav__menu-button"
@@ -40,7 +44,7 @@ const pathname = Astro.url.pathname;
       {
         links.map((link) => (
           <a
-            href={withBase(link.path)}
+            href={link.path}
             class:list={['site-nav__link', { 'is-active': isActivePath(link.path, pathname) }]}
           >
             {link.label}

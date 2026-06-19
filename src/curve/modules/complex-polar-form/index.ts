@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP } from './animation';
 import { sampleComplexPolarFormThumbnail } from './geometry';
 
@@ -39,8 +38,6 @@ export const complexPolarFormModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   animation: { lerp: PARAM_LERP, revealSpeed: 0 },
 };
 

@@ -27,7 +27,7 @@
 | Immutable snapshot | `RenderSnap` 不含 React state；renderer 不讀 React |
 | 零 p5 依賴模組 | `curve/modules/*` 可單測 |
 | 參數單一真相 | `paramSchema: ParamDef[]` 驅動標準控件；特殊控件另做元件 |
-| 點列策略依曲線 | 能快取則 `cache`；需每幀 morph 則 `cacheStrategy: 'none'` |
+| 點列策略依曲線 | 能快取才宣告 `cacheStrategy`；省略即每幀 resample |
 | draw → React | 平滑參數同步用 `useSmoothParamNotifier`（`src/components/curve/`）；**emit 的是 delta patch**，Root 必須 merge；`getMetadata` 用 `resolveSmoothParams` 防呆 |
 | 時間推進一律時間正規化 | `time`、`phase`、`rotation`、`reveal` 不直接每幀固定 `+= value`；per-second 常數用 clamped `dtSec`，per-frame 常數用 `frameScale(deltaMs)`，smoothing lerp 用 60fps 等效 alpha。 |
 | Explore range 更新單一路徑 | `<input type="range">` 不要同時綁 `onInput` 與 `onChange`；保留一條主要更新路徑，避免同一次拖曳造成重複 setState / render。 |
@@ -210,7 +210,7 @@ DOM 順序須讓 `<details.work-detail__controls>` / `<aside id="{slug}-controls
 | 用途 | 函式 | 排序 |
 |------|------|------|
 | `/works` 列表 | `getPublishedAsc` | **舊→新**（越新越靠後） |
-| 首頁「最新作品」 | `getFeaturedOrLatest` | 池內 **新→舊**，取前 N = **最新 N 篇** |
+| 首頁「最新作品」 | `getPublishedInteractive` + `excludeEntryIds` | 池內 **新→舊**，取前 N = **最新 N 篇** |
 | 靜態路由 | `getStaticPathsFromCollection` | 順序不影響路由 |
 
 ```ts
@@ -226,7 +226,7 @@ export const getPublishedAsc = (entries) =>
 | 層 | 檔案 | 職責 |
 |----|------|------|
 | 邏輯 | `src/lib/listFilter.ts` | grid 顯示/計數、URL param、清除篩選 |
-| 客戶端 | `ListSearchFilterScript.astro` | Fuse、`data-filter-scroll` fade、事件 |
+| 客戶端 | `ListSearchFilterScript.astro` | 搜尋、`data-filter-scroll` fade、事件 |
 
 列表頁容器：`data-list-filter` + `data-filter-param` + `data-search-param`。  
 結果計數：`[data-filter-count]`；空結果：`[data-filter-clear]`。  
@@ -320,7 +320,7 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 
 ## 作品集縮圖（`WorkCard` + `curveThumbnail`）
 
-> **實作規格（封面優化版）**：現行工程契約見本節；視覺語言見 [`workart.md`](workart.md)；44 件作品 audit 與驗收清單見 [`thumbnail-cover-optimization.md`](thumbnail-cover-optimization.md)。舊 reveal 快照升級歷史見 [`work-thumbnail-spec.md`](work-thumbnail-spec.md)（historical / implemented）。
+> **實作規格（封面優化版）**：現行工程契約見本節與 `src/lib/curveThumbnail.ts`；視覺語言見 [`workart.md`](workart.md)。
 
 ### 目的
 
@@ -408,7 +408,7 @@ type ThumbnailSpec = {
 
 1. 實作 `CurveModule`
 2. 登記 `src/curve/registry.ts`（slug 與 `{slug}.md` 檔名一致）
-3. 實作 `purpose: 'thumbnail'` 分支或 builder，封面需符合 `workart.md` 與 `thumbnail-cover-optimization.md`
+3. 實作 `purpose: 'thumbnail'` 分支或 builder，封面需符合 `workart.md`
 4. 未登記 → 仍顯示「縮圖佔位」
 
 ### 縮圖踩坑
@@ -444,8 +444,8 @@ type CurveModule = {
   defaultParams: ParamValues;   // 可含 schema 外 key（delta, d…）
   sample: (params, { step }) => CurvePoint[] | ThumbnailSpec;
   getMetadata: (params, runtime?) => CurveMetadata;  // smooth 用 resolveSmoothParams(params, runtime)
-  renderPreset: RenderConfig;
-  cacheStrategy?: 'none' | 'integerBlend' | 'exact';
+  renderPreset?: RenderConfig; // 省略即 lissajousRenderPreset
+  cacheStrategy?: 'none' | 'integerBlend'; // 省略即 none；不要顯式寫 none
   sampleStep?: number;
   animation?: { lerp: number; revealSpeed: number };
 };
@@ -646,7 +646,7 @@ x = A sin(at + δ)    y = B sin(bt)     A=B=220    t∈$[0,2\pi]$    step=0.003
 | a, b | 變更 → reveal 歸零；瞬間對齊 |
 | δ | lerp 0.06；不重置 reveal；`DeltaPhaseControl` |
 
-`cacheStrategy: 'none'` — 每幀 `module.sample(anim.params)`。
+省略 `cacheStrategy` — 每幀 `module.sample(anim.params)`。
 
 ---
 
@@ -670,7 +670,7 @@ params.delta = lerp(..., 0.08)
 params.d     = lerp(..., 0.08)
 ```
 
-`cacheStrategy: 'none'` → `getMorphDisplayPoints` 每幀 `sample`（見 [`reactkey.md`](reactkey.md)）。採樣約 3140 點，單幀渲染可接受。
+省略 `cacheStrategy` → `getMorphDisplayPoints` 每幀 `sample`（見 [`reactkey.md`](reactkey.md)）。採樣約 3140 點，單幀渲染可接受。
 
 ---
 
@@ -686,7 +686,7 @@ t ∈ $[0, 2\pi\cdot r/gcd(R,r)]$    step = 0.02
 | R, r | 變更 → reveal 歸零；瞬間對齊 |
 | d | lerp **0.08**；不重置 reveal |
 
-`cacheStrategy: 'none'`。概念同 Harmonograph 的離散+連續分層。
+省略 `cacheStrategy`。概念同 Harmonograph 的離散+連續分層。
 
 ---
 
@@ -812,7 +812,6 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 |----------|------|
 | `none` | δ / d 等每幀 morph（Lissajous、Harmonograph、Spirograph） |
 | `integerBlend` | 單整數、同參數空間（Rose k；注意奇偶護欄） |
-| `exact` | 多參數 `cacheKey` |
 
 ---
 
@@ -851,7 +850,7 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 | 跨奇偶 `integerBlend` | `round(k)` nearest |
 | 通用 `stepAnimation` 用於 a/b 瞬跳需求 | 專用 `stepXxxAnimation` |
 | δ/d 改動就 reset reveal | 僅 a/b（或頻率類）reset |
-| morph 曲線用 cache | `cacheStrategy: 'none'` + `getMorphDisplayPoints` |
+| morph 曲線用 cache | 省略 `cacheStrategy` + `getMorphDisplayPoints` |
 | `none` 仍走 morphPathCache | 阻尼 lerp 時 toFixed(4) key 碰撞 → 過期點列 |
 | target 只經 useEffect 寫 ref | slider 用 `patchTargetParams` 再 setState |
 | 幀邏輯放 morphPathCache.ts | 應在 `morphFrame.ts`；ref 解引用在 hook |
@@ -916,7 +915,7 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 
 1. 先把三個 prototype 抽為 `src/curve/modules/<slug>/index.ts`，保留公式與參數語意。
 2. `paramSchema` 對應滑桿：四則運算（4 參數）、極座標（2 參數）、尤拉（3 參數）。
-3. 如需每幀重算（時間驅動/漂移），優先 `cacheStrategy: 'none'`；靜態幾何再考慮 cache。
+3. 如需每幀重算（時間驅動/漂移），省略 `cacheStrategy`；靜態幾何再考慮 cache。
 4. renderer 端沿用現有 glow/grid 語言，不在單一作品重做視覺系統。
 
 ---

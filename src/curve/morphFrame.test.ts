@@ -35,7 +35,7 @@ function morphFrame(
 }
 
 describe('getMorphDisplayPoints', () => {
-  it('calls module.sample on every invocation when cacheStrategy is none', () => {
+  it('calls module.sample on every invocation when cacheStrategy is omitted', () => {
     const cache = createMorphPathCache(harmonographModule);
     const spy = vi.spyOn(harmonographModule, 'sample');
 
@@ -67,13 +67,13 @@ describe('getMorphDisplayPoints', () => {
     expect(heavy.at(-1)!.arcLength).not.toBeCloseTo(light.at(-1)!.arcLength, 2);
   });
 
-  it('uses cache when cacheStrategy is not none', () => {
+  it('uses cache when cacheStrategy is integerBlend', () => {
     const sample = vi.fn((params: { d: number }) => [
       { x: params.d, y: 0, theta: 0, arcLength: params.d * 100 },
     ]);
     const module = {
       sample,
-      cacheStrategy: { kind: 'exact' as const, cacheKey: (p: { d: number }) => String(p.d) },
+      cacheStrategy: { kind: 'integerBlend' as const, paramKey: 'd' },
     };
     const cache = createMorphPathCache(module as never);
 

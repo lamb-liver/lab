@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   RATIONAL_OBLIQUE_MODES,
   RATIONAL_OBLIQUE_PARAM_META,
@@ -47,8 +46,6 @@ export const rationalObliqueAsymptoteModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.12, revealSpeed: 0 },
 };

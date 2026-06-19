@@ -25,7 +25,7 @@
 
 - 僅負責「參數 key 不變時重用 `module.sample` 結果」。
 - Key 為 `Object.keys(params).sort()` + 各值 `toFixed(4)`。
-- **連續 lerp 參數**（δ、d 等）會在同一 bucket 內碰撞 → **不可**作為 `cacheStrategy: none` 模組的主採樣路徑。
+- **連續 lerp 參數**（δ、d 等）會在同一 bucket 內碰撞 → **不可**作為省略 `cacheStrategy` 模組的主採樣路徑。
 
 ---
 
@@ -38,20 +38,20 @@
 executeMorphDrawFrame(module, cache, animState, targetParams, sampleStep, stepAnimation, revealSpeed)
 ```
 
-- `getMorphDisplayPoints`：`cacheStrategy.kind === 'none'` → 直接 `module.sample()`；否則 `cache.getPoints()`。
+- `getMorphDisplayPoints`：省略 `cacheStrategy` 或 `kind === 'none'` → 直接 `module.sample()`；否則 `cache.getPoints()`。
 - 接受 `stepAnimation` **函式值**，不接受 `{ current: fn }`（ref 解引用在 hook 層）。
 
 ---
 
-## `cacheStrategy: none` 的語意
+## 省略 `cacheStrategy` 的語意
 
 模組：`harmonograph`、`lissajous`、`spirograph`（連續 morph 參數每幀變化）。
 
 | 宣告 | 執行 |
 |------|------|
-| `cacheStrategy: { kind: 'none' }` | **每幀** `module.sample(anim.params)` |
+| 省略 `cacheStrategy` | **每幀** `module.sample(anim.params)` |
 
-`createMorphPathCache` 仍可存在於 hook 內，但 `none` 模組**不得**依賴其點列作為顯示來源。
+`createMorphPathCache` 仍可存在於 hook 內，但省略 `cacheStrategy` 的模組**不得**依賴其點列作為顯示來源。
 
 對照：`rose` 用 `createCurveCache` + `integerBlend`（`CurveWorkRoot` 路徑，非本文件）。
 
@@ -123,7 +123,7 @@ p.draw = () => drawRef.current(p);
 
 ## 新增 morph 曲線檢查
 
-- [ ] `cacheStrategy: { kind: 'none' }`
+- [ ] 省略 `cacheStrategy`
 - [ ] `*CurveRoot` 用 `useMorphCurveP5` + 專用 `stepXxxAnimation`
 - [ ] 滑桿：`patchTargetParams` → `setTargetParams`（urgent handler）
 - [ ] draw 走 `executeMorphDrawFrame`；step / sample 同幀

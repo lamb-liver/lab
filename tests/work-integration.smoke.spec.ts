@@ -1,10 +1,14 @@
 import { expect, test, type Page } from '@playwright/test';
-import {
-  workInteractionHints,
-  workInteractiveSlugs,
-  type WorkInteractionHint,
-  type WorkInteractiveSlug,
-} from '../src/works/interactiveRegistry';
+import { workInteractiveSlugs, type WorkInteractiveSlug } from '../src/works/interactiveRegistry';
+
+const selectedSlug = process.env.SMOKE_WORK_SLUG;
+const selectedSlugs = selectedSlug ? [selectedSlug] : workInteractiveSlugs;
+
+if (selectedSlug && !(workInteractiveSlugs as readonly string[]).includes(selectedSlug)) {
+  throw new Error(
+    `SMOKE_WORK_SLUG must be one of: ${workInteractiveSlugs.join(', ')}`,
+  );
+}
 
 type ConsoleIssue = {
   type: string;
@@ -12,8 +16,8 @@ type ConsoleIssue = {
 };
 
 test.describe('work integration smoke', () => {
-  for (const slug of workInteractiveSlugs) {
-    test(`/works/${slug} mounts canvas, controls, and declared interaction`, async ({ page }) => {
+  for (const slug of selectedSlugs) {
+    test(`/works/${slug} mounts canvas, controls, metadata, and declared interaction`, async ({ page }) => {
       const consoleIssues: ConsoleIssue[] = [];
       const pageErrors: string[] = [];
 
@@ -27,11 +31,20 @@ test.describe('work integration smoke', () => {
 
       await page.goto(`/works/${slug}`, { waitUntil: 'networkidle' });
 
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+        'href',
+        new RegExp(`/works/${slug}/?$`),
+      );
+      await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+        'content',
+        'article',
+      );
       await expect(page.locator('canvas')).toHaveCount(1);
       await expect(page.locator(`#${slug}-controls`)).toBeVisible();
       await expect(page.locator(`#${slug}-controls`).locator('.curve-work-controls')).toBeVisible();
+      await expect(page.locator('.interactive-loading')).toBeHidden();
 
-      await exerciseDeclaredInteraction(page, slug, workInteractionHints[slug]);
+      await exerciseFirstInteraction(page, slug);
 
       expect(pageErrors, `page errors for ${slug}`).toEqual([]);
       expect(consoleIssues, `console issues for ${slug}`).toEqual([]);
@@ -39,46 +52,42 @@ test.describe('work integration smoke', () => {
   }
 });
 
-async function exerciseDeclaredInteraction(page: Page, slug: WorkInteractiveSlug, hint: WorkInteractionHint) {
+async function exerciseFirstInteraction(page: Page, slug: WorkInteractiveSlug) {
   const controls = page.locator(`#${slug}-controls`);
+  const control = controls.locator('button:not([disabled]), input:not([disabled]), select:not([disabled])').first();
+  await expect(control, `${slug} should expose an interactive control`).toBeVisible();
 
-  if (hint === 'button') {
-    const button = controls.locator('button:not([disabled])').first();
-    await expect(button, `${slug} should expose a clickable button`).toBeVisible();
-    await button.click();
+  const tagName = await control.evaluate((element) => element.tagName.toLowerCase());
+  if (tagName === 'button') {
+    await control.click();
     return;
   }
 
-  if (hint === 'input') {
-    const input = controls.locator('input:not([disabled])').first();
-    await expect(input, `${slug} should expose an input control`).toBeVisible();
-    await input.evaluate((element) => {
+  if (tagName === 'input') {
+    await control.evaluate((element) => {
       const inputElement = element as HTMLInputElement;
-      const current = Number(inputElement.value);
-      const min = Number(inputElement.min || current);
-      const max = Number(inputElement.max || current + 1);
-      const next = current < max ? Math.min(max, current + Number(inputElement.step || 1)) : min;
-      inputElement.value = String(next);
+      if (inputElement.type === 'checkbox') {
+        inputElement.checked = !inputElement.checked;
+      } else {
+        const current = Number(inputElement.value);
+        const min = Number(inputElement.min || current);
+        const max = Number(inputElement.max || current + 1);
+        const step = Number(inputElement.step || 1);
+        inputElement.value = String(current < max ? Math.min(max, current + step) : min);
+      }
       inputElement.dispatchEvent(new Event('input', { bubbles: true }));
       inputElement.dispatchEvent(new Event('change', { bubbles: true }));
     });
     return;
   }
 
-  if (hint === 'select') {
-    const select = controls.locator('select:not([disabled])').first();
-    await expect(select, `${slug} should expose a select control`).toBeVisible();
-    await select.evaluate((element) => {
-      const selectElement = element as HTMLSelectElement;
-      const nextIndex = selectElement.selectedIndex + 1 < selectElement.options.length ? selectElement.selectedIndex + 1 : 0;
-      selectElement.selectedIndex = nextIndex;
-      selectElement.dispatchEvent(new Event('input', { bubbles: true }));
-      selectElement.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-    return;
-  }
-
-  await expect(controls.locator('button, input, select')).toHaveCount(0);
+  await control.evaluate((element) => {
+    const selectElement = element as HTMLSelectElement;
+    const nextIndex = selectElement.selectedIndex + 1 < selectElement.options.length ? selectElement.selectedIndex + 1 : 0;
+    selectElement.selectedIndex = nextIndex;
+    selectElement.dispatchEvent(new Event('input', { bubbles: true }));
+    selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+  });
 }
 
 function hasDoubleSlashAssetPath(text: string): boolean {

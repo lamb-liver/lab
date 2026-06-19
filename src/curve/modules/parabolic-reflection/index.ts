@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { FOCAL_LERP, REVEAL_SPEED } from './animation';
 import {
   BASE_CANVAS,
@@ -73,8 +72,6 @@ export const parabolicReflectionModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: CURVE_STEP,
   animation: { lerp: FOCAL_LERP, revealSpeed: REVEAL_SPEED },
 };

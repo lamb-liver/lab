@@ -37,8 +37,6 @@ function usage() {
     '  new:work [args...]',
     '  new:explore [args...]',
     '  validate:changed [--dry-run] [--base ref]',
-    '  scaffold:explore [args...]',
-    '  scaffold:work [args...]',
     '  vite:deps:clean',
     '  ports [--ports 4321,4322]',
     '  ports:clean [--ports 4321,4322]',
@@ -328,12 +326,6 @@ function main() {
     return runNodeScript(resolve(repoRoot, 'scripts/run-smoke.mjs'), ['explore', ...args]);
   }
 
-  if (command === 'scaffold:explore') {
-    return runNodeScript(resolve(repoRoot, 'scripts/scaffold-explore-integration.mjs'), args);
-  }
-  if (command === 'scaffold:work') {
-    return runNodeScript(resolve(repoRoot, 'scripts/scaffold-work-integration.mjs'), args);
-  }
   if (command === 'new:explore') {
     return runNodeScript(resolve(repoRoot, 'scripts/new-explore.mjs'), args);
   }

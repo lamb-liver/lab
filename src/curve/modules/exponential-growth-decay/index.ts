@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MODE_DECAY,
   MODE_GROWTH,
@@ -71,8 +70,6 @@ export const exponentialGrowthDecayModule: CurveModule = {
       stats,
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.025, revealSpeed: EXP_REVEAL_SPEED },
 };

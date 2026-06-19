@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { MODE_SQUARE, buildBinomialThumbnail, modeFromValue, normalizeLen } from './geometry';
 
 const paramSchema: ParamSchema = [
@@ -33,8 +32,6 @@ export const binomialExpansionGeometryModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.05, revealSpeed: 0.05 },
 };

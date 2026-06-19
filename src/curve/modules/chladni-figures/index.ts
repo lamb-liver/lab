@@ -2,7 +2,6 @@ import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { buildPointCloudStroke } from '../../thumbnailPointCloud';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { MODE_LERP, REVEAL_SPEED } from './animation';
 import { sampleChladniNodalLines, sampleChladniParticleCloud } from './geometry';
 
@@ -60,8 +59,6 @@ export const chladniFiguresModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 4,
   animation: { lerp: MODE_LERP, revealSpeed: REVEAL_SPEED },
 };

@@ -1,7 +1,6 @@
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { defaultsFromSchema } from '../../defaults';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP } from './animation';
 
 const paramSchema: ParamSchema = [
@@ -135,8 +134,6 @@ export const eulerFormulaRotationModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   animation: { lerp: PARAM_LERP, revealSpeed: 0 },
 };
 

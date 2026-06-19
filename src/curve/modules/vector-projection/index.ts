@@ -1,4 +1,3 @@
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
   formatNearZero,
@@ -98,8 +97,6 @@ export const vectorProjectionModule: CurveModule = {
           ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   animation: { lerp: 1, revealSpeed: 0 },
 };
 

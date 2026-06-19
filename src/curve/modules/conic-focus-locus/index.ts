@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP, REVEAL_SPEED } from './animation';
 import { buildConicFocusLocusThumbnail, CURVE_DENSITY, sampleConicFocusLocusCurve } from './geometry';
 
@@ -61,8 +60,6 @@ export const conicFocusLocusModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: CURVE_DENSITY,
   animation: { lerp: PARAM_LERP, revealSpeed: REVEAL_SPEED },
 };

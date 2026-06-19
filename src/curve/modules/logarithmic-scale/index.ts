@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   LOG_REVEAL_SPEED,
   buildLogarithmicThumbnail,
@@ -49,8 +48,6 @@ export const logarithmicScaleModule: CurveModule = {
       stats,
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.025, revealSpeed: LOG_REVEAL_SPEED },
 };

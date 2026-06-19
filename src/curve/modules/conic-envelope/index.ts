@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { RATIO_LERP, REVEAL_SPEED } from './animation';
 import { sampleConicEnvelopeOutline } from './geometry';
 
@@ -59,8 +58,6 @@ export const conicEnvelopeModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 4,
   animation: { lerp: RATIO_LERP, revealSpeed: REVEAL_SPEED },
 };

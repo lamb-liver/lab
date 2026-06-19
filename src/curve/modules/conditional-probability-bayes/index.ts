@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MODE_TREE,
   SCENARIO_CARD,
@@ -58,8 +57,6 @@ export const conditionalProbabilityBayesModule: CurveModule = {
     };
   },
   /** 互動走 conditionalProbabilityBayesRender；preset 僅滿足 CurveModule 型別。 */
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.025, revealSpeed: 0.025 },
 };

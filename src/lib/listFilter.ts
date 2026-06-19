@@ -1,6 +1,6 @@
 /**
  * List filter pure logic: token normalization, grid visibility, URL param sync helpers.
- * DOM wiring, Fuse search, and event listeners live in ListSearchFilterScript.astro.
+ * DOM wiring, search, and event listeners live in ListSearchFilterScript.astro.
  */
 
 export function normalizeFilterToken(value: string): string {

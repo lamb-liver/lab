@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   LOGISTIC_CURVE_REVEAL_SPEED,
   buildLogisticCurveThumbnail,
@@ -45,8 +44,6 @@ export const logisticCurveModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: LOGISTIC_CURVE_REVEAL_SPEED, revealSpeed: LOGISTIC_CURVE_REVEAL_SPEED },
 };

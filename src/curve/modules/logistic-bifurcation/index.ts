@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MODE_COMPARE,
   buildLogisticThumbnail,
@@ -53,8 +52,6 @@ export const logisticBifurcationModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: LOGISTIC_REVEAL_SPEED, revealSpeed: LOGISTIC_REVEAL_SPEED },
 };

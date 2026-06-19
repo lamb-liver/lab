@@ -255,7 +255,7 @@ function selectCommands(files) {
       if (testPath) {
         add(commands, command(`module test ${moduleDir}`, ['npm', 'run', 'test', '--', testPath]));
       }
-      add(commands, command('thumbnail registry', ['npm', 'run', 'test', '--', 'src/lib/curveThumbnail.registry.test.ts']));
+      add(commands, command('thumbnail registry', ['npm', 'run', 'test', '--', 'src/lib/curveThumbnail.test.ts']));
       const slug = workModuleByDir.get(moduleDir);
       if (slug) {
         add(commands, command(`work smoke ${slug}`, ['npm', 'run', 'smoke:work', '--', slug]));
@@ -308,9 +308,7 @@ function selectCommands(files) {
       add(commands, command(`test ${file}`, ['npm', 'run', 'test', '--', file]));
     }
 
-    if (file === 'tests/work-single.smoke.spec.ts') {
-      add(commands, command('work smoke list', ['npm', 'run', 'smoke:work', '--', 'rose-curve', '--list']));
-    } else if (file === 'tests/explore-single.smoke.spec.ts') {
+    if (file === 'tests/explore-single.smoke.spec.ts') {
       add(commands, command('explore smoke list', ['npm', 'run', 'smoke:explore', '--', 'vectors', '--list']));
     } else if (file === 'tests/work-integration.smoke.spec.ts') {
       add(commands, command(`playwright list ${file}`, ['npm', 'run', 'test:works-smoke', '--', '--list']));

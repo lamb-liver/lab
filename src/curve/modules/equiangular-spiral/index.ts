@@ -7,7 +7,6 @@ import type {
   ThumbnailSpec,
 } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   INITIAL_RADIUS_A,
   REVEAL_RATIO,
@@ -114,8 +113,6 @@ export const equiangularSpiralModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0.08, revealSpeed: 0 },
 };

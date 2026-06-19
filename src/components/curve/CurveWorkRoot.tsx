@@ -5,6 +5,7 @@ import { createInitialState, stepAnimation } from '../../curve/animation';
 import { createCurveCache } from '../../curve/cache';
 import type { AnimationState, CurveModule, ParamKey, ParamValues } from '../../curve/types';
 import { renderFrame } from '../../systems/rendering/frame';
+import { lissajousRenderPreset } from '../../systems/rendering/presets';
 import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 import ParamControls from './ParamControls';
 import StatsPanel from './StatsPanel';
@@ -28,6 +29,7 @@ export default function CurveWorkRoot({
 }: Props) {
   const sampleStep = module.sampleStep ?? 0.006;
   const animConfig = module.animation ?? { lerp: 0.08, revealSpeed: 0.0024 };
+  const renderPreset = module.renderPreset ?? lissajousRenderPreset;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -94,10 +96,10 @@ export default function CurveWorkRoot({
           revealProgress: anim.revealProgress,
           points,
         },
-        module.renderPreset,
+        renderPreset,
       );
     },
-    [module, sampleStep, animConfig.lerp, animConfig.revealSpeed],
+    [module, sampleStep, animConfig.lerp, animConfig.revealSpeed, renderPreset],
   );
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);

@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP } from './animation';
 import { sampleComplexArithmeticGeometryThumbnail } from './geometry';
 
@@ -53,8 +52,6 @@ export const complexArithmeticGeometryModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   animation: { lerp: PARAM_LERP, revealSpeed: 0 },
 };
 

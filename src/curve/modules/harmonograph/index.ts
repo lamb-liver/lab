@@ -88,7 +88,6 @@ export const harmonographModule: CurveModule = {
     };
   },
   renderPreset: harmonographRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: SAMPLE_STEP,
   animation: { lerp: MORPH_LERP, revealSpeed: REVEAL_SPEED },
 };

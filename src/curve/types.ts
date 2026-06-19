@@ -78,7 +78,6 @@ export type CurveMetadata = {
 
 export type CacheStrategy =
   | { kind: 'integerBlend'; paramKey: ParamKey }
-  | { kind: 'exact'; cacheKey: (params: ParamValues) => string }
   | { kind: 'none' };
 
 export type CurveModule = {
@@ -88,7 +87,7 @@ export type CurveModule = {
   /** 見 `SampleOptions` 註解：互動專用模組仍以 `purpose: 'thumbnail'` 為主路徑。 */
   sample: (params: ParamValues, opts: SampleOptions) => CurvePoint[] | ThumbnailSpec;
   getMetadata: (params: ParamValues, runtime?: RuntimeMeta) => CurveMetadata;
-  renderPreset: RenderConfig;
+  renderPreset?: RenderConfig;
   cacheStrategy?: CacheStrategy;
   sampleStep?: number;
   animation?: { lerp: number; revealSpeed: number };

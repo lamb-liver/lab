@@ -2,24 +2,25 @@
 import '../styles/components/filter.css';
 
 interface Props {
-  tags: string[];
+  options: string[];
+  ariaLabel: string;
 }
 
-const { tags } = Astro.props;
-const items = ['全部', ...tags];
+const { options, ariaLabel } = Astro.props;
+const items = ['全部', ...options];
 ---
 
 <div class="filter-scroll" data-filter-scroll>
-  <div class="filter-bar" data-filter-bar role="group" aria-label="作品標籤篩選">
+  <div class="filter-bar" data-filter-bar role="group" aria-label={ariaLabel}>
     {
-      items.map((tag, i) => (
+      items.map((item, i) => (
         <button
           type="button"
           class:list={['filter-btn', { 'is-active': i === 0 }]}
-          data-filter-value={tag === '全部' ? '*' : tag}
+          data-filter-value={item === '全部' ? '*' : item}
           aria-pressed={i === 0 ? 'true' : 'false'}
         >
-          {tag}
+          {item}
         </button>
       ))
     }

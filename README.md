@@ -40,7 +40,7 @@ npm run dev
 # 例：http://localhost:4321/
 ```
 
-站內連結請使用 [`src/lib/withBase.ts`](src/lib/withBase.ts) 的 `withBase()`，以相容 Astro `base` 設定。
+站內連結使用 root-relative path（例如 `/works`、`/explore/{slug}`）；`astro.config.mjs` 固定 `base: '/'`。
 
 ## 頁面
 
@@ -148,7 +148,7 @@ draft: false
 ---
 ```
 
-新封面圖放 `public/images/explore-covers/`，對應來源檔放 `scripts/explore-covers/`；`fourier-series` 既有 legacy 封面保留原路徑。`coverImage` 路徑會經 `withBase()` 解析。封面規格見 [`docs/exploreart.md`](docs/exploreart.md)。
+新封面圖放 `public/images/explore-covers/`，對應來源檔放 `scripts/explore-covers/`；`fourier-series` 既有 legacy 封面保留原路徑。`coverImage` 使用 root-relative path。封面規格見 [`docs/exploreart.md`](docs/exploreart.md)。
 互動掛載：在 [`src/explore/interactiveRegistry.ts`](src/explore/interactiveRegistry.ts) 登記 slug，並於 [`ExploreInteractiveStage.tsx`](src/components/explore/ExploreInteractiveStage.tsx) 掛載對應 `*ExploreRoot`。細節見 [`docs/p5toreact.md`](docs/p5toreact.md)「Explore 視覺化」章節。
 
 ### 視覺化頁版面（互動 explore）
@@ -210,8 +210,7 @@ draft: false
 | `#hero-canvas` | 已用：首頁 Hero 播放 `rotation-scale-composition` 動畫 |
 | `.controls-panel--stage` | 已用：作品 canvas **右側** React portal 參數控制 |
 | `.fourier-explore` | 已用：explore 傅立葉（canvas 下工具列，非 portal） |
-| `TagFilter` | 已用：作品列表前端 tag 篩選 |
-| `CategoryFilter` | explore 分類篩選 UI |
+| `FilterBar` | 已用：作品 / Explore 列表前端篩選 |
 
 ## 刻意未採用
 

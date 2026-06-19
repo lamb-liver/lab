@@ -6,7 +6,6 @@ import type {
   ParamValues,
   ThumbnailSpec,
 } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { INTEGRATION_STEP_SIZE, buildAllStreamlines } from './geometry';
 
 const THUMBNAIL_STREAMLINE_COUNT = 24;
@@ -92,8 +91,6 @@ export const vectorFieldStreamlinesModule: CurveModule = {
       { key: 'speed', label: 'speed v', value: params.flowSpeed.toFixed(3) },
     ],
   }),
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: 0, revealSpeed: 0 },
 };

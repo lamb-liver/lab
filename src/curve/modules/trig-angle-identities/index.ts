@@ -1,4 +1,3 @@
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
   asTrigAngleIdentitiesParams,
@@ -77,8 +76,6 @@ export const trigAngleIdentitiesModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
 };
 
 export { DEFAULT_TRIG_ANGLE_IDENTITIES_PARAMS };

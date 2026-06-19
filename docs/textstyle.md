@@ -40,7 +40,6 @@
 | `README.md` | 專案說明 + 表格 | slug、路徑、技術棧；可中英並列 |
 | `art.md` / `workart.md` / `exploreart.md` | 視覺規格 | token、alpha 數值、程式對照 |
 | `p5toreact.md` | 整合手冊 | 檢查清單、反模式表、縮圖管線 |
-| `work-thumbnail-spec.md` | 縮圖設計歷史 | **Implemented**；現行權威見 `p5toreact.md` + `curveThumbnail.ts` |
 
 ---
 
@@ -469,8 +468,6 @@ $$
 | `p5toreact.md` | 互動**工程**（模組、hook、檢查清單） |
 | `reactkey.md` | Morph 曲線 React × p5 契約 |
 | `README.md` | 路徑、排序、`date` 語意、專案結構 |
-| `work-thumbnail-spec.md` | 縮圖**設計歷史**（Implemented）；現行見 `p5toreact.md` |
-| `tools/archive/optimize-works-content.mjs` | works 文案**一次性**批次遷移（2026-05-27） |
 | `.cursor/rules/code-review.mdc` | **Local AI review 流程**（Cursor）；非 runtime spec；衝突時以 `src/` 為準 |
 
 **Authority**：content 文案 → 本文件；canvas → `art.md` / `workart.md` / `exploreart.md`；互動工程 → `p5toreact.md`；morph → `reactkey.md`；**runtime 程式優先於一切 Markdown**。
@@ -488,4 +485,4 @@ $$
 5. 缺相關節曲線補 `相關作品`  
 6. 繁中譯名與工程詞清理  
 
-工具：`node tools/archive/optimize-works-content.mjs`（僅供日後類似遷移參考，勿對已改寫檔案重跑）。
+一次性遷移已完成；後續改寫直接依本文件人工編輯，不保留舊批次改寫腳本。

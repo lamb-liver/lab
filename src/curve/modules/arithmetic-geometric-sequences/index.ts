@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MODE_ARITHMETIC,
   MODE_GEOMETRIC,
@@ -63,8 +62,6 @@ export const arithmeticGeometricSequencesModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: SEQUENCE_REVEAL_SPEED, revealSpeed: SEQUENCE_REVEAL_SPEED },
 };

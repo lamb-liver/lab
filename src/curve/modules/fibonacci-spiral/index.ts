@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   PHI,
   buildFibonacci,
@@ -38,8 +37,6 @@ export const fibonacciSpiralModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: FIBONACCI_REVEAL_SPEED, revealSpeed: FIBONACCI_REVEAL_SPEED },
 };

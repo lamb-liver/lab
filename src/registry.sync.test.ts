@@ -3,7 +3,7 @@ import { exploreStageRootSlugs } from './components/explore/ExploreInteractiveSt
 import { workStageRootSlugs } from './components/works/WorkInteractiveStage';
 import { exploreInteractiveSlugs } from './explore/interactiveRegistry';
 import { workCurveBySlug } from './curve/registry';
-import { workInteractionHints, workInteractiveSlugs } from './works/interactiveRegistry';
+import { workInteractiveSlugs } from './works/interactiveRegistry';
 import { readContentSlugs } from './test/contentSlugs';
 
 describe('registry ↔ content 同步', () => {
@@ -14,12 +14,10 @@ describe('registry ↔ content 同步', () => {
 
     expect(interactiveSlugs).toEqual(registryKeys);
     expect(workStageRootSlugs).toEqual(interactiveSlugs);
-    expect(Object.keys(workInteractionHints).sort()).toEqual(interactiveSlugs);
 
     for (const slug of interactiveSlugs) {
       expect(contentSlugs, `interactive slug missing content: ${slug}`).toContain(slug);
       expect(workCurveBySlug[slug], `missing module for ${slug}`).toBeDefined();
-      expect(workInteractionHints[slug], `missing interaction hint for ${slug}`).toMatch(/^(button|input|select|none)$/);
     }
   });
 

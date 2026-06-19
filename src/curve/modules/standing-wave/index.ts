@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { AMPLITUDE_LERP, REVEAL_SPEED } from './animation';
 import { DEFAULT_SAMPLE_STEP, sampleStandingWaveCurve } from './geometry';
 
@@ -72,8 +71,6 @@ export const standingWaveModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: DEFAULT_SAMPLE_STEP,
   animation: { lerp: AMPLITUDE_LERP, revealSpeed: REVEAL_SPEED },
 };

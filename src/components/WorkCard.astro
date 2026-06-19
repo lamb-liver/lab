@@ -2,7 +2,6 @@
 import '../styles/components/card.css';
 import CardThumbFallback from './CardThumbFallback.astro';
 import { getCurveThumbnailSvg } from '../lib/curveThumbnail';
-import { withBase } from '../lib/withBase';
 
 interface Props {
   slug: string;
@@ -14,7 +13,7 @@ interface Props {
 
 const { slug, title, description, tags, featured = false } = Astro.props;
 const hasThumb = !!getCurveThumbnailSvg(slug);
-const thumbSrc = withBase(`/thumbs/works/${slug}.svg`);
+const thumbSrc = `/thumbs/works/${slug}.svg`;
 ---
 
 <article
@@ -23,7 +22,7 @@ const thumbSrc = withBase(`/thumbs/works/${slug}.svg`);
   data-filter-tags={tags.join(',')}
   data-search-slug={slug}
 >
-  <a href={withBase(`/works/${slug}`)} class="card__link-wrap">
+  <a href={`/works/${slug}`} class="card__link-wrap">
     <span class="card__kind card__kind--work">作品</span>
     <div
       class:list={[

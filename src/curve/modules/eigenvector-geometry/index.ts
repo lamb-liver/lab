@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   EIGENVECTOR_PRESETS,
   buildEigenvectorThumbnail,
@@ -68,8 +67,6 @@ export const eigenvectorGeometryModule: CurveModule = {
       ].slice(0, 4),
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 8,
 };
 

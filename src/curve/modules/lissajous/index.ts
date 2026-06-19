@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 
 const AMPLITUDE = 220;
 const TWO_PI = 2 * Math.PI;
@@ -78,8 +77,6 @@ export const lissajousModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 0.003,
   animation: { lerp: DELTA_LERP, revealSpeed: REVEAL_SPEED },
 };

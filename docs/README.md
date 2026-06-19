@@ -29,6 +29,4 @@
 
 | 文件 | 說明 |
 |------|------|
-| [`work-thumbnail-spec.md`](work-thumbnail-spec.md) | 縮圖升級設計歷史（Implemented） |
-| [`thumbnail-cover-optimization.md`](thumbnail-cover-optimization.md) | 封面優化 audit 規範 |
 | [`archive/visual_math_geometry_review.md`](archive/visual_math_geometry_review.md) | 幾何視覺化審查筆記 |

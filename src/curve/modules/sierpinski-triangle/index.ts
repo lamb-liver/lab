@@ -1,6 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import {
   MAX_DEPTH,
   MODE_CHAOS,
@@ -46,8 +45,6 @@ export const sierpinskiTriangleModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 1,
   animation: { lerp: SIERPINSKI_REVEAL_SPEED, revealSpeed: SIERPINSKI_REVEAL_SPEED },
 };

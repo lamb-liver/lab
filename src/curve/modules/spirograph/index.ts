@@ -93,7 +93,6 @@ export const spirographModule: CurveModule = {
     };
   },
   renderPreset: spirographRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: SAMPLE_STEP,
   animation: { lerp: MORPH_LERP, revealSpeed: REVEAL_SPEED },
 };

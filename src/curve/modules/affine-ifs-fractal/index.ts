@@ -2,7 +2,6 @@ import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { buildPointCloudStroke } from '../../thumbnailPointCloud';
-import { lissajousRenderPreset } from '../../../systems/rendering/presets';
 import { PARAM_LERP, REVEAL_SPEED, sampleAffineIfsFractalCurve } from './geometry';
 
 const paramSchema: ParamSchema = [
@@ -71,8 +70,6 @@ export const affineIfsFractalModule: CurveModule = {
       ],
     };
   },
-  renderPreset: lissajousRenderPreset,
-  cacheStrategy: { kind: 'none' },
   sampleStep: 2,
   animation: { lerp: PARAM_LERP, revealSpeed: REVEAL_SPEED },
 };

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ListSearchFilterScript from '../../components/ListSearchFilterScript.astro';
-import TagFilter from '../../components/TagFilter.astro';
+import FilterBar from '../../components/FilterBar.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import { getCollection } from 'astro:content';
 import { collectWorkTags, getPublishedAsc } from '../../content/utils';
@@ -54,7 +54,7 @@ const searchIndex = works.map((entry) => ({
         <p class="list-filter-count" data-filter-count aria-live="polite">共 {works.length} 篇</p>
       </div>
 
-      <TagFilter tags={tagOptions} />
+      <FilterBar options={tagOptions} ariaLabel="作品標籤篩選" />
     </section>
 
     <script

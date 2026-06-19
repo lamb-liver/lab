@@ -69,28 +69,6 @@ export const excludeEntryIds = <E extends ContentEntry>(
   excludeIds: ReadonlySet<string>,
 ): E[] => entries.filter((entry) => !excludeIds.has(entry.id));
 
-/**
- * featured 策展（列表／備用；首頁精選用 `getFeaturedInteractive`）
- *
- * - `featured` 優先（池內新→舊），不足 limit 時以 non-featured 補齊。
- * - 無 featured 時：fallback 到全部 published，取最新 N 篇。
- */
-export const getFeaturedOrLatest = <E extends ContentEntry>(
-  entries: E[],
-  limit: number,
-): E[] => {
-  const published = getPublished(entries);
-  const featured = published.filter((e) => e.data.featured);
-
-  if (featured.length === 0) {
-    return published.slice(0, limit);
-  }
-
-  const featuredIds = new Set(featured.map((e) => e.id));
-  const rest = published.filter((e) => !featuredIds.has(e.id));
-  return [...featured, ...rest].slice(0, limit);
-};
-
 export const getStaticPathsFromCollection = <E extends ContentEntry>(
   entries: E[],
 ) =>

@@ -40,7 +40,6 @@ Cursor rules are not canonical runtime specifications.
 | Morph animation lifecycle | `reactkey.md` |
 | Content writing style | `textstyle.md` |
 | Site shell UX (nav, lists, detail chrome) | `site-ux.md` |
-| Thumbnail design history | `work-thumbnail-spec.md` |
 
 ## Validation
 
