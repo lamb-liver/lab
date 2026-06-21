@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   MODE_COUNT,
@@ -27,23 +27,19 @@ export default function CombinatorialPathCountingCurveRoot({
 }: Props) {
   const module = combinatorialPathCountingModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(0);
   const [rerollNonce, setRerollNonce] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
-  const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useCombinatorialPathCountingP5({
-    defaultParams: module.defaultParams,
     targetParams,
     rerollNonce,
-    onRevealPctChange,
   });
 
   useEffect(() => {
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(targetParams, { revealPct, smoothParams: targetParams });
+  const metadata = module.getMetadata(targetParams);
   const mode = Math.round(targetParams.mode ?? MODE_SINGLE);
 
   const controls = controlsMount

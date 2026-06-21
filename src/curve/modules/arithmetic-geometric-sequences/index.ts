@@ -29,10 +29,7 @@ export const arithmeticGeometricSequencesModule: CurveModule = {
   id: 'arithmetic-geometric-sequences',
   paramSchema,
   defaultParams,
-  sample: (params, { purpose }) => {
-    if (purpose === 'thumbnail') return buildSequenceThumbnail(params);
-    return buildSequenceThumbnail(params);
-  },
+  sample: (params) => buildSequenceThumbnail(params),
   getMetadata: (params, runtime): CurveMetadata => {
     const reveal = runtime ? runtime.revealPct / 100 : 1;
     const mode = sequenceModeFromParams(params);

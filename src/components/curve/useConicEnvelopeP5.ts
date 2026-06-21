@@ -10,20 +10,18 @@ import { renderConicEnvelopeScene } from '../../systems/rendering/conicEnvelopeR
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothRatioChange: (ratio: number) => void;
 };
 
 export function useConicEnvelopeP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
   onSmoothRatioChange,
 }: Options) {
-  const animRef = useRef(createConicEnvelopeAnimState(defaultParams));
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const animRef = useRef(createConicEnvelopeAnimState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealPctRef = useRef(-1);
   const lastRatioKeyRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);

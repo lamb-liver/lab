@@ -6,15 +6,12 @@ import { renderBuffonNeedleScene } from '../../systems/rendering/buffonNeedleRen
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   resetNonce: number;
-  onRevealPctChange: (pct: number) => void;
 };
 
-export function useBuffonNeedleP5({ defaultParams, targetParams, resetNonce, onRevealPctChange }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const resetNonceRef = useRef(resetNonce);
+export function useBuffonNeedleP5({ targetParams, resetNonce }: Options) {
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const stateRef = useRef<{
     needles: ReturnType<typeof generateNeedle>[];
     estimateHistory: Array<number | null>;
@@ -26,17 +23,11 @@ export function useBuffonNeedleP5({ defaultParams, targetParams, resetNonce, onR
     totalThrows: 0,
     hitCount: 0,
   });
-  const onRevealPctRef = useRef(onRevealPctChange);
-  const lastPctRef = useRef(-1);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
   useEffect(() => {
-    onRevealPctRef.current = onRevealPctChange;
-  }, [onRevealPctChange]);
-  useEffect(() => {
-    resetNonceRef.current = resetNonce;
     stateRef.current = { needles: [], estimateHistory: [], totalThrows: 0, hitCount: 0 };
   }, [resetNonce]);
 
@@ -67,11 +58,6 @@ export function useBuffonNeedleP5({ defaultParams, targetParams, resetNonce, onR
       hitCount: stateRef.current.hitCount,
     });
 
-    const pct = Math.min(100, Math.floor((stateRef.current.totalThrows / 520) * 100));
-    if (pct !== lastPctRef.current) {
-      lastPctRef.current = pct;
-      onRevealPctRef.current(pct);
-    }
   }, []);
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);

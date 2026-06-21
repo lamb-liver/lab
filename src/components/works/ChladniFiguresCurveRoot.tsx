@@ -29,7 +29,6 @@ export default function ChladniFiguresCurveRoot({
   }, []);
 
   const { canvasHostRef } = useChladniP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
     onSmoothModesChange,

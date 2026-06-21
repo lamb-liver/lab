@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   MODE_AREA,
@@ -34,20 +34,16 @@ export default function ConditionalProbabilityBayesCurveRoot({
 }: Props) {
   const module = conditionalProbabilityBayesModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
-  const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useConditionalProbabilityBayesP5({
-    defaultParams: module.defaultParams,
     targetParams,
-    onRevealPctChange,
   });
 
   useEffect(() => {
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(targetParams, { revealPct, smoothParams: targetParams });
+  const metadata = module.getMetadata(targetParams);
   const mode = Math.round(targetParams.mode ?? MODE_TREE);
   const scenario = Math.round(targetParams.scenario ?? SCENARIO_MEDICAL);
 

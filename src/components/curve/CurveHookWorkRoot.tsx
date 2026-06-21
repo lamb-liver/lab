@@ -5,21 +5,19 @@ import ParamControls from './ParamControls';
 import StatsPanel from './StatsPanel';
 import '../../styles/components/works/curve-work-demo.css';
 
-type CommonHookOptions = {
+type CommonHook = (options: {
   defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothParamsChange: (params: ParamValues) => void;
-};
-
-type CommonHook = (options: CommonHookOptions) => {
+}) => {
   canvasHostRef: RefObject<HTMLDivElement | null>;
 };
 
 type Props = {
   module: CurveModule;
   useCanvas: CommonHook;
-  controlsMountId?: string;
+  controlsMountId: string;
   canvasAriaLabel: string;
   initialRevealPct?: number;
 };
@@ -27,7 +25,7 @@ type Props = {
 export default function CurveHookWorkRoot({
   module,
   useCanvas,
-  controlsMountId = `${module.id}-controls`,
+  controlsMountId,
   canvasAriaLabel,
   initialRevealPct = 0,
 }: Props) {

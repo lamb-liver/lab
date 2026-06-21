@@ -19,10 +19,9 @@ export function useBaselProblemP5({
   playing,
   replayNonce,
   onRevealPctChange,
-}: Options) {
+  }: Options) {
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const playingRef = useRef(playing);
-  const replayNonceRef = useRef(replayNonce);
   const revealRef = useRef(0);
   const lastKeyRef = useRef(paramsKey(defaultParams));
   const lastRevealPctRef = useRef(-1);
@@ -41,7 +40,6 @@ export function useBaselProblemP5({
   }, [onRevealPctChange]);
 
   useEffect(() => {
-    replayNonceRef.current = replayNonce;
     revealRef.current = 0;
   }, [replayNonce]);
 

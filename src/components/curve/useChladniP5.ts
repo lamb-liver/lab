@@ -15,21 +15,19 @@ import {
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothModesChange: (m: number, n: number) => void;
 };
 
 export function useChladniP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
   onSmoothModesChange,
 }: Options) {
-  const animRef = useRef(createChladniAnimState(defaultParams));
+  const animRef = useRef(createChladniAnimState(targetParams));
   const particlesRef = useRef<Particle[]>([]);
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealPctRef = useRef(-1);
   const lastModeKeyRef = useRef('');
   const onRevealPctChangeRef = useRef(onRevealPctChange);

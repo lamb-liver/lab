@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 746 |
-| 已掃描檔案 | 197 |
-| 尚未掃描檔案 | 549 |
+| 已掃描檔案 | 222 |
+| 尚未掃描檔案 | 524 |
 | 已掃描但不列入 repo 掃描面 | 6 |
 
 <details open>
-<summary>已掃描檔案（197）</summary>
+<summary>已掃描檔案（222）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -118,7 +118,32 @@
 - `src/components/ListSearchFilterScript.astro`
 - `src/components/Nav.astro`
 - `src/components/WorkCard.astro`
+- `src/components/curve/CurveHookWorkRoot.tsx`
 - `src/components/curve/CurveWorkRoot.tsx`
+- `src/components/curve/DeltaPhaseControl.tsx`
+- `src/components/curve/ParamControls.tsx`
+- `src/components/curve/StatsPanel.tsx`
+- `src/components/curve/p5RendererReady.ts`
+- `src/components/curve/useAffineIfsFractalP5.ts`
+- `src/components/curve/useAffineTransformPatternP5.ts`
+- `src/components/curve/useArithmeticGeometricSequencesP5.ts`
+- `src/components/curve/useBaselProblemP5.ts`
+- `src/components/curve/useBinomialExpansionGeometryP5.ts`
+- `src/components/curve/useBinomialToNormalP5.ts`
+- `src/components/curve/useBuffonNeedleP5.ts`
+- `src/components/curve/useCatalanNumbersP5.ts`
+- `src/components/curve/useCatenaryP5.ts`
+- `src/components/curve/useChladniP5.ts`
+- `src/components/curve/useCombinatorialPathCountingP5.ts`
+- `src/components/curve/useComplexArithmeticGeometryP5.ts`
+- `src/components/curve/useComplexPhasePortraitP5.ts`
+- `src/components/curve/useComplexPolarFormP5.ts`
+- `src/components/curve/useConditionalProbabilityBayesP5.ts`
+- `src/components/curve/useConicEnvelopeP5.ts`
+- `src/components/curve/useConicFocusLocusP5.ts`
+- `src/components/curve/useDotProductGeometryP5.ts`
+- `src/components/curve/useEigenvectorGeometryP5.ts`
+- `src/components/curve/useEquiangularSpiralP5.ts`
 - `src/components/curve/useExponentialGrowthDecayP5.ts`
 - `src/components/curve/useLogarithmicScaleP5.ts`
 - `src/components/curve/useMorphCurveP5.draw.test.ts`
@@ -245,33 +270,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（549）</summary>
-
-- `src/components/curve/CurveHookWorkRoot.tsx`
-- `src/components/curve/DeltaPhaseControl.tsx`
-- `src/components/curve/ParamControls.tsx`
-- `src/components/curve/StatsPanel.tsx`
-- `src/components/curve/p5RendererReady.ts`
-- `src/components/curve/useAffineIfsFractalP5.ts`
-- `src/components/curve/useAffineTransformPatternP5.ts`
-- `src/components/curve/useArithmeticGeometricSequencesP5.ts`
-- `src/components/curve/useBaselProblemP5.ts`
-- `src/components/curve/useBinomialExpansionGeometryP5.ts`
-- `src/components/curve/useBinomialToNormalP5.ts`
-- `src/components/curve/useBuffonNeedleP5.ts`
-- `src/components/curve/useCatalanNumbersP5.ts`
-- `src/components/curve/useCatenaryP5.ts`
-- `src/components/curve/useChladniP5.ts`
-- `src/components/curve/useCombinatorialPathCountingP5.ts`
-- `src/components/curve/useComplexArithmeticGeometryP5.ts`
-- `src/components/curve/useComplexPhasePortraitP5.ts`
-- `src/components/curve/useComplexPolarFormP5.ts`
-- `src/components/curve/useConditionalProbabilityBayesP5.ts`
-- `src/components/curve/useConicEnvelopeP5.ts`
-- `src/components/curve/useConicFocusLocusP5.ts`
-- `src/components/curve/useDotProductGeometryP5.ts`
-- `src/components/curve/useEigenvectorGeometryP5.ts`
-- `src/components/curve/useEquiangularSpiralP5.ts`
+<summary>尚未掃描檔案（524）</summary>
 - `src/components/curve/useEulerFormulaRotationP5.ts`
 - `src/components/curve/useFibonacciSpiralP5.ts`
 - `src/components/curve/useFunctionDerivativeGraphP5.ts`
@@ -925,6 +924,24 @@
 | `scripts/new-explore.mjs` | 已掃描並修正：發布提示補上真實發布日、positive order、`audit:integration`，避免 draft 建立日被誤當發布日。 |
 | `scripts/audit-content.mjs`、`src/content/releaseAudit.test.ts` | 已掃描並修正：Explore draft 可沒有 coverImage；但只要設定 coverImage，就必須是存在的 public asset。 |
 | `src/content/explore/discrete-random-variables.md`、`src/content/explore/linear-programming.md`、`src/content/explore/space-vectors-planes-lines.md` | 已掃描並修正：移除 draft frontmatter 中指向不存在 PNG 的 `coverImage`。 |
+
+## 2026-06-21 curve component / hook 補掃
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/curve/CurveHookWorkRoot.tsx` | 已掃描並修正：`CommonHookOptions` 只被 `CommonHook` 消費，已 inline；`controlsMountId` 改為必要 prop，避免未使用 fallback。 |
+| `src/components/curve/DeltaPhaseControl.tsx` | 已掃描並修正：`DELTA_TICKS` / `snapDelta` 取消 export；移除 `useMemo` 與 range `onChange` 重複事件路徑。 |
+| `src/components/curve/StatsPanel.tsx`、`src/curve/modules/percentile-box-plot/index.ts` | 已掃描並修正：StatsPanel 不再靜默 `slice(0, 4)`；percentile metadata 收斂為 4 個核心 stats。 |
+| `src/curve/modules/arithmetic-geometric-sequences/index.ts` | 支援性修正：`sample` 的 thumbnail/default 分支完全相同，已收斂成單一呼叫；module 檔未因此標記為完整掃描。 |
+| `src/components/curve/useBaselProblemP5.ts` | 已掃描並修正：移除只寫不讀的 `replayNonceRef`；保留 `replayNonce` 觸發 reveal reset。 |
+| `src/components/curve/useBinomialExpansionGeometryP5.ts`、`src/components/curve/useBinomialToNormalP5.ts`、`src/components/curve/useBuffonNeedleP5.ts`、`src/components/curve/useCatalanNumbersP5.ts`、`src/components/curve/useConditionalProbabilityBayesP5.ts` | 已掃描並修正：刪除 root 不消費的 reveal callback / pct ref；需要 renderer 的內部 reveal state 保留在 hook 內。 |
+| `src/components/curve/useCombinatorialPathCountingP5.ts` | 已掃描並修正：刪除 root 不消費的 reveal callback、只寫不讀的 `rerollNonceRef`，並同幀重用 `getGridLayout` 結果。 |
+| `src/components/curve/useCatenaryP5.ts`、`src/components/curve/useEquiangularSpiralP5.ts` | 已掃描並修正：hook 初始化改吃 `targetParams`，移除 `defaultParams` option；smooth notifier 不再上報 metadata 未讀的 `timeSpeed` / `rotationSpeed`。 |
+| `src/components/curve/useChladniP5.ts`、`src/components/curve/useConicEnvelopeP5.ts`、`src/components/curve/useConicFocusLocusP5.ts` | 已掃描並修正：hook 初始化改吃 `targetParams`，移除呼叫端無需傳入的 `defaultParams` option。 |
+| `src/curve/modules/catalan-numbers/index.ts`、`src/components/curve/useCatalanNumbersP5.ts` | 支援性修正：Catalan lookup 上限與 paramSchema `max: 9` 對齊；module 檔未因此標記為完整掃描。 |
+| `src/curve/modules/complex-arithmetic-geometry/index.ts`、`src/curve/modules/complex-phase-portrait/index.ts`、`src/curve/modules/complex-polar-form/index.ts` | 支援性修正：移除 index 對未使用 `TIME_SPEED` 的 re-export；module 檔未因此標記為完整掃描。 |
+| `src/components/curve/ParamControls.tsx`、`src/components/curve/p5RendererReady.ts`、`src/components/curve/useAffineIfsFractalP5.ts`、`src/components/curve/useAffineTransformPatternP5.ts`、`src/components/curve/useArithmeticGeometricSequencesP5.ts`、`src/components/curve/useComplexArithmeticGeometryP5.ts`、`src/components/curve/useComplexPhasePortraitP5.ts`、`src/components/curve/useComplexPolarFormP5.ts`、`src/components/curve/useDotProductGeometryP5.ts`、`src/components/curve/useEigenvectorGeometryP5.ts` | 已掃描；本輪未找到可立即刪除或縮小且不改行為的項目。 |
+| `src/components/works/*Binomial*CurveRoot.tsx`、`src/components/works/BuffonNeedleCurveRoot.tsx`、`src/components/works/CatalanNumbersCurveRoot.tsx`、`src/components/works/CombinatorialPathCountingCurveRoot.tsx`、`src/components/works/ConditionalProbabilityBayesCurveRoot.tsx`、`src/components/works/CatenaryCurveRoot.tsx`、`src/components/works/ChladniFiguresCurveRoot.tsx`、`src/components/works/ConicEnvelopeCurveRoot.tsx`、`src/components/works/ConicFocusLocusCurveRoot.tsx`、`src/components/works/EquiangularSpiralCurveRoot.tsx` | 支援性修正：配合 hook 刪除無用途 props / reveal state / `defaultParams` 傳遞；未把整批 root 檔案標記為本輪完整掃描。 |
 
 ## 接續審查記錄格式
 

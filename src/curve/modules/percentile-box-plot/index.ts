@@ -29,9 +29,6 @@ export function getPercentileBoxPlotMetadata(
       { key: 'q1', label: 'Q₁', value: summary.q1.toFixed(2) },
       { key: 'q2', label: 'Q₂', value: summary.q2.toFixed(2) },
       { key: 'q3', label: 'Q₃', value: summary.q3.toFixed(2) },
-      { key: 'iqr', label: 'IQR', value: summary.iqr.toFixed(2) },
-      { key: 'outliers', label: '離群', value: summary.outliers.length },
-      { key: 'p10p90', label: 'P₁₀, P₉₀', value: `${summary.p10.toFixed(2)}, ${summary.p90.toFixed(2)}` },
     ],
   };
 }

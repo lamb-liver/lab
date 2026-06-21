@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { MODE_SIM, MODE_X, MODE_Z, binomialToNormalModule } from '../../curve/modules/binomial-to-normal';
 import type { ParamValues } from '../../curve/types';
@@ -18,18 +18,14 @@ const modeOptions = [
 export default function BinomialToNormalCurveRoot({ controlsMountId = 'binomial-to-normal-controls' }: Props) {
   const module = binomialToNormalModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(0);
   const [runNonce, setRunNonce] = useState(0);
   const [resetNonce, setResetNonce] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
-  const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useBinomialToNormalP5({
-    defaultParams: module.defaultParams,
     targetParams,
     runNonce,
     resetNonce,
-    onRevealPctChange,
   });
 
   useEffect(() => {
@@ -37,7 +33,7 @@ export default function BinomialToNormalCurveRoot({ controlsMountId = 'binomial-
   }, [controlsMountId]);
 
   const mode = Math.round(targetParams.mode ?? MODE_X);
-  const metadata = module.getMetadata(targetParams, { revealPct, smoothParams: targetParams });
+  const metadata = module.getMetadata(targetParams);
 
   const controls = controlsMount
     ? createPortal(

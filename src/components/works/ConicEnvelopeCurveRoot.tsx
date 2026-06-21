@@ -25,7 +25,6 @@ export default function ConicEnvelopeCurveRoot({
   const onSmoothRatioChange = useCallback((ratio: number) => setSmoothRatio(ratio), []);
 
   const { canvasHostRef } = useConicEnvelopeP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
     onSmoothRatioChange,

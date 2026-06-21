@@ -1,7 +1,6 @@
-import { useMemo } from 'react';
 import '../../styles/components/works/lissajous-delta-control.css';
 
-export const DELTA_TICKS = [
+const DELTA_TICKS = [
   { value: 0, label: '0' },
   { value: Math.PI / 2, label: 'π/2' },
   { value: Math.PI, label: 'π' },
@@ -12,7 +11,7 @@ export const DELTA_TICKS = [
 const TWO_PI = 2 * Math.PI;
 const SNAP_THRESHOLD = 0.12;
 
-export function snapDelta(value: number): number {
+function snapDelta(value: number): number {
   let best = value;
   let bestDist = SNAP_THRESHOLD;
 
@@ -44,9 +43,7 @@ export default function DeltaPhaseControl({
   displayDelta,
   onTargetChange,
 }: Props) {
-  const nearTick = useMemo(() => {
-    return DELTA_TICKS.find((t) => Math.abs(displayDelta - t.value) < SNAP_THRESHOLD)?.value;
-  }, [displayDelta]);
+  const nearTick = DELTA_TICKS.find((t) => Math.abs(displayDelta - t.value) < SNAP_THRESHOLD)?.value;
 
   const handleInput = (raw: number) => {
     onTargetChange(snapDelta(raw));
@@ -75,7 +72,6 @@ export default function DeltaPhaseControl({
           max={TWO_PI}
           step={0.01}
           value={targetDelta}
-          onChange={(e) => handleInput(Number(e.target.value))}
           onInput={(e) => handleInput(Number(e.currentTarget.value))}
         />
       </div>

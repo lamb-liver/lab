@@ -41,4 +41,4 @@ export const complexPolarFormModule: CurveModule = {
   animation: { lerp: PARAM_LERP, revealSpeed: 0 },
 };
 
-export { PARAM_LERP, TIME_SPEED } from './animation';
+export { PARAM_LERP } from './animation';

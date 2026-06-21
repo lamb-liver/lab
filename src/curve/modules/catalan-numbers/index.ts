@@ -28,7 +28,7 @@ export const catalanNumbersModule: CurveModule = {
   sample: (params) => buildCatalanThumbnail(params),
   getMetadata: (params): CurveMetadata => {
     const n = normalizeN(params.n);
-    const catalan = buildCatalanNumbers(10);
+    const catalan = buildCatalanNumbers(9);
     return {
       title: '卡特蘭數',
       formula: 'C_n = 1/(n+1) * C(2n,n)',

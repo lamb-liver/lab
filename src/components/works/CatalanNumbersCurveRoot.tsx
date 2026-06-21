@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   MODE_PAREN,
@@ -23,16 +23,12 @@ const modeOptions = [
 export default function CatalanNumbersCurveRoot({ controlsMountId = 'catalan-numbers-controls' }: Props) {
   const module = catalanNumbersModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(0);
   const [nextNonce, setNextNonce] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
-  const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useCatalanNumbersP5({
-    defaultParams: module.defaultParams,
     targetParams,
     nextNonce,
-    onRevealPctChange,
   });
 
   useEffect(() => {
@@ -40,7 +36,7 @@ export default function CatalanNumbersCurveRoot({ controlsMountId = 'catalan-num
   }, [controlsMountId]);
 
   const mode = Math.round(targetParams.mode ?? MODE_PATH);
-  const metadata = module.getMetadata(targetParams, { revealPct, smoothParams: targetParams });
+  const metadata = module.getMetadata(targetParams);
 
   const controls = controlsMount
     ? createPortal(

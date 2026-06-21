@@ -10,20 +10,18 @@ import { renderConicFocusLocusScene } from '../../systems/rendering/conicFocusLo
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothParamsChange: (semiMajorAxis: number, eccentricity: number) => void;
 };
 
 export function useConicFocusLocusP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
   onSmoothParamsChange,
 }: Options) {
-  const animRef = useRef(createConicFocusLocusAnimState(defaultParams));
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const animRef = useRef(createConicFocusLocusAnimState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealPctRef = useRef(-1);
   const lastParamKeyRef = useRef('');
   const onRevealPctChangeRef = useRef(onRevealPctChange);

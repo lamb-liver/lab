@@ -29,7 +29,6 @@ export default function ConicFocusLocusCurveRoot({
   }, []);
 
   const { canvasHostRef } = useConicFocusLocusP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
     onSmoothParamsChange,

@@ -10,20 +10,18 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealThetaChange: (theta: number) => void;
   onSmoothParamsChange: (params: ParamValues) => void;
 };
 
 export function useEquiangularSpiralP5({
-  defaultParams,
   targetParams,
   onRevealThetaChange,
   onSmoothParamsChange,
 }: Options) {
-  const animRef = useRef(createEquiangularSpiralAnimState(defaultParams));
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const animRef = useRef(createEquiangularSpiralAnimState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealRef = useRef(-1);
   const onRevealThetaChangeRef = useRef(onRevealThetaChange);
   const notifySmoothParams = useSmoothParamNotifier({
@@ -53,10 +51,9 @@ export function useEquiangularSpiralP5({
     }
 
     notifySmoothParams({
-        growthB: anim.smoothGrowthB,
-        maxTheta: anim.smoothMaxTheta,
-        rotationSpeed: anim.params.rotationSpeed,
-      });
+      growthB: anim.smoothGrowthB,
+      maxTheta: anim.smoothMaxTheta,
+    });
 
     renderEquiangularSpiralScene(p, {
       width: p.width,

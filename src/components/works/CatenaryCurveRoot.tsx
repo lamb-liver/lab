@@ -28,7 +28,6 @@ export default function CatenaryCurveRoot({
   );
 
   const { canvasHostRef } = useCatenaryP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onPullPctChange,
     onSmoothParamsChange,

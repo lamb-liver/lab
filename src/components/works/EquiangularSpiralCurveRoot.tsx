@@ -28,7 +28,6 @@ export default function EquiangularSpiralCurveRoot({
   );
 
   const { canvasHostRef } = useEquiangularSpiralP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealThetaChange,
     onSmoothParamsChange,

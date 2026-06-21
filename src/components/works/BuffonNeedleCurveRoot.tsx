@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { buffonNeedleModule } from '../../curve/modules/buffon-needle';
 import type { ParamValues } from '../../curve/types';
@@ -12,23 +12,19 @@ type Props = { controlsMountId?: string };
 export default function BuffonNeedleCurveRoot({ controlsMountId = 'buffon-needle-controls' }: Props) {
   const module = buffonNeedleModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(0);
   const [resetNonce, setResetNonce] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
-  const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useBuffonNeedleP5({
-    defaultParams: module.defaultParams,
     targetParams,
     resetNonce,
-    onRevealPctChange,
   });
 
   useEffect(() => {
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(targetParams, { revealPct, smoothParams: targetParams });
+  const metadata = module.getMetadata(targetParams);
 
   const controls = controlsMount
     ? createPortal(

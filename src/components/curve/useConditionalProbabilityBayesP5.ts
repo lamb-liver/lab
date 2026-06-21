@@ -6,28 +6,19 @@ import { renderConditionalProbabilityBayesScene } from '../../systems/rendering/
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
-  onRevealPctChange: (pct: number) => void;
 };
 
 export function useConditionalProbabilityBayesP5({
-  defaultParams,
   targetParams,
-  onRevealPctChange,
 }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(0);
-  const lastKeyRef = useRef(JSON.stringify(defaultParams));
-  const lastPctRef = useRef(-1);
-  const onRevealPctRef = useRef(onRevealPctChange);
+  const lastKeyRef = useRef(JSON.stringify(targetParams));
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
-  useEffect(() => {
-    onRevealPctRef.current = onRevealPctChange;
-  }, [onRevealPctChange]);
 
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
@@ -44,11 +35,6 @@ export function useConditionalProbabilityBayesP5({
       mode: modeFromValue(params.mode),
       reveal: revealRef.current,
     });
-    const pct = Math.floor(revealRef.current * 100);
-    if (pct !== lastPctRef.current) {
-      lastPctRef.current = pct;
-      onRevealPctRef.current(pct);
-    }
   }, []);
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);

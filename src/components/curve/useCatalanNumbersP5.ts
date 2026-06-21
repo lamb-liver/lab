@@ -12,20 +12,15 @@ import { renderCatalanNumbersScene } from '../../systems/rendering/catalanNumber
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   nextNonce: number;
-  onRevealPctChange: (pct: number) => void;
 };
 
 export function useCatalanNumbersP5({
-  defaultParams,
   targetParams,
   nextNonce,
-  onRevealPctChange,
 }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const nextNonceRef = useRef(nextNonce);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const cacheRef = useRef<{ key: string; mode: string; n: number; objects: Array<string | number[][]>; active: number }>({
     key: '',
     mode: 'path',
@@ -34,18 +29,12 @@ export function useCatalanNumbersP5({
     active: 0,
   });
   const revealRef = useRef(0);
-  const pctRef = useRef(-1);
-  const onRevealPctRef = useRef(onRevealPctChange);
-  const catalanRef = useRef(buildCatalanNumbers(11));
+  const catalanRef = useRef(buildCatalanNumbers(9));
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
   useEffect(() => {
-    onRevealPctRef.current = onRevealPctChange;
-  }, [onRevealPctChange]);
-  useEffect(() => {
-    nextNonceRef.current = nextNonce;
     if (cacheRef.current.objects.length > 0) {
       cacheRef.current.active = (cacheRef.current.active + 1) % cacheRef.current.objects.length;
       revealRef.current = 0;
@@ -84,11 +73,6 @@ export function useCatalanNumbersP5({
       reveal: revealRef.current,
     });
 
-    const pct = Math.min(100, Math.floor((Math.min(revealRef.current, 2 * n) / Math.max(1, 2 * n)) * 100));
-    if (pct !== pctRef.current) {
-      pctRef.current = pct;
-      onRevealPctRef.current(pct);
-    }
   }, []);
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);

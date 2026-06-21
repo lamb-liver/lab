@@ -6,27 +6,19 @@ import { renderBinomialToNormalScene } from '../../systems/rendering/binomialToN
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   runNonce: number;
   resetNonce: number;
-  onRevealPctChange: (pct: number) => void;
 };
 
 export function useBinomialToNormalP5({
-  defaultParams,
   targetParams,
   runNonce,
   resetNonce,
-  onRevealPctChange,
 }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const runNonceRef = useRef(runNonce);
-  const resetNonceRef = useRef(resetNonce);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(0);
-  const lastKeyRef = useRef(JSON.stringify(defaultParams));
-  const lastPctRef = useRef(-1);
-  const onRevealPctRef = useRef(onRevealPctChange);
+  const lastKeyRef = useRef(JSON.stringify(targetParams));
   const trialRef = useRef<{ sequence: number[]; index: number; clock: number; success: number }>({
     sequence: [],
     index: 0,
@@ -38,10 +30,6 @@ export function useBinomialToNormalP5({
     targetParamsRef.current = targetParams;
   }, [targetParams]);
   useEffect(() => {
-    onRevealPctRef.current = onRevealPctChange;
-  }, [onRevealPctChange]);
-  useEffect(() => {
-    runNonceRef.current = runNonce;
     const data = deriveBinormalData(targetParamsRef.current);
     const sequence: number[] = [];
     for (let i = 0; i < data.n; i += 1) sequence.push(Math.random() < data.p ? 1 : 0);
@@ -49,7 +37,6 @@ export function useBinomialToNormalP5({
     revealRef.current = 0;
   }, [runNonce]);
   useEffect(() => {
-    resetNonceRef.current = resetNonce;
     trialRef.current = { sequence: [], index: 0, clock: 0, success: 0 };
     revealRef.current = 0;
   }, [resetNonce]);
@@ -84,11 +71,6 @@ export function useBinomialToNormalP5({
       successCount: trialRef.current.success,
     });
 
-    const pct = Math.floor(revealRef.current * 100);
-    if (pct !== lastPctRef.current) {
-      lastPctRef.current = pct;
-      onRevealPctRef.current(pct);
-    }
   }, []);
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);

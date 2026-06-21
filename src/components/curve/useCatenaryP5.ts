@@ -11,20 +11,18 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onPullPctChange: (pct: number) => void;
   onSmoothParamsChange: (params: ParamValues) => void;
 };
 
 export function useCatenaryP5({
-  defaultParams,
   targetParams,
   onPullPctChange,
   onSmoothParamsChange,
 }: Options) {
-  const animRef = useRef(createCatenaryAnimState(defaultParams));
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const animRef = useRef(createCatenaryAnimState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastPullPctRef = useRef(-1);
   const onPullPctChangeRef = useRef(onPullPctChange);
   const notifySmoothParams = useSmoothParamNotifier({
@@ -54,10 +52,9 @@ export function useCatenaryP5({
     }
 
     notifySmoothParams({
-        ropeLength: anim.smoothRopeLength,
-        maxT: anim.smoothMaxT,
-        timeSpeed: anim.params.timeSpeed,
-      });
+      ropeLength: anim.smoothRopeLength,
+      maxT: anim.smoothMaxT,
+    });
 
     renderCatenaryScene(p, {
       width: p.width,
