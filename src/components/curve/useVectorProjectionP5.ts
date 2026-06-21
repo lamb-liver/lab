@@ -1,6 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from './p5RendererReady';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import {
   clampDragWorld,
@@ -11,6 +10,7 @@ import {
   type VectorProjectionParams,
 } from '../../curve/modules/vector-projection/geometry';
 import { renderVectorProjectionScene } from '../../systems/rendering/vectorProjectionRender';
+import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
 
 type DragTarget = 'a' | 'b';
 
@@ -27,13 +27,17 @@ function distance(a: { x: number; y: number }, b: { x: number; y: number }): num
   return Math.hypot(a.x - b.x, a.y - b.y);
 }
 
+function measureSquareCanvas(host: HTMLElement): CanvasSize {
+  const size = measureWorkCanvasSize(host);
+  return { width: size, height: size };
+}
+
 export function useVectorProjectionP5({
   params,
   showDrop,
   showError,
   onParamsChange,
 }: Options) {
-  const canvasHostRef = useRef<HTMLDivElement>(null);
   const paramsRef = useRef(params);
   const showDropRef = useRef(showDrop);
   const showErrorRef = useRef(showError);
@@ -56,109 +60,73 @@ export function useVectorProjectionP5({
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
+  const draw = useCallback((p: p5) => {
+    renderVectorProjectionScene(p, {
+      width: p.width,
+      height: p.height,
+      params: paramsRef.current,
+      showDrop: showDropRef.current,
+      showError: showErrorRef.current,
+      activeDrag: activeDragRef.current,
+      timeMs: p.millis(),
+    });
+  }, []);
 
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
+  const extendSketch = useCallback((p: p5) => {
+    function nearestDragTarget(): DragTarget | null {
+      const layout = createVectorProjectionLayout(p.width, p.height, paramsRef.current);
+      const { a, b } = vectorFromParams(paramsRef.current);
+      const mouse = { x: p.mouseX, y: p.mouseY };
+      const screenA = worldToScreen(layout, a);
+      const screenB = worldToScreen(layout, b);
+      const aDist = distance(mouse, screenA);
+      const bDist = distance(mouse, screenB);
+      const minDist = Math.min(aDist, bDist);
+      if (minDist > HIT_RADIUS) return null;
+      return aDist <= bDist ? 'a' : 'b';
+    }
 
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
+    function updateDrag(): void {
+      const active = activeDragRef.current;
+      if (!active) return;
+      const layout = createVectorProjectionLayout(p.width, p.height, paramsRef.current);
+      const next = clampDragWorld(screenToWorld(layout, { x: p.mouseX, y: p.mouseY }));
+      if (active === 'a') {
+        onParamsChangeRef.current({ ax: next.x, ay: next.y });
+        return;
+      }
+      onParamsChangeRef.current({ bx: next.x, by: next.y });
+    }
 
-      const sketch = (p: p5) => {
-        function nearestDragTarget(): DragTarget | null {
-          const layout = createVectorProjectionLayout(p.width, p.height, paramsRef.current);
-          const { a, b } = vectorFromParams(paramsRef.current);
-          const mouse = { x: p.mouseX, y: p.mouseY };
-          const screenA = worldToScreen(layout, a);
-          const screenB = worldToScreen(layout, b);
-          const aDist = distance(mouse, screenA);
-          const bDist = distance(mouse, screenB);
-          const minDist = Math.min(aDist, bDist);
-          if (minDist > HIT_RADIUS) return null;
-          return aDist <= bDist ? 'a' : 'b';
-        }
-
-        function updateDrag(): void {
-          const active = activeDragRef.current;
-          if (!active) return;
-          const layout = createVectorProjectionLayout(p.width, p.height, paramsRef.current);
-          const next = clampDragWorld(screenToWorld(layout, { x: p.mouseX, y: p.mouseY }));
-          if (active === 'a') {
-            onParamsChangeRef.current({ ax: next.x, ay: next.y });
-            return;
-          }
-          onParamsChangeRef.current({ bx: next.x, by: next.y });
-        }
-
-        p.setup = () => {
-          const size = measureWorkCanvasSize(host);
-          p.createCanvas(size, size);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        };
-
-        p.draw = () => {
-          renderVectorProjectionScene(p, {
-            width: p.width,
-            height: p.height,
-            params: paramsRef.current,
-            showDrop: showDropRef.current,
-            showError: showErrorRef.current,
-            activeDrag: activeDragRef.current,
-            timeMs: p.millis(),
-          });
-        };
-
-        p.mouseMoved = () => {
-          if (activeDragRef.current) return;
-          p.cursor(nearestDragTarget() ? 'grab' : 'default');
-        };
-
-        p.mousePressed = () => {
-          activeDragRef.current = nearestDragTarget();
-          if (activeDragRef.current) {
-            p.cursor('grabbing');
-            updateDrag();
-          }
-        };
-
-        p.mouseDragged = () => {
-          updateDrag();
-        };
-
-        p.mouseReleased = () => {
-          activeDragRef.current = null;
-          p.cursor(nearestDragTarget() ? 'grab' : 'default');
-        };
-      };
-
-      const instance = new P5(sketch, host);
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-        const size = measureWorkCanvasSize(host);
-        instance.resizeCanvas(size, size);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-      };
+    p.mouseMoved = () => {
+      if (activeDragRef.current) return;
+      p.cursor(nearestDragTarget() ? 'grab' : 'default');
     };
 
-    boot();
+    p.mousePressed = () => {
+      activeDragRef.current = nearestDragTarget();
+      if (activeDragRef.current) {
+        p.cursor('grabbing');
+        updateDrag();
+      }
+    };
 
-    return () => {
-      disposed = true;
-      cleanup?.();
+    p.mouseDragged = () => {
+      updateDrag();
+    };
+
+    p.mouseReleased = () => {
+      activeDragRef.current = null;
+      p.cursor(nearestDragTarget() ? 'grab' : 'default');
     };
   }, []);
+
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw, extendSketch],
+    measureSquareCanvas,
+    extendSketch,
+  );
 
   return { canvasHostRef };
 }

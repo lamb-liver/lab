@@ -1,6 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from './p5RendererReady';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import {
   setCircularTarget,
@@ -13,6 +12,7 @@ import {
   renderTrigAngleIdentitiesScene,
   type AngleDragKey,
 } from '../../systems/rendering/trigAngleIdentitiesRender';
+import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
 
 type Options = {
   params: TrigAngleIdentitiesParams;
@@ -25,144 +25,110 @@ const INITIAL_SMOOTH = {
   guideMix: 1,
 };
 
+function measureSquareCanvas(host: HTMLElement): CanvasSize {
+  const size = measureWorkCanvasSize(host);
+  return { width: size, height: size };
+}
+
 export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
-  const canvasHostRef = useRef<HTMLDivElement>(null);
   const paramsRef = useRef(params);
   const smoothRef = useRef({ ...INITIAL_SMOOTH });
   const onAnglesChangeRef = useRef(onAnglesChange);
   const activeDragRef = useRef<AngleDragKey | null>(null);
-  const instanceRef = useRef<p5 | null>(null);
 
   useEffect(() => {
     paramsRef.current = params;
-    instanceRef.current?.redraw();
   }, [params]);
 
   useEffect(() => {
     onAnglesChangeRef.current = onAnglesChange;
   }, [onAnglesChange]);
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
+  const draw = useCallback((p: p5) => {
+    smoothRef.current = stepTrigAngleIdentitiesSmoothing(
+      smoothRef.current,
+      paramsRef.current,
+      p.deltaTime,
+    );
 
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
+    renderTrigAngleIdentitiesScene(p, {
+      width: p.width,
+      height: p.height,
+      params: paramsRef.current,
+      smooth: smoothRef.current,
+    });
+  }, []);
 
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
+  const extendSketch = useCallback((p: p5) => {
+    const updateDrag = () => {
+      const key = activeDragRef.current;
+      if (!key) return;
 
-      const sketch = (p: p5) => {
-        const updateDrag = () => {
-          const key = activeDragRef.current;
-          if (!key) return;
+      const angle = angleFromDrag(p.mouseX, p.mouseY, p.width, p.height);
+      const current = paramsRef.current[key];
+      const next = setCircularTarget(current, angle);
 
-          const angle = angleFromDrag(p.mouseX, p.mouseY, p.width, p.height);
-          const current = paramsRef.current[key];
-          const next = setCircularTarget(current, angle);
-
-          paramsRef.current = { ...paramsRef.current, [key]: next };
-          onAnglesChangeRef.current({ [key]: next });
-          p.redraw();
-        };
-
-        p.setup = () => {
-          const size = measureWorkCanvasSize(host);
-          p.createCanvas(size, size);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          p.noLoop();
-        };
-
-        p.draw = () => {
-          smoothRef.current = stepTrigAngleIdentitiesSmoothing(
-            smoothRef.current,
-            paramsRef.current,
-            p.deltaTime,
-          );
-
-          renderTrigAngleIdentitiesScene(p, {
-            width: p.width,
-            height: p.height,
-            params: paramsRef.current,
-            smooth: smoothRef.current,
-          });
-        };
-
-        p.mouseMoved = () => {
-          if (activeDragRef.current) return;
-          const hit = pickAngleDrag(
-            p.mouseX,
-            p.mouseY,
-            p.width,
-            p.height,
-            smoothRef.current.alpha,
-            smoothRef.current.beta,
-          );
-          p.cursor(hit ? 'grab' : 'default');
-        };
-
-        p.mousePressed = () => {
-          activeDragRef.current = pickAngleDrag(
-            p.mouseX,
-            p.mouseY,
-            p.width,
-            p.height,
-            smoothRef.current.alpha,
-            smoothRef.current.beta,
-          );
-          if (!activeDragRef.current) return;
-          p.cursor('grabbing');
-          updateDrag();
-        };
-
-        p.mouseDragged = () => {
-          updateDrag();
-        };
-
-        p.mouseReleased = () => {
-          activeDragRef.current = null;
-          const hit = pickAngleDrag(
-            p.mouseX,
-            p.mouseY,
-            p.width,
-            p.height,
-            smoothRef.current.alpha,
-            smoothRef.current.beta,
-          );
-          p.cursor(hit ? 'grab' : 'default');
-          p.redraw();
-        };
-      };
-
-      const instance = new P5(sketch, host);
-      instanceRef.current = instance;
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-        const size = measureWorkCanvasSize(host);
-        instance.resizeCanvas(size, size);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        instance.redraw();
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instanceRef.current = null;
-        instance.remove();
-      };
+      paramsRef.current = { ...paramsRef.current, [key]: next };
+      onAnglesChangeRef.current({ [key]: next });
+      p.redraw();
     };
 
-    boot();
+    p.mouseMoved = () => {
+      if (activeDragRef.current) return;
+      const hit = pickAngleDrag(
+        p.mouseX,
+        p.mouseY,
+        p.width,
+        p.height,
+        smoothRef.current.alpha,
+        smoothRef.current.beta,
+      );
+      p.cursor(hit ? 'grab' : 'default');
+    };
 
-    return () => {
-      disposed = true;
-      cleanup?.();
+    p.mousePressed = () => {
+      activeDragRef.current = pickAngleDrag(
+        p.mouseX,
+        p.mouseY,
+        p.width,
+        p.height,
+        smoothRef.current.alpha,
+        smoothRef.current.beta,
+      );
+      if (!activeDragRef.current) return;
+      p.cursor('grabbing');
+      updateDrag();
+    };
+
+    p.mouseDragged = () => {
+      updateDrag();
+    };
+
+    p.mouseReleased = () => {
+      activeDragRef.current = null;
+      const hit = pickAngleDrag(
+        p.mouseX,
+        p.mouseY,
+        p.width,
+        p.height,
+        smoothRef.current.alpha,
+        smoothRef.current.beta,
+      );
+      p.cursor(hit ? 'grab' : 'default');
+      p.redraw();
     };
   }, []);
+
+  const redrawKey = `${params.formulaId}|${params.alpha}|${params.beta}|${
+    params.showRadians ? 1 : 0
+  }|${params.reverseRead ? 1 : 0}|${params.showGuides ? 1 : 0}`;
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw, extendSketch],
+    measureSquareCanvas,
+    extendSketch,
+    { loop: false, redrawKey },
+  );
 
   return { canvasHostRef };
 }

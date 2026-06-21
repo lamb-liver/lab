@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   createConicDynamicAnimState,
   stepConicDynamicAnimation,
@@ -16,7 +15,7 @@ import {
   buildSidebarState,
   renderConicDynamicGeometryScene,
 } from '../../systems/rendering/conicDynamicGeometryRender';
-import type { CanvasSize } from '../curve/useRectP5CanvasHost';
+import { useRectP5CanvasHost, type CanvasSize } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/conic-dynamic-geometry-explore.css';
 
 const CANVAS_MIN_W = 280;
@@ -38,7 +37,7 @@ function measureConicCanvas(host: HTMLElement): CanvasSize {
     Math.max(CANVAS_MIN_W, Math.round(host.clientWidth || CANVAS_MIN_W)),
   );
   return { width: w, height: Math.max(220, Math.round(w * CANVAS_ASPECT)) };
-};
+}
 
 type SidebarState = {
   modeLabel: string;
@@ -139,68 +138,17 @@ export default function ConicDynamicGeometryExploreRoot() {
     }
   }, []);
 
-  const canvasHostRef = useRef<HTMLDivElement>(null);
-  const drawRef = useRef(draw);
-  const updatePointRef = useRef(updatePointFromMouse);
-
-  useEffect(() => {
-    drawRef.current = draw;
-  }, [draw]);
-
-  useEffect(() => {
-    updatePointRef.current = updatePointFromMouse;
+  const extendSketch = useCallback((p: p5) => {
+    p.mousePressed = () => updatePointFromMouse(p);
+    p.mouseDragged = () => updatePointFromMouse(p);
   }, [updatePointFromMouse]);
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measureConicCanvas(host);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        };
-
-        p.draw = () => drawRef.current(p);
-
-        p.mousePressed = () => updatePointRef.current(p);
-        p.mouseDragged = () => updatePointRef.current(p);
-      };
-
-      const instance = new P5(sketch, host);
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-
-        const { width, height } = measureConicCanvas(host);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-      };
-    };
-
-    boot();
-
-    return () => {
-      disposed = true;
-      cleanup?.();
-    };
-  }, []);
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw, extendSketch],
+    measureConicCanvas,
+    extendSketch,
+  );
 
   const setMode = (mode: ConicMode) => {
     setParams((prev) => ({ ...prev, mode }));

@@ -31,7 +31,6 @@ type Point = {
 type CurveStyle = {
   alpha?: number;
   glow?: boolean;
-  guide?: boolean;
   weight?: number;
   color?: readonly [number, number, number];
 };
@@ -395,7 +394,6 @@ function drawInverseMode(p: p5, params: Params) {
       color: BLUE,
     });
     drawCurve(p, plot, diagPts, -4, 4, -4, 4, {
-      guide: true,
       alpha: 42,
       weight: 1,
       color: WHITE,
@@ -539,7 +537,6 @@ function drawCompoundPanel(p: p5, rect: Rect, n: number, showBlocks: boolean) {
 
   const eLine = sampleFunction(1, 240, 8, () => Math.E);
   drawCurve(p, plot, eLine, 1, 240, 1.98, 2.85, {
-    guide: true,
     alpha: 46,
     weight: 1,
     color: WHITE,
@@ -721,7 +718,6 @@ function drawCompareMode(p: p5, params: Params) {
     drawCurve(p, plot, points, 0, 10, -4, 4, {
       alpha: 38,
       weight: 1,
-      guide: true,
       color: WHITE,
     });
   }

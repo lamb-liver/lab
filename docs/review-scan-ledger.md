@@ -14,7 +14,7 @@
 
 ## 全專案掃描進度
 
-更新日：2026-06-21。
+更新日：2026-06-22。
 
 口徑：
 
@@ -25,13 +25,13 @@
 
 | 狀態 | 檔案數 |
 |------|------:|
-| 掃描面總數 | 746 |
-| 已掃描檔案 | 222 |
-| 尚未掃描檔案 | 524 |
-| 已掃描但不列入 repo 掃描面 | 6 |
+| 掃描面總數 | 744 |
+| 已掃描檔案 | 264 |
+| 尚未掃描檔案 | 480 |
+| 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（222）</summary>
+<summary>已掃描檔案（264）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -144,15 +144,59 @@
 - `src/components/curve/useDotProductGeometryP5.ts`
 - `src/components/curve/useEigenvectorGeometryP5.ts`
 - `src/components/curve/useEquiangularSpiralP5.ts`
+- `src/components/curve/useEulerFormulaRotationP5.ts`
 - `src/components/curve/useExponentialGrowthDecayP5.ts`
+- `src/components/curve/useFibonacciSpiralP5.ts`
+- `src/components/curve/useFunctionDerivativeGraphP5.ts`
+- `src/components/curve/useFunctionGraphTransformP5.ts`
+- `src/components/curve/useInterferenceFringesP5.ts`
+- `src/components/curve/useInverseFunctionReflectionP5.ts`
+- `src/components/curve/useJuliaP5.ts`
+- `src/components/curve/useLawOfSinesCosinesP5.ts`
+- `src/components/curve/useLinearTransformGridP5.ts`
 - `src/components/curve/useLogarithmicScaleP5.ts`
+- `src/components/curve/useLogisticBifurcationP5.ts`
+- `src/components/curve/useLogisticCurveP5.ts`
 - `src/components/curve/useMorphCurveP5.draw.test.ts`
 - `src/components/curve/useMorphCurveP5.ts`
 - `src/components/curve/useNaturalLogEGeometryP5.ts`
+- `src/components/curve/useP5CanvasHost.ts`
+- `src/components/curve/useParabolicReflectionP5.ts`
+- `src/components/curve/usePascalsTriangleP5.ts`
 - `src/components/curve/usePercentileBoxPlotP5.ts`
+- `src/components/curve/usePolynomialRootsMultiplicityP5.ts`
+- `src/components/curve/useQuadraticCompletingSquareP5.ts`
+- `src/components/curve/useRadianArcLengthP5.ts`
+- `src/components/curve/useRationalObliqueAsymptoteP5.ts`
+- `src/components/curve/useRationalVerticalHorizontalAsymptotesP5.ts`
+- `src/components/curve/useRectP5CanvasHost.ts`
+- `src/components/curve/useRegressionOutlierInfluenceP5.ts`
+- `src/components/curve/useRiemannSumP5.ts`
+- `src/components/curve/useRotationScaleCompositionP5.ts`
 - `src/components/curve/useScatterCorrelationRegressionP5.ts`
+- `src/components/curve/useSierpinskiTriangleP5.ts`
+- `src/components/curve/useSinusoidAmplitudePeriodPhaseP5.ts`
+- `src/components/curve/useSmoothParamNotifier.test.ts`
+- `src/components/curve/useSmoothParamNotifier.ts`
+- `src/components/curve/useStandingWaveP5.ts`
+- `src/components/curve/useTangentApproximationP5.ts`
+- `src/components/curve/useTaylorPolynomialApproximationP5.ts`
+- `src/components/curve/useTrigAngleIdentitiesP5.ts`
+- `src/components/curve/useUnitCircleTrigDefinitionP5.ts`
+- `src/components/curve/useVectorAdditionScalarP5.ts`
+- `src/components/curve/useVectorFieldPatternsP5.ts`
+- `src/components/curve/useVectorFieldStreamlinesP5.ts`
+- `src/components/curve/useVectorProjectionP5.ts`
+- `src/components/explore/ComplexEulerFormulaExploreRoot.tsx`
+- `src/components/explore/ConicDynamicGeometryExploreRoot.tsx`
 - `src/components/explore/DataAnalysisExploreRoot.tsx`
+- `src/components/explore/DifferentialEquationsGeometryExploreRoot.tsx`
 - `src/components/explore/ExploreInteractiveStage.tsx`
+- `src/components/explore/ExponentialLogarithmExploreRoot.tsx`
+- `src/components/explore/FourierSeriesExploreRoot.tsx`
+- `src/components/explore/FunctionEquationsExploreRoot.tsx`
+- `src/components/explore/LimitsRiemannSumExploreRoot.tsx`
+- `src/components/explore/MatrixLinearTransformExploreRoot.tsx`
 - `src/components/works/ChladniFiguresCurveRoot.tsx`
 - `src/components/works/ConicEnvelopeCurveRoot.tsx`
 - `src/components/works/ConicFocusLocusCurveRoot.tsx`
@@ -209,8 +253,6 @@
 - `src/curve/modules/unit-circle-trig-definition/unit-circle-trig-definition.test.ts`
 - `src/curve/morphFrame.test.ts`
 - `src/curve/morphFrame.ts`
-- `src/curve/morphPathCache.test.ts`
-- `src/curve/morphPathCache.ts`
 - `src/curve/prng.ts`
 - `src/curve/registry.ts`
 - `src/curve/resolveSmoothParams.test.ts`
@@ -258,35 +300,21 @@
 </details>
 
 <details>
-<summary>已掃描但不列入 repo 掃描面（6）</summary>
+<summary>已掃描但不列入 repo 掃描面（8）</summary>
 
 - `.vscode/extensions.json` - 已掃描並移出 Git 追蹤；local-only。
 - `.vscode/launch.json` - 已掃描並移出 Git 追蹤；local-only。
 - `content-update-inventory.local.md` - 已刪除本地過期盤點檔；local-only。
 - `schedule.md` - 已掃描並移出 Git 追蹤；local-only。
+- `src/curve/morphPathCache.test.ts` - 已刪除並由 `morphFrame` 直接 sample 取代。
+- `src/curve/morphPathCache.ts` - 已刪除並由 `morphFrame` 直接 sample 取代。
 - `src/content/works/discrete-pmf-expectation.md` - 已保持刪除狀態。
 - `src/content/works/variance-spread-visualization.md` - 已保持刪除狀態。
 
 </details>
 
 <details>
-<summary>尚未掃描檔案（496）</summary>
-- `src/components/curve/useTangentApproximationP5.ts`
-- `src/components/curve/useTaylorPolynomialApproximationP5.ts`
-- `src/components/curve/useTrigAngleIdentitiesP5.ts`
-- `src/components/curve/useUnitCircleTrigDefinitionP5.ts`
-- `src/components/curve/useVectorAdditionScalarP5.ts`
-- `src/components/curve/useVectorFieldPatternsP5.ts`
-- `src/components/curve/useVectorFieldStreamlinesP5.ts`
-- `src/components/curve/useVectorProjectionP5.ts`
-- `src/components/explore/ComplexEulerFormulaExploreRoot.tsx`
-- `src/components/explore/ConicDynamicGeometryExploreRoot.tsx`
-- `src/components/explore/DifferentialEquationsGeometryExploreRoot.tsx`
-- `src/components/explore/ExponentialLogarithmExploreRoot.tsx`
-- `src/components/explore/FourierSeriesExploreRoot.tsx`
-- `src/components/explore/FunctionEquationsExploreRoot.tsx`
-- `src/components/explore/LimitsRiemannSumExploreRoot.tsx`
-- `src/components/explore/MatrixLinearTransformExploreRoot.tsx`
+<summary>尚未掃描檔案（480）</summary>
 - `src/components/explore/PermutationsCombinationsExploreRoot.tsx`
 - `src/components/explore/ProbabilityStatisticsExploreRoot.tsx`
 - `src/components/explore/RationalFunctionsAsymptotesExploreRoot.tsx`
@@ -931,6 +959,19 @@
 | `src/components/curve/useRectP5CanvasHost.ts` | 已掃描；確認保留：`CanvasSize` / `ExtendSketch`、`loop: false`、`redrawKey` 目前被多個 Explore / Work canvas 使用；只移除重複生命週期註解。 |
 | `src/curve/modules/euler-formula-rotation/index.ts` | 支援性修正：移除 index 對未使用 `TIME_SPEED` 的 re-export；module 檔未因此標記為完整掃描。 |
 | `src/components/curve/useEulerFormulaRotationP5.ts`、`src/components/curve/useFibonacciSpiralP5.ts`、`src/components/curve/useFunctionDerivativeGraphP5.ts`、`src/components/curve/useFunctionGraphTransformP5.ts`、`src/components/curve/useInterferenceFringesP5.ts`、`src/components/curve/useInverseFunctionReflectionP5.ts`、`src/components/curve/useJuliaP5.ts`、`src/components/curve/useLawOfSinesCosinesP5.ts`、`src/components/curve/useLogisticCurveP5.ts`、`src/components/curve/useParabolicReflectionP5.ts`、`src/components/curve/usePolynomialRootsMultiplicityP5.ts`、`src/components/curve/useQuadraticCompletingSquareP5.ts`、`src/components/curve/useRadianArcLengthP5.ts`、`src/components/curve/useRationalObliqueAsymptoteP5.ts`、`src/components/curve/useRationalVerticalHorizontalAsymptotesP5.ts`、`src/components/curve/useRegressionOutlierInfluenceP5.ts`、`src/components/curve/useStandingWaveP5.ts` | 已掃描；本輪未找到可立即刪除或縮小且不改變行為的項目。 |
+
+## 2026-06-22 curve/explore 接續修正
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/curve/useTangentApproximationP5.ts` | 已掃描並修正：`notifySmoothParams` 只上報 metadata 消費的 `dx`，移除未讀的 `waveFrequency` / `timeSpeed`。`defaultParams` option 仍為 verify-delete，尚未完成呼叫契約刪除驗證。 |
+| `src/components/curve/useTaylorPolynomialApproximationP5.ts`、`src/components/curve/useTrigAngleIdentitiesP5.ts`、`src/components/curve/useUnitCircleTrigDefinitionP5.ts`、`src/components/curve/useVectorAdditionScalarP5.ts`、`src/components/curve/useVectorFieldPatternsP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver / noLoop lifecycle，改用既有 `useRectP5CanvasHost` 的 `loop: false` + `redrawKey`；原本拖曳與 renderer 邏輯留在各 hook。 |
+| `src/components/curve/useVectorProjectionP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver lifecycle，改用 `useRectP5CanvasHost`；保留連續 draw，因 renderer 仍消費 `timeMs: p.millis()`。 |
+| `src/components/curve/useVectorFieldStreamlinesP5.ts` | 已掃描；`defaultParams` option 疑似可刪，但尚未完成全呼叫契約驗證，保留為 verify-delete，未改碼。 |
+| `src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`、`src/components/works/TrigAngleIdentitiesCurveRoot.tsx`、`src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx`、`src/components/works/VectorAdditionScalarCurveRoot.tsx`、`src/components/works/VectorFieldPatternsCurveRoot.tsx`、`src/components/works/VectorProjectionCurveRoot.tsx` | 支援性修正：對應 module `getMetadata` 不消費 runtime object，已刪除 root 端多餘 `revealPct` / `smoothParams` 傳遞；root 檔仍保留在未掃描清單，尚未標記完整掃描。 |
+| `src/components/explore/ComplexEulerFormulaExploreRoot.tsx`、`src/components/explore/ConicDynamicGeometryExploreRoot.tsx`、`src/components/explore/MatrixLinearTransformExploreRoot.tsx` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver lifecycle，改用既有 `useRectP5CanvasHost`；保留各 root 的狀態、sidebar、renderer 架構。 |
+| `src/components/explore/ExponentialLogarithmExploreRoot.tsx` | 已掃描並修正：刪除 `CurveStyle.guide` 與三個未讀 call-site 欄位。手寫 lifecycle 因 mode-dependent canvas measure 未被現有 helper 直接覆蓋，保留為 verify-delete，未改架構。 |
+| `src/components/explore/DifferentialEquationsGeometryExploreRoot.tsx`、`src/components/explore/FourierSeriesExploreRoot.tsx`、`src/components/explore/FunctionEquationsExploreRoot.tsx`、`src/components/explore/LimitsRiemannSumExploreRoot.tsx` | 已掃描；未找到可立即刪除或縮小且不改變行為的項目，本輪未改碼。 |
 
 ## 接續審查記錄格式
 

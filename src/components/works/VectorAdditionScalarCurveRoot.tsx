@@ -39,7 +39,7 @@ export default function VectorAdditionScalarCurveRoot({
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(params as ParamValues, { revealPct: 100, smoothParams: params });
+  const metadata = module.getMetadata(params as ParamValues);
 
   const controls = controlsMount
     ? createPortal(

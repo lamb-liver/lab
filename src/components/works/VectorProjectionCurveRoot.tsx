@@ -43,10 +43,7 @@ export default function VectorProjectionCurveRoot({
   }, [controlsMountId]);
 
   const metadataParams = vectorProjectionParamsForMetadata(params);
-  const metadata = module.getMetadata(metadataParams, {
-    revealPct: 100,
-    smoothParams: metadataParams,
-  });
+  const metadata = module.getMetadata(metadataParams);
 
   const setProjectionMode = (projectionMode: ProjectionMode) => {
     setParams((prev) => ({ ...prev, projectionMode }));

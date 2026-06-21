@@ -48,11 +48,7 @@ export default function UnitCircleTrigDefinitionCurveRoot({
   const { canvasHostRef } = useUnitCircleTrigDefinitionP5({ params, onThetaChange });
 
   const metadata = useMemo(
-    () =>
-      module.getMetadata(paramsForMetadata(params), {
-        revealPct: 100,
-        smoothParams: paramsForMetadata(params),
-      }),
+    () => module.getMetadata(paramsForMetadata(params)),
     [module, params],
   );
 

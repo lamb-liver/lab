@@ -49,10 +49,7 @@ export default function VectorFieldPatternsCurveRoot({
   }, [controlsMountId]);
 
   const metadataParams = vectorFieldPatternParamsForMetadata(params);
-  const metadata = module.getMetadata(metadataParams, {
-    revealPct: 100,
-    smoothParams: metadataParams,
-  });
+  const metadata = module.getMetadata(metadataParams);
 
   const controls = controlsMount
     ? createPortal(

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   createMatrixLinearAnimState,
   stepMatrixLinearAnimation,
@@ -17,7 +16,7 @@ import {
   buildMatrixSidebarState,
   renderMatrixLinearTransformScene,
 } from '../../systems/rendering/matrixLinearTransformRender';
-import type { CanvasSize } from '../curve/useRectP5CanvasHost';
+import { useRectP5CanvasHost, type CanvasSize } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/matrix-linear-transform-explore.css';
 
 const DEFAULT_PARAMS: MatrixLinearParams = {
@@ -110,60 +109,7 @@ export default function MatrixLinearTransformExploreRoot() {
     }
   }, []);
 
-  const canvasHostRef = useRef<HTMLDivElement>(null);
-  const drawRef = useRef(draw);
-
-  useEffect(() => {
-    drawRef.current = draw;
-  }, [draw]);
-
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measureMatrixCanvas(host);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        };
-
-        p.draw = () => drawRef.current(p);
-      };
-
-      const instance = new P5(sketch, host);
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-
-        const { width, height } = measureMatrixCanvas(host);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-      };
-    };
-
-    boot();
-
-    return () => {
-      disposed = true;
-      cleanup?.();
-    };
-  }, []);
+  const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureMatrixCanvas);
 
   const setMode = (mode: MatrixMode) => {
     setParams((prev) => ({ ...prev, mode }));

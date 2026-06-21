@@ -56,10 +56,7 @@ export default function TaylorPolynomialApproximationCurveRoot({
     a: clampA(preset, a),
     n: clampN(n),
   });
-  const metadata = taylorPolynomialApproximationModule.getMetadata(metadataParams, {
-    revealPct: 100,
-    smoothParams: metadataParams,
-  });
+  const metadata = taylorPolynomialApproximationModule.getMetadata(metadataParams);
 
   const setPreset = (next: TaylorPresetId) => {
     const nextPreset = presetById(next);

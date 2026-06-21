@@ -55,11 +55,7 @@ export default function TrigAngleIdentitiesCurveRoot({
   const { canvasHostRef } = useTrigAngleIdentitiesP5({ params, onAnglesChange });
 
   const metadata = useMemo(
-    () =>
-      module.getMetadata(paramsForMetadata(params), {
-        revealPct: 100,
-        smoothParams: paramsForMetadata(params),
-      }),
+    () => module.getMetadata(paramsForMetadata(params)),
     [module, params],
   );
 

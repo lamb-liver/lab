@@ -58,11 +58,7 @@ export function useTangentApproximationP5({
       onRevealPctChangeRef.current(pct);
     }
 
-    notifySmoothParams({
-        dx: anim.smoothDx,
-        waveFrequency: anim.params.waveFrequency,
-        timeSpeed: anim.params.timeSpeed,
-      });
+    notifySmoothParams({ dx: anim.smoothDx });
 
     renderTangentApproximationScene(p, {
       width: p.width,
