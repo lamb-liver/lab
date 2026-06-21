@@ -12,28 +12,20 @@ import { renderPascalsTriangleScene } from '../../systems/rendering/pascalsTrian
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
-  onRevealPctChange: (pct: number) => void;
 };
 
-export function usePascalsTriangleP5({ defaultParams, targetParams, onRevealPctChange }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+export function usePascalsTriangleP5({ targetParams }: Options) {
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(0);
   const selectedCellRef = useRef<{ n: number; k: number } | null>(null);
   const highlightSetRef = useRef<Set<string>>(new Set());
-  const lastParamsKeyRef = useRef(paramsKey(defaultParams));
-  const lastRevealPctRef = useRef(-1);
-  const onRevealPctChangeRef = useRef(onRevealPctChange);
+  const lastParamsKeyRef = useRef(paramsKey(targetParams));
   const pointerDownRef = useRef(false);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
-
-  useEffect(() => {
-    onRevealPctChangeRef.current = onRevealPctChange;
-  }, [onRevealPctChange]);
 
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
@@ -69,12 +61,6 @@ export function usePascalsTriangleP5({ defaultParams, targetParams, onRevealPctC
       highlightSet: highlightSetRef.current,
       revealProgress: revealRef.current,
     });
-
-    const pct = Math.floor(revealRef.current * 100);
-    if (pct !== lastRevealPctRef.current) {
-      lastRevealPctRef.current = pct;
-      onRevealPctChangeRef.current(pct);
-    }
   }, []);
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);

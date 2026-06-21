@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   MODE_BIFURCATION,
@@ -29,29 +29,21 @@ export default function LogisticBifurcationCurveRoot({
 }: Props) {
   const module = logisticBifurcationModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [replayNonce, setReplayNonce] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
-  const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
-
   const { canvasHostRef } = useLogisticBifurcationP5({
-    defaultParams: module.defaultParams,
     targetParams,
     playing,
     replayNonce,
-    onRevealPctChange,
   });
 
   useEffect(() => {
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(targetParams, {
-    revealPct,
-    smoothParams: targetParams,
-  });
+  const metadata = module.getMetadata(targetParams);
 
   const patchParams = (patch: ParamValues) => {
     setTargetParams((prev) => ({ ...prev, ...patch }));

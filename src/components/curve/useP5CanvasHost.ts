@@ -4,15 +4,13 @@ import { isP5RendererReady } from './p5RendererReady';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 
 type MeasureSize = (host: HTMLElement) => number;
-export type P5CanvasHostMode = 'continuous' | 'reveal' | 'demand';
-export type P5CanvasHostOptions = {
+type P5CanvasHostMode = 'continuous' | 'reveal';
+type P5CanvasHostOptions = {
   mode?: P5CanvasHostMode;
   restartOn?: unknown[];
-  redrawOn?: unknown[];
 };
-export type DrawResult = void | { keepLooping: boolean };
+type DrawResult = void | { keepLooping: boolean };
 
-/** 共用 p5 instance 生命週期：setup、ResizeObserver、cleanup */
 export function useP5CanvasHost(
   draw: (p: p5) => DrawResult,
   deps: unknown[],
@@ -41,12 +39,6 @@ export function useP5CanvasHost(
   }, options.restartOn ?? []);
 
   useEffect(() => {
-    if (modeRef.current === 'continuous') return;
-    instanceRef.current?.redraw();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- caller supplies redraw keys
-  }, options.redrawOn ?? []);
-
-  useEffect(() => {
     const host = canvasHostRef.current;
     if (!host) return;
 
@@ -62,10 +54,6 @@ export function useP5CanvasHost(
           const size = measureSize(host);
           p.createCanvas(size, size);
           p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          if (modeRef.current === 'demand') {
-            p.noLoop();
-            p.redraw();
-          }
         };
 
         p.draw = () => {
@@ -87,9 +75,7 @@ export function useP5CanvasHost(
         const size = measureSize(host);
         instance.resizeCanvas(size, size);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        if (modeRef.current === 'demand') {
-          instance.redraw();
-        } else if (modeRef.current === 'reveal') {
+        if (modeRef.current === 'reveal') {
           if (revealLoopingRef.current) instance.loop();
           else instance.redraw();
         }

@@ -270,35 +270,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（524）</summary>
-- `src/components/curve/useEulerFormulaRotationP5.ts`
-- `src/components/curve/useFibonacciSpiralP5.ts`
-- `src/components/curve/useFunctionDerivativeGraphP5.ts`
-- `src/components/curve/useFunctionGraphTransformP5.ts`
-- `src/components/curve/useInterferenceFringesP5.ts`
-- `src/components/curve/useInverseFunctionReflectionP5.ts`
-- `src/components/curve/useJuliaP5.ts`
-- `src/components/curve/useLawOfSinesCosinesP5.ts`
-- `src/components/curve/useLinearTransformGridP5.ts`
-- `src/components/curve/useLogisticBifurcationP5.ts`
-- `src/components/curve/useLogisticCurveP5.ts`
-- `src/components/curve/useP5CanvasHost.ts`
-- `src/components/curve/useParabolicReflectionP5.ts`
-- `src/components/curve/usePascalsTriangleP5.ts`
-- `src/components/curve/usePolynomialRootsMultiplicityP5.ts`
-- `src/components/curve/useQuadraticCompletingSquareP5.ts`
-- `src/components/curve/useRadianArcLengthP5.ts`
-- `src/components/curve/useRationalObliqueAsymptoteP5.ts`
-- `src/components/curve/useRationalVerticalHorizontalAsymptotesP5.ts`
-- `src/components/curve/useRectP5CanvasHost.ts`
-- `src/components/curve/useRegressionOutlierInfluenceP5.ts`
-- `src/components/curve/useRiemannSumP5.ts`
-- `src/components/curve/useRotationScaleCompositionP5.ts`
-- `src/components/curve/useSierpinskiTriangleP5.ts`
-- `src/components/curve/useSinusoidAmplitudePeriodPhaseP5.ts`
-- `src/components/curve/useSmoothParamNotifier.test.ts`
-- `src/components/curve/useSmoothParamNotifier.ts`
-- `src/components/curve/useStandingWaveP5.ts`
+<summary>尚未掃描檔案（496）</summary>
 - `src/components/curve/useTangentApproximationP5.ts`
 - `src/components/curve/useTaylorPolynomialApproximationP5.ts`
 - `src/components/curve/useTrigAngleIdentitiesP5.ts`
@@ -942,6 +914,23 @@
 | `src/curve/modules/complex-arithmetic-geometry/index.ts`、`src/curve/modules/complex-phase-portrait/index.ts`、`src/curve/modules/complex-polar-form/index.ts` | 支援性修正：移除 index 對未使用 `TIME_SPEED` 的 re-export；module 檔未因此標記為完整掃描。 |
 | `src/components/curve/ParamControls.tsx`、`src/components/curve/p5RendererReady.ts`、`src/components/curve/useAffineIfsFractalP5.ts`、`src/components/curve/useAffineTransformPatternP5.ts`、`src/components/curve/useArithmeticGeometricSequencesP5.ts`、`src/components/curve/useComplexArithmeticGeometryP5.ts`、`src/components/curve/useComplexPhasePortraitP5.ts`、`src/components/curve/useComplexPolarFormP5.ts`、`src/components/curve/useDotProductGeometryP5.ts`、`src/components/curve/useEigenvectorGeometryP5.ts` | 已掃描；本輪未找到可立即刪除或縮小且不改行為的項目。 |
 | `src/components/works/*Binomial*CurveRoot.tsx`、`src/components/works/BuffonNeedleCurveRoot.tsx`、`src/components/works/CatalanNumbersCurveRoot.tsx`、`src/components/works/CombinatorialPathCountingCurveRoot.tsx`、`src/components/works/ConditionalProbabilityBayesCurveRoot.tsx`、`src/components/works/CatenaryCurveRoot.tsx`、`src/components/works/ChladniFiguresCurveRoot.tsx`、`src/components/works/ConicEnvelopeCurveRoot.tsx`、`src/components/works/ConicFocusLocusCurveRoot.tsx`、`src/components/works/EquiangularSpiralCurveRoot.tsx` | 支援性修正：配合 hook 刪除無用途 props / reveal state / `defaultParams` 傳遞；未把整批 root 檔案標記為本輪完整掃描。 |
+
+## 2026-06-21 curve hook 接續補掃
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/curve/useP5CanvasHost.ts` | 已掃描並修正：刪除全專案無呼叫端的 `demand` / `redrawOn` 分支；`P5CanvasHostMode`、`P5CanvasHostOptions`、`DrawResult` 改回檔內 type；移除重複生命週期註解。 |
+| `src/components/curve/useLogisticBifurcationP5.ts`、`src/components/works/LogisticBifurcationCurveRoot.tsx` | 已掃描並修正：module metadata 不讀 runtime，刪除 root/hook 的 reveal pct callback/state；hook 初始化直接吃 `targetParams`，不再傳入只供初始化的 `defaultParams`。 |
+| `src/components/curve/useLinearTransformGridP5.ts` | 已掃描並修正：`getMetadata` 只讀 smooth `shearX` / `scaleY`，刪除未被 metadata 消費的 `transformSpeed` smooth notification。 |
+| `src/components/curve/usePascalsTriangleP5.ts`、`src/components/works/PascalsTriangleCurveRoot.tsx` | 已掃描並修正：module metadata 不讀 runtime，刪除 root/hook 的 reveal pct callback/state；hook 初始化直接吃 `targetParams`。 |
+| `src/components/curve/useSierpinskiTriangleP5.ts`、`src/components/works/SierpinskiTriangleCurveRoot.tsx` | 已掃描並修正：module metadata 不讀 runtime，刪除 root/hook 的 reveal pct callback/state；保留 hook 內部 reveal loop，因 renderer 仍消費 `revealProgress`。 |
+| `src/components/curve/useRiemannSumP5.ts` | 已掃描並修正：metadata 只讀 smooth `partitionCount`，刪除未被 metadata 消費的 `waveFrequency` / `timeSpeed` smooth notification。 |
+| `src/components/curve/useRotationScaleCompositionP5.ts` | 已掃描並修正：metadata 只讀 smooth `rotationStepDeg` / `scaleFactor`，刪除未被 metadata 消費的 `evolutionSpeed` smooth notification。 |
+| `src/components/curve/useSinusoidAmplitudePeriodPhaseP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver / noLoop lifecycle，改用既有 `useRectP5CanvasHost` 的 `loop: false` + `redrawKey`。 |
+| `src/components/curve/useSmoothParamNotifier.ts`、`src/components/curve/useSmoothParamNotifier.test.ts` | 已掃描並修正：全專案只使用物件 options，刪除函式 shorthand normalization；options type 不再 export。量化測試保留。 |
+| `src/components/curve/useRectP5CanvasHost.ts` | 已掃描；確認保留：`CanvasSize` / `ExtendSketch`、`loop: false`、`redrawKey` 目前被多個 Explore / Work canvas 使用；只移除重複生命週期註解。 |
+| `src/curve/modules/euler-formula-rotation/index.ts` | 支援性修正：移除 index 對未使用 `TIME_SPEED` 的 re-export；module 檔未因此標記為完整掃描。 |
+| `src/components/curve/useEulerFormulaRotationP5.ts`、`src/components/curve/useFibonacciSpiralP5.ts`、`src/components/curve/useFunctionDerivativeGraphP5.ts`、`src/components/curve/useFunctionGraphTransformP5.ts`、`src/components/curve/useInterferenceFringesP5.ts`、`src/components/curve/useInverseFunctionReflectionP5.ts`、`src/components/curve/useJuliaP5.ts`、`src/components/curve/useLawOfSinesCosinesP5.ts`、`src/components/curve/useLogisticCurveP5.ts`、`src/components/curve/useParabolicReflectionP5.ts`、`src/components/curve/usePolynomialRootsMultiplicityP5.ts`、`src/components/curve/useQuadraticCompletingSquareP5.ts`、`src/components/curve/useRadianArcLengthP5.ts`、`src/components/curve/useRationalObliqueAsymptoteP5.ts`、`src/components/curve/useRationalVerticalHorizontalAsymptotesP5.ts`、`src/components/curve/useRegressionOutlierInfluenceP5.ts`、`src/components/curve/useStandingWaveP5.ts` | 已掃描；本輪未找到可立即刪除或縮小且不改變行為的項目。 |
 
 ## 接續審查記錄格式
 

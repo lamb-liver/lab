@@ -55,10 +55,8 @@ export function useRiemannSumP5({
     }
 
     notifySmoothParams({
-        partitionCount: anim.currentPartitionCount,
-        waveFrequency: anim.params.waveFrequency,
-        timeSpeed: anim.params.timeSpeed,
-      });
+      partitionCount: anim.currentPartitionCount,
+    });
 
     renderRiemannSumScene(p, {
       width: p.width,

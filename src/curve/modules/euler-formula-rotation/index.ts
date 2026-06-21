@@ -137,7 +137,7 @@ export const eulerFormulaRotationModule: CurveModule = {
   animation: { lerp: PARAM_LERP, revealSpeed: 0 },
 };
 
-export { PARAM_LERP, TIME_SPEED } from './animation';
+export { PARAM_LERP } from './animation';
 
 export function measureEulerFormulaRotationCanvas(host: HTMLElement): {
   width: number;

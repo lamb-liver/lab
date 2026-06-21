@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   MODE_CHAOS,
@@ -20,25 +20,17 @@ export default function SierpinskiTriangleCurveRoot({
 }: Props) {
   const module = sierpinskiTriangleModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
-  const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
-
   const { canvasHostRef } = useSierpinskiTriangleP5({
-    defaultParams: module.defaultParams,
     targetParams,
-    onRevealPctChange,
   });
 
   useEffect(() => {
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(targetParams, {
-    revealPct,
-    smoothParams: targetParams,
-  });
+  const metadata = module.getMetadata(targetParams);
 
   const patchParams = (patch: ParamValues) => {
     setTargetParams((prev) => ({ ...prev, ...patch }));

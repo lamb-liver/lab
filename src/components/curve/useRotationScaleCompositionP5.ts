@@ -57,10 +57,9 @@ export function useRotationScaleCompositionP5({
     }
 
     notifySmoothParams({
-        rotationStepDeg: anim.currentRotationStepDeg,
-        scaleFactor: anim.currentScaleFactor,
-        evolutionSpeed: anim.params.evolutionSpeed,
-      });
+      rotationStepDeg: anim.currentRotationStepDeg,
+      scaleFactor: anim.currentScaleFactor,
+    });
 
     renderRotationScaleCompositionScene(p, {
       width: p.width,

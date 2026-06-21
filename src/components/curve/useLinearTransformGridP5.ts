@@ -57,10 +57,9 @@ export function useLinearTransformGridP5({
     }
 
     notifySmoothParams({
-        shearX: anim.currentShearX,
-        scaleY: anim.currentScaleY,
-        transformSpeed: anim.params.transformSpeed,
-      });
+      shearX: anim.currentShearX,
+      scaleY: anim.currentScaleY,
+    });
 
     renderLinearTransformGridScene(p, {
       width: p.width,

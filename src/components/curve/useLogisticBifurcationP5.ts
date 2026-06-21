@@ -6,27 +6,21 @@ import { renderLogisticBifurcationScene } from '../../systems/rendering/logistic
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   playing: boolean;
   replayNonce: number;
-  onRevealPctChange: (pct: number) => void;
 };
 
 export function useLogisticBifurcationP5({
-  defaultParams,
   targetParams,
   playing,
   replayNonce,
-  onRevealPctChange,
 }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const playingRef = useRef(playing);
   const revealRef = useRef(0);
-  const lastKeyRef = useRef(paramsKey(defaultParams));
+  const lastKeyRef = useRef(paramsKey(targetParams));
   const lastReplayNonceRef = useRef(replayNonce);
-  const lastRevealPctRef = useRef(-1);
-  const onRevealPctChangeRef = useRef(onRevealPctChange);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -35,10 +29,6 @@ export function useLogisticBifurcationP5({
   useEffect(() => {
     playingRef.current = playing;
   }, [playing]);
-
-  useEffect(() => {
-    onRevealPctChangeRef.current = onRevealPctChange;
-  }, [onRevealPctChange]);
 
   useEffect(() => {
     if (replayNonce !== lastReplayNonceRef.current) {
@@ -57,12 +47,6 @@ export function useLogisticBifurcationP5({
 
     if (playingRef.current) {
       revealRef.current = Math.min(1, revealRef.current + LOGISTIC_REVEAL_SPEED);
-    }
-
-    const pct = Math.floor(revealRef.current * 100);
-    if (pct !== lastRevealPctRef.current) {
-      lastRevealPctRef.current = pct;
-      onRevealPctChangeRef.current(pct);
     }
 
     renderLogisticBifurcationScene(p, {

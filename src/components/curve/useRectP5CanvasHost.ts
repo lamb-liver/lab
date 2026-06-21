@@ -12,7 +12,6 @@ type RectP5Options = {
 
 export type ExtendSketch = (p: p5, host: HTMLElement) => void;
 
-/** 矩形 p5 instance：setup、ResizeObserver、cleanup */
 export function useRectP5CanvasHost(
   draw: (p: p5) => void,
   deps: unknown[],

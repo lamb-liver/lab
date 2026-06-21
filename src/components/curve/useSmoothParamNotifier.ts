@@ -14,24 +14,16 @@ export function quantizeSmoothParam(key: string, value: number): string {
   return value.toFixed(2);
 }
 
-export type UseSmoothParamNotifierOptions = {
+type UseSmoothParamNotifierOptions = {
   /** 回傳 delta patch；呼叫端必須 merge 進既有 smoothParams。 */
   onChange: (params: ParamValues) => void;
   /** 目標參數快照；變更時重置量化快取，避免 patch 漏欄。 */
   getParams?: () => ParamValues;
 };
 
-function normalizeOptions(
-  options: UseSmoothParamNotifierOptions | ((params: ParamValues) => void),
-): UseSmoothParamNotifierOptions {
-  return typeof options === 'function' ? { onChange: options } : options;
-}
-
 /** draw 內同步平滑參數到 React；僅在量化後顯示值變化時 emit delta patch。 */
-export function useSmoothParamNotifier(
-  options: UseSmoothParamNotifierOptions | ((params: ParamValues) => void),
-) {
-  const { onChange, getParams } = normalizeOptions(options);
+export function useSmoothParamNotifier(options: UseSmoothParamNotifierOptions) {
+  const { onChange, getParams } = options;
   const lastRef = useRef<Record<string, string>>({});
   const targetSigRef = useRef('');
   const onChangeRef = useRef(onChange);

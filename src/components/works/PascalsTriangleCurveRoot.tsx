@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { PASCAL_PRIMES, pascalsTriangleModule } from '../../curve/modules/pascals-triangle';
 import type { ParamValues } from '../../curve/types';
@@ -16,21 +16,17 @@ export default function PascalsTriangleCurveRoot({
 }: Props) {
   const module = pascalsTriangleModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
-  const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = usePascalsTriangleP5({
-    defaultParams: module.defaultParams,
     targetParams,
-    onRevealPctChange,
   });
 
   useEffect(() => {
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(targetParams, { revealPct, smoothParams: targetParams });
+  const metadata = module.getMetadata(targetParams);
   const prime = Math.round(targetParams.prime ?? 2);
 
   const controls = controlsMount

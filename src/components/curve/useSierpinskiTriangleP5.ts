@@ -6,25 +6,13 @@ import { renderSierpinskiTriangleScene } from '../../systems/rendering/sierpinsk
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
-  onRevealPctChange: (pct: number) => void;
 };
 
-export function useSierpinskiTriangleP5({
-  defaultParams,
-  targetParams,
-  onRevealPctChange,
-}: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+export function useSierpinskiTriangleP5({ targetParams }: Options) {
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(0);
-  const lastKeyRef = useRef(paramsKey(defaultParams));
-  const lastRevealPctRef = useRef(-1);
-  const onRevealPctChangeRef = useRef(onRevealPctChange);
-
-  useEffect(() => {
-    onRevealPctChangeRef.current = onRevealPctChange;
-  }, [onRevealPctChange]);
+  const lastKeyRef = useRef(paramsKey(targetParams));
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -41,11 +29,6 @@ export function useSierpinskiTriangleP5({
     }
 
     revealRef.current = Math.min(1, revealRef.current + SIERPINSKI_REVEAL_SPEED);
-    const pct = Math.floor(revealRef.current * 100);
-    if (pct !== lastRevealPctRef.current) {
-      lastRevealPctRef.current = pct;
-      onRevealPctChangeRef.current(pct);
-    }
 
     renderSierpinskiTriangleScene(p, {
       width: p.width,
