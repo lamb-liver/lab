@@ -17,7 +17,6 @@ export const T_MAX = 12;
 
 export const LOGISTIC_CURVE_REVEAL_SPEED = 0.42;
 export const LOGISTIC_CURVE_SMOOTHING = 0.08;
-export const REVEAL_RESET_TIMEOUT_MS = 1200;
 
 export const SETTLE_EPS = {
   L: 0.35,

@@ -107,7 +107,7 @@ Done:
 Done:
 
 - `npm run new:work -- <slug>` creates `src/content/works/<slug>.md`.
-- It creates `src/components/works/<PascalSlug>.tsx`.
+- It does not create a component scaffold; add an interactive component only when the Work needs one.
 - Generated content defaults to `draft: true`.
 
 ### Create new:explore generator

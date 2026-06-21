@@ -4,7 +4,6 @@ import { parabolicReflectionModule } from '../../curve/modules/parabolic-reflect
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import StatsPanel from '../curve/StatsPanel';
-import { mergeSmoothParams } from '../curve/useMorphCurveP5';
 import { useParabolicReflectionP5 } from '../curve/useParabolicReflectionP5';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -43,9 +42,10 @@ export default function ParabolicReflectionCurveRoot({
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
-    smoothParams: mergeSmoothParams(targetParams, {
+    smoothParams: {
+      ...targetParams,
       focalLength: smoothFocalLength,
-    }),
+    },
   });
 
   const controls = controlsMount

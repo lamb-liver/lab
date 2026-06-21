@@ -9,7 +9,7 @@ import type { ParamValues } from '../../curve/types';
 import DeltaPhaseControl from '../curve/DeltaPhaseControl';
 import ParamControls from '../curve/ParamControls';
 import StatsPanel from '../curve/StatsPanel';
-import { mergeSmoothParams, useMorphCurveP5 } from '../curve/useMorphCurveP5';
+import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -56,7 +56,7 @@ export default function LissajousCurveRoot({
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
-    smoothParams: mergeSmoothParams(targetParams, { delta: smoothDelta }),
+    smoothParams: { ...targetParams, delta: smoothDelta },
   });
 
   const controls = controlsMount

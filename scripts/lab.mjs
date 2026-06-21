@@ -96,7 +96,6 @@ function parseCsvPorts(value) {
 function splitLabFlags(args) {
   const lab = {
     cleanPorts: false,
-    skipPortCheck: false,
     ports: null,
   };
   const passthrough = [];
@@ -109,10 +108,6 @@ function splitLabFlags(args) {
     }
     if (arg === '--clean-ports') {
       lab.cleanPorts = true;
-      continue;
-    }
-    if (arg === '--no-port-check') {
-      lab.skipPortCheck = true;
       continue;
     }
     if (arg === '--ports') {
@@ -261,9 +256,7 @@ function runServer(kind, args, extraAstroArgs = []) {
   const defaultPort = requestedPort(astroArgs, 4321);
   const ports = lab.ports ?? [defaultPort];
 
-  if (!lab.skipPortCheck) {
-    assertPortsFree(ports, lab.cleanPorts || process.env.LAB_CLEAN_PORTS === '1');
-  }
+  assertPortsFree(ports, lab.cleanPorts || process.env.LAB_CLEAN_PORTS === '1');
 
   runBin('astro', astroArgs);
 }

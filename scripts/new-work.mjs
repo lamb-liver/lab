@@ -62,7 +62,6 @@ export function buildNewWorkFiles({ slug, title, description, date, tags }, root
     throw new Error('At least one tag is required.');
   }
 
-  const pascalSlug = toPascalCase(slug);
   const finalTitle = title || titleFromSlug(slug);
   const finalDescription = description || `${finalTitle} 的互動視覺化草稿。`;
 
@@ -76,11 +75,6 @@ export function buildNewWorkFiles({ slug, title, description, date, tags }, root
         date,
         tags,
       }),
-    },
-    {
-      relativePath: `src/components/works/${pascalSlug}.tsx`,
-      absolutePath: resolve(root, 'src/components/works', `${pascalSlug}.tsx`),
-      content: workComponentTemplate({ componentName: pascalSlug, title: finalTitle }),
     },
   ];
 }
@@ -107,7 +101,7 @@ export function nextSteps(slug) {
     'Created draft content.',
     '',
     'Next steps:',
-    '1. Add interactive component to registry if needed.',
+    '1. Create an interactive component and add it to the registry if needed.',
     '2. Replace draft placeholder copy before publishing.',
     '3. Set a positive order before publishing.',
     '4. Run npm run audit:content.',
@@ -157,17 +151,6 @@ $$
 `;
 }
 
-function workComponentTemplate({ componentName, title }) {
-  return `export default function ${componentName}() {
-  return (
-    <section aria-label="${title}">
-      <p>${title} draft component. Connect this file through the Work registry only when needed.</p>
-    </section>
-  );
-}
-`;
-}
-
 function assertValidSlug(slug) {
   if (!slug) throw new Error(`Missing slug.\n\n${usage()}`);
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
@@ -179,13 +162,6 @@ function assertValidDate(date) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     throw new Error('Date must use YYYY-MM-DD.');
   }
-}
-
-function toPascalCase(slug) {
-  return slug
-    .split('-')
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('');
 }
 
 function titleFromSlug(slug) {

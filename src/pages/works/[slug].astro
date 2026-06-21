@@ -29,7 +29,7 @@ const { previous: previousWork, next: nextWork } = getCollectionPagerNeighbors(
   await getCollection('works'),
   entry.id,
 );
-const ogImage = entry.data.ogImage ?? getWorkOgImagePath(entry.id);
+const ogImage = getWorkOgImagePath(entry.id);
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL('/', site).href;
 const worksUrl = new URL('/works', site).href;
@@ -124,7 +124,7 @@ const structuredData = [
         <p class="work-detail__canvas-scroll-hint" aria-hidden="true">上下滑動以瀏覽參數與文章</p>
       </div>
     ) : (
-      <CanvasPlaceholder class="work-canvas" variant="unavailable" />
+      <CanvasPlaceholder class="work-canvas" />
     )
   }
 

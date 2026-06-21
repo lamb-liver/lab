@@ -12,7 +12,7 @@ Explore 是主題型視覺化入口，和 Works 分離：
 - 不走 `CurveModule` / Works portal 架構。
 - 互動根元件由 `src/components/explore/*ExploreRoot.tsx` 擁有。
 - 列表封面使用靜態 `coverImage` PNG，不使用 `curveThumbnail.ts`。
-- 本輪封面補齊不修改 `ExploreCard` 顯示邏輯；只補靜態圖片資產、來源檔與 `src/content/explore/*.md` frontmatter。
+- 新增或更新封面時，只補靜態圖片資產、來源檔與 `src/content/explore/*.md` frontmatter；不要改 `ExploreCard` 顯示邏輯。
 
 Explore 封面是主題概念入口，不是完整 UI 截圖，也不是單一 Works 作品封面的複製。
 
@@ -120,7 +120,7 @@ Explore list card 使用 `ExploreCard` + frontmatter `coverImage`。
 | `/explore` | 靜態 PNG cover |
 | `/works` | build-time SVG（見 `workart.md`） |
 
-目前 `fourier-series` 已有封面；其餘新封面依本文件生成。
+`fourier-series` 使用 legacy cover path；其餘 published Explore cover 走 `public/images/explore-covers/{slug}.png`。
 
 ---
 
@@ -187,34 +187,11 @@ Explore list card 使用 `ExploreCard` + frontmatter `coverImage`。
 
 ### 保留現有
 
-- `fourier-series`：保留既有 epicycle cover 與路徑。本輪只檢查並記錄偏差，不裁切、不改色、不覆蓋；若要調整，另開任務。
+- `fourier-series`：保留既有 epicycle cover 與 legacy path；若要調整，另開任務。
 
 ---
 
-## 8. Implementation Order
-
-Gate：
-
-1. 先檢查 `fourier-series` 現有圖並記錄差異。
-2. 先做 `conic-dynamic-geometry` 375px 草稿驗證。
-
-正式順序：
-
-1. `limits-riemann-sum`
-2. `differential-equations-geometry`
-3. `sequences-and-series`
-4. `probability-statistics`
-5. `permutations-combinations`
-6. `complex-euler-formula`
-7. `exponential-logarithm`
-8. `vectors`
-9. `matrix-linear-transform`
-10. `trig-wave-interference`
-11. `conic-dynamic-geometry`
-
----
-
-## 9. Acceptance
+## 8. Acceptance
 
 - 每張 PNG 用 375px 寬、16:10 card 容器檢查，並疊安全區 overlay；主語意不得裁切或落出安全區。
 - 同一列 Explore cards 並排時，需呈現同一系列：暗底、金色主線、低噪音、無完整 UI。
@@ -226,7 +203,7 @@ Gate：
 
 ---
 
-## 10. Explore 檢查清單
+## 9. Explore 檢查清單
 
 - [ ] Reveal 用 `deltaTime`，非固定每幀增量。
 - [ ] Mode / N 離散參數有 cache；draw 只做 slice + guide。

@@ -26,7 +26,7 @@ function tempRoot() {
 }
 
 describe('draft content generators', () => {
-  it('plans a new Works draft without registry edits', () => {
+  it('plans a new Works draft without component scaffold', () => {
     const root = tempRoot();
     const files = buildNewWorkFiles({
       slug: 'matrix-grid',
@@ -38,12 +38,10 @@ describe('draft content generators', () => {
 
     expect(files.map((file) => file.relativePath)).toEqual([
       'src/content/works/matrix-grid.md',
-      'src/components/works/MatrixGrid.tsx',
     ]);
     expect(files[0].content).toContain('draft: true');
     expect(files[0].content).toContain('order: 0');
     expect(files[0].content).toContain('tags:\n  - 代數');
-    expect(files[1].content).toContain('export default function MatrixGrid()');
   });
 
   it('plans a new Explore draft with cover guidance left outside frontmatter', () => {

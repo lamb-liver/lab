@@ -2,10 +2,11 @@
 
 This project follows a fixed frontend verification order:
 
-1. Build
+1. Content audit
 2. Test
-3. DOM verification
-4. Screenshot only when visual evidence is needed
+3. Build
+4. DOM verification when `--url` is provided
+5. Screenshot only when visual evidence is needed
 
 ## Command
 
@@ -43,16 +44,17 @@ Use `--screenshot` only when any of these are true:
 
 Examples:
 
-- Metadata or data-only change: build/test/DOM, screenshot skipped.
-- Button/form behavior: build/test/DOM, screenshot only if appearance changed.
-- CSS, chart, canvas, responsive layout, hero, image, or visual polish: build/test/DOM plus screenshot.
+- Metadata or data-only change: audit/test/build/DOM, screenshot skipped.
+- Button/form behavior: audit/test/build/DOM, screenshot only if appearance changed.
+- CSS, chart, canvas, responsive layout, hero, image, or visual polish: audit/test/build/DOM plus screenshot.
 
 ## Report Format
 
 ```text
 Validation:
-- build: pass (`npm run build`)
+- content audit: pass (`npm run audit:content`)
 - test: pass (`npm test`)
+- build: pass (`npm run build`)
 - DOM: pass (`http://127.0.0.1:4321/`, checked target elements/interactions)
 - screenshot: skipped, DOM evidence was sufficient
 ```
@@ -61,8 +63,9 @@ If screenshots were needed:
 
 ```text
 Validation:
-- build: pass (`npm run build`)
+- content audit: pass (`npm run audit:content`)
 - test: pass (`npm test`)
+- build: pass (`npm run build`)
 - DOM: pass (`http://127.0.0.1:4321/`, checked target elements/interactions)
 - screenshot: pass (visual layout changed)
 ```

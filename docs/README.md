@@ -11,6 +11,7 @@
 | [`editing-rules.md`](editing-rules.md) | 編輯與驗收規則 |
 | [`frontend-validation.md`](frontend-validation.md) | 前端驗證流程：build / test / DOM，僅在需要視覺證據時 screenshot |
 | [`math-content-review-checklist.md`](math-content-review-checklist.md) | 維護期數學內容審查：定義、例外條件、公式、教學語氣 |
+| [`review-scan-ledger.md`](review-scan-ledger.md) | 嚴格審查接續用 ledger：已掃描、已修正、已確認保留的範圍 |
 
 ## 視覺與互動規格
 

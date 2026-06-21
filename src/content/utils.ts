@@ -10,14 +10,14 @@ export type ContentEntry = {
   };
 };
 
-export const isPublished = (entry: ContentEntry): boolean => !entry.data.draft;
+const isPublished = (entry: ContentEntry): boolean => !entry.data.draft;
 
 /** order 大→小（首頁取最新 N 篇、需「最新在前」時用） */
-export const sortByOrderDesc = (a: ContentEntry, b: ContentEntry): number =>
+const sortByOrderDesc = (a: ContentEntry, b: ContentEntry): number =>
   b.data.order - a.data.order || a.id.localeCompare(b.id);
 
 /** order 小→大（作品集列表：越新越靠後） */
-export const sortByOrderAsc = (a: ContentEntry, b: ContentEntry): number =>
+const sortByOrderAsc = (a: ContentEntry, b: ContentEntry): number =>
   a.data.order - b.data.order || a.id.localeCompare(b.id);
 
 export const getPublished = <E extends ContentEntry>(entries: E[]): E[] =>

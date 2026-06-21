@@ -23,13 +23,7 @@ const { slug, title, description, category, coverImage, featured = false } = Ast
 >
   <a href={`/explore/${slug}`} class="card__link-wrap">
     <span class="card__kind card__kind--explore">互動視覺化</span>
-    <div
-      class:list={[
-        'card__thumb',
-        { 'card__thumb--has-cover': !!coverImage, 'card__thumb--fallback': !coverImage },
-      ]}
-      aria-hidden="true"
-    >
+    <div class="card__thumb" aria-hidden="true">
       {
         coverImage ? (
           <img

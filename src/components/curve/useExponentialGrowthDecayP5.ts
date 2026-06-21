@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
+import { frameScale } from '../../curve/modules/animationTiming';
 import { EXP_REVEAL_SPEED } from '../../curve/modules/exponential-growth-decay';
 import type { ParamValues } from '../../curve/types';
 import { renderExponentialGrowthDecayScene } from '../../systems/rendering/exponentialGrowthDecayRender';
@@ -13,11 +14,6 @@ type Options = {
 
 function paramsKey(params: ParamValues): string {
   return [params.mode, params.logScale, params.tangentMode].join('|');
-}
-
-function revealStep(p: p5, speed: number): number {
-  const frameScale = Math.max(0, Math.min(3, (p.deltaTime || 1000 / 60) / (1000 / 60)));
-  return speed * frameScale;
 }
 
 export function useExponentialGrowthDecayP5({
@@ -47,7 +43,10 @@ export function useExponentialGrowthDecayP5({
       revealRef.current = 0;
     }
 
-    revealRef.current = Math.min(1, revealRef.current + revealStep(p, EXP_REVEAL_SPEED));
+    revealRef.current = Math.min(
+      1,
+      revealRef.current + EXP_REVEAL_SPEED * frameScale(p.deltaTime),
+    );
 
     const pct = Math.floor(revealRef.current * 100);
     if (pct !== lastRevealPctRef.current) {

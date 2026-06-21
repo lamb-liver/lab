@@ -311,7 +311,7 @@ function selectCommands(files) {
       add(commands, command('explore cover audit', ['npm', 'run', 'audit:explore-covers']));
     }
 
-    if (file.endsWith('.test.ts')) {
+    if (file.endsWith('.test.ts') && existsSync(resolve(repoRoot, file))) {
       add(commands, command(`test ${file}`, ['npm', 'run', 'test', '--', file]));
     }
 

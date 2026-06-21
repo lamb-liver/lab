@@ -24,13 +24,7 @@ const thumbSrc = `/thumbs/works/${slug}.svg`;
 >
   <a href={`/works/${slug}`} class="card__link-wrap">
     <span class="card__kind card__kind--work">作品</span>
-    <div
-      class:list={[
-        'card__thumb',
-        { 'card__thumb--has-image': hasThumb, 'card__thumb--fallback': !hasThumb },
-      ]}
-      aria-hidden="true"
-    >
+    <div class="card__thumb" aria-hidden="true">
       {
         hasThumb ? (
           <img

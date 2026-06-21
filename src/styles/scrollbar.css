@@ -1,4 +1,4 @@
-/* 全站捲軸（scrollbar）。macOS 疊加捲軸不支援 thumb :hover，用 .scrollbar-hover（JS）補強 */
+/* 全站捲軸（scrollbar）。 */
 
 html {
   color-scheme: dark;
@@ -10,10 +10,6 @@ html {
 html,
 body {
   scrollbar-gutter: stable;
-}
-
-html.scrollbar-hover {
-  scrollbar-color: var(--color-accent) var(--color-bg);
 }
 
 html::-webkit-scrollbar,
@@ -36,9 +32,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 html::-webkit-scrollbar-thumb:hover,
-body::-webkit-scrollbar-thumb:hover,
-html.scrollbar-hover::-webkit-scrollbar-thumb,
-body.scrollbar-hover::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-accent);
 }
 

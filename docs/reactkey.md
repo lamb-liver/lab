@@ -10,22 +10,13 @@
 
 | 模組 | 職責 | 禁止 |
 |------|------|------|
-| `src/curve/morphPathCache.ts` | `createMorphPathCache`；`toFixed(4)` key 重用點列 | 幀推進、animation、React ref |
 | `src/curve/morphFrame.ts` | `getMorphDisplayPoints`、`executeMorphDrawFrame` | React、ref 解引用、DOM |
 | `src/components/curve/useMorphCurveP5.ts` | ref 生命週期、`patchTargetParams`、p5 draw wiring | 把 ref shape 傳進 `morphFrame` |
 | `src/components/curve/useP5CanvasHost.ts` | p5 instance 生命週期；`drawRef` 解引用 | 在 sketch 閉包捕獲 stale `draw` |
 | `src/components/works/*CurveRoot.tsx` | UI state；`patchTargetParams` + `setTargetParams` | 僅靠 `useEffect` 更新 target ref |
 
-**依賴方向**：`*CurveRoot` → `useMorphCurveP5` → `morphFrame` → `morphPathCache` / `CurveModule`。  
+**依賴方向**：`*CurveRoot` → `useMorphCurveP5` → `morphFrame` → `CurveModule`。
 `morphFrame` 可在 Node.js 靜態生成重用（零 React）。
-
----
-
-## `morphPathCache.ts`
-
-- 僅負責「參數 key 不變時重用 `module.sample` 結果」。
-- Key 為 `Object.keys(params).sort()` + 各值 `toFixed(4)`。
-- **連續 lerp 參數**（δ、d 等）會在同一 bucket 內碰撞 → **不可**作為省略 `cacheStrategy` 模組的主採樣路徑。
 
 ---
 
@@ -35,23 +26,21 @@
 
 ```ts
 // 同幀：先 step，再依 nextState.params 採樣
-executeMorphDrawFrame(module, cache, animState, targetParams, sampleStep, stepAnimation, revealSpeed)
+executeMorphDrawFrame(module, animState, targetParams, sampleStep, stepAnimation, revealSpeed)
 ```
 
-- `getMorphDisplayPoints`：省略 `cacheStrategy` 或 `kind === 'none'` → 直接 `module.sample()`；否則 `cache.getPoints()`。
+- `getMorphDisplayPoints`：直接 `module.sample()`；morph 曲線不快取連續 lerp 點列。
 - 接受 `stepAnimation` **函式值**，不接受 `{ current: fn }`（ref 解引用在 hook 層）。
 
 ---
 
-## 省略 `cacheStrategy` 的語意
+## Morph 採樣語意
 
 模組：`harmonograph`、`lissajous`、`spirograph`（連續 morph 參數每幀變化）。
 
 | 宣告 | 執行 |
 |------|------|
 | 省略 `cacheStrategy` | **每幀** `module.sample(anim.params)` |
-
-`createMorphPathCache` 仍可存在於 hook 內，但省略 `cacheStrategy` 的模組**不得**依賴其點列作為顯示來源。
 
 對照：`rose` 用 `createCurveCache` + `integerBlend`（`CurveWorkRoot` 路徑，非本文件）。
 
@@ -138,7 +127,6 @@ p.draw = () => drawRef.current(p);
 | `none` → 每次 `sample()` | `morphFrame.test.ts` |
 | 不同 lerp 參數 → 不同幾何（弧長 / 點數） | 同上 |
 | draw 呼叫點解引用 `stepAnimationRef.current` | `useMorphCurveP5.draw.test.ts` |
-| `morphPathCache` toFixed 碰撞（說明為何 none bypass） | `morphPathCache.test.ts` |
 
 ---
 
@@ -148,7 +136,7 @@ p.draw = () => drawRef.current(p);
 |------|------|
 | [`p5toreact.md`](p5toreact.md) | 目錄、Harmonograph 參數表、檢查清單 |
 | [`workart.md`](workart.md) | Works glow、reveal 視覺層級 |
-| [`README.md`](README.md) | 專案結構、`morphFrame` / `morphPathCache` 路徑 |
+| [`README.md`](README.md) | 專案結構、`morphFrame` 路徑 |
 
 ---
 

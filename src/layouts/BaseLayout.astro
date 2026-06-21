@@ -10,37 +10,25 @@ import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT, isDefaultOgImage } from '../lib
 interface Props {
   title: string;
   description?: string;
-  canonical?: string;
-  ogTitle?: string;
-  ogDescription?: string;
   ogImage?: string;
   ogImageAlt?: string;
-  ogImageWidth?: number;
-  ogImageHeight?: number;
   ogType?: string;
-  twitterCard?: 'summary' | 'summary_large_image';
   structuredData?: Array<Record<string, unknown>>;
 }
 
 const {
   title,
   description = '羊·實驗 — 數學與演算法的視覺化實驗',
-  canonical,
-  ogTitle,
-  ogDescription,
   ogImage,
   ogImageAlt,
-  ogImageWidth,
-  ogImageHeight,
   ogType = 'website',
-  twitterCard = 'summary_large_image',
   structuredData = [],
 } = Astro.props;
 const fullTitle = title === '羊·實驗' ? title : `${title} · 羊·實驗`;
 const site = Astro.site ?? Astro.url;
-const canonicalURL = canonical ?? new URL(Astro.url.pathname || '/', site).href;
-const resolvedOgTitle = ogTitle ?? fullTitle;
-const resolvedOgDescription = ogDescription ?? description;
+const canonicalURL = new URL(Astro.url.pathname || '/', site).href;
+const resolvedOgTitle = fullTitle;
+const resolvedOgDescription = description;
 const usesDefaultOgImage = isDefaultOgImage(ogImage);
 const resolvedOgImagePath = usesDefaultOgImage ? DEFAULT_OG_IMAGE : ogImage!;
 const ogImageURL = new URL(resolvedOgImagePath, site).href;
@@ -48,10 +36,8 @@ const resolvedOgImageAlt =
   ogImageAlt ?? (usesDefaultOgImage ? DEFAULT_OG_IMAGE_ALT : resolvedOgTitle);
 const inferredOgImageSize =
   usesDefaultOgImage || resolvedOgImagePath.startsWith('/og/works/')
-    ? { width: ogImageWidth ?? 1200, height: ogImageHeight ?? 630 }
-    : ogImageWidth && ogImageHeight
-      ? { width: ogImageWidth, height: ogImageHeight }
-      : null;
+    ? { width: 1200, height: 630 }
+    : null;
 const siteRootURL = new URL('/', site).href;
 const jsonLd = [
   {
@@ -89,7 +75,7 @@ const jsonLd = [
         </>
       ) : null
     }
-    <meta name="twitter:card" content={twitterCard} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={resolvedOgTitle} />
     <meta name="twitter:description" content={resolvedOgDescription} />
     <meta name="twitter:image" content={ogImageURL} />
@@ -104,27 +90,5 @@ const jsonLd = [
       <slot />
     </main>
     <Footer />
-    <script is:inline>
-      (function () {
-        var ZONE = 14;
-        var root = document.documentElement;
-        var inside = false;
-        document.addEventListener(
-          'mousemove',
-          function (e) {
-            var near =
-              e.clientX >= window.innerWidth - ZONE && e.clientY > 0;
-            if (near === inside) return;
-            inside = near;
-            root.classList.toggle('scrollbar-hover', near);
-          },
-          { passive: true }
-        );
-        document.addEventListener('mouseleave', function () {
-          inside = false;
-          root.classList.remove('scrollbar-hover');
-        });
-      })();
-    </script>
   </body>
 </html>

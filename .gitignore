@@ -33,5 +33,6 @@ pnpm-debug.log*
 
 # local-only workspace files
 .vscode/
+schedule.md
 *.local
 content-update-inventory.local.md

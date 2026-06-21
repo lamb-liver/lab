@@ -1,4 +1,5 @@
 import { PARAM_LERP } from './constants';
+import { frameScale } from '../animationTiming';
 import {
   lerpMatrix,
   matrixIdentity,
@@ -6,8 +7,6 @@ import {
   type MatrixLinearTargetInput,
 } from './matrix';
 import type { Matrix2, MatrixMode } from './types';
-
-const FRAME_MS_60FPS = 1000 / 60;
 
 export type MatrixLinearParams = MatrixLinearTargetInput & {
   composeAngleDeg: number;
@@ -32,7 +31,7 @@ export function createMatrixLinearAnimState(): MatrixLinearAnimState {
 export function stepMatrixLinearAnimation(
   state: MatrixLinearAnimState,
   params: MatrixLinearParams,
-  deltaMs = FRAME_MS_60FPS,
+  deltaMs?: number,
 ): MatrixLinearAnimState {
   let { currentMatrix, targetMatrix, lastMode } = state;
 
@@ -47,9 +46,7 @@ export function stepMatrixLinearAnimation(
   }
 
   targetMatrix = targetMatrixFromParams(params);
-  const safeDeltaMs = Number.isFinite(deltaMs) && deltaMs > 0 ? deltaMs : FRAME_MS_60FPS;
-  const frameScale = safeDeltaMs / FRAME_MS_60FPS;
-  const alpha = 1 - Math.pow(1 - PARAM_LERP, frameScale);
+  const alpha = 1 - Math.pow(1 - PARAM_LERP, frameScale(deltaMs));
   currentMatrix = lerpMatrix(currentMatrix, targetMatrix, alpha);
 
   return { currentMatrix, targetMatrix, lastMode };

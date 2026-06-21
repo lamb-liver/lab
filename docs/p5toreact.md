@@ -47,7 +47,6 @@ src/curve/
   animation.ts              # 通用 stepAnimation（Rose 用）
   cache.ts                  # createCurveCache + integerBlend 奇偶護欄
   morphFrame.ts             # executeMorphDrawFrame、getMorphDisplayPoints（零 React）
-  morphPathCache.ts         # createMorphPathCache（toFixed key；none 模組 bypass）
   modules/
     rose/index.ts
     lissajous/index.ts
@@ -213,11 +212,7 @@ DOM 順序須讓 `<details.work-detail__controls>` / `<aside id="{slug}-controls
 | 首頁「最新作品」 | `getPublishedInteractive` + `excludeEntryIds` | 池內 **新→舊**，取前 N = **最新 N 篇** |
 | 靜態路由 | `getStaticPathsFromCollection` | 順序不影響路由 |
 
-```ts
-// 列表：玫瑰 → … → 繁花（依 order 舊→新）
-export const getPublishedAsc = (entries) =>
-  entries.filter(isPublished).sort(sortByOrderAsc);
-```
+`getPublishedAsc` 對外只承諾：排除 draft，並依 `order` 舊→新排序。
 
 `featured: true` 決定是否進首頁池；**不**改變 `/works` 的 asc 規則。
 
@@ -445,7 +440,7 @@ type CurveModule = {
   sample: (params, { step }) => CurvePoint[] | ThumbnailSpec;
   getMetadata: (params, runtime?) => CurveMetadata;  // smooth 用 resolveSmoothParams(params, runtime)
   renderPreset?: RenderConfig; // 省略即 lissajousRenderPreset
-  cacheStrategy?: 'none' | 'integerBlend'; // 省略即 none；不要顯式寫 none
+  cacheStrategy?: 'integerBlend'; // 省略即每幀 sample
   sampleStep?: number;
   animation?: { lerp: number; revealSpeed: number };
 };
@@ -461,7 +456,7 @@ React targetParams → useRef（slider 用 patchTargetParams 同步寫入）
 p5 draw
     → executeMorphDrawFrame（morphFrame.ts）
         → stepAnimationRef.current(state, targetParamsRef.current, …)
-        → getMorphDisplayPoints（none → 每幀 sample）
+        → getMorphDisplayPoints（每幀 sample）
     → renderFrame(p, RenderSnap, renderPreset)
     → UI 節流 setState（revealPct、smoothDelta…）
 ```
@@ -738,7 +733,7 @@ r = a e^(bθ)    x = r cos θ, y = r sin θ    a = 4（常數）
 | maxTheta | lerp **0.08**；相機依終點半徑重算 zoom |
 | rotationSpeed | 用 `deltaTime` / `frameScale(deltaMs)` 推進 `time`；渲染層 `rotate(time)` |
 
-- **不走** `renderFrame` / morph cache：參數曲線 + reveal θ 呼吸
+- **不走** `renderFrame` / morph pipeline：參數曲線 + reveal θ 呼吸
 - ghost 至 $\theta_{\max}$；active 至 $\theta_{\mathrm{reveal}}$（含 $\sin$ 擾動）
 - 見 `equiangularSpiralRender.ts`、`equiangular-spiral/camera.ts`
 
@@ -774,7 +769,7 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 | depth | 變更時重建 recursive topology 與 deterministic chaos points；reset reveal |
 | mode（recursive / chaos / compare） | 切換 recursive / chaos / 左右對照；reset reveal |
 
-- **不走** `renderFrame` / morph cache：拓樸遞迴 + IFS attractor 使用專用 hook `useSierpinskiTriangleP5`。
+- **不走** `renderFrame` / morph pipeline：拓樸遞迴 + IFS attractor 使用專用 hook `useSierpinskiTriangleP5`。
 - 幾何權威在 `src/curve/modules/sierpinski-triangle/geometry.ts`：`buildRecursiveTopology`、`buildChaosSteps`、`buildRootTriangle` 同源。
 - chaos game 使用固定 seed PRNG（`mulberry32`），讓 runtime 與縮圖可重現；每點皆為 `P(k+1)=0.5*(P(k)+V_i)`。
 - compare 模式左右 panel 使用同一個 root triangle builder：左遞迴、右 chaos，僅 offset / panelWidth 不同。
@@ -850,10 +845,9 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 | 跨奇偶 `integerBlend` | `round(k)` nearest |
 | 通用 `stepAnimation` 用於 a/b 瞬跳需求 | 專用 `stepXxxAnimation` |
 | δ/d 改動就 reset reveal | 僅 a/b（或頻率類）reset |
-| morph 曲線用 cache | 省略 `cacheStrategy` + `getMorphDisplayPoints` |
-| `none` 仍走 morphPathCache | 阻尼 lerp 時 toFixed(4) key 碰撞 → 過期點列 |
+| morph 曲線用 cache | 省略 `cacheStrategy` + `getMorphDisplayPoints` 每幀 sample |
 | target 只經 useEffect 寫 ref | slider 用 `patchTargetParams` 再 setState |
-| 幀邏輯放 morphPathCache.ts | 應在 `morphFrame.ts`；ref 解引用在 hook |
+| 幀邏輯放 hook 內 | 應在 `morphFrame.ts`；ref 解引用在 hook |
 | 測試只 assert stale cache | spy + 弧長 + `useMorphCurveP5.draw.test.ts` |
 | 縮圖 `:global(svg)` / flex 置中 | `.card__thumb svg` + `display: block` |
 | 忘記 `registry` | 卡片無預覽圖 |

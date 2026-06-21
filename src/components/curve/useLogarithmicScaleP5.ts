@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
+import { frameScale } from '../../curve/modules/animationTiming';
 import { LOG_REVEAL_SPEED } from '../../curve/modules/logarithmic-scale';
 import type { ParamValues } from '../../curve/types';
 import { renderLogarithmicScaleScene } from '../../systems/rendering/logarithmicScaleRender';
@@ -13,11 +14,6 @@ type Options = {
 
 function paramsKey(params: ParamValues): string {
   return [params.compareMode, params.showExp, params.showPower, params.showLinear].join('|');
-}
-
-function revealStep(p: p5, speed: number): number {
-  const frameScale = Math.max(0, Math.min(3, (p.deltaTime || 1000 / 60) / (1000 / 60)));
-  return speed * frameScale;
 }
 
 export function useLogarithmicScaleP5({
@@ -47,7 +43,10 @@ export function useLogarithmicScaleP5({
       revealRef.current = 0;
     }
 
-    revealRef.current = Math.min(1, revealRef.current + revealStep(p, LOG_REVEAL_SPEED));
+    revealRef.current = Math.min(
+      1,
+      revealRef.current + LOG_REVEAL_SPEED * frameScale(p.deltaTime),
+    );
 
     const pct = Math.floor(revealRef.current * 100);
     if (pct !== lastRevealPctRef.current) {

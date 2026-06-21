@@ -4,7 +4,6 @@ import { chladniFiguresModule } from '../../curve/modules/chladni-figures';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import StatsPanel from '../curve/StatsPanel';
-import { mergeSmoothParams } from '../curve/useMorphCurveP5';
 import { useChladniP5 } from '../curve/useChladniP5';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -42,10 +41,11 @@ export default function ChladniFiguresCurveRoot({
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
-    smoothParams: mergeSmoothParams(targetParams, {
+    smoothParams: {
+      ...targetParams,
       modeM: smoothM,
       modeN: smoothN,
-    }),
+    },
   });
 
   const controls = controlsMount

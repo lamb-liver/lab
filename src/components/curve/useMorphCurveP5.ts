@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
-import { createMorphPathCache } from '../../curve/morphPathCache';
 import { executeMorphDrawFrame } from '../../curve/morphFrame';
 import type { MorphAnimStep } from '../../curve/morphFrame';
 import type { AnimationState, CurveModule, ParamValues } from '../../curve/types';
@@ -45,7 +44,6 @@ export function useMorphCurveP5({
     isComplete: false,
   });
   const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const pathCacheRef = useRef(createMorphPathCache(module));
   const lastRevealPctRef = useRef(-1);
   const lastSmoothKeysRef = useRef<number[]>(smoothSync.map(() => -1));
   const onRevealPctChangeRef = useRef(onRevealPctChange);
@@ -79,7 +77,6 @@ export function useMorphCurveP5({
     (p: p5) => {
       const frame = executeMorphDrawFrame(
         module,
-        pathCacheRef.current,
         animRef.current,
         targetParamsRef.current,
         sampleStep,
@@ -122,20 +119,5 @@ export function useMorphCurveP5({
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);
 
-  useEffect(
-    () => () => {
-      pathCacheRef.current.clear();
-    },
-    [module],
-  );
-
   return { canvasHostRef, animRef, patchTargetParams };
-}
-
-/** 從 target + 平滑狀態組 metadata 用 ParamValues */
-export function mergeSmoothParams(
-  target: ParamValues,
-  smooth: Partial<ParamValues>,
-): ParamValues {
-  return { ...target, ...smooth };
 }

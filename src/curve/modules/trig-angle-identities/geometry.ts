@@ -1,5 +1,6 @@
 import { TWO_PI } from '../../constants';
 import type { CurvePoint, ThumbnailSpec } from '../../types';
+import { expSmoothingFactor } from '../animationTiming';
 
 export const TAU = Math.PI * 2;
 export const EPS = 0.0001;
@@ -201,9 +202,7 @@ export function stepTrigAngleIdentitiesSmoothing(
   params: TrigAngleIdentitiesParams,
   deltaMs: number,
 ): TrigAngleIdentitiesSmoothState {
-  const safeDelta = Number.isFinite(deltaMs) && deltaMs > 0 ? deltaMs : 16.67;
-  const dt = Math.min(0.05, safeDelta / 1000);
-  const k = 1 - Math.exp(-dt * SMOOTH_RATE_PER_SEC);
+  const k = expSmoothingFactor(deltaMs, SMOOTH_RATE_PER_SEC);
 
   return {
     alpha: smooth.alpha + (params.alpha - smooth.alpha) * k,

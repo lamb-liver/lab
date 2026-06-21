@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { harmonographModule } from '../../curve/modules/harmonograph';
 import { stepHarmonographAnimation } from '../../curve/modules/harmonograph/animation';
-import { createMorphPathCache } from '../../curve/morphPathCache';
 import { executeMorphDrawFrame, type MorphAnimStep } from '../../curve/morphFrame';
 import type { AnimationState } from '../../curve/types';
 
@@ -13,11 +12,9 @@ function simulateDrawLikeHook(
   stepAnimationRef: { current: MorphAnimStep },
   anim: AnimationState,
   target: AnimationState['targetParams'],
-  cache = createMorphPathCache(harmonographModule),
 ) {
   return executeMorphDrawFrame(
     harmonographModule,
-    cache,
     anim,
     target,
     0.01,

@@ -1,0 +1,922 @@
+# Review Scan Ledger
+
+本文件只用來輔助接續審查：標記哪些範圍已掃描、已修正、已確認或仍待處理，避免下一輪把同一批項目當成未知範圍重掃。
+
+它不是 runtime 規格。若本文件與 `src/`、`AGENTS.md`、`editing-rules.md` 或其他 canonical 文件衝突，以 canonical 文件為準。
+
+## 使用規則
+
+- 已列為「已掃描並修正」的項目，下一輪審查預設不再重複盤點，除非該檔案之後又被修改。
+- 已列為「已確認保留」的項目，下一輪只在相關契約或使用情境改變時重查。
+- 已列為「仍待處理」的項目，不得當成已修正。
+- 沒列在本文件的檔案，不代表已掃描。
+- 新增紀錄時，只寫可驗證的結果；不要寫「可能」、「之後也許」或未完成的推測。
+
+## 全專案掃描進度
+
+更新日：2026-06-21。
+
+口徑：
+
+- 掃描面使用目前 `git ls-files` 加上未被 ignore 的本輪新增檔案。
+- `schedule.md`、`.vscode/*`、`content-update-inventory.local.md` 已是 local-only 或刪除面，不列入未掃描清單。
+- 「已掃描」只代表本 ledger 已有明確結論；「尚未掃描」不代表有問題。
+- 後續每掃完一批檔案，必須把檔案從「尚未掃描」移到「已掃描」，並在下方紀錄表補上結論。
+
+| 狀態 | 檔案數 |
+|------|------:|
+| 掃描面總數 | 746 |
+| 已掃描檔案 | 153 |
+| 尚未掃描檔案 | 593 |
+| 已掃描但不列入 repo 掃描面 | 6 |
+
+<details open>
+<summary>已掃描檔案（153）</summary>
+
+- `.cursor/rules/code-review.mdc`
+- `.github/workflows/deploy.yml`
+- `.gitignore`
+- `AGENTS.md`
+- `README.md`
+- `astro.config.mjs`
+- `docs/AGENTS.md`
+- `docs/README.md`
+- `docs/architecture.md`
+- `docs/archive/visual_math_geometry_review.md`
+- `docs/art.md`
+- `docs/editing-rules.md`
+- `docs/exploreart.md`
+- `docs/exploreplan.md`
+- `docs/frontend-validation.md`
+- `docs/lab-release-system.md`
+- `docs/math-content-review-checklist.md`
+- `docs/p5toreact.md`
+- `docs/public-pages-audit.md`
+- `docs/reactkey.md`
+- `docs/review-scan-ledger.md`
+- `docs/site-ux.md`
+- `docs/textstyle.md`
+- `docs/workart.md`
+- `package.json`
+- `playwright.config.ts`
+- `scripts/audit-content.mjs`
+- `scripts/lab.mjs`
+- `scripts/new-work.mjs`
+- `scripts/run-smoke.mjs`
+- `scripts/validate-changed.mjs`
+- `scripts/validate-frontend.sh`
+- `src/components/Breadcrumb.astro`
+- `src/components/CanvasPlaceholder.astro`
+- `src/components/CardThumbFallback.astro`
+- `src/components/ExploreCard.astro`
+- `src/components/FilterBar.astro`
+- `src/components/Footer.astro`
+- `src/components/HeroCanvas.tsx`
+- `src/components/HeroCanvasShell.astro`
+- `src/components/ListSearchFilterScript.astro`
+- `src/components/Nav.astro`
+- `src/components/WorkCard.astro`
+- `src/components/curve/CurveWorkRoot.tsx`
+- `src/components/curve/useExponentialGrowthDecayP5.ts`
+- `src/components/curve/useLogarithmicScaleP5.ts`
+- `src/components/curve/useMorphCurveP5.draw.test.ts`
+- `src/components/curve/useMorphCurveP5.ts`
+- `src/components/curve/useNaturalLogEGeometryP5.ts`
+- `src/components/curve/usePercentileBoxPlotP5.ts`
+- `src/components/curve/useScatterCorrelationRegressionP5.ts`
+- `src/components/explore/DataAnalysisExploreRoot.tsx`
+- `src/components/explore/ExploreInteractiveStage.tsx`
+- `src/components/works/ChladniFiguresCurveRoot.tsx`
+- `src/components/works/ConicEnvelopeCurveRoot.tsx`
+- `src/components/works/ConicFocusLocusCurveRoot.tsx`
+- `src/components/works/HarmonographCurveRoot.tsx`
+- `src/components/works/InterferenceFringesCurveRoot.tsx`
+- `src/components/works/LissajousCurveRoot.tsx`
+- `src/components/works/ParabolicReflectionCurveRoot.tsx`
+- `src/components/works/RoseCurveRoot.tsx`
+- `src/components/works/SpirographCurveRoot.tsx`
+- `src/components/works/StandingWaveCurveRoot.tsx`
+- `src/components/works/WorkInteractiveStage.tsx`
+- `src/content.config.ts`
+- `src/content/contentAudit.test.ts`
+- `src/content/contentAudit.ts`
+- `src/content/descriptionMath.test.ts`
+- `src/content/descriptionMath.ts`
+- `src/content/explore/discrete-random-variables.md`
+- `src/content/exploreEntries.ts`
+- `src/content/explorePager.test.ts`
+- `src/content/generatorScripts.test.ts`
+- `src/content/releaseAudit.test.ts`
+- `src/content/utils.test.ts`
+- `src/content/utils.ts`
+- `src/content/works/percentile-box-plot.md`
+- `src/content/works/regression-outlier-influence.md`
+- `src/content/works/scatter-correlation-regression.md`
+- `src/curve/animation.ts`
+- `src/curve/cache.ts`
+- `src/curve/canvasSize.ts`
+- `src/curve/cartesianPlot.ts`
+- `src/curve/constants.ts`
+- `src/curve/defaults.ts`
+- `src/curve/modules/animationTiming.ts`
+- `src/curve/modules/catalan-numbers/geometry.ts`
+- `src/curve/modules/combinatorial-path-counting/geometry.ts`
+- `src/curve/modules/logistic-curve/animation.ts`
+- `src/curve/modules/logistic-curve/geometry.ts`
+- `src/curve/modules/logistic-curve/index.ts`
+- `src/curve/modules/logistic-curve/logistic-curve.test.ts`
+- `src/curve/modules/matrix-linear-transform/animation.test.ts`
+- `src/curve/modules/matrix-linear-transform/animation.ts`
+- `src/curve/modules/percentile-box-plot/geometry.ts`
+- `src/curve/modules/percentile-box-plot/percentile-box-plot.test.ts`
+- `src/curve/modules/radian-arc-length/geometry.ts`
+- `src/curve/modules/radian-arc-length/radian-arc-length.test.ts`
+- `src/curve/modules/scatter-correlation-regression/geometry.ts`
+- `src/curve/modules/scatter-correlation-regression/index.ts`
+- `src/curve/modules/scatter-correlation-regression/scatter-correlation-regression.test.ts`
+- `src/curve/modules/trig-angle-identities/geometry.ts`
+- `src/curve/modules/trig-angle-identities/trig-angle-identities.test.ts`
+- `src/curve/modules/unit-circle-trig-definition/geometry.ts`
+- `src/curve/modules/unit-circle-trig-definition/unit-circle-trig-definition.test.ts`
+- `src/curve/morphFrame.test.ts`
+- `src/curve/morphFrame.ts`
+- `src/curve/morphPathCache.test.ts`
+- `src/curve/morphPathCache.ts`
+- `src/curve/prng.ts`
+- `src/curve/registry.ts`
+- `src/curve/resolveSmoothParams.test.ts`
+- `src/curve/resolveSmoothParams.ts`
+- `src/curve/thumbnailPointCloud.ts`
+- `src/curve/types.ts`
+- `src/explore/data-analysis/geometry.test.ts`
+- `src/explore/data-analysis/geometry.ts`
+- `src/explore/interactiveRegistry.ts`
+- `src/layouts/BaseLayout.astro`
+- `src/lib/curveThumbnail.registry.test.ts`
+- `src/lib/curveThumbnail.test.ts`
+- `src/lib/curveThumbnail.ts`
+- `src/lib/defaultOg.test.ts`
+- `src/lib/defaultOg.ts`
+- `src/lib/listFilter.test.ts`
+- `src/lib/listFilter.ts`
+- `src/lib/seoCopy.test.ts`
+- `src/lib/seoCopy.ts`
+- `src/lib/siteLinks.ts`
+- `src/lib/workOgFonts.ts`
+- `src/lib/workOgImage.test.ts`
+- `src/lib/workOgImage.ts`
+- `src/lib/workOgSatori.tsx`
+- `src/pages/about.astro`
+- `src/pages/explore/[slug].astro`
+- `src/pages/explore/index.astro`
+- `src/pages/index.astro`
+- `src/pages/og/works/[slug].png.ts`
+- `src/pages/thumbs/works/[slug].svg.ts`
+- `src/pages/works/[slug].astro`
+- `src/pages/works/index.astro`
+- `src/registry.sync.test.ts`
+- `src/styles/components/card.css`
+- `src/styles/components/explore/data-analysis-explore.css`
+- `src/styles/components/explore/explore-stage.css`
+- `src/styles/scrollbar.css`
+- `src/systems/rendering/p5PlotHelpers.ts`
+- `src/systems/rendering/regressionOutlierInfluenceRender.ts`
+- `src/test/contentSlugs.test.ts`
+- `src/test/contentSlugs.ts`
+- `src/works/interactiveRegistry.ts`
+- `tsconfig.json`
+- `vitest.config.ts`
+
+</details>
+
+<details>
+<summary>已掃描但不列入 repo 掃描面（6）</summary>
+
+- `.vscode/extensions.json` - 已掃描並移出 Git 追蹤；local-only。
+- `.vscode/launch.json` - 已掃描並移出 Git 追蹤；local-only。
+- `content-update-inventory.local.md` - 已刪除本地過期盤點檔；local-only。
+- `schedule.md` - 已掃描並移出 Git 追蹤；local-only。
+- `src/content/works/discrete-pmf-expectation.md` - 已保持刪除狀態。
+- `src/content/works/variance-spread-visualization.md` - 已保持刪除狀態。
+
+</details>
+
+<details>
+<summary>尚未掃描檔案（593）</summary>
+
+- `package-lock.json`
+- `public/.nojekyll`
+- `public/CNAME`
+- `public/explore/fourier-series-epicycles-cover.png`
+- `public/images/explore-covers/complex-euler-formula.png`
+- `public/images/explore-covers/conic-dynamic-geometry.png`
+- `public/images/explore-covers/data-analysis.png`
+- `public/images/explore-covers/differential-equations-geometry.png`
+- `public/images/explore-covers/exponential-logarithm.png`
+- `public/images/explore-covers/function-equations.png`
+- `public/images/explore-covers/limits-riemann-sum.png`
+- `public/images/explore-covers/matrix-linear-transform.png`
+- `public/images/explore-covers/permutations-combinations.png`
+- `public/images/explore-covers/probability-statistics.png`
+- `public/images/explore-covers/rational-functions-asymptotes.png`
+- `public/images/explore-covers/sequences-and-series.png`
+- `public/images/explore-covers/trig-function-graphs.png`
+- `public/images/explore-covers/trig-wave-interference.png`
+- `public/images/explore-covers/trigonometry-fundamentals.png`
+- `public/images/explore-covers/vectors.png`
+- `public/lab-favicon-eb-garamond.svg`
+- `public/robots.txt`
+- `scripts/audit-explore-covers.mjs`
+- `scripts/audit-integration.mjs`
+- `scripts/explore-covers/complex-euler-formula.svg`
+- `scripts/explore-covers/conic-dynamic-geometry.svg`
+- `scripts/explore-covers/data-analysis.svg`
+- `scripts/explore-covers/differential-equations-geometry.svg`
+- `scripts/explore-covers/exponential-logarithm.svg`
+- `scripts/explore-covers/function-equations.svg`
+- `scripts/explore-covers/generate.mjs`
+- `scripts/explore-covers/limits-riemann-sum.svg`
+- `scripts/explore-covers/matrix-linear-transform.svg`
+- `scripts/explore-covers/permutations-combinations.svg`
+- `scripts/explore-covers/probability-statistics.svg`
+- `scripts/explore-covers/rational-functions-asymptotes.svg`
+- `scripts/explore-covers/sequences-and-series.svg`
+- `scripts/explore-covers/trig-function-graphs.svg`
+- `scripts/explore-covers/trig-wave-interference.svg`
+- `scripts/explore-covers/trigonometry-fundamentals.svg`
+- `scripts/explore-covers/vectors.svg`
+- `scripts/new-explore.mjs`
+- `src/components/curve/CurveHookWorkRoot.tsx`
+- `src/components/curve/DeltaPhaseControl.tsx`
+- `src/components/curve/ParamControls.tsx`
+- `src/components/curve/StatsPanel.tsx`
+- `src/components/curve/p5RendererReady.ts`
+- `src/components/curve/useAffineIfsFractalP5.ts`
+- `src/components/curve/useAffineTransformPatternP5.ts`
+- `src/components/curve/useArithmeticGeometricSequencesP5.ts`
+- `src/components/curve/useBaselProblemP5.ts`
+- `src/components/curve/useBinomialExpansionGeometryP5.ts`
+- `src/components/curve/useBinomialToNormalP5.ts`
+- `src/components/curve/useBuffonNeedleP5.ts`
+- `src/components/curve/useCatalanNumbersP5.ts`
+- `src/components/curve/useCatenaryP5.ts`
+- `src/components/curve/useChladniP5.ts`
+- `src/components/curve/useCombinatorialPathCountingP5.ts`
+- `src/components/curve/useComplexArithmeticGeometryP5.ts`
+- `src/components/curve/useComplexPhasePortraitP5.ts`
+- `src/components/curve/useComplexPolarFormP5.ts`
+- `src/components/curve/useConditionalProbabilityBayesP5.ts`
+- `src/components/curve/useConicEnvelopeP5.ts`
+- `src/components/curve/useConicFocusLocusP5.ts`
+- `src/components/curve/useDotProductGeometryP5.ts`
+- `src/components/curve/useEigenvectorGeometryP5.ts`
+- `src/components/curve/useEquiangularSpiralP5.ts`
+- `src/components/curve/useEulerFormulaRotationP5.ts`
+- `src/components/curve/useFibonacciSpiralP5.ts`
+- `src/components/curve/useFunctionDerivativeGraphP5.ts`
+- `src/components/curve/useFunctionGraphTransformP5.ts`
+- `src/components/curve/useInterferenceFringesP5.ts`
+- `src/components/curve/useInverseFunctionReflectionP5.ts`
+- `src/components/curve/useJuliaP5.ts`
+- `src/components/curve/useLawOfSinesCosinesP5.ts`
+- `src/components/curve/useLinearTransformGridP5.ts`
+- `src/components/curve/useLogisticBifurcationP5.ts`
+- `src/components/curve/useLogisticCurveP5.ts`
+- `src/components/curve/useP5CanvasHost.ts`
+- `src/components/curve/useParabolicReflectionP5.ts`
+- `src/components/curve/usePascalsTriangleP5.ts`
+- `src/components/curve/usePolynomialRootsMultiplicityP5.ts`
+- `src/components/curve/useQuadraticCompletingSquareP5.ts`
+- `src/components/curve/useRadianArcLengthP5.ts`
+- `src/components/curve/useRationalObliqueAsymptoteP5.ts`
+- `src/components/curve/useRationalVerticalHorizontalAsymptotesP5.ts`
+- `src/components/curve/useRectP5CanvasHost.ts`
+- `src/components/curve/useRegressionOutlierInfluenceP5.ts`
+- `src/components/curve/useRiemannSumP5.ts`
+- `src/components/curve/useRotationScaleCompositionP5.ts`
+- `src/components/curve/useSierpinskiTriangleP5.ts`
+- `src/components/curve/useSinusoidAmplitudePeriodPhaseP5.ts`
+- `src/components/curve/useSmoothParamNotifier.test.ts`
+- `src/components/curve/useSmoothParamNotifier.ts`
+- `src/components/curve/useStandingWaveP5.ts`
+- `src/components/curve/useTangentApproximationP5.ts`
+- `src/components/curve/useTaylorPolynomialApproximationP5.ts`
+- `src/components/curve/useTrigAngleIdentitiesP5.ts`
+- `src/components/curve/useUnitCircleTrigDefinitionP5.ts`
+- `src/components/curve/useVectorAdditionScalarP5.ts`
+- `src/components/curve/useVectorFieldPatternsP5.ts`
+- `src/components/curve/useVectorFieldStreamlinesP5.ts`
+- `src/components/curve/useVectorProjectionP5.ts`
+- `src/components/explore/ComplexEulerFormulaExploreRoot.tsx`
+- `src/components/explore/ConicDynamicGeometryExploreRoot.tsx`
+- `src/components/explore/DifferentialEquationsGeometryExploreRoot.tsx`
+- `src/components/explore/ExponentialLogarithmExploreRoot.tsx`
+- `src/components/explore/FourierSeriesExploreRoot.tsx`
+- `src/components/explore/FunctionEquationsExploreRoot.tsx`
+- `src/components/explore/LimitsRiemannSumExploreRoot.tsx`
+- `src/components/explore/MatrixLinearTransformExploreRoot.tsx`
+- `src/components/explore/PermutationsCombinationsExploreRoot.tsx`
+- `src/components/explore/ProbabilityStatisticsExploreRoot.tsx`
+- `src/components/explore/RationalFunctionsAsymptotesExploreRoot.tsx`
+- `src/components/explore/SequencesAndSeriesExploreRoot.tsx`
+- `src/components/explore/TrigFunctionGraphsExploreRoot.tsx`
+- `src/components/explore/TrigonometryFundamentalsExploreRoot.tsx`
+- `src/components/explore/VectorsExploreRoot.tsx`
+- `src/components/explore/WaveSuperpositionExploreRoot.tsx`
+- `src/components/works/AffineIfsFractalCurveRoot.tsx`
+- `src/components/works/AffineTransformPatternCurveRoot.tsx`
+- `src/components/works/ArithmeticGeometricSequencesCurveRoot.tsx`
+- `src/components/works/BaselProblemCurveRoot.tsx`
+- `src/components/works/BinomialExpansionGeometryCurveRoot.tsx`
+- `src/components/works/BinomialToNormalCurveRoot.tsx`
+- `src/components/works/BuffonNeedleCurveRoot.tsx`
+- `src/components/works/CatalanNumbersCurveRoot.tsx`
+- `src/components/works/CatenaryCurveRoot.tsx`
+- `src/components/works/CombinatorialPathCountingCurveRoot.tsx`
+- `src/components/works/ComplexArithmeticGeometryCurveRoot.tsx`
+- `src/components/works/ComplexPhasePortraitCurveRoot.tsx`
+- `src/components/works/ComplexPolarFormCurveRoot.tsx`
+- `src/components/works/ConditionalProbabilityBayesCurveRoot.tsx`
+- `src/components/works/DotProductGeometryCurveRoot.tsx`
+- `src/components/works/EigenvectorGeometryCurveRoot.tsx`
+- `src/components/works/EquiangularSpiralCurveRoot.tsx`
+- `src/components/works/EulerFormulaRotationCurveRoot.tsx`
+- `src/components/works/ExponentialGrowthDecayCurveRoot.tsx`
+- `src/components/works/FibonacciSpiralCurveRoot.tsx`
+- `src/components/works/FunctionDerivativeGraphCurveRoot.tsx`
+- `src/components/works/FunctionGraphTransformCurveRoot.tsx`
+- `src/components/works/InverseFunctionReflectionCurveRoot.tsx`
+- `src/components/works/JuliaSetCurveRoot.tsx`
+- `src/components/works/LawOfSinesCosinesCurveRoot.tsx`
+- `src/components/works/LinearTransformGridCurveRoot.tsx`
+- `src/components/works/LogarithmicScaleCurveRoot.tsx`
+- `src/components/works/LogisticBifurcationCurveRoot.tsx`
+- `src/components/works/LogisticCurveCurveRoot.tsx`
+- `src/components/works/NaturalLogEGeometryCurveRoot.tsx`
+- `src/components/works/PascalsTriangleCurveRoot.tsx`
+- `src/components/works/PercentileBoxPlotCurveRoot.tsx`
+- `src/components/works/PolynomialRootsMultiplicityCurveRoot.tsx`
+- `src/components/works/QuadraticCompletingSquareCurveRoot.tsx`
+- `src/components/works/RadianArcLengthCurveRoot.tsx`
+- `src/components/works/RationalObliqueAsymptoteCurveRoot.tsx`
+- `src/components/works/RationalVerticalHorizontalAsymptotesCurveRoot.tsx`
+- `src/components/works/RegressionOutlierInfluenceCurveRoot.tsx`
+- `src/components/works/RiemannSumCurveRoot.tsx`
+- `src/components/works/RotationScaleCompositionCurveRoot.tsx`
+- `src/components/works/ScatterCorrelationRegressionCurveRoot.tsx`
+- `src/components/works/SierpinskiTriangleCurveRoot.tsx`
+- `src/components/works/SinusoidAmplitudePeriodPhaseCurveRoot.tsx`
+- `src/components/works/TangentApproximationCurveRoot.tsx`
+- `src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`
+- `src/components/works/TrigAngleIdentitiesCurveRoot.tsx`
+- `src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx`
+- `src/components/works/VectorAdditionScalarCurveRoot.tsx`
+- `src/components/works/VectorFieldPatternsCurveRoot.tsx`
+- `src/components/works/VectorFieldStreamlinesCurveRoot.tsx`
+- `src/components/works/VectorProjectionCurveRoot.tsx`
+- `src/content/explore/complex-euler-formula.md`
+- `src/content/explore/conic-dynamic-geometry.md`
+- `src/content/explore/data-analysis.md`
+- `src/content/explore/differential-equations-geometry.md`
+- `src/content/explore/exponential-logarithm.md`
+- `src/content/explore/fourier-series.md`
+- `src/content/explore/function-equations.md`
+- `src/content/explore/limits-riemann-sum.md`
+- `src/content/explore/linear-programming.md`
+- `src/content/explore/matrix-linear-transform.md`
+- `src/content/explore/permutations-combinations.md`
+- `src/content/explore/probability-statistics.md`
+- `src/content/explore/rational-functions-asymptotes.md`
+- `src/content/explore/sequences-and-series.md`
+- `src/content/explore/space-vectors-planes-lines.md`
+- `src/content/explore/trig-function-graphs.md`
+- `src/content/explore/trig-wave-interference.md`
+- `src/content/explore/trigonometry-fundamentals.md`
+- `src/content/explore/vectors.md`
+- `src/content/works/affine-ifs-fractal.md`
+- `src/content/works/affine-transform-pattern.md`
+- `src/content/works/arithmetic-geometric-sequences.md`
+- `src/content/works/basel-problem.md`
+- `src/content/works/binomial-expansion-geometry.md`
+- `src/content/works/binomial-geometric-distribution.md`
+- `src/content/works/binomial-to-normal.md`
+- `src/content/works/buffon-needle.md`
+- `src/content/works/catalan-numbers.md`
+- `src/content/works/catenary.md`
+- `src/content/works/chladni-figures.md`
+- `src/content/works/combinatorial-path-counting.md`
+- `src/content/works/complex-arithmetic-geometry.md`
+- `src/content/works/complex-phase-portrait.md`
+- `src/content/works/complex-polar-form.md`
+- `src/content/works/conditional-probability-bayes.md`
+- `src/content/works/conic-envelope.md`
+- `src/content/works/conic-focus-locus.md`
+- `src/content/works/cross-product-geometry.md`
+- `src/content/works/dot-product-geometry.md`
+- `src/content/works/eigenvector-geometry.md`
+- `src/content/works/equiangular-spiral.md`
+- `src/content/works/euler-formula-rotation.md`
+- `src/content/works/exponential-growth-decay.md`
+- `src/content/works/fibonacci-spiral.md`
+- `src/content/works/function-derivative-graph.md`
+- `src/content/works/function-graph-transform.md`
+- `src/content/works/harmonograph-curve.md`
+- `src/content/works/interference-fringes.md`
+- `src/content/works/inverse-function-reflection.md`
+- `src/content/works/julia-set.md`
+- `src/content/works/law-of-sines-cosines.md`
+- `src/content/works/line-plane-intersection.md`
+- `src/content/works/linear-transform-grid.md`
+- `src/content/works/lissajous-curve.md`
+- `src/content/works/logarithmic-scale.md`
+- `src/content/works/logistic-bifurcation.md`
+- `src/content/works/logistic-curve.md`
+- `src/content/works/lp-feasible-half-planes.md`
+- `src/content/works/lp-objective-level-curves.md`
+- `src/content/works/lp-vertex-optimum.md`
+- `src/content/works/natural-log-e-geometry.md`
+- `src/content/works/parabolic-reflection.md`
+- `src/content/works/pascals-triangle.md`
+- `src/content/works/plane-normal-distance.md`
+- `src/content/works/polynomial-roots-multiplicity.md`
+- `src/content/works/quadratic-completing-square.md`
+- `src/content/works/radian-arc-length.md`
+- `src/content/works/rational-oblique-asymptote.md`
+- `src/content/works/rational-vertical-horizontal-asymptotes.md`
+- `src/content/works/riemann-sum.md`
+- `src/content/works/rose-curve.md`
+- `src/content/works/rotation-scale-composition.md`
+- `src/content/works/sierpinski-triangle.md`
+- `src/content/works/sinusoid-amplitude-period-phase.md`
+- `src/content/works/space-vector-three-plane-projection.md`
+- `src/content/works/spirograph-curve.md`
+- `src/content/works/standing-wave.md`
+- `src/content/works/tangent-approximation.md`
+- `src/content/works/taylor-polynomial-approximation.md`
+- `src/content/works/trig-angle-identities.md`
+- `src/content/works/unit-circle-trig-definition.md`
+- `src/content/works/vector-addition-scalar.md`
+- `src/content/works/vector-field-patterns.md`
+- `src/content/works/vector-field-streamlines.md`
+- `src/content/works/vector-projection.md`
+- `src/curve/modules/affine-ifs-fractal/affine-ifs-fractal.test.ts`
+- `src/curve/modules/affine-ifs-fractal/animation.ts`
+- `src/curve/modules/affine-ifs-fractal/geometry.ts`
+- `src/curve/modules/affine-ifs-fractal/index.ts`
+- `src/curve/modules/affine-transform-pattern/affine-transform-pattern.test.ts`
+- `src/curve/modules/affine-transform-pattern/animation.ts`
+- `src/curve/modules/affine-transform-pattern/geometry.ts`
+- `src/curve/modules/affine-transform-pattern/index.ts`
+- `src/curve/modules/arithmetic-geometric-sequences/geometry.ts`
+- `src/curve/modules/arithmetic-geometric-sequences/index.ts`
+- `src/curve/modules/basel-problem/geometry.ts`
+- `src/curve/modules/basel-problem/index.ts`
+- `src/curve/modules/binomial-expansion-geometry/geometry.ts`
+- `src/curve/modules/binomial-expansion-geometry/index.ts`
+- `src/curve/modules/binomial-to-normal/geometry.ts`
+- `src/curve/modules/binomial-to-normal/index.ts`
+- `src/curve/modules/buffon-needle/geometry.ts`
+- `src/curve/modules/buffon-needle/index.ts`
+- `src/curve/modules/catalan-numbers/index.ts`
+- `src/curve/modules/catenary/animation.ts`
+- `src/curve/modules/catenary/camera.ts`
+- `src/curve/modules/catenary/catenary.test.ts`
+- `src/curve/modules/catenary/geometry.ts`
+- `src/curve/modules/catenary/index.ts`
+- `src/curve/modules/chladni-figures/animation.ts`
+- `src/curve/modules/chladni-figures/chladni-figures.test.ts`
+- `src/curve/modules/chladni-figures/geometry.ts`
+- `src/curve/modules/chladni-figures/index.ts`
+- `src/curve/modules/combinatorial-path-counting/index.ts`
+- `src/curve/modules/complex-arithmetic-geometry/animation.ts`
+- `src/curve/modules/complex-arithmetic-geometry/geometry.ts`
+- `src/curve/modules/complex-arithmetic-geometry/index.ts`
+- `src/curve/modules/complex-euler-formula/complex.ts`
+- `src/curve/modules/complex-euler-formula/constants.ts`
+- `src/curve/modules/complex-euler-formula/layout.ts`
+- `src/curve/modules/complex-euler-formula/types.ts`
+- `src/curve/modules/complex-phase-portrait/animation.ts`
+- `src/curve/modules/complex-phase-portrait/geometry.test.ts`
+- `src/curve/modules/complex-phase-portrait/geometry.ts`
+- `src/curve/modules/complex-phase-portrait/index.ts`
+- `src/curve/modules/complex-polar-form/animation.ts`
+- `src/curve/modules/complex-polar-form/geometry.ts`
+- `src/curve/modules/complex-polar-form/index.ts`
+- `src/curve/modules/conditional-probability-bayes/geometry.ts`
+- `src/curve/modules/conditional-probability-bayes/index.ts`
+- `src/curve/modules/conditional-probability-bayes/layout.ts`
+- `src/curve/modules/conic-dynamic-geometry/animation.ts`
+- `src/curve/modules/conic-dynamic-geometry/constants.ts`
+- `src/curve/modules/conic-dynamic-geometry/geometry.ts`
+- `src/curve/modules/conic-dynamic-geometry/types.ts`
+- `src/curve/modules/conic-envelope/animation.ts`
+- `src/curve/modules/conic-envelope/conic-envelope.test.ts`
+- `src/curve/modules/conic-envelope/geometry.ts`
+- `src/curve/modules/conic-envelope/index.ts`
+- `src/curve/modules/conic-focus-locus/animation.ts`
+- `src/curve/modules/conic-focus-locus/conic-focus-locus.test.ts`
+- `src/curve/modules/conic-focus-locus/geometry.ts`
+- `src/curve/modules/conic-focus-locus/index.ts`
+- `src/curve/modules/differential-equations-geometry/constants.ts`
+- `src/curve/modules/differential-equations-geometry/equations.ts`
+- `src/curve/modules/differential-equations-geometry/layout.ts`
+- `src/curve/modules/differential-equations-geometry/math.ts`
+- `src/curve/modules/differential-equations-geometry/types.ts`
+- `src/curve/modules/dot-product-geometry/dot-product-geometry.test.ts`
+- `src/curve/modules/dot-product-geometry/geometry.ts`
+- `src/curve/modules/dot-product-geometry/index.ts`
+- `src/curve/modules/eigenvector-geometry/eigenvector-geometry.test.ts`
+- `src/curve/modules/eigenvector-geometry/geometry.ts`
+- `src/curve/modules/eigenvector-geometry/index.ts`
+- `src/curve/modules/equiangular-spiral/animation.ts`
+- `src/curve/modules/equiangular-spiral/camera.ts`
+- `src/curve/modules/equiangular-spiral/equiangular-spiral.test.ts`
+- `src/curve/modules/equiangular-spiral/geometry.ts`
+- `src/curve/modules/equiangular-spiral/index.ts`
+- `src/curve/modules/euler-formula-rotation/animation.ts`
+- `src/curve/modules/euler-formula-rotation/index.ts`
+- `src/curve/modules/exponential-growth-decay/exponential-growth-decay.test.ts`
+- `src/curve/modules/exponential-growth-decay/geometry.ts`
+- `src/curve/modules/exponential-growth-decay/index.ts`
+- `src/curve/modules/fibonacci-spiral/geometry.ts`
+- `src/curve/modules/fibonacci-spiral/index.ts`
+- `src/curve/modules/function-derivative-graph/function-derivative-graph.test.ts`
+- `src/curve/modules/function-derivative-graph/geometry.ts`
+- `src/curve/modules/function-derivative-graph/index.ts`
+- `src/curve/modules/function-graph-transform/constants.ts`
+- `src/curve/modules/function-graph-transform/function-graph-transform.test.ts`
+- `src/curve/modules/function-graph-transform/geometry.ts`
+- `src/curve/modules/function-graph-transform/index.ts`
+- `src/curve/modules/harmonograph/animation.ts`
+- `src/curve/modules/harmonograph/harmonograph.test.ts`
+- `src/curve/modules/harmonograph/index.ts`
+- `src/curve/modules/interference-fringes/animation.ts`
+- `src/curve/modules/interference-fringes/geometry.ts`
+- `src/curve/modules/interference-fringes/index.ts`
+- `src/curve/modules/interference-fringes/interference-fringes.test.ts`
+- `src/curve/modules/inverse-function-reflection/constants.ts`
+- `src/curve/modules/inverse-function-reflection/geometry.ts`
+- `src/curve/modules/inverse-function-reflection/index.ts`
+- `src/curve/modules/inverse-function-reflection/inverse-function-reflection.test.ts`
+- `src/curve/modules/julia-set/config.ts`
+- `src/curve/modules/julia-set/engine.ts`
+- `src/curve/modules/julia-set/geometry.ts`
+- `src/curve/modules/julia-set/index.ts`
+- `src/curve/modules/julia-set/math.test.ts`
+- `src/curve/modules/julia-set/math.ts`
+- `src/curve/modules/julia-set/renderer.ts`
+- `src/curve/modules/law-of-sines-cosines/geometry.ts`
+- `src/curve/modules/law-of-sines-cosines/index.ts`
+- `src/curve/modules/law-of-sines-cosines/law-of-sines-cosines.test.ts`
+- `src/curve/modules/limits-riemann-sum/constants.ts`
+- `src/curve/modules/limits-riemann-sum/functions.test.ts`
+- `src/curve/modules/limits-riemann-sum/functions.ts`
+- `src/curve/modules/limits-riemann-sum/layout.ts`
+- `src/curve/modules/limits-riemann-sum/types.ts`
+- `src/curve/modules/linear-transform-grid/animation.ts`
+- `src/curve/modules/linear-transform-grid/geometry.ts`
+- `src/curve/modules/linear-transform-grid/index.ts`
+- `src/curve/modules/linear-transform-grid/linear-transform-grid.test.ts`
+- `src/curve/modules/lissajous/animation.ts`
+- `src/curve/modules/lissajous/index.ts`
+- `src/curve/modules/lissajous/lissajous.test.ts`
+- `src/curve/modules/logarithmic-scale/geometry.ts`
+- `src/curve/modules/logarithmic-scale/index.ts`
+- `src/curve/modules/logarithmic-scale/logarithmic-scale.test.ts`
+- `src/curve/modules/logistic-bifurcation/geometry.ts`
+- `src/curve/modules/logistic-bifurcation/index.ts`
+- `src/curve/modules/matrix-linear-transform/constants.ts`
+- `src/curve/modules/matrix-linear-transform/matrix.ts`
+- `src/curve/modules/matrix-linear-transform/types.ts`
+- `src/curve/modules/natural-log-e-geometry/geometry.ts`
+- `src/curve/modules/natural-log-e-geometry/index.ts`
+- `src/curve/modules/natural-log-e-geometry/natural-log-e-geometry.test.ts`
+- `src/curve/modules/parabolic-reflection/animation.ts`
+- `src/curve/modules/parabolic-reflection/geometry.ts`
+- `src/curve/modules/parabolic-reflection/index.ts`
+- `src/curve/modules/parabolic-reflection/parabolic-reflection.test.ts`
+- `src/curve/modules/pascals-triangle/geometry.ts`
+- `src/curve/modules/pascals-triangle/index.ts`
+- `src/curve/modules/percentile-box-plot/index.ts`
+- `src/curve/modules/polynomial-roots-multiplicity/constants.ts`
+- `src/curve/modules/polynomial-roots-multiplicity/geometry.ts`
+- `src/curve/modules/polynomial-roots-multiplicity/index.ts`
+- `src/curve/modules/polynomial-roots-multiplicity/polynomial-roots-multiplicity.test.ts`
+- `src/curve/modules/quadratic-completing-square/constants.ts`
+- `src/curve/modules/quadratic-completing-square/geometry.ts`
+- `src/curve/modules/quadratic-completing-square/index.ts`
+- `src/curve/modules/quadratic-completing-square/quadratic-completing-square.test.ts`
+- `src/curve/modules/radian-arc-length/index.ts`
+- `src/curve/modules/rational-oblique-asymptote/geometry.ts`
+- `src/curve/modules/rational-oblique-asymptote/index.ts`
+- `src/curve/modules/rational-vertical-horizontal-asymptotes/geometry.ts`
+- `src/curve/modules/rational-vertical-horizontal-asymptotes/index.ts`
+- `src/curve/modules/regression-outlier-influence/geometry.ts`
+- `src/curve/modules/regression-outlier-influence/index.ts`
+- `src/curve/modules/regression-outlier-influence/regression-outlier-influence.test.ts`
+- `src/curve/modules/riemann-sum/animation.ts`
+- `src/curve/modules/riemann-sum/geometry.ts`
+- `src/curve/modules/riemann-sum/index.ts`
+- `src/curve/modules/riemann-sum/riemann-sum.test.ts`
+- `src/curve/modules/rose/index.ts`
+- `src/curve/modules/rose/rose.test.ts`
+- `src/curve/modules/rotation-scale-composition/animation.ts`
+- `src/curve/modules/rotation-scale-composition/geometry.ts`
+- `src/curve/modules/rotation-scale-composition/index.ts`
+- `src/curve/modules/rotation-scale-composition/rotation-scale-composition.test.ts`
+- `src/curve/modules/sierpinski-triangle/geometry.ts`
+- `src/curve/modules/sierpinski-triangle/index.ts`
+- `src/curve/modules/sinusoid-amplitude-period-phase/geometry.ts`
+- `src/curve/modules/sinusoid-amplitude-period-phase/index.ts`
+- `src/curve/modules/sinusoid-amplitude-period-phase/sinusoid-amplitude-period-phase.test.ts`
+- `src/curve/modules/spirograph/animation.ts`
+- `src/curve/modules/spirograph/index.ts`
+- `src/curve/modules/spirograph/spirograph.test.ts`
+- `src/curve/modules/standing-wave/animation.ts`
+- `src/curve/modules/standing-wave/geometry.ts`
+- `src/curve/modules/standing-wave/index.ts`
+- `src/curve/modules/standing-wave/standing-wave.test.ts`
+- `src/curve/modules/tangent-approximation/animation.ts`
+- `src/curve/modules/tangent-approximation/geometry.ts`
+- `src/curve/modules/tangent-approximation/index.ts`
+- `src/curve/modules/tangent-approximation/tangent-approximation.test.ts`
+- `src/curve/modules/taylor-polynomial-approximation/geometry.ts`
+- `src/curve/modules/taylor-polynomial-approximation/index.ts`
+- `src/curve/modules/taylor-polynomial-approximation/taylor-polynomial-approximation.test.ts`
+- `src/curve/modules/trig-angle-identities/index.ts`
+- `src/curve/modules/unit-circle-trig-definition/index.ts`
+- `src/curve/modules/vector-addition-scalar/geometry.ts`
+- `src/curve/modules/vector-addition-scalar/index.ts`
+- `src/curve/modules/vector-addition-scalar/vector-addition-scalar.test.ts`
+- `src/curve/modules/vector-field-patterns/geometry.ts`
+- `src/curve/modules/vector-field-patterns/index.ts`
+- `src/curve/modules/vector-field-patterns/vector-field-patterns.test.ts`
+- `src/curve/modules/vector-field-streamlines/animation.ts`
+- `src/curve/modules/vector-field-streamlines/geometry.ts`
+- `src/curve/modules/vector-field-streamlines/index.ts`
+- `src/curve/modules/vector-field-streamlines/vector-field-streamlines.test.ts`
+- `src/curve/modules/vector-projection/geometry.ts`
+- `src/curve/modules/vector-projection/index.ts`
+- `src/curve/modules/vector-projection/vector-projection.test.ts`
+- `src/explore/fourier/constants.ts`
+- `src/explore/fourier/path.test.ts`
+- `src/explore/fourier/path.ts`
+- `src/explore/function-equations/constants.ts`
+- `src/explore/function-equations/geometry.test.ts`
+- `src/explore/function-equations/geometry.ts`
+- `src/explore/function-equations/types.ts`
+- `src/explore/permutations-combinations/geometry.test.ts`
+- `src/explore/permutations-combinations/geometry.ts`
+- `src/explore/rational-functions-asymptotes/constants.ts`
+- `src/explore/rational-functions-asymptotes/geometry.ts`
+- `src/explore/rational-functions-asymptotes/types.ts`
+- `src/explore/trig-function-graphs/geometry.test.ts`
+- `src/explore/trig-function-graphs/geometry.ts`
+- `src/explore/trigonometry/constants.ts`
+- `src/explore/trigonometry/geometry.test.ts`
+- `src/explore/trigonometry/geometry.ts`
+- `src/explore/trigonometry/types.ts`
+- `src/explore/vectors/geometry.test.ts`
+- `src/explore/vectors/geometry.ts`
+- `src/explore/wave-superposition/canvasSize.test.ts`
+- `src/explore/wave-superposition/canvasSize.ts`
+- `src/explore/wave-superposition/constants.ts`
+- `src/explore/wave-superposition/geometry.test.ts`
+- `src/explore/wave-superposition/geometry.ts`
+- `src/lib/trigonometry/triangleGeometry.test.ts`
+- `src/lib/trigonometry/triangleGeometry.ts`
+- `src/styles/base.css`
+- `src/styles/components/breadcrumb.css`
+- `src/styles/components/canvas.css`
+- `src/styles/components/explore-touch.css`
+- `src/styles/components/explore/complex-euler-formula-explore.css`
+- `src/styles/components/explore/conic-dynamic-geometry-explore.css`
+- `src/styles/components/explore/differential-equations-geometry-explore.css`
+- `src/styles/components/explore/explore-toolbar.css`
+- `src/styles/components/explore/exponential-logarithm-explore.css`
+- `src/styles/components/explore/fourier-explore.css`
+- `src/styles/components/explore/function-equations-explore.css`
+- `src/styles/components/explore/limits-riemann-sum-explore.css`
+- `src/styles/components/explore/matrix-linear-transform-explore.css`
+- `src/styles/components/explore/permutations-combinations-explore.css`
+- `src/styles/components/explore/probability-statistics-explore.css`
+- `src/styles/components/explore/rational-functions-asymptotes-explore.css`
+- `src/styles/components/explore/sequences-and-series-explore.css`
+- `src/styles/components/explore/trig-function-graphs-explore.css`
+- `src/styles/components/explore/trigonometry-explore.css`
+- `src/styles/components/explore/vectors-explore.css`
+- `src/styles/components/explore/wave-superposition-explore.css`
+- `src/styles/components/filter.css`
+- `src/styles/components/footer.css`
+- `src/styles/components/list-search.css`
+- `src/styles/components/nav.css`
+- `src/styles/components/range.css`
+- `src/styles/components/section-badge.css`
+- `src/styles/components/works/curve-work-demo.css`
+- `src/styles/components/works/lissajous-delta-control.css`
+- `src/styles/layout.css`
+- `src/styles/pages/about.css`
+- `src/styles/pages/explore-detail.css`
+- `src/styles/pages/home.css`
+- `src/styles/pages/work-detail.css`
+- `src/styles/prose.css`
+- `src/styles/tokens.css`
+- `src/systems/rendering/affineIfsFractalRender.ts`
+- `src/systems/rendering/affineTransformPatternRender.ts`
+- `src/systems/rendering/arithmeticGeometricSequencesRender.ts`
+- `src/systems/rendering/baselProblemRender.ts`
+- `src/systems/rendering/binomialExpansionGeometryRender.ts`
+- `src/systems/rendering/binomialToNormalRender.ts`
+- `src/systems/rendering/buffonNeedleRender.ts`
+- `src/systems/rendering/cartesianGrid.ts`
+- `src/systems/rendering/catalanNumbersRender.ts`
+- `src/systems/rendering/catenaryRender.ts`
+- `src/systems/rendering/chladniRender.ts`
+- `src/systems/rendering/combinatorialPathCountingRender.ts`
+- `src/systems/rendering/complexArithmeticGeometryRender.ts`
+- `src/systems/rendering/complexEulerFormulaRender.ts`
+- `src/systems/rendering/complexPhasePortraitRender.ts`
+- `src/systems/rendering/complexPolarFormRender.ts`
+- `src/systems/rendering/conditionalProbabilityBayesRender.ts`
+- `src/systems/rendering/conicDynamicGeometryRender.ts`
+- `src/systems/rendering/conicEnvelopeRender.ts`
+- `src/systems/rendering/conicFocusLocusRender.ts`
+- `src/systems/rendering/differentialEquationsGeometryRender.ts`
+- `src/systems/rendering/dotProductGeometryRender.ts`
+- `src/systems/rendering/eigenvectorGeometryRender.ts`
+- `src/systems/rendering/equiangularSpiralRender.ts`
+- `src/systems/rendering/eulerFormulaRotationRender.ts`
+- `src/systems/rendering/exponentialGrowthDecayRender.ts`
+- `src/systems/rendering/fibonacciSpiralRender.ts`
+- `src/systems/rendering/fourierRender.ts`
+- `src/systems/rendering/frame.ts`
+- `src/systems/rendering/functionDerivativeGraphRender.ts`
+- `src/systems/rendering/functionEquationsExploreRender.ts`
+- `src/systems/rendering/functionGraphTransformRender.ts`
+- `src/systems/rendering/interferenceFringeRender.ts`
+- `src/systems/rendering/inverseFunctionReflectionRender.ts`
+- `src/systems/rendering/lawOfSinesCosinesRender.ts`
+- `src/systems/rendering/limitsRiemannSumRender.ts`
+- `src/systems/rendering/linearTransformGridRender.ts`
+- `src/systems/rendering/logarithmicScaleRender.ts`
+- `src/systems/rendering/logisticBifurcationRender.ts`
+- `src/systems/rendering/logisticCurveRender.ts`
+- `src/systems/rendering/matrixLinearTransformRender.ts`
+- `src/systems/rendering/naturalLogEGeometryRender.ts`
+- `src/systems/rendering/parabolicReflectionRender.ts`
+- `src/systems/rendering/pascalsTriangleRender.ts`
+- `src/systems/rendering/percentileBoxPlotRender.ts`
+- `src/systems/rendering/polarGrid.ts`
+- `src/systems/rendering/polyline.ts`
+- `src/systems/rendering/polynomialRootsMultiplicityRender.ts`
+- `src/systems/rendering/presets.ts`
+- `src/systems/rendering/quadraticCompletingSquareRender.ts`
+- `src/systems/rendering/radianArcLengthRender.ts`
+- `src/systems/rendering/rationalFunctionsAsymptotesExploreRender.ts`
+- `src/systems/rendering/rationalObliqueAsymptoteRender.ts`
+- `src/systems/rendering/rationalVerticalHorizontalAsymptotesRender.ts`
+- `src/systems/rendering/reveal.ts`
+- `src/systems/rendering/riemannSumRender.ts`
+- `src/systems/rendering/rotationScaleCompositionRender.ts`
+- `src/systems/rendering/scatterCorrelationRegressionRender.ts`
+- `src/systems/rendering/sierpinskiTriangleRender.ts`
+- `src/systems/rendering/sinusoidAmplitudePeriodPhaseRender.ts`
+- `src/systems/rendering/standingWaveRender.ts`
+- `src/systems/rendering/tangentApproximationRender.ts`
+- `src/systems/rendering/taylorPolynomialApproximationRender.ts`
+- `src/systems/rendering/trigAngleIdentitiesRender.ts`
+- `src/systems/rendering/trigFunctionGraphsExploreRender.ts`
+- `src/systems/rendering/trigonometryExploreRender.ts`
+- `src/systems/rendering/types.ts`
+- `src/systems/rendering/unitCircleTrigDefinitionRender.ts`
+- `src/systems/rendering/vectorAdditionScalarRender.ts`
+- `src/systems/rendering/vectorFieldPatternsRender.ts`
+- `src/systems/rendering/vectorFieldStreamlinesRender.ts`
+- `src/systems/rendering/vectorProjectionRender.ts`
+- `src/systems/rendering/waveSuperpositionRender.ts`
+- `tests/explore-single.smoke.spec.ts`
+- `tests/seo-ux.spec.ts`
+- `tests/work-integration.smoke.spec.ts`
+
+</details>
+## 已掃描紀錄
+
+| 範圍 | 結論 |
+|------|------|
+| `src/content/works/discrete-pmf-expectation.md` | 已保持刪除狀態；除本 ledger 記錄外，無殘留 slug、link、docs、script 引用。 |
+| `src/content/works/variance-spread-visualization.md` | 已保持刪除狀態；除本 ledger 記錄外，無殘留 slug、link、docs、script 引用。 |
+| `schedule.md` | 已移出 Git 追蹤並加入 `.gitignore`；本地檔案保留作個人排程，不再列入 repo 修正面。 |
+| `scripts/audit-content.mjs` | 已加入 generic internal draft link audit，涵蓋 `/works/` 與 `/explore/` 雙向。 |
+| `scripts/audit-content.mjs` | 三個 Work → `/explore/data-analysis` 連結以精準例外保留；等待 `data-analysis` 發布後移除例外。 |
+| `src/content/releaseAudit.test.ts` | 已補上 published Explore → draft Work 與 published Work → draft Explore 的測試覆蓋。 |
+| `scripts/validate-changed.mjs` | 已修正 draft interactive slug 驗證盲點；`data-analysis` 可被 `validate:changed -- --dry-run` 選到 `smoke:explore`。 |
+| `scripts/validate-changed.mjs` | 已修正 thumbnail / registry 測試覆蓋；curve module 變更會納入 registry / OG 相關測試。 |
+| `scripts/validate-changed.mjs` | 已補上 `p5PlotHelpers.ts` 的 consumer smoke 映射；修改 helper 會觸發 `data-analysis` 與三個資料分析 Works smoke。 |
+| `scripts/run-smoke.mjs` | 已驗證 `smoke:explore -- data-analysis --list` 可正常列測；draft interactive slug 沒有漏掉。 |
+| `src/curve/modules/scatter-correlation-regression/index.ts` | 已移除未被 runtime 消費的 `showMeanAxes` / `showResiduals` 假參數。 |
+| `src/components/curve/useScatterCorrelationRegressionP5.ts` | 已修正刪除點後 `state.params.n` 不同步問題；slider 的 `n` 不再與 `points.length` 分裂。 |
+| `src/components/curve/usePercentileBoxPlotP5.ts` | 已移除只寫不讀的 `dragging` state；保留實際有讀寫用途的 `dragIndexRef`。 |
+| `src/systems/rendering/regressionOutlierInfluenceRender.ts` | 已移除只包一行 `drawUnitPlotFrame` 的 `drawPlotFrame` wrapper，改為在 `drawPlot` 直接呼叫。 |
+| `src/systems/rendering/p5PlotHelpers.ts` | 已抽出小型共用繪圖 helper，集中 frame、label、dash、clip，不擴成大型 drawing framework。 |
+| `src/explore/data-analysis/geometry.ts` | 已重用 Work module 的 `boxSummary`、`clamp`、`regression`，不再維持重複統計核心。 |
+| `src/explore/data-analysis/geometry.test.ts` | 已對齊 shared regression 與 quartile 規則，不再替 Explore 專屬重複規則背書。 |
+| `src/components/explore/DataAnalysisExploreRoot.tsx` | 已修正 `targetN` 與 `points.length` / `values.length` 不同步問題。 |
+| `src/components/explore/DataAnalysisExploreRoot.tsx` | 已修正槓桿口徑，改用 `baseFit.xbar`，文案同步為 `x̄₀`。 |
+| `src/components/explore/DataAnalysisExploreRoot.tsx` | 已移除 `worldToScreen` / `screenToWorld` 純改名 wrapper，改用既有座標 helper。 |
+| `src/components/explore/DataAnalysisExploreRoot.tsx` | 已改用 shared geometry / p5 plot helper，減少重複統計與繪圖邏輯。 |
+| `src/content/explore/discrete-random-variables.md` | 已修正「期望值、變異數各有自己的作品」的過時文案，改回目前仍存在的二項／幾何與常態近似脈絡。 |
+| `src/content/explore/discrete-random-variables.md:37` | 已確認目前兩個相關作品連結有效：`binomial-geometric-distribution`、`binomial-to-normal`。 |
+| `docs/exploreplan.md` | 已修正不存在的 `.explore-topic__stage` / `.explore-topic__visual` / `.explore-topic__sidebar`，改成實際 suffix contract。 |
+| `docs/public-pages-audit.md` | 已更新到正確計數：Works public 61 / draft 8 / total 69；Explore public 16 / draft 4 / total 20。 |
+| `src/curve/registry.ts`、`src/works/interactiveRegistry.ts`、`src/components/works/WorkInteractiveStage.tsx` | 三個新 published Works 已同步進 module registry、interactive registry、stage root。 |
+| `src/content/works/percentile-box-plot.md`、`src/content/works/regression-outlier-influence.md`、`src/content/works/scatter-correlation-regression.md` | 三個 Work → `/explore/data-analysis` 連結已改為明確保留項，並由 audit 例外精準覆蓋；等待 `data-analysis` 發布後再移除例外。 |
+| `src/content/utils.ts`、`src/pages/works/[slug].astro`、`src/pages/explore/[slug].astro` | 已確認 `includeDraft` 只用於 DEV draft detail preview；production、OG、thumbnail 仍維持 published-only。 |
+| `src/styles/components/explore/explore-stage.css` | 已確認 suffix selector 可套用到 `data-analysis-explore__stage` 等 slug-specific class，無需新增 generic wrapper class。 |
+| `src/styles/components/explore/data-analysis-explore.css` | 已確認只補 slug-specific layout，基礎 stage / visual / sidebar 樣式由 `explore-stage.css` 提供。 |
+
+## 2026-06-21 根目錄文件與設定補掃
+
+| 範圍 | 結論 |
+|------|------|
+| `README.md` | 已掃描並修正：移除 `tools/archive/`、Fuse、`getFeaturedOrLatest`、`date` 排序等過時描述；frontmatter 範例補回 `order`。 |
+| `schedule.md` | 已移出 Git 追蹤並加入 `.gitignore`；local schedule 不再作為 repo 文件審查項。 |
+| `docs/textstyle.md` | 已掃描並修正：`date` 語意為真實發布日、不參與排序；審查摘要更新為目前 89 篇 content（Explore 20 / Works 69），刪除過期逐項計數。 |
+| `AGENTS.md`、`docs/AGENTS.md` | 已掃描；確認保留：根目錄檔供 agent convention 使用，docs 版本由 `README.md`、`docs/README.md`、`docs/architecture.md`、`docs/editing-rules.md` 引用。 |
+| `.github/workflows/deploy.yml` | 已掃描；確認保留：`main` push 透過 `npm ci`、`npm run build`、Pages artifact deploy。 |
+| `astro.config.mjs`、`tsconfig.json`、`vitest.config.ts`、`playwright.config.ts` | 已掃描；確認保留：分別被 Astro、TypeScript、Vitest、Playwright convention 消費。 |
+| `.gitignore`、`.vscode/extensions.json`、`.vscode/launch.json` | 已掃描並修正：`.vscode/` 維持 local-only，兩個 `.vscode` 檔已移出 Git 追蹤。 |
+| `content-update-inventory.local.md` | 已刪除本地過期盤點檔；`.gitignore` 維持 `*.local` / `content-update-inventory.local.md` 排除。 |
+| `package.json` dependencies / devDependencies | 已掃描；確認保留目前核心依賴，`@fontsource`、`satori`、`sharp`、`p5`、React、KaTeX pipeline 均有 current repo 引用。 |
+| `scripts/lab.mjs` | 已掃描並修正：刪除 `--no-port-check` / `skipPortCheck`，`runServer` 固定執行 port gate。 |
+
+## 2026-06-21 lib / pages / shell components 補掃
+
+| 範圍 | 結論 |
+|------|------|
+| `src/layouts/BaseLayout.astro` | 已掃描並修正：刪除無呼叫端的 SEO props 與 scrollbar hover JS；保留現有 canonical / OG fallback 行為。 |
+| `src/components/CanvasPlaceholder.astro` | 已掃描並修正：刪除無呼叫端的 `loading` variant；detail loading UI 仍由頁面 fallback markup 提供。 |
+| `src/pages/about.astro` | 已掃描並修正：刪除沒有 View Transitions runtime 對應的 `astro:before-swap` cleanup listener。 |
+| `src/components/WorkCard.astro`、`src/components/ExploreCard.astro`、`src/styles/components/card.css` | 已掃描並修正：刪除 no-op thumbnail modifier classes；卡片仍保留實際 thumbnail / fallback rendering。 |
+| `src/lib/listFilter.ts`、`src/components/ListSearchFilterScript.astro`、`src/pages/works/index.astro`、`src/pages/explore/index.astro` | 已掃描；確認保留：native search、URL sync、filter count、script JSON escaping 有頁面與測試覆蓋。 |
+| `src/lib/defaultOg.ts`、`src/lib/workOgImage.ts`、`src/lib/workOgFonts.ts`、`src/lib/workOgSatori.tsx`、`src/pages/og/works/[slug].png.ts`、`src/pages/thumbs/works/[slug].svg.ts` | 已掃描；確認保留：OG / thumbnail build routes、font loading、sharp compatibility 有 current route 與 tests 覆蓋。 |
+| `src/lib/seoCopy.ts`、`src/lib/siteLinks.ts`、`src/pages/index.astro`、`src/pages/about.astro`、`src/components/Footer.astro` | 已掃描；確認保留：SEO copy 與個人站連結有多處呼叫端與 `test:seo-ux` 覆蓋。 |
+| `src/components/Nav.astro`、`src/components/FilterBar.astro`、`src/components/Breadcrumb.astro`、`src/components/ExploreCard.astro`、`src/components/CardThumbFallback.astro`、`src/components/HeroCanvasShell.astro`、`src/components/HeroCanvas.tsx` | 已掃描；確認保留：目前頁面入口、列表篩選、卡片、Hero 與 nav tests 覆蓋其主要行為。 |
+
+## 2026-06-21 content infrastructure 補掃
+
+| 範圍 | 結論 |
+|------|------|
+| `src/content.config.ts`、`src/pages/works/[slug].astro` | 已掃描並修正：刪除無 content 使用的 Works `ogImage` frontmatter override；Works OG 固定走 `getWorkOgImagePath(entry.id)`。 |
+| `src/content/descriptionMath.ts` | 已掃描並修正：五個 regex 常數取消 export；唯一外部 API 維持 `descriptionHasRawMath`。 |
+| `src/content/utils.ts` | 已掃描並修正：`isPublished`、`sortByOrderDesc`、`sortByOrderAsc` 取消 export；`date` 仍只供頁面 structured data 使用，不參與排序。 |
+| `src/content/contentAudit.ts` | 已掃描並修正：縮小 `INTERACTION_SIGNAL`，刪除沒有現有互動 bullet 依賴的 `枚舉` / `調小`，以及過寬且現有內容不需依賴的 `沿` / `拖` / `切` / `加` / `減` fallback。 |
+| `scripts/new-work.mjs`、`src/content/generatorScripts.test.ts`、`docs/lab-release-system.md` | 已掃描並修正：`new:work` 不再生成未接線 component scaffold；只產生 draft Markdown，互動 component 需要時再手動建立並接 registry。 |
+| `src/content/releaseAudit.test.ts`、`scripts/audit-content.mjs` | 已掃描；確認保留：release audit 覆蓋 required fields、order、cover、published-to-draft internal links 與 placeholder text。 |
+| `src/content/exploreEntries.ts`、`src/content/explorePager.test.ts`、`src/test/contentSlugs.ts`、`src/test/contentSlugs.test.ts` | 已掃描；確認保留：用於 current content order / published slug 測試；目前有 `seo-ux` 與 registry/OG 測試呼叫端。 |
+| `src/content/descriptionMath.ts`、`src/content/descriptionMath.test.ts` | 已掃描；確認保留 `descriptionHasRawMath` 行為：frontmatter description 禁止 LaTeX delimiters / commands，允許純文字數學。 |
+
+## 2026-06-21 curve core / registry-stage 補掃
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/types.ts`、`src/curve/cache.ts`、`src/curve/morphFrame.ts` | 已掃描並修正：刪除 `{ kind: 'none' }` 假策略，未設定 `cacheStrategy` 直接走 `module.sample`。 |
+| `src/curve/morphPathCache.ts`、`src/curve/morphFrame.ts`、`src/components/curve/useMorphCurveP5.ts` | 已掃描並修正：刪除 morph path cache 檔案、測試與 hook/ref 接線；morph frame 直接 sample。 |
+| `src/components/curve/CurveWorkRoot.tsx`、`src/components/works/RoseCurveRoot.tsx` | 已做最小處理：移除 `0.006` 重複常數與 `['k']` 硬編碼，reveal reset key 改吃既有 `cacheStrategy.paramKey`；`CurveWorkRoot` 保留，因 integration audit 與 docs 目前明確把它作為 Rose 標準 root path。 |
+| `src/components/curve/useMorphCurveP5.ts` | 已掃描並修正：刪除 `mergeSmoothParams`，呼叫端改用 native object spread。 |
+| `src/lib/curveThumbnail.ts`、`src/curve/constants.ts`、`src/components/curve/CurveWorkRoot.tsx` | 已掃描並修正：thumbnail 與 CurveWorkRoot fallback 共用 `BASE_POINT_STEP`。 |
+| `src/curve/prng.ts`、`src/curve/modules/catalan-numbers/geometry.ts`、`src/curve/modules/combinatorial-path-counting/geometry.ts` | 已掃描並修正：兩個 geometry 檔改 import shared `mulberry32`。 |
+| `src/curve/modules/animationTiming.ts`、`src/curve/modules/matrix-linear-transform/animation.ts`、`src/components/curve/useLogarithmicScaleP5.ts`、`src/components/curve/useNaturalLogEGeometryP5.ts`、`src/components/curve/useExponentialGrowthDecayP5.ts` | 已掃描並修正：matrix smoothing 與三個 p5 reveal hook 改用 shared `frameScale(deltaMs)`；補 `matrix-linear-transform/animation.test.ts` 覆蓋 60fps fallback / clamp。 |
+| `src/curve/modules/animationTiming.ts`、`src/curve/modules/unit-circle-trig-definition/geometry.ts`、`src/curve/modules/trig-angle-identities/geometry.ts` | 已掃描並修正：抽出秒制 exponential smoothing factor，兩個三角互動共用同一個 `dt` clamp 公式；未改成 per-frame `frameScale`。 |
+| `src/curve/modules/logistic-curve/*` | 已掃描並修正：刪除重複的 `REVEAL_RESET_TIMEOUT_MS` 常數，改用 `animationTiming` 既有 timeout；保留 logistic 專用秒制 reveal 進度。 |
+| `src/curve/modules/radian-arc-length/geometry.ts` | 已掃描並修正：刪除未被任何 renderer、hook、module、test 引用的 `SMOOTH_RATE_PER_SEC` 常數。 |
+| `src/curve/registry.ts`、`src/works/interactiveRegistry.ts`、`src/components/works/WorkInteractiveStage.tsx`、`src/explore/interactiveRegistry.ts`、`src/components/explore/ExploreInteractiveStage.tsx`、`src/registry.sync.test.ts` | 已掃描；確認保留：頁面、smoke script、integration audit、thumbnail / OG tests、registry sync test 都有 current 引用；stage root keys 由測試保護同步。 |
+| `src/curve/animation.ts`、`src/curve/canvasSize.ts`、`src/curve/cartesianPlot.ts`、`src/curve/defaults.ts`、`src/curve/resolveSmoothParams.ts`、`src/curve/thumbnailPointCloud.ts`、`src/curve/modules/animationTiming.ts` | 已掃描；確認保留主要 API：目前有多個 Work hook、renderer、module index、metadata 防呆或 thumbnail 呼叫端。 |
+| 驗證 | 已執行並通過：`npm test -- src/registry.sync.test.ts src/curve/morphFrame.test.ts src/components/curve/useMorphCurveP5.draw.test.ts src/curve/resolveSmoothParams.test.ts src/lib/curveThumbnail.test.ts src/lib/curveThumbnail.registry.test.ts`；`npm test -- scatter-correlation-regression`；`npm test -- percentile-box-plot`；`npm test -- data-analysis`；`npm test -- src/content/descriptionMath.test.ts src/content/utils.test.ts src/content/generatorScripts.test.ts src/content/contentAudit.test.ts src/content/releaseAudit.test.ts`；`npm test -- src/curve/modules/matrix-linear-transform/animation.test.ts src/registry.sync.test.ts`；`npm run audit:content`；`npm run audit:integration`；`npm run validate:frontend`；`npm run validate:changed -- --dry-run`；`npm run smoke:explore -- data-analysis --list`；`npm run smoke:work -- exponential-growth-decay --list`；`npm run smoke:work -- logarithmic-scale --list`；`npm run smoke:work -- natural-log-e-geometry --list`；`git diff --check`。 |
+
+## 2026-06-21 docs 規格補掃
+
+| 範圍 | 結論 |
+|------|------|
+| `.cursor/rules/code-review.mdc` | 已掃描；確認保留：`README.md` 明確標示為 local AI review workflow，且本檔自身聲明非 canonical runtime spec。 |
+| `docs/architecture.md` | 已掃描；確認保留：`AGENTS.md`、`docs/README.md` 皆將其列為 system map；內容與目前 Works / Explore 分層一致。 |
+| `docs/archive/visual_math_geometry_review.md` | 已掃描；確認保留：由 `docs/README.md` archive 表引用，作為歷史幾何審查筆記；不列入 runtime spec。 |
+| `docs/art.md` | 已掃描；確認保留：`AGENTS.md` 將其列為 visual language entrypoint，且只路由到 `workart.md` / `exploreart.md` / `site-ux.md`，沒有重複大型規格。 |
+| `docs/editing-rules.md` | 已掃描；確認保留：`AGENTS.md` 與 `docs/README.md` 引用；內容維持最小編輯、registry sync、validation strategy 的短規則。 |
+| `docs/frontend-validation.md` | 已掃描並修正：驗證順序改回 script 實際行為：content audit → test → build → DOM；報告範例同步補 `content audit`。 |
+| `docs/exploreart.md` | 已掃描並修正：移除一次性「本輪封面補齊」與過期 implementation order，保留長期 cover pipeline / acceptance 規則；`audit:explore-covers -- --json` 已驗證 17 個 published cover 無 issue。 |
+| `docs/math-content-review-checklist.md` | 已掃描；確認保留：`docs/lab-release-system.md` 明確引用它作為 `audit:content` 無法涵蓋的人工數學語義審查，不新增 tooling。 |
+| `docs/site-ux.md` | 已掃描；確認保留：與目前 `Breadcrumb.astro`、detail top nav、Works stage、Explore toolbar/touch CSS、list filter、footer tests 有 current selector 對應。 |
+| `docs/workart.md` | 已掃描；確認保留：與目前 Works runtime、`curveThumbnail.ts`、`work-detail__stage`、portal、thumbnail contract 對應；未重複替代 `p5toreact.md`。 |
+
+## 接續審查記錄格式
+
+下一輪審查完成後，用以下格式追加：
+
+```md
+## YYYY-MM-DD
+
+| 範圍 | 結論 |
+|------|------|
+| `path/to/file` | 已掃描並修正：具體結果。 |
+| `path/to/file` | 已確認保留：保留理由與驗證證據。 |
+```

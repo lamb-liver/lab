@@ -3,7 +3,6 @@ set -euo pipefail
 
 PROJECT_NAME="羊·實驗"
 DEFAULT_URL="http://127.0.0.1:4321/"
-RUN_LINT="0"
 
 usage() {
   cat <<'USAGE'
@@ -98,10 +97,6 @@ elif has_script test; then
 else
   echo "== test =="
   echo "No test script found; skipped"
-fi
-
-if [[ "$RUN_LINT" -eq 1 ]] && has_script lint; then
-  run_step "lint" npm run lint
 fi
 
 run_step "build" npm run build

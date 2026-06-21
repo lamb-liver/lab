@@ -20,7 +20,6 @@ const works = defineCollection({
     tags: z.array(z.string()),
     date: z.coerce.date(),
     order: z.number().int().nonnegative(),
-    ogImage: z.string().optional(),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),

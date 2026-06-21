@@ -4,7 +4,6 @@ import { interferenceFringesModule } from '../../curve/modules/interference-frin
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import StatsPanel from '../curve/StatsPanel';
-import { mergeSmoothParams } from '../curve/useMorphCurveP5';
 import { useInterferenceFringesP5 } from '../curve/useInterferenceFringesP5';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -43,9 +42,10 @@ export default function InterferenceFringesCurveRoot({
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
-    smoothParams: mergeSmoothParams(targetParams, {
+    smoothParams: {
+      ...targetParams,
       sourceDistance: smoothSourceDistance,
-    }),
+    },
   });
 
   const controls = controlsMount

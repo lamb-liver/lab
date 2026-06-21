@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import type p5 from 'p5';
 import { createInitialState, stepAnimation } from '../../curve/animation';
 import { createCurveCache } from '../../curve/cache';
+import { BASE_POINT_STEP } from '../../curve/constants';
 import type { AnimationState, CurveModule, ParamKey, ParamValues } from '../../curve/types';
 import { renderFrame } from '../../systems/rendering/frame';
 import { lissajousRenderPreset } from '../../systems/rendering/presets';
@@ -27,9 +28,10 @@ export default function CurveWorkRoot({
   controlsMountId = 'curve-work-controls',
   canvasAriaLabel = '曲線動畫',
 }: Props) {
-  const sampleStep = module.sampleStep ?? 0.006;
+  const sampleStep = module.sampleStep ?? BASE_POINT_STEP;
   const animConfig = module.animation ?? { lerp: 0.08, revealSpeed: 0.0024 };
   const renderPreset = module.renderPreset ?? lissajousRenderPreset;
+  const revealResetKey = module.cacheStrategy?.paramKey;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -73,7 +75,7 @@ export default function CurveWorkRoot({
         targetParamsRef.current,
         animConfig.lerp,
         animConfig.revealSpeed,
-        ['k'],
+        revealResetKey ? [revealResetKey] : undefined,
       );
 
       const anim = animRef.current;
@@ -99,7 +101,7 @@ export default function CurveWorkRoot({
         renderPreset,
       );
     },
-    [module, sampleStep, animConfig.lerp, animConfig.revealSpeed, renderPreset],
+    [module, sampleStep, animConfig.lerp, animConfig.revealSpeed, renderPreset, revealResetKey],
   );
 
   const canvasHostRef = useP5CanvasHost(draw, [draw]);

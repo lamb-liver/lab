@@ -4,7 +4,6 @@ import type { CurvePoint, ThumbnailSpec } from '../../types';
 export const TAU = Math.PI * 2;
 export const THETA_MIN = -Math.PI;
 export const THETA_MAX = TAU * 2;
-export const SMOOTH_RATE_PER_SEC = 14;
 
 export type RadiusMode = 'unit' | 'double';
 

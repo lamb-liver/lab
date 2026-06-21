@@ -4,7 +4,6 @@ import { conicFocusLocusModule } from '../../curve/modules/conic-focus-locus';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import StatsPanel from '../curve/StatsPanel';
-import { mergeSmoothParams } from '../curve/useMorphCurveP5';
 import { useConicFocusLocusP5 } from '../curve/useConicFocusLocusP5';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -42,10 +41,11 @@ export default function ConicFocusLocusCurveRoot({
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
-    smoothParams: mergeSmoothParams(targetParams, {
+    smoothParams: {
+      ...targetParams,
       semiMajorAxis: smoothA,
       eccentricity: smoothE,
-    }),
+    },
   });
 
   const controls = controlsMount

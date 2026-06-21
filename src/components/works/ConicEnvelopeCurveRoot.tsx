@@ -4,7 +4,6 @@ import { conicEnvelopeModule } from '../../curve/modules/conic-envelope';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import StatsPanel from '../curve/StatsPanel';
-import { mergeSmoothParams } from '../curve/useMorphCurveP5';
 import { useConicEnvelopeP5 } from '../curve/useConicEnvelopeP5';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -38,9 +37,10 @@ export default function ConicEnvelopeCurveRoot({
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
-    smoothParams: mergeSmoothParams(targetParams, {
+    smoothParams: {
+      ...targetParams,
       deformationRatio: smoothRatio,
-    }),
+    },
   });
 
   const controls = controlsMount

@@ -1,6 +1,5 @@
 import {
   LOGISTIC_CURVE_REVEAL_SPEED,
-  REVEAL_RESET_TIMEOUT_MS,
   type LogisticParams,
   getParamSignature,
   lerpSmoothParams,
@@ -8,6 +7,7 @@ import {
   paramsSettled,
 } from './geometry';
 import type { ParamValues } from '../../types';
+import { REVEAL_RESET_TIMEOUT_MS } from '../animationTiming';
 
 export type LogisticCurveAnimState = {
   smooth: LogisticParams;

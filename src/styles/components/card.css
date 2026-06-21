@@ -68,18 +68,6 @@
   height: 100%;
 }
 
-.card__thumb--has-image {
-  display: block;
-}
-
-.card__thumb--has-cover {
-  display: block;
-}
-
-.card__thumb--fallback {
-  display: block;
-}
-
 .card__thumb-cover {
   display: block;
   width: 100%;

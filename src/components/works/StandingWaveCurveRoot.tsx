@@ -4,7 +4,6 @@ import { standingWaveModule } from '../../curve/modules/standing-wave';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import StatsPanel from '../curve/StatsPanel';
-import { mergeSmoothParams } from '../curve/useMorphCurveP5';
 import { useStandingWaveP5 } from '../curve/useStandingWaveP5';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -41,7 +40,7 @@ export default function StandingWaveCurveRoot({
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
-    smoothParams: mergeSmoothParams(targetParams, { amplitude: smoothAmplitude }),
+    smoothParams: { ...targetParams, amplitude: smoothAmplitude },
   });
 
   const controls = controlsMount

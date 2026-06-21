@@ -7,7 +7,7 @@
 - [Astro](https://astro.build) 6（靜態站）
 - Content Collections（Git-based Markdown）
 - [@astrojs/react](https://docs.astro.build/en/guides/integrations-guide/react/) + [p5.js](https://p5js.org/)（作品互動曲線）
-- 純手寫 CSS，無 UI framework、無外部字體
+- 純手寫 CSS，無 UI framework；OG 圖使用本地字型套件
 
 ## 文件
 
@@ -18,7 +18,6 @@
 | 工具 | 說明 |
 |------|------|
 | [`.cursor/rules/code-review.mdc`](.cursor/rules/code-review.mdc) | Local AI-assisted review workflow（Cursor）；**非** canonical spec |
-| [`tools/archive/`](tools/archive/) | 一次性維護腳本（如 works 文案批次遷移） |
 
 線上：[lab.lambliver.dev](https://lab.lambliver.dev/) · 倉庫 [lamb-liver/lab](https://github.com/lamb-liver/lab)
 
@@ -68,7 +67,6 @@ src/
 │   ├── modules/                # rose | lissajous | harmonograph | spirograph | …
 │   ├── registry.ts             # slug → module（縮圖用）
 │   ├── morphFrame.ts           # 幀推進：stepAnimation → sample（零 React）
-│   ├── morphPathCache.ts       # morph 點列快取（toFixed key；none 模組勿依賴）
 │   ├── cache.ts, animation.ts, types.ts
 ├── explore/fourier/            # explore 傅立葉（path cache，零 p5）
 ├── systems/rendering/          # 共用 p5 渲染（grid、glow、reveal、fourierRender）
@@ -104,7 +102,8 @@ title: 標題
 description: 一句話描述
 tags:
   - 幾何
-date: 2026-03-10        # 完成日；決定首頁「最新」區塊順序與列表排序
+date: 2026-03-10        # 真實發布日；不參與排序
+order: 62               # 發布排序；數字越大越新
 featured: false         # true = 進入首頁「精選」池（需已掛互動；見下方排序表）
 draft: false
 ---
@@ -141,7 +140,8 @@ draft: false
 title: 傅立葉級數
 description: 一句話描述
 category: 分析          # 幾何 | 代數 | 統計 | 拓樸 | 分析
-date: 2026-02-01        # 完成日
+date: 2026-02-01        # 真實發布日；不參與排序
+order: 18               # 發布排序；數字越大越新
 coverImage: /images/explore-covers/{slug}.png   # 可選，列表卡片封面
 featured: false         # true = 進入首頁「精選」池（需已掛互動；見下方排序表）
 draft: false
@@ -169,17 +169,16 @@ draft: false
 
 | 場景 | 行為 |
 |------|------|
-| `/works` 列表 | `getPublishedAsc`：**舊→新**（完成愈晚愈靠後） |
-| `/works` 搜尋 | client 端 [fuse.js](https://fusejs.io/) 模糊比對 **標題 + 描述**，與 tag 篩選交集；URL `?q=` |
-| `/explore` 列表 | `getPublishedAsc`：**舊→新**（同上） |
-| 首頁「精選」作品 | `getFeaturedInteractive(works, …, 2)`：僅 `featured: true` 且已掛 canvas，**date 新→舊** 取 2 篇 |
+| `/works` 列表 | `getPublishedAsc`：依 `order` **舊→新**（數字越大越靠後） |
+| `/works` 搜尋 | client 端原生字串比對 **標題 + 描述 + slug**，與 tag 篩選交集；URL `?q=` |
+| `/explore` 列表 | `getPublishedAsc`：依 `order` **舊→新**（同上） |
+| 首頁「精選」作品 | `getFeaturedInteractive(works, …, 2)`：僅 `featured: true` 且已掛 canvas，**order 新→舊** 取 2 篇 |
 | 首頁「精選」視覺化 | `getFeaturedInteractive(explore, …, 1)`：同上，取 1 篇 |
 | 首頁「最新作品」 | `getPublishedInteractive` 取候選後 **排除精選 slug**，再取 3 篇 |
 | 首頁「最新視覺化」 | 同上 |
 
-`date` 代表完成日（或預排順序）；互動完成後更新 `date`，該篇會較容易出現在「最新」區。  
-`featured` 用於首頁精選策展：建議同時僅標記少數條目（例如 Works 2 + Explore 1），避免精選區過滿。精選池內多篇時依 **date 新→舊** 截斷，不影響 `/works`、`/explore` 列表排序。  
-`getFeaturedOrLatest` 仍保留供其他用途（精選不足時可補齊非 featured 條目），首頁精選區**不**使用該 fallback。
+`date` 代表真實發布日；排序由 `order` 控制。
+`featured` 用於首頁精選策展：建議同時僅標記少數條目（例如 Works 2 + Explore 1），避免精選區過滿。精選池內多篇時依 **order 新→舊** 截斷，不影響 `/works`、`/explore` 列表排序。
 
 ### 區域定位（列表與首頁）
 

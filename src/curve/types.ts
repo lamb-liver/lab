@@ -76,9 +76,7 @@ export type CurveMetadata = {
   stats: Array<{ key: string; label: string; value: string | number }>;
 };
 
-export type CacheStrategy =
-  | { kind: 'integerBlend'; paramKey: ParamKey }
-  | { kind: 'none' };
+export type CacheStrategy = { kind: 'integerBlend'; paramKey: ParamKey };
 
 export type CurveModule = {
   id: string;

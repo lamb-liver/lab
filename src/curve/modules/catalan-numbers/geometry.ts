@@ -1,3 +1,4 @@
+import { mulberry32 } from '../../prng';
 import type { CurvePoint, ParamValues, ThumbnailCircle, ThumbnailSpec } from '../../types';
 
 export const CATALAN_VIEW = {
@@ -214,15 +215,5 @@ export function buildCatalanThumbnail(params: ParamValues): ThumbnailSpec {
       { points, opacity: 0.94, strokeWidth: 1.15 },
     ],
     circles,
-  };
-}
-
-function mulberry32(seed: number): () => number {
-  let t = seed;
-  return () => {
-    t += 0x6d2b79f5;
-    let x = Math.imul(t ^ (t >>> 15), 1 | t);
-    x ^= x + Math.imul(x ^ (x >>> 7), 61 | x);
-    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
   };
 }
