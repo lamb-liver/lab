@@ -128,7 +128,7 @@ Guide 只提供空間感，不是主體。
 - **分組小標**（`.controls-panel__section-label`）：僅用於自訂 `*CurveRoot` 且面板有 **≥2 語意群組** 時；標準 `CurveWorkRoot` **不加**「參數」小標。見 [`site-ux.md`](site-ux.md) §4.4。
 - Canvas 內不放大段說明文字、公式清單或狀態面板；這些交給右側 React controls / Markdown。
 - **Canvas HUD 不重複頁面標題**：作品名稱只出現在 Astro header / breadcrumb。p5 左上角只可放低權重的必要讀數、模式、短公式或目前狀態；不得再畫一次 `h1`（例如「特徵向量與伸縮比」「泰勒多項式逼近」）。
-- 上下篇 label：**較早一篇 / 較新一篇**（依 date 舊→新排序，語意不暗示主題連續）。
+- 上下篇 label：**較早一篇 / 較新一篇**（依 order 舊→新排序，語意不暗示主題連續）。
 
 ---
 

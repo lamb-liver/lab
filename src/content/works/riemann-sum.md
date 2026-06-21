@@ -3,7 +3,8 @@ title: 黎曼和動態圖
 description: 以矩形條動態逼近曲線下面積，觀察分割數增加時的收斂。
 tags:
   - 函數與分析
-date: 2026-07-02
+date: 2026-05-25
+order: 20
 featured: false
 draft: false
 ---

@@ -21,13 +21,14 @@ describe('explore collection pager', () => {
       'vectors',
       'trigonometry-fundamentals',
       'function-equations',
-      'trig-function-graphs',
       'rational-functions-asymptotes',
+      'trig-function-graphs',
+      'data-analysis',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'rational-functions-asymptotes');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'data-analysis');
     expect(previous?.id).toBe('trig-function-graphs');
     expect(next).toBeNull();
   });

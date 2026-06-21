@@ -3,7 +3,8 @@ title: 多項式零點與重根
 description: 拖動零點，並將各零點重數設為 1 或 2，觀察圖形穿過或碰觸 x 軸與符號區間。
 tags:
   - 函數與分析
-date: 2026-09-03
+date: 2026-06-10
+order: 49
 featured: false
 draft: false
 ---

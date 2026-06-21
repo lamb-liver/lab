@@ -3,7 +3,8 @@ title: 指數成長與衰減
 description: y = Ce^(kt) 的指數增長與半衰期衰減，觀察倍增時間與斜率變化。
 tags:
   - 函數與分析
-date: 2026-08-18
+date: 2026-05-26
+order: 37
 featured: false
 draft: false
 ---

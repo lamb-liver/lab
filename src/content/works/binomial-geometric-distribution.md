@@ -3,7 +3,8 @@ title: 二項分布與幾何分布
 description: 切換二項 B(n,p) 與幾何 Geo(p)，調整 p 觀察長條形狀與 E(X)、Var(X) 的公式差異。
 tags:
   - 機率統計
-date: 2026-10-09
+date: 2026-06-10
+order: 0
 featured: false
 draft: true
 ---

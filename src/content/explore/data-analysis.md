@@ -2,10 +2,11 @@
 title: 數據分析
 description: 同一批資料可在點雲、影響力與排序三種視角間切換；比較平均、離群與分位位置如何改變讀圖結論。
 category: 統計
-date: 2026-10-02
+date: 2026-06-21
+order: 17
 coverImage: /images/explore-covers/data-analysis.png
 featured: false
-draft: true
+draft: false
 ---
 
 ## 基本概念

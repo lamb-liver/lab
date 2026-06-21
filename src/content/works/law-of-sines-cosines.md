@@ -3,7 +3,8 @@ title: 正弦定理與餘弦定理
 description: 拖動三角形頂點，切換正弦定理與餘弦定理，即時驗證邊角關係與外接圓半徑。
 tags:
   - 幾何
-date: 2026-08-27
+date: 2026-06-10
+order: 46
 featured: false
 draft: false
 ---

@@ -3,7 +3,8 @@ title: 頂點法求最優解
 description: 在可行域各頂點上計算 z=px+qy，觀察有限最優值如何出現在頂點或整段邊上。
 tags:
   - 線性代數
-date: 2026-10-12
+date: 2026-06-10
+order: 0
 featured: false
 draft: true
 ---

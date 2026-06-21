@@ -2,7 +2,8 @@
 title: 古典機率與條件機率
 description: 從條件機率與貝氏定理出發；觀察二項逼近常態、蒲豐投針與蒙提霍爾悖論。
 category: 統計
-date: 2026-07-06
+date: 2026-05-26
+order: 10
 coverImage: /images/explore-covers/probability-statistics.png
 featured: false
 draft: false

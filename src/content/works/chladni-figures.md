@@ -3,7 +3,8 @@ title: 克拉尼圖形
 description: 振動平板上沙粒聚集於節線，呈現對稱的駐波圖案。
 tags:
   - 幾何
-date: 2026-05-26
+date: 2026-05-25
+order: 7
 featured: false
 draft: false
 ---

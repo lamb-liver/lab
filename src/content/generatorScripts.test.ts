@@ -41,6 +41,7 @@ describe('draft content generators', () => {
       'src/components/works/MatrixGrid.tsx',
     ]);
     expect(files[0].content).toContain('draft: true');
+    expect(files[0].content).toContain('order: 0');
     expect(files[0].content).toContain('tags:\n  - 代數');
     expect(files[1].content).toContain('export default function MatrixGrid()');
   });
@@ -59,6 +60,7 @@ describe('draft content generators', () => {
       'src/content/explore/matrix-eigenvectors.md',
     ]);
     expect(files[0].content).toContain('draft: true');
+    expect(files[0].content).toContain('order: 0');
     expect(files[0].content).toContain('category: 代數');
     expect(files[0].content).not.toContain('coverImage:');
   });

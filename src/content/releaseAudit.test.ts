@@ -12,6 +12,7 @@ const validWork = {
     'tags:',
     '  - 代數',
     'date: 2026-06-12',
+    'order: 1',
     'featured: false',
     'draft: false',
     '---',
@@ -32,6 +33,7 @@ const validExplore = {
     'description: Valid explore page.',
     'category: 代數',
     'date: 2026-06-12',
+    'order: 1',
     'coverImage: /images/explore-covers/valid-explore.png',
     'featured: false',
     'draft: false',
@@ -80,6 +82,41 @@ describe('release content audit', () => {
         'date must use a valid YYYY-MM-DD value',
         'category must be one of: 幾何, 代數, 統計, 拓樸, 分析',
         'description must be 80 characters or fewer',
+        'missing required frontmatter field: order',
+      ]),
+    );
+  });
+
+  it('requires published order to be a positive unique integer per collection', () => {
+    const result = auditContent([
+      {
+        ...validWork,
+        slug: 'zero-order',
+        path: 'src/content/works/zero-order.md',
+        body: validWork.body.replace('order: 1', 'order: 0'),
+      },
+      {
+        ...validWork,
+        slug: 'duplicate-order',
+        path: 'src/content/works/duplicate-order.md',
+        body: validWork.body.replace('Valid Work', 'Duplicate Order'),
+      },
+      validWork,
+      {
+        ...validExplore,
+        slug: 'invalid-order',
+        path: 'src/content/explore/invalid-order.md',
+        body: validExplore.body.replace('order: 1', 'order: later'),
+      },
+    ], {
+      fileExists: (path: string) => path.endsWith('/public/images/explore-covers/valid-explore.png'),
+    });
+
+    expect(result.issues.map((issue) => issue.message)).toEqual(
+      expect.arrayContaining([
+        'published content order must be greater than 0',
+        'duplicate published works order: 1 already used by duplicate-order',
+        'order must be a non-negative integer',
       ]),
     );
   });

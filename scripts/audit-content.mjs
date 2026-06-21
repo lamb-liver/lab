@@ -9,12 +9,6 @@ export const EXPLORE_CATEGORIES = ['幾何', '代數', '統計', '拓樸', '分�
 const COLLECTIONS = ['works', 'explore'];
 const DESCRIPTION_MAX_LENGTH = 80;
 const PLACEHOLDER_PATTERN = /\b(?:TODO|FIXME|placeholder|debug|lorem)\b|待補|暫定|測試用/i;
-const TEMPORARY_DRAFT_LINK_EXCEPTIONS = new Set([
-  'src/content/works/percentile-box-plot.md -> /explore/data-analysis',
-  'src/content/works/regression-outlier-influence.md -> /explore/data-analysis',
-  'src/content/works/scatter-correlation-regression.md -> /explore/data-analysis',
-]);
-
 function usage() {
   return [
     'Usage:',
@@ -49,6 +43,7 @@ export function auditContent(files = readContentFiles(), options = {}) {
   const fileExists = options.fileExists ?? ((path) => existsSync(path));
   const issues = [];
   const byCollection = new Map(COLLECTIONS.map((collection) => [collection, new Map()]));
+  const publishedOrders = new Map(COLLECTIONS.map((collection) => [collection, new Map()]));
 
   for (const file of files) {
     const slugs = byCollection.get(file.collection);
@@ -71,6 +66,7 @@ export function auditContent(files = readContentFiles(), options = {}) {
 
     const draft = fieldValue(parsed, 'draft') === 'true';
     if (!draft) {
+      checkPublishedOrder(file, parsed, publishedOrders, issues);
       checkPublishedPlaceholders(file, parsed, issues);
       if (file.collection === 'explore') {
         checkExploreCover(file, parsed, issues, root, fileExists);
@@ -87,8 +83,8 @@ export function auditContent(files = readContentFiles(), options = {}) {
 
 function checkFrontmatter(file, parsed, issues) {
   const required = file.collection === 'works'
-    ? ['title', 'description', 'tags', 'date', 'draft']
-    : ['title', 'description', 'category', 'date', 'draft'];
+    ? ['title', 'description', 'tags', 'date', 'order', 'draft']
+    : ['title', 'description', 'category', 'date', 'order', 'draft'];
 
   for (const key of required) {
     if (!parsed.fields.has(key)) {
@@ -104,6 +100,11 @@ function checkFrontmatter(file, parsed, issues) {
   const date = fieldValue(parsed, 'date');
   if (date && !isValidDate(date)) {
     addIssue(issues, file, fieldLine(parsed, 'date'), 'date must use a valid YYYY-MM-DD value');
+  }
+
+  const order = fieldValue(parsed, 'order');
+  if (order && !/^\d+$/.test(order)) {
+    addIssue(issues, file, fieldLine(parsed, 'order'), 'order must be a non-negative integer');
   }
 
   if (file.collection === 'works') {
@@ -147,6 +148,31 @@ function checkPublishedPlaceholders(file, parsed, issues) {
   });
 }
 
+function checkPublishedOrder(file, parsed, publishedOrders, issues) {
+  const rawOrder = fieldValue(parsed, 'order');
+  if (!rawOrder || !/^\d+$/.test(rawOrder)) return;
+
+  const order = Number(rawOrder);
+  if (order === 0) {
+    addIssue(issues, file, fieldLine(parsed, 'order'), 'published content order must be greater than 0');
+    return;
+  }
+
+  const collectionOrders = publishedOrders.get(file.collection);
+  const previous = collectionOrders.get(order);
+  if (previous) {
+    addIssue(
+      issues,
+      file,
+      fieldLine(parsed, 'order'),
+      `duplicate published ${file.collection} order: ${order} already used by ${previous.slug}`,
+    );
+    return;
+  }
+
+  collectionOrders.set(order, file);
+}
+
 function checkExploreCover(file, parsed, issues, root, fileExists) {
   const coverImage = fieldValue(parsed, 'coverImage');
   if (!coverImage) {
@@ -180,16 +206,9 @@ function checkPublishedInternalLinks(file, byCollection, issues) {
 
     const parsed = parseFrontmatter(target.body);
     if (parsed && fieldValue(parsed, 'draft') === 'true') {
-      if (isTemporaryDraftLinkException(file, link)) continue;
       addIssue(issues, file, 1, `published content links to draft ${singular(link.collection)}: ${link.slug}`);
     }
   }
-}
-
-function isTemporaryDraftLinkException(file, link) {
-  const route = `/${link.collection}/${link.slug}`;
-  // 等待 data-analysis 發布後移除例外。
-  return TEMPORARY_DRAFT_LINK_EXCEPTIONS.has(`${file.path} -> ${route}`);
 }
 
 function singular(collection) {

@@ -2,7 +2,8 @@
 title: 三角函數的疊加與波的干涉
 description: 從相位關係出發，對照位移疊加、駐波節點與雙源干涉條紋；再觀察拍頻如何由近頻波形成包絡。
 category: 分析
-date: 2026-04-01
+date: 2026-05-25
+order: 2
 coverImage: /images/explore-covers/trig-wave-interference.png
 featured: false
 draft: false

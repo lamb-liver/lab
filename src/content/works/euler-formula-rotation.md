@@ -3,7 +3,8 @@ title: 尤拉公式旋轉動畫
 description: e^(iθ) = cos θ + i sin θ 驅動的單位圓旋轉與複平面軌跡。
 tags:
   - 幾何
-date: 2026-08-04
+date: 2026-05-26
+order: 28
 featured: false
 draft: false
 ---

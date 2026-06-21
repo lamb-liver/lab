@@ -3,7 +3,8 @@ title: 對數尺度
 description: 等比數列在對數座標下變為等差，比較跨數量級的成長與衰減。
 tags:
   - 函數與分析
-date: 2026-08-19
+date: 2026-05-26
+order: 38
 featured: false
 draft: false
 ---

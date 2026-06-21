@@ -3,7 +3,8 @@ title: 函數圖形變換
 description: 拖動 a、b、h、k 觀察 y=a f(b(x-h))+k 如何對基本函數造成平移、伸縮與翻轉。
 tags:
   - 函數與分析
-date: 2026-09-05
+date: 2026-06-10
+order: 51
 featured: false
 draft: false
 ---

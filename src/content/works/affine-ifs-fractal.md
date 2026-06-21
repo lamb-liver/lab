@@ -3,7 +3,8 @@ title: 碎形仿射疊代
 description: 迭代函數系統（IFS）以多組仿射映射疊代，生成自相似碎形。
 tags:
   - 幾何
-date: 2026-06-05
+date: 2026-05-25
+order: 19
 featured: false
 draft: false
 ---

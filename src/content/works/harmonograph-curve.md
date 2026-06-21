@@ -3,7 +3,8 @@ title: 諧振圖
 description: 以阻尼振子方程描繪的諧振記錄器軌跡，頻率、相位與阻尼係數決定收斂形態。
 tags:
   - 幾何
-date: 2026-03-10
+date: 2026-05-25
+order: 3
 featured: false
 draft: false
 ---

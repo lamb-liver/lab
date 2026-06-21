@@ -3,7 +3,8 @@ title: 散布圖、相關與迴歸線
 description: 拖動二維資料點，專注觀察點雲方向、相關係數 r 與最小平方迴歸線如何一起變化。
 tags:
   - 機率統計
-date: 2026-10-04
+date: 2026-06-21
+order: 59
 featured: false
 draft: false
 ---

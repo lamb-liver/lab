@@ -3,7 +3,8 @@ title: 離群值對迴歸的影響
 description: 固定主體資料，只移動一個高亮點；比較它的位置如何透過槓桿與殘差拉動迴歸線。
 tags:
   - 機率統計
-date: 2026-10-05
+date: 2026-06-21
+order: 60
 featured: false
 draft: false
 ---

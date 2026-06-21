@@ -2,7 +2,8 @@
 title: 二次曲線的幾何動態軌跡
 description: 以離心率 e 統一定義圓錐曲線；拖動 e 觀察近圓橢圓、拋物線與雙曲線的連續過渡。
 category: 幾何
-date: 2026-05-01
+date: 2026-05-25
+order: 3
 coverImage: /images/explore-covers/conic-dynamic-geometry.png
 featured: false
 draft: false

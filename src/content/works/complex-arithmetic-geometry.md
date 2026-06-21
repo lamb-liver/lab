@@ -3,7 +3,8 @@ title: 複數四則運算的幾何意義
 description: 在複平面上以向量與旋轉展示加、減、乘、除的幾何效果。
 tags:
   - 幾何
-date: 2026-08-02
+date: 2026-05-26
+order: 26
 featured: false
 draft: false
 ---

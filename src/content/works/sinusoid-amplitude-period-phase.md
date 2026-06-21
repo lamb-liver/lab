@@ -3,7 +3,8 @@ title: 正弦型函數的振幅、週期與相位
 description: 拖動 A、T、φ 與 k，觀察 y=A sin(2π/T·(x−φ))+k 相對基本正弦波的伸縮與平移。
 tags:
   - 幾何
-date: 2026-10-03
+date: 2026-06-20
+order: 53
 featured: false
 draft: false
 ---

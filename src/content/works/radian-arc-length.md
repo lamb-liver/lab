@@ -3,7 +3,8 @@ title: 弧度與圓弧長
 description: 拖動單位圓上的角 θ，同步讀取弧長 s 與弧度 θ=s/r 的對應關係。
 tags:
   - 幾何
-date: 2026-10-01
+date: 2026-06-20
+order: 52
 featured: false
 draft: false
 ---

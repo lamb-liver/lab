@@ -154,6 +154,49 @@ function probabilityStatistics() {
   return doc(`${dots.join('\n')}\n${outer}\n${split}`);
 }
 
+function dataAnalysis() {
+  const ox = 260;
+  const oy = 760;
+  const sx = 78;
+  const sy = 56;
+  const pts = [
+    [1.0, 2.1],
+    [2.0, 2.7],
+    [3.0, 3.1],
+    [4.0, 3.9],
+    [5.0, 4.4],
+    [6.0, 5.2],
+    [7.0, 5.6],
+    [8.0, 6.4],
+    [9.0, 6.8],
+    [10.0, 7.2],
+  ];
+  const map = ([x, y]) => [ox + x * sx, oy - y * sy];
+  const dots = pts
+    .map((p, i) => {
+      const [x, y] = map(p);
+      return circle(x, y, i === pts.length - 1 ? 15 : 11, i === pts.length - 1 ? C.red : C.gold, i === pts.length - 1 ? 0.92 : 0.86);
+    })
+    .join('\n');
+
+  const boxX = 1030;
+  const median = 560;
+  return doc(`
+    ${line(ox + 30, oy, ox + 850, oy, C.guide, 4, 0.2)}
+    ${line(ox + 30, oy, ox + 30, 230, C.guide, 4, 0.2)}
+    ${path('M 340 650 L 1080 270', C.gold, 8, 0.92, 'filter="url(#goldGlow)"')}
+    ${path('M 340 690 L 1080 230', C.guide, 5, 0.24, 'stroke-dasharray="18 16"')}
+    ${dots}
+    ${line(boxX, 640, 1360, 640, C.guide, 5, 0.32)}
+    ${line(boxX + 60, 640, boxX + 60, 500, C.guide, 5, 0.32)}
+    ${line(boxX + 285, 640, boxX + 285, 730, C.guide, 5, 0.32)}
+    ${rect(boxX + 60, 500, 225, 230, 'rgba(93,173,226,0.13)', C.blue, 0.72, 5)}
+    ${line(boxX + 172, 500, boxX + 172, 730, C.gold, 8, 0.95)}
+    ${circle(boxX + 345, 640, 16, C.red, 0.92)}
+    ${line(boxX + 345, 640, boxX + 410, median, C.red, 5, 0.45, 'stroke-dasharray="14 12"')}
+  `);
+}
+
 function permutationsCombinations() {
   const grid = [];
   for (let x = 370; x <= 1190; x += 105) grid.push(line(x, 210, x, 790, C.guide, 3, 0.16));
@@ -455,6 +498,7 @@ const covers = {
   'differential-equations-geometry': differentialEquations,
   'sequences-and-series': sequencesAndSeries,
   'probability-statistics': probabilityStatistics,
+  'data-analysis': dataAnalysis,
   'permutations-combinations': permutationsCombinations,
   'complex-euler-formula': complexEulerFormula,
   'exponential-logarithm': exponentialLogarithm,

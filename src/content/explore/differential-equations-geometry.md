@@ -2,7 +2,8 @@
 title: 微分方程的幾何視覺化
 description: 以斜率場與尤拉法理解 dy/dx = f(x,y)；初始條件決定解曲線的走向。
 category: 分析
-date: 2026-07-02
+date: 2026-05-26
+order: 6
 coverImage: /images/explore-covers/differential-equations-geometry.png
 featured: false
 draft: false

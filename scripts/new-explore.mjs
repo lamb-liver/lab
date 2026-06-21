@@ -101,8 +101,9 @@ export function nextSteps(slug) {
     '1. Add interactive component to registry if needed.',
     `2. Add cover image before publishing: public/images/explore-covers/${slug}.png`,
     `3. Add cover source if using generated covers: scripts/explore-covers/${slug}.svg`,
-    '4. Run npm run audit:content.',
-    '5. Run npm run build.',
+    '4. Set a positive order before publishing.',
+    '5. Run npm run audit:content.',
+    '6. Run npm run build.',
     '',
     `Explore content: src/content/explore/${slug}.md`,
   ].join('\n');
@@ -114,6 +115,7 @@ title: ${title}
 description: ${description}
 category: ${category}
 date: ${date}
+order: 0
 featured: false
 draft: true
 ---

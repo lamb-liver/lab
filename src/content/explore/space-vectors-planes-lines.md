@@ -2,7 +2,8 @@
 title: 空間向量與平面直線
 description: 用投影讀分量、用外積讀面與法向、用內積讀線面關係；建立 3D 幾何的共同讀圖語言。
 category: 幾何
-date: 2026-10-11
+date: 2026-06-10
+order: 0
 coverImage: /images/explore-covers/space-vectors-planes-lines.png
 featured: false
 draft: true

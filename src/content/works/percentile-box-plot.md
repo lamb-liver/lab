@@ -3,7 +3,8 @@ title: 百分位數與盒鬚圖
 description: 把一維資料排序後讀位置結構；拖動資料點，觀察中位數、四分位距與尾端離群如何更新。
 tags:
   - 機率統計
-date: 2026-10-06
+date: 2026-06-21
+order: 61
 featured: false
 draft: false
 ---

@@ -3,7 +3,8 @@ title: 三角恆等式與角度合成
 description: 在單位圓上拖動 α、β，以中點角 m 與偏移 d 理解 sin±、cos± 的和差化積與積化和差。
 tags:
   - 幾何
-date: 2026-08-28
+date: 2026-06-10
+order: 47
 featured: false
 draft: false
 ---

@@ -3,7 +3,8 @@ title: 空間向量與三平面投影
 description: 拖動空間向量端點，觀察 xy、xz、yz 三個坐標平面投影如何共同描述一支 3D 向量。
 tags:
   - 線性代數
-date: 2026-10-13
+date: 2026-06-10
+order: 0
 featured: false
 draft: true
 ---

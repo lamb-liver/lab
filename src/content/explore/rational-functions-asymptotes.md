@@ -2,7 +2,8 @@
 title: 有理函數與漸近線
 description: 從約分、零點與漸近線讀出有理函數圖形骨架；調整因式參數觀察遠近行為。
 category: 代數
-date: 2026-10-24
+date: 2026-06-12
+order: 15
 coverImage: /images/explore-covers/rational-functions-asymptotes.png
 featured: false
 draft: false

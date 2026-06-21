@@ -4,6 +4,7 @@ export type ContentEntry = {
   id: string;
   data: {
     date: Date;
+    order: number;
     draft: boolean;
     featured: boolean;
   };
@@ -11,18 +12,18 @@ export type ContentEntry = {
 
 export const isPublished = (entry: ContentEntry): boolean => !entry.data.draft;
 
-/** date 新→舊（首頁取最新 N 篇、需「最新在前」時用） */
-export const sortByDateDesc = (a: ContentEntry, b: ContentEntry): number =>
-  b.data.date.getTime() - a.data.date.getTime() || a.id.localeCompare(b.id);
+/** order 大→小（首頁取最新 N 篇、需「最新在前」時用） */
+export const sortByOrderDesc = (a: ContentEntry, b: ContentEntry): number =>
+  b.data.order - a.data.order || a.id.localeCompare(b.id);
 
-/** date 舊→新（作品集列表：越新越靠後） */
-export const sortByDateAsc = (a: ContentEntry, b: ContentEntry): number =>
-  a.data.date.getTime() - b.data.date.getTime() || a.id.localeCompare(b.id);
+/** order 小→大（作品集列表：越新越靠後） */
+export const sortByOrderAsc = (a: ContentEntry, b: ContentEntry): number =>
+  a.data.order - b.data.order || a.id.localeCompare(b.id);
 
 export const getPublished = <E extends ContentEntry>(entries: E[]): E[] =>
-  entries.filter(isPublished).sort(sortByDateDesc);
+  entries.filter(isPublished).sort(sortByOrderDesc);
 
-/** 首頁等：僅已掛載互動 canvas 的條目，date 新→舊，取前 limit 篇 */
+/** 首頁等：僅已掛載互動 canvas 的條目，order 新→舊，取前 limit 篇 */
 export const getPublishedInteractive = <E extends ContentEntry>(
   entries: E[],
   interactiveSlugs: readonly string[],
@@ -35,7 +36,7 @@ export const getPublishedInteractive = <E extends ContentEntry>(
 };
 
 export const getPublishedAsc = <E extends ContentEntry>(entries: E[]): E[] =>
-  entries.filter(isPublished).sort(sortByDateAsc);
+  entries.filter(isPublished).sort(sortByOrderAsc);
 
 export function getCollectionPagerNeighbors<E extends ContentEntry>(
   entries: E[],
@@ -52,7 +53,7 @@ export function getCollectionPagerNeighbors<E extends ContentEntry>(
   };
 }
 
-/** 首頁精選：僅 `featured: true`，date 新→舊，且 slug 在互動 registry 內 */
+/** 首頁精選：僅 `featured: true`，order 新→舊，且 slug 在互動 registry 內 */
 export const getFeaturedInteractive = <E extends ContentEntry>(
   entries: E[],
   interactiveSlugs: readonly string[],

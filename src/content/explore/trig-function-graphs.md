@@ -2,7 +2,8 @@
 title: 三角函數圖形與弧度
 description: 從單位圓弧長定義弧度，展開成 y=sin x；再調整振幅 A、週期 T 與相位 φ 讀週期函數圖形。
 category: 分析
-date: 2026-10-01
+date: 2026-06-20
+order: 16
 coverImage: /images/explore-covers/trig-function-graphs.png
 featured: false
 draft: false

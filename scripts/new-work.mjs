@@ -109,8 +109,9 @@ export function nextSteps(slug) {
     'Next steps:',
     '1. Add interactive component to registry if needed.',
     '2. Replace draft placeholder copy before publishing.',
-    '3. Run npm run audit:content.',
-    '4. Run npm run build.',
+    '3. Set a positive order before publishing.',
+    '4. Run npm run audit:content.',
+    '5. Run npm run build.',
     '',
     `Work content: src/content/works/${slug}.md`,
   ].join('\n');
@@ -124,6 +125,7 @@ description: ${description}
 tags:
 ${tagLines}
 date: ${date}
+order: 0
 featured: false
 draft: true
 ---

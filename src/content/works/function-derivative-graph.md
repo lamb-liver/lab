@@ -3,7 +3,8 @@ title: 原函數與導函數圖形對照
 description: 上下對照 f(x) 與 f'(x)，觀察遞增、極值與切線斜率的同步關係。
 tags:
   - 函數與分析
-date: 2026-10-23
+date: 2026-06-11
+order: 56
 featured: false
 draft: false
 ---

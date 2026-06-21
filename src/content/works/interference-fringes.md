@@ -4,6 +4,7 @@ description: 雙源波的疊加產生明暗交替的干涉條紋圖樣。
 tags:
   - 幾何
 date: 2026-05-25
+order: 6
 featured: false
 draft: false
 ---

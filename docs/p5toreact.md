@@ -214,9 +214,9 @@ DOM 順序須讓 `<details.work-detail__controls>` / `<aside id="{slug}-controls
 | 靜態路由 | `getStaticPathsFromCollection` | 順序不影響路由 |
 
 ```ts
-// 列表：玫瑰 → … → 繁花（依 date 舊→新）
+// 列表：玫瑰 → … → 繁花（依 order 舊→新）
 export const getPublishedAsc = (entries) =>
-  entries.filter(isPublished).sort(sortByDateAsc);
+  entries.filter(isPublished).sort(sortByOrderAsc);
 ```
 
 `featured: true` 決定是否進首頁池；**不**改變 `/works` 的 asc 規則。

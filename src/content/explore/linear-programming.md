@@ -2,7 +2,8 @@
 title: 線性規劃
 description: 在同一個可行域上疊加約束、目標方向與頂點候選；用三種視角確認線性最優值從哪裡出現。
 category: 代數
-date: 2026-10-10
+date: 2026-06-10
+order: 0
 coverImage: /images/explore-covers/linear-programming.png
 featured: false
 draft: true

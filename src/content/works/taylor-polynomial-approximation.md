@@ -3,7 +3,8 @@ title: 泰勒多項式逼近
 description: 調整階數 n 與展開中心 a，觀察泰勒多項式如何局部貼合 sin x、cos x、e^x。
 tags:
   - 函數與分析
-date: 2026-10-22
+date: 2026-06-11
+order: 55
 featured: false
 draft: false
 ---

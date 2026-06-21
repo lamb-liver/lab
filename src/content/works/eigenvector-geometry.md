@@ -3,7 +3,8 @@ title: 特徵向量與伸縮比
 description: 切換典型 2×2 矩陣，觀察特徵向量所在直線在變換後仍映到自身、伸縮比由特徵值決定。
 tags:
   - 線性代數
-date: 2026-10-20
+date: 2026-06-11
+order: 54
 featured: false
 draft: false
 ---

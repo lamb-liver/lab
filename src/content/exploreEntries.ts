@@ -37,11 +37,13 @@ export function readExploreEntries(root = process.cwd()): ExploreContentEntry[] 
       const body = readFileSync(join(dir, name), 'utf8');
       const id = name.replace(/\.md$/, '');
       const dateRaw = readFrontmatterValue(body, 'date');
+      const orderRaw = readFrontmatterValue(body, 'order');
       return {
         id,
         data: {
           title: readFrontmatterValue(body, 'title') ?? id,
           date: dateRaw ? new Date(dateRaw) : new Date(0),
+          order: orderRaw ? Number(orderRaw) : 0,
           draft: readFrontmatterValue(body, 'draft') === 'true',
           featured: readFrontmatterValue(body, 'featured') === 'true',
         },

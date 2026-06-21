@@ -2,7 +2,8 @@
 title: 極限與黎曼和
 description: 以同一個尺度縮小動作比較面積累積與局部斜率；觀察定積分與導數如何從有限近似逼近連續量。
 category: 分析
-date: 2026-07-01
+date: 2026-05-25
+order: 5
 coverImage: /images/explore-covers/limits-riemann-sum.png
 featured: false
 draft: false

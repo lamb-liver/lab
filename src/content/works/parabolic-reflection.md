@@ -3,7 +3,8 @@ title: 拋物線反射
 description: 由焦點發出的光線經拋物面反射後變為平行光束，展示拋物線光學性質。
 tags:
   - 幾何
-date: 2026-05-27
+date: 2026-05-25
+order: 10
 featured: false
 draft: false
 ---

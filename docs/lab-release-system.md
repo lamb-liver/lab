@@ -51,8 +51,8 @@ Done:
 
 Done:
 
-- Works require `title / description / tags / date / draft`.
-- Explore requires `title / description / category / date / draft`.
+- Works require `title / description / tags / date / order / draft`.
+- Explore requires `title / description / category / date / order / draft`.
 - Explore categories are limited to `幾何 / 代數 / 統計 / 拓樸 / 分析`.
 
 ### Audit cover assets

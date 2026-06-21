@@ -3,7 +3,8 @@ title: 謝爾賓斯基三角形
 description: 遞迴三等分挖空或混沌遊戲生成的自相似三角形碎形。
 tags:
   - 幾何
-date: 2026-05-28
+date: 2026-05-26
+order: 14
 featured: false
 draft: false
 ---

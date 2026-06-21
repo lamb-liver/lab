@@ -2,7 +2,8 @@
 title: 函數圖形與方程解集
 description: 同一張函數圖形既能用變換改形，也能用與 x 軸的相對位置讀出方程解與不等式解集。
 category: 代數
-date: 2026-09-01
+date: 2026-06-10
+order: 14
 coverImage: /images/explore-covers/function-equations.png
 featured: false
 draft: false

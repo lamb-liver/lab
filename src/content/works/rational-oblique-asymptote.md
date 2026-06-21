@@ -3,7 +3,8 @@ title: 斜漸近線與多項式除法
 description: 拖動斜率 m 與截距 b，觀察商式 S(x) 與餘式項如何決定遠處直線趨勢。
 tags:
   - 函數與分析
-date: 2026-10-26
+date: 2026-06-12
+order: 58
 featured: false
 draft: false
 ---

@@ -3,7 +3,8 @@ title: 目標函數等值線
 description: 拖動目標函數 z=px+qy 的等值線，觀察 z 值沿法向平移的單調變化。
 tags:
   - 線性代數
-date: 2026-10-11
+date: 2026-06-10
+order: 0
 featured: false
 draft: true
 ---

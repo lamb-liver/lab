@@ -3,7 +3,8 @@ title: 組合的路徑計數
 description: 格點上只能向右或向上時，從原點到 (m,n) 的路徑數為 C(m+n,m)。
 tags:
   - 組合數學
-date: 2026-08-12
+date: 2026-05-26
+order: 31
 featured: false
 draft: false
 ---

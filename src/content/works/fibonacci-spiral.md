@@ -3,7 +3,8 @@ title: 費波那契螺線
 description: 以費波那契正方形與四分之一圓弧拼合的對數螺線近似。
 tags:
   - 幾何
-date: 2026-05-27
+date: 2026-05-26
+order: 9
 featured: false
 draft: false
 ---

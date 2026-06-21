@@ -2,7 +2,8 @@
 title: 指數與對數
 description: 比較指數成長與對數反推的鏡像關係；從倍增、尺度到自然底 e 與換底。
 category: 分析
-date: 2026-07-07
+date: 2026-05-26
+order: 11
 coverImage: /images/explore-covers/exponential-logarithm.png
 featured: false
 draft: false

@@ -3,7 +3,8 @@ title: 反函數鏡射
 description: 拖動函數上的點，觀察 (a,b) 沿 y=x 鏡射到反函數上的 (b,a)。
 tags:
   - 函數與分析
-date: 2026-09-02
+date: 2026-06-10
+order: 48
 featured: false
 draft: false
 ---

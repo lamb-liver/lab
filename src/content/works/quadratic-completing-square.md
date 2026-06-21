@@ -3,7 +3,8 @@ title: 二次函數配方視覺化
 description: 拖動 a、b、c 對照一般式與頂點式，觀察頂點、對稱軸與 x 軸交點如何隨判別式改變。
 tags:
   - 函數與分析
-date: 2026-09-04
+date: 2026-06-10
+order: 50
 featured: false
 draft: false
 ---

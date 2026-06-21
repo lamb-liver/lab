@@ -13,22 +13,23 @@ import {
 
 const entry = (
   id: string,
-  date: string,
+  order: number,
   featured = false,
   draft = false,
   tags: string[] = [],
+  date = '2026-06-21',
 ) => ({
   id,
-  data: { date: new Date(date), featured, draft, tags },
+  data: { date: new Date(date), order, featured, draft, tags },
 });
 
 describe('getPublishedInteractive', () => {
   it('returns only listed slugs, newest first, capped at limit', () => {
     const pool = [
-      entry('placeholder', '2026-08-01'),
-      entry('rose-curve', '2026-01-15'),
-      entry('vector-field-streamlines', '2026-07-06'),
-      entry('draft', '2026-09-01', false, true),
+      entry('placeholder', 3),
+      entry('rose-curve', 1),
+      entry('vector-field-streamlines', 2),
+      entry('draft', 4, false, true),
     ];
     const result = getPublishedInteractive(pool, ['rose-curve', 'vector-field-streamlines'], 3);
     expect(result.map((e) => e.id)).toEqual(['vector-field-streamlines', 'rose-curve']);
@@ -38,10 +39,10 @@ describe('getPublishedInteractive', () => {
 describe('getFeaturedInteractive', () => {
   it('returns only featured interactive slugs, newest first, capped', () => {
     const pool = [
-      entry('placeholder', '2026-08-01', true),
-      entry('julia-set', '2026-06-01', true),
-      entry('spirograph-curve', '2026-05-01', true),
-      entry('rose-curve', '2026-01-15', false),
+      entry('placeholder', 3, true),
+      entry('julia-set', 2, true),
+      entry('spirograph-curve', 1, true),
+      entry('rose-curve', 4, false),
     ];
     const result = getFeaturedInteractive(
       pool,
@@ -54,25 +55,25 @@ describe('getFeaturedInteractive', () => {
 
 describe('excludeEntryIds', () => {
   it('removes entries whose id is in the exclude set', () => {
-    const pool = [entry('a', '2026-01-01'), entry('b', '2026-02-01')];
+    const pool = [entry('a', 1), entry('b', 2)];
     expect(excludeEntryIds(pool, new Set(['a'])).map((e) => e.id)).toEqual(['b']);
   });
 });
 
 describe('getCollectionPagerNeighbors', () => {
   it('returns null neighbors when slug is missing from the published list', () => {
-    const pool = [entry('a', '2026-01-01'), entry('b', '2026-02-01')];
+    const pool = [entry('a', 1), entry('b', 2)];
     expect(getCollectionPagerNeighbors(pool, 'missing')).toEqual({
       previous: null,
       next: null,
     });
   });
 
-  it('returns previous and next entries in ascending date order', () => {
+  it('returns previous and next entries in ascending order', () => {
     const pool = [
-      entry('first', '2026-01-01'),
-      entry('middle', '2026-02-01'),
-      entry('last', '2026-03-01'),
+      entry('first', 1),
+      entry('middle', 2),
+      entry('last', 3),
     ];
     expect(getCollectionPagerNeighbors(pool, 'middle')).toEqual({
       previous: pool[0],
@@ -82,21 +83,21 @@ describe('getCollectionPagerNeighbors', () => {
 });
 
 describe('published sorting', () => {
-  it('uses id as a stable tie-breaker for same-date newest-first lists', () => {
+  it('uses id as a stable tie-breaker for same-order newest-first lists', () => {
     const result = getPublished([
-      entry('z-topic', '2026-01-01'),
-      entry('a-topic', '2026-01-01'),
-      entry('newer', '2026-02-01'),
+      entry('z-topic', 1),
+      entry('a-topic', 1),
+      entry('newer', 2),
     ]);
 
     expect(result.map((e) => e.id)).toEqual(['newer', 'a-topic', 'z-topic']);
   });
 
-  it('uses id as a stable tie-breaker for same-date oldest-first lists', () => {
+  it('uses id as a stable tie-breaker for same-order oldest-first lists', () => {
     const result = getPublishedAsc([
-      entry('z-topic', '2026-01-01'),
-      entry('a-topic', '2026-01-01'),
-      entry('newer', '2026-02-01'),
+      entry('z-topic', 1),
+      entry('a-topic', 1),
+      entry('newer', 2),
     ]);
 
     expect(result.map((e) => e.id)).toEqual(['a-topic', 'z-topic', 'newer']);
@@ -106,8 +107,8 @@ describe('published sorting', () => {
 describe('getStaticPathsFromCollection', () => {
   it('does not require sorting; only filters published', () => {
     const paths = getStaticPathsFromCollection([
-      entry('z', '2026-01-01'),
-      entry('draft', '2026-02-01', false, true),
+      entry('z', 1),
+      entry('draft', 2, false, true),
     ]);
     expect(paths).toHaveLength(1);
     expect(paths[0]?.params.slug).toBe('z');
@@ -116,8 +117,8 @@ describe('getStaticPathsFromCollection', () => {
   it('can include drafts for local detail previews', () => {
     const paths = getStaticPathsFromCollection(
       [
-        entry('z', '2026-01-01'),
-        entry('draft', '2026-02-01', false, true),
+        entry('z', 1),
+        entry('draft', 2, false, true),
       ],
       { includeDraft: true },
     );
@@ -128,8 +129,8 @@ describe('getStaticPathsFromCollection', () => {
 describe('collectWorkTags', () => {
   it('returns unique sorted tags', () => {
     const tags = collectWorkTags([
-      entry('a', '2026-01-01', false, false, ['幾何', '參數方程']),
-      entry('b', '2026-02-01', false, false, ['三角函數', '幾何']),
+      entry('a', 1, false, false, ['幾何', '參數方程']),
+      entry('b', 2, false, false, ['三角函數', '幾何']),
     ] as Parameters<typeof collectWorkTags>[0]);
     expect(tags).toEqual(['三角函數', '參數方程', '幾何']);
   });
@@ -142,6 +143,7 @@ describe('collectExploreCategories', () => {
         id,
         data: {
           date: new Date('2026-01-01'),
+          order: 1,
           featured: false,
           draft: false,
           category,

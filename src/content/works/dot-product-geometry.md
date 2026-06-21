@@ -3,7 +3,8 @@ title: 內積的幾何意義
 description: u·v = |u||v|cos θ 與投影長度，判斷夾角、垂直與功的直覺。
 tags:
   - 線性代數
-date: 2026-08-23
+date: 2026-05-26
+order: 42
 featured: false
 draft: false
 ---

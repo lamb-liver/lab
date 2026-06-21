@@ -3,7 +3,8 @@ title: 邏輯斯諦映射分岔圖
 description: x_{n+1} = r x_n(1-x_n) 隨參數 r 的週期倍化與混沌區域。
 tags:
   - 動力系統
-date: 2026-05-28
+date: 2026-05-26
+order: 13
 featured: false
 draft: false
 ---

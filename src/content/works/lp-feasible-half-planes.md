@@ -3,7 +3,8 @@ title: 約束半平面與可行域
 description: 拖動約束直線，觀察半平面遮罩與可行域凸多邊形的交集變化。
 tags:
   - 線性代數
-date: 2026-10-10
+date: 2026-06-10
+order: 0
 featured: false
 draft: true
 ---
