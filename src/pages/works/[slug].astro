@@ -19,7 +19,7 @@ import '../../styles/pages/work-detail.css';
 
 export async function getStaticPaths() {
   const works = await getCollection('works');
-  return getStaticPathsFromCollection(works);
+  return getStaticPathsFromCollection(works, { includeDraft: import.meta.env.DEV });
 }
 
 const { entry } = Astro.props;

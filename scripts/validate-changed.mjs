@@ -72,7 +72,7 @@ function gitLines(args) {
 
 function changedFiles(base) {
   return [
-    ...gitLines(['diff', '--name-only', '--diff-filter=ACMR', base]),
+    ...gitLines(['diff', '--name-only', '--diff-filter=ACMRD', base]),
     ...gitLines(['ls-files', '--others', '--exclude-standard']),
   ].filter((file, index, all) => all.indexOf(file) === index).sort();
 }
@@ -255,7 +255,7 @@ function selectCommands(files) {
       if (testPath) {
         add(commands, command(`module test ${moduleDir}`, ['npm', 'run', 'test', '--', testPath]));
       }
-      add(commands, command('thumbnail registry', ['npm', 'run', 'test', '--', 'src/lib/curveThumbnail.test.ts']));
+      add(commands, command('thumbnail registry', ['npm', 'run', 'test', '--', 'src/lib/curveThumbnail.registry.test.ts', 'src/lib/workOgImage.test.ts']));
       const slug = workModuleByDir.get(moduleDir);
       if (slug) {
         add(commands, command(`work smoke ${slug}`, ['npm', 'run', 'smoke:work', '--', slug]));
@@ -287,6 +287,13 @@ function selectCommands(files) {
     const rendererSlug = rendererToSlug.get(file);
     if (rendererSlug) {
       add(commands, command(`work smoke ${rendererSlug}`, ['npm', 'run', 'smoke:work', '--', rendererSlug]));
+    }
+
+    if (file === 'src/systems/rendering/p5PlotHelpers.ts') {
+      add(commands, command('explore smoke data-analysis', ['npm', 'run', 'smoke:explore', '--', 'data-analysis']));
+      add(commands, command('work smoke scatter-correlation-regression', ['npm', 'run', 'smoke:work', '--', 'scatter-correlation-regression']));
+      add(commands, command('work smoke regression-outlier-influence', ['npm', 'run', 'smoke:work', '--', 'regression-outlier-influence']));
+      add(commands, command('work smoke percentile-box-plot', ['npm', 'run', 'smoke:work', '--', 'percentile-box-plot']));
     }
 
     const exploreRootSlug = exploreRootMap.get(file);

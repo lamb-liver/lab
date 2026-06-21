@@ -71,8 +71,9 @@ export const excludeEntryIds = <E extends ContentEntry>(
 
 export const getStaticPathsFromCollection = <E extends ContentEntry>(
   entries: E[],
+  options: { includeDraft?: boolean } = {},
 ) =>
-  entries.filter(isPublished).map((entry) => ({
+  entries.filter((entry) => options.includeDraft || isPublished(entry)).map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
   }));

@@ -11,6 +11,7 @@ export const exploreInteractiveSlugs = [
   'sequences-and-series',
   'permutations-combinations',
   'probability-statistics',
+  'data-analysis',
   'exponential-logarithm',
   'vectors',
   'trigonometry-fundamentals',

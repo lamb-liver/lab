@@ -57,6 +57,9 @@ import { functionDerivativeGraphModule } from './modules/function-derivative-gra
 import { taylorPolynomialApproximationModule } from './modules/taylor-polynomial-approximation';
 import { rationalVerticalHorizontalAsymptotesModule } from './modules/rational-vertical-horizontal-asymptotes';
 import { rationalObliqueAsymptoteModule } from './modules/rational-oblique-asymptote';
+import { scatterCorrelationRegressionModule } from './modules/scatter-correlation-regression';
+import { regressionOutlierInfluenceModule } from './modules/regression-outlier-influence';
+import { percentileBoxPlotModule } from './modules/percentile-box-plot';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -118,4 +121,7 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'taylor-polynomial-approximation': taylorPolynomialApproximationModule,
   'rational-vertical-horizontal-asymptotes': rationalVerticalHorizontalAsymptotesModule,
   'rational-oblique-asymptote': rationalObliqueAsymptoteModule,
+  'scatter-correlation-regression': scatterCorrelationRegressionModule,
+  'regression-outlier-influence': regressionOutlierInfluenceModule,
+  'percentile-box-plot': percentileBoxPlotModule,
 };

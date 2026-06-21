@@ -9,6 +9,11 @@ export const EXPLORE_CATEGORIES = ['幾何', '代數', '統計', '拓樸', '分�
 const COLLECTIONS = ['works', 'explore'];
 const DESCRIPTION_MAX_LENGTH = 80;
 const PLACEHOLDER_PATTERN = /\b(?:TODO|FIXME|placeholder|debug|lorem)\b|待補|暫定|測試用/i;
+const TEMPORARY_DRAFT_LINK_EXCEPTIONS = new Set([
+  'src/content/works/percentile-box-plot.md -> /explore/data-analysis',
+  'src/content/works/regression-outlier-influence.md -> /explore/data-analysis',
+  'src/content/works/scatter-correlation-regression.md -> /explore/data-analysis',
+]);
 
 function usage() {
   return [
@@ -69,8 +74,8 @@ export function auditContent(files = readContentFiles(), options = {}) {
       checkPublishedPlaceholders(file, parsed, issues);
       if (file.collection === 'explore') {
         checkExploreCover(file, parsed, issues, root, fileExists);
-        checkExploreWorkLinks(file, byCollection.get('works'), issues);
       }
+      checkPublishedInternalLinks(file, byCollection, issues);
     }
   }
 
@@ -160,21 +165,35 @@ function checkExploreCover(file, parsed, issues, root, fileExists) {
   }
 }
 
-function checkExploreWorkLinks(file, workFiles, issues) {
-  const links = new Set([...file.body.matchAll(/\]\(\/works\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?\)/g)].map((match) => match[1]));
+function checkPublishedInternalLinks(file, byCollection, issues) {
+  const links = new Map();
+  for (const match of file.body.matchAll(/\]\(\/(works|explore)\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?\)/g)) {
+    links.set(`${match[1]}/${match[2]}`, { collection: match[1], slug: match[2] });
+  }
 
-  for (const slug of links) {
-    const work = workFiles.get(slug);
-    if (!work) {
-      addIssue(issues, file, 1, `published explore links to missing work: ${slug}`);
+  for (const link of links.values()) {
+    const target = byCollection.get(link.collection)?.get(link.slug);
+    if (!target) {
+      addIssue(issues, file, 1, `published content links to missing ${singular(link.collection)}: ${link.slug}`);
       continue;
     }
 
-    const parsed = parseFrontmatter(work.body);
+    const parsed = parseFrontmatter(target.body);
     if (parsed && fieldValue(parsed, 'draft') === 'true') {
-      addIssue(issues, file, 1, `published explore links to draft work: ${slug}`);
+      if (isTemporaryDraftLinkException(file, link)) continue;
+      addIssue(issues, file, 1, `published content links to draft ${singular(link.collection)}: ${link.slug}`);
     }
   }
+}
+
+function isTemporaryDraftLinkException(file, link) {
+  const route = `/${link.collection}/${link.slug}`;
+  // 等待 data-analysis 發布後移除例外。
+  return TEMPORARY_DRAFT_LINK_EXCEPTIONS.has(`${file.path} -> ${route}`);
+}
+
+function singular(collection) {
+  return collection === 'works' ? 'work' : 'explore';
 }
 
 export function parseFrontmatter(body) {

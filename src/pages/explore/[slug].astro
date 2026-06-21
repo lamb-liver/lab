@@ -19,7 +19,7 @@ import '../../styles/components/explore/explore-toolbar.css';
 
 export async function getStaticPaths() {
   const explore = await getCollection('explore');
-  return getStaticPathsFromCollection(explore);
+  return getStaticPathsFromCollection(explore, { includeDraft: import.meta.env.DEV });
 }
 
 const { entry } = Astro.props;

@@ -84,15 +84,35 @@ describe('release content audit', () => {
     );
   });
 
-  it('requires cover assets and non-draft linked works for published explore pages', () => {
+  it('requires cover assets and non-draft internal links for published content', () => {
     const draftWork = {
       ...validWork,
       slug: 'draft-work',
       path: 'src/content/works/draft-work.md',
       body: validWork.body.replace('draft: false', 'draft: true'),
     };
+    const draftExplore = {
+      ...validExplore,
+      slug: 'draft-explore',
+      path: 'src/content/explore/draft-explore.md',
+      body: validExplore.body.replace('draft: false', 'draft: true'),
+    };
+    const workLinksDraftExplore = {
+      ...validWork,
+      slug: 'work-links-draft-explore',
+      path: 'src/content/works/work-links-draft-explore.md',
+      body: [
+        validWork.body,
+        '',
+        '## 相關探索',
+        '',
+        '- [Draft Explore](/explore/draft-explore)',
+      ].join('\n'),
+    };
     const result = auditContent([
       draftWork,
+      draftExplore,
+      workLinksDraftExplore,
       {
         ...validExplore,
         body: validExplore.body
@@ -104,7 +124,8 @@ describe('release content audit', () => {
     expect(result.issues.map((issue) => issue.message)).toEqual(
       expect.arrayContaining([
         'published explore content must define coverImage',
-        'published explore links to draft work: draft-work',
+        'published content links to draft work: draft-work',
+        'published content links to draft explore: draft-explore',
       ]),
     );
   });

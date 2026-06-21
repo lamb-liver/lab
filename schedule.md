@@ -67,15 +67,10 @@
 
 ## 五、尚待上線 Works
 
-目前草案 Works 為 13 篇；原 P0 的 7 篇 Work 已發布。
+目前草案 Works 為 8 篇；原 P0 的 7 篇與數據分析的 3 篇 Work 已發布。
 
 | 優先 | slug | 標題 | 掛載主題 | 必要性 | 難易度 | 檔案 |
 |------|------|------|----------|--------|--------|------|
-| 2.1 | `scatter-correlation-regression` | 散布圖、相關與迴歸線 | 數據分析 | 高 | 中 | `src/content/works/scatter-correlation-regression.md` |
-| 2.2 | `regression-outlier-influence` | 離群值對迴歸的影響 | 數據分析 | 高 | 中 | `src/content/works/regression-outlier-influence.md` |
-| 2.3 | `percentile-box-plot` | 百分位數與盒鬚圖 | 數據分析 | 高 | 中低 | `src/content/works/percentile-box-plot.md` |
-| 3.1 | `discrete-pmf-expectation` | 離散分布與期望值 | 離散隨機變數與分布 | 高 | 中 | `src/content/works/discrete-pmf-expectation.md` |
-| 3.2 | `variance-spread-visualization` | 變異數與分散程度 | 離散隨機變數與分布 | 高 | 中 | `src/content/works/variance-spread-visualization.md` |
 | 3.3 | `binomial-geometric-distribution` | 二項分布與幾何分布 | 離散隨機變數與分布 | 高 | 中 | `src/content/works/binomial-geometric-distribution.md` |
 | 4.1 | `cross-product-geometry` | 外積的幾何意義 | 空間向量與平面直線 | 中高 | 中 | `src/content/works/cross-product-geometry.md` |
 | 4.2 | `space-vector-three-plane-projection` | 空間向量與三平面投影 | 空間向量與平面直線 | 中高 | 高 | `src/content/works/space-vector-three-plane-projection.md` |
@@ -171,11 +166,6 @@ src/content/explore/
   linear-programming.md
 
 src/content/works/
-  scatter-correlation-regression.md
-  regression-outlier-influence.md
-  percentile-box-plot.md
-  discrete-pmf-expectation.md
-  variance-spread-visualization.md
   binomial-geometric-distribution.md
   cross-product-geometry.md
   space-vector-three-plane-projection.md

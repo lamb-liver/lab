@@ -1,13 +1,13 @@
 # Public Pages Audit
 
-Last updated: 2026-06-12
+Last updated: 2026-06-20
 
 This is the post-release audit for currently public Lab pages. It follows the `社團發布前 Release Checklist` in `docs/lab-release-system.md`.
 
 ## Scope
 
-- Public Works: 58
-- Draft Works: 13
+- Public Works: 61
+- Draft Works: 8
 - Public Explore: 16
 - Draft Explore: 4
 
@@ -85,14 +85,17 @@ This audit is a publication-scope report only. It does not change `draft`, regis
 | `natural-log-e-geometry` | 自然對數 e 的幾何定義 | OK | Good calculus bridge. |
 | `parabolic-reflection` | 拋物線反射 | OK | Strong high-school fit. |
 | `pascals-triangle` | 帕斯卡三角形 | OK | Strong high-school fit. |
+| `percentile-box-plot` | 百分位數與盒鬚圖 | OK | Strong statistics fit. |
 | `polynomial-roots-multiplicity` | 多項式零點與重根 | OK | Strong high-school fit. |
 | `quadratic-completing-square` | 二次函數配方視覺化 | OK | Strong high-school fit. |
 | `radian-arc-length` | 弧度與圓弧長 | OK | Strong high-school fit. |
 | `rational-oblique-asymptote` | 斜漸近線與多項式除法 | OK | Good high-school enrichment. |
 | `rational-vertical-horizontal-asymptotes` | 垂直與水平漸近線 | OK | Strong high-school fit. |
+| `regression-outlier-influence` | 離群值對迴歸的影響 | OK | Strong statistics fit. |
 | `riemann-sum` | 黎曼和動態圖 | OK | Good calculus bridge. |
 | `rose-curve` | 玫瑰曲線 | OK | Strong visual entry page. |
 | `rotation-scale-composition` | 旋轉縮放疊加 | OK | Enrichment; keep public. |
+| `scatter-correlation-regression` | 散布圖、相關與迴歸線 | OK | Strong statistics fit. |
 | `sierpinski-triangle` | 謝爾賓斯基三角形 | OK | Strong visual entry page. |
 | `sinusoid-amplitude-period-phase` | 正弦型函數的振幅、週期與相位 | OK | Strong high-school fit. |
 | `spirograph-curve` | 繁花曲線 | Description risk | Description is long; keep public, but shorten before prominent sharing. |
@@ -136,7 +139,7 @@ There is no currently public page that must be changed back to draft based on th
 Keep these draft pages unpublished until their release dependencies are ready:
 
 - Draft Explore: `data-analysis`, `discrete-random-variables`, `linear-programming`, `space-vectors-planes-lines`.
-- Draft Works: `binomial-geometric-distribution`, `cross-product-geometry`, `discrete-pmf-expectation`, `line-plane-intersection`, `lp-feasible-half-planes`, `lp-objective-level-curves`, `lp-vertex-optimum`, `percentile-box-plot`, `plane-normal-distance`, `regression-outlier-influence`, `scatter-correlation-regression`, `space-vector-three-plane-projection`, `variance-spread-visualization`.
+- Draft Works: `binomial-geometric-distribution`, `cross-product-geometry`, `line-plane-intersection`, `lp-feasible-half-planes`, `lp-objective-level-curves`, `lp-vertex-optimum`, `plane-normal-distance`, `space-vector-three-plane-projection`.
 
 Draft Explore pages currently point to cover paths, but the referenced public PNG files are not present. This is acceptable while they remain draft, but it is a publish blocker for those pages.
 

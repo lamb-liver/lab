@@ -31,7 +31,7 @@ $$
 ## 觀察重點
 
 - $\sin\theta$ 是縱座標、$\cos\theta$ 是橫座標，兩者平方和恆為 $1$
-- $\tan\theta$ 可讀成單位圓切線上的線段長；$\theta\to 90^\circ$ 時 $\cos\theta\to 0$，正切趨向無限大
+- $\tan\theta$ 可讀成單位圓切線上的線段長；$\theta\to 90^\circ{}^-$ 時正切趨向 $+\infty$，且 $\theta=90^\circ$ 時未定義
 - 負角與超過 $360^\circ$ 的角對應圓上同一點，週期性由此而來
 
 ## 相關作品

@@ -15,10 +15,13 @@ draft: false
 線性場示例（奇點在原點）：
 
 $$
-\mathbf{F}(x,y)=(ax-by,\; bx+ay)
+\mathbf{F}_{\text{source}}=(x,y),\quad
+\mathbf{F}_{\text{sink}}=(-x,-y),\quad
+\mathbf{F}_{\text{vortex}}=(-y,x),\quad
+\mathbf{F}_{\text{saddle}}=(x,-y)
 $$
 
-源：$a>0,b=0$；匯：$a<0$；漩渦：$a=0,b\neq0$；鞍點：$a>0,b<0$（對角符號相反）。
+源與匯的兩個實特徵值同號；鞍點的兩個實特徵值異號；漩渦則以旋轉方向為主。
 
 ## 互動說明
 

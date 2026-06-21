@@ -5,6 +5,7 @@ import {
 } from '../../explore/interactiveRegistry';
 import ConicDynamicGeometryExploreRoot from './ConicDynamicGeometryExploreRoot';
 import ComplexEulerFormulaExploreRoot from './ComplexEulerFormulaExploreRoot';
+import DataAnalysisExploreRoot from './DataAnalysisExploreRoot';
 import DifferentialEquationsGeometryExploreRoot from './DifferentialEquationsGeometryExploreRoot';
 import ExponentialLogarithmExploreRoot from './ExponentialLogarithmExploreRoot';
 import FunctionEquationsExploreRoot from './FunctionEquationsExploreRoot';
@@ -32,6 +33,7 @@ const rootBySlug = {
   'sequences-and-series': SequencesAndSeriesExploreRoot,
   'permutations-combinations': PermutationsCombinationsExploreRoot,
   'probability-statistics': ProbabilityStatisticsExploreRoot,
+  'data-analysis': DataAnalysisExploreRoot,
   'exponential-logarithm': ExponentialLogarithmExploreRoot,
   vectors: VectorsExploreRoot,
   'trigonometry-fundamentals': TrigonometryFundamentalsExploreRoot,

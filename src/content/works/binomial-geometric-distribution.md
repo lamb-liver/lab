@@ -47,8 +47,6 @@ $$
 
 ## 相關作品
 
-- [離散分布與期望值](/works/discrete-pmf-expectation)
-- [變異數與分散程度](/works/variance-spread-visualization)
 - [二項分佈到常態分佈](/works/binomial-to-normal)
 - [離散隨機變數與分布](/explore/discrete-random-variables)
 

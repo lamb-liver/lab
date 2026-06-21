@@ -112,6 +112,17 @@ describe('getStaticPathsFromCollection', () => {
     expect(paths).toHaveLength(1);
     expect(paths[0]?.params.slug).toBe('z');
   });
+
+  it('can include drafts for local detail previews', () => {
+    const paths = getStaticPathsFromCollection(
+      [
+        entry('z', '2026-01-01'),
+        entry('draft', '2026-02-01', false, true),
+      ],
+      { includeDraft: true },
+    );
+    expect(paths.map((path) => path.params.slug)).toEqual(['z', 'draft']);
+  });
 });
 
 describe('collectWorkTags', () => {

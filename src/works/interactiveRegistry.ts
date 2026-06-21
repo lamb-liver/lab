@@ -58,6 +58,9 @@ export const workInteractiveSlugs = [
   'taylor-polynomial-approximation',
   'rational-vertical-horizontal-asymptotes',
   'rational-oblique-asymptote',
+  'scatter-correlation-regression',
+  'regression-outlier-influence',
+  'percentile-box-plot',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];

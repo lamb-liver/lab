@@ -59,6 +59,9 @@ import FunctionDerivativeGraphCurveRoot from './FunctionDerivativeGraphCurveRoot
 import TaylorPolynomialApproximationCurveRoot from './TaylorPolynomialApproximationCurveRoot';
 import RationalVerticalHorizontalAsymptotesCurveRoot from './RationalVerticalHorizontalAsymptotesCurveRoot';
 import RationalObliqueAsymptoteCurveRoot from './RationalObliqueAsymptoteCurveRoot';
+import ScatterCorrelationRegressionCurveRoot from './ScatterCorrelationRegressionCurveRoot';
+import RegressionOutlierInfluenceCurveRoot from './RegressionOutlierInfluenceCurveRoot';
+import PercentileBoxPlotCurveRoot from './PercentileBoxPlotCurveRoot';
 
 type RootProps = { controlsMountId?: string };
 
@@ -121,6 +124,9 @@ const rootBySlug = {
   'taylor-polynomial-approximation': TaylorPolynomialApproximationCurveRoot,
   'rational-vertical-horizontal-asymptotes': RationalVerticalHorizontalAsymptotesCurveRoot,
   'rational-oblique-asymptote': RationalObliqueAsymptoteCurveRoot,
+  'scatter-correlation-regression': ScatterCorrelationRegressionCurveRoot,
+  'regression-outlier-influence': RegressionOutlierInfluenceCurveRoot,
+  'percentile-box-plot': PercentileBoxPlotCurveRoot,
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

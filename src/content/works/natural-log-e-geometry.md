@@ -10,7 +10,7 @@ draft: false
 
 ## 參數方程
 
-自然對數可定義為 $\displaystyle \ln t=\int_1^t \frac{1}{x}\,dx$，即雙曲線 $y=1/x$ 與 $x$ 軸、$x=1$、$x=t$ 所圍面積。數 $e$ 滿足 $\ln e=1$，是使該面積「單位寬度」的唯一正底數，並與 $e^x$ 互為反函數。
+自然對數可定義為 $\displaystyle \ln t=\int_1^t \frac{1}{x}\,dx$。當 $t>1$ 時，它是雙曲線 $y=1/x$ 與 $x$ 軸、$x=1$、$x=t$ 所圍的正面積；當 $0<t<1$ 時則是帶符號面積。數 $e$ 滿足 $\ln e=1$，是使這個積分值為 $1$ 的唯一正數，並與 $e^x$ 互為反函數。
 
 $$
 \ln t = \int_1^t \frac{1}{x}\,dx,\quad t>0
@@ -38,4 +38,4 @@ $$
 ## 延伸閱讀
 
 - [自然對數（維基百科）](https://zh.wikipedia.org/zh-tw/%E8%87%AA%E7%84%B6%E5%B0%8D%E6%95%B8)
-- [圓周率e（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%9C%93%E5%91%A8%E7%8E%87e)
+- [自然常數 e（維基百科）](https://zh.wikipedia.org/zh-tw/%E8%87%AA%E7%84%B6%E5%B8%B8%E6%95%B8)
