@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 746 |
-| 已掃描檔案 | 153 |
-| 尚未掃描檔案 | 593 |
+| 已掃描檔案 | 197 |
+| 尚未掃描檔案 | 549 |
 | 已掃描但不列入 repo 掃描面 | 6 |
 
 <details open>
-<summary>已掃描檔案（153）</summary>
+<summary>已掃描檔案（197）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -57,10 +57,52 @@
 - `docs/site-ux.md`
 - `docs/textstyle.md`
 - `docs/workart.md`
+- `package-lock.json`
 - `package.json`
 - `playwright.config.ts`
+- `public/.nojekyll`
+- `public/CNAME`
+- `public/explore/fourier-series-epicycles-cover.png`
+- `public/images/explore-covers/complex-euler-formula.png`
+- `public/images/explore-covers/conic-dynamic-geometry.png`
+- `public/images/explore-covers/data-analysis.png`
+- `public/images/explore-covers/differential-equations-geometry.png`
+- `public/images/explore-covers/exponential-logarithm.png`
+- `public/images/explore-covers/function-equations.png`
+- `public/images/explore-covers/limits-riemann-sum.png`
+- `public/images/explore-covers/matrix-linear-transform.png`
+- `public/images/explore-covers/permutations-combinations.png`
+- `public/images/explore-covers/probability-statistics.png`
+- `public/images/explore-covers/rational-functions-asymptotes.png`
+- `public/images/explore-covers/sequences-and-series.png`
+- `public/images/explore-covers/trig-function-graphs.png`
+- `public/images/explore-covers/trig-wave-interference.png`
+- `public/images/explore-covers/trigonometry-fundamentals.png`
+- `public/images/explore-covers/vectors.png`
+- `public/lab-favicon-eb-garamond.svg`
+- `public/robots.txt`
 - `scripts/audit-content.mjs`
+- `scripts/audit-explore-covers.mjs`
+- `scripts/audit-integration.mjs`
+- `scripts/explore-covers/complex-euler-formula.svg`
+- `scripts/explore-covers/conic-dynamic-geometry.svg`
+- `scripts/explore-covers/data-analysis.svg`
+- `scripts/explore-covers/differential-equations-geometry.svg`
+- `scripts/explore-covers/exponential-logarithm.svg`
+- `scripts/explore-covers/function-equations.svg`
+- `scripts/explore-covers/generate.mjs`
+- `scripts/explore-covers/limits-riemann-sum.svg`
+- `scripts/explore-covers/matrix-linear-transform.svg`
+- `scripts/explore-covers/permutations-combinations.svg`
+- `scripts/explore-covers/probability-statistics.svg`
+- `scripts/explore-covers/rational-functions-asymptotes.svg`
+- `scripts/explore-covers/sequences-and-series.svg`
+- `scripts/explore-covers/trig-function-graphs.svg`
+- `scripts/explore-covers/trig-wave-interference.svg`
+- `scripts/explore-covers/trigonometry-fundamentals.svg`
+- `scripts/explore-covers/vectors.svg`
 - `scripts/lab.mjs`
+- `scripts/new-explore.mjs`
 - `scripts/new-work.mjs`
 - `scripts/run-smoke.mjs`
 - `scripts/validate-changed.mjs`
@@ -103,6 +145,8 @@
 - `src/content/descriptionMath.test.ts`
 - `src/content/descriptionMath.ts`
 - `src/content/explore/discrete-random-variables.md`
+- `src/content/explore/linear-programming.md`
+- `src/content/explore/space-vectors-planes-lines.md`
 - `src/content/exploreEntries.ts`
 - `src/content/explorePager.test.ts`
 - `src/content/generatorScripts.test.ts`
@@ -186,7 +230,6 @@
 - `src/works/interactiveRegistry.ts`
 - `tsconfig.json`
 - `vitest.config.ts`
-
 </details>
 
 <details>
@@ -202,50 +245,8 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（593）</summary>
+<summary>尚未掃描檔案（549）</summary>
 
-- `package-lock.json`
-- `public/.nojekyll`
-- `public/CNAME`
-- `public/explore/fourier-series-epicycles-cover.png`
-- `public/images/explore-covers/complex-euler-formula.png`
-- `public/images/explore-covers/conic-dynamic-geometry.png`
-- `public/images/explore-covers/data-analysis.png`
-- `public/images/explore-covers/differential-equations-geometry.png`
-- `public/images/explore-covers/exponential-logarithm.png`
-- `public/images/explore-covers/function-equations.png`
-- `public/images/explore-covers/limits-riemann-sum.png`
-- `public/images/explore-covers/matrix-linear-transform.png`
-- `public/images/explore-covers/permutations-combinations.png`
-- `public/images/explore-covers/probability-statistics.png`
-- `public/images/explore-covers/rational-functions-asymptotes.png`
-- `public/images/explore-covers/sequences-and-series.png`
-- `public/images/explore-covers/trig-function-graphs.png`
-- `public/images/explore-covers/trig-wave-interference.png`
-- `public/images/explore-covers/trigonometry-fundamentals.png`
-- `public/images/explore-covers/vectors.png`
-- `public/lab-favicon-eb-garamond.svg`
-- `public/robots.txt`
-- `scripts/audit-explore-covers.mjs`
-- `scripts/audit-integration.mjs`
-- `scripts/explore-covers/complex-euler-formula.svg`
-- `scripts/explore-covers/conic-dynamic-geometry.svg`
-- `scripts/explore-covers/data-analysis.svg`
-- `scripts/explore-covers/differential-equations-geometry.svg`
-- `scripts/explore-covers/exponential-logarithm.svg`
-- `scripts/explore-covers/function-equations.svg`
-- `scripts/explore-covers/generate.mjs`
-- `scripts/explore-covers/limits-riemann-sum.svg`
-- `scripts/explore-covers/matrix-linear-transform.svg`
-- `scripts/explore-covers/permutations-combinations.svg`
-- `scripts/explore-covers/probability-statistics.svg`
-- `scripts/explore-covers/rational-functions-asymptotes.svg`
-- `scripts/explore-covers/sequences-and-series.svg`
-- `scripts/explore-covers/trig-function-graphs.svg`
-- `scripts/explore-covers/trig-wave-interference.svg`
-- `scripts/explore-covers/trigonometry-fundamentals.svg`
-- `scripts/explore-covers/vectors.svg`
-- `scripts/new-explore.mjs`
 - `src/components/curve/CurveHookWorkRoot.tsx`
 - `src/components/curve/DeltaPhaseControl.tsx`
 - `src/components/curve/ParamControls.tsx`
@@ -382,13 +383,11 @@
 - `src/content/explore/fourier-series.md`
 - `src/content/explore/function-equations.md`
 - `src/content/explore/limits-riemann-sum.md`
-- `src/content/explore/linear-programming.md`
 - `src/content/explore/matrix-linear-transform.md`
 - `src/content/explore/permutations-combinations.md`
 - `src/content/explore/probability-statistics.md`
 - `src/content/explore/rational-functions-asymptotes.md`
 - `src/content/explore/sequences-and-series.md`
-- `src/content/explore/space-vectors-planes-lines.md`
 - `src/content/explore/trig-function-graphs.md`
 - `src/content/explore/trig-wave-interference.md`
 - `src/content/explore/trigonometry-fundamentals.md`
@@ -799,6 +798,7 @@
 - `tests/work-integration.smoke.spec.ts`
 
 </details>
+
 ## 已掃描紀錄
 
 | 範圍 | 結論 |
@@ -907,6 +907,24 @@
 | `docs/math-content-review-checklist.md` | 已掃描；確認保留：`docs/lab-release-system.md` 明確引用它作為 `audit:content` 無法涵蓋的人工數學語義審查，不新增 tooling。 |
 | `docs/site-ux.md` | 已掃描；確認保留：與目前 `Breadcrumb.astro`、detail top nav、Works stage、Explore toolbar/touch CSS、list filter、footer tests 有 current selector 對應。 |
 | `docs/workart.md` | 已掃描；確認保留：與目前 Works runtime、`curveThumbnail.ts`、`work-detail__stage`、portal、thumbnail contract 對應；未重複替代 `p5toreact.md`。 |
+
+## 2026-06-21 public assets / cover scripts 補掃
+
+| 範圍 | 結論 |
+|------|------|
+| `package-lock.json` | 已掃描；確認保留：GitHub Actions deploy 使用 `npm ci`，lockfile root dependencies / devDependencies 與 `package.json` 一致。 |
+| `public/.nojekyll` | 已掃描；確認保留：Astro build 會輸出 `_astro/` assets，GitHub Pages 部署保留 `.nojekyll` 是必要平台護欄，未刪。 |
+| `public/CNAME` | 已掃描；確認保留：README 指定 custom domain `lab.lambliver.dev` 與此檔一致。 |
+| `public/robots.txt` | 已掃描；確認保留：公開 sitemap 指向 `https://lab.lambliver.dev/sitemap-index.xml`。 |
+| `public/lab-favicon-eb-garamond.svg` | 已掃描；確認保留：`BaseLayout.astro` 直接引用 `/lab-favicon-eb-garamond.svg`。 |
+| `public/explore/fourier-series-epicycles-cover.png` | 已掃描；確認保留：`fourier-series` frontmatter 與 `audit-explore-covers` legacy exception 均指向此路徑。 |
+| `public/images/explore-covers/*.png`、`scripts/explore-covers/*.svg` | 已掃描；確認保留：published Explore cover frontmatter、PNG、SVG source 已由 `audit:explore-covers` 驗證；缺失的 draft coverImage 已移除。 |
+| `scripts/explore-covers/generate.mjs` | 已掃描並修正：刪除硬編碼 SVG 生成器，改為只將既有 SVG source rasterize 成 PNG，避免 JS 與 SVG 雙重 source-of-truth，並自然涵蓋 `rational-functions-asymptotes`。 |
+| `scripts/audit-explore-covers.mjs` | 已掃描；確認保留：`lab.mjs`、`validate:changed`、`audit:integration` 均呼叫它；本輪 `audit:explore-covers -- --json` 通過。 |
+| `scripts/audit-integration.mjs` | 已掃描；確認保留：整合 Works / Explore / cover surface；本輪 `audit:integration -- --json` 回傳 `issues: []`。 |
+| `scripts/new-explore.mjs` | 已掃描並修正：發布提示補上真實發布日、positive order、`audit:integration`，避免 draft 建立日被誤當發布日。 |
+| `scripts/audit-content.mjs`、`src/content/releaseAudit.test.ts` | 已掃描並修正：Explore draft 可沒有 coverImage；但只要設定 coverImage，就必須是存在的 public asset。 |
+| `src/content/explore/discrete-random-variables.md`、`src/content/explore/linear-programming.md`、`src/content/explore/space-vectors-planes-lines.md` | 已掃描並修正：移除 draft frontmatter 中指向不存在 PNG 的 `coverImage`。 |
 
 ## 接續審查記錄格式
 

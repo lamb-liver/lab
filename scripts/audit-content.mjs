@@ -63,14 +63,14 @@ export function auditContent(files = readContentFiles(), options = {}) {
 
     checkFrontmatter(file, parsed, issues);
     checkDescription(file, parsed, issues);
+    if (file.collection === 'explore') {
+      checkExploreCover(file, parsed, issues, root, fileExists);
+    }
 
     const draft = fieldValue(parsed, 'draft') === 'true';
     if (!draft) {
       checkPublishedOrder(file, parsed, publishedOrders, issues);
       checkPublishedPlaceholders(file, parsed, issues);
-      if (file.collection === 'explore') {
-        checkExploreCover(file, parsed, issues, root, fileExists);
-      }
       checkPublishedInternalLinks(file, byCollection, issues);
     }
   }
@@ -176,7 +176,9 @@ function checkPublishedOrder(file, parsed, publishedOrders, issues) {
 function checkExploreCover(file, parsed, issues, root, fileExists) {
   const coverImage = fieldValue(parsed, 'coverImage');
   if (!coverImage) {
-    addIssue(issues, file, 1, 'published explore content must define coverImage');
+    if (fieldValue(parsed, 'draft') !== 'true') {
+      addIssue(issues, file, 1, 'published explore content must define coverImage');
+    }
     return;
   }
 

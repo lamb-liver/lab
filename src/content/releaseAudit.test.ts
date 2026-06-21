@@ -174,6 +174,7 @@ describe('release content audit', () => {
       path: 'src/content/explore/draft-explore.md',
       body: validExplore.body
         .replace('draft: false', 'draft: true')
+        .replace('coverImage: /images/explore-covers/valid-explore.png\n', '')
         .replace('Valid Explore', 'Draft Explore')
         .replace('調整參數觀察圖形變化。', '待補：調整參數觀察圖形變化。'),
     };
@@ -181,12 +182,39 @@ describe('release content audit', () => {
       ...draftExplore,
       slug: 'published-explore',
       path: 'src/content/explore/published-explore.md',
-      body: draftExplore.body.replace('draft: true', 'draft: false'),
+      body: draftExplore.body
+        .replace('draft: true', 'draft: false')
+        .replace('order: 1\n', 'order: 1\ncoverImage: /images/explore-covers/valid-explore.png\n'),
     };
 
     expect(auditContent([validWork, draftExplore]).issues).toEqual([]);
-    expect(auditContent([validWork, publishedExplore]).issues.map((issue) => issue.message)).toContain(
-      'published content contains placeholder/debug text',
+    expect(
+      auditContent([validWork, publishedExplore], {
+        fileExists: (path: string) => path.endsWith('/public/images/explore-covers/valid-explore.png'),
+      }).issues.map((issue) => issue.message),
+    ).toContain('published content contains placeholder/debug text');
+  });
+
+  it('allows draft Explore without coverImage but rejects missing draft cover assets', () => {
+    const draftExplore = {
+      ...validExplore,
+      slug: 'draft-explore',
+      path: 'src/content/explore/draft-explore.md',
+      body: validExplore.body
+        .replace('draft: false', 'draft: true')
+        .replace('coverImage: /images/explore-covers/valid-explore.png\n', ''),
+    };
+    const draftExploreWithMissingCover = {
+      ...draftExplore,
+      body: draftExplore.body.replace(
+        'order: 1\n',
+        'order: 1\ncoverImage: /images/explore-covers/missing-draft.png\n',
+      ),
+    };
+
+    expect(auditContent([validWork, draftExplore]).issues).toEqual([]);
+    expect(auditContent([validWork, draftExploreWithMissingCover]).issues.map((issue) => issue.message)).toContain(
+      'coverImage asset is missing: /images/explore-covers/missing-draft.png',
     );
   });
 });
