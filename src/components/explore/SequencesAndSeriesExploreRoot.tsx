@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from '../curve/p5RendererReady';
+import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/sequences-and-series-explore.css';
 
 type Mode = 'sequence' | 'series' | 'logistic';
@@ -383,13 +383,8 @@ function seriesFormula(params: Params['series']) {
 export default function SequencesAndSeriesExploreRoot() {
   const [params, setParams] = useState<Params>(DEFAULT_PARAMS);
   const paramsRef = useRef(params);
-  const canvasHostRef = useRef<HTMLDivElement>(null);
-  const instanceRef = useRef<p5 | null>(null);
 
-  useEffect(() => {
-    paramsRef.current = params;
-    instanceRef.current?.redraw();
-  }, [params]);
+  paramsRef.current = params;
 
   const dragLogisticR = useCallback((p: p5) => {
     if (paramsRef.current.mode !== 'logistic') return;
@@ -410,65 +405,18 @@ export default function SequencesAndSeriesExploreRoot() {
     }));
   }, []);
 
-  const dragLogisticRRef = useRef(dragLogisticR);
-
-  useEffect(() => {
-    dragLogisticRRef.current = dragLogisticR;
+  const draw = useCallback((p: p5) => renderScene(p, paramsRef.current), []);
+  const extendSketch = useCallback((p: p5) => {
+    p.mousePressed = () => dragLogisticR(p);
+    p.mouseDragged = () => dragLogisticR(p);
   }, [dragLogisticR]);
-
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measureSequencesCanvas(host);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          p.noLoop();
-        };
-
-        p.draw = () => renderScene(p, paramsRef.current);
-        p.mousePressed = () => dragLogisticRRef.current(p);
-        p.mouseDragged = () => dragLogisticRRef.current(p);
-      };
-
-      const instance = new P5(sketch, host);
-      instanceRef.current = instance;
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-
-        const { width, height } = measureSequencesCanvas(host);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        instance.redraw();
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-        instanceRef.current = null;
-      };
-    };
-
-    boot();
-
-    return () => {
-      disposed = true;
-      cleanup?.();
-    };
-  }, []);
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw, extendSketch],
+    measureSequencesCanvas,
+    extendSketch,
+    { loop: false, redrawKey: params },
+  );
 
   const stats = useMemo(() => {
     if (params.mode === 'sequence') {

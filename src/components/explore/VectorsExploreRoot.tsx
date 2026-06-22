@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   GUIDE_BASIS,
   getVectorGuideState,
@@ -9,6 +8,8 @@ import {
   type Vec2,
   type VectorGuideRole,
 } from '../../explore/vectors/geometry';
+import { clipRect, withDash } from '../../systems/rendering/p5PlotHelpers';
+import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/vectors-explore.css';
 
 type Mode = 'guide' | 'dot' | 'span' | 'normal';
@@ -208,24 +209,6 @@ function screenToWorld(plot: Rect, point: Vec2, scale: number): Vec2 {
   };
 }
 
-function withClip(p: p5, rect: Rect, fn: () => void) {
-  const ctx = p.drawingContext;
-  ctx.save();
-  ctx.beginPath();
-  ctx.rect(rect.x, rect.y, rect.w, rect.h);
-  ctx.clip();
-  fn();
-  ctx.restore();
-}
-
-function drawDashedLine(p: p5, x1: number, y1: number, x2: number, y2: number, pattern: number[]) {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
-  ctx.save();
-  ctx.setLineDash(pattern);
-  p.line(x1, y1, x2, y2);
-  ctx.restore();
-}
-
 function drawFrame(p: p5, title: string, subtitle: string) {
   const stage = stageRect(p);
 
@@ -251,7 +234,7 @@ function drawFrame(p: p5, title: string, subtitle: string) {
 }
 
 function drawVectorGrid(p: p5, plot: Rect, scale: number, compact: boolean) {
-  withClip(p, plot, () => {
+  clipRect(p, plot, () => {
     p.strokeWeight(1);
 
     for (let x = -Math.ceil(scale); x <= Math.ceil(scale); x += 1) {
@@ -448,7 +431,7 @@ function drawProjection(p: p5, plot: Rect, base: Vec2, vec: Vec2, scale: number)
 
   p.stroke(...WHITE, 38);
   p.strokeWeight(1);
-  drawDashedLine(p, vecEnd.x, vecEnd.y, footEnd.x, footEnd.y, [4, 5]);
+  withDash(p, [4, 5], () => p.line(vecEnd.x, vecEnd.y, footEnd.x, footEnd.y));
 
   p.stroke(...GOLD, 105);
   p.strokeWeight(3);
@@ -529,7 +512,7 @@ function drawSpanField(p: p5, plot: Rect, params: Params, scale: number) {
     return;
   }
 
-  withClip(p, plot, () => {
+  clipRect(p, plot, () => {
     p.strokeWeight(1);
 
     for (let i = -5; i <= 5; i += 1) {
@@ -565,7 +548,7 @@ function drawNormalLine(p: p5, plot: Rect, params: Params, scale: number) {
   const sf = worldToScreen(plot, foot, scale);
   const origin = worldToScreen(plot, { x: 0, y: 0 }, scale);
 
-  withClip(p, plot, () => {
+  clipRect(p, plot, () => {
     p.stroke(...GOLD, 50);
     p.strokeWeight(8);
     p.line(s1.x, s1.y, s2.x, s2.y);
@@ -576,7 +559,7 @@ function drawNormalLine(p: p5, plot: Rect, params: Params, scale: number) {
 
     p.stroke(...WHITE, 38);
     p.strokeWeight(1);
-    drawDashedLine(p, origin.x, origin.y, sf.x, sf.y, [5, 6]);
+    withDash(p, [5, 6], () => p.line(origin.x, origin.y, sf.x, sf.y));
   });
 
   p.noStroke();
@@ -587,7 +570,7 @@ function drawNormalLine(p: p5, plot: Rect, params: Params, scale: number) {
 }
 
 function drawObliqueBasisGrid(p: p5, plot: Rect, scale: number) {
-  withClip(p, plot, () => {
+  clipRect(p, plot, () => {
     p.strokeWeight(1);
 
     for (let i = -4; i <= 4; i += 1) {
@@ -648,7 +631,7 @@ function drawGuideDirectionPanel(
     const foot = worldToScreen(plot, projection.vector, scale);
     p.stroke(...WHITE, 42);
     p.strokeWeight(1);
-    drawDashedLine(p, uEnd.x, uEnd.y, foot.x, foot.y, [4, 5]);
+    withDash(p, [4, 5], () => p.line(uEnd.x, uEnd.y, foot.x, foot.y));
 
     p.stroke(...GOLD, 130);
     p.strokeWeight(3);
@@ -693,8 +676,8 @@ function drawGuideCoordinatePanel(
     const tEnd = worldToScreen(plot, tFromSe1, scale);
     p.stroke(...WHITE, 38);
     p.strokeWeight(1);
-    drawDashedLine(p, se1End.x, se1End.y, tEnd.x, tEnd.y, [5, 6]);
-    drawDashedLine(p, origin.x, origin.y, se1End.x, se1End.y, [5, 6]);
+    withDash(p, [5, 6], () => p.line(se1End.x, se1End.y, tEnd.x, tEnd.y));
+    withDash(p, [5, 6], () => p.line(origin.x, origin.y, se1End.x, se1End.y));
   }
 
   drawArrowGlow(p, origin, pEnd, 245);
@@ -817,8 +800,8 @@ function drawSpanMode(p: p5, params: Params, handles: DragHandle[]) {
 
   p.stroke(...WHITE, 30);
   p.strokeWeight(1);
-  drawDashedLine(p, scaledAEnd.x, scaledAEnd.y, rEnd.x, rEnd.y, [5, 6]);
-  drawDashedLine(p, origin.x, origin.y, scaledAEnd.x, scaledAEnd.y, [5, 6]);
+  withDash(p, [5, 6], () => p.line(scaledAEnd.x, scaledAEnd.y, rEnd.x, rEnd.y));
+  withDash(p, [5, 6], () => p.line(origin.x, origin.y, scaledAEnd.x, scaledAEnd.y));
 
   drawArrowGlow(p, origin, aEnd, 210);
   drawArrowGlow(p, origin, bEnd, 165);
@@ -916,8 +899,8 @@ export default function VectorsExploreRoot() {
   const paramsRef = useRef(params);
   const handlesRef = useRef<DragHandle[]>([]);
   const draggingRef = useRef<DragHandle | null>(null);
-  const canvasHostRef = useRef<HTMLDivElement>(null);
-  const p5Ref = useRef<p5 | null>(null);
+
+  paramsRef.current = params;
 
   const setParams = useCallback((updater: (prev: Params) => Params) => {
     setParamsState((prev) => {
@@ -927,12 +910,8 @@ export default function VectorsExploreRoot() {
     });
   }, []);
 
-  useEffect(() => {
-    paramsRef.current = params;
-    p5Ref.current?.redraw();
-  }, [params]);
-
   const draw = useCallback((p: p5) => {
+    p.textFont('system-ui, -apple-system, BlinkMacSystemFont, sans-serif');
     const handles: DragHandle[] = [];
     const current = paramsRef.current;
 
@@ -944,124 +923,74 @@ export default function VectorsExploreRoot() {
     handlesRef.current = handles;
   }, []);
 
-  const drawRef = useRef(draw);
+  const extendSketch = useCallback((p: p5) => {
+    const startDrag = () => {
+      const hit = handlesRef.current
+        .slice()
+        .reverse()
+        .find((handle) => p.dist(p.mouseX, p.mouseY, handle.x, handle.y) <= handle.r);
 
-  useEffect(() => {
-    drawRef.current = draw;
-  }, [draw]);
-
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measureVectorsCanvas(host);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          p.textFont('system-ui, -apple-system, BlinkMacSystemFont, sans-serif');
-          p.noLoop();
-        };
-
-        p.draw = () => drawRef.current(p);
-
-        const startDrag = () => {
-          const hit = handlesRef.current
-            .slice()
-            .reverse()
-            .find((handle) => p.dist(p.mouseX, p.mouseY, handle.x, handle.y) <= handle.r);
-
-          draggingRef.current = hit ?? null;
-        };
-
-        const updateDrag = () => {
-          const dragging = draggingRef.current;
-          if (!dragging) return;
-
-          if (dragging.type === 'vector') {
-            const point = screenToWorld(
-              dragging.plot,
-              { x: p.mouseX, y: p.mouseY },
-              dragging.scale,
-            );
-            const clamped = dragging.id === 'n' ? clampNormal(point) : clampVector(point, 3.7);
-            setParams((prev) => ({ ...prev, [dragging.id]: clamped }));
-            p.redraw();
-          }
-
-          if (dragging.type === 'unit') {
-            const point = screenToWorld(
-              dragging.plot,
-              { x: p.mouseX, y: p.mouseY },
-              dragging.scale,
-            );
-            const dir = normalize2(point);
-            if (mag2(dir) < 1e-9) return;
-            setParams((prev) => ({ ...prev, [dragging.id]: dir }));
-            p.redraw();
-          }
-        };
-
-        const stopDrag = () => {
-          draggingRef.current = null;
-        };
-
-        p.mousePressed = startDrag;
-        p.mouseDragged = updateDrag;
-        p.mouseReleased = stopDrag;
-
-        p.touchStarted = () => {
-          startDrag();
-          return false;
-        };
-
-        p.touchMoved = () => {
-          updateDrag();
-          return false;
-        };
-
-        p.touchEnded = () => {
-          stopDrag();
-          return false;
-        };
-      };
-
-      const instance = new P5(sketch, host);
-      p5Ref.current = instance;
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-
-        const { width, height } = measureVectorsCanvas(host);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        instance.redraw();
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-        if (p5Ref.current === instance) p5Ref.current = null;
-      };
+      draggingRef.current = hit ?? null;
     };
 
-    boot();
+    const updateDrag = () => {
+      const dragging = draggingRef.current;
+      if (!dragging) return;
 
-    return () => {
-      disposed = true;
-      cleanup?.();
+      if (dragging.type === 'vector') {
+        const point = screenToWorld(
+          dragging.plot,
+          { x: p.mouseX, y: p.mouseY },
+          dragging.scale,
+        );
+        const clamped = dragging.id === 'n' ? clampNormal(point) : clampVector(point, 3.7);
+        setParams((prev) => ({ ...prev, [dragging.id]: clamped }));
+        p.redraw();
+      }
+
+      if (dragging.type === 'unit') {
+        const point = screenToWorld(
+          dragging.plot,
+          { x: p.mouseX, y: p.mouseY },
+          dragging.scale,
+        );
+        const dir = normalize2(point);
+        if (mag2(dir) < 1e-9) return;
+        setParams((prev) => ({ ...prev, [dragging.id]: dir }));
+        p.redraw();
+      }
+    };
+
+    const stopDrag = () => {
+      draggingRef.current = null;
+    };
+
+    p.mousePressed = startDrag;
+    p.mouseDragged = updateDrag;
+    p.mouseReleased = stopDrag;
+
+    p.touchStarted = () => {
+      startDrag();
+      return false;
+    };
+
+    p.touchMoved = () => {
+      updateDrag();
+      return false;
+    };
+
+    p.touchEnded = () => {
+      stopDrag();
+      return false;
     };
   }, [setParams]);
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw, extendSketch],
+    measureVectorsCanvas,
+    extendSketch,
+    { loop: false, redrawKey: params },
+  );
 
   const stats = useMemo(() => buildStats(params), [params]);
   const guideState = useMemo(() => getVectorGuideState(params), [params]);

@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   buildDependencyCone,
   buildPascalFrameData,
@@ -21,6 +20,7 @@ import {
   recurrenceParts,
   type CombinationMode,
 } from '../../explore/permutations-combinations/geometry';
+import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/permutations-combinations-explore.css';
 
 type Mode = CombinationMode;
@@ -75,6 +75,7 @@ const DEFAULT_PARAMS: Params = {
     k: 2,
   },
 };
+const CATALAN_N4 = catalanContrast(4);
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -224,68 +225,16 @@ function renderScene(
 export default function PermutationsCombinationsExploreRoot() {
   const [params, setParams] = useState<Params>(DEFAULT_PARAMS);
   const paramsRef = useRef(params);
-  const canvasHostRef = useRef<HTMLDivElement>(null);
-  const instanceRef = useRef<p5 | null>(null);
 
-  useEffect(() => {
-    paramsRef.current = params;
-    instanceRef.current?.redraw();
-  }, [params]);
+  paramsRef.current = params;
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measurePermutationsCanvas(host);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          p.noLoop();
-        };
-
-        p.draw = () => {
-          renderScene(p, paramsRef.current);
-          p.noLoop();
-        };
-      };
-
-      const instance = new P5(sketch, host);
-      instanceRef.current = instance;
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-
-        const { width, height } = measurePermutationsCanvas(host);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        instance.redraw();
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-        instanceRef.current = null;
-      };
-    };
-
-    boot();
-
-    return () => {
-      disposed = true;
-      cleanup?.();
-    };
+  const draw = useCallback((p: p5) => {
+    renderScene(p, paramsRef.current);
   }, []);
+  const canvasHostRef = useRectP5CanvasHost(draw, [draw], measurePermutationsCanvas, undefined, {
+    loop: false,
+    redrawKey: params,
+  });
 
   const selectedRow = Math.max(0, params.pascal.rows - 2);
   const selectedK = clamp(params.pascal.selectedK, 0, selectedRow);
@@ -302,8 +251,6 @@ export default function PermutationsCombinationsExploreRoot() {
       recurrence: params.recurrence,
     });
   }, [params, selectedK, selectedRow]);
-
-  const catalan = useMemo(() => catalanContrast(4), []);
 
   const setMode = useCallback((mode: Mode) => {
     setParams((prev) => ({ ...prev, mode }));
@@ -508,7 +455,7 @@ export default function PermutationsCombinationsExploreRoot() {
               卡特蘭數不是新的 C(n,k)：它從 C(2n,n) 的平衡路徑中排除越過限制線的路徑。
             </p>
             <p className="permutations-combinations-explore__stat">
-              n = 4：全部 {fmt(catalan.totalBalanced)}，合法 {fmt(catalan.legal)}，排除 {fmt(catalan.restrictedOut)}
+              n = 4：全部 {fmt(CATALAN_N4.totalBalanced)}，合法 {fmt(CATALAN_N4.legal)}，排除 {fmt(CATALAN_N4.restrictedOut)}
             </p>
           </div>
         </aside>

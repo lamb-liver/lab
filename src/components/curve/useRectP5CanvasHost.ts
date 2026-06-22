@@ -5,15 +5,17 @@ import { isP5RendererReady } from './p5RendererReady';
 export type CanvasSize = { width: number; height: number };
 
 type MeasureRect = (host: HTMLElement) => CanvasSize;
+type DrawResult = void | { keepLooping: boolean };
 type RectP5Options = {
   loop?: boolean;
   redrawKey?: unknown;
+  restartOn?: unknown[];
 };
 
 export type ExtendSketch = (p: p5, host: HTMLElement) => void;
 
 export function useRectP5CanvasHost(
-  draw: (p: p5) => void,
+  draw: (p: p5) => DrawResult,
   deps: unknown[],
   measureRect: MeasureRect,
   extendSketch?: ExtendSketch,
@@ -43,6 +45,11 @@ export function useRectP5CanvasHost(
   }, [shouldLoop, options.redrawKey]);
 
   useEffect(() => {
+    if (shouldLoop) instanceRef.current?.loop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- caller supplies restart keys
+  }, [shouldLoop, ...(options.restartOn ?? [])]);
+
+  useEffect(() => {
     const host = canvasHostRef.current;
     if (!host) return;
 
@@ -64,7 +71,10 @@ export function useRectP5CanvasHost(
           }
         };
 
-        p.draw = () => drawRef.current(p);
+        p.draw = () => {
+          const result = drawRef.current(p);
+          if (shouldLoop && result?.keepLooping === false) p.noLoop();
+        };
         extendSketchRef.current?.(p, host);
       };
 
@@ -78,6 +88,7 @@ export function useRectP5CanvasHost(
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
         if (!shouldLoop) instance.redraw();
+        else instance.loop();
       });
       ro.observe(host);
 

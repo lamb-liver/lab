@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import {
@@ -8,133 +8,93 @@ import {
   type RadianArcLengthParams,
 } from '../../curve/modules/radian-arc-length/geometry';
 import { renderRadianArcLengthScene } from '../../systems/rendering/radianArcLengthRender';
-import { isP5RendererReady } from './p5RendererReady';
+import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
 
 type Options = {
   params: RadianArcLengthParams;
   onThetaChange: (theta: number) => void;
 };
 
+function measureSquareCanvas(host: HTMLElement): CanvasSize {
+  const size = measureWorkCanvasSize(host);
+  return { width: size, height: size };
+}
+
 export function useRadianArcLengthP5({ params, onThetaChange }: Options) {
-  const canvasHostRef = useRef<HTMLDivElement>(null);
   const paramsRef = useRef(params);
   const onThetaChangeRef = useRef(onThetaChange);
   const draggingRef = useRef(false);
-  const instanceRef = useRef<p5 | null>(null);
 
   useEffect(() => {
     paramsRef.current = params;
-    instanceRef.current?.redraw();
   }, [params]);
 
   useEffect(() => {
     onThetaChangeRef.current = onThetaChange;
   }, [onThetaChange]);
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
+  const draw = useCallback((p: p5) => renderRadianArcLengthScene(p, paramsRef.current), []);
+  const extendSketch = useCallback((p: p5) => {
+    const currentCircle = () => circleLayout(p.width, p.height, paramsRef.current.radiusMode);
 
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        const currentCircle = () =>
-          circleLayout(p.width, p.height, paramsRef.current.radiusMode);
-
-        const updateDrag = () => {
-          if (!draggingRef.current) return;
-          const theta = thetaFromPoint(
-            paramsRef.current.theta,
-            p.mouseX,
-            p.mouseY,
-            currentCircle(),
-          );
-          paramsRef.current = { ...paramsRef.current, theta };
-          onThetaChangeRef.current(theta);
-          p.redraw();
-        };
-
-        p.setup = () => {
-          const size = measureWorkCanvasSize(host);
-          p.createCanvas(size, size);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          p.noLoop();
-        };
-
-        p.draw = () => renderRadianArcLengthScene(p, paramsRef.current);
-
-        p.mouseMoved = () => {
-          if (draggingRef.current) return;
-          p.cursor(pickThetaDrag(p.mouseX, p.mouseY, currentCircle()) ? 'grab' : 'default');
-        };
-
-        p.mousePressed = () => {
-          if (!pickThetaDrag(p.mouseX, p.mouseY, currentCircle())) return;
-          draggingRef.current = true;
-          p.cursor('grabbing');
-          updateDrag();
-        };
-
-        p.mouseDragged = updateDrag;
-
-        p.mouseReleased = () => {
-          draggingRef.current = false;
-          p.cursor(pickThetaDrag(p.mouseX, p.mouseY, currentCircle()) ? 'grab' : 'default');
-          p.redraw();
-        };
-
-        p.touchStarted = () => {
-          if (!pickThetaDrag(p.mouseX, p.mouseY, currentCircle())) return true;
-          draggingRef.current = true;
-          updateDrag();
-          return false;
-        };
-
-        p.touchMoved = () => {
-          updateDrag();
-          return !draggingRef.current;
-        };
-
-        p.touchEnded = () => {
-          draggingRef.current = false;
-          p.redraw();
-          return false;
-        };
-      };
-
-      const instance = new P5(sketch, host);
-      instanceRef.current = instance;
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-        const size = measureWorkCanvasSize(host);
-        instance.resizeCanvas(size, size);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        instance.redraw();
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instanceRef.current = null;
-        instance.remove();
-      };
+    const updateDrag = () => {
+      if (!draggingRef.current) return;
+      const theta = thetaFromPoint(
+        paramsRef.current.theta,
+        p.mouseX,
+        p.mouseY,
+        currentCircle(),
+      );
+      paramsRef.current = { ...paramsRef.current, theta };
+      onThetaChangeRef.current(theta);
+      p.redraw();
     };
 
-    boot();
+    p.mouseMoved = () => {
+      if (draggingRef.current) return;
+      p.cursor(pickThetaDrag(p.mouseX, p.mouseY, currentCircle()) ? 'grab' : 'default');
+    };
 
-    return () => {
-      disposed = true;
-      cleanup?.();
+    p.mousePressed = () => {
+      if (!pickThetaDrag(p.mouseX, p.mouseY, currentCircle())) return;
+      draggingRef.current = true;
+      p.cursor('grabbing');
+      updateDrag();
+    };
+
+    p.mouseDragged = updateDrag;
+
+    p.mouseReleased = () => {
+      draggingRef.current = false;
+      p.cursor(pickThetaDrag(p.mouseX, p.mouseY, currentCircle()) ? 'grab' : 'default');
+      p.redraw();
+    };
+
+    p.touchStarted = () => {
+      if (!pickThetaDrag(p.mouseX, p.mouseY, currentCircle())) return true;
+      draggingRef.current = true;
+      updateDrag();
+      return false;
+    };
+
+    p.touchMoved = () => {
+      updateDrag();
+      return !draggingRef.current;
+    };
+
+    p.touchEnded = () => {
+      draggingRef.current = false;
+      p.redraw();
+      return false;
     };
   }, []);
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw, extendSketch],
+    measureSquareCanvas,
+    extendSketch,
+    { loop: false, redrawKey: params },
+  );
 
   return { canvasHostRef };
 }

@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 264 |
-| 尚未掃描檔案 | 480 |
+| 已掃描檔案 | 272 |
+| 尚未掃描檔案 | 472 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（264）</summary>
+<summary>已掃描檔案（272）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -197,6 +197,14 @@
 - `src/components/explore/FunctionEquationsExploreRoot.tsx`
 - `src/components/explore/LimitsRiemannSumExploreRoot.tsx`
 - `src/components/explore/MatrixLinearTransformExploreRoot.tsx`
+- `src/components/explore/PermutationsCombinationsExploreRoot.tsx`
+- `src/components/explore/ProbabilityStatisticsExploreRoot.tsx`
+- `src/components/explore/RationalFunctionsAsymptotesExploreRoot.tsx`
+- `src/components/explore/SequencesAndSeriesExploreRoot.tsx`
+- `src/components/explore/TrigFunctionGraphsExploreRoot.tsx`
+- `src/components/explore/TrigonometryFundamentalsExploreRoot.tsx`
+- `src/components/explore/VectorsExploreRoot.tsx`
+- `src/components/explore/WaveSuperpositionExploreRoot.tsx`
 - `src/components/works/ChladniFiguresCurveRoot.tsx`
 - `src/components/works/ConicEnvelopeCurveRoot.tsx`
 - `src/components/works/ConicFocusLocusCurveRoot.tsx`
@@ -314,15 +322,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（480）</summary>
-- `src/components/explore/PermutationsCombinationsExploreRoot.tsx`
-- `src/components/explore/ProbabilityStatisticsExploreRoot.tsx`
-- `src/components/explore/RationalFunctionsAsymptotesExploreRoot.tsx`
-- `src/components/explore/SequencesAndSeriesExploreRoot.tsx`
-- `src/components/explore/TrigFunctionGraphsExploreRoot.tsx`
-- `src/components/explore/TrigonometryFundamentalsExploreRoot.tsx`
-- `src/components/explore/VectorsExploreRoot.tsx`
-- `src/components/explore/WaveSuperpositionExploreRoot.tsx`
+<summary>尚未掃描檔案（472）</summary>
 - `src/components/works/AffineIfsFractalCurveRoot.tsx`
 - `src/components/works/AffineTransformPatternCurveRoot.tsx`
 - `src/components/works/ArithmeticGeometricSequencesCurveRoot.tsx`
@@ -956,7 +956,7 @@
 | `src/components/curve/useRotationScaleCompositionP5.ts` | 已掃描並修正：metadata 只讀 smooth `rotationStepDeg` / `scaleFactor`，刪除未被 metadata 消費的 `evolutionSpeed` smooth notification。 |
 | `src/components/curve/useSinusoidAmplitudePeriodPhaseP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver / noLoop lifecycle，改用既有 `useRectP5CanvasHost` 的 `loop: false` + `redrawKey`。 |
 | `src/components/curve/useSmoothParamNotifier.ts`、`src/components/curve/useSmoothParamNotifier.test.ts` | 已掃描並修正：全專案只使用物件 options，刪除函式 shorthand normalization；options type 不再 export。量化測試保留。 |
-| `src/components/curve/useRectP5CanvasHost.ts` | 已掃描；確認保留：`CanvasSize` / `ExtendSketch`、`loop: false`、`redrawKey` 目前被多個 Explore / Work canvas 使用；只移除重複生命週期註解。 |
+| `src/components/curve/useRectP5CanvasHost.ts` | 已掃描並修正：`CanvasSize` / `ExtendSketch`、`loop: false`、`redrawKey` 目前被多個 Explore / Work canvas 使用；補上 `restartOn` 與 `{ keepLooping }` 支援，讓自停 canvas 與舊 reveal wrapper 也能共用同一個 p5 lifecycle。 |
 | `src/curve/modules/euler-formula-rotation/index.ts` | 支援性修正：移除 index 對未使用 `TIME_SPEED` 的 re-export；module 檔未因此標記為完整掃描。 |
 | `src/components/curve/useEulerFormulaRotationP5.ts`、`src/components/curve/useFibonacciSpiralP5.ts`、`src/components/curve/useFunctionDerivativeGraphP5.ts`、`src/components/curve/useFunctionGraphTransformP5.ts`、`src/components/curve/useInterferenceFringesP5.ts`、`src/components/curve/useInverseFunctionReflectionP5.ts`、`src/components/curve/useJuliaP5.ts`、`src/components/curve/useLawOfSinesCosinesP5.ts`、`src/components/curve/useLogisticCurveP5.ts`、`src/components/curve/useParabolicReflectionP5.ts`、`src/components/curve/usePolynomialRootsMultiplicityP5.ts`、`src/components/curve/useQuadraticCompletingSquareP5.ts`、`src/components/curve/useRadianArcLengthP5.ts`、`src/components/curve/useRationalObliqueAsymptoteP5.ts`、`src/components/curve/useRationalVerticalHorizontalAsymptotesP5.ts`、`src/components/curve/useRegressionOutlierInfluenceP5.ts`、`src/components/curve/useStandingWaveP5.ts` | 已掃描；本輪未找到可立即刪除或縮小且不改變行為的項目。 |
 
@@ -970,8 +970,25 @@
 | `src/components/curve/useVectorFieldStreamlinesP5.ts` | 已掃描；`defaultParams` option 疑似可刪，但尚未完成全呼叫契約驗證，保留為 verify-delete，未改碼。 |
 | `src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`、`src/components/works/TrigAngleIdentitiesCurveRoot.tsx`、`src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx`、`src/components/works/VectorAdditionScalarCurveRoot.tsx`、`src/components/works/VectorFieldPatternsCurveRoot.tsx`、`src/components/works/VectorProjectionCurveRoot.tsx` | 支援性修正：對應 module `getMetadata` 不消費 runtime object，已刪除 root 端多餘 `revealPct` / `smoothParams` 傳遞；root 檔仍保留在未掃描清單，尚未標記完整掃描。 |
 | `src/components/explore/ComplexEulerFormulaExploreRoot.tsx`、`src/components/explore/ConicDynamicGeometryExploreRoot.tsx`、`src/components/explore/MatrixLinearTransformExploreRoot.tsx` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver lifecycle，改用既有 `useRectP5CanvasHost`；保留各 root 的狀態、sidebar、renderer 架構。 |
-| `src/components/explore/ExponentialLogarithmExploreRoot.tsx` | 已掃描並修正：刪除 `CurveStyle.guide` 與三個未讀 call-site 欄位。手寫 lifecycle 因 mode-dependent canvas measure 未被現有 helper 直接覆蓋，保留為 verify-delete，未改架構。 |
+| `src/components/explore/ExponentialLogarithmExploreRoot.tsx` | 已掃描並修正：刪除 `CurveStyle.guide` 與三個未讀 call-site 欄位；手寫 p5 lifecycle 已改用 `useRectP5CanvasHost`，mode-dependent canvas height 保留在 draw 內同步；本地 `withClip` 改用 `p5PlotHelpers.clipRect`。 |
 | `src/components/explore/DifferentialEquationsGeometryExploreRoot.tsx`、`src/components/explore/FourierSeriesExploreRoot.tsx`、`src/components/explore/FunctionEquationsExploreRoot.tsx`、`src/components/explore/LimitsRiemannSumExploreRoot.tsx` | 已掃描；未找到可立即刪除或縮小且不改變行為的項目，本輪未改碼。 |
+| `src/components/explore/PermutationsCombinationsExploreRoot.tsx` | 已掃描並修正：手寫 `import('p5')` / `ResizeObserver` / `noLoop` / redraw lifecycle 已改用 `useRectP5CanvasHost({ loop: false, redrawKey })`；`catalanContrast(4)` 的空依賴 `useMemo` 已改成 module-level 常數。 |
+| `src/components/explore/ProbabilityStatisticsExploreRoot.tsx` | 已掃描並修正：手寫 p5 boot / resize lifecycle 已用 `useRectP5CanvasHost` 承接；CLT 仍保留連續 draw，沒有錯改成 `loop: false`。 |
+| `src/components/explore/RationalFunctionsAsymptotesExploreRoot.tsx` | 已掃描並修正：手寫 static p5 lifecycle 已改用 `useRectP5CanvasHost({ loop: false })`；renderer font 仍在 draw 前設定。 |
+| `src/components/explore/SequencesAndSeriesExploreRoot.tsx` | 已掃描並修正：手寫 static p5 lifecycle 已改用 `useRectP5CanvasHost({ loop: false })`；logistic 拖曳移到 `extendSketch`。 |
+| `src/components/explore/VectorsExploreRoot.tsx` | 已掃描並修正：手寫 static p5 lifecycle 已改用 `useRectP5CanvasHost({ loop: false })`；本地 `withClip` / `drawDashedLine` 已收斂到 `p5PlotHelpers.clipRect` / `withDash`。 |
+| `src/components/explore/TrigFunctionGraphsExploreRoot.tsx` | 已掃描；確認保留：已使用 `useRectP5CanvasHost` 的 `loop: false` + `redrawKey`，拖曳行為在 `extendSketch`，未發現可立即刪除且不改行為的項目。 |
+| `src/components/explore/TrigonometryFundamentalsExploreRoot.tsx` | 已掃描；確認保留：已使用 `useRectP5CanvasHost`；連續 draw 是 smoothing 依賴 `p.deltaTime` 的必要行為，不能改成 static redraw。 |
+| `src/components/explore/WaveSuperpositionExploreRoot.tsx` | 已掃描；確認保留：已使用 `useRectP5CanvasHost`；draw 內 mode-dependent canvas resize 與 `time` 累積是現有 helper 未覆蓋的必要行為。 |
+
+## 2026-06-22 p5 lifecycle 收斂
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/curve/useP5CanvasHost.ts` | 已掃描並修正：刪除自身手寫 p5 boot / ResizeObserver，改成 `useRectP5CanvasHost` 的 square-canvas wrapper；保留舊 API 以避免一次性改動 30 多個呼叫端。 |
+| `src/components/curve/useRadianArcLengthP5.ts`、`src/components/curve/useFunctionDerivativeGraphP5.ts`、`src/components/curve/useDotProductGeometryP5.ts`、`src/components/curve/useLawOfSinesCosinesP5.ts`、`src/components/curve/useRationalObliqueAsymptoteP5.ts`、`src/components/curve/useRationalVerticalHorizontalAsymptotesP5.ts` | 已掃描並修正：手寫 static p5 lifecycle 已改用 `useRectP5CanvasHost({ loop: false })`，拖曳與 wheel handler 留在各 hook 的 `extendSketch`。 |
+| `src/components/curve/useQuadraticCompletingSquareP5.ts`、`src/components/curve/useFunctionGraphTransformP5.ts`、`src/components/curve/useInverseFunctionReflectionP5.ts`、`src/components/curve/usePolynomialRootsMultiplicityP5.ts`、`src/components/curve/useEigenvectorGeometryP5.ts` | 已掃描並修正：手寫 p5 boot / ResizeObserver 已改用 `useRectP5CanvasHost`；保留連續 draw，因 smoothing 或既有互動狀態仍依賴 frame loop。 |
+| `src/components/curve/useJuliaP5.ts` | 已掃描並修正：手寫 p5 lifecycle 已改用 `useRectP5CanvasHost`；Julia engine 改為 draw 內 lazy init，保留 `pixelDensity(1)`、自停 `noLoop`、參數變更/resize 後重啟 loop 與 unmount dispose。 |
 
 ## 接續審查記錄格式
 

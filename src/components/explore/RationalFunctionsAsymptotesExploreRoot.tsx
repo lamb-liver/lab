@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from '../curve/p5RendererReady';
 import {
   RATIONAL_PARAM_META,
   RATIONAL_PRESETS,
@@ -21,6 +20,7 @@ import type {
   RationalPresetId,
 } from '../../explore/rational-functions-asymptotes/types';
 import { renderRationalFunctionsAsymptotesExploreScene } from '../../systems/rendering/rationalFunctionsAsymptotesExploreRender';
+import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/rational-functions-asymptotes-explore.css';
 
 export default function RationalFunctionsAsymptotesExploreRoot() {
@@ -30,12 +30,15 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
   const [showHoles, setShowHoles] = useState(true);
   const [advanced, setAdvanced] = useState(false);
 
-  const canvasHostRef = useRef<HTMLDivElement>(null);
-  const p5Ref = useRef<p5 | null>(null);
   const presetIdRef = useRef(presetId);
   const paramsRef = useRef(params);
   const showAsymptotesRef = useRef(showAsymptotes);
   const showHolesRef = useRef(showHoles);
+
+  presetIdRef.current = presetId;
+  paramsRef.current = params;
+  showAsymptotesRef.current = showAsymptotes;
+  showHolesRef.current = showHoles;
 
   const activePreset = useMemo(() => presetById(presetId), [presetId]);
   const model = useMemo(() => buildRationalModel(activePreset, params), [activePreset, params]);
@@ -43,80 +46,23 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
   const formulaLines = useMemo(() => buildFormulaLines(model), [model]);
   const advancedLines = useMemo(() => buildAdvancedLines(model), [model]);
 
-  const requestRedraw = useCallback(() => {
-    p5Ref.current?.redraw();
+  const draw = useCallback((p: p5) => {
+    p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC", sans-serif');
+    const preset = presetById(presetIdRef.current);
+    renderRationalFunctionsAsymptotesExploreScene(p, {
+      preset,
+      model: buildRationalModel(preset, paramsRef.current),
+      showAsymptotes: showAsymptotesRef.current,
+      showHoles: showHolesRef.current,
+    });
   }, []);
-
-  useEffect(() => {
-    presetIdRef.current = presetId;
-    paramsRef.current = params;
-    showAsymptotesRef.current = showAsymptotes;
-    showHolesRef.current = showHoles;
-    requestRedraw();
-  }, [presetId, params, showAsymptotes, showHoles, requestRedraw]);
-
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measureRationalExploreCanvas(host);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC", sans-serif');
-          p.noLoop();
-          window.requestAnimationFrame(() => {
-            if (!disposed) p.redraw();
-          });
-        };
-
-        p.draw = () => {
-          const preset = presetById(presetIdRef.current);
-          renderRationalFunctionsAsymptotesExploreScene(p, {
-            preset,
-            model: buildRationalModel(preset, paramsRef.current),
-            showAsymptotes: showAsymptotesRef.current,
-            showHoles: showHolesRef.current,
-          });
-        };
-      };
-
-      const instance = new P5(sketch, host);
-      p5Ref.current = instance;
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-        const { width, height } = measureRationalExploreCanvas(host);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        instance.redraw();
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        if (p5Ref.current === instance) p5Ref.current = null;
-        instance.remove();
-      };
-    };
-
-    boot();
-
-    return () => {
-      disposed = true;
-      cleanup?.();
-    };
-  }, []);
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw],
+    measureRationalExploreCanvas,
+    undefined,
+    { loop: false, redrawKey: `${presetId}|${JSON.stringify(params)}|${showAsymptotes}|${showHoles}` },
+  );
 
   const setPreset = (id: RationalPresetId) => {
     const nextPreset = presetById(id);

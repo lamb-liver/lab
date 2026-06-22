@@ -1,6 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from './p5RendererReady';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import {
   clampFeaturePoint,
@@ -12,14 +11,19 @@ import {
   type ViewSmoothState,
 } from '../../curve/modules/function-graph-transform/geometry';
 import { renderFunctionGraphTransformScene } from '../../systems/rendering/functionGraphTransformRender';
+import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
 
 type Options = {
   params: FunctionGraphTransformParams;
   onParamsChange: (patch: Partial<FunctionGraphTransformParams>) => void;
 };
 
+function measureSquareCanvas(host: HTMLElement): CanvasSize {
+  const size = measureWorkCanvasSize(host);
+  return { width: size, height: size };
+}
+
 export function useFunctionGraphTransformP5({ params, onParamsChange }: Options) {
-  const canvasHostRef = useRef<HTMLDivElement>(null);
   const paramsRef = useRef(params);
   const smoothRef = useRef<ViewSmoothState>({ viewHalfY: 5 });
   const draggingFeatureRef = useRef(false);
@@ -33,111 +37,73 @@ export function useFunctionGraphTransformP5({ params, onParamsChange }: Options)
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        const updateDrag = () => {
-          if (!draggingFeatureRef.current) return;
-          const plot = computeWorkPlotRect(p.width);
-          const world = screenToWorld(
-            plot,
-            smoothRef.current.viewHalfY,
-            p.mouseX,
-            p.mouseY,
-          );
-          const next = clampFeaturePoint(world.x, world.y);
-          onParamsChangeRef.current(next);
-        };
-
-        p.setup = () => {
-          const size = measureWorkCanvasSize(host);
-          p.createCanvas(size, size);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        };
-
-        p.draw = () => {
-          const targetViewHalfY = renderFunctionGraphTransformScene(p, {
-            size: p.width,
-            params: paramsRef.current,
-            smooth: smoothRef.current,
-          });
-          smoothRef.current = stepViewHalfYSmoothing(
-            smoothRef.current,
-            targetViewHalfY,
-            p.deltaTime,
-          );
-        };
-
-        p.mousePressed = () => {
-          const plot = computeWorkPlotRect(p.width);
-          draggingFeatureRef.current = pickFeaturePoint(
-            paramsRef.current,
-            plot,
-            smoothRef.current.viewHalfY,
-            p.mouseX,
-            p.mouseY,
-          );
-          if (draggingFeatureRef.current) updateDrag();
-        };
-
-        p.mouseDragged = () => {
-          updateDrag();
-        };
-
-        p.mouseReleased = () => {
-          draggingFeatureRef.current = false;
-        };
-
-        p.touchStarted = () => {
-          p.mousePressed();
-          return false;
-        };
-
-        p.touchMoved = () => {
-          p.mouseDragged();
-          return false;
-        };
-
-        p.touchEnded = () => {
-          p.mouseReleased();
-          return false;
-        };
-      };
-
-      const instance = new P5(sketch, host);
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-        const size = measureWorkCanvasSize(host);
-        instance.resizeCanvas(size, size);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-      };
+  const draw = useCallback((p: p5) => {
+    const targetViewHalfY = renderFunctionGraphTransformScene(p, {
+      size: p.width,
+      params: paramsRef.current,
+      smooth: smoothRef.current,
+    });
+    smoothRef.current = stepViewHalfYSmoothing(
+      smoothRef.current,
+      targetViewHalfY,
+      p.deltaTime,
+    );
+  }, []);
+  const extendSketch = useCallback((p: p5) => {
+    const updateDrag = () => {
+      if (!draggingFeatureRef.current) return;
+      const plot = computeWorkPlotRect(p.width);
+      const world = screenToWorld(
+        plot,
+        smoothRef.current.viewHalfY,
+        p.mouseX,
+        p.mouseY,
+      );
+      const next = clampFeaturePoint(world.x, world.y);
+      onParamsChangeRef.current(next);
     };
 
-    boot();
+    p.mousePressed = () => {
+      const plot = computeWorkPlotRect(p.width);
+      draggingFeatureRef.current = pickFeaturePoint(
+        paramsRef.current,
+        plot,
+        smoothRef.current.viewHalfY,
+        p.mouseX,
+        p.mouseY,
+      );
+      if (draggingFeatureRef.current) updateDrag();
+    };
 
-    return () => {
-      disposed = true;
-      cleanup?.();
+    p.mouseDragged = () => {
+      updateDrag();
+    };
+
+    p.mouseReleased = () => {
+      draggingFeatureRef.current = false;
+    };
+
+    p.touchStarted = () => {
+      p.mousePressed();
+      return false;
+    };
+
+    p.touchMoved = () => {
+      p.mouseDragged();
+      return false;
+    };
+
+    p.touchEnded = () => {
+      p.mouseReleased();
+      return false;
     };
   }, []);
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw, extendSketch],
+    measureSquareCanvas,
+    extendSketch,
+  );
 
   return { canvasHostRef };
 }

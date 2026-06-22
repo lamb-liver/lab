@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from '../curve/p5RendererReady';
+import { clipRect } from '../../systems/rendering/p5PlotHelpers';
+import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/exponential-logarithm-explore.css';
 
 type Mode = 'inverse' | 'e' | 'compare';
@@ -75,14 +76,19 @@ function fmt(value: number, digits = 2) {
   return value.toFixed(digits).replace(/\.?0+$/, '');
 }
 
-function measureExponentialCanvas(host: HTMLElement, mode: Mode = 'inverse') {
-  const width = Math.max(320, Math.floor(host.clientWidth || 640));
-  const height =
+function exponentialCanvasHeight(width: number, mode: Mode = 'inverse') {
+  return (
     mode === 'e' && width < 520
       ? Math.round(clamp(width * 1.32, 440, 520))
       : width < 520
       ? Math.round(clamp(width * 1.05, 360, 430))
-      : Math.round(clamp(width * 0.64, 380, 560));
+      : Math.round(clamp(width * 0.64, 380, 560))
+  );
+}
+
+function measureExponentialCanvas(host: HTMLElement, mode: Mode = 'inverse') {
+  const width = Math.max(320, Math.floor(host.clientWidth || 640));
+  const height = exponentialCanvasHeight(width, mode);
   return { width, height };
 }
 
@@ -129,16 +135,6 @@ function sampleFunction(xMin: number, xMax: number, count: number, fn: (x: numbe
   return points;
 }
 
-function withClip(p: p5, rect: Rect, fn: () => void) {
-  const ctx = p.drawingContext;
-  ctx.save();
-  ctx.beginPath();
-  ctx.rect(rect.x, rect.y, rect.w, rect.h);
-  ctx.clip();
-  fn();
-  ctx.restore();
-}
-
 function drawFrame(p: p5, title: string, subtitle: string) {
   const stage = stageRect(p);
 
@@ -179,7 +175,7 @@ function drawCartesianPlot(
   const xStep = cfg.xStep ?? 1;
   const yStep = cfg.yStep ?? 1;
 
-  withClip(p, rect, () => {
+  clipRect(p, rect, () => {
     p.strokeWeight(1);
 
     for (let x = Math.ceil(cfg.xMin / xStep) * xStep; x <= cfg.xMax; x += xStep) {
@@ -215,7 +211,7 @@ function drawLogYPlot(
   rect: Rect,
   cfg: { xMin: number; xMax: number; yMin: number; yMax: number },
 ) {
-  withClip(p, rect, () => {
+  clipRect(p, rect, () => {
     p.strokeWeight(1);
 
     for (let x = Math.ceil(cfg.xMin); x <= cfg.xMax; x += 1) {
@@ -256,7 +252,7 @@ function drawCurve(
     : [{ weight: style.weight ?? 1, alpha: style.alpha ?? 80 }];
 
   for (const layer of layers) {
-    withClip(p, rect, () => {
+    clipRect(p, rect, () => {
       p.noFill();
       p.stroke(...color, layer.alpha);
       p.strokeWeight(layer.weight);
@@ -306,7 +302,7 @@ function drawCurveLogY(
     : [{ weight: style.weight ?? 1, alpha: style.alpha ?? 80 }];
 
   for (const layer of layers) {
-    withClip(p, rect, () => {
+    clipRect(p, rect, () => {
       p.noFill();
       p.stroke(...color, layer.alpha);
       p.strokeWeight(layer.weight);
@@ -462,7 +458,7 @@ function drawLogStraightEmphasis(
     y: mapLogY(rect, last.y, yMin, yMax),
   };
 
-  withClip(p, rect, () => {
+  clipRect(p, rect, () => {
     p.stroke(...WHITE, 52);
     p.strokeWeight(1.2);
     p.line(p1.x, p1.y, p2.x, p2.y);
@@ -655,7 +651,7 @@ function drawLnArea(
   color: readonly [number, number, number],
   alpha: number,
 ) {
-  withClip(p, plot, () => {
+  clipRect(p, plot, () => {
     p.noStroke();
     p.fill(...color, alpha);
     p.beginShape();
@@ -832,84 +828,27 @@ function StatsBlock({ rows }: StatsBlockProps) {
 export default function ExponentialLogarithmExploreRoot() {
   const [params, setParams] = useState<Params>(DEFAULT_PARAMS);
   const paramsRef = useRef(params);
-  const instanceRef = useRef<p5 | null>(null);
-  const canvasHostRef = useRef<HTMLDivElement>(null);
 
-  const syncCanvasSize = useCallback(() => {
-    const host = canvasHostRef.current;
-    const instance = instanceRef.current;
-    if (!host || !instance || !isP5RendererReady(instance)) return;
-
-    const { width, height } = measureExponentialCanvas(host, paramsRef.current.mode);
-    if (Math.abs(instance.width - width) > 1 || Math.abs(instance.height - height) > 1) {
-      instance.resizeCanvas(width, height);
-      instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-    }
-  }, []);
-
-  useEffect(() => {
-    paramsRef.current = params;
-    syncCanvasSize();
-    instanceRef.current?.redraw();
-  }, [params, syncCanvasSize]);
+  paramsRef.current = params;
 
   const patchParams = useCallback((patch: Partial<Params>) => {
     setParams((prev) => ({ ...prev, ...patch }));
   }, []);
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measureExponentialCanvas(host, paramsRef.current.mode);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          p.textFont('sans-serif');
-          p.noLoop();
-          renderScene(p, paramsRef.current);
-        };
-
-        p.draw = () => renderScene(p, paramsRef.current);
-      };
-
-      const instance = new P5(sketch, host);
-      instanceRef.current = instance;
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-
-        const { width, height } = measureExponentialCanvas(host, paramsRef.current.mode);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        instance.redraw();
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-        if (instanceRef.current === instance) instanceRef.current = null;
-      };
-    };
-
-    boot();
-
-    return () => {
-      disposed = true;
-      cleanup?.();
-    };
+  const measureCanvas = useCallback(
+    (host: HTMLElement) => measureExponentialCanvas(host, paramsRef.current.mode),
+    [],
+  );
+  const draw = useCallback((p: p5) => {
+    const targetHeight = exponentialCanvasHeight(p.width, paramsRef.current.mode);
+    if (Math.abs(p.height - targetHeight) > 1) p.resizeCanvas(p.width, targetHeight);
+    p.textFont('sans-serif');
+    renderScene(p, paramsRef.current);
   }, []);
+  const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, undefined, {
+    loop: false,
+    redrawKey: params,
+  });
 
   const stats = useMemo(() => {
     if (params.mode === 'inverse') {

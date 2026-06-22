@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { isP5RendererReady } from '../curve/p5RendererReady';
+import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/probability-statistics-explore.css';
 
 type Mode = 'conditional' | 'clt' | 'monty';
@@ -985,6 +985,8 @@ export default function ProbabilityStatisticsExploreRoot() {
   }, [chooseMontyStrategy]);
 
   const draw = useCallback((p: p5) => {
+    p.textFont('sans-serif');
+
     if (modeRef.current === 'clt') {
       const wasRunning = cltRef.current.running;
       const changed = updateClt(p, cltRef.current);
@@ -1007,70 +1009,22 @@ export default function ProbabilityStatisticsExploreRoot() {
     }
   }, [syncCltView]);
 
-  const canvasHostRef = useRef<HTMLDivElement>(null);
-  const drawRef = useRef(draw);
+  const extendSketch = useCallback((p: p5) => {
+    p.mousePressed = () => {
+      if (modeRef.current !== 'monty') return;
 
-  useEffect(() => {
-    drawRef.current = draw;
-  }, [draw]);
+      const door = montyDoorRects(p).find((rect) => hitRect(p.mouseX, p.mouseY, rect));
+      if (!door) return;
 
-  useEffect(() => {
-    const host = canvasHostRef.current;
-    if (!host) return;
-
-    let disposed = false;
-    let cleanup: (() => void) | undefined;
-
-    const boot = async () => {
-      const { default: P5 } = await import('p5');
-      if (disposed) return;
-
-      const sketch = (p: p5) => {
-        p.setup = () => {
-          const { width, height } = measureProbabilityCanvas(host);
-          p.createCanvas(width, height);
-          p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          p.textFont('sans-serif');
-        };
-
-        p.draw = () => drawRef.current(p);
-
-        p.mousePressed = () => {
-          if (modeRef.current !== 'monty') return;
-
-          const door = montyDoorRects(p).find((rect) => hitRect(p.mouseX, p.mouseY, rect));
-          if (!door) return;
-
-          handleMontyDoorClickRef.current(door.index, p.millis());
-        };
-      };
-
-      const instance = new P5(sketch, host);
-
-      const ro = new ResizeObserver(() => {
-        if (disposed) return;
-        if (!isP5RendererReady(instance)) return;
-
-        const { width, height } = measureProbabilityCanvas(host);
-        instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-      });
-      ro.observe(host);
-
-      cleanup = () => {
-        disposed = true;
-        ro.disconnect();
-        instance.remove();
-      };
-    };
-
-    boot();
-
-    return () => {
-      disposed = true;
-      cleanup?.();
+      handleMontyDoorClickRef.current(door.index, p.millis());
     };
   }, []);
+  const canvasHostRef = useRectP5CanvasHost(
+    draw,
+    [draw, extendSketch],
+    measureProbabilityCanvas,
+    extendSketch,
+  );
 
   const conditionalStats = useMemo(() => {
     const s = normalizeConditional(conditional);
