@@ -8,12 +8,10 @@ import { useCatenaryP5 } from '../curve/useCatenaryP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function CatenaryCurveRoot({
-  controlsMountId = 'catenary-controls',
-}: Props) {
+export default function CatenaryCurveRoot({ controlsMountId }: Props) {
   const module = catenaryModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);

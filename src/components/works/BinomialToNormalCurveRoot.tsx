@@ -7,7 +7,7 @@ import StatsPanel from '../curve/StatsPanel';
 import { useBinomialToNormalP5 } from '../curve/useBinomialToNormalP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
 const modeOptions = [
   { value: MODE_X, label: 'X 分佈' },
@@ -15,7 +15,7 @@ const modeOptions = [
   { value: MODE_SIM, label: '伯努利模擬' },
 ];
 
-export default function BinomialToNormalCurveRoot({ controlsMountId = 'binomial-to-normal-controls' }: Props) {
+export default function BinomialToNormalCurveRoot({ controlsMountId }: Props) {
   const module = binomialToNormalModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [runNonce, setRunNonce] = useState(0);

@@ -7,9 +7,9 @@ import StatsPanel from '../curve/StatsPanel';
 import { useBuffonNeedleP5 } from '../curve/useBuffonNeedleP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
-export default function BuffonNeedleCurveRoot({ controlsMountId = 'buffon-needle-controls' }: Props) {
+export default function BuffonNeedleCurveRoot({ controlsMountId }: Props) {
   const module = buffonNeedleModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [resetNonce, setResetNonce] = useState(0);

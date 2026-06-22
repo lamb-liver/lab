@@ -12,7 +12,7 @@ import StatsPanel from '../curve/StatsPanel';
 import { useCatalanNumbersP5 } from '../curve/useCatalanNumbersP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
 const modeOptions = [
   { value: MODE_PATH, label: 'Dyck 路徑' },
@@ -20,7 +20,7 @@ const modeOptions = [
   { value: MODE_TRIANGULATION, label: '三角剖分' },
 ];
 
-export default function CatalanNumbersCurveRoot({ controlsMountId = 'catalan-numbers-controls' }: Props) {
+export default function CatalanNumbersCurveRoot({ controlsMountId }: Props) {
   const module = catalanNumbersModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [nextNonce, setNextNonce] = useState(0);

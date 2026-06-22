@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   MODE_DECAY,
@@ -11,16 +11,14 @@ import StatsPanel from '../curve/StatsPanel';
 import { useExponentialGrowthDecayP5 } from '../curve/useExponentialGrowthDecayP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
 const modeOptions = [
   { value: MODE_GROWTH, label: '成長' },
   { value: MODE_DECAY, label: '衰減' },
 ];
 
-export default function ExponentialGrowthDecayCurveRoot({
-  controlsMountId = 'exponential-growth-decay-controls',
-}: Props) {
+export default function ExponentialGrowthDecayCurveRoot({ controlsMountId }: Props) {
   const module = exponentialGrowthDecayModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -28,7 +26,6 @@ export default function ExponentialGrowthDecayCurveRoot({
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useExponentialGrowthDecayP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
   });
@@ -46,13 +43,9 @@ export default function ExponentialGrowthDecayCurveRoot({
     smoothParams: targetParams,
   });
 
-  const visibleSchema = useMemo(
-    () =>
-      tangentMode
-        ? module.paramSchema
-        : module.paramSchema.filter((field) => field.key !== 'tNorm'),
-    [tangentMode, module.paramSchema],
-  );
+  const visibleSchema = tangentMode
+    ? module.paramSchema
+    : module.paramSchema.filter((field) => field.key !== 'tNorm');
 
   const patchParams = (patch: ParamValues) => {
     setTargetParams((prev) => ({ ...prev, ...patch }));

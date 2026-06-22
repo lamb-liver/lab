@@ -11,7 +11,7 @@ import { useArithmeticGeometricSequencesP5 } from '../curve/useArithmeticGeometr
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 type RangeFieldProps = {
@@ -25,9 +25,7 @@ type RangeFieldProps = {
   onChange: (value: number) => void;
 };
 
-export default function ArithmeticGeometricSequencesCurveRoot({
-  controlsMountId = 'arithmetic-geometric-sequences-controls',
-}: Props) {
+export default function ArithmeticGeometricSequencesCurveRoot({ controlsMountId }: Props) {
   const module = arithmeticGeometricSequencesModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -36,7 +34,6 @@ export default function ArithmeticGeometricSequencesCurveRoot({
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
 
   const { canvasHostRef } = useArithmeticGeometricSequencesP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
   });
@@ -193,7 +190,6 @@ function RangeField({
           max={max}
           step={step}
           value={value}
-          onChange={(event) => onChange(Number(event.target.value))}
           onInput={(event) => onChange(Number(event.currentTarget.value))}
         />
       </div>

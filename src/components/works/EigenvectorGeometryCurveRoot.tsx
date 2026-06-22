@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   EIGENVECTOR_PRESETS,
@@ -13,7 +13,7 @@ import { useEigenvectorGeometryP5 } from '../curve/useEigenvectorGeometryP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 type MatrixKey = 'a' | 'b' | 'c' | 'd';
@@ -21,19 +21,14 @@ type PresetSelection = EigenvectorPresetId | 'custom';
 
 const MATRIX_KEYS: MatrixKey[] = ['a', 'b', 'c', 'd'];
 
-export default function EigenvectorGeometryCurveRoot({
-  controlsMountId = 'eigenvector-geometry-controls',
-}: Props) {
+export default function EigenvectorGeometryCurveRoot({ controlsMountId }: Props) {
   const module = eigenvectorGeometryModule;
   const [params, setParams] = useState<ParamValues>(module.defaultParams);
   const [presetId, setPresetId] = useState<PresetSelection>('stretch');
   const [advanced, setAdvanced] = useState(false);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
-  const currentPreset = useMemo(
-    () => (presetId === 'custom' ? undefined : presetById(presetId)),
-    [presetId],
-  );
+  const currentPreset = presetId === 'custom' ? undefined : presetById(presetId);
   const visiblePresets = EIGENVECTOR_PRESETS.filter((preset) => advanced || !preset.advanced);
 
   const onParamsChange = useCallback((patch: ParamValues) => {

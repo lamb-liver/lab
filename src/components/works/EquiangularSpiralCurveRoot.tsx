@@ -8,12 +8,10 @@ import { useEquiangularSpiralP5 } from '../curve/useEquiangularSpiralP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function EquiangularSpiralCurveRoot({
-  controlsMountId = 'equiangular-spiral-controls',
-}: Props) {
+export default function EquiangularSpiralCurveRoot({ controlsMountId }: Props) {
   const module = equiangularSpiralModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);

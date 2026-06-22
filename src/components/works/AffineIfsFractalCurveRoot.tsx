@@ -3,12 +3,10 @@ import { affineIfsFractalModule } from '../../curve/modules/affine-ifs-fractal';
 import { useAffineIfsFractalP5 } from '../curve/useAffineIfsFractalP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function AffineIfsFractalCurveRoot({
-  controlsMountId = 'affine-ifs-fractal-controls',
-}: Props) {
+export default function AffineIfsFractalCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={affineIfsFractalModule}

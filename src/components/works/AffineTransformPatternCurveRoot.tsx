@@ -3,12 +3,10 @@ import { affineTransformPatternModule } from '../../curve/modules/affine-transfo
 import { useAffineTransformPatternP5 } from '../curve/useAffineTransformPatternP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function AffineTransformPatternCurveRoot({
-  controlsMountId = 'affine-transform-pattern-controls',
-}: Props) {
+export default function AffineTransformPatternCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={affineTransformPatternModule}

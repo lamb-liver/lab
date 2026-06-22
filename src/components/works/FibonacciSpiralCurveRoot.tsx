@@ -3,12 +3,10 @@ import { fibonacciSpiralModule } from '../../curve/modules/fibonacci-spiral';
 import { useFibonacciSpiralP5 } from '../curve/useFibonacciSpiralP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function FibonacciSpiralCurveRoot({
-  controlsMountId = 'fibonacci-spiral-controls',
-}: Props) {
+export default function FibonacciSpiralCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={fibonacciSpiralModule}

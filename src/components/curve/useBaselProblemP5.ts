@@ -6,7 +6,6 @@ import { renderBaselProblemScene } from '../../systems/rendering/baselProblemRen
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   playing: boolean;
   replayNonce: number;
@@ -14,16 +13,15 @@ type Options = {
 };
 
 export function useBaselProblemP5({
-  defaultParams,
   targetParams,
   playing,
   replayNonce,
   onRevealPctChange,
-  }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+}: Options) {
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const playingRef = useRef(playing);
   const revealRef = useRef(0);
-  const lastKeyRef = useRef(paramsKey(defaultParams));
+  const lastKeyRef = useRef(paramsKey(targetParams));
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
 

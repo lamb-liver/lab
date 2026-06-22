@@ -63,7 +63,7 @@ import ScatterCorrelationRegressionCurveRoot from './ScatterCorrelationRegressio
 import RegressionOutlierInfluenceCurveRoot from './RegressionOutlierInfluenceCurveRoot';
 import PercentileBoxPlotCurveRoot from './PercentileBoxPlotCurveRoot';
 
-type RootProps = { controlsMountId?: string };
+type RootProps = { controlsMountId: string };
 
 const rootBySlug = {
   'rose-curve': RoseCurveRoot,

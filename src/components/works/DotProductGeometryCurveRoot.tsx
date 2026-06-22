@@ -12,7 +12,7 @@ import { useDotProductGeometryP5 } from '../curve/useDotProductGeometryP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 function paramsForMetadata(params: DotProductGeometryParams): ParamValues {
@@ -25,9 +25,7 @@ function paramsForMetadata(params: DotProductGeometryParams): ParamValues {
   };
 }
 
-export default function DotProductGeometryCurveRoot({
-  controlsMountId = 'dot-product-geometry-controls',
-}: Props) {
+export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) {
   const module = dotProductGeometryModule;
   const [params, setParams] = useState<DotProductGeometryParams>(
     DEFAULT_DOT_PRODUCT_GEOMETRY_PARAMS,
@@ -51,9 +49,10 @@ export default function DotProductGeometryCurveRoot({
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(paramsForMetadata(params), {
+  const metadataParams = paramsForMetadata(params);
+  const metadata = module.getMetadata(metadataParams, {
     revealPct: 100,
-    smoothParams: paramsForMetadata(params),
+    smoothParams: metadataParams,
   });
 
   const setMode = (mode: DotProductMode) => {

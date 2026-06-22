@@ -9,13 +9,14 @@ import {
   SCENARIO_SPAM,
   conditionalProbabilityBayesModule,
 } from '../../curve/modules/conditional-probability-bayes';
+import { scenarios } from '../../curve/modules/conditional-probability-bayes/geometry';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import StatsPanel from '../curve/StatsPanel';
 import { useConditionalProbabilityBayesP5 } from '../curve/useConditionalProbabilityBayesP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
 const modeOptions = [
   { value: MODE_TREE, label: '樹狀圖' },
@@ -29,9 +30,7 @@ const scenarioOptions = [
   { value: SCENARIO_SPAM, label: '垃圾信' },
 ];
 
-export default function ConditionalProbabilityBayesCurveRoot({
-  controlsMountId = 'conditional-probability-bayes-controls',
-}: Props) {
+export default function ConditionalProbabilityBayesCurveRoot({ controlsMountId }: Props) {
   const module = conditionalProbabilityBayesModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
@@ -77,13 +76,14 @@ export default function ConditionalProbabilityBayesCurveRoot({
                 className="curve-work-mode-button"
                 aria-pressed={scenario === option.value}
                 onClick={() => {
-                  const presets: Record<number, { pA: number; pBgA: number; pBgNotA: number }> = {
-                    [SCENARIO_MEDICAL]: { pA: 1, pBgA: 95, pBgNotA: 5 },
-                    [SCENARIO_CARD]: { pA: 25, pBgA: 100, pBgNotA: 33 },
-                    [SCENARIO_SPAM]: { pA: 18, pBgA: 88, pBgNotA: 12 },
-                  };
-                  const preset = presets[option.value]!;
-                  setTargetParams((prev) => ({ ...prev, scenario: option.value, ...preset }));
+                  const preset = scenarios[option.value]!;
+                  setTargetParams((prev) => ({
+                    ...prev,
+                    scenario: option.value,
+                    pA: Math.round(preset.pA * 100),
+                    pBgA: Math.round(preset.pBgA * 100),
+                    pBgNotA: Math.round(preset.pBgNotA * 100),
+                  }));
                 }}
               >
                 {option.label}

@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 272 |
-| 尚未掃描檔案 | 472 |
+| 已掃描檔案 | 292 |
+| 尚未掃描檔案 | 452 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（272）</summary>
+<summary>已掃描檔案（292）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -205,9 +205,29 @@
 - `src/components/explore/TrigonometryFundamentalsExploreRoot.tsx`
 - `src/components/explore/VectorsExploreRoot.tsx`
 - `src/components/explore/WaveSuperpositionExploreRoot.tsx`
+- `src/components/works/AffineIfsFractalCurveRoot.tsx`
+- `src/components/works/AffineTransformPatternCurveRoot.tsx`
+- `src/components/works/ArithmeticGeometricSequencesCurveRoot.tsx`
+- `src/components/works/BaselProblemCurveRoot.tsx`
+- `src/components/works/BinomialExpansionGeometryCurveRoot.tsx`
+- `src/components/works/BinomialToNormalCurveRoot.tsx`
+- `src/components/works/BuffonNeedleCurveRoot.tsx`
+- `src/components/works/CatalanNumbersCurveRoot.tsx`
+- `src/components/works/CatenaryCurveRoot.tsx`
 - `src/components/works/ChladniFiguresCurveRoot.tsx`
+- `src/components/works/ComplexArithmeticGeometryCurveRoot.tsx`
+- `src/components/works/ComplexPhasePortraitCurveRoot.tsx`
+- `src/components/works/ComplexPolarFormCurveRoot.tsx`
+- `src/components/works/CombinatorialPathCountingCurveRoot.tsx`
+- `src/components/works/ConditionalProbabilityBayesCurveRoot.tsx`
 - `src/components/works/ConicEnvelopeCurveRoot.tsx`
 - `src/components/works/ConicFocusLocusCurveRoot.tsx`
+- `src/components/works/DotProductGeometryCurveRoot.tsx`
+- `src/components/works/EigenvectorGeometryCurveRoot.tsx`
+- `src/components/works/EquiangularSpiralCurveRoot.tsx`
+- `src/components/works/EulerFormulaRotationCurveRoot.tsx`
+- `src/components/works/ExponentialGrowthDecayCurveRoot.tsx`
+- `src/components/works/FibonacciSpiralCurveRoot.tsx`
 - `src/components/works/HarmonographCurveRoot.tsx`
 - `src/components/works/InterferenceFringesCurveRoot.tsx`
 - `src/components/works/LissajousCurveRoot.tsx`
@@ -322,27 +342,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（472）</summary>
-- `src/components/works/AffineIfsFractalCurveRoot.tsx`
-- `src/components/works/AffineTransformPatternCurveRoot.tsx`
-- `src/components/works/ArithmeticGeometricSequencesCurveRoot.tsx`
-- `src/components/works/BaselProblemCurveRoot.tsx`
-- `src/components/works/BinomialExpansionGeometryCurveRoot.tsx`
-- `src/components/works/BinomialToNormalCurveRoot.tsx`
-- `src/components/works/BuffonNeedleCurveRoot.tsx`
-- `src/components/works/CatalanNumbersCurveRoot.tsx`
-- `src/components/works/CatenaryCurveRoot.tsx`
-- `src/components/works/CombinatorialPathCountingCurveRoot.tsx`
-- `src/components/works/ComplexArithmeticGeometryCurveRoot.tsx`
-- `src/components/works/ComplexPhasePortraitCurveRoot.tsx`
-- `src/components/works/ComplexPolarFormCurveRoot.tsx`
-- `src/components/works/ConditionalProbabilityBayesCurveRoot.tsx`
-- `src/components/works/DotProductGeometryCurveRoot.tsx`
-- `src/components/works/EigenvectorGeometryCurveRoot.tsx`
-- `src/components/works/EquiangularSpiralCurveRoot.tsx`
-- `src/components/works/EulerFormulaRotationCurveRoot.tsx`
-- `src/components/works/ExponentialGrowthDecayCurveRoot.tsx`
-- `src/components/works/FibonacciSpiralCurveRoot.tsx`
+<summary>尚未掃描檔案（452）</summary>
 - `src/components/works/FunctionDerivativeGraphCurveRoot.tsx`
 - `src/components/works/FunctionGraphTransformCurveRoot.tsx`
 - `src/components/works/InverseFunctionReflectionCurveRoot.tsx`
@@ -989,6 +989,18 @@
 | `src/components/curve/useRadianArcLengthP5.ts`、`src/components/curve/useFunctionDerivativeGraphP5.ts`、`src/components/curve/useDotProductGeometryP5.ts`、`src/components/curve/useLawOfSinesCosinesP5.ts`、`src/components/curve/useRationalObliqueAsymptoteP5.ts`、`src/components/curve/useRationalVerticalHorizontalAsymptotesP5.ts` | 已掃描並修正：手寫 static p5 lifecycle 已改用 `useRectP5CanvasHost({ loop: false })`，拖曳與 wheel handler 留在各 hook 的 `extendSketch`。 |
 | `src/components/curve/useQuadraticCompletingSquareP5.ts`、`src/components/curve/useFunctionGraphTransformP5.ts`、`src/components/curve/useInverseFunctionReflectionP5.ts`、`src/components/curve/usePolynomialRootsMultiplicityP5.ts`、`src/components/curve/useEigenvectorGeometryP5.ts` | 已掃描並修正：手寫 p5 boot / ResizeObserver 已改用 `useRectP5CanvasHost`；保留連續 draw，因 smoothing 或既有互動狀態仍依賴 frame loop。 |
 | `src/components/curve/useJuliaP5.ts` | 已掃描並修正：手寫 p5 lifecycle 已改用 `useRectP5CanvasHost`；Julia engine 改為 draw 內 lazy init，保留 `pixelDensity(1)`、自停 `noLoop`、參數變更/resize 後重啟 loop 與 unmount dispose。 |
+
+## 2026-06-22 Work root 接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/works/AffineIfsFractalCurveRoot.tsx`、`src/components/works/AffineTransformPatternCurveRoot.tsx` | 已掃描並修正：兩檔是 `CurveHookWorkRoot` glue，分別被 `WorkInteractiveStage.rootBySlug` 的 `affine-ifs-fractal` / `affine-transform-pattern` 消費；`controlsMountId` 改為 stage 必填 prop，刪除 optional/default fallback。 |
+| `src/components/works/ArithmeticGeometricSequencesCurveRoot.tsx`、`src/components/works/BaselProblemCurveRoot.tsx`、`src/components/works/CatenaryCurveRoot.tsx` | 已掃描並修正：root 端 state 供 hook runtime callback 與 module `getMetadata` 消費，`revealPct` / `pullPct` / `smoothParams` 不是只寫不讀；`controlsMountId` 改為必填；Arithmetic / Basel hook 的 `defaultParams` option 改吃 `targetParams` 初始化；Arithmetic 自製 `RangeField` 收斂成單一 `onInput`。 |
+| `src/components/works/BinomialExpansionGeometryCurveRoot.tsx`、`src/components/works/BinomialToNormalCurveRoot.tsx`、`src/components/works/BuffonNeedleCurveRoot.tsx`、`src/components/works/CatalanNumbersCurveRoot.tsx`、`src/components/works/CombinatorialPathCountingCurveRoot.tsx` | 已掃描並修正：root 被 `WorkInteractiveStage` 消費，mode / nonce state 分別被 hook 或 metadata 讀取，沒有可直接刪除的 root 檔案；`controlsMountId` optional/default fallback 已移除。 |
+| `src/components/works/ComplexArithmeticGeometryCurveRoot.tsx`、`src/components/works/ComplexPhasePortraitCurveRoot.tsx`、`src/components/works/ComplexPolarFormCurveRoot.tsx`、`src/components/works/EulerFormulaRotationCurveRoot.tsx` | 已掃描並修正：四檔是 `CurveHookWorkRoot` glue，分別被 `WorkInteractiveStage.rootBySlug` 消費；`controlsMountId` optional/default fallback 已移除；不被 metadata 消費的 `initialRevealPct={100}` 已刪除。 |
+| `src/components/works/ConditionalProbabilityBayesCurveRoot.tsx` | 已掃描並修正：mode / scenario state 被 metadata、hook、renderer 鏈路消費；scenario click handler 改用 `conditional-probability-bayes/geometry.ts` exported `scenarios`，移除 root 內重複 preset。 |
+| `src/components/works/DotProductGeometryCurveRoot.tsx`、`src/components/works/EigenvectorGeometryCurveRoot.tsx` | 已掃描並修正：root state 供拖曳 hook、metadata 與 controls 消費，沒有只寫不讀 state；`controlsMountId` optional/default fallback 已移除；DotProduct metadata params 改成單一 local const；Eigenvector 小型 `useMemo` 已改為直接 lookup。 |
+| `src/components/works/EquiangularSpiralCurveRoot.tsx`、`src/components/works/ExponentialGrowthDecayCurveRoot.tsx`、`src/components/works/FibonacciSpiralCurveRoot.tsx` | 已掃描並修正：reveal / smooth state 有 module metadata 或 `CurveHookWorkRoot` 讀端；`controlsMountId` optional/default fallback 已移除；Exponential / Fibonacci hook 的 `defaultParams` option 改吃 `targetParams` 初始化；Exponential `visibleSchema` 小型 `useMemo` 已改為直接計算。 |
 
 ## 接續審查記錄格式
 

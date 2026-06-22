@@ -13,7 +13,7 @@ import { useCombinatorialPathCountingP5 } from '../curve/useCombinatorialPathCou
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 const modeOptions = [
@@ -22,9 +22,7 @@ const modeOptions = [
   { value: MODE_COUNT, label: '計數場' },
 ];
 
-export default function CombinatorialPathCountingCurveRoot({
-  controlsMountId = 'combinatorial-path-counting-controls',
-}: Props) {
+export default function CombinatorialPathCountingCurveRoot({ controlsMountId }: Props) {
   const module = combinatorialPathCountingModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [rerollNonce, setRerollNonce] = useState(0);

@@ -3,19 +3,16 @@ import { complexArithmeticGeometryModule } from '../../curve/modules/complex-ari
 import { useComplexArithmeticGeometryP5 } from '../curve/useComplexArithmeticGeometryP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function ComplexArithmeticGeometryCurveRoot({
-  controlsMountId = 'complex-arithmetic-geometry-controls',
-}: Props) {
+export default function ComplexArithmeticGeometryCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={complexArithmeticGeometryModule}
       useCanvas={useComplexArithmeticGeometryP5}
       controlsMountId={controlsMountId}
       canvasAriaLabel="複數四則運算幾何動畫"
-      initialRevealPct={100}
     />
   );
 }

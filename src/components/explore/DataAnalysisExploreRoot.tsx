@@ -467,6 +467,8 @@ function RangeControl({
   format: (value: number) => string;
   onInput: (value: number) => void;
 }) {
+  const update = (value: string) => onInput(Number(value));
+
   return (
     <div className="data-analysis-explore__field">
       <label htmlFor={id}>
@@ -482,7 +484,8 @@ function RangeControl({
           max={max}
           step={step}
           value={value}
-          onInput={(event) => onInput(Number((event.target as HTMLInputElement).value))}
+          onChange={(event) => update(event.currentTarget.value)}
+          onInput={(event) => update(event.currentTarget.value)}
         />
       </div>
     </div>

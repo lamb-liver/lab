@@ -6,19 +6,17 @@ import { renderArithmeticGeometricSequencesScene } from '../../systems/rendering
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
 };
 
 export function useArithmeticGeometricSequencesP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
 }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(0);
-  const lastParamsKeyRef = useRef(paramsKey(defaultParams));
+  const lastParamsKeyRef = useRef(paramsKey(targetParams));
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
 

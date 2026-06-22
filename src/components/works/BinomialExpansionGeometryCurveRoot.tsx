@@ -12,7 +12,7 @@ import { useBinomialExpansionGeometryP5 } from '../curve/useBinomialExpansionGeo
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 const modeOptions = [
@@ -20,9 +20,7 @@ const modeOptions = [
   { value: MODE_CUBE, label: 'n = 3 立方' },
 ];
 
-export default function BinomialExpansionGeometryCurveRoot({
-  controlsMountId = 'binomial-expansion-geometry-controls',
-}: Props) {
+export default function BinomialExpansionGeometryCurveRoot({ controlsMountId }: Props) {
   const module = binomialExpansionGeometryModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);

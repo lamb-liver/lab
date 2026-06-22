@@ -7,7 +7,6 @@ import { renderExponentialGrowthDecayScene } from '../../systems/rendering/expon
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
 };
@@ -17,13 +16,12 @@ function paramsKey(params: ParamValues): string {
 }
 
 export function useExponentialGrowthDecayP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
 }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(1);
-  const lastKeyRef = useRef(paramsKey(defaultParams));
+  const lastKeyRef = useRef(paramsKey(targetParams));
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
 

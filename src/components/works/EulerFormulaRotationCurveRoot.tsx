@@ -3,19 +3,16 @@ import { eulerFormulaRotationModule } from '../../curve/modules/euler-formula-ro
 import { useEulerFormulaRotationP5 } from '../curve/useEulerFormulaRotationP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function EulerFormulaRotationCurveRoot({
-  controlsMountId = 'euler-formula-rotation-controls',
-}: Props) {
+export default function EulerFormulaRotationCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={eulerFormulaRotationModule}
       useCanvas={useEulerFormulaRotationP5}
       controlsMountId={controlsMountId}
       canvasAriaLabel="尤拉公式旋轉動畫"
-      initialRevealPct={100}
     />
   );
 }

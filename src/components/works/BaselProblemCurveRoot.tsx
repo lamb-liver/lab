@@ -16,7 +16,7 @@ import { useBaselProblemP5 } from '../curve/useBaselProblemP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 const modeOptions = [
@@ -28,9 +28,7 @@ const modeOptions = [
   { value: MODE_PARAM, label: '零點' },
 ];
 
-export default function BaselProblemCurveRoot({
-  controlsMountId = 'basel-problem-controls',
-}: Props) {
+export default function BaselProblemCurveRoot({ controlsMountId }: Props) {
   const module = baselProblemModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -41,7 +39,6 @@ export default function BaselProblemCurveRoot({
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
 
   const { canvasHostRef } = useBaselProblemP5({
-    defaultParams: module.defaultParams,
     targetParams,
     playing,
     replayNonce,

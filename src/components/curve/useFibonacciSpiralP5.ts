@@ -8,19 +8,17 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 const FIBONACCI_REVEAL_COMPLETE_EPSILON = 0.001;
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
 };
 
 export function useFibonacciSpiralP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
 }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(0);
-  const lastNRef = useRef(Math.round(defaultParams.n ?? 10));
+  const lastNRef = useRef(Math.round(targetParams.n ?? 10));
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
 
@@ -32,7 +30,7 @@ export function useFibonacciSpiralP5({
     targetParamsRef.current = targetParams;
   }, [targetParams]);
 
-  const restartKey = Math.round(targetParams.n ?? defaultParams.n ?? 10);
+  const restartKey = Math.round(targetParams.n ?? 10);
 
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
