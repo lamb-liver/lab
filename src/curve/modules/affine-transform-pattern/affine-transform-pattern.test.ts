@@ -1,24 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { stepAffineTransformPatternAnimation } from './animation';
 import {
-  applyAffineTransform,
   buildAffineMatrix,
   buildBasePattern,
   buildRecursiveTransformSegments,
   buildTranslationVectors,
-  CORE_RADIUS,
   sampleAffineTransformPatternCurve,
 } from './geometry';
 import { affineTransformPatternModule } from './index';
-
-describe('applyAffineTransform', () => {
-  it('applies matrix and translation', () => {
-    const matrix = buildAffineMatrix(0, 0);
-    const out = applyAffineTransform([{ x: 1, y: 0 }], matrix, { tx: 10, ty: 5 });
-    expect(out[0]!.x).toBeCloseTo(matrix.a + 10);
-    expect(out[0]!.y).toBeCloseTo(matrix.c + 5);
-  });
-});
 
 describe('buildTranslationVectors', () => {
   it('scales distance by reveal progress', () => {
@@ -34,11 +23,17 @@ describe('buildRecursiveTransformSegments', () => {
     const translations = buildTranslationVectors(80, 0);
     expect(translations.every((t) => t.tx === 0 && t.ty === 0)).toBe(true);
     const segments = buildRecursiveTransformSegments(base, matrix, translations);
+    const baseSpan = Math.max(
+      ...base.slice(1).map((pt, index) => {
+        const prev = base[index]!;
+        return Math.hypot(pt.x - prev.x, pt.y - prev.y);
+      }),
+    );
     const maxSpan = Math.max(
       ...segments.map((s) => Math.hypot(s.x2 - s.x1, s.y2 - s.y1)),
     );
     expect(maxSpan).toBeGreaterThan(10);
-    expect(maxSpan).toBeLessThan(CORE_RADIUS * 2.5);
+    expect(maxSpan).toBeLessThan(baseSpan * 1.5);
   });
 
   it('reveal 1 yields spread pattern', () => {
@@ -113,7 +108,7 @@ describe('stepAffineTransformPatternAnimation', () => {
 });
 
 describe('affineTransformPatternModule.sample', () => {
-  it('returns points for thumbnail', () => {
+  it('returns points for default sample', () => {
     const points = affineTransformPatternModule.sample(
       affineTransformPatternModule.defaultParams,
       { step: 1 },

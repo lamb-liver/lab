@@ -1,3 +1,5 @@
+@import '../components/range.css';
+
 .explore-detail .interactive-canvas,
 .explore-detail .interactive-loading,
 .explore-detail .fourier-explore,

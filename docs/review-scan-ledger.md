@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 406 |
-| 尚未掃描檔案 | 338 |
+| 已掃描檔案 | 450 |
+| 尚未掃描檔案 | 294 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（406）</summary>
+<summary>已掃描檔案（450）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -373,6 +373,14 @@
 - `src/curve/cartesianPlot.ts`
 - `src/curve/constants.ts`
 - `src/curve/defaults.ts`
+- `src/curve/modules/affine-ifs-fractal/affine-ifs-fractal.test.ts`
+- `src/curve/modules/affine-ifs-fractal/animation.ts`
+- `src/curve/modules/affine-ifs-fractal/geometry.ts`
+- `src/curve/modules/affine-ifs-fractal/index.ts`
+- `src/curve/modules/affine-transform-pattern/affine-transform-pattern.test.ts`
+- `src/curve/modules/affine-transform-pattern/animation.ts`
+- `src/curve/modules/affine-transform-pattern/geometry.ts`
+- `src/curve/modules/affine-transform-pattern/index.ts`
 - `src/curve/modules/animationTiming.ts`
 - `src/curve/modules/catalan-numbers/geometry.ts`
 - `src/curve/modules/combinatorial-path-counting/geometry.ts`
@@ -431,6 +439,42 @@
 - `src/styles/components/card.css`
 - `src/styles/components/explore/data-analysis-explore.css`
 - `src/styles/components/explore/explore-stage.css`
+- `src/styles/base.css`
+- `src/styles/components/breadcrumb.css`
+- `src/styles/components/canvas.css`
+- `src/styles/components/explore-touch.css`
+- `src/styles/components/explore/complex-euler-formula-explore.css`
+- `src/styles/components/explore/conic-dynamic-geometry-explore.css`
+- `src/styles/components/explore/differential-equations-geometry-explore.css`
+- `src/styles/components/explore/explore-toolbar.css`
+- `src/styles/components/explore/exponential-logarithm-explore.css`
+- `src/styles/components/explore/fourier-explore.css`
+- `src/styles/components/explore/function-equations-explore.css`
+- `src/styles/components/explore/limits-riemann-sum-explore.css`
+- `src/styles/components/explore/matrix-linear-transform-explore.css`
+- `src/styles/components/explore/permutations-combinations-explore.css`
+- `src/styles/components/explore/probability-statistics-explore.css`
+- `src/styles/components/explore/rational-functions-asymptotes-explore.css`
+- `src/styles/components/explore/sequences-and-series-explore.css`
+- `src/styles/components/explore/trig-function-graphs-explore.css`
+- `src/styles/components/explore/trigonometry-explore.css`
+- `src/styles/components/explore/vectors-explore.css`
+- `src/styles/components/explore/wave-superposition-explore.css`
+- `src/styles/components/filter.css`
+- `src/styles/components/footer.css`
+- `src/styles/components/list-search.css`
+- `src/styles/components/nav.css`
+- `src/styles/components/range.css`
+- `src/styles/components/section-badge.css`
+- `src/styles/components/works/curve-work-demo.css`
+- `src/styles/components/works/lissajous-delta-control.css`
+- `src/styles/layout.css`
+- `src/styles/pages/about.css`
+- `src/styles/pages/explore-detail.css`
+- `src/styles/pages/home.css`
+- `src/styles/pages/work-detail.css`
+- `src/styles/prose.css`
+- `src/styles/tokens.css`
 - `src/styles/scrollbar.css`
 - `src/systems/rendering/p5PlotHelpers.ts`
 - `src/systems/rendering/regressionOutlierInfluenceRender.ts`
@@ -456,15 +500,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（338）</summary>
-- `src/curve/modules/affine-ifs-fractal/affine-ifs-fractal.test.ts`
-- `src/curve/modules/affine-ifs-fractal/animation.ts`
-- `src/curve/modules/affine-ifs-fractal/geometry.ts`
-- `src/curve/modules/affine-ifs-fractal/index.ts`
-- `src/curve/modules/affine-transform-pattern/affine-transform-pattern.test.ts`
-- `src/curve/modules/affine-transform-pattern/animation.ts`
-- `src/curve/modules/affine-transform-pattern/geometry.ts`
-- `src/curve/modules/affine-transform-pattern/index.ts`
+<summary>尚未掃描檔案（294）</summary>
 - `src/curve/modules/arithmetic-geometric-sequences/geometry.ts`
 - `src/curve/modules/arithmetic-geometric-sequences/index.ts`
 - `src/curve/modules/basel-problem/geometry.ts`
@@ -683,42 +719,6 @@
 - `src/explore/wave-superposition/geometry.ts`
 - `src/lib/trigonometry/triangleGeometry.test.ts`
 - `src/lib/trigonometry/triangleGeometry.ts`
-- `src/styles/base.css`
-- `src/styles/components/breadcrumb.css`
-- `src/styles/components/canvas.css`
-- `src/styles/components/explore-touch.css`
-- `src/styles/components/explore/complex-euler-formula-explore.css`
-- `src/styles/components/explore/conic-dynamic-geometry-explore.css`
-- `src/styles/components/explore/differential-equations-geometry-explore.css`
-- `src/styles/components/explore/explore-toolbar.css`
-- `src/styles/components/explore/exponential-logarithm-explore.css`
-- `src/styles/components/explore/fourier-explore.css`
-- `src/styles/components/explore/function-equations-explore.css`
-- `src/styles/components/explore/limits-riemann-sum-explore.css`
-- `src/styles/components/explore/matrix-linear-transform-explore.css`
-- `src/styles/components/explore/permutations-combinations-explore.css`
-- `src/styles/components/explore/probability-statistics-explore.css`
-- `src/styles/components/explore/rational-functions-asymptotes-explore.css`
-- `src/styles/components/explore/sequences-and-series-explore.css`
-- `src/styles/components/explore/trig-function-graphs-explore.css`
-- `src/styles/components/explore/trigonometry-explore.css`
-- `src/styles/components/explore/vectors-explore.css`
-- `src/styles/components/explore/wave-superposition-explore.css`
-- `src/styles/components/filter.css`
-- `src/styles/components/footer.css`
-- `src/styles/components/list-search.css`
-- `src/styles/components/nav.css`
-- `src/styles/components/range.css`
-- `src/styles/components/section-badge.css`
-- `src/styles/components/works/curve-work-demo.css`
-- `src/styles/components/works/lissajous-delta-control.css`
-- `src/styles/layout.css`
-- `src/styles/pages/about.css`
-- `src/styles/pages/explore-detail.css`
-- `src/styles/pages/home.css`
-- `src/styles/pages/work-detail.css`
-- `src/styles/prose.css`
-- `src/styles/tokens.css`
 - `src/systems/rendering/affineIfsFractalRender.ts`
 - `src/systems/rendering/affineTransformPatternRender.ts`
 - `src/systems/rendering/arithmeticGeometricSequencesRender.ts`
@@ -1052,6 +1052,30 @@
 | `src/components/works/ScatterCorrelationRegressionCurveRoot.tsx`、`src/components/works/TangentApproximationCurveRoot.tsx`、`src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`、`src/components/works/VectorAdditionScalarCurveRoot.tsx`、`src/components/works/VectorFieldPatternsCurveRoot.tsx`、`src/components/works/VectorFieldStreamlinesCurveRoot.tsx`、`src/components/works/VectorProjectionCurveRoot.tsx` | 已掃描並保留：全專案搜尋確認 slug / root 被 `WorkInteractiveStage.rootBySlug`、`interactiveRegistry`、content/docs 或 validate-changed 消費；state 由 hook、controls、metadata 或 renderer 讀取，未找到可直接刪除且不改行為的 root 層項目。 |
 | `src/components/works/SierpinskiTriangleCurveRoot.tsx` | 已掃描並修正：`depth` range 已刪除重複 `onChange`，只保留 `onInput` 單一路徑。 |
 | `src/components/works/SinusoidAmplitudePeriodPhaseCurveRoot.tsx`、`src/components/works/TrigAngleIdentitiesCurveRoot.tsx`、`src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx` | 已掃描並修正：刪除只包住同步 metadata 轉換的 `useMemo`；Sinusoid 改成單一 local `metadataParams`，避免重複 `paramsForMetadata(params)`。 |
+
+## 2026-06-22 affine module 接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/affine-ifs-fractal/index.ts`、`src/curve/modules/affine-ifs-fractal/animation.ts` | 已掃描；確認保留：`affineIfsFractalModule` 被 `src/curve/registry.ts`、`AffineIfsFractalCurveRoot`、thumbnail registry test 消費；`createAffineIfsFractalAnimState` / `stepAffineIfsFractalAnimation` 被 `useAffineIfsFractalP5` 與 test 消費；`REVEAL_SPEED` / `PARAM_LERP` 透過 module animation metadata 與 hook 使用。 |
+| `src/curve/modules/affine-ifs-fractal/geometry.ts`、`src/curve/modules/affine-ifs-fractal/animation.ts` | 已掃描並修正：`generateGrainsBatch` 經搜尋只被 test 消費，已刪除；`mulberry32` re-export 已刪除，test 改直接 import `src/curve/prng.ts`；animation 內重複 IFS 分支已改用 `stepIfsPoint` / `mathToCanvas`；誤導的縮圖註解已移除。 |
+| `src/curve/modules/affine-ifs-fractal/affine-ifs-fractal.test.ts` | 已掃描並修正：刪除只替無 runtime 消費 helper 背書的 `generateGrainsBatch` 白箱測試；保留 animation、module sample、thumbnail 與 deterministic sample 測試。 |
+| `src/curve/modules/affine-transform-pattern/index.ts`、`src/curve/modules/affine-transform-pattern/animation.ts` | 已掃描；確認保留：`affineTransformPatternModule` 被 `src/curve/registry.ts`、`AffineTransformPatternCurveRoot`、renderer/content/registry 鏈路消費；animation state/step 被 `useAffineTransformPatternP5` 與 test 消費。 |
+| `src/curve/modules/affine-transform-pattern/geometry.ts` | 已掃描並修正：`appendPolygonSegments`、`SECOND_LAYER_TRANSLATION_SCALE`、`CORE_RADIUS`、`applyAffineTransform` 已縮小為檔案內 private；誤導的縮圖註解已移除。 |
+| `src/curve/modules/affine-transform-pattern/affine-transform-pattern.test.ts` | 已掃描並修正：刪除 private `applyAffineTransform` 白箱測試；`CORE_RADIUS` expectation 改由 `buildBasePattern()` 推導；sample test 名稱改回 default sample。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/affine-ifs-fractal/affine-ifs-fractal.test.ts src/curve/modules/affine-transform-pattern/affine-transform-pattern.test.ts`，2 files / 12 tests。 |
+
+## 2026-06-22 styles 接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/styles/base.css`、`src/styles/layout.css`、`src/styles/tokens.css` | 已掃描；確認保留：由 `BaseLayout.astro` 全站載入，token / base / layout 是全站殼層樣式入口，未發現可刪 selector。 |
+| `src/styles/components/breadcrumb.css`、`src/styles/components/canvas.css`、`src/styles/components/filter.css`、`src/styles/components/footer.css`、`src/styles/components/list-search.css`、`src/styles/components/nav.css`、`src/styles/components/section-badge.css` | 已掃描；確認保留：各檔皆有對應 Astro component 或 card import 消費，selector 搜尋未發現 0 引用可刪項。 |
+| `src/styles/components/range.css`、`src/styles/pages/explore-detail.css`、`src/styles/pages/work-detail.css`、`src/styles/components/explore/*.css`、`src/styles/components/works/*.css` | 已掃描並修正：range 共用樣式改由 Explore / Work detail 層載入；刪除各 slug CSS 與 Work component CSS 內重複 `@import '../range.css'`；`data-analysis-explore.css` 同型支援性移除，不重複計入本批新掃描數。 |
+| `src/styles/pages/work-detail.css` | 已掃描並修正：`controls-panel__placeholder` 全專案搜尋無 DOM / docs / script 引用，已刪除。 |
+| `src/styles/pages/about.css`、`src/styles/pages/home.css`、`src/styles/pages/explore-detail.css`、`src/styles/prose.css` | 已掃描；確認保留：route-level import 與 page DOM 對應；`prose.css` 的 `.katex-display` 雖無 source 字串引用，但由 KaTeX runtime HTML 產生，保留。 |
+| `src/styles/components/explore-touch.css`、`src/styles/components/explore/explore-toolbar.css` | 已掃描；確認保留：Explore detail route 與 toolbar / sidebar button touch target 共用，未發現可刪 selector。 |
+| 驗證 | selector 掃描排除 `src/styles/**` 後只剩 `.katex-display` 這個 KaTeX runtime class；非死碼。 |
 
 ## 接續審查記錄格式
 

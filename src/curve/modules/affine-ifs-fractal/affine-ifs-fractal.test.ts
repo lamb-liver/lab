@@ -1,24 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { stepAffineIfsFractalAnimation } from './animation';
-import {
-  generateGrainsBatch,
-  mulberry32,
-  sampleAffineIfsFractalCurve,
-  stepIfsPoint,
-} from './geometry';
+import { mulberry32 } from '../../prng';
+import { sampleAffineIfsFractalCurve, stepIfsPoint } from './geometry';
 import { affineIfsFractalModule } from './index';
 
 describe('stepIfsPoint', () => {
   it('stem reset branch maps to origin x', () => {
     const next = stepIfsPoint({ x: 1, y: 2 }, 0.04, 0.85, 0, () => 0.01);
     expect(next.x).toBe(0);
-  });
-});
-
-describe('generateGrainsBatch', () => {
-  it('produces requested count', () => {
-    const { grains } = generateGrainsBatch(100, 0.04, 0.85, 0, mulberry32(1));
-    expect(grains).toHaveLength(100);
   });
 });
 

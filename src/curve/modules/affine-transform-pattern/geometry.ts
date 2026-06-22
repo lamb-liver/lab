@@ -18,8 +18,8 @@ export type LineSegment = {
   y2: number;
 };
 
-export const CORE_RADIUS = 35;
-export const SECOND_LAYER_TRANSLATION_SCALE = 0.5;
+const CORE_RADIUS = 35;
+const SECOND_LAYER_TRANSLATION_SCALE = 0.5;
 
 export function buildBasePattern(): Point2[] {
   const r = CORE_RADIUS;
@@ -61,7 +61,7 @@ export function buildTranslationVectors(
   ];
 }
 
-export function applyAffineTransform(
+function applyAffineTransform(
   points: ReadonlyArray<Point2>,
   matrix: AffineMatrix,
   translation: Translation,
@@ -76,7 +76,7 @@ export function applyAffineTransform(
   return out;
 }
 
-export function appendPolygonSegments(
+function appendPolygonSegments(
   points: ReadonlyArray<Point2>,
   segments: LineSegment[],
 ): void {
@@ -111,7 +111,6 @@ export function buildRecursiveTransformSegments(
   return segments;
 }
 
-/** 縮圖：取第一層變換後的多邊形頂點路徑 */
 export function sampleAffineTransformPatternCurve(
   rotationDeg: number,
   translationDistance: number,

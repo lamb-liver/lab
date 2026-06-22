@@ -1,5 +1,3 @@
-@import '../range.css';
-
 .matrix-linear-explore__stage {
   grid-template-columns: minmax(0, 1fr) min(300px, 34vw);
 }

@@ -1,6 +1,5 @@
 import type { CurvePoint } from '../../types';
 import { mulberry32 } from '../../prng';
-export { mulberry32 } from '../../prng';
 
 export type GrainPoint = { x: number; y: number };
 
@@ -49,27 +48,6 @@ export function stepIfsPoint(
   };
 }
 
-export function generateGrainsBatch(
-  count: number,
-  leafBend: number,
-  branchHeight: number,
-  time: number,
-  random01: () => number,
-  startPoint: IfsMathPoint = { x: 0, y: 0 },
-): { grains: GrainPoint[]; endPoint: IfsMathPoint } {
-  const grains: GrainPoint[] = [];
-  let current = startPoint;
-  const pulseOffset = Math.sin(time) * 0.02;
-
-  for (let k = 0; k < count; k++) {
-    current = stepIfsPoint(current, leafBend, branchHeight, pulseOffset, random01);
-    grains.push(mathToCanvas(current.x, current.y));
-  }
-
-  return { grains, endPoint: current };
-}
-
-/** 縮圖：固定種子迭代 */
 export function sampleAffineIfsFractalCurve(
   leafBend: number,
   branchHeight: number,

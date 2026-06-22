@@ -1,5 +1,3 @@
-@import '../range.css';
-
 .conic-dynamic-explore__stage {
   grid-template-columns: minmax(0, 1fr) min(280px, 32vw);
 }

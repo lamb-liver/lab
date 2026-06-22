@@ -1,5 +1,3 @@
-@import '../range.css';
-
 .fourier-explore__canvas {
   max-height: min(34vh, 400px);
   min-height: 200px;
