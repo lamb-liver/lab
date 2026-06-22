@@ -1108,6 +1108,20 @@
 | `src/curve/modules/chladni-figures/animation.ts`、`src/curve/modules/chladni-figures/geometry.ts`、`src/curve/modules/chladni-figures/index.ts`、`src/curve/modules/chladni-figures/chladni-figures.test.ts` | 已掃描並修正：`ChladniAnimState`、`PLATE_RATIO`、`BASE_CANVAS`、`NODAL_SAMPLE_STEPS`、`waveMotion`、`constrainParticle`、`moveParticleAwayFromAntinode` 無外部 import，已收窄；保留 particle API、animation step、thumbnail particle cloud 與 nodal-line sample，因 hook / renderer / module sample / tests 消費。 |
 | 驗證 | 已執行並通過：`npm test -- src/curve/modules/catenary/catenary.test.ts src/curve/modules/chladni-figures/chladni-figures.test.ts`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run smoke:work -- arithmetic-geometric-sequences`；`npm run smoke:work -- basel-problem`；`npm run smoke:work -- binomial-expansion-geometry`；`npm run smoke:work -- binomial-to-normal`；`npm run smoke:work -- buffon-needle`；`npm run smoke:work -- catalan-numbers`；`npm run smoke:work -- catenary`；`npm run smoke:work -- chladni-figures`。 |
 
+## 2026-06-23 curve modules 第五批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/combinatorial-path-counting/index.ts` | 已掃描；確認保留：`COMBINATORIAL_PATH_SPEED` 被 `useCombinatorialPathCountingP5.ts` 與 module animation metadata 消費，`combinatorialPathCountingModule` 被 work root 與 registry 消費，未找到可安全縮小項。 |
+| `src/curve/modules/percentile-box-plot/index.ts` | 已掃描；確認保留：module 被 work root / registry 消費，`boxSummary` / percentile helpers 被 renderer、Explore data-analysis geometry 與測試消費，未找到可安全縮小項。 |
+| `src/curve/modules/radian-arc-length/index.ts` | 已掃描並修正：`asRadianArcLengthModuleParams` 無外部 import / 字串引用 / registry 引用，已收窄為 private；保留 module export，因 work root 與 registry 消費。 |
+| `src/curve/modules/trig-angle-identities/index.ts` | 已掃描並修正：`formulaIdFromParam` 無外部 import / 字串引用 / registry 引用，已收窄為 private；保留 `asTrigAngleIdentitiesModuleParams` 與 module export，因 tests / root / registry 消費。 |
+| `src/curve/modules/unit-circle-trig-definition/index.ts` | 已掃描；確認保留：`asUnitCircleTrigDefinitionParams` 仍被 module tests 直接覆蓋，module export 被 work root 與 registry 消費，未找到可安全縮小項。 |
+| `src/curve/modules/rose/index.ts`、`src/curve/modules/rose/rose.test.ts` | 已掃描並修正：`getTotalAngle` 只有白箱測試讀取，無 runtime / registry / docs 消費，已收窄為 private；測試改驗證 `roseModule.sample()` 行為，避免為 private helper 保留 export。 |
+| `src/curve/modules/arithmetic-geometric-sequences/geometry.ts`、`src/curve/modules/arithmetic-geometric-sequences/index.ts` | 本輪重掃確認：已於第四批完整掃描並修正；本輪搜尋驗證沒有新可刪 export 或可縮項，不重複改碼。 |
+| `src/curve/modules/basel-problem/geometry.ts`、`src/curve/modules/basel-problem/index.ts` | 本輪重掃確認：已於第四批完整掃描並修正；本輪搜尋驗證沒有新可刪 export 或可縮項，不重複改碼。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/rose/rose.test.ts src/curve/modules/radian-arc-length/radian-arc-length.test.ts src/curve/modules/trig-angle-identities/trig-angle-identities.test.ts src/curve/modules/unit-circle-trig-definition/unit-circle-trig-definition.test.ts src/curve/modules/percentile-box-plot/percentile-box-plot.test.ts`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run smoke:work -- combinatorial-path-counting`；`npm run smoke:work -- percentile-box-plot`；`npm run smoke:work -- radian-arc-length`；`npm run smoke:work -- trig-angle-identities`；`npm run smoke:work -- unit-circle-trig-definition`；`npm run smoke:work -- rose-curve`；`npm run smoke:work -- arithmetic-geometric-sequences`；`npm run smoke:work -- basel-problem`；`git diff --check`；`npm run audit:integration`；`npm run validate:changed -- --dry-run`。 |
+
 ## 接續審查記錄格式
 
 下一輪審查完成後，用以下格式追加：

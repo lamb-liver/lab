@@ -13,7 +13,7 @@ const paramSchema: ParamSchema = [
 ];
 
 /** 完整採樣週期：奇數 k → π，偶數 k → 2π（依整數 k，非 geometric normalize） */
-export function getTotalAngle(k: number): number {
+function getTotalAngle(k: number): number {
   const kInt = Math.round(k);
   return kInt % 2 === 1 ? Math.PI : 2 * Math.PI;
 }

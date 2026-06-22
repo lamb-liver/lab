@@ -22,7 +22,7 @@ const FORMULA_INDEX: Record<FormulaId, number> = {
   cosDiff: 3,
 };
 
-export function formulaIdFromParam(value: number | FormulaId | undefined): FormulaId {
+function formulaIdFromParam(value: number | FormulaId | undefined): FormulaId {
   if (typeof value === 'string') return formulaFromId(value).id;
   const ids: FormulaId[] = ['sinSum', 'sinDiff', 'cosSum', 'cosDiff'];
   return ids[Math.max(0, Math.min(3, Math.round(value ?? 0)))] ?? 'sinSum';

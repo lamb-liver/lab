@@ -14,7 +14,7 @@ import {
 
 const paramSchema: ParamSchema = [];
 
-export function asRadianArcLengthModuleParams(
+function asRadianArcLengthModuleParams(
   params: ParamValues | RadianArcLengthParams,
 ): RadianArcLengthParams {
   return asRadianArcLengthParams(params as RadianArcLengthParams);
