@@ -26,11 +26,11 @@
 | morph 滑桿 urgent 更新 | `patchTargetParams` 在 `setState` 前寫 ref；勿 `startTransition` |
 | Immutable snapshot | `RenderSnap` 不含 React state；renderer 不讀 React |
 | 零 p5 依賴模組 | `curve/modules/*` 可單測 |
-| 參數單一真相 | `paramSchema: ParamDef[]` 驅動標準 stepper 控件；特殊控件另做元件 |
+| 參數單一真相 | `paramSchema: ParamDef[]` 驅動標準 range 控件；特殊控件另做元件 |
 | 點列策略依曲線 | 能快取才宣告 `cacheStrategy`；省略即每幀 resample |
 | draw → React | 平滑參數同步用 `useSmoothParamNotifier`（`src/components/curve/`）；**emit 的是 delta patch**，Root 必須 merge；`getMetadata` 用 `resolveSmoothParams` 防呆 |
 | 時間推進一律時間正規化 | `time`、`phase`、`rotation`、`reveal` 不直接每幀固定 `+= value`；per-second 常數用 clamped `dtSec`，per-frame 常數用 `frameScale(deltaMs)`，smoothing lerp 用 60fps 等效 alpha。 |
-| 數值控件更新單一路徑 | 標準 `ParamControls` 用 `+/-` stepper；只有需要連續拖曳時才用 `<input type="range">`。range 不要同時綁 `onInput` 與 `onChange`，避免同一次拖曳造成重複 setState / render。 |
+| 數值控件更新單一路徑 | 標準 `ParamControls` 用 `<input type="range">` 且只綁 `onInput`；按鈕只用於模式切換、重置、顯示開關等離散命令。range 不要同時綁 `onInput` 與 `onChange`，避免同一次拖曳造成重複 setState / render。 |
 | `sample` 語意 | morph 曲線：`purpose: 'default'` 供 runtime 點列；自訂 p5 互動：`sample` **主要**供 `purpose: 'thumbnail'`（runtime 不走 sample） |
 
 寬版 prototype 移植到作品頁時，先確認 `.work-detail__canvas` 是方形/近方形視窗。不要把 prototype 的大段 canvas 內文字、狀態面板或寬版座標原樣保留；文字移到 React controls / content，幾何 world view 依方形 canvas 重新定框。

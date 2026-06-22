@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   DEFAULT_SINUSOID_AMPLITUDE_PERIOD_PHASE_PARAMS,
@@ -51,14 +51,11 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
 
   const { canvasHostRef } = useSinusoidAmplitudePeriodPhaseP5({ params });
 
-  const metadata = useMemo(
-    () =>
-      sinusoidAmplitudePeriodPhaseModule.getMetadata(paramsForMetadata(params), {
-        revealPct: 100,
-        smoothParams: paramsForMetadata(params),
-      }),
-    [params],
-  );
+  const metadataParams = paramsForMetadata(params);
+  const metadata = sinusoidAmplitudePeriodPhaseModule.getMetadata(metadataParams, {
+    revealPct: 100,
+    smoothParams: metadataParams,
+  });
 
   const setNumericParam = (key: NumericParamKey, value: number) => {
     setParams((prev) => ({ ...prev, [key]: value }));

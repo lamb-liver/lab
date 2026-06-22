@@ -5,7 +5,7 @@
   height: var(--touch-target-min);
 }
 
-.range-wrap:not(.range-stepper)::before {
+.range-wrap::before {
   content: '';
   position: absolute;
   left: 0;
@@ -17,8 +17,8 @@
   transition: background 200ms ease, box-shadow 200ms ease;
 }
 
-.range-wrap:not(.range-stepper):hover::before,
-.range-wrap:not(.range-stepper):focus-within::before {
+.range-wrap:hover::before,
+.range-wrap:focus-within::before {
   background: var(--color-accent);
   box-shadow: 0 0 8px var(--accent-border);
 }
@@ -62,8 +62,8 @@
   transition: background 200ms ease, box-shadow 200ms ease, transform 150ms ease;
 }
 
-.range-wrap:not(.range-stepper):hover .range::-webkit-slider-thumb,
-.range-wrap:not(.range-stepper):focus-within .range::-webkit-slider-thumb,
+.range-wrap:hover .range::-webkit-slider-thumb,
+.range-wrap:focus-within .range::-webkit-slider-thumb,
 .range:active::-webkit-slider-thumb {
   background: var(--color-accent);
   box-shadow: 0 0 0 1px var(--color-accent), 0 0 12px var(--accent-border);
@@ -95,8 +95,8 @@
   transition: background 200ms ease, box-shadow 200ms ease, transform 150ms ease;
 }
 
-.range-wrap:not(.range-stepper):hover .range::-moz-range-thumb,
-.range-wrap:not(.range-stepper):focus-within .range::-moz-range-thumb,
+.range-wrap:hover .range::-moz-range-thumb,
+.range-wrap:focus-within .range::-moz-range-thumb,
 .range:active::-moz-range-thumb {
   background: var(--color-accent);
   box-shadow: 0 0 0 1px var(--color-accent), 0 0 12px var(--accent-border);
@@ -106,40 +106,4 @@
 .range:focus-visible::-moz-range-thumb {
   box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent),
     0 0 12px var(--accent-border);
-}
-
-.range-stepper {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-2);
-  height: auto;
-  min-height: var(--touch-target-min);
-}
-
-.range-step {
-  min-height: var(--touch-target-min);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--color-text);
-  font: inherit;
-  font-family: var(--font-mono);
-  cursor: pointer;
-}
-
-.range-step:hover:not(:disabled),
-.range-step:focus-visible {
-  border-color: var(--accent-border);
-  color: var(--color-accent);
-  background: rgba(var(--color-accent-rgb), 0.08);
-}
-
-.range-step:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
-}
-
-.range-step:disabled {
-  cursor: not-allowed;
-  opacity: 0.35;
 }

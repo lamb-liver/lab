@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   DEFAULT_UNIT_CIRCLE_TRIG_DEFINITION_PARAMS,
@@ -45,10 +45,7 @@ export default function UnitCircleTrigDefinitionCurveRoot({ controlsMountId }: P
 
   const { canvasHostRef } = useUnitCircleTrigDefinitionP5({ params, onThetaChange });
 
-  const metadata = useMemo(
-    () => module.getMetadata(paramsForMetadata(params)),
-    [module, params],
-  );
+  const metadata = module.getMetadata(paramsForMetadata(params));
 
   const controls = controlsMount
     ? createPortal(

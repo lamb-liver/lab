@@ -96,7 +96,7 @@ Explore 詳情維持 **標題 → 互動 → prose**；頂部同樣有 `.detail-
 ### 4.4 控制面板分組
 
 - **`CurveWorkRoot`（Rose 的通用 root 路徑）**：`meta` → `ParamControls` → `StatsPanel`；**不加**「參數」小標（單一群組，避免噪音）。
-- **標準 `ParamControls`**：數值調整用 `+/-` stepper；只有需要連續拖曳或直接操控 canvas 對照時才另做 native range。
+- **標準 `ParamControls`**：數值調整用 native range，且只保留一條更新路徑；按鈕只用於模式切換、重置、顯示開關等離散命令。
 - **自訂 `*CurveRoot`**（含 `curve-work-mode-toggle`、多段控件）：當面板有 **≥2 個語意群組**（例如「模式」+「參數」、「顯示」+「播放」）時，用 `.controls-panel__section` + `.controls-panel__section-label` 分隔；樣式見 `work-detail.css`。
 - 常見多群組作品：`LogisticBifurcationCurveRoot`、`TrigAngleIdentitiesCurveRoot`、`BaselProblemCurveRoot` 等（含多個 `curve-work-mode-toggle`）。
 

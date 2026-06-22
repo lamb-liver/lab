@@ -85,7 +85,6 @@ export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) 
                 max={8}
                 step={1}
                 value={targetParams.depth ?? 6}
-                onChange={(event) => patchParams({ depth: Number(event.target.value) })}
                 onInput={(event) => patchParams({ depth: Number(event.currentTarget.value) })}
               />
             </div>

@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 312 |
-| 尚未掃描檔案 | 432 |
+| 已掃描檔案 | 323 |
+| 尚未掃描檔案 | 421 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（312）</summary>
+<summary>已掃描檔案（323）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -253,8 +253,19 @@
 - `src/components/works/RiemannSumCurveRoot.tsx`
 - `src/components/works/RoseCurveRoot.tsx`
 - `src/components/works/RotationScaleCompositionCurveRoot.tsx`
+- `src/components/works/ScatterCorrelationRegressionCurveRoot.tsx`
+- `src/components/works/SierpinskiTriangleCurveRoot.tsx`
+- `src/components/works/SinusoidAmplitudePeriodPhaseCurveRoot.tsx`
 - `src/components/works/SpirographCurveRoot.tsx`
 - `src/components/works/StandingWaveCurveRoot.tsx`
+- `src/components/works/TangentApproximationCurveRoot.tsx`
+- `src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`
+- `src/components/works/TrigAngleIdentitiesCurveRoot.tsx`
+- `src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx`
+- `src/components/works/VectorAdditionScalarCurveRoot.tsx`
+- `src/components/works/VectorFieldPatternsCurveRoot.tsx`
+- `src/components/works/VectorFieldStreamlinesCurveRoot.tsx`
+- `src/components/works/VectorProjectionCurveRoot.tsx`
 - `src/components/works/WorkInteractiveStage.tsx`
 - `src/content.config.ts`
 - `src/content/contentAudit.test.ts`
@@ -362,18 +373,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（432）</summary>
-- `src/components/works/ScatterCorrelationRegressionCurveRoot.tsx`
-- `src/components/works/SierpinskiTriangleCurveRoot.tsx`
-- `src/components/works/SinusoidAmplitudePeriodPhaseCurveRoot.tsx`
-- `src/components/works/TangentApproximationCurveRoot.tsx`
-- `src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`
-- `src/components/works/TrigAngleIdentitiesCurveRoot.tsx`
-- `src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx`
-- `src/components/works/VectorAdditionScalarCurveRoot.tsx`
-- `src/components/works/VectorFieldPatternsCurveRoot.tsx`
-- `src/components/works/VectorFieldStreamlinesCurveRoot.tsx`
-- `src/components/works/VectorProjectionCurveRoot.tsx`
+<summary>尚未掃描檔案（421）</summary>
 - `src/content/explore/complex-euler-formula.md`
 - `src/content/explore/conic-dynamic-geometry.md`
 - `src/content/explore/data-analysis.md`
@@ -1027,8 +1027,16 @@
 
 | 範圍 | 結論 |
 |------|------|
-| `src/components/curve/ParamControls.tsx`、`src/components/explore/DataAnalysisExploreRoot.tsx`、`src/styles/components/range.css` | 已審查並修正：標準 numeric ParamControls 需求是離散 `+/-` stepper，不是 native range；保留 stepper，補足仍使用 `.range` 的 native range CSS，並把 stepper 的假 label / range 命名收斂。 |
-| `docs/p5toreact.md`、`docs/site-ux.md`、`docs/workart.md` | 已補規則：標準 Work controls 使用 stepper；native range 只用於連續拖曳或 canvas 直接比較；Work controls accordion ownership 屬於 page script，單一 Work root 不應自行 `closest('details')` 或改 `details.open`。 |
+| `src/components/curve/ParamControls.tsx`、`src/components/explore/DataAnalysisExploreRoot.tsx`、`src/styles/components/range.css` | 已修正錯誤結論：標準 numeric ParamControls 需求是 native range，不是 `+/-` stepper；DataAnalysis 本地參數控件也已恢復 range；未使用的 stepper CSS 已刪除。 |
+| `docs/p5toreact.md`、`docs/site-ux.md`、`docs/workart.md` | 已修正規則：標準 Work controls 使用 native range 且只保留一條更新路徑；按鈕只用於模式切換、重置、顯示開關等離散命令；Work controls accordion ownership 屬於 page script。 |
+
+## 2026-06-22 Work root 第四批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/works/ScatterCorrelationRegressionCurveRoot.tsx`、`src/components/works/TangentApproximationCurveRoot.tsx`、`src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`、`src/components/works/VectorAdditionScalarCurveRoot.tsx`、`src/components/works/VectorFieldPatternsCurveRoot.tsx`、`src/components/works/VectorFieldStreamlinesCurveRoot.tsx`、`src/components/works/VectorProjectionCurveRoot.tsx` | 已掃描並保留：全專案搜尋確認 slug / root 被 `WorkInteractiveStage.rootBySlug`、`interactiveRegistry`、content/docs 或 validate-changed 消費；state 由 hook、controls、metadata 或 renderer 讀取，未找到可直接刪除且不改行為的 root 層項目。 |
+| `src/components/works/SierpinskiTriangleCurveRoot.tsx` | 已掃描並修正：`depth` range 已刪除重複 `onChange`，只保留 `onInput` 單一路徑。 |
+| `src/components/works/SinusoidAmplitudePeriodPhaseCurveRoot.tsx`、`src/components/works/TrigAngleIdentitiesCurveRoot.tsx`、`src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx` | 已掃描並修正：刪除只包住同步 metadata 轉換的 `useMemo`；Sinusoid 改成單一 local `metadataParams`，避免重複 `paramsForMetadata(params)`。 |
 
 ## 接續審查記錄格式
 

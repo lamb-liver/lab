@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   DEFAULT_TRIG_ANGLE_IDENTITIES_PARAMS,
@@ -52,10 +52,7 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
 
   const { canvasHostRef } = useTrigAngleIdentitiesP5({ params, onAnglesChange });
 
-  const metadata = useMemo(
-    () => module.getMetadata(paramsForMetadata(params)),
-    [module, params],
-  );
+  const metadata = module.getMetadata(paramsForMetadata(params));
 
   const setFormulaId = (formulaId: FormulaId) => {
     setParams((prev) => ({ ...prev, formulaId }));
