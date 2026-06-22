@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 323 |
-| 尚未掃描檔案 | 421 |
+| 已掃描檔案 | 406 |
+| 尚未掃描檔案 | 338 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（323）</summary>
+<summary>已掃描檔案（406）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -275,6 +275,23 @@
 - `src/content/explore/discrete-random-variables.md`
 - `src/content/explore/linear-programming.md`
 - `src/content/explore/space-vectors-planes-lines.md`
+- `src/content/explore/complex-euler-formula.md`
+- `src/content/explore/conic-dynamic-geometry.md`
+- `src/content/explore/data-analysis.md`
+- `src/content/explore/differential-equations-geometry.md`
+- `src/content/explore/exponential-logarithm.md`
+- `src/content/explore/fourier-series.md`
+- `src/content/explore/function-equations.md`
+- `src/content/explore/limits-riemann-sum.md`
+- `src/content/explore/matrix-linear-transform.md`
+- `src/content/explore/permutations-combinations.md`
+- `src/content/explore/probability-statistics.md`
+- `src/content/explore/rational-functions-asymptotes.md`
+- `src/content/explore/sequences-and-series.md`
+- `src/content/explore/trig-function-graphs.md`
+- `src/content/explore/trig-wave-interference.md`
+- `src/content/explore/trigonometry-fundamentals.md`
+- `src/content/explore/vectors.md`
 - `src/content/exploreEntries.ts`
 - `src/content/explorePager.test.ts`
 - `src/content/generatorScripts.test.ts`
@@ -284,6 +301,72 @@
 - `src/content/works/percentile-box-plot.md`
 - `src/content/works/regression-outlier-influence.md`
 - `src/content/works/scatter-correlation-regression.md`
+- `src/content/works/affine-ifs-fractal.md`
+- `src/content/works/affine-transform-pattern.md`
+- `src/content/works/arithmetic-geometric-sequences.md`
+- `src/content/works/basel-problem.md`
+- `src/content/works/binomial-expansion-geometry.md`
+- `src/content/works/binomial-geometric-distribution.md`
+- `src/content/works/binomial-to-normal.md`
+- `src/content/works/buffon-needle.md`
+- `src/content/works/catalan-numbers.md`
+- `src/content/works/catenary.md`
+- `src/content/works/chladni-figures.md`
+- `src/content/works/combinatorial-path-counting.md`
+- `src/content/works/complex-arithmetic-geometry.md`
+- `src/content/works/complex-phase-portrait.md`
+- `src/content/works/complex-polar-form.md`
+- `src/content/works/conditional-probability-bayes.md`
+- `src/content/works/conic-envelope.md`
+- `src/content/works/conic-focus-locus.md`
+- `src/content/works/cross-product-geometry.md`
+- `src/content/works/dot-product-geometry.md`
+- `src/content/works/eigenvector-geometry.md`
+- `src/content/works/equiangular-spiral.md`
+- `src/content/works/euler-formula-rotation.md`
+- `src/content/works/exponential-growth-decay.md`
+- `src/content/works/fibonacci-spiral.md`
+- `src/content/works/function-derivative-graph.md`
+- `src/content/works/function-graph-transform.md`
+- `src/content/works/harmonograph-curve.md`
+- `src/content/works/interference-fringes.md`
+- `src/content/works/inverse-function-reflection.md`
+- `src/content/works/julia-set.md`
+- `src/content/works/law-of-sines-cosines.md`
+- `src/content/works/line-plane-intersection.md`
+- `src/content/works/linear-transform-grid.md`
+- `src/content/works/lissajous-curve.md`
+- `src/content/works/logarithmic-scale.md`
+- `src/content/works/logistic-bifurcation.md`
+- `src/content/works/logistic-curve.md`
+- `src/content/works/lp-feasible-half-planes.md`
+- `src/content/works/lp-objective-level-curves.md`
+- `src/content/works/lp-vertex-optimum.md`
+- `src/content/works/natural-log-e-geometry.md`
+- `src/content/works/parabolic-reflection.md`
+- `src/content/works/pascals-triangle.md`
+- `src/content/works/plane-normal-distance.md`
+- `src/content/works/polynomial-roots-multiplicity.md`
+- `src/content/works/quadratic-completing-square.md`
+- `src/content/works/radian-arc-length.md`
+- `src/content/works/rational-oblique-asymptote.md`
+- `src/content/works/rational-vertical-horizontal-asymptotes.md`
+- `src/content/works/riemann-sum.md`
+- `src/content/works/rose-curve.md`
+- `src/content/works/rotation-scale-composition.md`
+- `src/content/works/sierpinski-triangle.md`
+- `src/content/works/sinusoid-amplitude-period-phase.md`
+- `src/content/works/space-vector-three-plane-projection.md`
+- `src/content/works/spirograph-curve.md`
+- `src/content/works/standing-wave.md`
+- `src/content/works/tangent-approximation.md`
+- `src/content/works/taylor-polynomial-approximation.md`
+- `src/content/works/trig-angle-identities.md`
+- `src/content/works/unit-circle-trig-definition.md`
+- `src/content/works/vector-addition-scalar.md`
+- `src/content/works/vector-field-patterns.md`
+- `src/content/works/vector-field-streamlines.md`
+- `src/content/works/vector-projection.md`
 - `src/curve/animation.ts`
 - `src/curve/cache.ts`
 - `src/curve/canvasSize.ts`
@@ -373,90 +456,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（421）</summary>
-- `src/content/explore/complex-euler-formula.md`
-- `src/content/explore/conic-dynamic-geometry.md`
-- `src/content/explore/data-analysis.md`
-- `src/content/explore/differential-equations-geometry.md`
-- `src/content/explore/exponential-logarithm.md`
-- `src/content/explore/fourier-series.md`
-- `src/content/explore/function-equations.md`
-- `src/content/explore/limits-riemann-sum.md`
-- `src/content/explore/matrix-linear-transform.md`
-- `src/content/explore/permutations-combinations.md`
-- `src/content/explore/probability-statistics.md`
-- `src/content/explore/rational-functions-asymptotes.md`
-- `src/content/explore/sequences-and-series.md`
-- `src/content/explore/trig-function-graphs.md`
-- `src/content/explore/trig-wave-interference.md`
-- `src/content/explore/trigonometry-fundamentals.md`
-- `src/content/explore/vectors.md`
-- `src/content/works/affine-ifs-fractal.md`
-- `src/content/works/affine-transform-pattern.md`
-- `src/content/works/arithmetic-geometric-sequences.md`
-- `src/content/works/basel-problem.md`
-- `src/content/works/binomial-expansion-geometry.md`
-- `src/content/works/binomial-geometric-distribution.md`
-- `src/content/works/binomial-to-normal.md`
-- `src/content/works/buffon-needle.md`
-- `src/content/works/catalan-numbers.md`
-- `src/content/works/catenary.md`
-- `src/content/works/chladni-figures.md`
-- `src/content/works/combinatorial-path-counting.md`
-- `src/content/works/complex-arithmetic-geometry.md`
-- `src/content/works/complex-phase-portrait.md`
-- `src/content/works/complex-polar-form.md`
-- `src/content/works/conditional-probability-bayes.md`
-- `src/content/works/conic-envelope.md`
-- `src/content/works/conic-focus-locus.md`
-- `src/content/works/cross-product-geometry.md`
-- `src/content/works/dot-product-geometry.md`
-- `src/content/works/eigenvector-geometry.md`
-- `src/content/works/equiangular-spiral.md`
-- `src/content/works/euler-formula-rotation.md`
-- `src/content/works/exponential-growth-decay.md`
-- `src/content/works/fibonacci-spiral.md`
-- `src/content/works/function-derivative-graph.md`
-- `src/content/works/function-graph-transform.md`
-- `src/content/works/harmonograph-curve.md`
-- `src/content/works/interference-fringes.md`
-- `src/content/works/inverse-function-reflection.md`
-- `src/content/works/julia-set.md`
-- `src/content/works/law-of-sines-cosines.md`
-- `src/content/works/line-plane-intersection.md`
-- `src/content/works/linear-transform-grid.md`
-- `src/content/works/lissajous-curve.md`
-- `src/content/works/logarithmic-scale.md`
-- `src/content/works/logistic-bifurcation.md`
-- `src/content/works/logistic-curve.md`
-- `src/content/works/lp-feasible-half-planes.md`
-- `src/content/works/lp-objective-level-curves.md`
-- `src/content/works/lp-vertex-optimum.md`
-- `src/content/works/natural-log-e-geometry.md`
-- `src/content/works/parabolic-reflection.md`
-- `src/content/works/pascals-triangle.md`
-- `src/content/works/plane-normal-distance.md`
-- `src/content/works/polynomial-roots-multiplicity.md`
-- `src/content/works/quadratic-completing-square.md`
-- `src/content/works/radian-arc-length.md`
-- `src/content/works/rational-oblique-asymptote.md`
-- `src/content/works/rational-vertical-horizontal-asymptotes.md`
-- `src/content/works/riemann-sum.md`
-- `src/content/works/rose-curve.md`
-- `src/content/works/rotation-scale-composition.md`
-- `src/content/works/sierpinski-triangle.md`
-- `src/content/works/sinusoid-amplitude-period-phase.md`
-- `src/content/works/space-vector-three-plane-projection.md`
-- `src/content/works/spirograph-curve.md`
-- `src/content/works/standing-wave.md`
-- `src/content/works/tangent-approximation.md`
-- `src/content/works/taylor-polynomial-approximation.md`
-- `src/content/works/trig-angle-identities.md`
-- `src/content/works/unit-circle-trig-definition.md`
-- `src/content/works/vector-addition-scalar.md`
-- `src/content/works/vector-field-patterns.md`
-- `src/content/works/vector-field-streamlines.md`
-- `src/content/works/vector-projection.md`
+<summary>尚未掃描檔案（338）</summary>
 - `src/curve/modules/affine-ifs-fractal/affine-ifs-fractal.test.ts`
 - `src/curve/modules/affine-ifs-fractal/animation.ts`
 - `src/curve/modules/affine-ifs-fractal/geometry.ts`
@@ -980,6 +980,21 @@
 | `src/components/explore/TrigFunctionGraphsExploreRoot.tsx` | 已掃描；確認保留：已使用 `useRectP5CanvasHost` 的 `loop: false` + `redrawKey`，拖曳行為在 `extendSketch`，未發現可立即刪除且不改行為的項目。 |
 | `src/components/explore/TrigonometryFundamentalsExploreRoot.tsx` | 已掃描；確認保留：已使用 `useRectP5CanvasHost`；連續 draw 是 smoothing 依賴 `p.deltaTime` 的必要行為，不能改成 static redraw。 |
 | `src/components/explore/WaveSuperpositionExploreRoot.tsx` | 已掃描；確認保留：已使用 `useRectP5CanvasHost`；draw 內 mode-dependent canvas resize 與 `time` 累積是現有 helper 未覆蓋的必要行為。 |
+
+## 2026-06-22 Explore content markdown 接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/content/explore/complex-euler-formula.md`、`src/content/explore/conic-dynamic-geometry.md`、`src/content/explore/data-analysis.md`、`src/content/explore/differential-equations-geometry.md`、`src/content/explore/exponential-logarithm.md`、`src/content/explore/fourier-series.md`、`src/content/explore/function-equations.md`、`src/content/explore/limits-riemann-sum.md`、`src/content/explore/matrix-linear-transform.md`、`src/content/explore/permutations-combinations.md`、`src/content/explore/probability-statistics.md`、`src/content/explore/rational-functions-asymptotes.md`、`src/content/explore/sequences-and-series.md`、`src/content/explore/trig-function-graphs.md`、`src/content/explore/trig-wave-interference.md`、`src/content/explore/trigonometry-fundamentals.md`、`src/content/explore/vectors.md` | 已掃描；確認保留：17 個 published Explore content 皆被 `src/content.config.ts` 的 `explore` collection loader、`src/pages/explore/index.astro` 列表、`src/pages/explore/[slug].astro` detail route 消費；內部 `/works/`、`/explore/` 連結已核對 0 個 missing/draft；五段 heading 結構完整，未命中 placeholder/TODO。 |
+| 驗證 | 已執行並通過：`npm run audit:content`；`npm test -- src/content/contentAudit.test.ts src/content/releaseAudit.test.ts`。 |
+
+## 2026-06-22 Work content markdown 接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/content/works/*.md` 本輪 58 個 published Work content | 已掃描；確認保留：皆由 `src/content.config.ts` 的 `works` collection loader、`src/pages/works/index.astro` 列表、`src/pages/works/[slug].astro` detail route、OG/thumb routes 與 content audits 消費；內部 `/works/`、`/explore/` 連結已核對 0 個 missing/draft；未命中 placeholder/TODO。 |
+| `src/content/works/binomial-geometric-distribution.md`、`src/content/works/cross-product-geometry.md`、`src/content/works/line-plane-intersection.md`、`src/content/works/lp-feasible-half-planes.md`、`src/content/works/lp-objective-level-curves.md`、`src/content/works/lp-vertex-optimum.md`、`src/content/works/plane-normal-distance.md`、`src/content/works/space-vector-three-plane-projection.md` | 已掃描；仍為 `verify-delete`：8 檔皆為 `draft: true` / `order: 0`，搜尋只找到 draft Explore、draft Work 互鏈、DEV draft route 與 `docs/public-pages-audit.md` 的 Draft Works 記錄；尚缺正式發布、interactive registry 或外部契約證據，未完成刪除前的人工 backlog 確認。 |
+| 驗證 | 已執行並通過：`npm run audit:content`；`npm run audit:integration -- --json`；`npm test -- src/content/contentAudit.test.ts src/content/releaseAudit.test.ts src/registry.sync.test.ts`。 |
 
 ## 2026-06-22 p5 lifecycle 收斂
 
