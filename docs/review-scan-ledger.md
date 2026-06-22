@@ -824,9 +824,9 @@
 | `src/components/explore/DataAnalysisExploreRoot.tsx` | 已移除 `worldToScreen` / `screenToWorld` 純改名 wrapper，改用既有座標 helper。 |
 | `src/components/explore/DataAnalysisExploreRoot.tsx` | 已改用 shared geometry / p5 plot helper，減少重複統計與繪圖邏輯。 |
 | `src/content/explore/discrete-random-variables.md` | 已修正「期望值、變異數各有自己的作品」的過時文案，改回目前仍存在的二項／幾何與常態近似脈絡。 |
-| `src/content/explore/discrete-random-variables.md:37` | 已確認目前兩個相關作品連結有效：`binomial-geometric-distribution`、`binomial-to-normal`。 |
+| `src/content/explore/discrete-random-variables.md` 的相關作品連結段落 | 已確認目前兩個相關作品連結有效：`binomial-geometric-distribution`、`binomial-to-normal`。 |
 | `docs/exploreplan.md` | 已修正不存在的 `.explore-topic__stage` / `.explore-topic__visual` / `.explore-topic__sidebar`，改成實際 suffix contract。 |
-| `docs/public-pages-audit.md` | 已更新到正確計數：Works public 61 / draft 8 / total 69；Explore public 16 / draft 4 / total 20。 |
+| `docs/public-pages-audit.md` | 已核對目前正確計數：Works public 61 / draft 8 / total 69；Explore public 17 / draft 3 / total 20；`audit:explore-covers -- --json` 的 `checked: 17` 以 published Explore entries 為基準。 |
 | `src/curve/registry.ts`、`src/works/interactiveRegistry.ts`、`src/components/works/WorkInteractiveStage.tsx` | 三個新 published Works 已同步進 module registry、interactive registry、stage root。 |
 | `src/content/works/percentile-box-plot.md`、`src/content/works/regression-outlier-influence.md`、`src/content/works/scatter-correlation-regression.md` | 三個 Work → `/explore/data-analysis` 連結已改為明確保留項，並由 audit 例外精準覆蓋；等待 `data-analysis` 發布後再移除例外。 |
 | `src/content/utils.ts`、`src/pages/works/[slug].astro`、`src/pages/explore/[slug].astro` | 已確認 `includeDraft` 只用於 DEV draft detail preview；production、OG、thumbnail 仍維持 published-only。 |
@@ -838,7 +838,7 @@
 | 範圍 | 結論 |
 |------|------|
 | `README.md` | 已掃描並修正：移除 `tools/archive/`、Fuse、`getFeaturedOrLatest`、`date` 排序等過時描述；frontmatter 範例補回 `order`。 |
-| `schedule.md` | 已移出 Git 追蹤並加入 `.gitignore`；local schedule 不再作為 repo 文件審查項。 |
+| `schedule.md` | 已確認仍是 local-only；移出 Git 追蹤與 `.gitignore` 記錄以上方主表為準，本節不作第二筆完成項。 |
 | `docs/textstyle.md` | 已掃描並修正：`date` 語意為真實發布日、不參與排序；審查摘要更新為目前 89 篇 content（Explore 20 / Works 69），刪除過期逐項計數。 |
 | `AGENTS.md`、`docs/AGENTS.md` | 已掃描；確認保留：根目錄檔供 agent convention 使用，docs 版本由 `README.md`、`docs/README.md`、`docs/architecture.md`、`docs/editing-rules.md` 引用。 |
 | `.github/workflows/deploy.yml` | 已掃描；確認保留：`main` push 透過 `npm ci`、`npm run build`、Pages artifact deploy。 |
@@ -887,7 +887,7 @@
 | `src/curve/modules/animationTiming.ts`、`src/curve/modules/matrix-linear-transform/animation.ts`、`src/components/curve/useLogarithmicScaleP5.ts`、`src/components/curve/useNaturalLogEGeometryP5.ts`、`src/components/curve/useExponentialGrowthDecayP5.ts` | 已掃描並修正：matrix smoothing 與三個 p5 reveal hook 改用 shared `frameScale(deltaMs)`；補 `matrix-linear-transform/animation.test.ts` 覆蓋 60fps fallback / clamp。 |
 | `src/curve/modules/animationTiming.ts`、`src/curve/modules/unit-circle-trig-definition/geometry.ts`、`src/curve/modules/trig-angle-identities/geometry.ts` | 已掃描並修正：抽出秒制 exponential smoothing factor，兩個三角互動共用同一個 `dt` clamp 公式；未改成 per-frame `frameScale`。 |
 | `src/curve/modules/logistic-curve/*` | 已掃描並修正：刪除重複的 `REVEAL_RESET_TIMEOUT_MS` 常數，改用 `animationTiming` 既有 timeout；保留 logistic 專用秒制 reveal 進度。 |
-| `src/curve/modules/radian-arc-length/geometry.ts` | 已掃描並修正：刪除未被任何 renderer、hook、module、test 引用的 `SMOOTH_RATE_PER_SEC` 常數。 |
+| `src/curve/modules/radian-arc-length/geometry.ts` | 已掃描並修正：刪除未被任何 renderer、hook、module、test 引用的 `SMOOTH_RATE_PER_SEC` 常數；後續 `useRadianArcLengthP5.ts` static lifecycle 也未新增 smoothing 引用。 |
 | `src/curve/registry.ts`、`src/works/interactiveRegistry.ts`、`src/components/works/WorkInteractiveStage.tsx`、`src/explore/interactiveRegistry.ts`、`src/components/explore/ExploreInteractiveStage.tsx`、`src/registry.sync.test.ts` | 已掃描；確認保留：頁面、smoke script、integration audit、thumbnail / OG tests、registry sync test 都有 current 引用；stage root keys 由測試保護同步。 |
 | `src/curve/animation.ts`、`src/curve/canvasSize.ts`、`src/curve/cartesianPlot.ts`、`src/curve/defaults.ts`、`src/curve/resolveSmoothParams.ts`、`src/curve/thumbnailPointCloud.ts`、`src/curve/modules/animationTiming.ts` | 已掃描；確認保留主要 API：目前有多個 Work hook、renderer、module index、metadata 防呆或 thumbnail 呼叫端。 |
 | 驗證 | 已執行並通過：`npm test -- src/registry.sync.test.ts src/curve/morphFrame.test.ts src/components/curve/useMorphCurveP5.draw.test.ts src/curve/resolveSmoothParams.test.ts src/lib/curveThumbnail.test.ts src/lib/curveThumbnail.registry.test.ts`；`npm test -- scatter-correlation-regression`；`npm test -- percentile-box-plot`；`npm test -- data-analysis`；`npm test -- src/content/descriptionMath.test.ts src/content/utils.test.ts src/content/generatorScripts.test.ts src/content/contentAudit.test.ts src/content/releaseAudit.test.ts`；`npm test -- src/curve/modules/matrix-linear-transform/animation.test.ts src/registry.sync.test.ts`；`npm run audit:content`；`npm run audit:integration`；`npm run validate:frontend`；`npm run validate:changed -- --dry-run`；`npm run smoke:explore -- data-analysis --list`；`npm run smoke:work -- exponential-growth-decay --list`；`npm run smoke:work -- logarithmic-scale --list`；`npm run smoke:work -- natural-log-e-geometry --list`；`git diff --check`。 |
@@ -947,7 +947,7 @@
 
 | 範圍 | 結論 |
 |------|------|
-| `src/components/curve/useP5CanvasHost.ts` | 已掃描並修正：刪除全專案無呼叫端的 `demand` / `redrawOn` 分支；`P5CanvasHostMode`、`P5CanvasHostOptions`、`DrawResult` 改回檔內 type；移除重複生命週期註解。 |
+| `src/components/curve/useP5CanvasHost.ts` | 已掃描並修正：`rg "demand|redrawOn"` 確認全專案無 source 呼叫端後刪除兩個分支；後續薄 wrapper 保留的是既有 `(draw, deps, measureSize, options)` 呼叫形狀與 `mode: 'reveal'` / `restartOn`，不是恢復已刪分支。 |
 | `src/components/curve/useLogisticBifurcationP5.ts`、`src/components/works/LogisticBifurcationCurveRoot.tsx` | 已掃描並修正：module metadata 不讀 runtime，刪除 root/hook 的 reveal pct callback/state；hook 初始化直接吃 `targetParams`，不再傳入只供初始化的 `defaultParams`。 |
 | `src/components/curve/useLinearTransformGridP5.ts` | 已掃描並修正：`getMetadata` 只讀 smooth `shearX` / `scaleY`，刪除未被 metadata 消費的 `transformSpeed` smooth notification。 |
 | `src/components/curve/usePascalsTriangleP5.ts`、`src/components/works/PascalsTriangleCurveRoot.tsx` | 已掃描並修正：module metadata 不讀 runtime，刪除 root/hook 的 reveal pct callback/state；hook 初始化直接吃 `targetParams`。 |
@@ -965,7 +965,7 @@
 | 範圍 | 結論 |
 |------|------|
 | `src/components/curve/useTangentApproximationP5.ts` | 已掃描並修正：`notifySmoothParams` 只上報 metadata 消費的 `dx`，移除未讀的 `waveFrequency` / `timeSpeed`。`defaultParams` option 仍為 verify-delete，尚未完成呼叫契約刪除驗證。 |
-| `src/components/curve/useTaylorPolynomialApproximationP5.ts`、`src/components/curve/useTrigAngleIdentitiesP5.ts`、`src/components/curve/useUnitCircleTrigDefinitionP5.ts`、`src/components/curve/useVectorAdditionScalarP5.ts`、`src/components/curve/useVectorFieldPatternsP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver / noLoop lifecycle，改用既有 `useRectP5CanvasHost` 的 `loop: false` + `redrawKey`；原本拖曳與 renderer 邏輯留在各 hook。 |
+| `src/components/curve/useTaylorPolynomialApproximationP5.ts`、`src/components/curve/useTrigAngleIdentitiesP5.ts`、`src/components/curve/useUnitCircleTrigDefinitionP5.ts`、`src/components/curve/useVectorAdditionScalarP5.ts`、`src/components/curve/useVectorFieldPatternsP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver / noLoop lifecycle；Taylor / Vector 類 static hook 使用 `loop: false` + `redrawKey`；兩個三角 hook 因仍有秒制 smoothing，已改用 `restartOn` + `{ keepLooping }` 跑到收斂後自停。 |
 | `src/components/curve/useVectorProjectionP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver lifecycle，改用 `useRectP5CanvasHost`；保留連續 draw，因 renderer 仍消費 `timeMs: p.millis()`。 |
 | `src/components/curve/useVectorFieldStreamlinesP5.ts` | 已掃描；`defaultParams` option 疑似可刪，但尚未完成全呼叫契約驗證，保留為 verify-delete，未改碼。 |
 | `src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`、`src/components/works/TrigAngleIdentitiesCurveRoot.tsx`、`src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx`、`src/components/works/VectorAdditionScalarCurveRoot.tsx`、`src/components/works/VectorFieldPatternsCurveRoot.tsx`、`src/components/works/VectorProjectionCurveRoot.tsx` | 支援性修正：對應 module `getMetadata` 不消費 runtime object，已刪除 root 端多餘 `revealPct` / `smoothParams` 傳遞；root 檔仍保留在未掃描清單，尚未標記完整掃描。 |

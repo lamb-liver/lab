@@ -24,6 +24,7 @@ const INITIAL_SMOOTH = {
   beta: Math.PI / 6,
   guideMix: 1,
 };
+const SMOOTH_EPSILON = 0.001;
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
   const size = measureWorkCanvasSize(host);
@@ -45,18 +46,22 @@ export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
   }, [onAnglesChange]);
 
   const draw = useCallback((p: p5) => {
-    smoothRef.current = stepTrigAngleIdentitiesSmoothing(
+    const params = paramsRef.current;
+    const smooth = stepTrigAngleIdentitiesSmoothing(
       smoothRef.current,
-      paramsRef.current,
+      params,
       p.deltaTime,
     );
+    smoothRef.current = smooth;
 
     renderTrigAngleIdentitiesScene(p, {
       width: p.width,
       height: p.height,
-      params: paramsRef.current,
-      smooth: smoothRef.current,
+      params,
+      smooth,
     });
+
+    return { keepLooping: !isSmoothSettled(smooth, params) };
   }, []);
 
   const extendSketch = useCallback((p: p5) => {
@@ -127,8 +132,19 @@ export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
     [draw, extendSketch],
     measureSquareCanvas,
     extendSketch,
-    { loop: false, redrawKey },
+    { restartOn: [redrawKey] },
   );
 
   return { canvasHostRef };
+}
+
+function isSmoothSettled(
+  smooth: typeof INITIAL_SMOOTH,
+  params: TrigAngleIdentitiesParams,
+): boolean {
+  return (
+    Math.abs(smooth.alpha - params.alpha) <= SMOOTH_EPSILON &&
+    Math.abs(smooth.beta - params.beta) <= SMOOTH_EPSILON &&
+    Math.abs(smooth.guideMix - (params.showGuides ? 1 : 0)) <= SMOOTH_EPSILON
+  );
 }

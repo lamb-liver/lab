@@ -25,6 +25,7 @@ const INITIAL_SMOOTH: UnitCircleSmoothState = {
   specialMix: 1,
   tangentMix: 1,
 };
+const SMOOTH_EPSILON = 0.001;
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
   const size = measureWorkCanvasSize(host);
@@ -46,18 +47,22 @@ export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options
   }, [onThetaChange]);
 
   const draw = useCallback((p: p5) => {
-    smoothRef.current = stepUnitCircleSmoothing(
+    const params = paramsRef.current;
+    const smooth = stepUnitCircleSmoothing(
       smoothRef.current,
-      paramsRef.current,
+      params,
       p.deltaTime,
     );
+    smoothRef.current = smooth;
 
     renderUnitCircleTrigDefinitionScene(p, {
       width: p.width,
       height: p.height,
-      params: paramsRef.current,
-      smooth: smoothRef.current,
+      params,
+      smooth,
     });
+
+    return { keepLooping: !isSmoothSettled(smooth, params) };
   }, []);
 
   const extendSketch = useCallback((p: p5) => {
@@ -122,8 +127,20 @@ export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options
     [draw, extendSketch],
     measureSquareCanvas,
     extendSketch,
-    { loop: false, redrawKey },
+    { restartOn: [redrawKey] },
   );
 
   return { canvasHostRef };
+}
+
+function isSmoothSettled(
+  smooth: UnitCircleSmoothState,
+  params: UnitCircleTrigDefinitionParams,
+): boolean {
+  return (
+    Math.abs(smooth.theta - params.theta) <= SMOOTH_EPSILON &&
+    Math.abs(smooth.quadrantMix - (params.showQuadrants ? 1 : 0)) <= SMOOTH_EPSILON &&
+    Math.abs(smooth.specialMix - (params.showSpecialAngles ? 1 : 0)) <= SMOOTH_EPSILON &&
+    Math.abs(smooth.tangentMix - (params.showTangent ? 1 : 0)) <= SMOOTH_EPSILON
+  );
 }
