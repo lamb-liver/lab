@@ -20,7 +20,7 @@ import type {
   Rect,
 } from '../../explore/rational-functions-asymptotes/types';
 
-export type RationalFunctionsAsymptotesSnap = {
+type RationalFunctionsAsymptotesSnap = {
   preset: RationalPreset;
   model: RationalModel;
   showAsymptotes: boolean;

@@ -10,7 +10,7 @@ import {
   tangentPointX,
 } from '../../curve/modules/tangent-approximation/geometry';
 
-export type TangentApproximationSnap = {
+type TangentApproximationSnap = {
   width: number;
   height: number;
   waveFrequency: number;

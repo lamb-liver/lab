@@ -9,7 +9,7 @@ import { computeSpiralExtent } from '../../curve/modules/equiangular-spiral/geom
 import type { WorldPoint } from '../../curve/modules/equiangular-spiral/geometry';
 import { INITIAL_RADIUS_A } from '../../curve/modules/equiangular-spiral/geometry';
 
-export type EquiangularSpiralSnap = {
+type EquiangularSpiralSnap = {
   width: number;
   height: number;
   smoothGrowthB: number;

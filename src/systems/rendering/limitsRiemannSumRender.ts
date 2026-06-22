@@ -18,7 +18,7 @@ import type {
   RiemannMethod,
 } from '../../curve/modules/limits-riemann-sum/types';
 
-export type LimitsRiemannSumSnap = {
+type LimitsRiemannSumSnap = {
   width: number;
   height: number;
   mode: LimitsMode;

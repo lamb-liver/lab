@@ -12,7 +12,7 @@ import {
   type Triangle,
 } from '../../curve/modules/sierpinski-triangle/geometry';
 
-export type SierpinskiTriangleSnap = {
+type SierpinskiTriangleSnap = {
   width: number;
   height: number;
   params: ParamValues;

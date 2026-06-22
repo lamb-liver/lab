@@ -10,7 +10,7 @@ import {
 } from '../../curve/modules/percentile-box-plot/geometry';
 import { drawBottomLabel as drawPlotBottomLabel, withDash } from './p5PlotHelpers';
 
-export type PercentileBoxPlotSnap = {
+type PercentileBoxPlotSnap = {
   width: number;
   height: number;
   values: number[];

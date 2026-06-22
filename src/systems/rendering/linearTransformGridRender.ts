@@ -8,7 +8,7 @@ import {
   type Matrix2x2,
 } from '../../curve/modules/linear-transform-grid/geometry';
 
-export type LinearTransformGridSnap = {
+type LinearTransformGridSnap = {
   width: number;
   height: number;
   currentShearX: number;

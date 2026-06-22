@@ -11,7 +11,7 @@ import {
   type VectorFieldPatternParams,
 } from '../../curve/modules/vector-field-patterns/geometry';
 
-export type VectorFieldPatternsSnap = {
+type VectorFieldPatternsSnap = {
   width: number;
   height: number;
   params: VectorFieldPatternParams;

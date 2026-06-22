@@ -6,7 +6,7 @@ import {
   buildTranslationVectors,
 } from '../../curve/modules/affine-transform-pattern/geometry';
 
-export type AffineTransformPatternSnap = {
+type AffineTransformPatternSnap = {
   width: number;
   height: number;
   currentRotationDeg: number;

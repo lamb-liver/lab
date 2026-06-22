@@ -22,7 +22,7 @@ const GUIDE: [number, number, number] = [255, 255, 255];
 
 type Point = [number, number];
 
-export type WaveSuperpositionSnap = {
+type WaveSuperpositionSnap = {
   mode: WaveMode;
   time: number;
   guide: GuideParams;

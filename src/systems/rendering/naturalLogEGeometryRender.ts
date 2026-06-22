@@ -15,7 +15,7 @@ import {
 } from '../../curve/modules/natural-log-e-geometry/geometry';
 import type { ParamValues } from '../../curve/types';
 
-export type NaturalLogEGeometrySnap = {
+type NaturalLogEGeometrySnap = {
   width: number;
   height: number;
   params: ParamValues;

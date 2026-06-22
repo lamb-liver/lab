@@ -14,7 +14,7 @@ import {
   type RationalObliqueParams,
 } from '../../curve/modules/rational-oblique-asymptote';
 
-export type RationalObliqueAsymptoteSnap = {
+type RationalObliqueAsymptoteSnap = {
   size: number;
   mode: RationalObliqueMode;
   params: RationalObliqueParams;

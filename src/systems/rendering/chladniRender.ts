@@ -8,7 +8,7 @@ import {
   type Particle,
 } from '../../curve/modules/chladni-figures/geometry';
 
-export type ChladniSnap = {
+type ChladniSnap = {
   width: number;
   height: number;
   currentM: number;

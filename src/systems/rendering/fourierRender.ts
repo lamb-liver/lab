@@ -8,7 +8,7 @@ import {
 
 const TAU = Math.PI * 2;
 
-export function fourierCanvasScale(canvasSize: number): number {
+function fourierCanvasScale(canvasSize: number): number {
   return canvasSize / FOURIER_BASE_SIZE;
 }
 

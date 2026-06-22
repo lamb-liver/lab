@@ -13,7 +13,7 @@ import {
   mapRange,
 } from '../../curve/modules/logistic-bifurcation/geometry';
 
-export type LogisticBifurcationSnap = {
+type LogisticBifurcationSnap = {
   width: number;
   height: number;
   params: ParamValues;

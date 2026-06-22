@@ -20,7 +20,7 @@ import type {
   PathPoint,
 } from '../../curve/modules/conic-dynamic-geometry/types';
 
-export type ConicDynamicGeometrySnap = {
+type ConicDynamicGeometrySnap = {
   width: number;
   height: number;
   mode: ConicMode;

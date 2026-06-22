@@ -24,7 +24,7 @@ import type {
   Point2,
 } from '../../curve/modules/differential-equations-geometry/types';
 
-export type DiffEqGeometrySnap = {
+type DiffEqGeometrySnap = {
   width: number;
   height: number;
   mode: DiffEqMode;

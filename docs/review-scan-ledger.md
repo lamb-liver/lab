@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 450 |
-| 尚未掃描檔案 | 294 |
+| 已掃描檔案 | 523 |
+| 尚未掃描檔案 | 221 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（450）</summary>
+<summary>已掃描檔案（523）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -476,6 +476,79 @@
 - `src/styles/prose.css`
 - `src/styles/tokens.css`
 - `src/styles/scrollbar.css`
+- `src/systems/rendering/affineIfsFractalRender.ts`
+- `src/systems/rendering/affineTransformPatternRender.ts`
+- `src/systems/rendering/arithmeticGeometricSequencesRender.ts`
+- `src/systems/rendering/baselProblemRender.ts`
+- `src/systems/rendering/binomialExpansionGeometryRender.ts`
+- `src/systems/rendering/binomialToNormalRender.ts`
+- `src/systems/rendering/buffonNeedleRender.ts`
+- `src/systems/rendering/cartesianGrid.ts`
+- `src/systems/rendering/catalanNumbersRender.ts`
+- `src/systems/rendering/catenaryRender.ts`
+- `src/systems/rendering/chladniRender.ts`
+- `src/systems/rendering/combinatorialPathCountingRender.ts`
+- `src/systems/rendering/complexArithmeticGeometryRender.ts`
+- `src/systems/rendering/complexEulerFormulaRender.ts`
+- `src/systems/rendering/complexPhasePortraitRender.ts`
+- `src/systems/rendering/complexPolarFormRender.ts`
+- `src/systems/rendering/conditionalProbabilityBayesRender.ts`
+- `src/systems/rendering/conicDynamicGeometryRender.ts`
+- `src/systems/rendering/conicEnvelopeRender.ts`
+- `src/systems/rendering/conicFocusLocusRender.ts`
+- `src/systems/rendering/differentialEquationsGeometryRender.ts`
+- `src/systems/rendering/dotProductGeometryRender.ts`
+- `src/systems/rendering/eigenvectorGeometryRender.ts`
+- `src/systems/rendering/equiangularSpiralRender.ts`
+- `src/systems/rendering/eulerFormulaRotationRender.ts`
+- `src/systems/rendering/exponentialGrowthDecayRender.ts`
+- `src/systems/rendering/fibonacciSpiralRender.ts`
+- `src/systems/rendering/fourierRender.ts`
+- `src/systems/rendering/frame.ts`
+- `src/systems/rendering/functionDerivativeGraphRender.ts`
+- `src/systems/rendering/functionEquationsExploreRender.ts`
+- `src/systems/rendering/functionGraphTransformRender.ts`
+- `src/systems/rendering/interferenceFringeRender.ts`
+- `src/systems/rendering/inverseFunctionReflectionRender.ts`
+- `src/systems/rendering/lawOfSinesCosinesRender.ts`
+- `src/systems/rendering/limitsRiemannSumRender.ts`
+- `src/systems/rendering/linearTransformGridRender.ts`
+- `src/systems/rendering/logarithmicScaleRender.ts`
+- `src/systems/rendering/logisticBifurcationRender.ts`
+- `src/systems/rendering/logisticCurveRender.ts`
+- `src/systems/rendering/matrixLinearTransformRender.ts`
+- `src/systems/rendering/naturalLogEGeometryRender.ts`
+- `src/systems/rendering/parabolicReflectionRender.ts`
+- `src/systems/rendering/pascalsTriangleRender.ts`
+- `src/systems/rendering/percentileBoxPlotRender.ts`
+- `src/systems/rendering/polarGrid.ts`
+- `src/systems/rendering/polyline.ts`
+- `src/systems/rendering/polynomialRootsMultiplicityRender.ts`
+- `src/systems/rendering/presets.ts`
+- `src/systems/rendering/quadraticCompletingSquareRender.ts`
+- `src/systems/rendering/radianArcLengthRender.ts`
+- `src/systems/rendering/rationalFunctionsAsymptotesExploreRender.ts`
+- `src/systems/rendering/rationalObliqueAsymptoteRender.ts`
+- `src/systems/rendering/rationalVerticalHorizontalAsymptotesRender.ts`
+- `src/systems/rendering/reveal.ts`
+- `src/systems/rendering/riemannSumRender.ts`
+- `src/systems/rendering/rotationScaleCompositionRender.ts`
+- `src/systems/rendering/scatterCorrelationRegressionRender.ts`
+- `src/systems/rendering/sierpinskiTriangleRender.ts`
+- `src/systems/rendering/sinusoidAmplitudePeriodPhaseRender.ts`
+- `src/systems/rendering/standingWaveRender.ts`
+- `src/systems/rendering/tangentApproximationRender.ts`
+- `src/systems/rendering/taylorPolynomialApproximationRender.ts`
+- `src/systems/rendering/trigAngleIdentitiesRender.ts`
+- `src/systems/rendering/trigFunctionGraphsExploreRender.ts`
+- `src/systems/rendering/trigonometryExploreRender.ts`
+- `src/systems/rendering/types.ts`
+- `src/systems/rendering/unitCircleTrigDefinitionRender.ts`
+- `src/systems/rendering/vectorAdditionScalarRender.ts`
+- `src/systems/rendering/vectorFieldPatternsRender.ts`
+- `src/systems/rendering/vectorFieldStreamlinesRender.ts`
+- `src/systems/rendering/vectorProjectionRender.ts`
+- `src/systems/rendering/waveSuperpositionRender.ts`
 - `src/systems/rendering/p5PlotHelpers.ts`
 - `src/systems/rendering/regressionOutlierInfluenceRender.ts`
 - `src/test/contentSlugs.test.ts`
@@ -500,7 +573,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（294）</summary>
+<summary>尚未掃描檔案（221）</summary>
 - `src/curve/modules/arithmetic-geometric-sequences/geometry.ts`
 - `src/curve/modules/arithmetic-geometric-sequences/index.ts`
 - `src/curve/modules/basel-problem/geometry.ts`
@@ -719,79 +792,6 @@
 - `src/explore/wave-superposition/geometry.ts`
 - `src/lib/trigonometry/triangleGeometry.test.ts`
 - `src/lib/trigonometry/triangleGeometry.ts`
-- `src/systems/rendering/affineIfsFractalRender.ts`
-- `src/systems/rendering/affineTransformPatternRender.ts`
-- `src/systems/rendering/arithmeticGeometricSequencesRender.ts`
-- `src/systems/rendering/baselProblemRender.ts`
-- `src/systems/rendering/binomialExpansionGeometryRender.ts`
-- `src/systems/rendering/binomialToNormalRender.ts`
-- `src/systems/rendering/buffonNeedleRender.ts`
-- `src/systems/rendering/cartesianGrid.ts`
-- `src/systems/rendering/catalanNumbersRender.ts`
-- `src/systems/rendering/catenaryRender.ts`
-- `src/systems/rendering/chladniRender.ts`
-- `src/systems/rendering/combinatorialPathCountingRender.ts`
-- `src/systems/rendering/complexArithmeticGeometryRender.ts`
-- `src/systems/rendering/complexEulerFormulaRender.ts`
-- `src/systems/rendering/complexPhasePortraitRender.ts`
-- `src/systems/rendering/complexPolarFormRender.ts`
-- `src/systems/rendering/conditionalProbabilityBayesRender.ts`
-- `src/systems/rendering/conicDynamicGeometryRender.ts`
-- `src/systems/rendering/conicEnvelopeRender.ts`
-- `src/systems/rendering/conicFocusLocusRender.ts`
-- `src/systems/rendering/differentialEquationsGeometryRender.ts`
-- `src/systems/rendering/dotProductGeometryRender.ts`
-- `src/systems/rendering/eigenvectorGeometryRender.ts`
-- `src/systems/rendering/equiangularSpiralRender.ts`
-- `src/systems/rendering/eulerFormulaRotationRender.ts`
-- `src/systems/rendering/exponentialGrowthDecayRender.ts`
-- `src/systems/rendering/fibonacciSpiralRender.ts`
-- `src/systems/rendering/fourierRender.ts`
-- `src/systems/rendering/frame.ts`
-- `src/systems/rendering/functionDerivativeGraphRender.ts`
-- `src/systems/rendering/functionEquationsExploreRender.ts`
-- `src/systems/rendering/functionGraphTransformRender.ts`
-- `src/systems/rendering/interferenceFringeRender.ts`
-- `src/systems/rendering/inverseFunctionReflectionRender.ts`
-- `src/systems/rendering/lawOfSinesCosinesRender.ts`
-- `src/systems/rendering/limitsRiemannSumRender.ts`
-- `src/systems/rendering/linearTransformGridRender.ts`
-- `src/systems/rendering/logarithmicScaleRender.ts`
-- `src/systems/rendering/logisticBifurcationRender.ts`
-- `src/systems/rendering/logisticCurveRender.ts`
-- `src/systems/rendering/matrixLinearTransformRender.ts`
-- `src/systems/rendering/naturalLogEGeometryRender.ts`
-- `src/systems/rendering/parabolicReflectionRender.ts`
-- `src/systems/rendering/pascalsTriangleRender.ts`
-- `src/systems/rendering/percentileBoxPlotRender.ts`
-- `src/systems/rendering/polarGrid.ts`
-- `src/systems/rendering/polyline.ts`
-- `src/systems/rendering/polynomialRootsMultiplicityRender.ts`
-- `src/systems/rendering/presets.ts`
-- `src/systems/rendering/quadraticCompletingSquareRender.ts`
-- `src/systems/rendering/radianArcLengthRender.ts`
-- `src/systems/rendering/rationalFunctionsAsymptotesExploreRender.ts`
-- `src/systems/rendering/rationalObliqueAsymptoteRender.ts`
-- `src/systems/rendering/rationalVerticalHorizontalAsymptotesRender.ts`
-- `src/systems/rendering/reveal.ts`
-- `src/systems/rendering/riemannSumRender.ts`
-- `src/systems/rendering/rotationScaleCompositionRender.ts`
-- `src/systems/rendering/scatterCorrelationRegressionRender.ts`
-- `src/systems/rendering/sierpinskiTriangleRender.ts`
-- `src/systems/rendering/sinusoidAmplitudePeriodPhaseRender.ts`
-- `src/systems/rendering/standingWaveRender.ts`
-- `src/systems/rendering/tangentApproximationRender.ts`
-- `src/systems/rendering/taylorPolynomialApproximationRender.ts`
-- `src/systems/rendering/trigAngleIdentitiesRender.ts`
-- `src/systems/rendering/trigFunctionGraphsExploreRender.ts`
-- `src/systems/rendering/trigonometryExploreRender.ts`
-- `src/systems/rendering/types.ts`
-- `src/systems/rendering/unitCircleTrigDefinitionRender.ts`
-- `src/systems/rendering/vectorAdditionScalarRender.ts`
-- `src/systems/rendering/vectorFieldPatternsRender.ts`
-- `src/systems/rendering/vectorFieldStreamlinesRender.ts`
-- `src/systems/rendering/vectorProjectionRender.ts`
-- `src/systems/rendering/waveSuperpositionRender.ts`
 - `tests/explore-single.smoke.spec.ts`
 - `tests/seo-ux.spec.ts`
 - `tests/work-integration.smoke.spec.ts`
@@ -1076,6 +1076,17 @@
 | `src/styles/pages/about.css`、`src/styles/pages/home.css`、`src/styles/pages/explore-detail.css`、`src/styles/prose.css` | 已掃描；確認保留：route-level import 與 page DOM 對應；`prose.css` 的 `.katex-display` 雖無 source 字串引用，但由 KaTeX runtime HTML 產生，保留。 |
 | `src/styles/components/explore-touch.css`、`src/styles/components/explore/explore-toolbar.css` | 已掃描；確認保留：Explore detail route 與 toolbar / sidebar button touch target 共用，未發現可刪 selector。 |
 | 驗證 | selector 掃描排除 `src/styles/**` 後只剩 `.katex-display` 這個 KaTeX runtime class；非死碼。 |
+
+## 2026-06-22 rendering 接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/systems/rendering/*Render.ts` 本輪 62 檔 | 已掃描並修正：全專案 export 搜尋確認各 `*Snap` / `*RenderSnap` type 只在宣告檔內作 render function 參數使用，沒有外部 import；已移除這些 type 的 `export`，保留 render function 本身作為 hook/root 的公開入口。 |
+| `src/systems/rendering/binomialExpansionGeometryRender.ts`、`src/systems/rendering/combinatorialPathCountingRender.ts` | 已掃描並修正：兩檔 `resolveMode` 只在本檔內部消費，且同名造成 export 面噪音；已改為 private function。 |
+| `src/systems/rendering/fourierRender.ts` | 已掃描並修正：`fourierCanvasScale` 只被本檔 `renderFourierGrid` / `applyFourierTransform` 消費，已改為 private function；保留 `renderFourierGrid`、`renderFourierEpicycles`、`applyFourierTransform`，因 Explore root 直接 import。 |
+| `src/systems/rendering/cartesianGrid.ts`、`src/systems/rendering/polarGrid.ts`、`src/systems/rendering/polyline.ts`、`src/systems/rendering/presets.ts`、`src/systems/rendering/reveal.ts`、`src/systems/rendering/frame.ts`、`src/systems/rendering/types.ts` | 已掃描；確認保留：全專案搜尋顯示這些 helper / preset / type 由 curve roots、module index、morph frame、Explore roots 或 docs contract 消費；未找到可直接刪除的 export。 |
+| `src/systems/rendering/complexEulerFormulaRender.ts`、`src/systems/rendering/limitsRiemannSumRender.ts`、`src/systems/rendering/trigFunctionGraphsExploreRender.ts`、`src/systems/rendering/trigonometryExploreRender.ts` 等大型 Explore renderer | 已掃描；本輪未重寫：雖檔案偏大，但公開面只有 renderer function；拆分會新增檔案與抽象，未找到可證明能縮小且不改行為的更小替代。 |
+| 驗證 | export 搜尋已確認本輪列表內不再有 0 外部引用的 exported symbol；`TODO` / `FIXME` / `placeholder` / `as any` / `console.log` 搜尋無命中。 |
 
 ## 接續審查記錄格式
 

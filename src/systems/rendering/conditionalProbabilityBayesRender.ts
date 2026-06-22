@@ -15,7 +15,7 @@ import {
 } from '../../curve/modules/conditional-probability-bayes/geometry';
 import type { ParamValues } from '../../curve/types';
 
-export type BayesSnap = {
+type BayesSnap = {
   width: number;
   height: number;
   params: ParamValues;

@@ -26,7 +26,7 @@ import type {
   SceneLayout,
 } from '../../explore/function-equations/types';
 
-export type FunctionEquationsRenderSnap = {
+type FunctionEquationsRenderSnap = {
   params: FunctionEquationsParams;
   smooth: FunctionEquationsSmooth;
 };

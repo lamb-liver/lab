@@ -5,7 +5,7 @@ import {
 } from '../../curve/modules/conic-envelope/geometry';
 import type { CurveStyle } from './types';
 
-export type ConicEnvelopeSnap = {
+type ConicEnvelopeSnap = {
   width: number;
   height: number;
   lineDensity: number;

@@ -8,7 +8,7 @@ import {
 } from '../../curve/modules/binomial-to-normal/geometry';
 import type { ParamValues } from '../../curve/types';
 
-export type BinormalSnap = {
+type BinormalSnap = {
   width: number;
   height: number;
   params: ParamValues;

@@ -5,7 +5,7 @@ import {
   matchParentheses,
 } from '../../curve/modules/catalan-numbers/geometry';
 
-export type CatalanSnap = {
+type CatalanSnap = {
   width: number;
   height: number;
   n: number;

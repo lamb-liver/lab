@@ -11,7 +11,7 @@ import {
   safeTAtFraction,
 } from '../../curve/modules/logistic-curve/geometry';
 
-export type LogisticCurveSnap = {
+type LogisticCurveSnap = {
   width: number;
   height: number;
   smooth: LogisticParams;

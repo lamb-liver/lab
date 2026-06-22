@@ -15,7 +15,7 @@ import {
 } from '../../curve/modules/matrix-linear-transform/matrix';
 import type { Matrix2, MatrixMode, SpecialType } from '../../curve/modules/matrix-linear-transform/types';
 
-export type MatrixLinearTransformSnap = {
+type MatrixLinearTransformSnap = {
   width: number;
   height: number;
   mode: MatrixMode;

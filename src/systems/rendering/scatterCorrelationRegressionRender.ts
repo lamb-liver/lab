@@ -15,7 +15,7 @@ import {
   withDash,
 } from './p5PlotHelpers';
 
-export type ScatterCorrelationSnap = {
+type ScatterCorrelationSnap = {
   width: number;
   height: number;
   points: ScatterPoint[];

@@ -16,7 +16,7 @@ import {
   type GraphRect,
 } from '../../curve/modules/function-derivative-graph/geometry';
 
-export type FunctionDerivativeGraphSnap = {
+type FunctionDerivativeGraphSnap = {
   size: number;
   preset: FunctionDerivativePreset;
   x0: number;

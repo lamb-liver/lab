@@ -13,7 +13,7 @@ import {
   type VectorProjectionParams,
 } from '../../curve/modules/vector-projection/geometry';
 
-export type VectorProjectionSnap = {
+type VectorProjectionSnap = {
   width: number;
   height: number;
   params: VectorProjectionParams;

@@ -6,7 +6,7 @@ import {
 import { renderGlowStroke } from './polyline';
 import type { CurveStyle } from './types';
 
-export type StandingWaveSnap = {
+type StandingWaveSnap = {
   width: number;
   height: number;
   currentAmplitude: number;

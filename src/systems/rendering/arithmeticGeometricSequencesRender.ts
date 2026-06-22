@@ -8,7 +8,7 @@ import {
   type RectShape,
 } from '../../curve/modules/arithmetic-geometric-sequences/geometry';
 
-export type ArithmeticGeometricSequencesSnap = {
+type ArithmeticGeometricSequencesSnap = {
   width: number;
   height: number;
   params: ParamValues;

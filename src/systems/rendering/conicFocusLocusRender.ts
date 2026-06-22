@@ -10,7 +10,7 @@ import {
 } from '../../curve/modules/conic-focus-locus/geometry';
 import type { CurveStyle } from './types';
 
-export type ConicFocusLocusSnap = {
+type ConicFocusLocusSnap = {
   width: number;
   height: number;
   currentSemiMajorAxis: number;

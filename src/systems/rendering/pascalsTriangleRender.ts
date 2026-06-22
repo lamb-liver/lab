@@ -5,7 +5,7 @@ import {
   type PascalFrameData,
 } from '../../curve/modules/pascals-triangle/geometry';
 
-export type PascalsTriangleSnap = {
+type PascalsTriangleSnap = {
   width: number;
   height: number;
   frame: PascalFrameData;

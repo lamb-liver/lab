@@ -20,7 +20,7 @@ import {
   normalizeN,
 } from '../../curve/modules/basel-problem/geometry';
 
-export type BaselProblemSnap = {
+type BaselProblemSnap = {
   width: number;
   height: number;
   params: ParamValues;

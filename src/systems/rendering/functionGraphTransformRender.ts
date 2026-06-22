@@ -13,7 +13,7 @@ import {
 } from '../../curve/modules/function-graph-transform/geometry';
 import { PLOT_X_MAX, PLOT_X_MIN } from '../../curve/modules/function-graph-transform/constants';
 
-export type FunctionGraphTransformSnap = {
+type FunctionGraphTransformSnap = {
   size: number;
   params: FunctionGraphTransformParams;
   smooth: ViewSmoothState;

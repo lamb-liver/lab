@@ -9,7 +9,7 @@ import {
 } from '../../curve/modules/parabolic-reflection/geometry';
 import type { CurveStyle } from './types';
 
-export type ParabolicReflectionSnap = {
+type ParabolicReflectionSnap = {
   width: number;
   height: number;
   currentFocalLength: number;

@@ -6,7 +6,7 @@ import {
   buildStackedSegments,
 } from '../../curve/modules/rotation-scale-composition/geometry';
 
-export type RotationScaleCompositionSnap = {
+type RotationScaleCompositionSnap = {
   width: number;
   height: number;
   currentRotationStepDeg: number;

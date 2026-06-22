@@ -5,7 +5,7 @@ import {
 } from '../../curve/modules/interference-fringes/geometry';
 import type { CurveStyle } from './types';
 
-export type InterferenceFringesSnap = {
+type InterferenceFringesSnap = {
   width: number;
   height: number;
   currentSourceDistance: number;

@@ -5,7 +5,7 @@ import {
   type GrainPoint,
 } from '../../curve/modules/affine-ifs-fractal/geometry';
 
-export type AffineIfsFractalSnap = {
+type AffineIfsFractalSnap = {
   width: number;
   height: number;
   grains: ReadonlyArray<GrainPoint>;

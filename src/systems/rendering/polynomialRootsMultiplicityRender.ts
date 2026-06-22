@@ -14,7 +14,7 @@ import {
   type ViewSmoothState,
 } from '../../curve/modules/polynomial-roots-multiplicity/geometry';
 
-export type PolynomialRootsMultiplicitySnap = {
+type PolynomialRootsMultiplicitySnap = {
   size: number;
   params: PolynomialRootsMultiplicityParams;
   scene: PolynomialSceneCache;

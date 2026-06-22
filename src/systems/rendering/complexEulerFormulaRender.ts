@@ -32,7 +32,7 @@ import type {
   PlotRect,
 } from '../../curve/modules/complex-euler-formula/types';
 
-export type ComplexEulerSnap = {
+type ComplexEulerSnap = {
   width: number;
   height: number;
 } & ComplexEulerParams;

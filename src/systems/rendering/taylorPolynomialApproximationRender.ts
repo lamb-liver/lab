@@ -16,7 +16,7 @@ import {
   type TaylorPreset,
 } from '../../curve/modules/taylor-polynomial-approximation/geometry';
 
-export type TaylorPolynomialApproximationSnap = {
+type TaylorPolynomialApproximationSnap = {
   size: number;
   preset: TaylorPreset;
   a: number;

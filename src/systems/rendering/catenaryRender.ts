@@ -14,7 +14,7 @@ import {
 } from '../../curve/modules/catenary/geometry';
 import type { WorldPoint } from '../../curve/modules/catenary/geometry';
 
-export type CatenarySnap = {
+type CatenarySnap = {
   width: number;
   height: number;
   smoothRopeLength: number;

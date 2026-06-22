@@ -3,7 +3,7 @@ import { computePolarScale } from '../../curve/modules/complex-polar-form/geomet
 
 const TAU = Math.PI * 2;
 
-export type ComplexPolarFormSnap = {
+type ComplexPolarFormSnap = {
   width: number;
   height: number;
   smoothR: number;

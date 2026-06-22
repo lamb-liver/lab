@@ -23,7 +23,7 @@ const MUTED = [136, 136, 136] as const;
 
 type ScreenTriangle = { A: Vec2; B: Vec2; C: Vec2 };
 
-export type LawRenderSnap = {
+type LawRenderSnap = {
   width: number;
   height: number;
   params: LawOfSinesCosinesParams;

@@ -9,7 +9,7 @@ import {
   type VectorAdditionScalarParams,
 } from '../../curve/modules/vector-addition-scalar/geometry';
 
-export type VectorAdditionScalarSnap = {
+type VectorAdditionScalarSnap = {
   width: number;
   height: number;
   params: VectorAdditionScalarParams;

@@ -11,7 +11,7 @@ import {
 } from '../../curve/modules/exponential-growth-decay/geometry';
 import type { ParamValues } from '../../curve/types';
 
-export type ExponentialGrowthDecaySnap = {
+type ExponentialGrowthDecaySnap = {
   width: number;
   height: number;
   params: ParamValues;

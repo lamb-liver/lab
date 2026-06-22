@@ -10,7 +10,7 @@ import {
   type Vec2,
 } from '../../curve/modules/dot-product-geometry/geometry';
 
-export type DotProductGeometrySnap = {
+type DotProductGeometrySnap = {
   width: number;
   height: number;
   params: DotProductGeometryParams;

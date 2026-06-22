@@ -9,7 +9,7 @@ import {
 
 const TAU = Math.PI * 2;
 
-export type ComplexArithmeticGeometrySnap = {
+type ComplexArithmeticGeometrySnap = {
   width: number;
   height: number;
   r1: number;

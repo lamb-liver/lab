@@ -22,7 +22,7 @@ const GUIDE = [255, 255, 255] as const;
 const TEXT = [232, 232, 232] as const;
 const MUTED = [136, 136, 136] as const;
 
-export type TrigAngleIdentitiesRenderSnap = {
+type TrigAngleIdentitiesRenderSnap = {
   width: number;
   height: number;
   params: TrigAngleIdentitiesParams;

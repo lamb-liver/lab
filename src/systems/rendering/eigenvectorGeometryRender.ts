@@ -12,7 +12,7 @@ import {
   type Vector2,
 } from '../../curve/modules/eigenvector-geometry';
 
-export type EigenvectorGeometrySnap = {
+type EigenvectorGeometrySnap = {
   width: number;
   height: number;
   matrix: Matrix2;

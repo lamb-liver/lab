@@ -12,7 +12,7 @@ import {
   type RationalAsymptotePreset,
 } from '../../curve/modules/rational-vertical-horizontal-asymptotes';
 
-export type RationalVerticalHorizontalAsymptotesSnap = {
+type RationalVerticalHorizontalAsymptotesSnap = {
   size: number;
   preset: RationalAsymptotePreset;
   params: RationalAsymptoteParams;

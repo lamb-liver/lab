@@ -5,7 +5,7 @@ import {
   buildRiemannRectangles,
 } from '../../curve/modules/riemann-sum/geometry';
 
-export type RiemannSumSnap = {
+type RiemannSumSnap = {
   width: number;
   height: number;
   currentPartitionCount: number;

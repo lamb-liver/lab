@@ -7,7 +7,7 @@ import {
   type HistoryBuffer,
 } from '../../curve/modules/complex-phase-portrait/geometry';
 
-export type ComplexPhasePortraitSnap = {
+type ComplexPhasePortraitSnap = {
   width: number;
   height: number;
   ampA: number;

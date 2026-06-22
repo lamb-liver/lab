@@ -6,7 +6,7 @@ import {
   project3,
 } from '../../curve/modules/binomial-expansion-geometry/geometry';
 
-export type BinomialSnap = {
+type BinomialSnap = {
   width: number;
   height: number;
   a: number;
@@ -308,6 +308,6 @@ function drawEdge(
   p.line(a.x, a.y, b.x, b.y);
 }
 
-export function resolveMode(value: number | undefined): BinomialMode {
+function resolveMode(value: number | undefined): BinomialMode {
   return modeFromValue(value);
 }

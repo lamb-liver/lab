@@ -4,7 +4,7 @@ import {
   type WorldPoint,
 } from '../../curve/modules/vector-field-streamlines/geometry';
 
-export type VectorFieldSnap = {
+type VectorFieldSnap = {
   width: number;
   height: number;
   streamlines: ReadonlyArray<ReadonlyArray<WorldPoint>>;

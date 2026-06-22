@@ -13,7 +13,7 @@ import {
 } from '../../curve/modules/inverse-function-reflection/geometry';
 import { PLOT_X_MAX, PLOT_X_MIN } from '../../curve/modules/inverse-function-reflection/constants';
 
-export type InverseFunctionReflectionSnap = {
+type InverseFunctionReflectionSnap = {
   size: number;
   params: InverseFunctionReflectionParams;
   scene: InverseSceneCache;

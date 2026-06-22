@@ -14,7 +14,7 @@ import {
 } from '../../curve/modules/logarithmic-scale/geometry';
 import type { ParamValues } from '../../curve/types';
 
-export type LogarithmicScaleSnap = {
+type LogarithmicScaleSnap = {
   width: number;
   height: number;
   params: ParamValues;

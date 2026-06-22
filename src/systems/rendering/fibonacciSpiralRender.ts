@@ -10,7 +10,7 @@ import {
   type FibonacciGeometry,
 } from '../../curve/modules/fibonacci-spiral/geometry';
 
-export type FibonacciSpiralSnap = {
+type FibonacciSpiralSnap = {
   width: number;
   height: number;
   params: ParamValues;

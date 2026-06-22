@@ -12,7 +12,7 @@ type Needle = {
   hit: boolean;
 };
 
-export type BuffonSnap = {
+type BuffonSnap = {
   width: number;
   height: number;
   params: ParamValues;

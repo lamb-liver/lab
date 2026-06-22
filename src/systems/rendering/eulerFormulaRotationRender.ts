@@ -1,6 +1,6 @@
 import type p5 from 'p5';
 
-export type EulerFormulaRotationSnap = {
+type EulerFormulaRotationSnap = {
   width: number;
   height: number;
   amplitude: number;

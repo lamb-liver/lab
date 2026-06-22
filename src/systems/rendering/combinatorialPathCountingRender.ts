@@ -7,7 +7,7 @@ import {
   modeFromValue,
 } from '../../curve/modules/combinatorial-path-counting/geometry';
 
-export type CombinatorialSnap = {
+type CombinatorialSnap = {
   width: number;
   height: number;
   m: number;
@@ -162,6 +162,6 @@ function drawPathGlow(p: p5, points: Array<{ x: number; y: number }>, startIndex
   }
 }
 
-export function resolveMode(paramsMode: number | undefined): PathMode {
+function resolveMode(paramsMode: number | undefined): PathMode {
   return modeFromValue(paramsMode);
 }

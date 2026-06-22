@@ -12,7 +12,7 @@ import {
 } from '../../curve/modules/quadratic-completing-square/geometry';
 import { PLOT_X_MAX, PLOT_X_MIN } from '../../curve/modules/quadratic-completing-square/constants';
 
-export type QuadraticCompletingSquareSnap = {
+type QuadraticCompletingSquareSnap = {
   size: number;
   params: QuadraticCompletingSquareParams;
   scene: QuadraticSceneCache;
