@@ -32,6 +32,12 @@ function measureSquare(host: HTMLElement) {
   return { width: size, height: size };
 }
 
+function isCanvasPointer(p: p5, host: HTMLElement, event?: Event): boolean {
+  const target = event?.target;
+  if (target instanceof HTMLCanvasElement) return host.contains(target);
+  return p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
+}
+
 export function useScatterCorrelationRegressionP5({
   stateRef,
   onStateChange,
@@ -51,8 +57,9 @@ export function useScatterCorrelationRegressionP5({
     });
   }, [stateRef]);
 
-  const extendSketch = useCallback((p: p5) => {
-    p.mousePressed = () => {
+  const extendSketch = useCallback((p: p5, host: HTMLElement) => {
+    p.mousePressed = (event?: Event) => {
+      if (!isCanvasPointer(p, host, event)) return;
       const state = stateRef.current;
       const mouse = screenToScatterView(p.width, p.height, p.mouseX, p.mouseY);
       const index = nearestPoint(state.points, mouse.x, mouse.y);
@@ -64,7 +71,7 @@ export function useScatterCorrelationRegressionP5({
 
     p.mouseDragged = () => {
       const index = dragIndexRef.current;
-      if (index === null) return false;
+      if (index === null) return;
       const mouse = screenToScatterView(p.width, p.height, p.mouseX, p.mouseY);
       stateRef.current.points[index] = canvasToWorld(SCATTER_PLOT, mouse.x, mouse.y);
       onStateChange();
@@ -72,14 +79,16 @@ export function useScatterCorrelationRegressionP5({
     };
 
     p.mouseReleased = () => {
+      if (dragIndexRef.current === null) return;
       dragIndexRef.current = null;
       return false;
     };
 
-    p.doubleClicked = () => {
+    p.doubleClicked = (event?: Event) => {
+      if (!isCanvasPointer(p, host, event)) return;
       const state = stateRef.current;
       const mouse = screenToScatterView(p.width, p.height, p.mouseX, p.mouseY);
-      if (!hitPlot(SCATTER_PLOT, mouse.x, mouse.y)) return false;
+      if (!hitPlot(SCATTER_PLOT, mouse.x, mouse.y)) return;
 
       const index = nearestPoint(state.points, mouse.x, mouse.y);
       if (index >= 0 && state.points.length > 3) {

@@ -103,6 +103,12 @@ function measureCanvas(host: HTMLElement): { width: number; height: number } {
   return { width, height };
 }
 
+function isCanvasPointer(p: p5, host: HTMLElement, event?: Event): boolean {
+  const target = event?.target;
+  if (target instanceof HTMLCanvasElement) return host.contains(target);
+  return p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
+}
+
 function resetScatterData(state: DataAnalysisState) {
   state.scatter.points = createScatterPoints(
     state.scatter.targetN,
@@ -182,8 +188,9 @@ export default function DataAnalysisExploreRoot() {
   }, []);
 
   const extendSketch = useMemo<ExtendSketch>(() => {
-    return (p) => {
-      p.mousePressed = () => {
+    return (p, host) => {
+      p.mousePressed = (event?: Event) => {
+        if (!isCanvasPointer(p, host, event)) return;
         const state = stateRef.current;
         const plot = computePlot(p.width, p.height);
 
@@ -222,7 +229,7 @@ export default function DataAnalysisExploreRoot() {
 
       p.mouseDragged = () => {
         const state = stateRef.current;
-        if (!state.dragging) return false;
+        if (!state.dragging) return;
 
         const plot = computePlot(p.width, p.height);
 
@@ -248,15 +255,17 @@ export default function DataAnalysisExploreRoot() {
       };
 
       p.mouseReleased = () => {
+        if (!stateRef.current.dragging) return;
         stateRef.current.dragging = null;
         return false;
       };
 
-      p.doubleClicked = () => {
+      p.doubleClicked = (event?: Event) => {
+        if (!isCanvasPointer(p, host, event)) return;
         const state = stateRef.current;
         const plot = computePlot(p.width, p.height);
 
-        if (!hitPlot(plot, p.mouseX, p.mouseY)) return false;
+        if (!hitPlot(plot, p.mouseX, p.mouseY)) return;
 
         if (state.mode === 'scatter') {
           state.scatter.points.push(canvasToScatterWorld(plot, p.mouseX, p.mouseY));

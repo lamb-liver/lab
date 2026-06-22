@@ -30,6 +30,12 @@ function measureSquare(host: HTMLElement) {
   return { width: size, height: size };
 }
 
+function isCanvasPointer(p: p5, host: HTMLElement, event?: Event): boolean {
+  const target = event?.target;
+  if (target instanceof HTMLCanvasElement) return host.contains(target);
+  return p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
+}
+
 export function useRegressionOutlierInfluenceP5({
   stateRef,
   onStateChange,
@@ -50,8 +56,9 @@ export function useRegressionOutlierInfluenceP5({
     });
   }, [stateRef]);
 
-  const extendSketch = useCallback((p: p5) => {
-    p.mousePressed = () => {
+  const extendSketch = useCallback((p: p5, host: HTMLElement) => {
+    p.mousePressed = (event?: Event) => {
+      if (!isCanvasPointer(p, host, event)) return;
       const mouse = screenToScatterView(p.width, p.height, p.mouseX, p.mouseY);
       const outlier = stateRef.current.outlier;
       const point = worldToCanvas(SCATTER_PLOT, outlier.x, outlier.y);
@@ -62,7 +69,7 @@ export function useRegressionOutlierInfluenceP5({
     };
 
     p.mouseDragged = () => {
-      if (!draggingRef.current) return false;
+      if (!draggingRef.current) return;
       const mouse = screenToScatterView(p.width, p.height, p.mouseX, p.mouseY);
       stateRef.current.outlier = canvasToWorld(SCATTER_PLOT, mouse.x, mouse.y);
       onStateChange();
@@ -70,6 +77,7 @@ export function useRegressionOutlierInfluenceP5({
     };
 
     p.mouseReleased = () => {
+      if (!draggingRef.current && !stateRef.current.dragging) return;
       draggingRef.current = false;
       stateRef.current.dragging = false;
       onStateChange();
