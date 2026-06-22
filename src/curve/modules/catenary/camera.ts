@@ -1,4 +1,6 @@
-import type { Bounds, ScreenPoint, WorldPoint } from './geometry';
+import type { Bounds, WorldPoint } from './geometry';
+
+type ScreenPoint = { x: number; y: number };
 
 export type CameraState = {
   scale: number;

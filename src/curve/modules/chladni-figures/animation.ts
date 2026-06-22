@@ -4,7 +4,7 @@ import { frameScale } from '../animationTiming';
 export const REVEAL_SPEED = 0.004;
 export const MODE_LERP = 0.08;
 
-export type ChladniAnimState = {
+type ChladniAnimState = {
   params: ParamValues;
   targetParams: ParamValues;
   revealProgress: number;

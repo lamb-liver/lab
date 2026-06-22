@@ -1,10 +1,10 @@
 import type { CurvePoint } from '../../types';
 import { mulberry32 } from '../../prng';
 
-export const PLATE_RATIO = 0.75;
+const PLATE_RATIO = 0.75;
 export const PARTICLE_COUNT = 8000;
-export const BASE_CANVAS = 600;
-export const NODAL_SAMPLE_STEPS = 80;
+const BASE_CANVAS = 600;
+const NODAL_SAMPLE_STEPS = 80;
 
 export type Particle = { x: number; y: number };
 
@@ -35,7 +35,7 @@ export function chladniAmplitude(
   );
 }
 
-export function waveMotion(amplitude: number, time: number): number {
+function waveMotion(amplitude: number, time: number): number {
   return amplitude * Math.cos(time);
 }
 
@@ -61,13 +61,13 @@ export function resetParticles(particles: Particle[], size: number): void {
   }
 }
 
-export function constrainParticle(particle: Particle, size: number): void {
+function constrainParticle(particle: Particle, size: number): void {
   const half = size / 2;
   particle.x = Math.max(-half, Math.min(half, particle.x));
   particle.y = Math.max(-half, Math.min(half, particle.y));
 }
 
-export function moveParticleAwayFromAntinode(
+function moveParticleAwayFromAntinode(
   particle: Particle,
   amplitude: number,
   random01: () => number = Math.random,

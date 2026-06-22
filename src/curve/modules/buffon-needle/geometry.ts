@@ -9,15 +9,15 @@ const GOLD_STROKE = 'rgb(212, 184, 122)';
 const GUIDE_STROKE = 'rgba(255, 255, 255, 0.36)';
 const MISS_STROKE = 'rgba(255, 255, 255, 0.54)';
 
-export function normalizeLength(value: number | undefined): number {
+function normalizeLength(value: number | undefined): number {
   return Math.max(20, Math.min(100, Math.round(value ?? 70)));
 }
 
-export function normalizeSpacing(value: number | undefined): number {
+function normalizeSpacing(value: number | undefined): number {
   return Math.max(60, Math.min(140, Math.round(value ?? 100)));
 }
 
-export function normalizeSpeed(value: number | undefined): number {
+function normalizeSpeed(value: number | undefined): number {
   return Math.max(1, Math.min(80, Math.round(value ?? 12)));
 }
 
@@ -41,8 +41,6 @@ export function generateNeedle(
   y1: number;
   x2: number;
   y2: number;
-  cx: number;
-  cy: number;
   hit: boolean;
 } {
   const field = getFieldRect();
@@ -59,11 +57,7 @@ export function generateNeedle(
   const y2 = cy + dy;
   const topIndex = Math.floor((Math.min(y1, y2) - field.y) / data.d);
   const bottomIndex = Math.floor((Math.max(y1, y2) - field.y) / data.d);
-  return { x1, y1, x2, y2, cx, cy, hit: topIndex !== bottomIndex };
-}
-
-export function percent(v: number): string {
-  return `${(v * 100).toFixed(2)}%`;
+  return { x1, y1, x2, y2, hit: topIndex !== bottomIndex };
 }
 
 export function buildBuffonThumbnail(): ThumbnailSpec {

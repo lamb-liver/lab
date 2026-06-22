@@ -7,8 +7,6 @@ type Needle = {
   y1: number;
   x2: number;
   y2: number;
-  cx: number;
-  cy: number;
   hit: boolean;
 };
 
@@ -94,4 +92,3 @@ function drawEstimateChart(p: p5, history: Array<number | null>): void {
   }
   p.endShape();
 }
-

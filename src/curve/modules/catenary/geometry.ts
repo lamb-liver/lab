@@ -1,7 +1,6 @@
 import type { CurvePoint } from '../../types';
 
 export type WorldPoint = { x: number; y: number };
-export type ScreenPoint = { x: number; y: number };
 export type Bounds = {
   minX: number;
   maxX: number;
@@ -9,7 +8,7 @@ export type Bounds = {
   maxY: number;
 };
 
-export const SAMPLE_STEP = 0.01;
+const SAMPLE_STEP = 0.01;
 export const PARAM_LERP = 0.08;
 
 export function evaluateTractrix(t: number, ropeLength: number): WorldPoint {

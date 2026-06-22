@@ -30,7 +30,7 @@ export function deriveBinormalData(params: ParamValues) {
   return { n, p, q, mu, variance, sigma, probs };
 }
 
-export function binomialPMF(n: number, k: number, p: number): number {
+function binomialPMF(n: number, k: number, p: number): number {
   if (p <= 0) return k === 0 ? 1 : 0;
   if (p >= 1) return k === n ? 1 : 0;
   const logP = logChoose(n, k) + k * Math.log(p) + (n - k) * Math.log(1 - p);

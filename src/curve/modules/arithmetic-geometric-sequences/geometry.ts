@@ -3,7 +3,7 @@ import type { CurvePoint, ParamValues, ThumbnailSpec } from '../../types';
 export const MODE_ARITHMETIC = 0;
 export const MODE_GEOMETRIC = 1;
 
-export type SequenceMode = 'arithmetic' | 'geometric';
+type SequenceMode = 'arithmetic' | 'geometric';
 
 export const SEQUENCE_VIEW = {
   width: 1100,
@@ -22,7 +22,7 @@ export type RectShape = {
   fillAlpha: number;
 };
 
-export type ArithmeticScene = {
+type ArithmeticScene = {
   values: number[];
   bars: RectShape[];
   mirrorBars: RectShape[];
@@ -33,7 +33,7 @@ export type ArithmeticScene = {
   an: number;
 };
 
-export type GeometricScene = {
+type GeometricScene = {
   values: number[];
   rects: RectShape[];
   outline: { x: number; y: number; width: number; height: number };

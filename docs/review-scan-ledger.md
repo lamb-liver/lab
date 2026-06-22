@@ -775,12 +775,12 @@
 | `src/content/works/variance-spread-visualization.md` | 已保持刪除狀態；除本 ledger 記錄外，無殘留 slug、link、docs、script 引用。 |
 | `schedule.md` | 已移出 Git 追蹤並加入 `.gitignore`；本地檔案保留作個人排程，不再列入 repo 修正面。 |
 | `scripts/audit-content.mjs` | 已加入 generic internal draft link audit，涵蓋 `/works/` 與 `/explore/` 雙向。 |
-| `scripts/audit-content.mjs` | 三個 Work → `/explore/data-analysis` 連結以精準例外保留；等待 `data-analysis` 發布後移除例外。 |
+| `scripts/audit-content.mjs` | 已重審：`data-analysis` 已發布，程式內已無三個 Work → `/explore/data-analysis` 精準例外；這些連結改由 generic internal draft link audit 正常驗證。 |
 | `src/content/releaseAudit.test.ts` | 已補上 published Explore → draft Work 與 published Work → draft Explore 的測試覆蓋。 |
-| `scripts/validate-changed.mjs` | 已修正 draft interactive slug 驗證盲點；`data-analysis` 可被 `validate:changed -- --dry-run` 選到 `smoke:explore`。 |
+| `scripts/validate-changed.mjs` | 已重審：content / interactive slug 映射仍會讓 `data-analysis` 觸發 `smoke:explore`；目前 `data-analysis` 是 published Explore，不再依賴舊 draft 前提。 |
 | `scripts/validate-changed.mjs` | 已修正 thumbnail / registry 測試覆蓋；curve module 變更會納入 registry / OG 相關測試。 |
 | `scripts/validate-changed.mjs` | 已補上 `p5PlotHelpers.ts` 的 consumer smoke 映射；修改 helper 會觸發 `data-analysis` 與三個資料分析 Works smoke。 |
-| `scripts/run-smoke.mjs` | 已驗證 `smoke:explore -- data-analysis --list` 可正常列測；draft interactive slug 沒有漏掉。 |
+| `scripts/run-smoke.mjs` | 已驗證 `smoke:explore -- data-analysis --list` 可正常列測；目前以 published interactive slug 口徑保留。 |
 | `src/curve/modules/scatter-correlation-regression/index.ts` | 已移除未被 runtime 消費的 `showMeanAxes` / `showResiduals` 假參數。 |
 | `src/components/curve/useScatterCorrelationRegressionP5.ts` | 已修正刪除點後 `state.params.n` 不同步問題；slider 的 `n` 不再與 `points.length` 分裂。 |
 | `src/components/curve/usePercentileBoxPlotP5.ts` | 已移除只寫不讀的 `dragging` state；保留實際有讀寫用途的 `dragIndexRef`。 |
@@ -797,7 +797,7 @@
 | `docs/exploreplan.md` | 已修正不存在的 `.explore-topic__stage` / `.explore-topic__visual` / `.explore-topic__sidebar`，改成實際 suffix contract。 |
 | `docs/public-pages-audit.md` | 已核對目前正確計數：Works public 61 / draft 8 / total 69；Explore public 17 / draft 3 / total 20；`audit:explore-covers -- --json` 的 `checked: 17` 以 published Explore entries 為基準。 |
 | `src/curve/registry.ts`、`src/works/interactiveRegistry.ts`、`src/components/works/WorkInteractiveStage.tsx` | 三個新 published Works 已同步進 module registry、interactive registry、stage root。 |
-| `src/content/works/percentile-box-plot.md`、`src/content/works/regression-outlier-influence.md`、`src/content/works/scatter-correlation-regression.md` | 三個 Work → `/explore/data-analysis` 連結已改為明確保留項，並由 audit 例外精準覆蓋；等待 `data-analysis` 發布後再移除例外。 |
+| `src/content/works/percentile-box-plot.md`、`src/content/works/regression-outlier-influence.md`、`src/content/works/scatter-correlation-regression.md` | 三個 Work → `/explore/data-analysis` 連結已重審保留：`data-analysis` 已發布，無需 audit 例外或 workaround。 |
 | `src/content/utils.ts`、`src/pages/works/[slug].astro`、`src/pages/explore/[slug].astro` | 已確認 `includeDraft` 只用於 DEV draft detail preview；production、OG、thumbnail 仍維持 published-only。 |
 | `src/styles/components/explore/explore-stage.css` | 已確認 suffix selector 可套用到 `data-analysis-explore__stage` 等 slug-specific class，無需新增 generic wrapper class。 |
 | `src/styles/components/explore/data-analysis-explore.css` | 已確認只補 slug-specific layout，基礎 stage / visual / sidebar 樣式由 `explore-stage.css` 提供。 |
@@ -933,10 +933,10 @@
 
 | 範圍 | 結論 |
 |------|------|
-| `src/components/curve/useTangentApproximationP5.ts` | 已掃描並修正：`notifySmoothParams` 只上報 metadata 消費的 `dx`，移除未讀的 `waveFrequency` / `timeSpeed`。`defaultParams` option 仍為 verify-delete，尚未完成呼叫契約刪除驗證。 |
+| `src/components/curve/useTangentApproximationP5.ts` | 已掃描並修正：`notifySmoothParams` 只上報 metadata 消費的 `dx`，移除未讀的 `waveFrequency` / `timeSpeed`。`defaultParams` 已於 2026-06-23 重審降級為保留：仍由 `CurveHookWorkRoot` common hook contract 傳入。 |
 | `src/components/curve/useTaylorPolynomialApproximationP5.ts`、`src/components/curve/useTrigAngleIdentitiesP5.ts`、`src/components/curve/useUnitCircleTrigDefinitionP5.ts`、`src/components/curve/useVectorAdditionScalarP5.ts`、`src/components/curve/useVectorFieldPatternsP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver / noLoop lifecycle；Taylor / Vector 類 static hook 使用 `loop: false` + `redrawKey`；兩個三角 hook 因仍有秒制 smoothing，已改用 `restartOn` + `{ keepLooping }` 跑到收斂後自停。 |
 | `src/components/curve/useVectorProjectionP5.ts` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver lifecycle，改用 `useRectP5CanvasHost`；保留連續 draw，因 renderer 仍消費 `timeMs: p.millis()`。 |
-| `src/components/curve/useVectorFieldStreamlinesP5.ts` | 已掃描；`defaultParams` option 疑似可刪，但尚未完成全呼叫契約驗證，保留為 verify-delete，未改碼。 |
+| `src/components/curve/useVectorFieldStreamlinesP5.ts` | 已掃描；`defaultParams` 已於 2026-06-23 重審降級為保留：仍由 `CurveHookWorkRoot` common hook contract 傳入，不是可局部刪除的孤立 option。 |
 | `src/components/works/TaylorPolynomialApproximationCurveRoot.tsx`、`src/components/works/TrigAngleIdentitiesCurveRoot.tsx`、`src/components/works/UnitCircleTrigDefinitionCurveRoot.tsx`、`src/components/works/VectorAdditionScalarCurveRoot.tsx`、`src/components/works/VectorFieldPatternsCurveRoot.tsx`、`src/components/works/VectorProjectionCurveRoot.tsx` | 支援性修正：對應 module `getMetadata` 不消費 runtime object，已刪除 root 端多餘 `revealPct` / `smoothParams` 傳遞；root 檔仍保留在未掃描清單，尚未標記完整掃描。 |
 | `src/components/explore/ComplexEulerFormulaExploreRoot.tsx`、`src/components/explore/ConicDynamicGeometryExploreRoot.tsx`、`src/components/explore/MatrixLinearTransformExploreRoot.tsx` | 已掃描並修正：刪除重複 p5 boot / ResizeObserver lifecycle，改用既有 `useRectP5CanvasHost`；保留各 root 的狀態、sidebar、renderer 架構。 |
 | `src/components/explore/ExponentialLogarithmExploreRoot.tsx` | 已掃描並修正：刪除 `CurveStyle.guide` 與三個未讀 call-site 欄位；手寫 p5 lifecycle 已改用 `useRectP5CanvasHost`，mode-dependent canvas height 保留在 draw 內同步；本地 `withClip` 改用 `p5PlotHelpers.clipRect`。 |
@@ -961,8 +961,8 @@
 
 | 範圍 | 結論 |
 |------|------|
-| `src/content/works/*.md` 本輪 58 個 published Work content | 已掃描；確認保留：皆由 `src/content.config.ts` 的 `works` collection loader、`src/pages/works/index.astro` 列表、`src/pages/works/[slug].astro` detail route、OG/thumb routes 與 content audits 消費；內部 `/works/`、`/explore/` 連結已核對 0 個 missing/draft；未命中 placeholder/TODO。 |
-| `src/content/works/binomial-geometric-distribution.md`、`src/content/works/cross-product-geometry.md`、`src/content/works/line-plane-intersection.md`、`src/content/works/lp-feasible-half-planes.md`、`src/content/works/lp-objective-level-curves.md`、`src/content/works/lp-vertex-optimum.md`、`src/content/works/plane-normal-distance.md`、`src/content/works/space-vector-three-plane-projection.md` | 已掃描；仍為 `verify-delete`：8 檔皆為 `draft: true` / `order: 0`，搜尋只找到 draft Explore、draft Work 互鏈、DEV draft route 與 `docs/public-pages-audit.md` 的 Draft Works 記錄；尚缺正式發布、interactive registry 或外部契約證據，未完成刪除前的人工 backlog 確認。 |
+| `src/content/works/*.md` 本輪 58 個 published Work content | 已掃描；確認保留：本輪數字不含前批已個別掃描的 `percentile-box-plot`、`regression-outlier-influence`、`scatter-correlation-regression`，合計仍對齊 Works public 61 / draft 8 / total 69。58 檔皆由 `src/content.config.ts` 的 `works` collection loader、`src/pages/works/index.astro` 列表、`src/pages/works/[slug].astro` detail route、OG/thumb routes 與 content audits 消費；內部 `/works/`、`/explore/` 連結已核對 0 個 missing/draft；未命中 placeholder/TODO。 |
+| `src/content/works/binomial-geometric-distribution.md`、`src/content/works/cross-product-geometry.md`、`src/content/works/line-plane-intersection.md`、`src/content/works/lp-feasible-half-planes.md`、`src/content/works/lp-objective-level-curves.md`、`src/content/works/lp-vertex-optimum.md`、`src/content/works/plane-normal-distance.md`、`src/content/works/space-vector-three-plane-projection.md` | 已重審改為保留：8 檔 `draft: true` / `order: 0` 是預先建立、等待填充的 backlog placeholder；不得因未發布或未進 registry 判定刪除。後續只在內容填充、發布排程或 backlog 決策時重審。 |
 | 驗證 | 已執行並通過：`npm run audit:content`；`npm run audit:integration -- --json`；`npm test -- src/content/contentAudit.test.ts src/content/releaseAudit.test.ts src/registry.sync.test.ts`。 |
 
 ## 2026-06-22 p5 lifecycle 收斂
@@ -1004,7 +1004,7 @@
 | `src/components/works/PolynomialRootsMultiplicityCurveRoot.tsx`、`src/components/works/QuadraticCompletingSquareCurveRoot.tsx`、`src/components/works/RadianArcLengthCurveRoot.tsx` | 已掃描並修正：三檔都由 `WorkInteractiveStage.rootBySlug`、`interactiveRegistry`、content route/link 與 module / hook / renderer 鏈路消費；`controlsMountId` fallback 已由前批支援性修正移除；重複 `paramsForMetadata(params)` 已收斂成單一 local const；`RadianArcLengthCurveRoot` 的小型 `useMemo` 已移除。 |
 | `src/components/works/RationalObliqueAsymptoteCurveRoot.tsx`、`src/components/works/RationalVerticalHorizontalAsymptotesCurveRoot.tsx` | 已掃描並修正：兩檔都由 stage / registry / content / renderer 消費；本地 `details.open` desktop 展開副作用與 `src/pages/works/[slug].astro` 的 `[data-work-controls]` accordion 行為重複，已刪除 root 內的重複 DOM 操作；mode / preset / slider / advanced 狀態均有 controls 或 renderer 讀端。 |
 | `src/components/works/RegressionOutlierInfluenceCurveRoot.tsx` | 已掃描並保留：root state 由 controls、hook、renderer、metadata 消費；`dragging` 不是只寫不讀，`regressionOutlierInfluenceRender` 會用它改變 outlier 視覺狀態；content / Explore link / validate-changed special case 均有引用。 |
-| `src/components/works/RiemannSumCurveRoot.tsx`、`src/components/works/RotationScaleCompositionCurveRoot.tsx` | 已掃描並保留：兩檔是 `CurveHookWorkRoot` glue，分別被 stage / registry / content / docs 消費；`canvasAriaLabel` 與 `controlsMountId` 均由 helper 讀取。`CurveHookWorkRoot` 的 `defaultParams` common hook contract 仍牽涉多個 animation hook，需另批掃描，不在本輪 root 掃描中局部刪除。 |
+| `src/components/works/RiemannSumCurveRoot.tsx`、`src/components/works/RotationScaleCompositionCurveRoot.tsx` | 已掃描並保留：兩檔是 `CurveHookWorkRoot` glue，分別被 stage / registry / content / docs 消費；`canvasAriaLabel` 與 `controlsMountId` 均由 helper 讀取。`CurveHookWorkRoot` 的 `defaultParams` common hook contract 已於 2026-06-23 以 `useTangentApproximationP5.ts` / `useVectorFieldStreamlinesP5.ts` 重審確認，不在 root 端局部刪除。 |
 | `src/components/curve/CurveWorkRoot.tsx`、`src/components/curve/CurveHookWorkRoot.tsx` | 支援性修正：全專案搜尋確認沒有呼叫端省略 `CurveWorkRoot.controlsMountId`、`CurveWorkRoot.canvasAriaLabel` 或 `CurveHookWorkRoot.initialRevealPct`；已刪除這些無呼叫端的 optional/default 假彈性。 |
 
 ## 2026-06-22 dirty diff follow-up
@@ -1065,7 +1065,7 @@
 | `src/systems/rendering/regressionOutlierInfluenceRender.ts` | 已修正：`RegressionOutlierInfluenceSnap` 經全專案搜尋只在本檔使用，已移除 `export`。 |
 | `src/components/explore/ExponentialLogarithmExploreRoot.tsx`、`src/components/explore/ProbabilityStatisticsExploreRoot.tsx`、`src/components/explore/RationalFunctionsAsymptotesExploreRoot.tsx`、`src/components/works/HarmonographCurveRoot.tsx` | 已修正：range 控件回到單一 native `onInput` 路徑；移除 `Harmonograph` 同一 range 同時綁 `onChange` / `onInput` 的重複事件。 |
 | `src/components/curve/useTangentApproximationP5.ts`、`src/components/curve/useVectorFieldStreamlinesP5.ts` | 重審後降級為保留：兩者仍由 `CurveHookWorkRoot` common hook contract 傳入 `defaultParams`，不是可局部刪除的孤立 option。 |
-| 8 個 draft Work markdown | 仍為 `verify-delete`：缺人工 backlog 判斷，不因搜尋結果直接刪除。 |
+| 8 個 draft Work markdown | 已重審改為保留：使用者確認這批是預先建立、等待填充的 draft Work backlog placeholder；不得刪除。 |
 
 ## 2026-06-23 Explore geometry / tests 接續掃描
 
@@ -1074,7 +1074,7 @@
 | `src/explore/fourier/constants.ts`、`src/explore/fourier/path.ts`、`src/explore/fourier/path.test.ts` | 已掃描並修正：`FOURIER_*` constants 被 `fourierRender.ts` / `FourierSeriesExploreRoot.tsx` 消費，`buildFourierPath` / `tAtArcLength` 被 root 與測試消費；`FourierPathPoint` 無外部 named import，已收窄為本檔型別。 |
 | `src/explore/function-equations/constants.ts`、`src/explore/function-equations/types.ts`、`src/explore/function-equations/geometry.ts`、`src/explore/function-equations/geometry.test.ts` | 已掃描並修正：移除 `geometry.ts` 對 `DEFAULT_PARAMS` 的無呼叫端 re-export；`quadraticDiscriminant`、`quadraticPositiveIntervals`、`polynomialPositiveIntervals`、`signBoundaryX`、`sampledSignIntervals`、`pushUniqueRoot` 已收窄為 private，測試改打外部行為。 |
 | `src/explore/permutations-combinations/geometry.ts`、`src/explore/permutations-combinations/geometry.test.ts` | 已掃描並修正：`RecurrenceParams`、`CatalanContrast`、`ModeStatsInput` 已收窄；`coefficientLabel` / `pathCombinationLabel` 已取消 export，測試改驗 `buildCombinationStats`。保留 root 消費的 `recurrenceParts`、`recurrenceFormulaLabel`、`catalanContrast`、`buildCombinationStats`。 |
-| `src/explore/rational-functions-asymptotes/constants.ts`、`src/explore/rational-functions-asymptotes/types.ts`、`src/explore/rational-functions-asymptotes/geometry.ts` | 已掃描並修正：`RationalFarAsymptote`、`RationalHole` 改為本檔型別；`clampY` 改為 private。重複 `quadraticRoots` / `safeNonzero` 與 Rational Work modules 同型，需另批小型共用 helper 評估，不在本輪直接抽大框架。 |
+| `src/explore/rational-functions-asymptotes/constants.ts`、`src/explore/rational-functions-asymptotes/types.ts`、`src/explore/rational-functions-asymptotes/geometry.ts` | 已掃描並修正：`RationalFarAsymptote`、`RationalHole` 改為本檔型別；`clampY` 改為 private。重複 `quadraticRoots` / `safeNonzero` 已重審：三處皆為本檔 private tiny helper，且 `minAbs` / tolerance 語意跟各 rational module 綁定；目前抽共用 helper 只會新增 API 表面，不作為 open item。 |
 | `src/explore/trig-function-graphs/geometry.ts`、`src/explore/trig-function-graphs/geometry.test.ts` | 已掃描並修正：`clamp` / `mapLinear` 無外部 import，已收窄為 private；保留 root / renderer 消費的 layout、drag、format、stats/formula 與 graph coordinate helpers。 |
 | `src/explore/trigonometry/constants.ts`、`src/explore/trigonometry/types.ts`、`src/explore/trigonometry/geometry.ts`、`src/explore/trigonometry/geometry.test.ts` | 已掃描並修正：三個 `TRIG_MODE_*` literal 改為 private；`geometry.ts` 的無呼叫端 re-export 已刪；`Circumcircle` 重複型別已刪。連續 draw 仍由 `stepSmoothing` 消費 `deltaTime`，保留。 |
 | `src/explore/vectors/geometry.ts`、`src/explore/vectors/geometry.test.ts` | 已掃描並修正：`rotate90` 全專案只被本測試檔引用，無 runtime 消費，已刪函式與白箱測試；保留 `GUIDE_BASIS`、`projectOnto`、`solveBasisCoordinates`、`getVectorGuideState`。 |
@@ -1082,6 +1082,31 @@
 | `src/lib/trigonometry/triangleGeometry.ts`、`src/lib/trigonometry/triangleGeometry.test.ts` | 已掃描並修正：shared triangle geometry 仍被 Explore trigonometry 與 Work `law-of-sines-cosines` 消費；`cross`、`TriangleSidesAngles`、`Circumcircle` 已收窄為 private。 |
 | `tests/explore-single.smoke.spec.ts`、`tests/work-integration.smoke.spec.ts` | 已掃描；確認保留：兩者各由 `SMOKE_EXPLORE_SLUG` / `SMOKE_WORK_SLUG` 驅動 single-slug smoke，並從 interactive registry 驗證 slug。`exerciseFirstInteraction` 與 `hasDoubleSlashAssetPath` 只在兩個 smoke spec 重複；抽 helper 會新增 test API 與檔案，暫不為兩個小函式新增抽象。 |
 | `tests/seo-ux.spec.ts` | 已掃描；確認保留：覆蓋 built works index size、OG / canonical / JSON-LD、filter URL sync、nav、pager、KaTeX CSS contract。`readJsonLd` 的 `Record<string, unknown>` type assertion 限於測試解析 JSON-LD，未判定刪除；若後續要求收緊測試型別，可改成局部 type guard。 |
+
+## 2026-06-23 ledger 條件變化收尾
+
+| 範圍 | 結論 |
+|------|------|
+| `scripts/audit-content.mjs`、`src/content/releaseAudit.test.ts`、三個 Work → `/explore/data-analysis` 連結 | 已重審並更新舊紀錄：`data-analysis` 已發布，程式內已無精準例外；generic internal draft link audit 與 release audit 測試仍覆蓋 published markdown 不得連 draft internal route。 |
+| `scripts/validate-changed.mjs` | 已重審並更新舊紀錄：目前 `data-analysis` 為 published interactive Explore；`p5PlotHelpers.ts` 的 explicit consumer smoke 映射仍是有效覆蓋，不是待清理的 draft-only 分支。 |
+| `src/components/curve/useTangentApproximationP5.ts`、`src/components/curve/useVectorFieldStreamlinesP5.ts`、`src/components/works/RiemannSumCurveRoot.tsx`、`src/components/works/RotationScaleCompositionCurveRoot.tsx` | 已關閉 stale deferred：`defaultParams` 仍屬 `CurveHookWorkRoot` common hook contract，舊待刪與延後掃描描述已改為保留。 |
+| `src/explore/rational-functions-asymptotes/geometry.ts` 與 Rational Work modules 的 `quadraticRoots` / `safeNonzero` | 已關閉 stale deferred：三處皆為 private tiny helper，且與各自 tolerance / `minAbs` 語意綁定；目前抽共用 helper 只會新增 API 表面，不列 open item。 |
+| 8 個 draft Work markdown | 已依使用者決策改為保留：這批是預先建立、等待填充的 backlog placeholder，不因未發布或未進 registry 刪除。 |
+| 驗證 | 已執行並通過：`rg` stale pattern 搜尋無命中；`rg -n 'data-analysis' scripts/audit-content.mjs src/content/releaseAudit.test.ts || true` 無命中；`git diff --check`；`npm run audit:content`；`npm test -- src/content/releaseAudit.test.ts`；`npm run validate:changed -- --dry-run` 選到 `npm run audit:integration`；`npm run audit:integration`。 |
+
+## 2026-06-23 curve modules 第四批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/arithmetic-geometric-sequences/geometry.ts`、`src/curve/modules/arithmetic-geometric-sequences/index.ts` | 已掃描並修正：`SequenceMode`、`ArithmeticScene`、`GeometricScene` 無外部 type import，已收窄為 private；保留 `MODE_*`、`SEQUENCE_VIEW`、scene builders 與 `RectShape`，因 root / renderer / module metadata 消費。 |
+| `src/curve/modules/basel-problem/geometry.ts`、`src/curve/modules/basel-problem/index.ts` | 已掃描並修正：`GAMMA`、`termReveal` 與只在本檔使用的 Basel geometry types 已收窄；保留 `BASEL_VIEW`、mode constants、series builders、`estimateLimit`、`normalizeN`、`mapRange`，因 renderer / root / metadata 消費。 |
+| `src/curve/modules/binomial-expansion-geometry/geometry.ts`、`src/curve/modules/binomial-expansion-geometry/index.ts` | 已掃描；確認保留：mode constants 被 root 消費，`modeFromValue` / `normalizeLen` 被 hook / renderer / metadata 消費，`project3` 被 renderer 消費，未找到可安全縮小項。 |
+| `src/curve/modules/binomial-to-normal/geometry.ts`、`src/curve/modules/binomial-to-normal/index.ts` | 已掃描並修正：`binomialPMF` 只被 `deriveBinormalData` 本檔呼叫，已收窄為 private；保留 mode constants、`BinormalMode`、`deriveBinormalData`、`normalPDF`、`percent`，因 root / hook / renderer / metadata 消費。 |
+| `src/curve/modules/buffon-needle/geometry.ts`、`src/curve/modules/buffon-needle/index.ts`、`src/systems/rendering/buffonNeedleRender.ts` | 已掃描並修正：`normalizeLength` / `normalizeSpacing` / `normalizeSpeed` 只供 `deriveBuffonData` 使用，已收窄；`percent` 無讀端已刪；`generateNeedle` 回傳的 `cx` / `cy` 無 renderer / hook 讀端，已刪除假欄位。 |
+| `src/curve/modules/catalan-numbers/index.ts` | 已掃描；確認保留：module 被 registry / root / content 鏈路消費，mode constants re-export 被 root 消費，metadata 使用 `normalizeN` / `buildCatalanNumbers`，未找到可安全縮小項。 |
+| `src/curve/modules/catenary/animation.ts`、`src/curve/modules/catenary/camera.ts`、`src/curve/modules/catenary/geometry.ts`、`src/curve/modules/catenary/index.ts`、`src/curve/modules/catenary/catenary.test.ts` | 已掃描並修正：`SAMPLE_STEP` 無外部 import，已收窄；`ScreenPoint` 只在 camera 回傳型別使用，移為 camera local type。保留 camera helpers、tractrix geometry、animation state/step 與 tests，因 renderer / hook / thumbnail registry / module sample 消費。 |
+| `src/curve/modules/chladni-figures/animation.ts`、`src/curve/modules/chladni-figures/geometry.ts`、`src/curve/modules/chladni-figures/index.ts`、`src/curve/modules/chladni-figures/chladni-figures.test.ts` | 已掃描並修正：`ChladniAnimState`、`PLATE_RATIO`、`BASE_CANVAS`、`NODAL_SAMPLE_STEPS`、`waveMotion`、`constrainParticle`、`moveParticleAwayFromAntinode` 無外部 import，已收窄；保留 particle API、animation step、thumbnail particle cloud 與 nodal-line sample，因 hook / renderer / module sample / tests 消費。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/catenary/catenary.test.ts src/curve/modules/chladni-figures/chladni-figures.test.ts`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run smoke:work -- arithmetic-geometric-sequences`；`npm run smoke:work -- basel-problem`；`npm run smoke:work -- binomial-expansion-geometry`；`npm run smoke:work -- binomial-to-normal`；`npm run smoke:work -- buffon-needle`；`npm run smoke:work -- catalan-numbers`；`npm run smoke:work -- catenary`；`npm run smoke:work -- chladni-figures`。 |
 
 ## 接續審查記錄格式
 

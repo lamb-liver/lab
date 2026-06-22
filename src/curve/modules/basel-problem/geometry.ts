@@ -6,7 +6,7 @@ export const BASEL_VIEW = {
 };
 
 export const PI2_OVER_6 = (Math.PI * Math.PI) / 6;
-export const GAMMA = 0.5772156649;
+const GAMMA = 0.5772156649;
 
 export const MODE_PARTIAL = 0;
 export const MODE_AREA = 1;
@@ -15,23 +15,23 @@ export const MODE_EULER = 3;
 export const MODE_PSERIES = 4;
 export const MODE_PARAM = 5;
 
-export type BaselMode = 'partial' | 'area' | 'compare' | 'euler' | 'pseries' | 'param';
+type BaselMode = 'partial' | 'area' | 'compare' | 'euler' | 'pseries' | 'param';
 
-export type ChartBounds = {
+type ChartBounds = {
   x: number;
   y: number;
   width: number;
   height: number;
 };
 
-export type SeriesPoint = {
+type SeriesPoint = {
   n: number;
   x: number;
   y: number;
   sum: number;
 };
 
-export type AreaSquare = {
+type AreaSquare = {
   n: number;
   x: number;
   y: number;
@@ -39,7 +39,7 @@ export type AreaSquare = {
   area: number;
 };
 
-export type CompareSeries = {
+type CompareSeries = {
   harmonic: SeriesPoint[];
   basel: SeriesPoint[];
   geometric: SeriesPoint[];
@@ -48,12 +48,12 @@ export type CompareSeries = {
   gMax: number;
 };
 
-export type SincPoint = {
+type SincPoint = {
   x: number;
   y: number;
 };
 
-export type ZeroMarker = {
+type ZeroMarker = {
   n: number;
   x: number;
   sign: 1 | -1;
@@ -345,7 +345,7 @@ export function normalizeN(value: number | undefined): number {
   return Math.max(2, Math.min(80, Math.round(value ?? 12)));
 }
 
-export function termReveal(revealProgress: number, n: number, N: number): number {
+function termReveal(revealProgress: number, n: number, N: number): number {
   return clamp01(revealProgress * N - (n - 1));
 }
 
