@@ -1027,8 +1027,8 @@
 
 | 範圍 | 結論 |
 |------|------|
-| `src/components/curve/ParamControls.tsx`、`src/components/explore/DataAnalysisExploreRoot.tsx`、`src/styles/components/range.css` | 已修正錯誤結論：標準 numeric ParamControls 需求是 native range，不是 `+/-` stepper；DataAnalysis 本地參數控件也已恢復 range；未使用的 stepper CSS 已刪除。 |
-| `docs/p5toreact.md`、`docs/site-ux.md`、`docs/workart.md` | 已修正規則：標準 Work controls 使用 native range 且只保留一條更新路徑；按鈕只用於模式切換、重置、顯示開關等離散命令；Work controls accordion ownership 屬於 page script。 |
+| `src/components/curve/ParamControls.tsx`、`src/components/explore/DataAnalysisExploreRoot.tsx`、`src/styles/components/range.css` | 已修正錯誤結論：標準 numeric ParamControls 需求是 native range，不是 `+/-` stepper；DataAnalysis 本地參數控件也已恢復 range；未使用的 stepper CSS 與 wrapper 假軌道已刪除。 |
+| `docs/p5toreact.md`、`docs/site-ux.md`、`docs/workart.md` | 已修正規則：標準 Work controls 使用 native range 且只保留一條更新路徑；不要用 wrapper 假軌道取代原生 track；按鈕只用於模式切換、重置、顯示開關等離散命令；Work controls accordion ownership 屬於 page script。 |
 
 ## 2026-06-22 Work root 第四批接續掃描
 
