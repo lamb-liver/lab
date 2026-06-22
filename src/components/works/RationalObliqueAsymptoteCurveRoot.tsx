@@ -17,12 +17,10 @@ import { useRationalObliqueAsymptoteP5 } from '../curve/useRationalObliqueAsympt
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function RationalObliqueAsymptoteCurveRoot({
-  controlsMountId = 'rational-oblique-asymptote-controls',
-}: Props) {
+export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: Props) {
   const [modeId, setModeId] = useState<RationalObliqueModeId>('oblique');
   const [params, setParams] = useState<RationalObliqueParams>(rationalObliqueDefaultParams);
   const [showAsymptotes, setShowAsymptotes] = useState(true);
@@ -41,15 +39,7 @@ export default function RationalObliqueAsymptoteCurveRoot({
   });
 
   useEffect(() => {
-    const mount = document.getElementById(controlsMountId);
-    setControlsMount(mount);
-    const details = mount?.closest('details');
-    if (
-      details instanceof HTMLDetailsElement &&
-      window.matchMedia('(min-width: 1024px)').matches
-    ) {
-      details.open = true;
-    }
+    setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
   const metadataParams = valuesFromParams(modeId, params);

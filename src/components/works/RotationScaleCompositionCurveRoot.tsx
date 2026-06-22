@@ -3,12 +3,10 @@ import { rotationScaleCompositionModule } from '../../curve/modules/rotation-sca
 import { useRotationScaleCompositionP5 } from '../curve/useRotationScaleCompositionP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function RotationScaleCompositionCurveRoot({
-  controlsMountId = 'rotation-scale-composition-controls',
-}: Props) {
+export default function RotationScaleCompositionCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={rotationScaleCompositionModule}

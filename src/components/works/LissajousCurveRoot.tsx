@@ -13,12 +13,10 @@ import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function LissajousCurveRoot({
-  controlsMountId = 'lissajous-curve-controls',
-}: Props) {
+export default function LissajousCurveRoot({ controlsMountId }: Props) {
   const module = lissajousModule;
   const sampleStep = module.sampleStep ?? 0.003;
 

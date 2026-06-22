@@ -8,12 +8,10 @@ import { useInterferenceFringesP5 } from '../curve/useInterferenceFringesP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function InterferenceFringesCurveRoot({
-  controlsMountId = 'interference-fringes-controls',
-}: Props) {
+export default function InterferenceFringesCurveRoot({ controlsMountId }: Props) {
   const module = interferenceFringesModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
@@ -30,7 +28,6 @@ export default function InterferenceFringesCurveRoot({
   );
 
   const { canvasHostRef } = useInterferenceFringesP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
     onSmoothSourceDistanceChange,

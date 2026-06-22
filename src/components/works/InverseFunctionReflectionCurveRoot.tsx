@@ -17,12 +17,10 @@ import { useInverseFunctionReflectionP5 } from '../curve/useInverseFunctionRefle
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function InverseFunctionReflectionCurveRoot({
-  controlsMountId = 'inverse-function-reflection-controls',
-}: Props) {
+export default function InverseFunctionReflectionCurveRoot({ controlsMountId }: Props) {
   const module = inverseFunctionReflectionModule;
   const [params, setParams] = useState<InverseFunctionReflectionParams>(
     DEFAULT_INVERSE_FUNCTION_REFLECTION_PARAMS,
@@ -42,9 +40,10 @@ export default function InverseFunctionReflectionCurveRoot({
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(paramsForMetadata(params), {
+  const metadataParams = paramsForMetadata(params);
+  const metadata = module.getMetadata(metadataParams, {
     revealPct: 100,
-    smoothParams: paramsForMetadata(params),
+    smoothParams: metadataParams,
   });
 
   const inputRange = inputRangeForMode(params.mode);

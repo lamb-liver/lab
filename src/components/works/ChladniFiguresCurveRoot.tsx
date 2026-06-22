@@ -8,12 +8,10 @@ import { useChladniP5 } from '../curve/useChladniP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function ChladniFiguresCurveRoot({
-  controlsMountId = 'chladni-figures-controls',
-}: Props) {
+export default function ChladniFiguresCurveRoot({ controlsMountId }: Props) {
   const module = chladniFiguresModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);

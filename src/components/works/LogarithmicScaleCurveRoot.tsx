@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { logarithmicScaleModule } from '../../curve/modules/logarithmic-scale';
 import type { ParamValues } from '../../curve/types';
@@ -7,11 +7,9 @@ import StatsPanel from '../curve/StatsPanel';
 import { useLogarithmicScaleP5 } from '../curve/useLogarithmicScaleP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
-export default function LogarithmicScaleCurveRoot({
-  controlsMountId = 'logarithmic-scale-controls',
-}: Props) {
+export default function LogarithmicScaleCurveRoot({ controlsMountId }: Props) {
   const module = logarithmicScaleModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -19,7 +17,6 @@ export default function LogarithmicScaleCurveRoot({
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useLogarithmicScaleP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
   });
@@ -38,12 +35,10 @@ export default function LogarithmicScaleCurveRoot({
     smoothParams: targetParams,
   });
 
-  const visibleSchema = useMemo(() => {
-    const keys = new Set<string>(['a']);
-    if (compareMode && showPower) keys.add('p');
-    if (compareMode && showLinear) keys.add('m');
-    return module.paramSchema.filter((field) => keys.has(field.key));
-  }, [compareMode, showPower, showLinear, module.paramSchema]);
+  const visibleKeys = new Set<string>(['a']);
+  if (compareMode && showPower) visibleKeys.add('p');
+  if (compareMode && showLinear) visibleKeys.add('m');
+  const visibleSchema = module.paramSchema.filter((field) => visibleKeys.has(field.key));
 
   const patchParams = (patch: ParamValues) => {
     setTargetParams((prev) => ({ ...prev, ...patch }));

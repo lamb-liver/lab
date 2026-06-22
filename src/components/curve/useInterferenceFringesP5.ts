@@ -10,20 +10,18 @@ import { renderInterferenceFringesScene } from '../../systems/rendering/interfer
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothSourceDistanceChange: (distance: number) => void;
 };
 
 export function useInterferenceFringesP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
   onSmoothSourceDistanceChange,
 }: Options) {
-  const animRef = useRef(createInterferenceFringesAnimState(defaultParams));
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const animRef = useRef(createInterferenceFringesAnimState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealPctRef = useRef(-1);
   const lastDistanceKeyRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);

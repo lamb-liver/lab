@@ -18,7 +18,7 @@ import { useVectorFieldPatternsP5 } from '../curve/useVectorFieldPatternsP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 const PATTERN_LABELS: Record<VectorFieldPattern, string> = {
@@ -29,9 +29,7 @@ const PATTERN_LABELS: Record<VectorFieldPattern, string> = {
   uniform: '均勻流',
 };
 
-export default function VectorFieldPatternsCurveRoot({
-  controlsMountId = 'vector-field-patterns-controls',
-}: Props) {
+export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props) {
   const module = vectorFieldPatternsModule;
   const [params, setParams] = useState<VectorFieldPatternParams>(
     DEFAULT_VECTOR_FIELD_PATTERN_PARAMS,

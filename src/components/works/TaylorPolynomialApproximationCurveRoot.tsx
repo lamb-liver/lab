@@ -16,12 +16,10 @@ import { useTaylorPolynomialApproximationP5 } from '../curve/useTaylorPolynomial
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function TaylorPolynomialApproximationCurveRoot({
-  controlsMountId = 'taylor-polynomial-approximation-controls',
-}: Props) {
+export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId }: Props) {
   const [presetId, setPresetId] = useState<TaylorPresetId>('sin');
   const [a, setA] = useState(0);
   const [n, setN] = useState(3);

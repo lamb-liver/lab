@@ -7,11 +7,9 @@ import StatsPanel from '../curve/StatsPanel';
 import { useLogisticCurveP5 } from '../curve/useLogisticCurveP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
-export default function LogisticCurveCurveRoot({
-  controlsMountId = 'logistic-curve-controls',
-}: Props) {
+export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
   const module = logisticCurveModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
@@ -26,7 +24,6 @@ export default function LogisticCurveCurveRoot({
   );
 
   const { canvasHostRef } = useLogisticCurveP5({
-    defaultParams: module.defaultParams,
     targetParams,
     resetNonce,
     onRevealPctChange,

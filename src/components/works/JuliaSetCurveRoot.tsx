@@ -8,12 +8,10 @@ import { useJuliaP5 } from '../curve/useJuliaP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function JuliaSetCurveRoot({
-  controlsMountId = 'julia-set-controls',
-}: Props) {
+export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
   const module = juliaSetModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
@@ -30,7 +28,6 @@ export default function JuliaSetCurveRoot({
   }, []);
 
   const { canvasHostRef } = useJuliaP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRenderProgress,
     onSmoothCChange,

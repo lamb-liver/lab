@@ -12,12 +12,10 @@ import { useVectorAdditionScalarP5 } from '../curve/useVectorAdditionScalarP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function VectorAdditionScalarCurveRoot({
-  controlsMountId = 'vector-addition-scalar-controls',
-}: Props) {
+export default function VectorAdditionScalarCurveRoot({ controlsMountId }: Props) {
   const module = vectorAdditionScalarModule;
   const [params, setParams] = useState<VectorAdditionScalarParams>(
     DEFAULT_VECTOR_ADDITION_SCALAR_PARAMS,

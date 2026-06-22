@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   DEFAULT_LAW_OF_SINES_COSINES_PARAMS,
@@ -13,7 +13,7 @@ import StatsPanel from '../curve/StatsPanel';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 function paramsForMetadata(params: LawOfSinesCosinesParams): ParamValues {
@@ -24,9 +24,7 @@ function paramsForMetadata(params: LawOfSinesCosinesParams): ParamValues {
   };
 }
 
-export default function LawOfSinesCosinesCurveRoot({
-  controlsMountId = 'law-of-sines-cosines-controls',
-}: Props) {
+export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
   const module = lawOfSinesCosinesModule;
   const [params, setParams] = useState<LawOfSinesCosinesParams>({
     ...DEFAULT_LAW_OF_SINES_COSINES_PARAMS,
@@ -47,14 +45,11 @@ export default function LawOfSinesCosinesCurveRoot({
     onTriangleChange,
   });
 
-  const metadata = useMemo(
-    () =>
-      module.getMetadata(paramsForMetadata(params), {
-        revealPct: 100,
-        smoothParams: paramsForMetadata(params),
-      }),
-    [module, params],
-  );
+  const metadataParams = paramsForMetadata(params);
+  const metadata = module.getMetadata(metadataParams, {
+    revealPct: 100,
+    smoothParams: metadataParams,
+  });
 
   const setMode = (mode: LawMode) => {
     setParams((prev) => ({ ...prev, mode }));

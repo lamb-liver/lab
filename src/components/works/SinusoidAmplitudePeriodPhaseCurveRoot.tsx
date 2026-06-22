@@ -23,7 +23,7 @@ import StatsPanel from '../curve/StatsPanel';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 type NumericParamKey = 'amplitude' | 'period' | 'phase' | 'verticalShift';
@@ -39,9 +39,7 @@ function paramsForMetadata(params: SinusoidAmplitudePeriodPhaseParams): ParamVal
   };
 }
 
-export default function SinusoidAmplitudePeriodPhaseCurveRoot({
-  controlsMountId = 'sinusoid-amplitude-period-phase-controls',
-}: Props) {
+export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId }: Props) {
   const [params, setParams] = useState<SinusoidAmplitudePeriodPhaseParams>({
     ...DEFAULT_SINUSOID_AMPLITUDE_PERIOD_PHASE_PARAMS,
   });

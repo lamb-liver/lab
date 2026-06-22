@@ -10,20 +10,18 @@ import { renderParabolicReflectionScene } from '../../systems/rendering/paraboli
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothFocalLengthChange: (focalLength: number) => void;
 };
 
 export function useParabolicReflectionP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
   onSmoothFocalLengthChange,
 }: Options) {
-  const animRef = useRef(createParabolicReflectionAnimState(defaultParams));
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const animRef = useRef(createParabolicReflectionAnimState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealPctRef = useRef(-1);
   const lastFocalKeyRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);

@@ -12,12 +12,10 @@ import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function SpirographCurveRoot({
-  controlsMountId = 'spirograph-curve-controls',
-}: Props) {
+export default function SpirographCurveRoot({ controlsMountId }: Props) {
   const module = spirographModule;
   const sampleStep = module.sampleStep ?? 0.02;
 

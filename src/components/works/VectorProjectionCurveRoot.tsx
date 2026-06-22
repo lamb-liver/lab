@@ -13,12 +13,10 @@ import { useVectorProjectionP5 } from '../curve/useVectorProjectionP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function VectorProjectionCurveRoot({
-  controlsMountId = 'vector-projection-controls',
-}: Props) {
+export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
   const module = vectorProjectionModule;
   const [params, setParams] = useState<VectorProjectionParams>(
     DEFAULT_VECTOR_PROJECTION_PARAMS,

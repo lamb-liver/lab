@@ -3,12 +3,10 @@ import { tangentApproximationModule } from '../../curve/modules/tangent-approxim
 import { useTangentApproximationP5 } from '../curve/useTangentApproximationP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function TangentApproximationCurveRoot({
-  controlsMountId = 'tangent-approximation-controls',
-}: Props) {
+export default function TangentApproximationCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={tangentApproximationModule}

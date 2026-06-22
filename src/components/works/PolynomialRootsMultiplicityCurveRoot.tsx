@@ -16,14 +16,12 @@ import { usePolynomialRootsMultiplicityP5 } from '../curve/usePolynomialRootsMul
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 const ROOT_KEYS = ['root0', 'root1', 'root2'] as const;
 
-export default function PolynomialRootsMultiplicityCurveRoot({
-  controlsMountId = 'polynomial-roots-multiplicity-controls',
-}: Props) {
+export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId }: Props) {
   const module = polynomialRootsMultiplicityModule;
   const [params, setParams] = useState<PolynomialRootsMultiplicityParams>(
     DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS,
@@ -43,12 +41,11 @@ export default function PolynomialRootsMultiplicityCurveRoot({
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(paramsForMetadata(params), {
-    revealPct: 100,
-    smoothParams: paramsForMetadata(params),
-  });
-
   const sliderValues = paramsForMetadata(params);
+  const metadata = module.getMetadata(sliderValues, {
+    revealPct: 100,
+    smoothParams: sliderValues,
+  });
 
   const setRoot = (index: number, value: number) => {
     const roots = [...params.roots] as [number, number, number];

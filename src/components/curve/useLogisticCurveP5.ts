@@ -11,7 +11,6 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   resetNonce: number;
   onRevealPctChange: (pct: number) => void;
@@ -19,14 +18,13 @@ type Options = {
 };
 
 export function useLogisticCurveP5({
-  defaultParams,
   targetParams,
   resetNonce,
   onRevealPctChange,
   onSmoothParamsChange,
 }: Options) {
-  const animRef = useRef(createLogisticCurveAnimState(defaultParams));
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const animRef = useRef(createLogisticCurveAnimState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastResetNonceRef = useRef(resetNonce);
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);

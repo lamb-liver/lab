@@ -18,7 +18,7 @@ import StatsPanel from '../curve/StatsPanel';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 function paramsForMetadata(params: TrigAngleIdentitiesParams): ParamValues {
@@ -32,9 +32,7 @@ function paramsForMetadata(params: TrigAngleIdentitiesParams): ParamValues {
   };
 }
 
-export default function TrigAngleIdentitiesCurveRoot({
-  controlsMountId = 'trig-angle-identities-controls',
-}: Props) {
+export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props) {
   const module = trigAngleIdentitiesModule;
   const [params, setParams] = useState<TrigAngleIdentitiesParams>({
     ...DEFAULT_TRIG_ANGLE_IDENTITIES_PARAMS,

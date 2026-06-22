@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 292 |
-| 尚未掃描檔案 | 452 |
+| 已掃描檔案 | 312 |
+| 尚未掃描檔案 | 432 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（292）</summary>
+<summary>已掃描檔案（312）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -228,11 +228,31 @@
 - `src/components/works/EulerFormulaRotationCurveRoot.tsx`
 - `src/components/works/ExponentialGrowthDecayCurveRoot.tsx`
 - `src/components/works/FibonacciSpiralCurveRoot.tsx`
+- `src/components/works/FunctionDerivativeGraphCurveRoot.tsx`
+- `src/components/works/FunctionGraphTransformCurveRoot.tsx`
 - `src/components/works/HarmonographCurveRoot.tsx`
 - `src/components/works/InterferenceFringesCurveRoot.tsx`
+- `src/components/works/InverseFunctionReflectionCurveRoot.tsx`
+- `src/components/works/JuliaSetCurveRoot.tsx`
+- `src/components/works/LawOfSinesCosinesCurveRoot.tsx`
+- `src/components/works/LinearTransformGridCurveRoot.tsx`
 - `src/components/works/LissajousCurveRoot.tsx`
+- `src/components/works/LogarithmicScaleCurveRoot.tsx`
+- `src/components/works/LogisticBifurcationCurveRoot.tsx`
+- `src/components/works/LogisticCurveCurveRoot.tsx`
+- `src/components/works/NaturalLogEGeometryCurveRoot.tsx`
+- `src/components/works/PascalsTriangleCurveRoot.tsx`
 - `src/components/works/ParabolicReflectionCurveRoot.tsx`
+- `src/components/works/PercentileBoxPlotCurveRoot.tsx`
+- `src/components/works/PolynomialRootsMultiplicityCurveRoot.tsx`
+- `src/components/works/QuadraticCompletingSquareCurveRoot.tsx`
+- `src/components/works/RadianArcLengthCurveRoot.tsx`
+- `src/components/works/RationalObliqueAsymptoteCurveRoot.tsx`
+- `src/components/works/RationalVerticalHorizontalAsymptotesCurveRoot.tsx`
+- `src/components/works/RegressionOutlierInfluenceCurveRoot.tsx`
+- `src/components/works/RiemannSumCurveRoot.tsx`
 - `src/components/works/RoseCurveRoot.tsx`
+- `src/components/works/RotationScaleCompositionCurveRoot.tsx`
 - `src/components/works/SpirographCurveRoot.tsx`
 - `src/components/works/StandingWaveCurveRoot.tsx`
 - `src/components/works/WorkInteractiveStage.tsx`
@@ -342,27 +362,7 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（452）</summary>
-- `src/components/works/FunctionDerivativeGraphCurveRoot.tsx`
-- `src/components/works/FunctionGraphTransformCurveRoot.tsx`
-- `src/components/works/InverseFunctionReflectionCurveRoot.tsx`
-- `src/components/works/JuliaSetCurveRoot.tsx`
-- `src/components/works/LawOfSinesCosinesCurveRoot.tsx`
-- `src/components/works/LinearTransformGridCurveRoot.tsx`
-- `src/components/works/LogarithmicScaleCurveRoot.tsx`
-- `src/components/works/LogisticBifurcationCurveRoot.tsx`
-- `src/components/works/LogisticCurveCurveRoot.tsx`
-- `src/components/works/NaturalLogEGeometryCurveRoot.tsx`
-- `src/components/works/PascalsTriangleCurveRoot.tsx`
-- `src/components/works/PercentileBoxPlotCurveRoot.tsx`
-- `src/components/works/PolynomialRootsMultiplicityCurveRoot.tsx`
-- `src/components/works/QuadraticCompletingSquareCurveRoot.tsx`
-- `src/components/works/RadianArcLengthCurveRoot.tsx`
-- `src/components/works/RationalObliqueAsymptoteCurveRoot.tsx`
-- `src/components/works/RationalVerticalHorizontalAsymptotesCurveRoot.tsx`
-- `src/components/works/RegressionOutlierInfluenceCurveRoot.tsx`
-- `src/components/works/RiemannSumCurveRoot.tsx`
-- `src/components/works/RotationScaleCompositionCurveRoot.tsx`
+<summary>尚未掃描檔案（432）</summary>
 - `src/components/works/ScatterCorrelationRegressionCurveRoot.tsx`
 - `src/components/works/SierpinskiTriangleCurveRoot.tsx`
 - `src/components/works/SinusoidAmplitudePeriodPhaseCurveRoot.tsx`
@@ -1001,6 +1001,34 @@
 | `src/components/works/ConditionalProbabilityBayesCurveRoot.tsx` | 已掃描並修正：mode / scenario state 被 metadata、hook、renderer 鏈路消費；scenario click handler 改用 `conditional-probability-bayes/geometry.ts` exported `scenarios`，移除 root 內重複 preset。 |
 | `src/components/works/DotProductGeometryCurveRoot.tsx`、`src/components/works/EigenvectorGeometryCurveRoot.tsx` | 已掃描並修正：root state 供拖曳 hook、metadata 與 controls 消費，沒有只寫不讀 state；`controlsMountId` optional/default fallback 已移除；DotProduct metadata params 改成單一 local const；Eigenvector 小型 `useMemo` 已改為直接 lookup。 |
 | `src/components/works/EquiangularSpiralCurveRoot.tsx`、`src/components/works/ExponentialGrowthDecayCurveRoot.tsx`、`src/components/works/FibonacciSpiralCurveRoot.tsx` | 已掃描並修正：reveal / smooth state 有 module metadata 或 `CurveHookWorkRoot` 讀端；`controlsMountId` optional/default fallback 已移除；Exponential / Fibonacci hook 的 `defaultParams` option 改吃 `targetParams` 初始化；Exponential `visibleSchema` 小型 `useMemo` 已改為直接計算。 |
+
+## 2026-06-22 Work root 第二批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/works/FunctionDerivativeGraphCurveRoot.tsx`、`src/components/works/LinearTransformGridCurveRoot.tsx`、`src/components/works/LogisticBifurcationCurveRoot.tsx`、`src/components/works/PascalsTriangleCurveRoot.tsx` | 已掃描並修正：四檔都由 `WorkInteractiveStage.rootBySlug` 與 `interactiveRegistry` slug 消費，對應 module / hook / content 連結均有 current 引用；`controlsMountId` optional/default fallback 已移除。 |
+| `src/components/works/FunctionGraphTransformCurveRoot.tsx`、`src/components/works/InverseFunctionReflectionCurveRoot.tsx`、`src/components/works/LawOfSinesCosinesCurveRoot.tsx` | 已掃描並修正：拖曳 state / params 由各自 p5 hook 與 module metadata 消費，continuous draw 或 `redrawKey` 由對應 hook 管理；`controlsMountId` fallback 已移除；重複 `paramsForMetadata(params)` 已收斂成單一 local const；`LawOfSinesCosinesCurveRoot` 的無效 `useMemo` 已移除。 |
+| `src/components/works/JuliaSetCurveRoot.tsx`、`src/components/works/LogarithmicScaleCurveRoot.tsx`、`src/components/works/NaturalLogEGeometryCurveRoot.tsx`、`src/components/works/LogisticCurveCurveRoot.tsx` | 已掃描並修正：Julia 的 `renderPct` / smooth c、Logarithmic / Natural Log 的 `revealPct`、Logistic Curve 的 reveal / smooth state 均被 module metadata 或 renderer 鏈路讀取；`controlsMountId` fallback 已移除；四個 direct hook 的 `defaultParams` option 已改吃 `targetParams` 初始化；Logarithmic / Natural Log 的 `visibleSchema` 小型 `useMemo` 已改為直接計算。 |
+| `src/components/works/PercentileBoxPlotCurveRoot.tsx` | 已掃描並修正：`stateRef` 是拖曳期間避免 React state churn 的 shared work state，`redrawKey` 被 `usePercentileBoxPlotP5` 的 static redraw 消費；metadata 讀 `state.params` 與 `state.values`；`controlsMountId` optional/default fallback 已移除。 |
+| `src/components/works/*CurveRoot.tsx` | 支援性修正：同型 `controlsMountId` optional/default fallback 已在所有剩餘 Work root 移除；`WorkInteractiveStage` 已要求必填並固定傳入 `workControlsMountId(slug)`。尚未掃描清單中的 root 檔案仍需後續逐檔審查其他問題，不因本支援性修正標記為完整掃描。 |
+| `src/components/curve/useInterferenceFringesP5.ts`、`src/components/curve/useParabolicReflectionP5.ts`、`src/components/curve/useStandingWaveP5.ts` | 支援性修正：三個 direct hook 的 `defaultParams` option 只作初始化，已改吃 `targetParams`；對應 root 不再傳入 `module.defaultParams`。Morph hook 呼叫端仍保留 `defaultParams`，因屬不同契約，未混入本次修正。 |
+
+## 2026-06-22 Work root 第三批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/works/PolynomialRootsMultiplicityCurveRoot.tsx`、`src/components/works/QuadraticCompletingSquareCurveRoot.tsx`、`src/components/works/RadianArcLengthCurveRoot.tsx` | 已掃描並修正：三檔都由 `WorkInteractiveStage.rootBySlug`、`interactiveRegistry`、content route/link 與 module / hook / renderer 鏈路消費；`controlsMountId` fallback 已由前批支援性修正移除；重複 `paramsForMetadata(params)` 已收斂成單一 local const；`RadianArcLengthCurveRoot` 的小型 `useMemo` 已移除。 |
+| `src/components/works/RationalObliqueAsymptoteCurveRoot.tsx`、`src/components/works/RationalVerticalHorizontalAsymptotesCurveRoot.tsx` | 已掃描並修正：兩檔都由 stage / registry / content / renderer 消費；本地 `details.open` desktop 展開副作用與 `src/pages/works/[slug].astro` 的 `[data-work-controls]` accordion 行為重複，已刪除 root 內的重複 DOM 操作；mode / preset / slider / advanced 狀態均有 controls 或 renderer 讀端。 |
+| `src/components/works/RegressionOutlierInfluenceCurveRoot.tsx` | 已掃描並保留：root state 由 controls、hook、renderer、metadata 消費；`dragging` 不是只寫不讀，`regressionOutlierInfluenceRender` 會用它改變 outlier 視覺狀態；content / Explore link / validate-changed special case 均有引用。 |
+| `src/components/works/RiemannSumCurveRoot.tsx`、`src/components/works/RotationScaleCompositionCurveRoot.tsx` | 已掃描並保留：兩檔是 `CurveHookWorkRoot` glue，分別被 stage / registry / content / docs 消費；`canvasAriaLabel` 與 `controlsMountId` 均由 helper 讀取。`CurveHookWorkRoot` 的 `defaultParams` common hook contract 仍牽涉多個 animation hook，需另批掃描，不在本輪 root 掃描中局部刪除。 |
+| `src/components/curve/CurveWorkRoot.tsx`、`src/components/curve/CurveHookWorkRoot.tsx` | 支援性修正：全專案搜尋確認沒有呼叫端省略 `CurveWorkRoot.controlsMountId`、`CurveWorkRoot.canvasAriaLabel` 或 `CurveHookWorkRoot.initialRevealPct`；已刪除這些無呼叫端的 optional/default 假彈性。 |
+
+## 2026-06-22 dirty diff follow-up
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/curve/ParamControls.tsx`、`src/components/explore/DataAnalysisExploreRoot.tsx`、`src/styles/components/range.css` | 已審查並修正：標準 numeric ParamControls 需求是離散 `+/-` stepper，不是 native range；保留 stepper，補足仍使用 `.range` 的 native range CSS，並把 stepper 的假 label / range 命名收斂。 |
+| `docs/p5toreact.md`、`docs/site-ux.md`、`docs/workart.md` | 已補規則：標準 Work controls 使用 stepper；native range 只用於連續拖曳或 canvas 直接比較；Work controls accordion ownership 屬於 page script，單一 Work root 不應自行 `closest('details')` 或改 `details.open`。 |
 
 ## 接續審查記錄格式
 

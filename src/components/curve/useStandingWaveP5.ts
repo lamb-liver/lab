@@ -10,20 +10,18 @@ import { renderStandingWaveScene } from '../../systems/rendering/standingWaveRen
 import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothAmplitudeChange: (amplitude: number) => void;
 };
 
 export function useStandingWaveP5({
-  defaultParams,
   targetParams,
   onRevealPctChange,
   onSmoothAmplitudeChange,
 }: Options) {
-  const animRef = useRef(createStandingWaveAnimState(defaultParams));
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const animRef = useRef(createStandingWaveAnimState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealPctRef = useRef(-1);
   const lastAmplitudeKeyRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);

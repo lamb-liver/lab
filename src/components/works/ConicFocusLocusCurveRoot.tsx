@@ -8,12 +8,10 @@ import { useConicFocusLocusP5 } from '../curve/useConicFocusLocusP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function ConicFocusLocusCurveRoot({
-  controlsMountId = 'conic-focus-locus-controls',
-}: Props) {
+export default function ConicFocusLocusCurveRoot({ controlsMountId }: Props) {
   const module = conicFocusLocusModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);

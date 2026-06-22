@@ -17,7 +17,7 @@ import {
 } from '../curve/usePercentileBoxPlotP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
 function createState(params: ParamValues): PercentileBoxPlotWorkState {
   return {
@@ -34,9 +34,7 @@ function resetValues(state: PercentileBoxPlotWorkState) {
   state.selectedIndex = -1;
 }
 
-export default function PercentileBoxPlotCurveRoot({
-  controlsMountId = 'percentile-box-plot-controls',
-}: Props) {
+export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
   const module = percentileBoxPlotModule;
   const stateRef = useRef<PercentileBoxPlotWorkState>(createState(module.defaultParams));
   const [redrawKey, rerender] = useState(0);

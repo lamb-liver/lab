@@ -12,12 +12,10 @@ import { useSierpinskiTriangleP5 } from '../curve/useSierpinskiTriangleP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function SierpinskiTriangleCurveRoot({
-  controlsMountId = 'sierpinski-triangle-controls',
-}: Props) {
+export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) {
   const module = sierpinskiTriangleModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);

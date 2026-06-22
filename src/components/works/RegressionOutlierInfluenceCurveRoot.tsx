@@ -12,7 +12,7 @@ import {
 } from '../curve/useRegressionOutlierInfluenceP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
 function createState(): RegressionOutlierInfluenceWorkState {
   return {
@@ -24,9 +24,7 @@ function createState(): RegressionOutlierInfluenceWorkState {
   };
 }
 
-export default function RegressionOutlierInfluenceCurveRoot({
-  controlsMountId = 'regression-outlier-influence-controls',
-}: Props) {
+export default function RegressionOutlierInfluenceCurveRoot({ controlsMountId }: Props) {
   const stateRef = useRef<RegressionOutlierInfluenceWorkState>(createState());
   const [redrawKey, rerender] = useState(0);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);

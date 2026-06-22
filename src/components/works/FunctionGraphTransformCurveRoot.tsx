@@ -14,12 +14,10 @@ import { useFunctionGraphTransformP5 } from '../curve/useFunctionGraphTransformP
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function FunctionGraphTransformCurveRoot({
-  controlsMountId = 'function-graph-transform-controls',
-}: Props) {
+export default function FunctionGraphTransformCurveRoot({ controlsMountId }: Props) {
   const module = functionGraphTransformModule;
   const [params, setParams] = useState<FunctionGraphTransformParams>(
     DEFAULT_FUNCTION_GRAPH_TRANSFORM_PARAMS,
@@ -39,12 +37,11 @@ export default function FunctionGraphTransformCurveRoot({
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(paramsForMetadata(params), {
-    revealPct: 100,
-    smoothParams: paramsForMetadata(params),
-  });
-
   const sliderValues = paramsForMetadata(params);
+  const metadata = module.getMetadata(sliderValues, {
+    revealPct: 100,
+    smoothParams: sliderValues,
+  });
 
   const controls = controlsMount
     ? createPortal(

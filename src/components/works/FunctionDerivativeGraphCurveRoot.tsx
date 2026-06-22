@@ -14,12 +14,10 @@ import { useFunctionDerivativeGraphP5 } from '../curve/useFunctionDerivativeGrap
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function FunctionDerivativeGraphCurveRoot({
-  controlsMountId = 'function-derivative-graph-controls',
-}: Props) {
+export default function FunctionDerivativeGraphCurveRoot({ controlsMountId }: Props) {
   const [presetId, setPresetId] = useState<FunctionDerivativePresetId>('quad');
   const [x0, setX0] = useState(1.25);
   const [advanced, setAdvanced] = useState(false);

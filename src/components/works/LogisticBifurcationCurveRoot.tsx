@@ -14,7 +14,7 @@ import { useLogisticBifurcationP5 } from '../curve/useLogisticBifurcationP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 const modes = [
@@ -24,9 +24,7 @@ const modes = [
   { value: MODE_COMPARE, label: '對照' },
 ];
 
-export default function LogisticBifurcationCurveRoot({
-  controlsMountId = 'logistic-bifurcation-controls',
-}: Props) {
+export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props) {
   const module = logisticBifurcationModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [playing, setPlaying] = useState(true);

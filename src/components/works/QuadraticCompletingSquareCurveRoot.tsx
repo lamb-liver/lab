@@ -15,12 +15,10 @@ import { useQuadraticCompletingSquareP5 } from '../curve/useQuadraticCompletingS
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function QuadraticCompletingSquareCurveRoot({
-  controlsMountId = 'quadratic-completing-square-controls',
-}: Props) {
+export default function QuadraticCompletingSquareCurveRoot({ controlsMountId }: Props) {
   const module = quadraticCompletingSquareModule;
   const [params, setParams] = useState<QuadraticCompletingSquareParams>(
     DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS,
@@ -40,12 +38,11 @@ export default function QuadraticCompletingSquareCurveRoot({
     setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
-  const metadata = module.getMetadata(paramsForMetadata(params), {
-    revealPct: 100,
-    smoothParams: paramsForMetadata(params),
-  });
-
   const sliderValues = paramsForMetadata(params);
+  const metadata = module.getMetadata(sliderValues, {
+    revealPct: 100,
+    smoothParams: sliderValues,
+  });
 
   const controls = controlsMount
     ? createPortal(

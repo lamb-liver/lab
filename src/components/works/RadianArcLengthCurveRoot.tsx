@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   DEFAULT_RADIAN_ARC_LENGTH_PARAMS,
@@ -18,7 +18,7 @@ import StatsPanel from '../curve/StatsPanel';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 function paramsForMetadata(params: RadianArcLengthParams): ParamValues {
@@ -29,9 +29,7 @@ function paramsForMetadata(params: RadianArcLengthParams): ParamValues {
   };
 }
 
-export default function RadianArcLengthCurveRoot({
-  controlsMountId = 'radian-arc-length-controls',
-}: Props) {
+export default function RadianArcLengthCurveRoot({ controlsMountId }: Props) {
   const [params, setParams] = useState<RadianArcLengthParams>({
     ...DEFAULT_RADIAN_ARC_LENGTH_PARAMS,
   });
@@ -47,14 +45,11 @@ export default function RadianArcLengthCurveRoot({
 
   const { canvasHostRef } = useRadianArcLengthP5({ params, onThetaChange });
 
-  const metadata = useMemo(
-    () =>
-      radianArcLengthModule.getMetadata(paramsForMetadata(params), {
-        revealPct: 100,
-        smoothParams: paramsForMetadata(params),
-      }),
-    [params],
-  );
+  const metadataParams = paramsForMetadata(params);
+  const metadata = radianArcLengthModule.getMetadata(metadataParams, {
+    revealPct: 100,
+    smoothParams: metadataParams,
+  });
 
   const setRadiusMode = (radiusMode: RadiusMode) => {
     setParams((prev) => ({ ...prev, radiusMode }));

@@ -3,12 +3,10 @@ import { vectorFieldStreamlinesModule } from '../../curve/modules/vector-field-s
 import { useVectorFieldStreamlinesP5 } from '../curve/useVectorFieldStreamlinesP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function VectorFieldStreamlinesCurveRoot({
-  controlsMountId = 'vector-field-streamlines-controls',
-}: Props) {
+export default function VectorFieldStreamlinesCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={vectorFieldStreamlinesModule}

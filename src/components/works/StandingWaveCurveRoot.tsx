@@ -8,12 +8,10 @@ import { useStandingWaveP5 } from '../curve/useStandingWaveP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function StandingWaveCurveRoot({
-  controlsMountId = 'standing-wave-controls',
-}: Props) {
+export default function StandingWaveCurveRoot({ controlsMountId }: Props) {
   const module = standingWaveModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
@@ -28,7 +26,6 @@ export default function StandingWaveCurveRoot({
   );
 
   const { canvasHostRef } = useStandingWaveP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
     onSmoothAmplitudeChange,

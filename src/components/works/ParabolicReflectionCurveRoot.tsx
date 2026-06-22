@@ -8,12 +8,10 @@ import { useParabolicReflectionP5 } from '../curve/useParabolicReflectionP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function ParabolicReflectionCurveRoot({
-  controlsMountId = 'parabolic-reflection-controls',
-}: Props) {
+export default function ParabolicReflectionCurveRoot({ controlsMountId }: Props) {
   const module = parabolicReflectionModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
@@ -30,7 +28,6 @@ export default function ParabolicReflectionCurveRoot({
   );
 
   const { canvasHostRef } = useParabolicReflectionP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
     onSmoothFocalLengthChange,

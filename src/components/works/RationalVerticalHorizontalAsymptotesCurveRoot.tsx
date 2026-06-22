@@ -16,12 +16,10 @@ import { useRationalVerticalHorizontalAsymptotesP5 } from '../curve/useRationalV
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function RationalVerticalHorizontalAsymptotesCurveRoot({
-  controlsMountId = 'rational-vertical-horizontal-asymptotes-controls',
-}: Props) {
+export default function RationalVerticalHorizontalAsymptotesCurveRoot({ controlsMountId }: Props) {
   const [presetId, setPresetId] = useState<RationalAsymptotePresetId>('factor');
   const [params, setParams] = useState<RationalAsymptoteParams>(RATIONAL_ASYMPTOTE_PRESETS[0]!.params);
   const [showAsymptotes, setShowAsymptotes] = useState(true);
@@ -42,15 +40,7 @@ export default function RationalVerticalHorizontalAsymptotesCurveRoot({
   });
 
   useEffect(() => {
-    const mount = document.getElementById(controlsMountId);
-    setControlsMount(mount);
-    const details = mount?.closest('details');
-    if (
-      details instanceof HTMLDetailsElement &&
-      window.matchMedia('(min-width: 1024px)').matches
-    ) {
-      details.open = true;
-    }
+    setControlsMount(document.getElementById(controlsMountId));
   }, [controlsMountId]);
 
   const metadataParams = valuesFromParams(presetId, params);

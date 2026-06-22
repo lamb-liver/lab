@@ -8,12 +8,10 @@ import { usePascalsTriangleP5 } from '../curve/usePascalsTriangleP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function PascalsTriangleCurveRoot({
-  controlsMountId = 'pascals-triangle-controls',
-}: Props) {
+export default function PascalsTriangleCurveRoot({ controlsMountId }: Props) {
   const module = pascalsTriangleModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);

@@ -15,7 +15,7 @@ import StatsPanel from '../curve/StatsPanel';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
 function paramsForMetadata(params: UnitCircleTrigDefinitionParams): ParamValues {
@@ -28,9 +28,7 @@ function paramsForMetadata(params: UnitCircleTrigDefinitionParams): ParamValues 
   };
 }
 
-export default function UnitCircleTrigDefinitionCurveRoot({
-  controlsMountId = 'unit-circle-trig-definition-controls',
-}: Props) {
+export default function UnitCircleTrigDefinitionCurveRoot({ controlsMountId }: Props) {
   const module = unitCircleTrigDefinitionModule;
   const [params, setParams] = useState<UnitCircleTrigDefinitionParams>({
     ...DEFAULT_UNIT_CIRCLE_TRIG_DEFINITION_PARAMS,

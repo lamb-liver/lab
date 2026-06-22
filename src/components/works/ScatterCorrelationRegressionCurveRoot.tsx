@@ -18,7 +18,7 @@ import {
 } from '../curve/useScatterCorrelationRegressionP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
 function createState(params: ParamValues): ScatterCorrelationWorkState {
   return {
@@ -30,9 +30,7 @@ function createState(params: ParamValues): ScatterCorrelationWorkState {
   };
 }
 
-export default function ScatterCorrelationRegressionCurveRoot({
-  controlsMountId = 'scatter-correlation-regression-controls',
-}: Props) {
+export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId }: Props) {
   const module = scatterCorrelationRegressionModule;
   const stateRef = useRef<ScatterCorrelationWorkState>(createState(module.defaultParams));
   const [redrawKey, rerender] = useState(0);

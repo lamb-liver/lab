@@ -13,12 +13,10 @@ import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function HarmonographCurveRoot({
-  controlsMountId = 'harmonograph-curve-controls',
-}: Props) {
+export default function HarmonographCurveRoot({ controlsMountId }: Props) {
   const module = harmonographModule;
   const sampleStep = module.sampleStep ?? 0.01;
 

@@ -3,12 +3,10 @@ import { riemannSumModule } from '../../curve/modules/riemann-sum';
 import { useRiemannSumP5 } from '../curve/useRiemannSumP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function RiemannSumCurveRoot({
-  controlsMountId = 'riemann-sum-controls',
-}: Props) {
+export default function RiemannSumCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={riemannSumModule}

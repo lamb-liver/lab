@@ -8,12 +8,10 @@ import { useConicEnvelopeP5 } from '../curve/useConicEnvelopeP5';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function ConicEnvelopeCurveRoot({
-  controlsMountId = 'conic-envelope-controls',
-}: Props) {
+export default function ConicEnvelopeCurveRoot({ controlsMountId }: Props) {
   const module = conicEnvelopeModule;
 
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);

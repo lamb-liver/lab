@@ -2,12 +2,10 @@ import CurveWorkRoot from '../curve/CurveWorkRoot';
 import { roseModule } from '../../curve/modules/rose';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function RoseCurveRoot({
-  controlsMountId = 'rose-curve-controls',
-}: Props) {
+export default function RoseCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveWorkRoot
       module={roseModule}

@@ -3,12 +3,10 @@ import { linearTransformGridModule } from '../../curve/modules/linear-transform-
 import { useLinearTransformGridP5 } from '../curve/useLinearTransformGridP5';
 
 type Props = {
-  controlsMountId?: string;
+  controlsMountId: string;
 };
 
-export default function LinearTransformGridCurveRoot({
-  controlsMountId = 'linear-transform-grid-controls',
-}: Props) {
+export default function LinearTransformGridCurveRoot({ controlsMountId }: Props) {
   return (
     <CurveHookWorkRoot
       module={linearTransformGridModule}

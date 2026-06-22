@@ -15,8 +15,8 @@ import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   module: CurveModule;
-  controlsMountId?: string;
-  canvasAriaLabel?: string;
+  controlsMountId: string;
+  canvasAriaLabel: string;
 };
 
 function paramsSnapshot(p: ParamValues): string {
@@ -25,8 +25,8 @@ function paramsSnapshot(p: ParamValues): string {
 
 export default function CurveWorkRoot({
   module,
-  controlsMountId = 'curve-work-controls',
-  canvasAriaLabel = '曲線動畫',
+  controlsMountId,
+  canvasAriaLabel,
 }: Props) {
   const sampleStep = module.sampleStep ?? BASE_POINT_STEP;
   const animConfig = module.animation ?? { lerp: 0.08, revealSpeed: 0.0024 };

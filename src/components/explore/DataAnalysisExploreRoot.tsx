@@ -321,7 +321,7 @@ export default function DataAnalysisExploreRoot() {
             <p className="data-analysis-explore__block-title">參數</p>
             {state.mode === 'scatter' ? (
               <>
-                <RangeControl
+                <StepControl
                   id="data-analysis-scatter-n"
                   label="點數 n"
                   value={state.scatter.targetN}
@@ -329,14 +329,14 @@ export default function DataAnalysisExploreRoot() {
                   max={20}
                   step={1}
                   format={(v) => String(Math.round(v))}
-                  onInput={(value) =>
+                  onChange={(value) =>
                     commit((next) => {
                       next.scatter.targetN = Math.round(value);
                       resetScatterData(next);
                     })
                   }
                 />
-                <RangeControl
+                <StepControl
                   id="data-analysis-scatter-b"
                   label="趨勢 b"
                   value={state.scatter.slope}
@@ -344,14 +344,14 @@ export default function DataAnalysisExploreRoot() {
                   max={1.4}
                   step={0.01}
                   format={(v) => fmt(v, 2)}
-                  onInput={(value) =>
+                  onChange={(value) =>
                     commit((next) => {
                       next.scatter.slope = value;
                       resetScatterData(next);
                     })
                   }
                 />
-                <RangeControl
+                <StepControl
                   id="data-analysis-scatter-noise"
                   label="雜訊 σ"
                   value={state.scatter.noise}
@@ -359,7 +359,7 @@ export default function DataAnalysisExploreRoot() {
                   max={2.4}
                   step={0.01}
                   format={(v) => fmt(v, 2)}
-                  onInput={(value) =>
+                  onChange={(value) =>
                     commit((next) => {
                       next.scatter.noise = value;
                       resetScatterData(next);
@@ -377,7 +377,7 @@ export default function DataAnalysisExploreRoot() {
             ) : null}
 
             {state.mode === 'boxplot' ? (
-              <RangeControl
+              <StepControl
                 id="data-analysis-boxplot-n"
                 label="資料數 n"
                 value={state.boxplot.targetN}
@@ -385,7 +385,7 @@ export default function DataAnalysisExploreRoot() {
                 max={22}
                 step={1}
                 format={(v) => String(Math.round(v))}
-                onInput={(value) =>
+                onChange={(value) =>
                   commit((next) => {
                     next.boxplot.targetN = Math.round(value);
                     resetBoxplotData(next);
@@ -448,7 +448,7 @@ export default function DataAnalysisExploreRoot() {
   );
 }
 
-function RangeControl({
+function StepControl({
   id,
   label,
   value,
@@ -456,7 +456,7 @@ function RangeControl({
   max,
   step,
   format,
-  onInput,
+  onChange,
 }: {
   id: string;
   label: string;
@@ -465,31 +465,52 @@ function RangeControl({
   max: number;
   step: number;
   format: (value: number) => string;
-  onInput: (value: number) => void;
+  onChange: (value: number) => void;
 }) {
-  const update = (value: string) => onInput(Number(value));
+  const setStep = (direction: -1 | 1) => {
+    onChange(nextStepValue(value, min, max, step, direction));
+  };
 
   return (
     <div className="data-analysis-explore__field">
-      <label htmlFor={id}>
+      <div className="data-analysis-explore__field-label">
         {label}
         <span className="data-analysis-explore__val">{format(value)}</span>
-      </label>
-      <div className="range-wrap">
-        <input
-          id={id}
-          type="range"
-          className="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(event) => update(event.currentTarget.value)}
-          onInput={(event) => update(event.currentTarget.value)}
-        />
+      </div>
+      <div className="range-wrap range-stepper" role="group" aria-label={label} id={id}>
+        <button
+          type="button"
+          className="range-step"
+          aria-label={`降低 ${label}`}
+          disabled={value <= min}
+          onClick={() => setStep(-1)}
+        >
+          -
+        </button>
+        <button
+          type="button"
+          className="range-step"
+          aria-label={`提高 ${label}`}
+          disabled={value >= max}
+          onClick={() => setStep(1)}
+        >
+          +
+        </button>
       </div>
     </div>
   );
+}
+
+function nextStepValue(
+  value: number,
+  min: number,
+  max: number,
+  step: number,
+  direction: -1 | 1,
+): number {
+  const next = Math.min(max, Math.max(min, value + step * direction));
+  const [, decimals = ''] = String(step).split('.');
+  return decimals ? Number(next.toFixed(Math.min(decimals.length, 3))) : Math.round(next);
 }
 
 function ScatterStats({ points, fit }: { points: DataPoint[]; fit: RegressionFit | null }) {

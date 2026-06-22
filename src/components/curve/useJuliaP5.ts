@@ -6,7 +6,6 @@ import type { ParamValues } from '../../curve/types';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
 
 type Options = {
-  defaultParams: ParamValues;
   targetParams: ParamValues;
   onRenderProgress: (pct: number) => void;
   onSmoothCChange: (cx: number, cy: number) => void;
@@ -18,12 +17,11 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
 }
 
 export function useJuliaP5({
-  defaultParams,
   targetParams,
   onRenderProgress,
   onSmoothCChange,
 }: Options) {
-  const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const onRenderProgressRef = useRef(onRenderProgress);
   const onSmoothCChangeRef = useRef(onSmoothCChange);
   const engineRef = useRef<JuliaEngine | null>(null);

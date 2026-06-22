@@ -19,7 +19,6 @@ type Props = {
   useCanvas: CommonHook;
   controlsMountId: string;
   canvasAriaLabel: string;
-  initialRevealPct?: number;
 };
 
 export default function CurveHookWorkRoot({
@@ -27,10 +26,9 @@ export default function CurveHookWorkRoot({
   useCanvas,
   controlsMountId,
   canvasAriaLabel,
-  initialRevealPct = 0,
 }: Props) {
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [revealPct, setRevealPct] = useState(initialRevealPct);
+  const [revealPct, setRevealPct] = useState(0);
   const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
   const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 

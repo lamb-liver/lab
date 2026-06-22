@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   MODE_AREA,
@@ -11,16 +11,14 @@ import StatsPanel from '../curve/StatsPanel';
 import { useNaturalLogEGeometryP5 } from '../curve/useNaturalLogEGeometryP5';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId?: string };
+type Props = { controlsMountId: string };
 
 const modeOptions = [
   { value: MODE_AREA, label: '面積' },
   { value: MODE_INVERSE, label: '反函數' },
 ];
 
-export default function NaturalLogEGeometryCurveRoot({
-  controlsMountId = 'natural-log-e-geometry-controls',
-}: Props) {
+export default function NaturalLogEGeometryCurveRoot({ controlsMountId }: Props) {
   const module = naturalLogEGeometryModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -28,7 +26,6 @@ export default function NaturalLogEGeometryCurveRoot({
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useNaturalLogEGeometryP5({
-    defaultParams: module.defaultParams,
     targetParams,
     onRevealPctChange,
   });
@@ -46,12 +43,9 @@ export default function NaturalLogEGeometryCurveRoot({
     smoothParams: targetParams,
   });
 
-  const visibleSchema = useMemo(() => {
-    if (!areaMode || !riemannMode) {
-      return module.paramSchema.filter((field) => field.key === 't');
-    }
-    return module.paramSchema;
-  }, [areaMode, riemannMode, module.paramSchema]);
+  const visibleSchema = !areaMode || !riemannMode
+    ? module.paramSchema.filter((field) => field.key === 't')
+    : module.paramSchema;
 
   const patchParams = (patch: ParamValues) => {
     setTargetParams((prev) => {
