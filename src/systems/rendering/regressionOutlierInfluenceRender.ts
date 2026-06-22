@@ -16,7 +16,7 @@ import {
   withDash,
 } from './p5PlotHelpers';
 
-export type RegressionOutlierInfluenceSnap = {
+type RegressionOutlierInfluenceSnap = {
   width: number;
   height: number;
   outlier: ScatterPoint;

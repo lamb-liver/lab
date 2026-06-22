@@ -116,7 +116,6 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
                 max={0.05}
                 step={0.001}
                 value={targetParams.d}
-                onChange={handleDInput}
                 onInput={handleDInput}
               />
             </div>

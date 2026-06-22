@@ -53,11 +53,6 @@ export type TriangleMetrics = {
   R: number;
 };
 
-export type Circumcircle = {
-  o: Vec2;
-  r: number;
-};
-
 export type TrigExploreSnap = {
   params: TrigExploreParams;
   smooth: TrigSmoothState;

@@ -830,7 +830,7 @@ function RangeField({ label, value, min, max, step, display, onChange }: RangeFi
         max={max}
         step={step}
         value={value}
-        onChange={(event) => onChange(Number(event.currentTarget.value))}
+        onInput={(event) => onChange(Number(event.currentTarget.value))}
       />
     </label>
   );

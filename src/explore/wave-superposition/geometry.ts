@@ -18,7 +18,7 @@ export type GuideParams = {
 
 export type WaveMode = 'guide' | 'superposition' | 'beat';
 
-export type GuideState = {
+type GuideState = {
   zone: 'inPhase' | 'quadrature' | 'antiPhase' | 'mixed';
   summary: string;
   displacementLabel: string;

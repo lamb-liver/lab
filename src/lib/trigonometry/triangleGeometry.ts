@@ -8,7 +8,7 @@ export type TriangleVerts = {
   C: Vec2;
 };
 
-export type TriangleSidesAngles = {
+type TriangleSidesAngles = {
   a: number;
   b: number;
   c: number;
@@ -18,7 +18,7 @@ export type TriangleSidesAngles = {
   R: number;
 };
 
-export type Circumcircle = {
+type Circumcircle = {
   o: Vec2;
   r: number;
 };
@@ -39,7 +39,7 @@ export function sub(P: Vec2, Q: Vec2): Vec2 {
   return { x: P.x - Q.x, y: P.y - Q.y };
 }
 
-export function cross(P: Vec2, Q: Vec2) {
+function cross(P: Vec2, Q: Vec2) {
   return P.x * Q.y - P.y * Q.x;
 }
 

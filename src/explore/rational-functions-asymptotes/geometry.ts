@@ -58,7 +58,7 @@ export function yToScreenClamped(g: Rect, y: number, preset: RationalPreset): nu
   return yToScreen(g, clampY(y, preset), preset);
 }
 
-export function clampY(y: number, preset: RationalPreset): number {
+function clampY(y: number, preset: RationalPreset): number {
   if (!Number.isFinite(y)) return y > 0 ? preset.yMax : preset.yMin;
   return clamp(y, preset.yMin, preset.yMax);
 }

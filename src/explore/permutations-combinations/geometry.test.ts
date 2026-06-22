@@ -2,8 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   buildCombinationStats,
   catalanContrast,
-  coefficientLabel,
-  pathCombinationLabel,
   recurrenceFormulaLabel,
   recurrenceParts,
   type CombinationMode,
@@ -11,14 +9,24 @@ import {
 
 describe('permutations-combinations guide geometry', () => {
   it('labels binomial coefficients with value', () => {
-    const label = coefficientLabel(6, 2);
+    const label = buildCombinationStats({
+      mode: 'pascal',
+      pascal: { n: 6, k: 2, prime: 2 },
+      path: { m: 5, n: 4 },
+      recurrence: { n: 6, k: 2 },
+    }).join(' ');
 
     expect(label).toContain('C(6, 2)');
     expect(label).toContain('15');
   });
 
   it('labels path combinations with total steps and count', () => {
-    const label = pathCombinationLabel(5, 4);
+    const label = buildCombinationStats({
+      mode: 'path',
+      pascal: { n: 6, k: 2, prime: 2 },
+      path: { m: 5, n: 4 },
+      recurrence: { n: 6, k: 2 },
+    }).join(' ');
 
     expect(label).toContain('C(9, 5)');
     expect(label).toContain('126');

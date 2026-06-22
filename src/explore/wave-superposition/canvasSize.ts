@@ -1,16 +1,16 @@
 import type { WaveMode } from './geometry';
 
 /** 疊加模式寬高比（對應原 sketch 680×420） */
-export const SUPERPOSITION_ASPECT = 420 / 680;
+const SUPERPOSITION_ASPECT = 420 / 680;
 
 /** 拍頻模式在疊加比例上再縮短（0.72–0.78） */
-export const BEAT_HEIGHT_SCALE = 0.75;
+const BEAT_HEIGHT_SCALE = 0.75;
 
-export const CANVAS_HEIGHT_MIN = 300;
-export const CANVAS_HEIGHT_MAX = 520;
+const CANVAS_HEIGHT_MIN = 300;
+const CANVAS_HEIGHT_MAX = 520;
 
 /** vh 僅作上限，不作主控制 */
-export const CANVAS_VH_CAP_RATIO = 0.42;
+const CANVAS_VH_CAP_RATIO = 0.42;
 
 function aspectForMode(mode: WaveMode): number {
   if (mode === 'beat') return SUPERPOSITION_ASPECT * BEAT_HEIGHT_SCALE;

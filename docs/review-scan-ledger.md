@@ -765,37 +765,6 @@
 - `src/curve/modules/vector-projection/geometry.ts`
 - `src/curve/modules/vector-projection/index.ts`
 - `src/curve/modules/vector-projection/vector-projection.test.ts`
-- `src/explore/fourier/constants.ts`
-- `src/explore/fourier/path.test.ts`
-- `src/explore/fourier/path.ts`
-- `src/explore/function-equations/constants.ts`
-- `src/explore/function-equations/geometry.test.ts`
-- `src/explore/function-equations/geometry.ts`
-- `src/explore/function-equations/types.ts`
-- `src/explore/permutations-combinations/geometry.test.ts`
-- `src/explore/permutations-combinations/geometry.ts`
-- `src/explore/rational-functions-asymptotes/constants.ts`
-- `src/explore/rational-functions-asymptotes/geometry.ts`
-- `src/explore/rational-functions-asymptotes/types.ts`
-- `src/explore/trig-function-graphs/geometry.test.ts`
-- `src/explore/trig-function-graphs/geometry.ts`
-- `src/explore/trigonometry/constants.ts`
-- `src/explore/trigonometry/geometry.test.ts`
-- `src/explore/trigonometry/geometry.ts`
-- `src/explore/trigonometry/types.ts`
-- `src/explore/vectors/geometry.test.ts`
-- `src/explore/vectors/geometry.ts`
-- `src/explore/wave-superposition/canvasSize.test.ts`
-- `src/explore/wave-superposition/canvasSize.ts`
-- `src/explore/wave-superposition/constants.ts`
-- `src/explore/wave-superposition/geometry.test.ts`
-- `src/explore/wave-superposition/geometry.ts`
-- `src/lib/trigonometry/triangleGeometry.test.ts`
-- `src/lib/trigonometry/triangleGeometry.ts`
-- `tests/explore-single.smoke.spec.ts`
-- `tests/seo-ux.spec.ts`
-- `tests/work-integration.smoke.spec.ts`
-
 </details>
 
 ## 已掃描紀錄
@@ -1081,12 +1050,38 @@
 
 | 範圍 | 結論 |
 |------|------|
-| `src/systems/rendering/*Render.ts` 本輪 62 檔 | 已掃描並修正：全專案 export 搜尋確認各 `*Snap` / `*RenderSnap` type 只在宣告檔內作 render function 參數使用，沒有外部 import；已移除這些 type 的 `export`，保留 render function 本身作為 hook/root 的公開入口。 |
+| `src/systems/rendering/*Render.ts` 本輪 62 檔 | 已掃描並修正：本輪原先漏網的 `RegressionOutlierInfluenceSnap` 已於 2026-06-23 補掃修正；rendering Snap types 已完成 export 面收斂，不需重掃。已移除本輪各 `*Snap` / `*RenderSnap` type 的 `export`，保留 render function 本身作為 hook/root 的公開入口。 |
 | `src/systems/rendering/binomialExpansionGeometryRender.ts`、`src/systems/rendering/combinatorialPathCountingRender.ts` | 已掃描並修正：兩檔 `resolveMode` 只在本檔內部消費，且同名造成 export 面噪音；已改為 private function。 |
 | `src/systems/rendering/fourierRender.ts` | 已掃描並修正：`fourierCanvasScale` 只被本檔 `renderFourierGrid` / `applyFourierTransform` 消費，已改為 private function；保留 `renderFourierGrid`、`renderFourierEpicycles`、`applyFourierTransform`，因 Explore root 直接 import。 |
 | `src/systems/rendering/cartesianGrid.ts`、`src/systems/rendering/polarGrid.ts`、`src/systems/rendering/polyline.ts`、`src/systems/rendering/presets.ts`、`src/systems/rendering/reveal.ts`、`src/systems/rendering/frame.ts`、`src/systems/rendering/types.ts` | 已掃描；確認保留：全專案搜尋顯示這些 helper / preset / type 由 curve roots、module index、morph frame、Explore roots 或 docs contract 消費；未找到可直接刪除的 export。 |
 | `src/systems/rendering/complexEulerFormulaRender.ts`、`src/systems/rendering/limitsRiemannSumRender.ts`、`src/systems/rendering/trigFunctionGraphsExploreRender.ts`、`src/systems/rendering/trigonometryExploreRender.ts` 等大型 Explore renderer | 已掃描；本輪未重寫：雖檔案偏大，但公開面只有 renderer function；拆分會新增檔案與抽象，未找到可證明能縮小且不改行為的更小替代。 |
 | 驗證 | export 搜尋已確認本輪列表內不再有 0 外部引用的 exported symbol；`TODO` / `FIXME` / `placeholder` / `as any` / `console.log` 搜尋無命中。 |
+
+## 2026-06-23 重審修正
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/curve/useRectP5CanvasHost.ts` | 已修正：`keepLooping: false` 自停後的 resize 不再重新 `loop()`，只 `redraw()` 一幀；`restartOn` 仍會清掉自停狀態並重啟 loop。 |
+| `src/systems/rendering/regressionOutlierInfluenceRender.ts` | 已修正：`RegressionOutlierInfluenceSnap` 經全專案搜尋只在本檔使用，已移除 `export`。 |
+| `src/components/explore/ExponentialLogarithmExploreRoot.tsx`、`src/components/explore/ProbabilityStatisticsExploreRoot.tsx`、`src/components/explore/RationalFunctionsAsymptotesExploreRoot.tsx`、`src/components/works/HarmonographCurveRoot.tsx` | 已修正：range 控件回到單一 native `onInput` 路徑；移除 `Harmonograph` 同一 range 同時綁 `onChange` / `onInput` 的重複事件。 |
+| `src/components/curve/useTangentApproximationP5.ts`、`src/components/curve/useVectorFieldStreamlinesP5.ts` | 重審後降級為保留：兩者仍由 `CurveHookWorkRoot` common hook contract 傳入 `defaultParams`，不是可局部刪除的孤立 option。 |
+| 8 個 draft Work markdown | 仍為 `verify-delete`：缺人工 backlog 判斷，不因搜尋結果直接刪除。 |
+
+## 2026-06-23 Explore geometry / tests 接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/explore/fourier/constants.ts`、`src/explore/fourier/path.ts`、`src/explore/fourier/path.test.ts` | 已掃描並修正：`FOURIER_*` constants 被 `fourierRender.ts` / `FourierSeriesExploreRoot.tsx` 消費，`buildFourierPath` / `tAtArcLength` 被 root 與測試消費；`FourierPathPoint` 無外部 named import，已收窄為本檔型別。 |
+| `src/explore/function-equations/constants.ts`、`src/explore/function-equations/types.ts`、`src/explore/function-equations/geometry.ts`、`src/explore/function-equations/geometry.test.ts` | 已掃描並修正：移除 `geometry.ts` 對 `DEFAULT_PARAMS` 的無呼叫端 re-export；`quadraticDiscriminant`、`quadraticPositiveIntervals`、`polynomialPositiveIntervals`、`signBoundaryX`、`sampledSignIntervals`、`pushUniqueRoot` 已收窄為 private，測試改打外部行為。 |
+| `src/explore/permutations-combinations/geometry.ts`、`src/explore/permutations-combinations/geometry.test.ts` | 已掃描並修正：`RecurrenceParams`、`CatalanContrast`、`ModeStatsInput` 已收窄；`coefficientLabel` / `pathCombinationLabel` 已取消 export，測試改驗 `buildCombinationStats`。保留 root 消費的 `recurrenceParts`、`recurrenceFormulaLabel`、`catalanContrast`、`buildCombinationStats`。 |
+| `src/explore/rational-functions-asymptotes/constants.ts`、`src/explore/rational-functions-asymptotes/types.ts`、`src/explore/rational-functions-asymptotes/geometry.ts` | 已掃描並修正：`RationalFarAsymptote`、`RationalHole` 改為本檔型別；`clampY` 改為 private。重複 `quadraticRoots` / `safeNonzero` 與 Rational Work modules 同型，需另批小型共用 helper 評估，不在本輪直接抽大框架。 |
+| `src/explore/trig-function-graphs/geometry.ts`、`src/explore/trig-function-graphs/geometry.test.ts` | 已掃描並修正：`clamp` / `mapLinear` 無外部 import，已收窄為 private；保留 root / renderer 消費的 layout、drag、format、stats/formula 與 graph coordinate helpers。 |
+| `src/explore/trigonometry/constants.ts`、`src/explore/trigonometry/types.ts`、`src/explore/trigonometry/geometry.ts`、`src/explore/trigonometry/geometry.test.ts` | 已掃描並修正：三個 `TRIG_MODE_*` literal 改為 private；`geometry.ts` 的無呼叫端 re-export 已刪；`Circumcircle` 重複型別已刪。連續 draw 仍由 `stepSmoothing` 消費 `deltaTime`，保留。 |
+| `src/explore/vectors/geometry.ts`、`src/explore/vectors/geometry.test.ts` | 已掃描並修正：`rotate90` 全專案只被本測試檔引用，無 runtime 消費，已刪函式與白箱測試；保留 `GUIDE_BASIS`、`projectOnto`、`solveBasisCoordinates`、`getVectorGuideState`。 |
+| `src/explore/wave-superposition/canvasSize.ts`、`src/explore/wave-superposition/canvasSize.test.ts`、`src/explore/wave-superposition/constants.ts`、`src/explore/wave-superposition/geometry.ts`、`src/explore/wave-superposition/geometry.test.ts` | 已掃描並修正：canvas 尺寸常數與 `CANVAS_VH_CAP_RATIO` 已收窄為 private；`GuideState` 已收窄為 private；測試改驗實際行為值，不再 white-box import constants。 |
+| `src/lib/trigonometry/triangleGeometry.ts`、`src/lib/trigonometry/triangleGeometry.test.ts` | 已掃描並修正：shared triangle geometry 仍被 Explore trigonometry 與 Work `law-of-sines-cosines` 消費；`cross`、`TriangleSidesAngles`、`Circumcircle` 已收窄為 private。 |
+| `tests/explore-single.smoke.spec.ts`、`tests/work-integration.smoke.spec.ts` | 已掃描；確認保留：兩者各由 `SMOKE_EXPLORE_SLUG` / `SMOKE_WORK_SLUG` 驅動 single-slug smoke，並從 interactive registry 驗證 slug。`exerciseFirstInteraction` 與 `hasDoubleSlashAssetPath` 只在兩個 smoke spec 重複；抽 helper 會新增 test API 與檔案，暫不為兩個小函式新增抽象。 |
+| `tests/seo-ux.spec.ts` | 已掃描；確認保留：覆蓋 built works index size、OG / canonical / JSON-LD、filter URL sync、nav、pager、KaTeX CSS contract。`readJsonLd` 的 `Record<string, unknown>` type assertion 限於測試解析 JSON-LD，未判定刪除；若後續要求收緊測試型別，可改成局部 type guard。 |
 
 ## 接續審查記錄格式
 

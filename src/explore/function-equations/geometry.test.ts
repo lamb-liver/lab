@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   cleanQuadraticParams,
-  polynomialPositiveIntervals,
   polyValue,
-  quadraticPositiveIntervals,
+  positiveIntervals,
   quadraticRoots,
   rootsFromSample,
   sanitizeQuadraticA,
@@ -27,12 +26,19 @@ describe('function-equations geometry', () => {
   });
 
   it('quadraticPositiveIntervals follows opening direction', () => {
-    const roots = [-1, 2];
-    expect(quadraticPositiveIntervals(1, roots)).toEqual([
+    expect(positiveIntervals({
+      ...DEFAULT_PARAMS,
+      mode: 'quadratic',
+      quadratic: { a: 1, b: -1, c: -2 },
+    })).toEqual([
       [-5, -1],
       [2, 5],
     ]);
-    expect(quadraticPositiveIntervals(-1, roots)).toEqual([[-1, 2]]);
+    expect(positiveIntervals({
+      ...DEFAULT_PARAMS,
+      mode: 'quadratic',
+      quadratic: { a: -1, b: 1, c: 2 },
+    })).toEqual([[-1, 2]]);
   });
 
   it('sanitizeQuadraticA avoids near-zero a', () => {
@@ -42,14 +48,12 @@ describe('function-equations geometry', () => {
   });
 
   it('polynomialPositiveIntervals respects multiplicity 1 and 2', () => {
-    const intervals = polynomialPositiveIntervals({
-      roots: [-2, 0, 2],
-      mult: [1, 2, 1],
-    });
+    const polynomial = { roots: [-2, 0, 2], mult: [1, 2, 1] } as const;
+    const intervals = positiveIntervals({ ...DEFAULT_PARAMS, mode: 'polynomial', polynomial });
     expect(intervals.length).toBeGreaterThan(0);
     for (const [a, b] of intervals) {
       const mid = (a + b) / 2;
-      expect(polyValue({ roots: [-2, 0, 2], mult: [1, 2, 1] }, mid)).toBeGreaterThan(0);
+      expect(polyValue(polynomial, mid)).toBeGreaterThan(0);
     }
   });
 

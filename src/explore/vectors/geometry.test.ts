@@ -3,22 +3,9 @@ import {
   GUIDE_BASIS,
   getVectorGuideState,
   projectOnto,
-  rotate90,
   solveBasisCoordinates,
   type VectorGuideRole,
-  type Vec2,
 } from './geometry';
-
-function dot(a: Vec2, b: Vec2) {
-  return a.x * b.x + a.y * b.y;
-}
-
-describe('rotate90', () => {
-  it('returns a perpendicular vector', () => {
-    const v = { x: 2.3, y: -1.1 };
-    expect(Math.abs(dot(v, rotate90(v)))).toBeLessThan(1e-9);
-  });
-});
 
 describe('projectOnto', () => {
   it('marks zero direction as non-viable', () => {

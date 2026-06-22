@@ -3,14 +3,11 @@ import {
   clamp,
   circumcircleFromTriangle,
   computeTriangleSidesAngles,
-  dist2,
   preventTriangleCollapse,
-  sub,
   type TriangleVerts,
   type Vec2,
 } from '../../lib/trigonometry/triangleGeometry';
 import type {
-  Circumcircle,
   CircleGeometry,
   PlotRect,
   TriangleMetrics,
@@ -20,9 +17,6 @@ import type {
   TrigSmoothState,
   VisualDragKind,
 } from './types';
-
-export { preventTriangleCollapse };
-export type { TriangleVerts, Vec2 };
 
 export function normalizeAngle(a: number) {
   let v = a % TAU;
@@ -39,8 +33,6 @@ export function clampSignedAngle(a: number) {
 export function shortestAngleDelta(from: number, to: number) {
   return clampSignedAngle(to - from);
 }
-
-export { clamp, dist2, sub };
 
 export function fmt(v: number, digits = 3) {
   if (!Number.isFinite(v)) return '—';
@@ -111,7 +103,7 @@ export function triangleMetrics(triangle: TriangleVerts): TriangleMetrics {
   return computeTriangleSidesAngles(triangle);
 }
 
-export function circumcircleWorld(A: Vec2, B: Vec2, C: Vec2): Circumcircle | null {
+export function circumcircleWorld(A: Vec2, B: Vec2, C: Vec2) {
   return circumcircleFromTriangle(A, B, C);
 }
 

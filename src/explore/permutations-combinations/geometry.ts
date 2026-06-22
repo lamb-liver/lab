@@ -2,18 +2,18 @@ import { choose } from '../../curve/modules/combinatorial-path-counting/geometry
 
 export type CombinationMode = 'pascal' | 'path' | 'recurrence';
 
-export type RecurrenceParams = {
+type RecurrenceParams = {
   n: number;
   k: number;
 };
 
-export type CatalanContrast = {
+type CatalanContrast = {
   totalBalanced: number;
   legal: number;
   restrictedOut: number;
 };
 
-export type ModeStatsInput = {
+type ModeStatsInput = {
   mode: CombinationMode;
   pascal: { n: number; k: number; prime: number };
   path: { m: number; n: number };
@@ -37,13 +37,13 @@ function safeChoose(n: number, k: number): number {
   return choose(safeN, safeK);
 }
 
-export function coefficientLabel(n: number, k: number): string {
+function coefficientLabel(n: number, k: number): string {
   const safeN = Math.max(0, Math.round(n));
   const safeK = clampInt(k, 0, safeN);
   return `C(${safeN}, ${safeK}) = ${fmt(safeChoose(safeN, safeK))}`;
 }
 
-export function pathCombinationLabel(m: number, n: number): string {
+function pathCombinationLabel(m: number, n: number): string {
   const safeM = Math.max(0, Math.round(m));
   const safeN = Math.max(0, Math.round(n));
   const total = safeM + safeN;

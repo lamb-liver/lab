@@ -1,21 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import {
-  BEAT_HEIGHT_SCALE,
-  CANVAS_HEIGHT_MAX,
-  CANVAS_HEIGHT_MIN,
-  canvasHeightForWidth,
-  SUPERPOSITION_ASPECT,
-} from './canvasSize';
+import { canvasHeightForWidth } from './canvasSize';
 
 describe('canvasHeightForWidth', () => {
   it('clamps superposition height at min width', () => {
-    expect(canvasHeightForWidth('superposition', 200)).toBe(CANVAS_HEIGHT_MIN);
+    expect(canvasHeightForWidth('superposition', 200)).toBe(300);
   });
 
   it('scales with width between clamps', () => {
     const h = canvasHeightForWidth('superposition', 680);
-    expect(h).toBe(Math.round(680 * SUPERPOSITION_ASPECT));
-    expect(h).toBeLessThanOrEqual(CANVAS_HEIGHT_MAX);
+    expect(h).toBe(420);
+    expect(h).toBeLessThanOrEqual(520);
   });
 
   it('beat mode scales by BEAT_HEIGHT_SCALE when not clamped', () => {
@@ -23,7 +17,7 @@ describe('canvasHeightForWidth', () => {
     const superH = canvasHeightForWidth('superposition', w);
     const beatH = canvasHeightForWidth('beat', w);
     expect(beatH).toBeLessThan(superH);
-    expect(beatH).toBe(Math.round(superH * BEAT_HEIGHT_SCALE));
+    expect(beatH).toBe(315);
   });
 
   it('respects vh cap as upper bound only', () => {
@@ -33,6 +27,6 @@ describe('canvasHeightForWidth', () => {
 
   it('does not exceed max at ultrawide width', () => {
     const h = canvasHeightForWidth('superposition', 2000);
-    expect(h).toBe(CANVAS_HEIGHT_MAX);
+    expect(h).toBe(520);
   });
 });

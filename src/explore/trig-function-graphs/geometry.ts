@@ -61,11 +61,11 @@ export const MODE_OPTIONS: Array<{
   { id: 'transform', label: '參數', caption: '振幅、週期、相位與中線把基本正弦波變成函數族。' },
 ];
 
-export function clamp(v: number, min: number, max: number) {
+function clamp(v: number, min: number, max: number) {
   return Math.min(max, Math.max(min, v));
 }
 
-export function mapLinear(
+function mapLinear(
   value: number,
   inMin: number,
   inMax: number,

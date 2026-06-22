@@ -26,6 +26,7 @@ export function useRectP5CanvasHost(
   const drawRef = useRef(draw);
   const measureRef = useRef(measureRect);
   const extendSketchRef = useRef(extendSketch);
+  const autoStoppedRef = useRef(false);
   const shouldLoop = options.loop ?? true;
 
   useEffect(() => {
@@ -45,7 +46,10 @@ export function useRectP5CanvasHost(
   }, [shouldLoop, options.redrawKey]);
 
   useEffect(() => {
-    if (shouldLoop) instanceRef.current?.loop();
+    if (shouldLoop) {
+      autoStoppedRef.current = false;
+      instanceRef.current?.loop();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- caller supplies restart keys
   }, [shouldLoop, ...(options.restartOn ?? [])]);
 
@@ -73,7 +77,12 @@ export function useRectP5CanvasHost(
 
         p.draw = () => {
           const result = drawRef.current(p);
-          if (shouldLoop && result?.keepLooping === false) p.noLoop();
+          if (shouldLoop && result?.keepLooping === false) {
+            autoStoppedRef.current = true;
+            p.noLoop();
+            return;
+          }
+          if (shouldLoop) autoStoppedRef.current = false;
         };
         extendSketchRef.current?.(p, host);
       };
@@ -88,6 +97,7 @@ export function useRectP5CanvasHost(
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
         if (!shouldLoop) instance.redraw();
+        else if (autoStoppedRef.current) instance.redraw();
         else instance.loop();
       });
       ro.observe(host);

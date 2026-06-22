@@ -15,11 +15,11 @@ export type RationalPreset = {
   yMax: number;
 };
 
-export type RationalFarAsymptote =
+type RationalFarAsymptote =
   | { type: 'horizontal'; label: string; value: number }
   | { type: 'oblique'; label: string; m: number; b: number };
 
-export type RationalHole = {
+type RationalHole = {
   x: number;
   y: number;
 };

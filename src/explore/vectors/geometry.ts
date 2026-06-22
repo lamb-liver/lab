@@ -27,10 +27,6 @@ function dot(a: Vec2, b: Vec2) {
   return a.x * b.x + a.y * b.y;
 }
 
-export function rotate90(v: Vec2): Vec2 {
-  return { x: -v.y, y: v.x };
-}
-
 export function projectOnto(direction: Vec2, vector: Vec2) {
   const len2 = dot(direction, direction);
   if (len2 < 1e-9) {

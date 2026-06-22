@@ -2,9 +2,9 @@ import type { TriangleVerts, TrigExploreParams, TrigMode } from './types';
 
 export const TAU = Math.PI * 2;
 
-export const TRIG_MODE_CIRCLE = 'circle' as const;
-export const TRIG_MODE_TRIANGLE = 'triangle' as const;
-export const TRIG_MODE_IDENTITY = 'identity' as const;
+const TRIG_MODE_CIRCLE = 'circle' as const;
+const TRIG_MODE_TRIANGLE = 'triangle' as const;
+const TRIG_MODE_IDENTITY = 'identity' as const;
 
 export const MODE_OPTIONS: Array<{ id: TrigMode; label: string; caption: string }> = [
   { id: TRIG_MODE_CIRCLE, label: '從圓到定義', caption: '單位圓：座標先給出 sin、cos，tan 由比值讀出。' },

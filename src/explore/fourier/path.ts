@@ -2,7 +2,7 @@ import { FOURIER_1D_X_OFFSET, FOURIER_1D_X_SPAN, SAMPLE_STEP, TAU } from './cons
 
 export type FourierMode = '1D' | '2D';
 
-export type FourierPathPoint = {
+type FourierPathPoint = {
   x: number;
   y: number;
   theta: number;

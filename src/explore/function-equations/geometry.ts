@@ -1,6 +1,5 @@
 import {
   BASIS_OPTIONS,
-  DEFAULT_PARAMS,
   MAX_VISUAL_DELTA_MS,
   VIEW_LERP_PER_SEC,
   X_MAX,
@@ -101,7 +100,7 @@ export function quadraticValue(q: QuadraticParams, x: number) {
   return clean.a * x * x + clean.b * x + clean.c;
 }
 
-export function quadraticDiscriminant(q: QuadraticParams) {
+function quadraticDiscriminant(q: QuadraticParams) {
   const clean = cleanQuadraticParams(q);
   return clean.b * clean.b - 4 * clean.a * clean.c;
 }
@@ -123,7 +122,7 @@ export function quadraticVertex(q: QuadraticParams) {
   return { x: vx, y: vy };
 }
 
-export function quadraticPositiveIntervals(a: number, roots: number[]) {
+function quadraticPositiveIntervals(a: number, roots: number[]) {
   if (roots.length === 0) return a > 0 ? [[X_MIN, X_MAX] as [number, number]] : [];
   if (roots.length === 1) return a > 0 ? [[X_MIN, roots[0]], [roots[0], X_MAX]] : [];
   const [r1, r2] = roots;
@@ -143,7 +142,7 @@ export function polyValue(polynomial: PolynomialParams, x: number) {
   return y;
 }
 
-export function polynomialPositiveIntervals(polynomial: PolynomialParams) {
+function polynomialPositiveIntervals(polynomial: PolynomialParams) {
   const MIN_INTERVAL_WIDTH = 0.001;
   const ROOT_MERGE_EPS = 0.001;
   const rawBreaks = [X_MIN, ...polynomial.roots.map((r) => clamp(r, X_MIN, X_MAX)), X_MAX].sort(
@@ -170,14 +169,14 @@ export function polynomialPositiveIntervals(polynomial: PolynomialParams) {
   return intervals;
 }
 
-export function signBoundaryX(a: CurvePoint, b: CurvePoint) {
+function signBoundaryX(a: CurvePoint, b: CurvePoint) {
   if (!Number.isFinite(a.y) || !Number.isFinite(b.y)) return b.x;
   const denom = Math.abs(a.y) + Math.abs(b.y);
   if (denom <= 1e-12) return (a.x + b.x) / 2;
   return a.x + (b.x - a.x) * (Math.abs(a.y) / denom);
 }
 
-export function sampledSignIntervals(points: CurvePoint[], pred: (pt: CurvePoint) => boolean) {
+function sampledSignIntervals(points: CurvePoint[], pred: (pt: CurvePoint) => boolean) {
   const intervals: [number, number][] = [];
   let inSeg = false;
   let start: number | null = null;
@@ -210,7 +209,7 @@ export function sampledSignIntervals(points: CurvePoint[], pred: (pt: CurvePoint
   return intervals;
 }
 
-export function pushUniqueRoot(arr: number[], x: number) {
+function pushUniqueRoot(arr: number[], x: number) {
   if (!arr.some((v) => Math.abs(v - x) < 0.08)) arr.push(x);
 }
 
@@ -384,5 +383,3 @@ export function curvesForView(params: FunctionEquationsParams): CurvePoint[][] {
   const xs = sampleXs(X_MIN, X_MAX, 0.025);
   return [xs.map((x) => ({ x, y: polyValue(params.polynomial, x) }))];
 }
-
-export { DEFAULT_PARAMS };
