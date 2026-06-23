@@ -63,7 +63,7 @@ export function useTangentApproximationP5({
     renderTangentApproximationScene(p, {
       width: p.width,
       height: p.height,
-      waveFrequency: anim.params.waveFrequency,
+      waveFrequency: targetParamsRef.current.waveFrequency,
       time: anim.time,
       smoothDx: anim.smoothDx,
       ghostCurve: anim.ghostCurve,

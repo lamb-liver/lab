@@ -65,7 +65,7 @@ export const DEFAULT_INVERSE_FUNCTION_REFLECTION_PARAMS: InverseFunctionReflecti
   base: 2,
 };
 
-export const THUMBNAIL_INVERSE_PARAMS: InverseFunctionReflectionParams = {
+const THUMBNAIL_INVERSE_PARAMS: InverseFunctionReflectionParams = {
   mode: 'exponential',
   advanced: false,
   input: 1.25,
@@ -74,7 +74,7 @@ export const THUMBNAIL_INVERSE_PARAMS: InverseFunctionReflectionParams = {
 
 const THUMB_PLOT = { x: 118, y: 92, w: 364, h: 236 };
 
-export function clamp(value: number, min: number, max: number) {
+function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
@@ -85,7 +85,7 @@ export function fmt(value: number) {
   return Number(value.toFixed(digits)).toString();
 }
 
-export function snapStep(value: number, step: number) {
+function snapStep(value: number, step: number) {
   if (!step || !Number.isFinite(step)) return value;
   return Math.round(value / step) * step;
 }
@@ -95,11 +95,11 @@ function signedText(value: number) {
   return value > 0 ? `+${fmt(value)}` : fmt(value);
 }
 
-export function modeFromIndex(index: number): InverseFunctionMode {
+function modeFromIndex(index: number): InverseFunctionMode {
   return FUNCTIONS[clamp(Math.round(index), 0, FUNCTIONS.length - 1)]?.id ?? 'linear';
 }
 
-export function modeToIndex(mode: InverseFunctionMode): number {
+function modeToIndex(mode: InverseFunctionMode): number {
   return Math.max(0, FUNCTIONS.findIndex((item) => item.id === mode));
 }
 
@@ -183,7 +183,7 @@ export function geometryParamsEqual(
   return a.mode === b.mode && a.input === b.input && a.base === b.base;
 }
 
-export function formulaText(params: InverseFunctionReflectionParams) {
+function formulaText(params: InverseFunctionReflectionParams) {
   if (params.mode === 'linear') return 'f(x)=0.8x+1';
   if (params.mode === 'quadraticRestricted') {
     return `f(x)=${fmt(QUADRATIC_COEFF.a)}(x-${fmt(QUADRATIC_COEFF.h)})²${signedText(QUADRATIC_COEFF.k)}，x≥${fmt(QUADRATIC_COEFF.h)}`;
@@ -194,7 +194,7 @@ export function formulaText(params: InverseFunctionReflectionParams) {
   return `f(x)=${fmt(params.base)}^x`;
 }
 
-export function inverseFormulaText(params: InverseFunctionReflectionParams) {
+function inverseFormulaText(params: InverseFunctionReflectionParams) {
   if (params.mode === 'linear') return 'f⁻¹(x)=(x-1)/0.8';
   if (params.mode === 'quadraticRestricted') {
     return `f⁻¹(x)=${fmt(QUADRATIC_COEFF.h)}+√((x${signedText(-QUADRATIC_COEFF.k)})/${fmt(QUADRATIC_COEFF.a)})`;
@@ -230,18 +230,18 @@ export function sampleXs(a: number, b: number, step: number) {
   return xs;
 }
 
-export function buildOriginalCurve(meta: InverseMeta, params: InverseFunctionReflectionParams) {
+function buildOriginalCurve(meta: InverseMeta, params: InverseFunctionReflectionParams) {
   return sampleXs(meta.domainMin, meta.domainMax, SAMPLE_STEP).map((x) => ({
     x,
     y: evalByMode(params, x),
   }));
 }
 
-export function reflectCurve(points: CurveSample[]) {
+function reflectCurve(points: CurveSample[]) {
   return points.map((pt) => ({ x: pt.y, y: pt.x }));
 }
 
-export function targetViewHalfYFromCurves(
+function targetViewHalfYFromCurves(
   curves: CurveSample[][],
   meta: Pick<InverseMeta, 'p' | 'pMirror'>,
 ) {

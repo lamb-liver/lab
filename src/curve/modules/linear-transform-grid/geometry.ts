@@ -7,7 +7,7 @@ export type Matrix2x2 = {
   m22: number;
 };
 
-export type LineSegment = {
+type LineSegment = {
   x1: number;
   y1: number;
   x2: number;
@@ -16,10 +16,8 @@ export type LineSegment = {
 
 export const REGION_RATIO = 0.75;
 export const GRID_DENSITY = 10;
-export const FIT_PADDING = 40;
+const FIT_PADDING = 40;
 export const GRID_SEGMENT_COUNT = (GRID_DENSITY + 1) * 2;
-
-const PRIMARY = { r: 212, g: 184, b: 122 };
 
 export function calculateMatrix(
   shearX: number,
@@ -155,5 +153,3 @@ export function sampleLinearTransformGridCurve(
 
   return points;
 }
-
-export { PRIMARY };

@@ -56,8 +56,6 @@ describe('stepLinearTransformGridAnimation', () => {
     const defaults = linearTransformGridModule.defaultParams;
     const pending = stepLinearTransformGridAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 1,
         isComplete: true,
         time: 1,
@@ -91,8 +89,6 @@ describe('stepLinearTransformGridAnimation', () => {
     const defaults = linearTransformGridModule.defaultParams;
     const state = stepLinearTransformGridAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 0.5,
         isComplete: false,
         time: 0,

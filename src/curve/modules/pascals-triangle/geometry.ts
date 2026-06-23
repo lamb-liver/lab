@@ -5,8 +5,8 @@ export const PASCAL_VIEW = {
   height: 900,
 };
 
-export const PASCAL_ROWS_MIN = 1;
-export const PASCAL_ROWS_MAX = 42;
+const PASCAL_ROWS_MIN = 1;
+const PASCAL_ROWS_MAX = 42;
 export const PASCAL_PRIMES = [2, 3, 5, 7] as const;
 
 export type PascalCell = {

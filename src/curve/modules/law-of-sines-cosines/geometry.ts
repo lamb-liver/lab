@@ -42,7 +42,7 @@ export type TriangleTransform = {
   plot: { x: number; y: number; w: number; h: number };
 };
 
-export const EPS = TRIANGLE_EPS;
+const EPS = TRIANGLE_EPS;
 
 export const DEFAULT_TRIANGLE: TriangleVerts = {
   A: { x: -1.18, y: -0.78 },
@@ -60,7 +60,7 @@ export const DEFAULT_LAW_OF_SINES_COSINES_PARAMS: LawOfSinesCosinesParams = {
   },
 };
 
-export function safeRatio(numerator: number, denominator: number) {
+function safeRatio(numerator: number, denominator: number) {
   if (Math.abs(denominator) < EPS) return NaN;
   return numerator / denominator;
 }
@@ -80,7 +80,7 @@ export function deg(v: number) {
   return `${Math.round((v * 180) / Math.PI)}°`;
 }
 
-export function modeFromParam(value: number | LawMode | undefined): LawMode {
+function modeFromParam(value: number | LawMode | undefined): LawMode {
   if (value === 'cosine' || value === 1) return 'cosine';
   return 'sine';
 }

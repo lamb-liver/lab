@@ -2,18 +2,13 @@ import { describe, expect, it } from 'vitest';
 import { getCurveThumbnailSvg } from '../../../lib/curveThumbnail';
 import { PRESETS } from './constants';
 import {
-  buildPolynomialCurve,
   buildPolynomialRootsMultiplicityThumbnail,
   buildPolynomialSceneCache,
-  buildSignedSegments,
   DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS,
   isPresetActive,
-  mergedBreaks,
   polynomialMeta,
   polynomialValue,
   sanitizeA,
-  targetViewHalfYFromCurve,
-  THUMBNAIL_POLYNOMIAL_PARAMS,
 } from './geometry';
 
 describe('polynomial-roots-multiplicity geometry', () => {
@@ -40,18 +35,18 @@ describe('polynomial-roots-multiplicity geometry', () => {
     expect(scene.targetViewHalfY).toBeLessThanOrEqual(24);
   });
 
-  it('mergedBreaks merges close roots', () => {
-    expect(mergedBreaks([-2, -1.9995, 1])).toEqual([-2, 1]);
+  it('polynomialMeta merges close roots', () => {
+    const meta = polynomialMeta({
+      ...DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS,
+      roots: [-2, -1.9995, 1],
+    });
+    expect(meta.breaks).toEqual([-2, 1]);
   });
 
-  it('buildSignedSegments assigns signs across intervals', () => {
+  it('polynomialMeta assigns signs across intervals', () => {
     const meta = polynomialMeta(DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS);
-    const segments = buildSignedSegments(
-      DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS,
-      meta.breaks,
-    );
-    expect(segments.length).toBeGreaterThan(0);
-    expect(segments.every((seg) => seg.sign === 1 || seg.sign === -1)).toBe(true);
+    expect(meta.signedSegments.length).toBeGreaterThan(0);
+    expect(meta.signedSegments.every((seg) => seg.sign === 1 || seg.sign === -1)).toBe(true);
   });
 
   it('isPresetActive detects matching presets', () => {
@@ -59,21 +54,20 @@ describe('polynomial-roots-multiplicity geometry', () => {
     expect(isPresetActive(DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS, PRESETS[0])).toBe(false);
   });
 
-  it('targetViewHalfYFromCurve stays within bounds', () => {
-    const curve = buildPolynomialCurve(DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS);
-    const half = targetViewHalfYFromCurve(curve);
-    expect(half).toBeGreaterThanOrEqual(3.8);
-    expect(half).toBeLessThanOrEqual(24);
+  it('scene cache target view stays within bounds', () => {
+    const scene = buildPolynomialSceneCache(DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS);
+    expect(scene.targetViewHalfY).toBeGreaterThanOrEqual(3.8);
+    expect(scene.targetViewHalfY).toBeLessThanOrEqual(24);
   });
 
   it('thumbnail scene highlights double root with visible markers', () => {
     const spec = buildPolynomialRootsMultiplicityThumbnail();
     expect(spec.circles?.length).toBe(3);
-    expect(THUMBNAIL_POLYNOMIAL_PARAMS.mult[1]).toBe(2);
 
     const svg = getCurveThumbnailSvg('polynomial-roots-multiplicity') ?? '';
     const radii = [...svg.matchAll(/<circle[^>]*r="([^"]+)"/g)].map((m) => Number(m[1]));
     expect(radii.length).toBe(3);
     expect(Math.min(...radii)).toBeGreaterThan(1.8);
+    expect(Math.max(...radii)).toBeGreaterThan(Math.min(...radii));
   });
 });

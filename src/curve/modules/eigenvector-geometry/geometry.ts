@@ -12,7 +12,7 @@ export type Matrix2 = {
   d: number;
 };
 
-export type EigenDirection = {
+type EigenDirection = {
   lambda: number;
   v: Vector2;
 };
@@ -52,7 +52,7 @@ export type EigenvectorPresetId =
   | 'singular'
   | 'mixed';
 
-export type EigenvectorPreset = {
+type EigenvectorPreset = {
   id: EigenvectorPresetId;
   label: string;
   note: string;
@@ -135,11 +135,11 @@ export function presetById(id: string): EigenvectorPreset | undefined {
   return EIGENVECTOR_PRESETS.find((preset) => preset.id === id);
 }
 
-export function trace(m: Matrix2): number {
+function trace(m: Matrix2): number {
   return m.a + m.d;
 }
 
-export function det2(m: Matrix2): number {
+function det2(m: Matrix2): number {
   return m.a * m.d - m.b * m.c;
 }
 
@@ -211,7 +211,7 @@ export function eigenStatusText(eigen: EigenData): string {
   return '無實方向';
 }
 
-export function normalize(v: Vector2): Vector2 {
+function normalize(v: Vector2): Vector2 {
   const len = mag(v);
   if (len < 1e-12) return { x: 1, y: 0 };
   return { x: v.x / len, y: v.y / len };
@@ -221,7 +221,7 @@ export function scaleVec(v: Vector2, s: number): Vector2 {
   return { x: v.x * s, y: v.y * s };
 }
 
-export function mag(v: Vector2): number {
+function mag(v: Vector2): number {
   return Math.hypot(v.x, v.y);
 }
 

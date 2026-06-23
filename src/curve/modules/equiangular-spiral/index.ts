@@ -9,6 +9,7 @@ import type {
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import {
   INITIAL_RADIUS_A,
+  PARAM_LERP,
   REVEAL_RATIO,
   buildParametricCurve,
   computeRevealTheta,
@@ -114,7 +115,5 @@ export const equiangularSpiralModule: CurveModule = {
     };
   },
   sampleStep: 1,
-  animation: { lerp: 0.08, revealSpeed: 0 },
+  animation: { lerp: PARAM_LERP, revealSpeed: 0 },
 };
-
-export { PARAM_LERP } from './geometry';

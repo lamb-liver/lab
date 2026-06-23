@@ -13,7 +13,7 @@ export function matrixRotation(theta: number): Matrix2 {
   };
 }
 
-export function matrixScale(s: number): Matrix2 {
+function matrixScale(s: number): Matrix2 {
   return { a: s, b: 0, c: 0, d: s };
 }
 
@@ -21,7 +21,7 @@ export function matrixShearX(k: number): Matrix2 {
   return { a: 1, b: k, c: 0, d: 1 };
 }
 
-export function matrixReflection(theta: number): Matrix2 {
+function matrixReflection(theta: number): Matrix2 {
   return {
     a: Math.cos(2 * theta),
     b: Math.sin(2 * theta),
@@ -79,7 +79,7 @@ export function matrixText(m: Matrix2): string {
   return `[${m.a.toFixed(2)} ${m.b.toFixed(2)}; ${m.c.toFixed(2)} ${m.d.toFixed(2)}]`;
 }
 
-export type SpecialParam = { value: number; label: string };
+type SpecialParam = { value: number; label: string };
 
 export function getSpecialParam(type: SpecialType, raw: number): SpecialParam {
   if (type === 'scale') {

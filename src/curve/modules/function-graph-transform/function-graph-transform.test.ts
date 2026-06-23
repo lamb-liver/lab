@@ -7,7 +7,6 @@ import {
   clampFeaturePoint,
   DEFAULT_FUNCTION_GRAPH_TRANSFORM_PARAMS,
   targetViewHalfYFromCurves,
-  THUMBNAIL_TRANSFORM_PARAMS,
   transformScaleText,
 } from './geometry';
 
@@ -53,8 +52,5 @@ describe('function-graph-transform geometry', () => {
 
     const [o, p] = spec.circles ?? [];
     expect(Math.hypot((o?.x ?? 0) - (p?.x ?? 0), (o?.y ?? 0) - (p?.y ?? 0))).toBeGreaterThan(8);
-
-    expect(THUMBNAIL_TRANSFORM_PARAMS.h).not.toBe(0);
-    expect(THUMBNAIL_TRANSFORM_PARAMS.k).not.toBe(0);
   });
 });

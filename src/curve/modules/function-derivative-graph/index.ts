@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
-  FUNCTION_DERIVATIVE_PRESETS,
   buildFunctionDerivativeThumbnail,
   clampX0,
   fmt,
@@ -9,8 +8,6 @@ import {
   paramsFromValues,
   presetById,
   slopeStateText,
-  valuesFromParams,
-  visibleZeros,
   zeroTypeText,
 } from './geometry';
 
@@ -55,27 +52,14 @@ export const functionDerivativeGraphModule: CurveModule = {
 
 export {
   FUNCTION_DERIVATIVE_PRESETS,
-  FUNCTION_DERIVATIVE_SLOPE_TOL,
-  buildFunctionDerivativeThumbnail,
-  buildFunctionPoints,
   clampX0,
-  createFunctionDerivativeLayout,
   fmt,
-  fmtAxis,
   nearestZeroInfo,
-  paramsFromValues,
   presetById,
-  presetIdFromIndex,
   presetIndexFromId,
-  screenToX,
   slopeStateText,
   valuesFromParams,
-  visibleZeros,
-  xToScreen,
-  yToScreen,
   zeroTypeText,
-  type FunctionDerivativeParams,
   type FunctionDerivativePreset,
   type FunctionDerivativePresetId,
-  type GraphRect,
 } from './geometry';

@@ -16,7 +16,7 @@ export type LineSegment = {
   y2: number;
 };
 
-export const REGION_RATIO = 0.8;
+const REGION_RATIO = 0.8;
 export const STACK_LAYERS = 60;
 
 export function buildBaseSquare(canvasWidth: number): Point2[] {
@@ -54,7 +54,7 @@ export function applyMatrixTransform(
   }));
 }
 
-export function collectLayerSegments(
+function collectLayerSegments(
   outer: ReadonlyArray<Point2>,
   inner: ReadonlyArray<Point2>,
   segments: LineSegment[],
@@ -86,7 +86,6 @@ export function buildStackedSegments(
   return segments;
 }
 
-/** 縮圖：取最外層輪廓頂點 */
 export function sampleRotationScaleCompositionCurve(
   canvasWidth: number,
   rotationStepDeg: number,

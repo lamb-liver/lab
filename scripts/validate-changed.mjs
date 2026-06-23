@@ -260,6 +260,9 @@ function selectCommands(files) {
       if (slug) {
         add(commands, command(`work smoke ${slug}`, ['npm', 'run', 'smoke:work', '--', slug]));
       }
+      if (interactiveExploreSlugs.has(moduleDir)) {
+        add(commands, command(`explore smoke ${moduleDir}`, ['npm', 'run', 'smoke:explore', '--', moduleDir]));
+      }
     }
 
     if (

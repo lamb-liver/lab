@@ -65,7 +65,7 @@ export function useInterferenceFringesP5({
       width: p.width,
       height: p.height,
       currentSourceDistance: anim.currentSourceDistance,
-      wavelength: anim.targetParams.wavelength,
+      wavelength: targetParamsRef.current.wavelength,
       time: anim.time,
       revealProgress: anim.revealProgress,
     });

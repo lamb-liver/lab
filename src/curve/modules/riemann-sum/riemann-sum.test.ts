@@ -36,8 +36,6 @@ describe('stepRiemannSumAnimation', () => {
     const defaults = riemannSumModule.defaultParams;
     const state = stepRiemannSumAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         activeDomain: 1,
         isComplete: true,
         time: 1,

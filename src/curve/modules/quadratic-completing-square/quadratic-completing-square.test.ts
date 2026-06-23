@@ -1,17 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { PRESETS } from './constants';
 import {
-  buildBaseParabolaCurve,
   buildQuadraticCompletingSquareThumbnail,
-  buildQuadraticCurve,
   buildQuadraticSceneCache,
-  cleanQuadraticParams,
   DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS,
   isPresetActive,
   quadraticMeta,
   sanitizeA,
-  targetViewHalfYFromCurves,
-  THUMBNAIL_QUADRATIC_PARAMS,
   vertexFromDrag,
 } from './geometry';
 
@@ -30,21 +25,6 @@ describe('quadratic-completing-square geometry', () => {
     expect(sanitizeA(1.5)).toBe(1.5);
   });
 
-  it('buildQuadraticCurve returns finite samples', () => {
-    const curve = buildQuadraticCurve(DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS, 0.5);
-    expect(curve.length).toBeGreaterThan(5);
-    expect(curve.every((pt) => Number.isFinite(pt.y))).toBe(true);
-  });
-
-  it('targetViewHalfYFromCurves stays within bounds', () => {
-    const curve = buildQuadraticCurve(DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS);
-    const base = buildBaseParabolaCurve(cleanQuadraticParams(DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS).a);
-    const meta = quadraticMeta(DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS);
-    const half = targetViewHalfYFromCurves([curve, base], meta);
-    expect(half).toBeGreaterThanOrEqual(3.8);
-    expect(half).toBeLessThanOrEqual(20);
-  });
-
   it('vertexFromDrag updates b and c from vertex position', () => {
     const next = vertexFromDrag(DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS, 1, -3);
     expect(next.b).toBeCloseTo(-2, 6);
@@ -57,6 +37,7 @@ describe('quadratic-completing-square geometry', () => {
   it('buildQuadraticSceneCache bundles curve samples and target view', () => {
     const scene = buildQuadraticSceneCache(DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS);
     expect(scene.curve.length).toBeGreaterThan(5);
+    expect(scene.curve.every((pt) => Number.isFinite(pt.y))).toBe(true);
     expect(scene.baseCurve.length).toBe(scene.curve.length);
     expect(scene.meta.rootState).toBe('兩實根');
     expect(scene.targetViewHalfY).toBeGreaterThanOrEqual(3.8);
@@ -72,7 +53,6 @@ describe('quadratic-completing-square geometry', () => {
     const spec = buildQuadraticCompletingSquareThumbnail();
     expect(spec.paths.length).toBeGreaterThanOrEqual(4);
     expect(spec.circles?.length).toBeGreaterThanOrEqual(3);
-    expect(THUMBNAIL_QUADRATIC_PARAMS.b).toBe(-1);
     expect(spec.paths.some((path) => path.excludeFromBbox === true && path.opacity === 0.55)).toBe(
       true,
     );

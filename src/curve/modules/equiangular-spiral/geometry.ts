@@ -2,7 +2,7 @@ export type WorldPoint = { x: number; y: number };
 
 export const INITIAL_RADIUS_A = 4;
 export const REVEAL_RATIO = 0.72;
-export const PARAM_STEP = 0.03;
+const PARAM_STEP = 0.03;
 export const PARAM_LERP = 0.08;
 
 export function evaluateEquiangularSpiral(

@@ -1,4 +1,4 @@
-export const PALETTE: [number, number, number][] = [
+const PALETTE: [number, number, number][] = [
   [0, 0, 0],
   [18, 12, 24],
   [52, 28, 68],
@@ -11,7 +11,7 @@ function clamp(v: number, a: number, b: number): number {
   return Math.max(a, Math.min(b, v));
 }
 
-export function samplePalette(t: number): [number, number, number] {
+function samplePalette(t: number): [number, number, number] {
   const clamped = clamp(t, 0, 1);
   const n = PALETTE.length - 1;
   const s = clamped * n;

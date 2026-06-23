@@ -1,5 +1,5 @@
 export type WorldPoint = { x: number; y: number };
-export type Velocity = { x: number; y: number };
+type Velocity = { x: number; y: number };
 
 export const INTEGRATION_STEP_SIZE = 0.03;
 export const BOUND_LIMIT = 5;

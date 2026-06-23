@@ -64,7 +64,7 @@ export function useStandingWaveP5({
       width: p.width,
       height: p.height,
       currentAmplitude: anim.currentAmplitude,
-      spatialFrequency: Math.round(anim.params.spatialFrequency),
+      spatialFrequency: Math.round(targetParamsRef.current.spatialFrequency),
       time: anim.time,
       revealProgress: anim.revealProgress,
     });

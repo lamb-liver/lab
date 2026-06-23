@@ -3,7 +3,7 @@ import type { CurvePoint, ThumbnailSpec } from '../../types';
 export type Vec2 = { x: number; y: number };
 export type VectorFieldPattern = 'source' | 'sink' | 'vortex' | 'saddle' | 'uniform';
 
-export type FieldIntegration = {
+type FieldIntegration = {
   step: number;
   steps: number;
   stopMagnitude: number;
@@ -12,7 +12,7 @@ export type FieldIntegration = {
   uniform?: boolean;
 };
 
-export type FieldConfig = {
+type FieldConfig = {
   type: VectorFieldPattern;
   name: string;
   formula: string;
@@ -30,7 +30,7 @@ export type VectorFieldPatternParams = {
   showStreamlines: boolean;
 };
 
-export type VectorFieldLayout = {
+type VectorFieldLayout = {
   origin: Vec2;
   scale: number;
   extent: number;
@@ -38,7 +38,7 @@ export type VectorFieldLayout = {
   plotMax: number;
 };
 
-export const FIELD_WORLD_EXTENT = 6;
+const FIELD_WORLD_EXTENT = 6;
 export const ARROW_DOMAIN = FIELD_WORLD_EXTENT * 0.85;
 const EPS = 1e-6;
 
@@ -52,7 +52,7 @@ export function normalize(v: Vec2): Vec2 {
   return { x: v.x / m, y: v.y / m };
 }
 
-export function add(a: Vec2, b: Vec2): Vec2 {
+function add(a: Vec2, b: Vec2): Vec2 {
   return { x: a.x + b.x, y: a.y + b.y };
 }
 

@@ -56,5 +56,3 @@ export const juliaSetModule: CurveModule = {
   },
   animation: { lerp: JULIA_CFG.LERP_F, revealSpeed: 0 },
 };
-
-export { JULIA_CFG } from './config';

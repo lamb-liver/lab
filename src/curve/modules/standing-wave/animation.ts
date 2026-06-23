@@ -4,9 +4,7 @@ import { frameScale } from '../animationTiming';
 export const REVEAL_SPEED = 0.0024;
 export const AMPLITUDE_LERP = 0.08;
 
-export type StandingWaveAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type StandingWaveAnimState = {
   revealProgress: number;
   isComplete: boolean;
   time: number;
@@ -19,8 +17,6 @@ export function createStandingWaveAnimState(
 ): StandingWaveAnimState {
   const spatialFrequency = Math.round(defaultParams.spatialFrequency);
   return {
-    params: { ...defaultParams, spatialFrequency },
-    targetParams: { ...defaultParams, spatialFrequency },
     revealProgress: 0,
     isComplete: false,
     time: 0,
@@ -38,27 +34,20 @@ export function stepStandingWaveAnimation(
   const spatialFrequency = Math.round(nextTarget.spatialFrequency);
   const freqChanged = spatialFrequency !== state.previousFrequency;
 
-  let { params, revealProgress, isComplete, time, currentAmplitude } = state;
-  const targetParams = { ...nextTarget, spatialFrequency };
+  let { revealProgress, isComplete, time, currentAmplitude } = state;
 
   if (freqChanged) {
     revealProgress = 0;
     isComplete = false;
   }
 
-  currentAmplitude += (targetParams.amplitude - currentAmplitude) * AMPLITUDE_LERP;
-  if (Math.abs(currentAmplitude - targetParams.amplitude) < 0.05) {
-    currentAmplitude = targetParams.amplitude;
+  currentAmplitude += (nextTarget.amplitude - currentAmplitude) * AMPLITUDE_LERP;
+  if (Math.abs(currentAmplitude - nextTarget.amplitude) < 0.05) {
+    currentAmplitude = nextTarget.amplitude;
   }
 
   const scale = frameScale(deltaMs);
-  time += targetParams.timeSpeed * scale;
-
-  params = {
-    amplitude: currentAmplitude,
-    spatialFrequency,
-    timeSpeed: targetParams.timeSpeed,
-  };
+  time += nextTarget.timeSpeed * scale;
 
   if (!isComplete) {
     revealProgress += revealSpeed * scale;
@@ -69,8 +58,6 @@ export function stepStandingWaveAnimation(
   }
 
   return {
-    params,
-    targetParams,
     revealProgress,
     isComplete,
     time,

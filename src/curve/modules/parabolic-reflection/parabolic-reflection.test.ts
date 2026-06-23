@@ -1,30 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import { stepParabolicReflectionAnimation } from './animation';
 import {
-  buildIncomingRay,
+  buildParabolaCurve,
   buildReflectionRays,
-  focusPoint,
-  parabolaX,
   sampleParabolicReflectionCurve,
 } from './geometry';
 import { parabolicReflectionModule } from './index';
 
-describe('parabolaX', () => {
-  it('satisfies y² = 4px at vertex', () => {
-    expect(parabolaX(0, 40)).toBe(0);
-  });
-
-  it('opens to the right', () => {
-    expect(parabolaX(20, 40)).toBeGreaterThan(0);
-  });
-});
-
-describe('buildIncomingRay', () => {
-  it('grows from focus with reveal', () => {
-    const focus = focusPoint(40);
-    const atHalf = buildIncomingRay(focus, 100, 20, 0.25);
-    expect(atHalf.x2).toBeGreaterThan(focus.x);
-    expect(atHalf.x2).toBeLessThan(100);
+describe('buildParabolaCurve', () => {
+  it('includes the vertex and opens to the right', () => {
+    const points = buildParabolaCurve(600, 40);
+    const xs = points.map((point) => point.x);
+    expect(Math.min(...xs)).toBe(0);
+    expect(xs[0]).toBeGreaterThan(Math.min(...xs));
   });
 });
 
@@ -40,6 +28,19 @@ describe('buildReflectionRays', () => {
     });
     expect(rays.length).toBe(12);
   });
+
+  it('contains only incoming rays before 50% reveal', () => {
+    const rays = buildReflectionRays({
+      canvasWidth: 600,
+      canvasHeight: 600,
+      currentFocalLength: 40,
+      rayCount: 6,
+      time: 0,
+      revealProgress: 0.25,
+    });
+    expect(rays.length).toBe(6);
+    expect(rays.every((ray) => ray.x1 === 40 && ray.x2 !== ray.x1)).toBe(true);
+  });
 });
 
 describe('stepParabolicReflectionAnimation', () => {
@@ -47,8 +48,6 @@ describe('stepParabolicReflectionAnimation', () => {
     const defaults = parabolicReflectionModule.defaultParams;
     const state = stepParabolicReflectionAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 1,
         isComplete: true,
         time: 1,
@@ -69,8 +68,6 @@ describe('stepParabolicReflectionAnimation', () => {
     const defaults = parabolicReflectionModule.defaultParams;
     const state = stepParabolicReflectionAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 0.5,
         isComplete: false,
         time: 0,

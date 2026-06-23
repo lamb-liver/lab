@@ -10,26 +10,26 @@ export const MODE_ORBIT = 1;
 export const MODE_COBWEB = 2;
 export const MODE_COMPARE = 3;
 
-export type LogisticMode = 'bifurcation' | 'orbit' | 'cobweb' | 'compare';
+type LogisticMode = 'bifurcation' | 'orbit' | 'cobweb' | 'compare';
 
-export type Rect = {
+type Rect = {
   x: number;
   y: number;
   width: number;
   height: number;
 };
 
-export type Point = {
+type Point = {
   x: number;
   y: number;
 };
 
-export type BifurcationPoint = Point & {
+type BifurcationPoint = Point & {
   r: number;
   value: number;
 };
 
-export type OrbitData = {
+type OrbitData = {
   orbit1: number[];
   orbit2: number[];
   divergence: number[];
@@ -145,7 +145,7 @@ export function buildCobwebSteps(params: ParamValues, count = 70): Array<{ from:
   return steps;
 }
 
-export function detectPeriod(r: number): number | 'CHAOTIC' {
+function detectPeriod(r: number): number | 'CHAOTIC' {
   let x = 0.5;
   for (let i = 0; i < 800; i += 1) x = logistic(r, x);
 
@@ -187,7 +187,7 @@ export function mapR(params: ParamValues, r: number, bounds = LOGISTIC_LAYOUT.ch
   return mapRange(r, params.rMin ?? 2.5, params.rMax ?? 4, bounds.x, bounds.x + bounds.width);
 }
 
-export function mapX(params: ParamValues, x: number, bounds = LOGISTIC_LAYOUT.chart): number {
+function mapX(params: ParamValues, x: number, bounds = LOGISTIC_LAYOUT.chart): number {
   return mapRange(x, params.xMin ?? 0, params.xMax ?? 1, bounds.y + bounds.height, bounds.y);
 }
 

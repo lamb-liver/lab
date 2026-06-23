@@ -10,7 +10,6 @@ import {
   maxErrorInView,
   paramsFromValues,
   presetById,
-  taylorValue,
 } from './geometry';
 
 const paramSchema: ParamSchema = [
@@ -52,31 +51,12 @@ export const taylorPolynomialApproximationModule: CurveModule = {
 
 export {
   TAYLOR_MAX_N,
-  TAYLOR_MAX_TERM_CURVES,
   TAYLOR_MIN_N,
   TAYLOR_PRESETS,
-  buildFunctionPoints,
-  buildTaylorThumbnail,
   clampA,
   clampN,
-  clampY,
-  createTaylorPlotRect,
-  fmt,
-  fmtAxis,
-  maxErrorInView,
-  paramsFromValues,
   presetById,
-  presetIdFromIndex,
-  presetIndexFromId,
-  screenToX,
-  taylorTerm,
-  taylorValue,
   valuesFromParams,
-  xToScreen,
-  yToScreen,
-  yToScreenClamped,
-  type PlotRect,
-  type TaylorParams,
   type TaylorPreset,
   type TaylorPresetId,
 } from './geometry';

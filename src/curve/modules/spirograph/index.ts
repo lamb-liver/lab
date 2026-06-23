@@ -3,10 +3,10 @@ import { MAX_SAMPLE_POINTS } from '../../constants';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { spirographRenderPreset } from '../../../systems/rendering/presets';
+import { MORPH_LERP } from './animation';
 
 const SAMPLE_STEP = 0.02;
 const REVEAL_SPEED = 0.0015;
-const MORPH_LERP = 0.08;
 
 const paramSchema: ParamSchema = [
   { key: 'R', label: '大圓 R', min: 50, max: 250, step: 1, default: 150 },
@@ -97,4 +97,4 @@ export const spirographModule: CurveModule = {
   animation: { lerp: MORPH_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { MORPH_LERP, REVEAL_SPEED, SAMPLE_STEP };
+export { REVEAL_SPEED };

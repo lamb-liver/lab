@@ -65,7 +65,7 @@ export function useParabolicReflectionP5({
       width: p.width,
       height: p.height,
       currentFocalLength: anim.currentFocalLength,
-      rayCount: Math.round(anim.targetParams.rayCount),
+      rayCount: Math.round(targetParamsRef.current.rayCount),
       time: anim.time,
       revealProgress: anim.revealProgress,
     });

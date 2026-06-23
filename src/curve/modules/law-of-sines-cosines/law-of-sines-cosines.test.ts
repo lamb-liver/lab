@@ -7,7 +7,7 @@ import {
   resetTriangle,
   triangleMetrics,
 } from './geometry';
-import { asLawOfSinesCosinesParams, lawOfSinesCosinesModule } from './index';
+import { lawOfSinesCosinesModule } from './index';
 
 describe('law-of-sines-cosines module', () => {
   it('triangleMetrics keeps law of sines ratios equal', () => {
@@ -19,11 +19,11 @@ describe('law-of-sines-cosines module', () => {
 
   it('getMetadata switches by mode', () => {
     const sine = lawOfSinesCosinesModule.getMetadata(
-      asLawOfSinesCosinesParams({ mode: 'sine', triangle: DEFAULT_TRIANGLE }),
+      { ...lawOfSinesCosinesModule.defaultParams, mode: 0 },
       { revealPct: 100 },
     );
     const cosine = lawOfSinesCosinesModule.getMetadata(
-      asLawOfSinesCosinesParams({ mode: 'cosine', triangle: DEFAULT_TRIANGLE }),
+      { ...lawOfSinesCosinesModule.defaultParams, mode: 1 },
       { revealPct: 100 },
     );
 
@@ -35,7 +35,7 @@ describe('law-of-sines-cosines module', () => {
 
   it('thumbnail sample returns circumcircle and triangle paths', () => {
     const spec = lawOfSinesCosinesModule.sample(
-      asLawOfSinesCosinesParams({ mode: 'sine', triangle: DEFAULT_TRIANGLE }),
+      { ...lawOfSinesCosinesModule.defaultParams, mode: 0 },
       { step: 1, purpose: 'thumbnail' },
     );
     expect(spec).toHaveProperty('paths');

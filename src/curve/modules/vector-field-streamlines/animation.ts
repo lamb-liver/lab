@@ -4,9 +4,7 @@ import { INTEGRATION_STEP_SIZE, buildAllStreamlines } from './geometry';
 
 const STREAMLINE_REBUILD_FRAME_INTERVAL = 3;
 
-export type VectorFieldAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type VectorFieldAnimState = {
   time: number;
   streamlines: WorldPoint[][];
   streamlineSignature: string;
@@ -30,8 +28,6 @@ export function createVectorFieldAnimState(
     0,
   );
   return {
-    params: { ...defaultParams },
-    targetParams: { ...defaultParams },
     time: 0,
     streamlines,
     streamlineSignature,
@@ -43,7 +39,7 @@ export function stepVectorFieldAnimation(
   state: VectorFieldAnimState,
   nextTarget: ParamValues,
 ): VectorFieldAnimState {
-  const targetParams = { ...nextTarget };
+  const targetParams = nextTarget;
   const time = state.time + targetParams.flowSpeed;
   const streamlineSignature = getStreamlineSignature(targetParams);
   const shouldRebuild =
@@ -61,8 +57,6 @@ export function stepVectorFieldAnimation(
     : state.streamlines;
 
   return {
-    params: { ...targetParams },
-    targetParams,
     time,
     streamlines,
     streamlineSignature,

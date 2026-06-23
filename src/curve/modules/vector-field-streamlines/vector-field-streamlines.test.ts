@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   createVectorFieldAnimState,
   stepVectorFieldAnimation,
-  type VectorFieldAnimState,
 } from './animation';
 import {
   BOUND_LIMIT,
@@ -14,6 +13,7 @@ import { vectorFieldStreamlinesModule } from './index';
 import type { ParamValues } from '../../types';
 
 const DEFAULT_PARAMS = vectorFieldStreamlinesModule.defaultParams;
+type VectorFieldAnimState = ReturnType<typeof createVectorFieldAnimState>;
 
 function makeState(patch: Partial<VectorFieldAnimState> = {}): VectorFieldAnimState {
   return {

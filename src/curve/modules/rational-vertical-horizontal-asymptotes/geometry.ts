@@ -455,7 +455,7 @@ function clampY(y: number, yMin: number, yMax: number): number {
   return clamp(y, yMin, yMax);
 }
 
-export function clamp(v: number, min: number, max: number): number {
+function clamp(v: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, v));
 }
 

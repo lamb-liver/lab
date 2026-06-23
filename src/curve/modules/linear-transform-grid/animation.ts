@@ -4,9 +4,7 @@ import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 export const REVEAL_SPEED = 0.005;
 export const PARAM_LERP = 0.08;
 
-export type LinearTransformGridAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type LinearTransformGridAnimState = {
   revealProgress: number;
   isComplete: boolean;
   time: number;
@@ -22,8 +20,6 @@ export function createLinearTransformGridAnimState(
   defaultParams: ParamValues,
 ): LinearTransformGridAnimState {
   return {
-    params: { ...defaultParams },
-    targetParams: { ...defaultParams },
     revealProgress: 0,
     isComplete: false,
     time: 0,
@@ -62,7 +58,7 @@ export function stepLinearTransformGridAnimation(
     pendingRevealReset,
     pendingRevealSince,
   } = state;
-  const targetParams = { ...nextTarget };
+  const targetParams = nextTarget;
 
   if (structureChanged) {
     pendingRevealReset = true;
@@ -74,12 +70,6 @@ export function stepLinearTransformGridAnimation(
 
   const scale = frameScale(deltaMs);
   time += targetParams.transformSpeed * scale;
-
-  const params = {
-    shearX: currentShearX,
-    scaleY: currentScaleY,
-    transformSpeed: targetParams.transformSpeed,
-  };
 
   const settled =
     Math.abs(currentShearX - targetParams.shearX) < 0.0005 &&
@@ -103,8 +93,6 @@ export function stepLinearTransformGridAnimation(
   }
 
   return {
-    params,
-    targetParams,
     revealProgress,
     isComplete,
     time,

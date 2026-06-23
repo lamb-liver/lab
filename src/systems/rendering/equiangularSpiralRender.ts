@@ -1,6 +1,5 @@
 import type p5 from 'p5';
 import {
-  createSpiralCamera,
   mapSpiralPath,
   mapSpiralPoint,
   updateSpiralCamera,
@@ -73,7 +72,6 @@ export function renderEquiangularSpiralScene(
     snap.smoothMaxTheta,
   );
   const camera = updateSpiralCamera(
-    createSpiralCamera(),
     extent,
     snap.width,
     snap.height,

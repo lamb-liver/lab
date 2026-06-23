@@ -62,7 +62,6 @@ export {
   buildCurveSegments,
   buildRationalAsymptoteModel,
   buildRationalAsymptoteThumbnail,
-  clamp,
   createRationalAsymptotePlotRect,
   fmt,
   paramsFromValues,

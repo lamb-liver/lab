@@ -28,8 +28,6 @@ describe('stepRotationScaleCompositionAnimation', () => {
     const defaults = rotationScaleCompositionModule.defaultParams;
     const pending = stepRotationScaleCompositionAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 1,
         isComplete: true,
         time: 1,

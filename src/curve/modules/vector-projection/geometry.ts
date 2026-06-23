@@ -36,7 +36,7 @@ export type ProjectionData = {
   fullProjLabel: string;
 };
 
-export type VectorProjectionLayout = {
+type VectorProjectionLayout = {
   origin: Vec2;
   scale: number;
   extent: number;
@@ -44,7 +44,7 @@ export type VectorProjectionLayout = {
   plotMax: number;
 };
 
-export const VECTOR_PROJECTION_DRAG_LIMIT = 6;
+const VECTOR_PROJECTION_DRAG_LIMIT = 6;
 const EPS = 1e-6;
 const GUIDE_STROKE = 'rgba(255, 255, 255, 0.3)';
 const GOLD_STROKE = 'rgb(212, 184, 122)';
@@ -61,7 +61,7 @@ export function vectorFromParams(
   };
 }
 
-export function dotVec(a: Vec2, b: Vec2): number {
+function dotVec(a: Vec2, b: Vec2): number {
   return a.x * b.x + a.y * b.y;
 }
 
@@ -73,7 +73,7 @@ export function add(a: Vec2, b: Vec2): Vec2 {
   return { x: a.x + b.x, y: a.y + b.y };
 }
 
-export function sub(a: Vec2, b: Vec2): Vec2 {
+function sub(a: Vec2, b: Vec2): Vec2 {
   return { x: a.x - b.x, y: a.y - b.y };
 }
 
@@ -81,13 +81,13 @@ export function scaleVec(v: Vec2, scalar: number): Vec2 {
   return { x: v.x * scalar, y: v.y * scalar };
 }
 
-export function normalize(v: Vec2): Vec2 {
+function normalize(v: Vec2): Vec2 {
   const m = magnitude(v);
   if (m < EPS) return { x: 0, y: 0 };
   return { x: v.x / m, y: v.y / m };
 }
 
-export function rotateCCW(v: Vec2): Vec2 {
+function rotateCCW(v: Vec2): Vec2 {
   return { x: -v.y, y: v.x };
 }
 
@@ -175,7 +175,7 @@ export function getProjectionData(params: VectorProjectionParams): ProjectionDat
   };
 }
 
-export function computeVectorProjectionExtent(params: VectorProjectionParams): number {
+function computeVectorProjectionExtent(params: VectorProjectionParams): number {
   const { a, b } = vectorFromParams(params);
   const data = getProjectionData(params);
   const maxMag = Math.max(

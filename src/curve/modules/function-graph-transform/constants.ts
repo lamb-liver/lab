@@ -5,9 +5,6 @@ export const PARAM_H_MAX = 3;
 export const PARAM_K_MIN = -3;
 export const PARAM_K_MAX = 3;
 
-export const VIEW_LERP_PER_SEC = 8;
-export const MAX_VISUAL_DELTA_MS = 50;
-
 export const BASIS_OPTIONS = [
   { id: 'linear', label: 'x', text: 'f(x)=x' },
   { id: 'square', label: 'x²', text: 'f(x)=x²' },

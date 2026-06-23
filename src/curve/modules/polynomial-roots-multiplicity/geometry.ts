@@ -70,21 +70,20 @@ export const DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS: PolynomialRootsMultip
   mult: [...PRESETS[1].mult],
 };
 
-/** 縮圖：一重根場景，曲線 + 三零點可辨識 */
-export const THUMBNAIL_POLYNOMIAL_PARAMS: PolynomialRootsMultiplicityParams = {
+const THUMBNAIL_POLYNOMIAL_PARAMS: PolynomialRootsMultiplicityParams = {
   advanced: false,
   a: 0.35,
   roots: [-2.4, 0.1, 2.2],
   mult: [1, 2, 1],
 };
 
-export const THUMBNAIL_VIEW_HALF_Y = 5.5;
+const THUMBNAIL_VIEW_HALF_Y = 5.5;
 const THUMBNAIL_PLOT_X_MIN = -3.4;
 const THUMBNAIL_PLOT_X_MAX = 3.4;
 
 const THUMB_PLOT = { x: 118, y: 92, w: 364, h: 236 };
 
-export function clamp(value: number, min: number, max: number) {
+function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
@@ -95,7 +94,7 @@ export function fmt(value: number) {
   return Number(value.toFixed(digits)).toString();
 }
 
-export function snapStep(value: number, step: number) {
+function snapStep(value: number, step: number) {
   if (!step || !Number.isFinite(step)) return value;
   return Math.round(value / step) * step;
 }
@@ -149,7 +148,7 @@ export function polynomialValue(params: PolynomialRootsMultiplicityParams, x: nu
   return y;
 }
 
-export function mergedBreaks(roots: number[]) {
+function mergedBreaks(roots: number[]) {
   const raw = roots
     .map((r) => clamp(r, PLOT_X_MIN, PLOT_X_MAX))
     .sort((a, b) => a - b);
@@ -164,7 +163,7 @@ export function mergedBreaks(roots: number[]) {
   return out;
 }
 
-export function buildSignedSegments(
+function buildSignedSegments(
   params: PolynomialRootsMultiplicityParams,
   breaks: number[],
 ) {
@@ -211,7 +210,7 @@ export function polynomialMeta(params: PolynomialRootsMultiplicityParams): Polyn
   return { roots, mult, degree, breaks, signedSegments, intervals };
 }
 
-export function sampleXs(a: number, b: number, step: number) {
+function sampleXs(a: number, b: number, step: number) {
   const n = Math.ceil((b - a) / step);
   const xs: number[] = [];
   for (let i = 0; i <= n; i++) {
@@ -220,7 +219,7 @@ export function sampleXs(a: number, b: number, step: number) {
   return xs;
 }
 
-export function buildPolynomialCurve(
+function buildPolynomialCurve(
   params: PolynomialRootsMultiplicityParams,
   step = SAMPLE_STEP,
 ) {
@@ -230,7 +229,7 @@ export function buildPolynomialCurve(
   }));
 }
 
-export function targetViewHalfYFromCurve(curve: CurveSample[]) {
+function targetViewHalfYFromCurve(curve: CurveSample[]) {
   const vals: number[] = [];
   for (const pt of curve) {
     if (Number.isFinite(pt.y)) vals.push(Math.abs(pt.y));
@@ -369,17 +368,6 @@ export function isPresetActive(
     if (params.mult[i] !== preset.mult[i]) return false;
   }
   return true;
-}
-
-export function applyPreset(
-  preset: (typeof PRESETS)[number],
-): PolynomialRootsMultiplicityParams {
-  return {
-    advanced: false,
-    a: preset.a,
-    roots: [...preset.roots],
-    mult: [...preset.mult],
-  };
 }
 
 function mathToThumb(x: number, y: number, viewHalfY: number): CurvePoint {

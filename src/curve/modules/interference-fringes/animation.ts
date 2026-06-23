@@ -4,9 +4,7 @@ import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 export const REVEAL_SPEED = 0.0024;
 export const SOURCE_DISTANCE_LERP = 0.08;
 
-export type InterferenceFringesAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type InterferenceFringesAnimState = {
   revealProgress: number;
   isComplete: boolean;
   time: number;
@@ -21,8 +19,6 @@ export function createInterferenceFringesAnimState(
   defaultParams: ParamValues,
 ): InterferenceFringesAnimState {
   return {
-    params: { ...defaultParams },
-    targetParams: { ...defaultParams },
     revealProgress: 0,
     isComplete: false,
     time: 0,
@@ -46,7 +42,6 @@ export function stepInterferenceFringesAnimation(
     nextTarget.sourceDistance !== state.previousSourceDistance;
 
   let {
-    params,
     revealProgress,
     isComplete,
     time,
@@ -57,32 +52,24 @@ export function stepInterferenceFringesAnimation(
     pendingRevealSince,
   } = state;
 
-  const targetParams = { ...nextTarget };
-
   if (structureChanged) {
     pendingRevealReset = true;
     pendingRevealSince = nowMs;
-    previousWavelength = targetParams.wavelength;
-    previousSourceDistance = targetParams.sourceDistance;
+    previousWavelength = nextTarget.wavelength;
+    previousSourceDistance = nextTarget.sourceDistance;
   }
 
   currentSourceDistance +=
-    (targetParams.sourceDistance - currentSourceDistance) * SOURCE_DISTANCE_LERP;
-  if (Math.abs(currentSourceDistance - targetParams.sourceDistance) < 0.05) {
-    currentSourceDistance = targetParams.sourceDistance;
+    (nextTarget.sourceDistance - currentSourceDistance) * SOURCE_DISTANCE_LERP;
+  if (Math.abs(currentSourceDistance - nextTarget.sourceDistance) < 0.05) {
+    currentSourceDistance = nextTarget.sourceDistance;
   }
 
   const scale = frameScale(deltaMs);
-  time += targetParams.timeSpeed * scale;
-
-  params = {
-    sourceDistance: currentSourceDistance,
-    wavelength: targetParams.wavelength,
-    timeSpeed: targetParams.timeSpeed,
-  };
+  time += nextTarget.timeSpeed * scale;
 
   const settled =
-    Math.abs(currentSourceDistance - targetParams.sourceDistance) < 0.05;
+    Math.abs(currentSourceDistance - nextTarget.sourceDistance) < 0.05;
   if (
     !structureChanged &&
     shouldCommitPendingReset(pendingRevealReset, settled, nowMs, pendingRevealSince)
@@ -102,8 +89,6 @@ export function stepInterferenceFringesAnimation(
   }
 
   return {
-    params,
-    targetParams,
     revealProgress,
     isComplete,
     time,

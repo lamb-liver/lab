@@ -31,7 +31,7 @@ function viewModeFromParam(value: unknown): ProjectionViewMode {
   return 'projection';
 }
 
-export function asVectorProjectionParams(
+function asVectorProjectionParams(
   params: ParamValues | VectorProjectionParams,
 ): VectorProjectionParams {
   return {

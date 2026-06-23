@@ -6,12 +6,7 @@ export type SpiralCamera = {
   zoom: number;
 };
 
-export function createSpiralCamera(): SpiralCamera {
-  return { zoom: 1 };
-}
-
 export function updateSpiralCamera(
-  camera: SpiralCamera,
   maxExtent: number,
   canvasWidth: number,
   canvasHeight: number,

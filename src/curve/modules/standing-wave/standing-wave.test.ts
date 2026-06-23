@@ -46,8 +46,6 @@ describe('stepStandingWaveAnimation', () => {
     const defaults = standingWaveModule.defaultParams;
     let state = stepStandingWaveAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 1,
         isComplete: true,
         time: 1,
@@ -66,8 +64,6 @@ describe('stepStandingWaveAnimation', () => {
     const defaults = standingWaveModule.defaultParams;
     const state = stepStandingWaveAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 0.5,
         isComplete: false,
         time: 0,

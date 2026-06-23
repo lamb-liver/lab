@@ -1,5 +1,6 @@
 import type { AnimationState, ParamValues } from '../../types';
-import { MORPH_LERP } from './index';
+
+export const MORPH_LERP = 0.08;
 
 export function stepSpirographAnimation(
   state: AnimationState,

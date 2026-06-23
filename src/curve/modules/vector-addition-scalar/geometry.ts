@@ -10,7 +10,7 @@ export type VectorAdditionScalarParams = {
   scalar: number;
 };
 
-export type VectorAdditionScalarLayout = {
+type VectorAdditionScalarLayout = {
   origin: Vec2;
   scale: number;
   extent: number;
@@ -18,7 +18,7 @@ export type VectorAdditionScalarLayout = {
   plotMax: number;
 };
 
-export const VECTOR_DRAG_LIMIT = 3;
+const VECTOR_DRAG_LIMIT = 3;
 const GUIDE_STROKE = 'rgba(255, 255, 255, 0.26)';
 const GOLD_STROKE = 'rgb(212, 184, 122)';
 const BLUE_STROKE = 'rgba(130, 170, 220, 0.82)';
@@ -50,7 +50,7 @@ export function formatVector(v: Vec2): string {
   return `(${v.x.toFixed(2)}, ${v.y.toFixed(2)})`;
 }
 
-export function computeVectorExtent(params: VectorAdditionScalarParams): number {
+function computeVectorExtent(params: VectorAdditionScalarParams): number {
   const { u, v } = vectorFromParams(params);
   const sum = add(u, v);
   const scaled = scaleVec(v, params.scalar);

@@ -1,6 +1,6 @@
 import { iterToColor, juliaSmooth } from './math';
 
-export type TileRenderParams = {
+type TileRenderParams = {
   target: Uint8ClampedArray;
   width: number;
   height: number;
@@ -9,7 +9,6 @@ export type TileRenderParams = {
   tileSize: number;
   cx: number;
   cy: number;
-  zoom: number;
   maxIter: number;
   zxTable: Float32Array;
   zyTable: Float32Array;
@@ -24,7 +23,6 @@ export function renderJuliaTile({
   tileSize,
   cx,
   cy,
-  zoom,
   maxIter,
   zxTable,
   zyTable,

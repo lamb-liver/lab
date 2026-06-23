@@ -68,7 +68,7 @@ export const interferenceFringesModule: CurveModule = {
   animation: { lerp: SOURCE_DISTANCE_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { REVEAL_SPEED, SOURCE_DISTANCE_LERP } from './animation';
+export { REVEAL_SPEED } from './animation';
 import { BASE_CANVAS, buildInterferenceGeometry } from './geometry';
 
 function toCurvePoints(raw: Array<{ x: number; y: number }>, step: number): CurvePoint[] {

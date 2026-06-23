@@ -32,6 +32,7 @@ For a new interactive work, check:
 - `src/works/interactiveRegistry.ts` is updated
 - `WorkInteractiveStage.tsx` maps the slug to a root component
 - thumbnail behavior is valid for the slug
+- smoke commands use the published route slug, not the module folder or React component suffix
 
 For a new interactive explore page, check:
 
@@ -79,5 +80,6 @@ If several React-backed work pages fail with `jsxDEV is not a function`, treat i
 - Did it avoid duplicating canonical rules into another file?
 - Are Works and Explore boundaries still separate?
 - Are registries synchronized?
+- Did any deferred review item remain before marking a scan batch complete?
 - Are thumbnails still generated at build time?
 - Are renderers still snapshot-based?

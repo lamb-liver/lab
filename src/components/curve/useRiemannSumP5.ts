@@ -62,7 +62,7 @@ export function useRiemannSumP5({
       width: p.width,
       height: p.height,
       currentPartitionCount: anim.currentPartitionCount,
-      waveFrequency: anim.params.waveFrequency,
+      waveFrequency: targetParamsRef.current.waveFrequency,
       time: anim.time,
       activeDomain: anim.activeDomain,
     });

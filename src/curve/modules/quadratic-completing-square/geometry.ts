@@ -58,8 +58,7 @@ export const DEFAULT_QUADRATIC_COMPLETING_SQUARE_PARAMS: QuadraticCompletingSqua
   c: PRESETS[0].c,
 };
 
-/** 縮圖專用：兩實根、頂點與對稱軸可辨識 */
-export const THUMBNAIL_QUADRATIC_PARAMS: QuadraticCompletingSquareParams = {
+const THUMBNAIL_QUADRATIC_PARAMS: QuadraticCompletingSquareParams = {
   advanced: false,
   a: 1,
   b: -1,
@@ -68,7 +67,7 @@ export const THUMBNAIL_QUADRATIC_PARAMS: QuadraticCompletingSquareParams = {
 
 const THUMB_PLOT = { x: 118, y: 92, w: 364, h: 236 };
 
-export function clamp(value: number, min: number, max: number) {
+function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
@@ -79,7 +78,7 @@ export function fmt(value: number) {
   return Number(value.toFixed(digits)).toString();
 }
 
-export function snapStep(value: number, step: number) {
+function snapStep(value: number, step: number) {
   if (!step || !Number.isFinite(step)) return value;
   return Math.round(value / step) * step;
 }
@@ -140,7 +139,7 @@ export function quadraticMeta(q: QuadraticCompletingSquareParams): QuadraticMeta
   return { ...clean, h, k, delta, roots, rootState };
 }
 
-export function sampleXs(a: number, b: number, step: number) {
+function sampleXs(a: number, b: number, step: number) {
   const n = Math.ceil((b - a) / step);
   const xs: number[] = [];
   for (let i = 0; i <= n; i++) {
@@ -149,7 +148,7 @@ export function sampleXs(a: number, b: number, step: number) {
   return xs;
 }
 
-export function buildQuadraticCurve(q: QuadraticCompletingSquareParams, step = SAMPLE_STEP) {
+function buildQuadraticCurve(q: QuadraticCompletingSquareParams, step = SAMPLE_STEP) {
   const clean = cleanQuadraticParams(q);
   return sampleXs(PLOT_X_MIN, PLOT_X_MAX, step).map((x) => ({
     x,
@@ -157,7 +156,7 @@ export function buildQuadraticCurve(q: QuadraticCompletingSquareParams, step = S
   }));
 }
 
-export function buildBaseParabolaCurve(a: number, step = SAMPLE_STEP) {
+function buildBaseParabolaCurve(a: number, step = SAMPLE_STEP) {
   return sampleXs(PLOT_X_MIN, PLOT_X_MAX, step).map((x) => ({
     x,
     y: a * x * x,
@@ -182,7 +181,7 @@ export function buildQuadraticSceneCache(
   return { meta, curve, baseCurve, targetViewHalfY };
 }
 
-export function targetViewHalfYFromCurves(
+function targetViewHalfYFromCurves(
   curves: CurveSample[][],
   meta?: Pick<QuadraticMeta, 'k'>,
 ) {

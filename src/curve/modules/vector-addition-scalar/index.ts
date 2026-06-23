@@ -67,5 +67,4 @@ export const vectorAdditionScalarModule: CurveModule = {
   animation: { lerp: 1, revealSpeed: 0 },
 };
 
-export { asVectorParams };
 export type { VectorAdditionScalarParams };

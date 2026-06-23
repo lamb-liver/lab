@@ -76,7 +76,7 @@ export const parabolicReflectionModule: CurveModule = {
   animation: { lerp: FOCAL_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { FOCAL_LERP, REVEAL_SPEED } from './animation';
+export { REVEAL_SPEED } from './animation';
 
 function toCurvePoints(raw: Array<{ x: number; y: number }>): CurvePoint[] {
   const points: CurvePoint[] = [];

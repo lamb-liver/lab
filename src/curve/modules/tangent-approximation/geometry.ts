@@ -5,8 +5,8 @@ export type CanvasPoint = { x: number; y: number };
 export const REGION_RATIO = 0.75;
 export const ORIGIN_Y_OFFSET = 40;
 export const Y_SCALE = 160;
-export const CURVE_SAMPLE_STEP = 0.004;
-export const EXTENSION_SAMPLE_STEP = 0.01;
+const CURVE_SAMPLE_STEP = 0.004;
+const EXTENSION_SAMPLE_STEP = 0.01;
 export const COLLAPSE_START_DX = 0.4;
 
 const TWO_PI = Math.PI * 2;

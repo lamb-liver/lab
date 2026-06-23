@@ -78,10 +78,10 @@ export const linearTransformGridModule: CurveModule = {
   animation: { lerp: PARAM_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { PARAM_LERP, REVEAL_SPEED } from './animation';
+export { REVEAL_SPEED } from './animation';
 export { GRID_SEGMENT_COUNT } from './geometry';
 
-export function getLinearTransformGridThumbnailTime(): number {
+function getLinearTransformGridThumbnailTime(): number {
   return Math.PI / 2;
 }
 

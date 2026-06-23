@@ -11,7 +11,7 @@ import {
 
 const paramSchema: ParamSchema = [];
 
-export function asLawOfSinesCosinesParams(
+function asLawOfSinesCosinesParams(
   params: ParamValues | LawOfSinesCosinesParams,
 ): LawOfSinesCosinesParams {
   return asLawParams(params as LawOfSinesCosinesParams);

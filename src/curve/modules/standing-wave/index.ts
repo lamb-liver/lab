@@ -75,7 +75,7 @@ export const standingWaveModule: CurveModule = {
   animation: { lerp: AMPLITUDE_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { AMPLITUDE_LERP, REVEAL_SPEED } from './animation';
+export { REVEAL_SPEED } from './animation';
 
 export function getStandingWaveThumbnailTime(_timeSpeed: number): number {
   // y = 2A sin(kx) cos(t); t = 0 gives cos(0) = 1 (max envelope),

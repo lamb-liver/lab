@@ -14,7 +14,7 @@
 
 ## 全專案掃描進度
 
-更新日：2026-06-22。
+更新日：2026-06-23。
 
 口徑：
 
@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 623 |
-| 尚未掃描檔案 | 121 |
+| 已掃描檔案 | 744 |
+| 尚未掃描檔案 | 0 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（623）</summary>
+<summary>已掃描檔案（744）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -614,18 +614,139 @@
 - `src/curve/modules/dot-product-geometry/dot-product-geometry.test.ts`
 - `src/curve/modules/dot-product-geometry/geometry.ts`
 - `src/curve/modules/dot-product-geometry/index.ts`
+- `src/curve/modules/eigenvector-geometry/eigenvector-geometry.test.ts`
+- `src/curve/modules/eigenvector-geometry/geometry.ts`
+- `src/curve/modules/eigenvector-geometry/index.ts`
+- `src/curve/modules/equiangular-spiral/animation.ts`
+- `src/curve/modules/equiangular-spiral/camera.ts`
+- `src/curve/modules/equiangular-spiral/equiangular-spiral.test.ts`
+- `src/curve/modules/equiangular-spiral/geometry.ts`
+- `src/curve/modules/equiangular-spiral/index.ts`
+- `src/curve/modules/euler-formula-rotation/animation.ts`
+- `src/curve/modules/euler-formula-rotation/index.ts`
+- `src/curve/modules/exponential-growth-decay/exponential-growth-decay.test.ts`
+- `src/curve/modules/exponential-growth-decay/geometry.ts`
+- `src/curve/modules/exponential-growth-decay/index.ts`
+- `src/curve/modules/fibonacci-spiral/geometry.ts`
+- `src/curve/modules/fibonacci-spiral/index.ts`
+- `src/curve/modules/function-derivative-graph/function-derivative-graph.test.ts`
+- `src/curve/modules/function-derivative-graph/geometry.ts`
+- `src/curve/modules/function-derivative-graph/index.ts`
+- `src/curve/modules/function-graph-transform/constants.ts`
+- `src/curve/modules/function-graph-transform/function-graph-transform.test.ts`
+- `src/curve/modules/function-graph-transform/geometry.ts`
+- `src/curve/modules/function-graph-transform/index.ts`
 - `src/curve/modules/harmonograph/animation.ts`
 - `src/curve/modules/harmonograph/harmonograph.test.ts`
 - `src/curve/modules/harmonograph/index.ts`
+- `src/curve/modules/interference-fringes/animation.ts`
+- `src/curve/modules/interference-fringes/geometry.ts`
+- `src/curve/modules/interference-fringes/index.ts`
+- `src/curve/modules/interference-fringes/interference-fringes.test.ts`
+- `src/curve/modules/inverse-function-reflection/constants.ts`
+- `src/curve/modules/inverse-function-reflection/geometry.ts`
+- `src/curve/modules/inverse-function-reflection/index.ts`
+- `src/curve/modules/inverse-function-reflection/inverse-function-reflection.test.ts`
+- `src/curve/modules/julia-set/config.ts`
+- `src/curve/modules/julia-set/engine.ts`
+- `src/curve/modules/julia-set/geometry.ts`
+- `src/curve/modules/julia-set/index.ts`
+- `src/curve/modules/julia-set/math.test.ts`
+- `src/curve/modules/julia-set/math.ts`
+- `src/curve/modules/julia-set/renderer.ts`
+- `src/curve/modules/law-of-sines-cosines/geometry.ts`
+- `src/curve/modules/law-of-sines-cosines/index.ts`
+- `src/curve/modules/law-of-sines-cosines/law-of-sines-cosines.test.ts`
+- `src/curve/modules/limits-riemann-sum/constants.ts`
+- `src/curve/modules/limits-riemann-sum/functions.test.ts`
+- `src/curve/modules/limits-riemann-sum/functions.ts`
+- `src/curve/modules/limits-riemann-sum/layout.ts`
+- `src/curve/modules/limits-riemann-sum/types.ts`
 - `src/curve/modules/lissajous/animation.ts`
 - `src/curve/modules/lissajous/index.ts`
 - `src/curve/modules/lissajous/lissajous.test.ts`
+- `src/curve/modules/linear-transform-grid/animation.ts`
+- `src/curve/modules/linear-transform-grid/geometry.ts`
+- `src/curve/modules/linear-transform-grid/index.ts`
+- `src/curve/modules/linear-transform-grid/linear-transform-grid.test.ts`
+- `src/curve/modules/matrix-linear-transform/constants.ts`
+- `src/curve/modules/matrix-linear-transform/matrix.ts`
+- `src/curve/modules/matrix-linear-transform/types.ts`
+- `src/curve/modules/logarithmic-scale/geometry.ts`
+- `src/curve/modules/logarithmic-scale/index.ts`
+- `src/curve/modules/logarithmic-scale/logarithmic-scale.test.ts`
+- `src/curve/modules/logistic-bifurcation/geometry.ts`
+- `src/curve/modules/logistic-bifurcation/index.ts`
+- `src/curve/modules/natural-log-e-geometry/geometry.ts`
+- `src/curve/modules/natural-log-e-geometry/index.ts`
+- `src/curve/modules/natural-log-e-geometry/natural-log-e-geometry.test.ts`
+- `src/curve/modules/parabolic-reflection/animation.ts`
+- `src/curve/modules/parabolic-reflection/geometry.ts`
+- `src/curve/modules/parabolic-reflection/index.ts`
+- `src/curve/modules/parabolic-reflection/parabolic-reflection.test.ts`
+- `src/curve/modules/pascals-triangle/geometry.ts`
+- `src/curve/modules/pascals-triangle/index.ts`
 - `src/curve/modules/percentile-box-plot/index.ts`
+- `src/curve/modules/polynomial-roots-multiplicity/constants.ts`
+- `src/curve/modules/polynomial-roots-multiplicity/geometry.ts`
+- `src/curve/modules/polynomial-roots-multiplicity/index.ts`
+- `src/curve/modules/polynomial-roots-multiplicity/polynomial-roots-multiplicity.test.ts`
+- `src/curve/modules/quadratic-completing-square/constants.ts`
+- `src/curve/modules/quadratic-completing-square/geometry.ts`
+- `src/curve/modules/quadratic-completing-square/index.ts`
+- `src/curve/modules/quadratic-completing-square/quadratic-completing-square.test.ts`
 - `src/curve/modules/radian-arc-length/index.ts`
+- `src/curve/modules/rational-oblique-asymptote/geometry.ts`
+- `src/curve/modules/rational-oblique-asymptote/index.ts`
+- `src/curve/modules/rational-vertical-horizontal-asymptotes/geometry.ts`
+- `src/curve/modules/rational-vertical-horizontal-asymptotes/index.ts`
+- `src/curve/modules/regression-outlier-influence/geometry.ts`
+- `src/curve/modules/regression-outlier-influence/index.ts`
+- `src/curve/modules/regression-outlier-influence/regression-outlier-influence.test.ts`
+- `src/curve/modules/riemann-sum/animation.ts`
+- `src/curve/modules/riemann-sum/geometry.ts`
+- `src/curve/modules/riemann-sum/index.ts`
+- `src/curve/modules/riemann-sum/riemann-sum.test.ts`
 - `src/curve/modules/rose/index.ts`
 - `src/curve/modules/rose/rose.test.ts`
+- `src/curve/modules/rotation-scale-composition/animation.ts`
+- `src/curve/modules/rotation-scale-composition/geometry.ts`
+- `src/curve/modules/rotation-scale-composition/index.ts`
+- `src/curve/modules/rotation-scale-composition/rotation-scale-composition.test.ts`
+- `src/curve/modules/sierpinski-triangle/geometry.ts`
+- `src/curve/modules/sierpinski-triangle/index.ts`
+- `src/curve/modules/sinusoid-amplitude-period-phase/geometry.ts`
+- `src/curve/modules/sinusoid-amplitude-period-phase/index.ts`
+- `src/curve/modules/sinusoid-amplitude-period-phase/sinusoid-amplitude-period-phase.test.ts`
+- `src/curve/modules/spirograph/animation.ts`
+- `src/curve/modules/spirograph/index.ts`
+- `src/curve/modules/spirograph/spirograph.test.ts`
+- `src/curve/modules/standing-wave/animation.ts`
+- `src/curve/modules/standing-wave/geometry.ts`
+- `src/curve/modules/standing-wave/index.ts`
+- `src/curve/modules/standing-wave/standing-wave.test.ts`
+- `src/curve/modules/tangent-approximation/animation.ts`
+- `src/curve/modules/tangent-approximation/geometry.ts`
+- `src/curve/modules/tangent-approximation/index.ts`
+- `src/curve/modules/tangent-approximation/tangent-approximation.test.ts`
+- `src/curve/modules/taylor-polynomial-approximation/geometry.ts`
+- `src/curve/modules/taylor-polynomial-approximation/index.ts`
+- `src/curve/modules/taylor-polynomial-approximation/taylor-polynomial-approximation.test.ts`
 - `src/curve/modules/trig-angle-identities/index.ts`
 - `src/curve/modules/unit-circle-trig-definition/index.ts`
+- `src/curve/modules/vector-addition-scalar/geometry.ts`
+- `src/curve/modules/vector-addition-scalar/index.ts`
+- `src/curve/modules/vector-addition-scalar/vector-addition-scalar.test.ts`
+- `src/curve/modules/vector-field-patterns/geometry.ts`
+- `src/curve/modules/vector-field-patterns/index.ts`
+- `src/curve/modules/vector-field-patterns/vector-field-patterns.test.ts`
+- `src/curve/modules/vector-field-streamlines/animation.ts`
+- `src/curve/modules/vector-field-streamlines/geometry.ts`
+- `src/curve/modules/vector-field-streamlines/index.ts`
+- `src/curve/modules/vector-field-streamlines/vector-field-streamlines.test.ts`
+- `src/curve/modules/vector-projection/geometry.ts`
+- `src/curve/modules/vector-projection/index.ts`
+- `src/curve/modules/vector-projection/vector-projection.test.ts`
 - `src/explore/fourier/constants.ts`
 - `src/explore/fourier/path.test.ts`
 - `src/explore/fourier/path.ts`
@@ -673,128 +794,9 @@
 </details>
 
 <details>
-<summary>尚未掃描檔案（121）</summary>
-- `src/curve/modules/eigenvector-geometry/eigenvector-geometry.test.ts`
-- `src/curve/modules/eigenvector-geometry/geometry.ts`
-- `src/curve/modules/eigenvector-geometry/index.ts`
-- `src/curve/modules/equiangular-spiral/animation.ts`
-- `src/curve/modules/equiangular-spiral/camera.ts`
-- `src/curve/modules/equiangular-spiral/equiangular-spiral.test.ts`
-- `src/curve/modules/equiangular-spiral/geometry.ts`
-- `src/curve/modules/equiangular-spiral/index.ts`
-- `src/curve/modules/euler-formula-rotation/animation.ts`
-- `src/curve/modules/euler-formula-rotation/index.ts`
-- `src/curve/modules/exponential-growth-decay/exponential-growth-decay.test.ts`
-- `src/curve/modules/exponential-growth-decay/geometry.ts`
-- `src/curve/modules/exponential-growth-decay/index.ts`
-- `src/curve/modules/fibonacci-spiral/geometry.ts`
-- `src/curve/modules/fibonacci-spiral/index.ts`
-- `src/curve/modules/function-derivative-graph/function-derivative-graph.test.ts`
-- `src/curve/modules/function-derivative-graph/geometry.ts`
-- `src/curve/modules/function-derivative-graph/index.ts`
-- `src/curve/modules/function-graph-transform/constants.ts`
-- `src/curve/modules/function-graph-transform/function-graph-transform.test.ts`
-- `src/curve/modules/function-graph-transform/geometry.ts`
-- `src/curve/modules/function-graph-transform/index.ts`
-- `src/curve/modules/interference-fringes/animation.ts`
-- `src/curve/modules/interference-fringes/geometry.ts`
-- `src/curve/modules/interference-fringes/index.ts`
-- `src/curve/modules/interference-fringes/interference-fringes.test.ts`
-- `src/curve/modules/inverse-function-reflection/constants.ts`
-- `src/curve/modules/inverse-function-reflection/geometry.ts`
-- `src/curve/modules/inverse-function-reflection/index.ts`
-- `src/curve/modules/inverse-function-reflection/inverse-function-reflection.test.ts`
-- `src/curve/modules/julia-set/config.ts`
-- `src/curve/modules/julia-set/engine.ts`
-- `src/curve/modules/julia-set/geometry.ts`
-- `src/curve/modules/julia-set/index.ts`
-- `src/curve/modules/julia-set/math.test.ts`
-- `src/curve/modules/julia-set/math.ts`
-- `src/curve/modules/julia-set/renderer.ts`
-- `src/curve/modules/law-of-sines-cosines/geometry.ts`
-- `src/curve/modules/law-of-sines-cosines/index.ts`
-- `src/curve/modules/law-of-sines-cosines/law-of-sines-cosines.test.ts`
-- `src/curve/modules/limits-riemann-sum/constants.ts`
-- `src/curve/modules/limits-riemann-sum/functions.test.ts`
-- `src/curve/modules/limits-riemann-sum/functions.ts`
-- `src/curve/modules/limits-riemann-sum/layout.ts`
-- `src/curve/modules/limits-riemann-sum/types.ts`
-- `src/curve/modules/linear-transform-grid/animation.ts`
-- `src/curve/modules/linear-transform-grid/geometry.ts`
-- `src/curve/modules/linear-transform-grid/index.ts`
-- `src/curve/modules/linear-transform-grid/linear-transform-grid.test.ts`
-- `src/curve/modules/logarithmic-scale/geometry.ts`
-- `src/curve/modules/logarithmic-scale/index.ts`
-- `src/curve/modules/logarithmic-scale/logarithmic-scale.test.ts`
-- `src/curve/modules/logistic-bifurcation/geometry.ts`
-- `src/curve/modules/logistic-bifurcation/index.ts`
-- `src/curve/modules/matrix-linear-transform/constants.ts`
-- `src/curve/modules/matrix-linear-transform/matrix.ts`
-- `src/curve/modules/matrix-linear-transform/types.ts`
-- `src/curve/modules/natural-log-e-geometry/geometry.ts`
-- `src/curve/modules/natural-log-e-geometry/index.ts`
-- `src/curve/modules/natural-log-e-geometry/natural-log-e-geometry.test.ts`
-- `src/curve/modules/parabolic-reflection/animation.ts`
-- `src/curve/modules/parabolic-reflection/geometry.ts`
-- `src/curve/modules/parabolic-reflection/index.ts`
-- `src/curve/modules/parabolic-reflection/parabolic-reflection.test.ts`
-- `src/curve/modules/pascals-triangle/geometry.ts`
-- `src/curve/modules/pascals-triangle/index.ts`
-- `src/curve/modules/polynomial-roots-multiplicity/constants.ts`
-- `src/curve/modules/polynomial-roots-multiplicity/geometry.ts`
-- `src/curve/modules/polynomial-roots-multiplicity/index.ts`
-- `src/curve/modules/polynomial-roots-multiplicity/polynomial-roots-multiplicity.test.ts`
-- `src/curve/modules/quadratic-completing-square/constants.ts`
-- `src/curve/modules/quadratic-completing-square/geometry.ts`
-- `src/curve/modules/quadratic-completing-square/index.ts`
-- `src/curve/modules/quadratic-completing-square/quadratic-completing-square.test.ts`
-- `src/curve/modules/rational-oblique-asymptote/geometry.ts`
-- `src/curve/modules/rational-oblique-asymptote/index.ts`
-- `src/curve/modules/rational-vertical-horizontal-asymptotes/geometry.ts`
-- `src/curve/modules/rational-vertical-horizontal-asymptotes/index.ts`
-- `src/curve/modules/regression-outlier-influence/geometry.ts`
-- `src/curve/modules/regression-outlier-influence/index.ts`
-- `src/curve/modules/regression-outlier-influence/regression-outlier-influence.test.ts`
-- `src/curve/modules/riemann-sum/animation.ts`
-- `src/curve/modules/riemann-sum/geometry.ts`
-- `src/curve/modules/riemann-sum/index.ts`
-- `src/curve/modules/riemann-sum/riemann-sum.test.ts`
-- `src/curve/modules/rotation-scale-composition/animation.ts`
-- `src/curve/modules/rotation-scale-composition/geometry.ts`
-- `src/curve/modules/rotation-scale-composition/index.ts`
-- `src/curve/modules/rotation-scale-composition/rotation-scale-composition.test.ts`
-- `src/curve/modules/sierpinski-triangle/geometry.ts`
-- `src/curve/modules/sierpinski-triangle/index.ts`
-- `src/curve/modules/sinusoid-amplitude-period-phase/geometry.ts`
-- `src/curve/modules/sinusoid-amplitude-period-phase/index.ts`
-- `src/curve/modules/sinusoid-amplitude-period-phase/sinusoid-amplitude-period-phase.test.ts`
-- `src/curve/modules/spirograph/animation.ts`
-- `src/curve/modules/spirograph/index.ts`
-- `src/curve/modules/spirograph/spirograph.test.ts`
-- `src/curve/modules/standing-wave/animation.ts`
-- `src/curve/modules/standing-wave/geometry.ts`
-- `src/curve/modules/standing-wave/index.ts`
-- `src/curve/modules/standing-wave/standing-wave.test.ts`
-- `src/curve/modules/tangent-approximation/animation.ts`
-- `src/curve/modules/tangent-approximation/geometry.ts`
-- `src/curve/modules/tangent-approximation/index.ts`
-- `src/curve/modules/tangent-approximation/tangent-approximation.test.ts`
-- `src/curve/modules/taylor-polynomial-approximation/geometry.ts`
-- `src/curve/modules/taylor-polynomial-approximation/index.ts`
-- `src/curve/modules/taylor-polynomial-approximation/taylor-polynomial-approximation.test.ts`
-- `src/curve/modules/vector-addition-scalar/geometry.ts`
-- `src/curve/modules/vector-addition-scalar/index.ts`
-- `src/curve/modules/vector-addition-scalar/vector-addition-scalar.test.ts`
-- `src/curve/modules/vector-field-patterns/geometry.ts`
-- `src/curve/modules/vector-field-patterns/index.ts`
-- `src/curve/modules/vector-field-patterns/vector-field-patterns.test.ts`
-- `src/curve/modules/vector-field-streamlines/animation.ts`
-- `src/curve/modules/vector-field-streamlines/geometry.ts`
-- `src/curve/modules/vector-field-streamlines/index.ts`
-- `src/curve/modules/vector-field-streamlines/vector-field-streamlines.test.ts`
-- `src/curve/modules/vector-projection/geometry.ts`
-- `src/curve/modules/vector-projection/index.ts`
-- `src/curve/modules/vector-projection/vector-projection.test.ts`
+<summary>尚未掃描檔案（0）</summary>
+
+- （無）
 </details>
 
 ## 已掃描紀錄
@@ -1182,6 +1184,89 @@
 | `src/curve/modules/differential-equations-geometry/constants.ts`、`src/curve/modules/differential-equations-geometry/equations.ts`、`src/curve/modules/differential-equations-geometry/layout.ts`、`src/curve/modules/differential-equations-geometry/math.ts`、`src/curve/modules/differential-equations-geometry/types.ts` | 已掃描；確認保留：constants、equation registry、layout mapping、Euler/exact/trace math 與 exported types 均被 `DifferentialEquationsGeometryExploreRoot` 或 `differentialEquationsGeometryRender` 消費；未找到可安全縮小的 export 面。 |
 | `src/curve/modules/dot-product-geometry/geometry.ts`、`src/curve/modules/dot-product-geometry/index.ts`、`src/curve/modules/dot-product-geometry/dot-product-geometry.test.ts` | 已掃描並修正：`DOT_PRODUCT_DRAG_LIMIT`、`dotVec`、`magnitude`、`scaleVec`、`computeDotProductExtent`、`DotProductLayout` 只有同檔或白箱測試讀取，已收窄為 private；測試改驗 `computeDotProductMetrics` 行為，不再替 private helper export 背書。保留 params/mode/metrics types、座標 mapping、drag clamp、angle delta、thumbnail sample，因 hook、renderer、module root、OG/thumbnail pipeline 消費。 |
 | 驗證 | 已執行並通過：`npm test -- src/curve/modules/dot-product-geometry/dot-product-geometry.test.ts`；`npm run smoke:work -- conditional-probability-bayes`；`npm run smoke:work -- dot-product-geometry`；`npm run smoke:explore -- differential-equations-geometry`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run test -- src/registry.sync.test.ts`；`npm run audit:integration`；`npm run build`；`git diff --check`；`npm run validate:changed -- --dry-run`；ledger 機械檢查確認已掃描 623 / 未掃描 121 / tracked 744，無重複、缺漏或 extra。 |
+
+## 2026-06-23 Work smoke slug 補核
+
+| 範圍 | 結論 |
+|------|------|
+| `rose-curve`、`harmonograph-curve`、`lissajous-curve` | 已補核：這三個是公開 Work route / content slug，證據是 `src/content/works/rose-curve.md`、`src/content/works/harmonograph-curve.md`、`src/content/works/lissajous-curve.md`，並且都列在 `src/works/interactiveRegistry.ts` 與 `WorkInteractiveStage.rootBySlug`。`rose`、`harmonograph`、`lissajous` 只是在 `src/curve/modules/*/index.ts` 裡的 `CurveModule.id` 與資料夾名，不是 `smoke:work` slug；不得把 smoke 指令改成資料夾名。 |
+| `scripts/run-smoke.mjs` | 已補核：`smoke:work` 先讀 `workInteractiveSlugs`，未知 slug 會在 Playwright 前直接失敗；不存在 silent no-op 或寬鬆 alias。 |
+| 驗證 | 已執行並符合預期：`npm run smoke:work -- rose-curve --list`；`npm run smoke:work -- harmonograph-curve --list`；`npm run smoke:work -- lissajous-curve --list` 皆列出對應 `/works/*` 測試；`node scripts/run-smoke.mjs work rose --list`、`node scripts/run-smoke.mjs work harmonograph --list`、`node scripts/run-smoke.mjs work lissajous --list` 皆拒絕 unknown slug。 |
+
+## 2026-06-23 curve modules 第九批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/eigenvector-geometry/geometry.ts`、`src/curve/modules/eigenvector-geometry/index.ts`、`src/curve/modules/eigenvector-geometry/eigenvector-geometry.test.ts` | 已掃描並修正：`EigenDirection`、`EigenvectorPreset`、`trace`、`det2`、`normalize`、`mag` 無外部 import，已收窄為 private；module root 不再 re-export 無外部讀端的 `fmtVec` / `trace`。保留 presets、matrix/vector helpers、eigen solve、format、thumbnail helper 與 tests，因 root、hook、renderer、module metadata、OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/equiangular-spiral/animation.ts`、`src/curve/modules/equiangular-spiral/camera.ts`、`src/curve/modules/equiangular-spiral/geometry.ts`、`src/curve/modules/equiangular-spiral/index.ts`、`src/curve/modules/equiangular-spiral/equiangular-spiral.test.ts`、`src/systems/rendering/equiangularSpiralRender.ts` | 已掃描並修正：`EquiangularSpiralAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；`createSpiralCamera()` 只回傳 `{ zoom: 1 }` 且呼叫端立即丟進 `updateSpiralCamera`，已刪；`PARAM_STEP` 無外部讀端，已收窄；module root 不再 re-export 無外部讀端的 `PARAM_LERP`，但 module animation metadata 改直接使用同一個 `PARAM_LERP`。`equiangularSpiralRender.ts` 是支援性修正，先前 rendering 批次已掃過，本輪不重複計數。 |
+| `src/curve/modules/euler-formula-rotation/animation.ts`、`src/curve/modules/euler-formula-rotation/index.ts` | 已掃描並修正：`EulerFormulaRotationAnimState` 無外部 type import，已收窄；state 的 `targetParams` 只寫不讀，已刪；`TIME_SPEED` 無外部讀端，已收窄；module root 不再 re-export 無外部讀端的 `PARAM_LERP`。保留 `PARAM_LERP` 給 module animation metadata，保留 canvas measure helper，因 p5 hook 消費。 |
+| `src/curve/modules/exponential-growth-decay/geometry.ts`、`src/curve/modules/exponential-growth-decay/index.ts`、`src/curve/modules/exponential-growth-decay/exponential-growth-decay.test.ts` | 已掃描；確認保留：plot constants、mode constants、reveal speed、state derivation、mapping、curve points、thumbnail helper、module export 與 tests 均被 root、hook、renderer、registry 或 OG/thumbnail pipeline 消費；未找到可安全縮小的 export 面。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/eigenvector-geometry/eigenvector-geometry.test.ts src/curve/modules/equiangular-spiral/equiangular-spiral.test.ts src/curve/modules/exponential-growth-decay/exponential-growth-decay.test.ts`；`npm run smoke:work -- eigenvector-geometry --list`；`npm run smoke:work -- equiangular-spiral --list`；`npm run smoke:work -- euler-formula-rotation --list`；`npm run smoke:work -- exponential-growth-decay --list`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run test -- src/registry.sync.test.ts`；`npm run audit:integration`；`npm run build`。完整 Playwright smoke 曾嘗試執行但 sandbox 回傳 `listen EPERM 127.0.0.1:4321`；升權重跑被系統用量限制拒絕，因此本輪未宣稱完整 smoke 通過。 |
+
+## 2026-06-23 curve modules 第十批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/fibonacci-spiral/geometry.ts`、`src/curve/modules/fibonacci-spiral/index.ts` | 已掃描；確認保留：`FIBONACCI_VIEW`、Fibonacci sequence / spiral geometry、tile reveal、arc sampling、log spiral reference 與 thumbnail helper 分別被 renderer、hook、module sample、metadata、registry 與 OG/thumbnail pipeline 消費；未找到可安全縮小的 export 面。 |
+| `src/curve/modules/function-derivative-graph/geometry.ts`、`src/curve/modules/function-derivative-graph/index.ts`、`src/curve/modules/function-derivative-graph/function-derivative-graph.test.ts` | 已掃描並修正：`FUNCTION_DERIVATIVE_SLOPE_TOL` 只有同檔 `slopeStateText` 使用，已收窄；`FunctionDerivativeLayout` 無外部 type import，已收窄；module root 不再 re-export 無外部讀端的 thumbnail/layout/mapping helpers 與 `paramsFromValues`。保留 presets、preset mapping、metadata helpers、drag clamp、layout/mapping、curve sampling 與 tests，因 root、hook、renderer、module sample 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/function-graph-transform/constants.ts`、`src/curve/modules/function-graph-transform/geometry.ts`、`src/curve/modules/function-graph-transform/index.ts`、`src/curve/modules/function-graph-transform/function-graph-transform.test.ts` | 已掃描並修正：`VIEW_LERP_PER_SEC` / `MAX_VISUAL_DELTA_MS` 無外部讀端且未被 smoothing helper 使用，已刪；`THUMBNAIL_TRANSFORM_PARAMS` 只有白箱測試讀取，已收窄為 private，測試改驗縮圖行為；`clamp`、`snapStep`、`sampleXs` 只有同檔讀取，已收窄；`buildStatsLines` 無呼叫端，已刪。保留 basis/options、params normalization、metadata params、active/base value、curve sampling、view smoothing、plot mapping、drag helpers、caption 與 thumbnail helper，因 root、hook、renderer、module sample、tests 與 OG/thumbnail pipeline 消費。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/function-derivative-graph/function-derivative-graph.test.ts src/curve/modules/function-graph-transform/function-graph-transform.test.ts`；`npm run smoke:work -- fibonacci-spiral --list`；`npm run smoke:work -- function-derivative-graph --list`；`npm run smoke:work -- function-graph-transform --list`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run test -- src/registry.sync.test.ts`；`npm run audit:integration`；`npm run build`；`git diff --check`；`npm run validate:changed -- --dry-run`；ledger 機械檢查確認已掃描 645 / 未掃描 99 / tracked 744，無重複、缺漏或 extra。 |
+
+## 2026-06-23 curve modules 第十一批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/vector-addition-scalar/geometry.ts`、`src/curve/modules/vector-addition-scalar/index.ts`、`src/curve/modules/vector-addition-scalar/vector-addition-scalar.test.ts` | 已掃描並修正：`VectorAdditionScalarLayout`、`VECTOR_DRAG_LIMIT`、`computeVectorExtent` 只有同檔或白箱間接讀取，已收窄；module root 不再 re-export 無外部讀端的 `asVectorParams`。保留 vector math、layout/mapping、drag clamp、format、thumbnail helper 與 tests，因 root、hook、renderer、module sample 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/vector-field-patterns/geometry.ts`、`src/curve/modules/vector-field-patterns/index.ts`、`src/curve/modules/vector-field-patterns/vector-field-patterns.test.ts` | 已掃描並修正：`FieldIntegration`、`FieldConfig`、`VectorFieldLayout`、`FIELD_WORLD_EXTENT`、本地 `add` 與 `asVectorFieldPatternParams` 無外部 import，已收窄為 private。保留 pattern order、metadata params、field config、seed/streamline integration、layout/mapping、thumbnail helper 與 tests，因 root、hook、renderer、module sample 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/vector-field-streamlines/animation.ts`、`src/curve/modules/vector-field-streamlines/geometry.ts`、`src/curve/modules/vector-field-streamlines/index.ts`、`src/curve/modules/vector-field-streamlines/vector-field-streamlines.test.ts` | 已掃描並修正：`VectorFieldAnimState` 與 `Velocity` 無外部 type import，已收窄；animation state 的 `params` / `targetParams` 只寫不讀，已刪；測試改用 `ReturnType<typeof createVectorFieldAnimState>`，不再替 private type export 背書。保留 streamline integration、seed builder、animation step、module sample 與 tests，因 hook、renderer、module sample、registry 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/vector-projection/geometry.ts`、`src/curve/modules/vector-projection/index.ts`、`src/curve/modules/vector-projection/vector-projection.test.ts` | 已掃描並修正：`VectorProjectionLayout`、`VECTOR_PROJECTION_DRAG_LIMIT`、`dotVec`、`sub`、`normalize`、`rotateCCW`、`computeVectorProjectionExtent` 與 `asVectorProjectionParams` 無外部 import，已收窄為 private。保留 projection data、format、layout/mapping、drag clamp、thumbnail helper 與 tests，因 root、hook、renderer、module sample 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/matrix-linear-transform/constants.ts`、`src/curve/modules/matrix-linear-transform/matrix.ts`、`src/curve/modules/matrix-linear-transform/types.ts` | 已掃描並修正：`matrixScale`、`matrixReflection` 與 `SpecialParam` 無外部 import，已收窄為 private。保留 constants、matrix identity/rotation/shear/multiply/transform/det/diff/lerp/text、special label helpers、target matrix 與 exported types，因 `MatrixLinearTransformExploreRoot`、`matrixLinearTransformRender`、animation 與 Explore route 消費。 |
+| `src/curve/modules/linear-transform-grid/animation.ts`、`src/curve/modules/linear-transform-grid/geometry.ts`、`src/curve/modules/linear-transform-grid/index.ts`、`src/curve/modules/linear-transform-grid/linear-transform-grid.test.ts` | 已掃描並修正：`LinearTransformGridAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；`LineSegment`、`FIT_PADDING`、`getLinearTransformGridThumbnailTime` 無外部 import，已收窄；只為 export 存在且無讀端的 geometry `PRIMARY` 已刪；module root 不再 re-export 無外部讀端的 `PARAM_LERP`。保留 `REVEAL_SPEED`、`GRID_SEGMENT_COUNT`、matrix/grid/sample helpers 與 tests，因 hook、renderer、module sample、registry test 與 OG/thumbnail pipeline 消費。 |
+| `scripts/validate-changed.mjs` | 支援性修正：`src/curve/modules/<slug>/...` 變更若 `<slug>` 同時是 Explore interactive slug，現在會選對應 `smoke:explore`；本輪補上 `matrix-linear-transform` 不被 dry-run 選到的驗證盲點。此檔已在前批掃描，本輪不重複計數。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/vector-addition-scalar/vector-addition-scalar.test.ts src/curve/modules/vector-field-patterns/vector-field-patterns.test.ts src/curve/modules/vector-field-streamlines/vector-field-streamlines.test.ts src/curve/modules/vector-projection/vector-projection.test.ts src/curve/modules/linear-transform-grid/linear-transform-grid.test.ts src/curve/modules/matrix-linear-transform/animation.test.ts`；`npm run test -- src/registry.sync.test.ts`；`npm run smoke:work -- vector-addition-scalar --list`；`npm run smoke:work -- vector-field-patterns --list`；`npm run smoke:work -- vector-field-streamlines --list`；`npm run smoke:work -- vector-projection --list`；`npm run smoke:work -- linear-transform-grid --list`；`npm run smoke:explore -- matrix-linear-transform --list`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run audit:integration`；`npm run build`；`git diff --check`；`npm run lab -- --help`；`npm run validate:changed -- --dry-run` 已確認會選到 `smoke:explore -- matrix-linear-transform`；ledger 機械檢查確認已掃描 665 / 未掃描 79 / tracked 744，無重複。 |
+
+## 2026-06-23 curve modules 第十二批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/interference-fringes/animation.ts`、`src/curve/modules/interference-fringes/geometry.ts`、`src/curve/modules/interference-fringes/index.ts`、`src/curve/modules/interference-fringes/interference-fringes.test.ts`、`src/components/curve/useInterferenceFringesP5.ts` | 已掃描並修正：`InterferenceFringesAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；hook 改由目前 target params 提供 `wavelength`；geometry 的 `CURVE_WIDTH_RATIO`、`HYPERBOLA_T_STEP`、`WAVE_DISTANCE_SCALE`、`HyperbolaParams`、`InterferenceBuildOpts`、`InterferenceGeometry`、`pathDifference`、`hyperbolaParameters`、`waveModulation` 無外部 import，已收窄；module root 不再 re-export 無外部讀端的 `SOURCE_DISTANCE_LERP`。 |
+| `src/curve/modules/inverse-function-reflection/constants.ts`、`src/curve/modules/inverse-function-reflection/geometry.ts`、`src/curve/modules/inverse-function-reflection/index.ts`、`src/curve/modules/inverse-function-reflection/inverse-function-reflection.test.ts` | 已掃描並修正：`THUMBNAIL_INVERSE_PARAMS` 只有縮圖 builder / 白箱測試讀取，已收窄；`clamp`、`snapStep`、`modeFromIndex`、`modeToIndex`、`formulaText`、`inverseFormulaText`、`buildOriginalCurve`、`reflectCurve`、`targetViewHalfYFromCurves` 無外部 import，已收窄；module root 不再 re-export 無讀端 helper；測試改驗 `inverseMeta`、scene cache 與 thumbnail output。保留 constants、params bridge、drag/input helpers、plot mapping 與 `sampleXs`，因 root、hook、renderer、module metadata 消費。 |
+| `src/curve/modules/julia-set/config.ts`、`src/curve/modules/julia-set/engine.ts`、`src/curve/modules/julia-set/geometry.ts`、`src/curve/modules/julia-set/index.ts`、`src/curve/modules/julia-set/math.ts`、`src/curve/modules/julia-set/math.test.ts`、`src/curve/modules/julia-set/renderer.ts` | 已掃描並修正：`PALETTE` / `samplePalette` 無外部 import，已收窄；`TileRenderParams`、`JuliaTargetParams` 無外部 type import，已收窄；`renderJuliaTile` 的 `zoom` 參數只傳不讀，已刪；module root 不再 re-export 無外部讀端的 `JULIA_CFG`。保留 config、engine、math、tile renderer 與 thumbnail helper，因 hook、module sample、renderer pipeline、metadata 與 tests 消費。 |
+| `src/curve/modules/law-of-sines-cosines/geometry.ts`、`src/curve/modules/law-of-sines-cosines/index.ts`、`src/curve/modules/law-of-sines-cosines/law-of-sines-cosines.test.ts` | 已掃描並修正：`EPS`、`safeRatio`、`modeFromParam` 無外部 import，已收窄；root-local `asLawOfSinesCosinesParams` 無外部 import，已收窄；測試改走 module 的 numeric `ParamValues` contract。保留 triangle metrics、drag/transform helpers、caption/status helpers、thumbnail sample 與 types，因 Work root、hook、renderer、module metadata 與 tests 消費。 |
+| `src/curve/modules/limits-riemann-sum/constants.ts`、`src/curve/modules/limits-riemann-sum/functions.ts`、`src/curve/modules/limits-riemann-sum/functions.test.ts`、`src/curve/modules/limits-riemann-sum/layout.ts`、`src/curve/modules/limits-riemann-sum/types.ts` | 已掃描並修正：`constants.ts` 的字面重複註解已刪。保留 function registry、Riemann / secant math、layout mapping、canvas measure 與 types，因 `LimitsRiemannSumExploreRoot`、renderer、tests 與 `smoke:explore -- limits-riemann-sum` 消費。 |
+| `src/curve/modules/logarithmic-scale/geometry.ts`、`src/curve/modules/logarithmic-scale/index.ts`、`src/curve/modules/logarithmic-scale/logarithmic-scale.test.ts` | 已掃描；確認保留：plot/view constants、state derivation、axis mapping、curve sampling、thumbnail helper、`LOG_REVEAL_SPEED` 與 types 均被 hook、renderer、module metadata、tests 或 OG/thumbnail pipeline 消費；未找到可安全縮小項。 |
+| `src/curve/modules/logistic-bifurcation/geometry.ts`、`src/curve/modules/logistic-bifurcation/index.ts` | 已掃描並修正：`LogisticMode`、`Rect`、`Point`、`BifurcationPoint`、`OrbitData` 無外部 type import，已收窄；`detectPeriod`、`mapX` 只被本檔使用，已收窄。保留 mode constants、layout/Feigenbaum markers、bifurcation/orbit/cobweb builders、mapping 與 module export，因 Work root、hook、renderer、module metadata 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/natural-log-e-geometry/geometry.ts`、`src/curve/modules/natural-log-e-geometry/index.ts`、`src/curve/modules/natural-log-e-geometry/natural-log-e-geometry.test.ts` | 已掃描；確認保留：view constants、mode constants、Riemann estimate、state derivation、mapping、curve sampling、thumbnail helper、`NAT_LOG_REVEAL_SPEED` 與 types 均被 hook、renderer、module metadata、tests 或 OG/thumbnail pipeline 消費；未找到可安全縮小項。 |
+| `src/curve/modules/parabolic-reflection/animation.ts`、`src/curve/modules/parabolic-reflection/geometry.ts`、`src/curve/modules/parabolic-reflection/index.ts`、`src/curve/modules/parabolic-reflection/parabolic-reflection.test.ts`、`src/components/curve/useParabolicReflectionP5.ts` | 已掃描並修正：`ParabolicReflectionAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；hook 改由目前 target params 提供 `rayCount`；geometry 的 `REGION_RATIO`、`parabolaX`、`scanOffset`、`buildIncomingRay`、`buildReflectedRay` 無外部 import，已收窄；module root 不再 re-export 無外部讀端的 `FOCAL_LERP`。保留 focus/curve/ray builders 與 tests，因 renderer、module sample、metadata 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/pascals-triangle/geometry.ts`、`src/curve/modules/pascals-triangle/index.ts` | 已掃描並修正：`PASCAL_ROWS_MIN` / `PASCAL_ROWS_MAX` 只被 `normalizeRows` 本檔使用，已收窄。保留 `PASCAL_VIEW`、`PASCAL_PRIMES`、frame builder、dependency cone、hit test、cell key 與 thumbnail helper，因 Work root、hook、renderer、module metadata 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/polynomial-roots-multiplicity/constants.ts`、`src/curve/modules/polynomial-roots-multiplicity/geometry.ts`、`src/curve/modules/polynomial-roots-multiplicity/index.ts`、`src/curve/modules/polynomial-roots-multiplicity/polynomial-roots-multiplicity.test.ts` | 已掃描並修正：`THUMBNAIL_POLYNOMIAL_PARAMS` / `THUMBNAIL_VIEW_HALF_Y` 只有縮圖 builder / 白箱測試讀取，已收窄；`clamp`、`snapStep`、`mergedBreaks`、`buildSignedSegments`、`sampleXs`、`buildPolynomialCurve`、`targetViewHalfYFromCurve` 無外部 import，已收窄；`applyPreset` 全專案無呼叫端，已刪並移除 root re-export；測試改驗 `polynomialMeta`、scene cache 與 thumbnail output。保留 constants、params bridge、metadata params、preset detection、drag helpers、caption/mapping 與 exported types，因 Work root、hook、renderer、module metadata 與 OG/thumbnail pipeline 消費。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/interference-fringes/interference-fringes.test.ts src/curve/modules/inverse-function-reflection/inverse-function-reflection.test.ts src/curve/modules/julia-set/math.test.ts src/curve/modules/law-of-sines-cosines/law-of-sines-cosines.test.ts src/curve/modules/limits-riemann-sum/functions.test.ts src/curve/modules/logarithmic-scale/logarithmic-scale.test.ts src/curve/modules/natural-log-e-geometry/natural-log-e-geometry.test.ts src/curve/modules/parabolic-reflection/parabolic-reflection.test.ts src/curve/modules/polynomial-roots-multiplicity/polynomial-roots-multiplicity.test.ts`；`npm run smoke:work -- interference-fringes --list`；`npm run smoke:work -- inverse-function-reflection --list`；`npm run smoke:work -- julia-set --list`；`npm run smoke:work -- law-of-sines-cosines --list`；`npm run smoke:explore -- limits-riemann-sum --list`；`npm run smoke:work -- logarithmic-scale --list`；`npm run smoke:work -- logistic-bifurcation --list`；`npm run smoke:work -- natural-log-e-geometry --list`；`npm run smoke:work -- parabolic-reflection --list`；`npm run smoke:work -- pascals-triangle --list`；`npm run smoke:work -- polynomial-roots-multiplicity --list`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run test -- src/registry.sync.test.ts`；`git diff --check`；`npm run audit:integration`；`npm run build`；`npm run validate:changed -- --dry-run`；ledger 機械檢查確認已掃描 706 / 未掃描 38 / tracked 744，無重複。 |
+
+## 2026-06-23 curve modules 第十三批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/quadratic-completing-square/constants.ts`、`src/curve/modules/quadratic-completing-square/geometry.ts`、`src/curve/modules/quadratic-completing-square/index.ts`、`src/curve/modules/quadratic-completing-square/quadratic-completing-square.test.ts` | 已掃描並修正：`THUMBNAIL_QUADRATIC_PARAMS`、`clamp`、`snapStep`、`sampleXs`、`buildQuadraticCurve`、`buildBaseParabolaCurve`、`targetViewHalfYFromCurves` 無外部 import，已收窄；測試改驗 scene cache 與 thumbnail output，不再為 private helper 保留 export。保留 params bridge、metadata、plot mapping、drag vertex、caption 與 thumbnail builder，因 Work root、hook、renderer、module sample 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/rational-oblique-asymptote/geometry.ts`、`src/curve/modules/rational-oblique-asymptote/index.ts` | 已掃描；確認保留：mode / param bridge、model builder、segment sampling、plot mapping、thumbnail helper 與 root barrel export 均被 Work root、p5 hook、renderer、module metadata 或 OG/thumbnail pipeline 消費；本輪未找到可安全縮小項。`clamp` 仍由 renderer 經 module root 消費。 |
+| `src/curve/modules/rational-vertical-horizontal-asymptotes/geometry.ts`、`src/curve/modules/rational-vertical-horizontal-asymptotes/index.ts` | 已掃描並修正：本地 `clamp` 無外部 import，已收窄並從 module root export 移除。保留 presets、param bridge、model/segment/plot helpers 與 thumbnail helper，因 Work root、p5 hook、renderer、module metadata 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/regression-outlier-influence/geometry.ts`、`src/curve/modules/regression-outlier-influence/index.ts`、`src/curve/modules/regression-outlier-influence/regression-outlier-influence.test.ts` | 已掃描並修正：module root 不再 re-export 無外部 type import 的 `InfluenceStats`。保留 base points、outlier presets、influence stats 與 thumbnail helper，因 Work root、renderer、module metadata、tests 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/riemann-sum/animation.ts`、`src/curve/modules/riemann-sum/geometry.ts`、`src/curve/modules/riemann-sum/index.ts`、`src/curve/modules/riemann-sum/riemann-sum.test.ts` | 已掃描並修正：`RiemannSumAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；hook 改由目前 target params 提供 `waveFrequency`；module root 不再 re-export 無外部讀端的 `PARAM_LERP`。保留 Riemann function / rectangle / curve builders，因 renderer、module sample、metadata 與 tests 消費。 |
+| `src/curve/modules/rotation-scale-composition/animation.ts`、`src/curve/modules/rotation-scale-composition/geometry.ts`、`src/curve/modules/rotation-scale-composition/index.ts`、`src/curve/modules/rotation-scale-composition/rotation-scale-composition.test.ts` | 已掃描並修正：`RotationScaleCompositionAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；`REGION_RATIO`、`collectLayerSegments` 無外部 import，已收窄；module root 不再 re-export 無外部讀端的 `PARAM_LERP`。保留 base square、matrix transform、stacked segments 與 tests，因 hook、HeroCanvas、renderer、module sample 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/sierpinski-triangle/geometry.ts`、`src/curve/modules/sierpinski-triangle/index.ts` | 已掃描；確認保留：mode constants、topology / chaos / compare builders、thumbnail helper 與 exported point/triangle types 被 Work root、hook、renderer、module metadata、registry 與 OG/thumbnail pipeline 消費；未找到可安全縮小項。 |
+| `src/curve/modules/sinusoid-amplitude-period-phase/geometry.ts`、`src/curve/modules/sinusoid-amplitude-period-phase/index.ts`、`src/curve/modules/sinusoid-amplitude-period-phase/sinusoid-amplitude-period-phase.test.ts` | 已掃描並修正：本地 `clamp` 無外部 import，已收窄。保留 param bounds、params bridge、format/peak/period helpers、curve sampling、thumbnail helper 與 types，因 Work root、hook、renderer、module metadata 與 tests 消費。 |
+| `src/curve/modules/spirograph/animation.ts`、`src/curve/modules/spirograph/index.ts`、`src/curve/modules/spirograph/spirograph.test.ts` | 已掃描並修正：`MORPH_LERP` 原本只為 animation 從 module root 反向 import 而 re-export，已移到 animation 並由 index 讀取；module root 不再 export 無外部讀端的 `MORPH_LERP` / `SAMPLE_STEP`，只保留 `REVEAL_SPEED`。保留 sample cap、module sample、metadata 與 tests，因 Work root、registry、morph pipeline、thumbnail/OG pipeline 消費。 |
+| `src/curve/modules/standing-wave/animation.ts`、`src/curve/modules/standing-wave/geometry.ts`、`src/curve/modules/standing-wave/index.ts`、`src/curve/modules/standing-wave/standing-wave.test.ts` | 已掃描並修正：`StandingWaveAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；hook 改由目前 target params 提供 `spatialFrequency`；`CURVE_WIDTH_RATIO`、`BASE_CANVAS`、`StandingWaveBuildOpts` 無外部 import，已收窄；module root 不再 re-export 無外部讀端的 `AMPLITUDE_LERP`。保留 standing/envelope builders、sample helper 與 tests，因 renderer、module sample、metadata 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/tangent-approximation/animation.ts`、`src/curve/modules/tangent-approximation/geometry.ts`、`src/curve/modules/tangent-approximation/index.ts`、`src/curve/modules/tangent-approximation/tangent-approximation.test.ts` | 已掃描並修正：`TangentApproximationAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；hook 改由目前 target params 提供 `waveFrequency`；`CURVE_SAMPLE_STEP` / `EXTENSION_SAMPLE_STEP` 無外部 import，已收窄；module root 不再 re-export 無外部讀端的 `PARAM_LERP`。保留 function/secant/extension builders、collapse animation 與 tests，因 hook、renderer、module sample 與 OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/taylor-polynomial-approximation/geometry.ts`、`src/curve/modules/taylor-polynomial-approximation/index.ts`、`src/curve/modules/taylor-polynomial-approximation/taylor-polynomial-approximation.test.ts` | 已掃描並修正：module root 不再 re-export 無外部讀端的 render-only helpers、`paramsFromValues`、`clampY`、`taylorValue` 等寬 API；renderer / tests 仍直接消費 geometry helpers。保留 root/hook 實際需要的 presets、clamp、values bridge 與 preset types，因 Work root、hook、renderer、module metadata 與 tests 消費。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/quadratic-completing-square/quadratic-completing-square.test.ts src/curve/modules/regression-outlier-influence/regression-outlier-influence.test.ts src/curve/modules/riemann-sum/riemann-sum.test.ts src/curve/modules/rotation-scale-composition/rotation-scale-composition.test.ts src/curve/modules/sinusoid-amplitude-period-phase/sinusoid-amplitude-period-phase.test.ts src/curve/modules/spirograph/spirograph.test.ts src/curve/modules/standing-wave/standing-wave.test.ts src/curve/modules/tangent-approximation/tangent-approximation.test.ts src/curve/modules/taylor-polynomial-approximation/taylor-polynomial-approximation.test.ts`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts src/registry.sync.test.ts`；`npm run smoke:work -- quadratic-completing-square --list`；`npm run smoke:work -- rational-oblique-asymptote --list`；`npm run smoke:work -- rational-vertical-horizontal-asymptotes --list`；`npm run smoke:work -- regression-outlier-influence --list`；`npm run smoke:work -- riemann-sum --list`；`npm run smoke:work -- rotation-scale-composition --list`；`npm run smoke:work -- sierpinski-triangle --list`；`npm run smoke:work -- sinusoid-amplitude-period-phase --list`；`npm run smoke:work -- spirograph-curve --list`；`npm run smoke:work -- standing-wave --list`；`npm run smoke:work -- tangent-approximation --list`；`npm run smoke:work -- taylor-polynomial-approximation --list`；`git diff --check`；`npm run audit:integration`；`npm run build`；`npm run validate:changed -- --dry-run`；ledger 機械檢查確認已掃描 744 / 未掃描 0 / tracked 744，無重複。 |
+
+## 2026-06-23 收官補核
+
+| 範圍 | 結論 |
+|------|------|
+| `src/components/curve/CurveHookWorkRoot.tsx`、`src/components/works/RiemannSumCurveRoot.tsx`、`src/components/works/RotationScaleCompositionCurveRoot.tsx` | 已補核：舊 deferred `defaultParams` common hook contract 不是第十三批 module state cleanup 的同一層問題；ledger 既有紀錄已於 2026-06-23 關閉。原始碼仍顯示 `CurveHookWorkRoot` 固定傳入 `defaultParams` / `targetParams`，Riemann / Rotation root 只是 common hook glue；不得局部刪除 `defaultParams` option。 |
+| `julia-set`、`logistic-bifurcation`、`pascals-triangle`、`parabolic-reflection` | 已補核：四者真實 Work slug 是 registry / content / stage 內的裸 slug，不是 `*-curve`。`npm run smoke:work -- <裸 slug> --list` 均列出對應 `/works/<slug>` 測試；`npm run smoke:work -- <slug>-curve --list` 均以 `Unknown work slug` 拒絕。 |
+| `docs/p5toreact.md`、`docs/editing-rules.md` | 已補規則：Work smoke slug 以公開 route slug 為準；可疑時跑正向與反向 `--list`；scan 收官前必須確認 deferred review item 已關閉。 |
 
 ## 接續審查記錄格式
 

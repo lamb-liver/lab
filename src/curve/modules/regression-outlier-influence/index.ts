@@ -4,7 +4,6 @@ import {
   OUTLIER_PRESETS,
   buildRegressionOutlierInfluenceThumbnail,
   influenceStats,
-  type InfluenceStats,
 } from './geometry';
 import type { ScatterPoint } from '../scatter-correlation-regression/geometry';
 
@@ -47,5 +46,4 @@ export {
   DEFAULT_OUTLIER,
   OUTLIER_PRESETS,
   influenceStats,
-  type InfluenceStats,
 };

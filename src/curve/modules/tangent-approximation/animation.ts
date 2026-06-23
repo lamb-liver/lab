@@ -8,9 +8,7 @@ import {
 export const COLLAPSE_SPEED = 0.005;
 export const PARAM_LERP = 0.08;
 
-export type TangentApproximationAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type TangentApproximationAnimState = {
   collapseProgress: number;
   isComplete: boolean;
   time: number;
@@ -26,8 +24,6 @@ export function createTangentApproximationAnimState(
   canvasWidth: number,
 ): TangentApproximationAnimState {
   return {
-    params: { ...defaultParams },
-    targetParams: { ...defaultParams },
     collapseProgress: 0,
     isComplete: false,
     time: 0,
@@ -67,7 +63,6 @@ export function stepTangentApproximationAnimation(
     smoothDx,
     ghostCurve,
   } = state;
-  const targetParams = { ...nextTarget };
 
   if (dxChanged) {
     collapseProgress = 0;
@@ -78,12 +73,12 @@ export function stepTangentApproximationAnimation(
     snapshotTime = time;
     ghostCurve = buildFunctionCurvePoints(
       canvasWidth,
-      targetParams.waveFrequency,
+      nextTarget.waveFrequency,
       snapshotTime,
     );
   }
 
-  time += targetParams.timeSpeed;
+  time += nextTarget.timeSpeed;
 
   if (!isComplete) {
     collapseProgress += collapseSpeed;
@@ -95,27 +90,19 @@ export function stepTangentApproximationAnimation(
 
   const targetDx = lerpToward(
     COLLAPSE_START_DX,
-    targetParams.dx,
+    nextTarget.dx,
     collapseProgress,
   );
   smoothDx = lerpToward(smoothDx, targetDx, PARAM_LERP);
 
-  const params = {
-    dx: smoothDx,
-    waveFrequency: targetParams.waveFrequency,
-    timeSpeed: targetParams.timeSpeed,
-  };
-
   return {
-    params,
-    targetParams,
     collapseProgress,
     isComplete,
     time,
     snapshotTime,
     smoothDx,
-    previousDx: targetParams.dx,
-    previousWaveFrequency: targetParams.waveFrequency,
+    previousDx: nextTarget.dx,
+    previousWaveFrequency: nextTarget.waveFrequency,
     ghostCurve,
   };
 }

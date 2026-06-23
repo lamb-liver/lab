@@ -4,9 +4,7 @@ import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 export const REVEAL_SPEED = 0.004;
 export const FOCAL_LERP = 0.08;
 
-export type ParabolicReflectionAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type ParabolicReflectionAnimState = {
   revealProgress: number;
   isComplete: boolean;
   time: number;
@@ -23,8 +21,6 @@ export function createParabolicReflectionAnimState(
   const rayCount = Math.round(defaultParams.rayCount);
   const focalLength = defaultParams.focalLength;
   return {
-    params: { ...defaultParams, rayCount },
-    targetParams: { ...defaultParams, rayCount },
     revealProgress: 0,
     isComplete: false,
     time: 0,
@@ -49,7 +45,6 @@ export function stepParabolicReflectionAnimation(
   const focalLengthChanged = focalLength !== state.previousFocalLength;
 
   let {
-    params,
     revealProgress,
     isComplete,
     time,
@@ -59,8 +54,6 @@ export function stepParabolicReflectionAnimation(
     pendingRevealReset,
     pendingRevealSince,
   } = state;
-
-  const targetParams = { ...nextTarget, rayCount };
 
   if (rayCountChanged) {
     revealProgress = 0;
@@ -83,13 +76,7 @@ export function stepParabolicReflectionAnimation(
   }
 
   const scale = frameScale(deltaMs);
-  time += targetParams.scanSpeed * scale;
-
-  params = {
-    focalLength: currentFocalLength,
-    rayCount,
-    scanSpeed: targetParams.scanSpeed,
-  };
+  time += nextTarget.scanSpeed * scale;
 
   const settled = Math.abs(currentFocalLength - focalLength) < 0.05;
   if (
@@ -111,8 +98,6 @@ export function stepParabolicReflectionAnimation(
   }
 
   return {
-    params,
-    targetParams,
     revealProgress,
     isComplete,
     time,

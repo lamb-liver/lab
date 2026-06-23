@@ -8,7 +8,7 @@ import {
 
 type TileCoord = { x: number; y: number };
 
-export type JuliaTargetParams = {
+type JuliaTargetParams = {
   autoDrift: number;
   cx: number;
   cy: number;
@@ -170,7 +170,6 @@ export class JuliaEngine {
         tileSize: JULIA_CFG.TILE,
         cx: this.scx,
         cy: this.scy,
-        zoom: JULIA_CFG.ZOOM,
         maxIter: this.maxIter,
         zxTable: this.zxTable,
         zyTable: this.zyTable,

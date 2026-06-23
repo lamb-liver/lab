@@ -1,6 +1,6 @@
 import type { CurvePoint } from '../../types';
 
-export const REGION_RATIO = 0.8;
+const REGION_RATIO = 0.8;
 export const CURVE_STEP = 4;
 export const ORIGIN_OFFSET_X = 80;
 export const BASE_CANVAS = 600;
@@ -8,7 +8,7 @@ export const BASE_CANVAS = 600;
 export type Point2 = { x: number; y: number };
 export type RaySegment = { x1: number; y1: number; x2: number; y2: number };
 
-export function parabolaX(y: number, p: number): number {
+function parabolaX(y: number, p: number): number {
   return (y * y) / (4 * p);
 }
 
@@ -16,7 +16,7 @@ export function focusPoint(p: number): Point2 {
   return { x: p, y: 0 };
 }
 
-export function scanOffset(time: number): number {
+function scanOffset(time: number): number {
   return Math.sin(time) * 0.2;
 }
 
@@ -35,7 +35,7 @@ export function buildParabolaCurve(
   return points;
 }
 
-export function buildIncomingRay(
+function buildIncomingRay(
   focus: Point2,
   hitX: number,
   hitY: number,
@@ -50,7 +50,7 @@ export function buildIncomingRay(
   };
 }
 
-export function buildReflectedRay(
+function buildReflectedRay(
   hitX: number,
   hitY: number,
   exitX: number,

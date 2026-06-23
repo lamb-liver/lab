@@ -98,7 +98,7 @@ export const tangentApproximationModule: CurveModule = {
   animation: { lerp: PARAM_LERP, revealSpeed: COLLAPSE_SPEED },
 };
 
-export { COLLAPSE_SPEED, PARAM_LERP } from './animation';
+export { COLLAPSE_SPEED } from './animation';
 
 export function getTangentApproximationThumbnailTime(): number {
   return 0;

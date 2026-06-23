@@ -1,23 +1,23 @@
 import type { CurvePoint } from '../../types';
 
-export const CURVE_WIDTH_RATIO = 0.8;
+const CURVE_WIDTH_RATIO = 0.8;
 export const DEFAULT_SAMPLE_STEP = 4;
-export const HYPERBOLA_T_STEP = 0.03;
+const HYPERBOLA_T_STEP = 0.03;
 export const BASE_CANVAS = 600;
-export const WAVE_DISTANCE_SCALE = 0.05;
+const WAVE_DISTANCE_SCALE = 0.05;
 
 export type Point2 = { x: number; y: number };
 
-export type HyperbolaParams =
+type HyperbolaParams =
   | { isCenterLine: true; a: number; c: number }
   | { isCenterLine: false; a: number; b: number; c: number };
 
-export type InterferenceGeometry = {
+type InterferenceGeometry = {
   fringes: Point2[][];
   envelopes: Point2[][];
 };
 
-export type InterferenceBuildOpts = {
+type InterferenceBuildOpts = {
   canvasWidth: number;
   canvasHeight: number;
   currentSourceDistance: number;
@@ -29,11 +29,11 @@ export type InterferenceBuildOpts = {
   hyperbolaStep?: number;
 };
 
-export function pathDifference(order: number, wavelength: number): number {
+function pathDifference(order: number, wavelength: number): number {
   return order * wavelength;
 }
 
-export function hyperbolaParameters(
+function hyperbolaParameters(
   pathDiff: number,
   currentSourceDistance: number,
 ): HyperbolaParams | null {
@@ -52,7 +52,7 @@ export function hyperbolaParameters(
   return { isCenterLine: false, a, b, c };
 }
 
-export function waveModulation(x: number, y: number, time: number): number {
+function waveModulation(x: number, y: number, time: number): number {
   const distance = Math.hypot(x, y);
   return Math.cos(distance * WAVE_DISTANCE_SCALE - time);
 }

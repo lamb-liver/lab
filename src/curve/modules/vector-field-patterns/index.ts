@@ -42,7 +42,7 @@ function patternFromParam(value: unknown): VectorFieldPattern {
     : 'source';
 }
 
-export function asVectorFieldPatternParams(
+function asVectorFieldPatternParams(
   params: ParamValues | VectorFieldPatternParams,
 ): VectorFieldPatternParams {
   return {

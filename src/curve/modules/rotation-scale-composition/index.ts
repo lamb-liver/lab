@@ -91,7 +91,7 @@ export const rotationScaleCompositionModule: CurveModule = {
   animation: { lerp: PARAM_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { PARAM_LERP, REVEAL_SPEED } from './animation';
+export { REVEAL_SPEED } from './animation';
 
 function lineToCurvePoints(line: {
   x1: number;

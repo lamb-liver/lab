@@ -3,9 +3,7 @@ import type { ParamValues } from '../../types';
 export const REVEAL_SPEED = 0.004;
 export const PARAM_LERP = 0.08;
 
-export type RiemannSumAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type RiemannSumAnimState = {
   activeDomain: number;
   isComplete: boolean;
   time: number;
@@ -17,8 +15,6 @@ export function createRiemannSumAnimState(
   defaultParams: ParamValues,
 ): RiemannSumAnimState {
   return {
-    params: { ...defaultParams },
-    targetParams: { ...defaultParams },
     activeDomain: 0,
     isComplete: false,
     time: 0,
@@ -43,7 +39,6 @@ export function stepRiemannSumAnimation(
     Math.round(state.previousPartitionCount);
 
   let { activeDomain, isComplete, time, currentPartitionCount } = state;
-  const targetParams = { ...nextTarget };
 
   if (partitionChanged) {
     activeDomain = 0;
@@ -52,17 +47,11 @@ export function stepRiemannSumAnimation(
 
   currentPartitionCount = lerpToward(
     currentPartitionCount,
-    targetParams.partitionCount,
+    nextTarget.partitionCount,
     PARAM_LERP,
   );
 
-  time += targetParams.timeSpeed;
-
-  const params = {
-    partitionCount: currentPartitionCount,
-    waveFrequency: targetParams.waveFrequency,
-    timeSpeed: targetParams.timeSpeed,
-  };
+  time += nextTarget.timeSpeed;
 
   if (!isComplete) {
     activeDomain += revealSpeed;
@@ -73,12 +62,10 @@ export function stepRiemannSumAnimation(
   }
 
   return {
-    params,
-    targetParams,
     activeDomain,
     isComplete,
     time,
     currentPartitionCount,
-    previousPartitionCount: targetParams.partitionCount,
+    previousPartitionCount: nextTarget.partitionCount,
   };
 }

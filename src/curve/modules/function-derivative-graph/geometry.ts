@@ -33,13 +33,13 @@ export type GraphRect = {
   h: number;
 };
 
-export type FunctionDerivativeLayout = {
+type FunctionDerivativeLayout = {
   top: GraphRect;
   bottom: GraphRect;
 };
 
 export const FUNCTION_DERIVATIVE_SAMPLE_N = 360;
-export const FUNCTION_DERIVATIVE_SLOPE_TOL = 0.045;
+const FUNCTION_DERIVATIVE_SLOPE_TOL = 0.045;
 
 export const FUNCTION_DERIVATIVE_PRESETS: FunctionDerivativePreset[] = [
   {

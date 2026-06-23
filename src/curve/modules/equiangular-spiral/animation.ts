@@ -8,9 +8,7 @@ import {
   evaluateEquiangularSpiral,
 } from './geometry';
 
-export type EquiangularSpiralAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type EquiangularSpiralAnimState = {
   time: number;
   smoothGrowthB: number;
   smoothMaxTheta: number;
@@ -53,8 +51,6 @@ export function createEquiangularSpiralAnimState(
   );
 
   return {
-    params: { ...defaultParams },
-    targetParams: { ...defaultParams },
     time: 0,
     smoothGrowthB: defaultParams.growthB,
     smoothMaxTheta: defaultParams.maxTheta,
@@ -69,7 +65,7 @@ export function stepEquiangularSpiralAnimation(
   state: EquiangularSpiralAnimState,
   nextTarget: ParamValues,
 ): EquiangularSpiralAnimState {
-  const targetParams = { ...nextTarget };
+  const targetParams = nextTarget;
 
   let smoothGrowthB = lerpToward(
     state.smoothGrowthB,
@@ -118,12 +114,6 @@ export function stepEquiangularSpiralAnimation(
   }
 
   return {
-    params: {
-      growthB: smoothGrowthB,
-      maxTheta: smoothMaxTheta,
-      rotationSpeed: targetParams.rotationSpeed,
-    },
-    targetParams,
     time,
     smoothGrowthB,
     smoothMaxTheta,

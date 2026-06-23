@@ -6,15 +6,10 @@ import {
   buildInverseSceneCache,
   clampInputForMode,
   DEFAULT_INVERSE_FUNCTION_REFLECTION_PARAMS,
-  formulaText,
   geometryParamsEqual,
-  inverseFormulaText,
   inverseMeta,
   paramsForModeSwitch,
   quadraticHorizontalHits,
-  reflectCurve,
-  targetViewHalfYFromCurves,
-  THUMBNAIL_INVERSE_PARAMS,
 } from './geometry';
 
 describe('inverse-function-reflection geometry', () => {
@@ -44,15 +39,14 @@ describe('inverse-function-reflection geometry', () => {
     expect(meta.passHlt).toBe(false);
   });
 
-  it('reflectCurve swaps x and y', () => {
-    const reflected = reflectCurve([{ x: 2, y: 3 }]);
-    expect(reflected[0]).toEqual({ x: 3, y: 2 });
-  });
-
   it('buildInverseSceneCache bundles original and reflected curves', () => {
     const scene = buildInverseSceneCache(DEFAULT_INVERSE_FUNCTION_REFLECTION_PARAMS);
     expect(scene.original.length).toBeGreaterThan(5);
     expect(scene.reflected.length).toBe(scene.original.length);
+    expect(scene.reflected[0]).toEqual({
+      x: scene.original[0]!.y,
+      y: scene.original[0]!.x,
+    });
     expect(scene.targetViewHalfY).toBeGreaterThanOrEqual(4.2);
     expect(scene.targetViewHalfY).toBeLessThanOrEqual(12);
   });
@@ -67,9 +61,10 @@ describe('inverse-function-reflection geometry', () => {
     ).toBe(false);
   });
 
-  it('formulaText and inverseFormulaText describe linear mode', () => {
-    expect(formulaText(DEFAULT_INVERSE_FUNCTION_REFLECTION_PARAMS)).toContain('0.8x+1');
-    expect(inverseFormulaText(DEFAULT_INVERSE_FUNCTION_REFLECTION_PARAMS)).toContain('f⁻¹');
+  it('inverseMeta describes linear mode formulas', () => {
+    const meta = inverseMeta(DEFAULT_INVERSE_FUNCTION_REFLECTION_PARAMS);
+    expect(meta.formula).toContain('0.8x+1');
+    expect(meta.inverseFormula).toContain('f⁻¹');
   });
 
   it('paramsForModeSwitch resets input default', () => {
@@ -83,7 +78,6 @@ describe('inverse-function-reflection geometry', () => {
     const spec = buildInverseFunctionReflectionThumbnail();
     expect(spec.paths.length).toBeGreaterThanOrEqual(3);
     expect(spec.circles?.length).toBe(2);
-    expect(THUMBNAIL_INVERSE_PARAMS.mode).toBe('exponential');
   });
 
   it('quadraticHorizontalHits returns two intersections for mid parabola height', () => {
@@ -98,10 +92,9 @@ describe('inverse-function-reflection geometry', () => {
     expect(clampInputForMode('linear', 10)).toBe(MODE_CONFIG.linear.inputMax);
   });
 
-  it('targetViewHalfYFromCurves stays within bounds', () => {
+  it('scene cache target view stays within bounds', () => {
     const scene = buildInverseSceneCache(DEFAULT_INVERSE_FUNCTION_REFLECTION_PARAMS);
-    const half = targetViewHalfYFromCurves([scene.original, scene.reflected], scene.meta);
-    expect(half).toBeGreaterThanOrEqual(4.2);
-    expect(half).toBeLessThanOrEqual(12);
+    expect(scene.targetViewHalfY).toBeGreaterThanOrEqual(4.2);
+    expect(scene.targetViewHalfY).toBeLessThanOrEqual(12);
   });
 });

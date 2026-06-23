@@ -1,10 +1,10 @@
 import type { CurvePoint } from '../../types';
 
-export const CURVE_WIDTH_RATIO = 0.8;
+const CURVE_WIDTH_RATIO = 0.8;
 export const DEFAULT_SAMPLE_STEP = 2;
-export const BASE_CANVAS = 600;
+const BASE_CANVAS = 600;
 
-export type StandingWaveBuildOpts = {
+type StandingWaveBuildOpts = {
   canvasWidth: number;
   currentAmplitude: number;
   spatialFrequency: number;

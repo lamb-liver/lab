@@ -1,30 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { stepInterferenceFringesAnimation } from './animation';
-import {
-  buildInterferenceGeometry,
-  hyperbolaParameters,
-  pathDifference,
-} from './geometry';
+import { buildInterferenceGeometry } from './geometry';
 import { interferenceFringesModule } from './index';
-
-describe('hyperbolaParameters', () => {
-  it('order 0 yields center line', () => {
-    const params = hyperbolaParameters(pathDifference(0, 30), 80);
-    expect(params?.isCenterLine).toBe(true);
-  });
-
-  it('returns null when |a| >= c', () => {
-    expect(hyperbolaParameters(80, 80)).toBeNull();
-  });
-
-  it('computes b for valid order', () => {
-    const params = hyperbolaParameters(pathDifference(1, 30), 80);
-    expect(params).not.toBeNull();
-    if (params && !params.isCenterLine) {
-      expect(params.b).toBeGreaterThan(0);
-    }
-  });
-});
 
 describe('buildInterferenceGeometry', () => {
   it('produces fringes and envelopes', () => {
@@ -39,6 +16,19 @@ describe('buildInterferenceGeometry', () => {
     expect(geometry.fringes.length).toBeGreaterThan(0);
     expect(geometry.envelopes.length).toBe(geometry.fringes.length);
   });
+
+  it('keeps the zero-order fringe as a center line', () => {
+    const geometry = buildInterferenceGeometry({
+      canvasWidth: 600,
+      canvasHeight: 600,
+      currentSourceDistance: 80,
+      wavelength: 80,
+      time: 0,
+      revealProgress: 1,
+    });
+    expect(geometry.envelopes).toHaveLength(1);
+    expect(geometry.envelopes[0]!.every((point) => Math.abs(point.x) < 0.001)).toBe(true);
+  });
 });
 
 describe('stepInterferenceFringesAnimation', () => {
@@ -46,8 +36,6 @@ describe('stepInterferenceFringesAnimation', () => {
     const defaults = interferenceFringesModule.defaultParams;
     const pending = stepInterferenceFringesAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 1,
         isComplete: true,
         time: 1,
@@ -81,8 +69,6 @@ describe('stepInterferenceFringesAnimation', () => {
     const defaults = interferenceFringesModule.defaultParams;
     const state = stepInterferenceFringesAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 0.5,
         isComplete: false,
         time: 0,

@@ -28,7 +28,7 @@ describe('computeRevealTheta', () => {
 
 describe('updateSpiralCamera', () => {
   it('produces positive zoom', () => {
-    const cam = updateSpiralCamera({ zoom: 1 }, 10, 600, 600);
+    const cam = updateSpiralCamera(10, 600, 600);
     expect(cam.zoom).toBeGreaterThan(0);
   });
 });
@@ -56,7 +56,7 @@ describe('equiangularSpiralModule', () => {
 describe('stepEquiangularSpiralAnimation', () => {
   it('advances time', () => {
     const state = createEquiangularSpiralAnimState(equiangularSpiralModule.defaultParams);
-    const next = stepEquiangularSpiralAnimation(state, state.targetParams);
+    const next = stepEquiangularSpiralAnimation(state, equiangularSpiralModule.defaultParams);
     expect(next.time).toBeGreaterThan(state.time);
     expect(next.activePath.length).toBeGreaterThan(1);
   });

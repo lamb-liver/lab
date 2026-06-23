@@ -72,7 +72,6 @@ export const polynomialRootsMultiplicityModule: CurveModule = {
 
 export {
   DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS,
-  applyPreset,
   asPolynomialRootsMultiplicityParams,
   isPresetActive,
   paramsForMetadata,
