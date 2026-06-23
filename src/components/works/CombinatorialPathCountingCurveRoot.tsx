@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useState } from 'react';
 import {
   MODE_COUNT,
   MODE_OVERLAY,
@@ -8,8 +7,8 @@ import {
 } from '../../curve/modules/combinatorial-path-counting';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useCombinatorialPathCountingP5 } from '../curve/useCombinatorialPathCountingP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -26,64 +25,49 @@ export default function CombinatorialPathCountingCurveRoot({ controlsMountId }: 
   const module = combinatorialPathCountingModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [rerollNonce, setRerollNonce] = useState(0);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const { canvasHostRef } = useCombinatorialPathCountingP5({
     targetParams,
     rerollNonce,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
   const metadata = module.getMetadata(targetParams);
   const mode = Math.round(targetParams.mode ?? MODE_SINGLE);
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="路徑模式">
+        {modeOptions.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={mode === option.value}
+            onClick={() => setTargetParams((prev) => ({ ...prev, mode: option.value }))}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="路徑模式">
-            {modeOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={mode === option.value}
-                onClick={() => setTargetParams((prev) => ({ ...prev, mode: option.value }))}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => setTargetParams((prev) => ({ ...prev, [key]: value }))}
+      />
 
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => setTargetParams((prev) => ({ ...prev, [key]: value }))}
-          />
-
-          <div className="curve-work-mode-toggle" aria-label="路徑控制">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={false}
-              onClick={() => setRerollNonce((prev) => prev + 1)}
-            >
-              新路徑
-            </button>
-          </div>
-
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      <div className="curve-work-mode-toggle" aria-label="路徑控制">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={false}
+          onClick={() => setRerollNonce((prev) => prev + 1)}
+        >
+          新路徑
+        </button>
+      </div>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

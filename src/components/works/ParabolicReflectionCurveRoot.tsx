@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState } from 'react';
 import { parabolicReflectionModule } from '../../curve/modules/parabolic-reflection';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useParabolicReflectionP5 } from '../curve/useParabolicReflectionP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -19,7 +18,6 @@ export default function ParabolicReflectionCurveRoot({ controlsMountId }: Props)
   const [smoothFocalLength, setSmoothFocalLength] = useState(
     module.defaultParams.focalLength,
   );
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const onSmoothFocalLengthChange = useCallback(
@@ -33,10 +31,6 @@ export default function ParabolicReflectionCurveRoot({ controlsMountId }: Props)
     onSmoothFocalLengthChange,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
   const metadata = module.getMetadata(targetParams, {
     revealPct,
     smoothParams: {
@@ -45,25 +39,17 @@ export default function ParabolicReflectionCurveRoot({ controlsMountId }: Props)
     },
   });
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => {
-              setTargetParams((prev) => ({ ...prev, [key]: value }));
-            }}
-          />
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => {
+          setTargetParams((prev) => ({ ...prev, [key]: value }));
+        }}
+      />
+    </WorkControlsPortal>
+  );
 
   return (
     <>

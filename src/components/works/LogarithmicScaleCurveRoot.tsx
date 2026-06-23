@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState } from 'react';
 import { logarithmicScaleModule } from '../../curve/modules/logarithmic-scale';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useLogarithmicScaleP5 } from '../curve/useLogarithmicScaleP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = { controlsMountId: string };
@@ -13,7 +12,6 @@ export default function LogarithmicScaleCurveRoot({ controlsMountId }: Props) {
   const module = logarithmicScaleModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useLogarithmicScaleP5({
@@ -21,9 +19,6 @@ export default function LogarithmicScaleCurveRoot({ controlsMountId }: Props) {
     onRevealPctChange,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
 
   const compareMode = (targetParams.compareMode ?? 0) !== 0;
   const showExp = (targetParams.showExp ?? 1) !== 0;
@@ -50,65 +45,55 @@ export default function LogarithmicScaleCurveRoot({ controlsMountId }: Props) {
     patchParams({ [key]: current ? 0 : 1 });
   };
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <ParamControls
+        module={{ ...module, paramSchema: visibleSchema }}
+        values={targetParams}
+        onChange={(key, value) => patchParams({ [key]: value })}
+      />
 
-          <ParamControls
-            module={{ ...module, paramSchema: visibleSchema }}
-            values={targetParams}
-            onChange={(key, value) => patchParams({ [key]: value })}
-          />
+      <div className="curve-work-mode-toggle" aria-label="比較模式">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={compareMode}
+          onClick={() => patchParams(compareMode ? { compareMode: 0, showExp: 1 } : { compareMode: 1 })}
+        >
+          比較模式
+        </button>
+      </div>
 
-          <div className="curve-work-mode-toggle" aria-label="比較模式">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={compareMode}
-              onClick={() => patchParams(compareMode ? { compareMode: 0, showExp: 1 } : { compareMode: 1 })}
-            >
-              比較模式
-            </button>
-          </div>
-
-          {compareMode ? (
-            <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="曲線">
-              <button
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={showExp}
-                onClick={() => patchCurveVisibility('showExp', showExp)}
-              >
-                指數
-              </button>
-              <button
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={showPower}
-                onClick={() => patchCurveVisibility('showPower', showPower)}
-              >
-                冪
-              </button>
-              <button
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={showLinear}
-                onClick={() => patchCurveVisibility('showLinear', showLinear)}
-              >
-                線性
-              </button>
-            </div>
-          ) : null}
-
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      {compareMode ? (
+        <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="曲線">
+          <button
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={showExp}
+            onClick={() => patchCurveVisibility('showExp', showExp)}
+          >
+            指數
+          </button>
+          <button
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={showPower}
+            onClick={() => patchCurveVisibility('showPower', showPower)}
+          >
+            冪
+          </button>
+          <button
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={showLinear}
+            onClick={() => patchCurveVisibility('showLinear', showLinear)}
+          >
+            線性
+          </button>
+        </div>
+      ) : null}
+    </WorkControlsPortal>
+  );
 
   return (
     <>

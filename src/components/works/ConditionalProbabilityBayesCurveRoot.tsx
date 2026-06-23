@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useState } from 'react';
 import {
   MODE_AREA,
   MODE_BAYES,
@@ -12,8 +11,8 @@ import {
 import { scenarios } from '../../curve/modules/conditional-probability-bayes/geometry';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useConditionalProbabilityBayesP5 } from '../curve/useConditionalProbabilityBayesP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = { controlsMountId: string };
@@ -33,75 +32,60 @@ const scenarioOptions = [
 export default function ConditionalProbabilityBayesCurveRoot({ controlsMountId }: Props) {
   const module = conditionalProbabilityBayesModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
   const { canvasHostRef } = useConditionalProbabilityBayesP5({
     targetParams,
   });
-
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
 
   const metadata = module.getMetadata(targetParams);
   const mode = Math.round(targetParams.mode ?? MODE_TREE);
   const scenario = Math.round(targetParams.scenario ?? SCENARIO_MEDICAL);
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="視圖模式">
+        {modeOptions.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={mode === option.value}
+            onClick={() => setTargetParams((prev) => ({ ...prev, mode: option.value }))}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="視圖模式">
-            {modeOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={mode === option.value}
-                onClick={() => setTargetParams((prev) => ({ ...prev, mode: option.value }))}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="情境">
+        {scenarioOptions.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={scenario === option.value}
+            onClick={() => {
+              const preset = scenarios[option.value]!;
+              setTargetParams((prev) => ({
+                ...prev,
+                scenario: option.value,
+                pA: Math.round(preset.pA * 100),
+                pBgA: Math.round(preset.pBgA * 100),
+                pBgNotA: Math.round(preset.pBgNotA * 100),
+              }));
+            }}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="情境">
-            {scenarioOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={scenario === option.value}
-                onClick={() => {
-                  const preset = scenarios[option.value]!;
-                  setTargetParams((prev) => ({
-                    ...prev,
-                    scenario: option.value,
-                    pA: Math.round(preset.pA * 100),
-                    pBgA: Math.round(preset.pBgA * 100),
-                    pBgNotA: Math.round(preset.pBgNotA * 100),
-                  }));
-                }}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => setTargetParams((prev) => ({ ...prev, [key]: value }))}
-          />
-
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => setTargetParams((prev) => ({ ...prev, [key]: value }))}
+      />
+    </WorkControlsPortal>
+  );
 
   return (
     <>

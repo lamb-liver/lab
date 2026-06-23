@@ -18,6 +18,7 @@
     "covers:explore": "node scripts/lab.mjs covers:explore",
     "audit:content": "node scripts/lab.mjs audit:content",
     "audit:explore-covers": "node scripts/lab.mjs audit:explore-covers",
+    "audit:public-pages": "node scripts/lab.mjs audit:public-pages",
     "audit:integration": "node scripts/lab.mjs audit:integration",
     "new:work": "node scripts/lab.mjs new:work",
     "new:explore": "node scripts/lab.mjs new:explore",

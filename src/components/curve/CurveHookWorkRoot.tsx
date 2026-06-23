@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState, type RefObject } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState, type RefObject } from 'react';
 import type { CurveModule, ParamValues } from '../../curve/types';
 import ParamControls from './ParamControls';
-import StatsPanel from './StatsPanel';
+import WorkControlsPortal from './WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type CommonHook = (options: {
@@ -30,7 +29,6 @@ export default function CurveHookWorkRoot({
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const onSmoothParamsChange = useCallback(
@@ -45,31 +43,19 @@ export default function CurveHookWorkRoot({
     onSmoothParamsChange,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
   const metadata = module.getMetadata(targetParams, { revealPct, smoothParams });
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => {
-              setTargetParams((prev) => ({ ...prev, [key]: value }));
-            }}
-          />
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => {
+          setTargetParams((prev) => ({ ...prev, [key]: value }));
+        }}
+      />
+    </WorkControlsPortal>
+  );
 
   return (
     <>

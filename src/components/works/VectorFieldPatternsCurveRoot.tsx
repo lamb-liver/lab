@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useMemo, useState } from 'react';
 import {
   DEFAULT_VECTOR_FIELD_PATTERN_PARAMS,
   PATTERN_ORDER,
@@ -13,8 +12,8 @@ import {
   getFieldConfig,
 } from '../../curve/modules/vector-field-patterns/geometry';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useVectorFieldPatternsP5 } from '../curve/useVectorFieldPatternsP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -34,7 +33,6 @@ export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props)
   const [params, setParams] = useState<VectorFieldPatternParams>(
     DEFAULT_VECTOR_FIELD_PATTERN_PARAMS,
   );
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
   const streamlines = useMemo(() => {
     if (!params.showStreamlines) return [];
     return buildStreamlines(getFieldConfig(params.pattern), params.density);
@@ -42,71 +40,59 @@ export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props)
 
   const { canvasHostRef } = useVectorFieldPatternsP5({ params, streamlines });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
-  const metadataParams = vectorFieldPatternParamsForMetadata(params);
+Params = vectorFieldPatternParamsForMetadata(params);
   const metadata = module.getMetadata(metadataParams);
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
-            {PATTERN_ORDER.map((pattern) => (
-              <button
-                key={pattern}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={params.pattern === pattern}
-                onClick={() => setParams((prev) => ({ ...prev, pattern }))}
-              >
-                {PATTERN_LABELS[pattern]}
-              </button>
-            ))}
-          </div>
-          <ParamControls
-            module={module}
-            values={metadataParams}
-            onChange={(key, value) => {
-              if (key !== 'density') return;
-              setParams((prev) => ({ ...prev, density: value }));
-            }}
-          />
-          <div className="curve-work-mode-toggle">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={params.normalized}
-              onClick={() =>
-                setParams((prev) => ({ ...prev, normalized: !prev.normalized }))
-              }
-            >
-              歸一化箭頭
-            </button>
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={params.showStreamlines}
-              onClick={() =>
-                setParams((prev) => ({
-                  ...prev,
-                  showStreamlines: !prev.showStreamlines,
-                }))
-              }
-            >
-              流線疊加
-            </button>
-          </div>
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
+        {PATTERN_ORDER.map((pattern) => (
+          <button
+            key={pattern}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={params.pattern === pattern}
+            onClick={() => setParams((prev) => ({ ...prev, pattern }))}
+          >
+            {PATTERN_LABELS[pattern]}
+          </button>
+        ))}
+      </div>
+      <ParamControls
+        module={module}
+        values={metadataParams}
+        onChange={(key, value) => {
+          if (key !== 'density') return;
+          setParams((prev) => ({ ...prev, density: value }));
+        }}
+      />
+      <div className="curve-work-mode-toggle">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={params.normalized}
+          onClick={() =>
+            setParams((prev) => ({ ...prev, normalized: !prev.normalized }))
+          }
+        >
+          歸一化箭頭
+        </button>
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={params.showStreamlines}
+          onClick={() =>
+            setParams((prev) => ({
+              ...prev,
+              showStreamlines: !prev.showStreamlines,
+            }))
+          }
+        >
+          流線疊加
+        </button>
+      </div>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

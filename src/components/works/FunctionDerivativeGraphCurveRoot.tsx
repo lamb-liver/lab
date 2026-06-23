@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState } from 'react';
 import {
   FUNCTION_DERIVATIVE_PRESETS,
   clampX0,
@@ -9,8 +8,8 @@ import {
   valuesFromParams,
   type FunctionDerivativePresetId,
 } from '../../curve/modules/function-derivative-graph';
-import StatsPanel from '../curve/StatsPanel';
 import { useFunctionDerivativeGraphP5 } from '../curve/useFunctionDerivativeGraphP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -23,7 +22,6 @@ export default function FunctionDerivativeGraphCurveRoot({ controlsMountId }: Pr
   const [advanced, setAdvanced] = useState(false);
   const [showZeros, setShowZeros] = useState(true);
   const [showMonotonic, setShowMonotonic] = useState(false);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
   const preset = presetById(presetId);
 
   const onX0Change = useCallback((next: number) => {
@@ -42,11 +40,7 @@ export default function FunctionDerivativeGraphCurveRoot({ controlsMountId }: Pr
     onX0Change,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
-  const metadataParams = valuesFromParams({
+Params = valuesFromParams({
     preset: presetId,
     x0: clampX0(preset, x0),
   });
@@ -61,81 +55,72 @@ export default function FunctionDerivativeGraphCurveRoot({ controlsMountId }: Pr
     setX0((prev) => clampX0(nextPreset, prev));
   };
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
+        {FUNCTION_DERIVATIVE_PRESETS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={presetId === item.id}
+            onClick={() => setPreset(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
-            {FUNCTION_DERIVATIVE_PRESETS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={presetId === item.id}
-                onClick={() => setPreset(item.id)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+      <div className="curve-work-mode-toggle">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={advanced}
+          onClick={() => setAdvanced((prev) => !prev)}
+        >
+          進階標示
+        </button>
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={showZeros}
+          onClick={() => setShowZeros((prev) => !prev)}
+        >
+          零點標記
+        </button>
+      </div>
 
-          <div className="curve-work-mode-toggle">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={advanced}
-              onClick={() => setAdvanced((prev) => !prev)}
-            >
-              進階標示
-            </button>
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={showZeros}
-              onClick={() => setShowZeros((prev) => !prev)}
-            >
-              零點標記
-            </button>
-          </div>
+      {advanced ? (
+        <div className="curve-work-mode-toggle">
+          <button
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={showMonotonic}
+            onClick={() => setShowMonotonic((prev) => !prev)}
+          >
+            單調區間
+          </button>
+          <button
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed="false"
+            onClick={() => {
+              setPreset('quad');
+              setAdvanced(false);
+              setShowZeros(true);
+              setShowMonotonic(false);
+            }}
+          >
+            重設
+          </button>
+        </div>
+      ) : null}
 
-          {advanced ? (
-            <div className="curve-work-mode-toggle">
-              <button
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={showMonotonic}
-                onClick={() => setShowMonotonic((prev) => !prev)}
-              >
-                單調區間
-              </button>
-              <button
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed="false"
-                onClick={() => {
-                  setPreset('quad');
-                  setAdvanced(false);
-                  setShowZeros(true);
-                  setShowMonotonic(false);
-                }}
-              >
-                重設
-              </button>
-            </div>
-          ) : null}
-
-          <p className="curve-work-controls__formula">
-            拖動圖中的垂直檢查線 x₀；目前函數序號 {presetIndexFromId(presetId) + 1}
-          </p>
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      <p className="curve-work-controls__formula">
+        拖動圖中的垂直檢查線 x₀；目前函數序號 {presetIndexFromId(presetId) + 1}
+      </p>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

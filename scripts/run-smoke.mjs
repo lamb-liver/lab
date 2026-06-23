@@ -10,14 +10,14 @@ const playwrightBin = resolve(repoRoot, 'node_modules/@playwright/test/cli.js');
 const configs = {
   work: {
     envKey: 'SMOKE_WORK_SLUG',
-    registryPath: resolve(repoRoot, 'src/works/interactiveRegistry.ts'),
+    registryPath: resolve(repoRoot, 'src/works/interactiveSlugs.ts'),
     arrayName: 'workInteractiveSlugs',
     spec: 'tests/work-integration.smoke.spec.ts',
     routePrefix: '/works',
   },
   explore: {
     envKey: 'SMOKE_EXPLORE_SLUG',
-    registryPath: resolve(repoRoot, 'src/explore/interactiveRegistry.ts'),
+    registryPath: resolve(repoRoot, 'src/explore/interactiveSlugs.ts'),
     arrayName: 'exploreInteractiveSlugs',
     spec: 'tests/explore-single.smoke.spec.ts',
     routePrefix: '/explore',
@@ -40,7 +40,7 @@ function readSlugArray(config) {
   const source = readFileSync(config.registryPath, 'utf8');
   const match = source.match(new RegExp(`export\\s+const\\s+${config.arrayName}\\s*=\\s*\\[([\\s\\S]*?)\\]\\s+as\\s+const`));
   if (!match) throw new Error(`Cannot read ${config.arrayName} from ${config.registryPath}`);
-  return [...match[1].matchAll(/'([^']+)'/g)].map((item) => item[1]);
+  return [...match[1].matchAll(/'([^']+)'/g)].map((item) => item[1]).sort();
 }
 
 function main() {

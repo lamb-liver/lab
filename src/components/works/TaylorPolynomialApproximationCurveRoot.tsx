@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState } from 'react';
 import {
   TAYLOR_MAX_N,
   TAYLOR_MIN_N,
@@ -11,8 +10,8 @@ import {
   taylorPolynomialApproximationModule,
   type TaylorPresetId,
 } from '../../curve/modules/taylor-polynomial-approximation';
-import StatsPanel from '../curve/StatsPanel';
 import { useTaylorPolynomialApproximationP5 } from '../curve/useTaylorPolynomialApproximationP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -26,7 +25,6 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
   const [showError, setShowError] = useState(true);
   const [advanced, setAdvanced] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
   const preset = presetById(presetId);
 
   const onAChange = useCallback((next: number) => {
@@ -45,11 +43,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
     onAChange,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
-  const metadataParams = valuesFromParams({
+Params = valuesFromParams({
     preset: presetId,
     a: clampA(preset, a),
     n: clampN(n),
@@ -62,102 +56,93 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
     setA((prev) => clampA(nextPreset, prev));
   };
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
+        {TAYLOR_PRESETS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={presetId === item.id}
+            onClick={() => setPreset(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
-            {TAYLOR_PRESETS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={presetId === item.id}
-                onClick={() => setPreset(item.id)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+      <div className="control-field">
+        <label htmlFor="taylor-polynomial-approximation-n">
+          <span>階數 n</span>
+          <span className="control-field__value">{n}</span>
+        </label>
+        <div className="range-wrap">
+          <input
+            id="taylor-polynomial-approximation-n"
+            type="range"
+            className="range"
+            min={TAYLOR_MIN_N}
+            max={TAYLOR_MAX_N}
+            step={1}
+            value={n}
+            onInput={(event) => setN(clampN(Number(event.currentTarget.value)))}
+          />
+        </div>
+      </div>
 
-          <div className="control-field">
-            <label htmlFor="taylor-polynomial-approximation-n">
-              <span>階數 n</span>
-              <span className="control-field__value">{n}</span>
-            </label>
-            <div className="range-wrap">
-              <input
-                id="taylor-polynomial-approximation-n"
-                type="range"
-                className="range"
-                min={TAYLOR_MIN_N}
-                max={TAYLOR_MAX_N}
-                step={1}
-                value={n}
-                onInput={(event) => setN(clampN(Number(event.currentTarget.value)))}
-              />
-            </div>
-          </div>
+      <div className="curve-work-mode-toggle">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={showError}
+          onClick={() => setShowError((prev) => !prev)}
+        >
+          誤差帶
+        </button>
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={advanced}
+          onClick={() => setAdvanced((prev) => !prev)}
+        >
+          進階模式
+        </button>
+      </div>
 
-          <div className="curve-work-mode-toggle">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={showError}
-              onClick={() => setShowError((prev) => !prev)}
-            >
-              誤差帶
-            </button>
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={advanced}
-              onClick={() => setAdvanced((prev) => !prev)}
-            >
-              進階模式
-            </button>
-          </div>
+      {advanced ? (
+        <div className="curve-work-mode-toggle">
+          <button
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={showTerms}
+            onClick={() => setShowTerms((prev) => !prev)}
+          >
+            項次分解
+          </button>
+          <button
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed="false"
+            onClick={() => {
+              setPreset('sin');
+              setA(0);
+              setN(3);
+              setShowError(true);
+              setAdvanced(false);
+              setShowTerms(false);
+            }}
+          >
+            重設
+          </button>
+        </div>
+      ) : null}
 
-          {advanced ? (
-            <div className="curve-work-mode-toggle">
-              <button
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={showTerms}
-                onClick={() => setShowTerms((prev) => !prev)}
-              >
-                項次分解
-              </button>
-              <button
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed="false"
-                onClick={() => {
-                  setPreset('sin');
-                  setA(0);
-                  setN(3);
-                  setShowError(true);
-                  setAdvanced(false);
-                  setShowTerms(false);
-                }}
-              >
-                重設
-              </button>
-            </div>
-          ) : null}
-
-          <p className="curve-work-controls__formula">
-            拖動圖中的展開中心 a；{preset.maclaurin}
-          </p>
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      <p className="curve-work-controls__formula">
+        拖動圖中的展開中心 a；{preset.maclaurin}
+      </p>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

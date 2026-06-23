@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useState } from 'react';
 import { MODE_SIM, MODE_X, MODE_Z, binomialToNormalModule } from '../../curve/modules/binomial-to-normal';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useBinomialToNormalP5 } from '../curve/useBinomialToNormalP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = { controlsMountId: string };
@@ -20,7 +19,6 @@ export default function BinomialToNormalCurveRoot({ controlsMountId }: Props) {
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [runNonce, setRunNonce] = useState(0);
   const [resetNonce, setResetNonce] = useState(0);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const { canvasHostRef } = useBinomialToNormalP5({
     targetParams,
@@ -28,61 +26,48 @@ export default function BinomialToNormalCurveRoot({ controlsMountId }: Props) {
     resetNonce,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
 
   const mode = Math.round(targetParams.mode ?? MODE_X);
   const metadata = module.getMetadata(targetParams);
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="視圖模式">
-            {modeOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={mode === option.value}
-                onClick={() => {
-                  setTargetParams((prev) => ({ ...prev, mode: option.value }));
-                  setResetNonce((prev) => prev + 1);
-                }}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => {
-              setTargetParams((prev) => ({ ...prev, [key]: value }));
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="視圖模式">
+        {modeOptions.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={mode === option.value}
+            onClick={() => {
+              setTargetParams((prev) => ({ ...prev, mode: option.value }));
               setResetNonce((prev) => prev + 1);
             }}
-          />
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle" aria-label="模擬控制">
-            <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => setRunNonce((prev) => prev + 1)}>
-              抽樣
-            </button>
-            <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => setResetNonce((prev) => prev + 1)}>
-              重設
-            </button>
-          </div>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => {
+          setTargetParams((prev) => ({ ...prev, [key]: value }));
+          setResetNonce((prev) => prev + 1);
+        }}
+      />
 
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      <div className="curve-work-mode-toggle" aria-label="模擬控制">
+        <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => setRunNonce((prev) => prev + 1)}>
+          抽樣
+        </button>
+        <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => setResetNonce((prev) => prev + 1)}>
+          重設
+        </button>
+      </div>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

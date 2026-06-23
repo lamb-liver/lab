@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState } from 'react';
 import {
   MODE_AREA,
   MODE_INVERSE,
@@ -7,8 +6,8 @@ import {
 } from '../../curve/modules/natural-log-e-geometry';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useNaturalLogEGeometryP5 } from '../curve/useNaturalLogEGeometryP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = { controlsMountId: string };
@@ -22,7 +21,6 @@ export default function NaturalLogEGeometryCurveRoot({ controlsMountId }: Props)
   const module = naturalLogEGeometryModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const { canvasHostRef } = useNaturalLogEGeometryP5({
@@ -30,9 +28,6 @@ export default function NaturalLogEGeometryCurveRoot({ controlsMountId }: Props)
     onRevealPctChange,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
 
   const mode = Math.round(targetParams.mode ?? MODE_AREA);
   const areaMode = mode === MODE_AREA;
@@ -57,52 +52,42 @@ export default function NaturalLogEGeometryCurveRoot({ controlsMountId }: Props)
     });
   };
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="模式">
+        {modeOptions.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={mode === option.value}
+            onClick={() => patchParams({ mode: option.value })}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="模式">
-            {modeOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={mode === option.value}
-                onClick={() => patchParams({ mode: option.value })}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+      <ParamControls
+        module={{ ...module, paramSchema: visibleSchema }}
+        values={targetParams}
+        onChange={(key, value) => patchParams({ [key]: value })}
+      />
 
-          <ParamControls
-            module={{ ...module, paramSchema: visibleSchema }}
-            values={targetParams}
-            onChange={(key, value) => patchParams({ [key]: value })}
-          />
-
-          {areaMode ? (
-            <div className="curve-work-mode-toggle" aria-label="進階">
-              <button
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={riemannMode}
-                onClick={() => patchParams({ riemannMode: riemannMode ? 0 : 1 })}
-              >
-                黎曼矩形
-              </button>
-            </div>
-          ) : null}
-
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      {areaMode ? (
+        <div className="curve-work-mode-toggle" aria-label="進階">
+          <button
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={riemannMode}
+            onClick={() => patchParams({ riemannMode: riemannMode ? 0 : 1 })}
+          >
+            黎曼矩形
+          </button>
+        </div>
+      ) : null}
+    </WorkControlsPortal>
+  );
 
   return (
     <>

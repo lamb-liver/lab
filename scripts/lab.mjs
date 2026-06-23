@@ -33,6 +33,7 @@ function usage() {
     '  covers:explore',
     '  audit:content',
     '  audit:explore-covers',
+    '  audit:public-pages',
     '  audit:integration',
     '  new:work [args...]',
     '  new:explore [args...]',
@@ -333,6 +334,9 @@ function main() {
   }
   if (command === 'audit:explore-covers') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-explore-covers.mjs'), args);
+  }
+  if (command === 'audit:public-pages') {
+    return runNodeScript(resolve(repoRoot, 'scripts/public-pages-audit.mjs'), args);
   }
   if (command === 'audit:integration') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-integration.mjs'), args);

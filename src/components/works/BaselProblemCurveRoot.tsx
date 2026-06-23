@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState } from 'react';
 import {
   MODE_AREA,
   MODE_COMPARE,
@@ -11,8 +10,8 @@ import {
 } from '../../curve/modules/basel-problem';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useBaselProblemP5 } from '../curve/useBaselProblemP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -34,7 +33,6 @@ export default function BaselProblemCurveRoot({ controlsMountId }: Props) {
   const [revealPct, setRevealPct] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [replayNonce, setReplayNonce] = useState(0);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
 
@@ -44,10 +42,6 @@ export default function BaselProblemCurveRoot({ controlsMountId }: Props) {
     replayNonce,
     onRevealPctChange,
   });
-
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
@@ -60,63 +54,53 @@ export default function BaselProblemCurveRoot({ controlsMountId }: Props) {
 
   const mode = Math.round(targetParams.mode ?? MODE_PARTIAL);
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="巴塞爾視圖">
+        {modeOptions.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={mode === option.value}
+            onClick={() => patchParams({ mode: option.value })}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="巴塞爾視圖">
-            {modeOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={mode === option.value}
-                onClick={() => patchParams({ mode: option.value })}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => {
+          patchParams({ [key]: value });
+        }}
+      />
 
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => {
-              patchParams({ [key]: value });
-            }}
-          />
-
-          <div className="curve-work-mode-toggle" aria-label="播放控制">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={!playing}
-              onClick={() => setPlaying((prev) => !prev)}
-            >
-              {playing ? '暫停' : '播放'}
-            </button>
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={false}
-              onClick={() => {
-                setPlaying(true);
-                setReplayNonce((prev) => prev + 1);
-              }}
-            >
-              重播
-            </button>
-          </div>
-
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      <div className="curve-work-mode-toggle" aria-label="播放控制">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={!playing}
+          onClick={() => setPlaying((prev) => !prev)}
+        >
+          {playing ? '暫停' : '播放'}
+        </button>
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={false}
+          onClick={() => {
+            setPlaying(true);
+            setReplayNonce((prev) => prev + 1);
+          }}
+        >
+          重播
+        </button>
+      </div>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

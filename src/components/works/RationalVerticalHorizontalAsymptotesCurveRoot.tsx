@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useState } from 'react';
 import {
   RATIONAL_ASYMPTOTE_PARAM_META,
   RATIONAL_ASYMPTOTE_PRESETS,
@@ -11,8 +10,8 @@ import {
   type RationalAsymptoteParams,
   type RationalAsymptotePresetId,
 } from '../../curve/modules/rational-vertical-horizontal-asymptotes';
-import StatsPanel from '../curve/StatsPanel';
 import { useRationalVerticalHorizontalAsymptotesP5 } from '../curve/useRationalVerticalHorizontalAsymptotesP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -26,7 +25,6 @@ export default function RationalVerticalHorizontalAsymptotesCurveRoot({ controls
   const [showHoles, setShowHoles] = useState(true);
   const [advanced, setAdvanced] = useState(false);
   const [showLocal, setShowLocal] = useState(false);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const preset = presetById(presetId);
   const model = buildRationalAsymptoteModel(preset, params);
@@ -38,10 +36,6 @@ export default function RationalVerticalHorizontalAsymptotesCurveRoot({ controls
     showLocal,
     advanced,
   });
-
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
 
   const metadataParams = valuesFromParams(presetId, params);
   const metadata = rationalVerticalHorizontalAsymptotesModule.getMetadata(metadataParams, {
@@ -62,110 +56,105 @@ export default function RationalVerticalHorizontalAsymptotesCurveRoot({ controls
 
   const sliderKeys = preset.basicKeys.concat(advanced ? preset.advancedKeys : []);
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
-            {RATIONAL_ASYMPTOTE_PRESETS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={presetId === item.id}
-                onClick={() => setPreset(item.id)}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-
-          {sliderKeys.map((key) => {
-            const meta = RATIONAL_ASYMPTOTE_PARAM_META[key];
-            return (
-              <div key={key} className="control-field">
-                <label htmlFor={`rational-vertical-horizontal-asymptotes-${key}`}>
-                  {meta.label}
-                  <span className="control-field__value">{params[key].toFixed(2)}</span>
-                </label>
-                <div className="range-wrap">
-                  <input
-                    id={`rational-vertical-horizontal-asymptotes-${key}`}
-                    type="range"
-                    className="range"
-                    min={meta.min}
-                    max={meta.max}
-                    step={meta.step}
-                    value={params[key]}
-                    onInput={(event) => setParam(key, Number(event.currentTarget.value))}
-                  />
-                </div>
-              </div>
-            );
-          })}
-
-          <div className="curve-work-mode-toggle">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={showAsymptotes}
-              onClick={() => setShowAsymptotes((prev) => !prev)}
-            >
-              漸近線
-            </button>
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={showHoles}
-              onClick={() => setShowHoles((prev) => !prev)}
-            >
-              洞標記
-            </button>
-          </div>
-
-          <div className="curve-work-mode-toggle">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={advanced}
-              onClick={() => setAdvanced((prev) => !prev)}
-            >
-              進階模式
-            </button>
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={advanced && showLocal}
-              onClick={() => setShowLocal((prev) => !prev)}
-              disabled={!advanced}
-            >
-              局部窗口
-            </button>
-          </div>
-
-          <p className="curve-work-controls__formula">{preset.note}</p>
-          <StatsPanel metadata={metadata} />
-
-          {advanced ? (
-            <div className="curve-work-controls__stats">
-              <div>
-                <dt>次數</dt>
-                <dd>{model.degreeText}</dd>
-              </div>
-              <div>
-                <dt>判斷</dt>
-                <dd>{model.warning || model.formulas[3]}</dd>
-              </div>
+  const controls = (
+    <WorkControlsPortal
+      controlsMountId={controlsMountId}
+      metadata={metadata}
+      footer={
+        advanced ? (
+          <div className="curve-work-controls__stats">
+            <div>
+              <dt>次數</dt>
+              <dd>{model.degreeText}</dd>
             </div>
-          ) : null}
-        </div>,
-        controlsMount,
-      )
-    : null;
+            <div>
+              <dt>判斷</dt>
+              <dd>{model.warning || model.formulas[3]}</dd>
+            </div>
+          </div>
+        ) : null
+      }
+    >
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
+        {RATIONAL_ASYMPTOTE_PRESETS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={presetId === item.id}
+            onClick={() => setPreset(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {sliderKeys.map((key) => {
+        const meta = RATIONAL_ASYMPTOTE_PARAM_META[key];
+        return (
+          <div key={key} className="control-field">
+            <label htmlFor={`rational-vertical-horizontal-asymptotes-${key}`}>
+              {meta.label}
+              <span className="control-field__value">{params[key].toFixed(2)}</span>
+            </label>
+            <div className="range-wrap">
+              <input
+                id={`rational-vertical-horizontal-asymptotes-${key}`}
+                type="range"
+                className="range"
+                min={meta.min}
+                max={meta.max}
+                step={meta.step}
+                value={params[key]}
+                onInput={(event) => setParam(key, Number(event.currentTarget.value))}
+              />
+            </div>
+          </div>
+        );
+      })}
+
+      <div className="curve-work-mode-toggle">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={showAsymptotes}
+          onClick={() => setShowAsymptotes((prev) => !prev)}
+        >
+          漸近線
+        </button>
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={showHoles}
+          onClick={() => setShowHoles((prev) => !prev)}
+        >
+          洞標記
+        </button>
+      </div>
+
+      <div className="curve-work-mode-toggle">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={advanced}
+          onClick={() => setAdvanced((prev) => !prev)}
+        >
+          進階模式
+        </button>
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={advanced && showLocal}
+          onClick={() => setShowLocal((prev) => !prev)}
+          disabled={!advanced}
+        >
+          局部窗口
+        </button>
+      </div>
+
+      <p className="curve-work-controls__formula">{preset.note}</p>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

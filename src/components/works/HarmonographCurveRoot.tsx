@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type ChangeEvent } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useMemo, useState, type ChangeEvent } from 'react';
 import { stepHarmonographAnimation } from '../../curve/modules/harmonograph/animation';
 import {
   harmonographModule,
@@ -8,8 +7,8 @@ import {
 import type { ParamValues } from '../../curve/types';
 import DeltaPhaseControl from '../curve/DeltaPhaseControl';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -24,7 +23,6 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
   const [revealPct, setRevealPct] = useState(0);
   const [smoothDelta, setSmoothDelta] = useState(module.defaultParams.delta);
   const [smoothD, setSmoothD] = useState(module.defaultParams.d);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const smoothSync = useMemo(
@@ -70,10 +68,6 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
     [commitTarget],
   );
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
   const metadata = module.getMetadata(targetParams, {
     revealPct,
     smoothParams: {
@@ -83,48 +77,40 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
     },
   });
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => {
-              if (key === 'a' || key === 'b') {
-                commitTarget({ [key]: value });
-              }
-            }}
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => {
+          if (key === 'a' || key === 'b') {
+            commitTarget({ [key]: value });
+          }
+        }}
+      />
+      <DeltaPhaseControl
+        moduleId={module.id}
+        targetDelta={targetParams.delta}
+        displayDelta={smoothDelta}
+        onTargetChange={(delta) => commitTarget({ delta })}
+      />
+      <div className="control-field">
+        <label htmlFor={`${module.id}-d`}>阻尼 d</label>
+        <div className="range-wrap">
+          <input
+            id={`${module.id}-d`}
+            type="range"
+            className="range"
+            min={0}
+            max={0.05}
+            step={0.001}
+            value={targetParams.d}
+            onInput={handleDInput}
           />
-          <DeltaPhaseControl
-            moduleId={module.id}
-            targetDelta={targetParams.delta}
-            displayDelta={smoothDelta}
-            onTargetChange={(delta) => commitTarget({ delta })}
-          />
-          <div className="control-field">
-            <label htmlFor={`${module.id}-d`}>阻尼 d</label>
-            <div className="range-wrap">
-              <input
-                id={`${module.id}-d`}
-                type="range"
-                className="range"
-                min={0}
-                max={0.05}
-                step={0.001}
-                value={targetParams.d}
-                onInput={handleDInput}
-              />
-            </div>
-          </div>
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+        </div>
+      </div>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState } from 'react';
 import {
   EIGENVECTOR_PRESETS,
   eigenvectorGeometryModule,
@@ -8,8 +7,8 @@ import {
   type EigenvectorPresetId,
 } from '../../curve/modules/eigenvector-geometry';
 import type { ParamValues } from '../../curve/types';
-import StatsPanel from '../curve/StatsPanel';
 import { useEigenvectorGeometryP5 } from '../curve/useEigenvectorGeometryP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -26,7 +25,6 @@ export default function EigenvectorGeometryCurveRoot({ controlsMountId }: Props)
   const [params, setParams] = useState<ParamValues>(module.defaultParams);
   const [presetId, setPresetId] = useState<PresetSelection>('stretch');
   const [advanced, setAdvanced] = useState(false);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const currentPreset = presetId === 'custom' ? undefined : presetById(presetId);
   const visiblePresets = EIGENVECTOR_PRESETS.filter((preset) => advanced || !preset.advanced);
@@ -40,10 +38,6 @@ export default function EigenvectorGeometryCurveRoot({ controlsMountId }: Props)
     presetNote: currentPreset?.note,
     onParamsChange,
   });
-
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
 
   const metadata = module.getMetadata(params, {
     revealPct: 100,
@@ -67,79 +61,69 @@ export default function EigenvectorGeometryCurveRoot({ controlsMountId }: Props)
     setParams((prev) => ({ ...prev, [key]: value }));
   };
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
+        {visiblePresets.map((preset) => (
+          <button
+            key={preset.id}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={presetId === preset.id}
+            onClick={() => setPreset(preset.id)}
+          >
+            {preset.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
-            {visiblePresets.map((preset) => (
-              <button
-                key={preset.id}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={presetId === preset.id}
-                onClick={() => setPreset(preset.id)}
-              >
-                {preset.label}
-              </button>
-            ))}
-          </div>
+      <div className="curve-work-mode-toggle">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={advanced}
+          onClick={() => setAdvanced((prev) => !prev)}
+        >
+          進階矩陣
+        </button>
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed="false"
+          onClick={() => setPreset('stretch')}
+        >
+          重設
+        </button>
+      </div>
 
-          <div className="curve-work-mode-toggle">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={advanced}
-              onClick={() => setAdvanced((prev) => !prev)}
-            >
-              進階矩陣
-            </button>
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed="false"
-              onClick={() => setPreset('stretch')}
-            >
-              重設
-            </button>
-          </div>
-
-          {advanced ? (
-            <div className="curve-work-controls__matrix">
-              {MATRIX_KEYS.map((key) => (
-                <div key={key} className="control-field">
-                  <label htmlFor={`eigenvector-geometry-${key}`}>
-                    <span>{key}</span>
-                    <span className="control-field__value">
-                      {(params[key] ?? 0).toFixed(2)}
-                    </span>
-                  </label>
-                  <div className="range-wrap">
-                    <input
-                      id={`eigenvector-geometry-${key}`}
-                      type="range"
-                      className="range"
-                      min={-3}
-                      max={3}
-                      step={0.01}
-                      value={params[key] ?? 0}
-                      onInput={(event) => updateMatrixValue(key, Number(event.currentTarget.value))}
-                    />
-                  </div>
-                </div>
-              ))}
+      {advanced ? (
+        <div className="curve-work-controls__matrix">
+          {MATRIX_KEYS.map((key) => (
+            <div key={key} className="control-field">
+              <label htmlFor={`eigenvector-geometry-${key}`}>
+                <span>{key}</span>
+                <span className="control-field__value">
+                  {(params[key] ?? 0).toFixed(2)}
+                </span>
+              </label>
+              <div className="range-wrap">
+                <input
+                  id={`eigenvector-geometry-${key}`}
+                  type="range"
+                  className="range"
+                  min={-3}
+                  max={3}
+                  step={0.01}
+                  value={params[key] ?? 0}
+                  onInput={(event) => updateMatrixValue(key, Number(event.currentTarget.value))}
+                />
+              </div>
             </div>
-          ) : null}
-
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+          ))}
+        </div>
+      ) : null}
+    </WorkControlsPortal>
+  );
 
   return (
     <>

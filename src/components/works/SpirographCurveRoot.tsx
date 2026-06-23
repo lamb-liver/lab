@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useMemo, useState } from 'react';
 import { stepSpirographAnimation } from '../../curve/modules/spirograph/animation';
 import {
   spirographModule,
@@ -7,8 +6,8 @@ import {
 } from '../../curve/modules/spirograph';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -22,7 +21,6 @@ export default function SpirographCurveRoot({ controlsMountId }: Props) {
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [smoothD, setSmoothD] = useState(module.defaultParams.d);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const smoothSync = useMemo(
@@ -47,34 +45,22 @@ export default function SpirographCurveRoot({ controlsMountId }: Props) {
     smoothSync,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
   const metadata = module.getMetadata(targetParams, {
     revealPct,
     smoothParams: { ...targetParams, d: smoothD },
   });
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => {
-              setTargetParams(patchTargetParams({ [key]: value }));
-            }}
-          />
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => {
+          setTargetParams(patchTargetParams({ [key]: value }));
+        }}
+      />
+    </WorkControlsPortal>
+  );
 
   return (
     <>

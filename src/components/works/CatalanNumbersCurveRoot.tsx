@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useState } from 'react';
 import {
   MODE_PAREN,
   MODE_PATH,
@@ -8,8 +7,8 @@ import {
 } from '../../curve/modules/catalan-numbers';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useCatalanNumbersP5 } from '../curve/useCatalanNumbersP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = { controlsMountId: string };
@@ -24,64 +23,50 @@ export default function CatalanNumbersCurveRoot({ controlsMountId }: Props) {
   const module = catalanNumbersModule;
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [nextNonce, setNextNonce] = useState(0);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const { canvasHostRef } = useCatalanNumbersP5({
     targetParams,
     nextNonce,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
 
   const mode = Math.round(targetParams.mode ?? MODE_PATH);
   const metadata = module.getMetadata(targetParams);
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="卡特蘭模型">
+        {modeOptions.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className="curve-work-mode-button"
+            aria-pressed={mode === option.value}
+            onClick={() => setTargetParams((prev) => ({ ...prev, mode: option.value }))}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="卡特蘭模型">
-            {modeOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className="curve-work-mode-button"
-                aria-pressed={mode === option.value}
-                onClick={() => setTargetParams((prev) => ({ ...prev, mode: option.value }))}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => setTargetParams((prev) => ({ ...prev, [key]: value }))}
+      />
 
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => setTargetParams((prev) => ({ ...prev, [key]: value }))}
-          />
-
-          <div className="curve-work-mode-toggle" aria-label="物件切換">
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={false}
-              onClick={() => setNextNonce((prev) => prev + 1)}
-            >
-              下一個
-            </button>
-          </div>
-
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+      <div className="curve-work-mode-toggle" aria-label="物件切換">
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={false}
+          onClick={() => setNextNonce((prev) => prev + 1)}
+        >
+          下一個
+        </button>
+      </div>
+    </WorkControlsPortal>
+  );
 
   return (
     <>

@@ -78,9 +78,11 @@ src/components/curve/
   DeltaPhaseControl.tsx     # δ：刻度 + 磁吸 + 快速定點
 
 src/works/
+  interactiveSlugs.ts       # Work interactive slug source
   interactiveRegistry.ts    # isWorkInteractive、controlsMountId
 
 src/explore/
+  interactiveSlugs.ts       # Explore interactive slug source
   interactiveRegistry.ts    # isExploreInteractive
 
 src/components/works/
@@ -154,14 +156,10 @@ src/components/
 | 步驟 | 檔案 |
 |------|------|
 | 1 | `curve/modules/{name}/` + `content/works/{slug}.md` |
-| 2 | `curve/registry.ts` 登記 slug |
+| 2 | `works/interactiveSlugs.ts` + `curve/registry.ts` 登記 slug |
 | 3 | `WorkInteractiveStage.tsx` 的 `rootBySlug` 加 Root |
 
-`controlsMountId` 慣例：`{slug}-controls`（`works/interactiveRegistry.ts`）。
-
-### 舊式硬編碼（已移除）
-
-~~依 `entry.id` if/else 掛載各 `*CurveRoot`~~ — 改由 Stage + registry 查表。
+`works/interactiveSlugs.ts` 是互動 Work slug source；`WorkInteractiveStage.tsx` 只做 slug → component mapping。`controlsMountId` 慣例：`{slug}-controls`。
 
 ### 舞台佈局（canvas 左 · 控制右 · 互動優先）
 
@@ -253,7 +251,7 @@ DOM 順序須讓 `<details.work-detail__controls>` / `<aside id="{slug}-controls
 
 Explore 詳情引入 `explore-toolbar.css` + `explore-touch.css`（見 [`site-ux.md`](site-ux.md) §5）。
 
-新增互動 explore：`explore/interactiveRegistry.ts` + `ExploreInteractiveStage.tsx` 的 `rootBySlug`。
+新增互動 explore：`explore/interactiveSlugs.ts` 加 slug，`ExploreInteractiveStage.tsx` 的 `rootBySlug` 加 Root。
 
 ### Path cache（`src/explore/fourier/path.ts`）
 
@@ -887,32 +885,6 @@ IFS：P(k+1) = 0.5 * (P(k) + V(i)),  V(i) ∈ {v1, v2, v3}
 3. Astro + portal 控件 + `registry` 縮圖
 
 **不要**先 abstraction 再找視覺；**不要**重做 glow / UI 語言。
-
----
-
-## 複數幾何原型（2026-05）
-
-以下三個 p5 prototype 已對齊目前規則：暗底、accent 單色、低權重 guide、主體 glow、60fps 取向。
-
-| 主題 | 核心方程 | 互動參數 | 架構重點 |
-|------|----------|----------|----------|
-| 複數四則運算幾何（`complex-arithmetic-geometry`） | $z_1 + z_2$、$z_1 z_2$ | $r_1,\theta_1,r_2,\theta_2$ | out 參數覆寫 + 全域 Temp 池 + Camera 自動縮放 |
-| 複數極座標形式（`complex-polar-form`） | $z=r(\cos\theta+i\sin\theta)$ | $r,\theta$ | art token 化（`T`,`CFG`）+ guide/projection 分層 + arc 標註 |
-| 尤拉公式旋轉動畫（`euler-formula-rotation`） | $e^{i(\omega t+\delta)}=\cos(\omega t+\delta)+i\sin(\omega t+\delta)$ | $A,\omega,\delta$ | 複平面/時域雙區域 + 虛部投影 + 固定長度歷史緩衝 |
-
-### 實作共通點（可直接作為 React 化需求）
-
-- **零配置取向**：避免在 `draw()` 內反覆 new `{x,y}`，改用預配置快取或 out 參數，降低 GC 抖動。
-- **自動縮放**：以當前最大幾何量（如 `r1+r2`、`r1*r2`、`r`）更新相機比例，避免節點出框。
-- **平滑與時間調變**：滑桿輸入與畫面輸出分離（`smooth*`），並加入低振幅漂移維持生命感。
-- **分層渲染**：先 guide/grid，再主向量 glow，最後節點與標籤；避免 UI/guide 搶過主曲線。
-
-### React 轉接建議（最小改動）
-
-1. 先把三個 prototype 抽為 `src/curve/modules/<slug>/index.ts`，保留公式與參數語意。
-2. `paramSchema` 對應滑桿：四則運算（4 參數）、極座標（2 參數）、尤拉（3 參數）。
-3. 如需每幀重算（時間驅動/漂移），省略 `cacheStrategy`；靜態幾何再考慮 cache。
-4. renderer 端沿用現有 glow/grid 語言，不在單一作品重做視覺系統。
 
 ---
 

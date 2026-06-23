@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import type p5 from 'p5';
 import { createInitialState, stepAnimation } from '../../curve/animation';
 import { createCurveCache } from '../../curve/cache';
@@ -9,8 +8,8 @@ import { renderFrame } from '../../systems/rendering/frame';
 import { lissajousRenderPreset } from '../../systems/rendering/presets';
 import { useSmoothParamNotifier } from './useSmoothParamNotifier';
 import ParamControls from './ParamControls';
-import StatsPanel from './StatsPanel';
 import { useP5CanvasHost } from './useP5CanvasHost';
+import WorkControlsPortal from './WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -36,7 +35,6 @@ export default function CurveWorkRoot({
   const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const animRef = useRef<AnimationState>(createInitialState(module.defaultParams));
   const targetParamsRef = useRef<ParamValues>(module.defaultParams);
@@ -50,11 +48,7 @@ export default function CurveWorkRoot({
   const lastCachedTargetRef = useRef(paramsSnapshot(module.defaultParams));
   const cacheRef = useRef(createCurveCache(module));
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
-  useEffect(() => {
+(() => {
     targetParamsRef.current = targetParams;
     const snap = paramsSnapshot(targetParams);
     if (snap !== lastCachedTargetRef.current) {
@@ -115,19 +109,11 @@ export default function CurveWorkRoot({
     smoothParams,
   });
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-          <ParamControls module={module} values={targetParams} onChange={setParam} />
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <ParamControls module={module} values={targetParams} onChange={setParam} />
+    </WorkControlsPortal>
+  );
 
   return (
     <>

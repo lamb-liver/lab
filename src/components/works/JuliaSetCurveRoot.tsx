@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useCallback, useState } from 'react';
 import { juliaSetModule } from '../../curve/modules/julia-set';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
-import StatsPanel from '../curve/StatsPanel';
 import { useJuliaP5 } from '../curve/useJuliaP5';
+import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
@@ -20,7 +19,6 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
     cx: module.defaultParams.cx,
     cy: module.defaultParams.cy,
   });
-  const [controlsMount, setControlsMount] = useState<HTMLElement | null>(null);
 
   const onRenderProgress = useCallback((pct: number) => setRenderPct(pct), []);
   const onSmoothCChange = useCallback((cx: number, cy: number) => {
@@ -33,10 +31,6 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
     onSmoothCChange,
   });
 
-  useEffect(() => {
-    setControlsMount(document.getElementById(controlsMountId));
-  }, [controlsMountId]);
-
   const metadata = module.getMetadata(targetParams, {
     revealPct: renderPct,
     smoothParams: {
@@ -46,51 +40,43 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
     },
   });
 
-  const controls = controlsMount
-    ? createPortal(
-        <div className="curve-work-controls">
-          <div className="curve-work-controls__meta">
-            <p className="curve-work-controls__title">{metadata.title}</p>
-            <p className="curve-work-controls__formula">{metadata.formula}</p>
-          </div>
-          <div
-            className="curve-work-mode-toggle"
-            role="group"
-            aria-label="朱利亞集合參數漂移"
-          >
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={Math.round(targetParams.autoDrift ?? 0) === 0}
-              onClick={() =>
-                setTargetParams((prev) => ({ ...prev, autoDrift: 0 }))
-              }
-            >
-              手動 c
-            </button>
-            <button
-              type="button"
-              className="curve-work-mode-button"
-              aria-pressed={Math.round(targetParams.autoDrift ?? 0) === 1}
-              onClick={() =>
-                setTargetParams((prev) => ({ ...prev, autoDrift: 1 }))
-              }
-            >
-              參數漂移
-            </button>
-          </div>
-          <ParamControls
-            module={module}
-            values={targetParams}
-            onChange={(key, value) => {
-              setTargetParams((prev) => ({ ...prev, [key]: value }));
-            }}
-          />
-          <StatsPanel metadata={metadata} />
-        </div>,
-        controlsMount,
-      )
-    : null;
+  const controls = (
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <div
+        className="curve-work-mode-toggle"
+        role="group"
+        aria-label="朱利亞集合參數漂移"
+      >
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={Math.round(targetParams.autoDrift ?? 0) === 0}
+          onClick={() =>
+            setTargetParams((prev) => ({ ...prev, autoDrift: 0 }))
+          }
+        >
+          手動 c
+        </button>
+        <button
+          type="button"
+          className="curve-work-mode-button"
+          aria-pressed={Math.round(targetParams.autoDrift ?? 0) === 1}
+          onClick={() =>
+            setTargetParams((prev) => ({ ...prev, autoDrift: 1 }))
+          }
+        >
+          參數漂移
+        </button>
+      </div>
+      <ParamControls
+        module={module}
+        values={targetParams}
+        onChange={(key, value) => {
+          setTargetParams((prev) => ({ ...prev, [key]: value }));
+        }}
+      />
+    </WorkControlsPortal>
+  );
 
   return (
     <>
