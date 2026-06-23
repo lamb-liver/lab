@@ -14,7 +14,7 @@ import {
 
 const paramSchema: ParamSchema = [];
 
-export function asUnitCircleTrigDefinitionParams(
+function asUnitCircleTrigDefinitionParams(
   params: ParamValues | UnitCircleTrigDefinitionParams,
 ): UnitCircleTrigDefinitionParams {
   return asUnitCircleParams(params as UnitCircleTrigDefinitionParams);

@@ -6,7 +6,7 @@ import {
   setCircularTarget,
   stepUnitCircleSmoothing,
 } from './geometry';
-import { asUnitCircleTrigDefinitionParams, unitCircleTrigDefinitionModule } from './index';
+import { unitCircleTrigDefinitionModule } from './index';
 
 describe('unit-circle-trig-definition module', () => {
   it('getTrigValues keeps sin²+cos²=1', () => {
@@ -21,7 +21,7 @@ describe('unit-circle-trig-definition module', () => {
 
   it('getMetadata reports quadrant and trig values', () => {
     const meta = unitCircleTrigDefinitionModule.getMetadata(
-      asUnitCircleTrigDefinitionParams({ theta: Math.PI / 4, showRadians: false }),
+      { theta: Math.PI / 4 },
       { revealPct: 100 },
     );
 
@@ -32,7 +32,7 @@ describe('unit-circle-trig-definition module', () => {
 
   it('thumbnail sample returns unit circle and projection paths', () => {
     const spec = unitCircleTrigDefinitionModule.sample(
-      asUnitCircleTrigDefinitionParams({ theta: Math.PI / 4 }),
+      { theta: Math.PI / 4 },
       { step: 1, purpose: 'thumbnail' },
     );
     expect(spec).toHaveProperty('paths');
@@ -45,12 +45,13 @@ describe('unit-circle-trig-definition module', () => {
   it('stepUnitCircleSmoothing moves toward toggles', () => {
     const smooth = stepUnitCircleSmoothing(
       { theta: 0, quadrantMix: 1, specialMix: 1, tangentMix: 1 },
-      asUnitCircleTrigDefinitionParams({
+      {
         theta: 1,
         showQuadrants: false,
         showSpecialAngles: false,
         showTangent: false,
-      }),
+        showRadians: false,
+      },
       16.67,
     );
 
