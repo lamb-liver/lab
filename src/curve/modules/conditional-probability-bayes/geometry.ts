@@ -1,8 +1,6 @@
 import type { CurvePoint, ParamValues, ThumbnailSpec } from '../../types';
 import { BAYES_TREE, BAYES_TREE_PANEL_AREA, leafLeftAnchor, rectToCurvePoints } from './layout';
 
-export { BAYES_AREA, BAYES_BARS, BAYES_TREE, BAYES_TREE_PANEL_AREA, BAYES_VIEW } from './layout';
-
 export const MODE_TREE = 0;
 export const MODE_AREA = 1;
 export const MODE_BAYES = 2;
@@ -13,7 +11,7 @@ export const SCENARIO_SPAM = 2;
 
 export type BayesMode = 'tree' | 'area' | 'bayes';
 
-export type ScenarioConfig = {
+type ScenarioConfig = {
   pA: number;
   pBgA: number;
   pBgNotA: number;

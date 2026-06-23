@@ -29,7 +29,7 @@ export type DotProductMetrics = {
   isPerpendicular: boolean;
 };
 
-export type DotProductLayout = {
+type DotProductLayout = {
   origin: Vec2;
   scale: number;
   extent: number;
@@ -37,7 +37,7 @@ export type DotProductLayout = {
   plotMax: number;
 };
 
-export const DOT_PRODUCT_DRAG_LIMIT = 6;
+const DOT_PRODUCT_DRAG_LIMIT = 6;
 const EPS = 1e-6;
 const GUIDE_STROKE = 'rgba(255, 255, 255, 0.3)';
 const GOLD_STROKE = 'rgb(212, 184, 122)';
@@ -54,15 +54,15 @@ export function vectorFromParams(
   };
 }
 
-export function dotVec(a: Vec2, b: Vec2): number {
+function dotVec(a: Vec2, b: Vec2): number {
   return a.x * b.x + a.y * b.y;
 }
 
-export function magnitude(v: Vec2): number {
+function magnitude(v: Vec2): number {
   return Math.hypot(v.x, v.y);
 }
 
-export function scaleVec(v: Vec2, scalar: number): Vec2 {
+function scaleVec(v: Vec2, scalar: number): Vec2 {
   return { x: v.x * scalar, y: v.y * scalar };
 }
 
@@ -114,7 +114,7 @@ export function computeDotProductMetrics(params: DotProductGeometryParams): DotP
   };
 }
 
-export function computeDotProductExtent(params: DotProductGeometryParams): number {
+function computeDotProductExtent(params: DotProductGeometryParams): number {
   const { u, v } = vectorFromParams(params);
   const metrics = computeDotProductMetrics(params);
   const maxMag = Math.max(

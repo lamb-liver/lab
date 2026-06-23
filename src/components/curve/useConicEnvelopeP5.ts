@@ -64,7 +64,7 @@ export function useConicEnvelopeP5({
     renderConicEnvelopeScene(p, {
       width: p.width,
       height: p.height,
-      lineDensity: Math.round(anim.targetParams.lineDensity),
+      lineDensity: Math.round(targetParamsRef.current.lineDensity),
       currentRatio: anim.currentRatio,
       time: anim.time,
       revealProgress: anim.revealProgress,

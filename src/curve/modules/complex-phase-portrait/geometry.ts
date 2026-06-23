@@ -2,13 +2,13 @@ import type { CurvePoint, ThumbnailSpec } from '../../types';
 
 export const FREQ_A = 1;
 export const AMP_B = 0.8;
-export const SAMPLE_STEP = 0.025;
-export const HISTORY_DURATION = Math.PI * 4;
+const SAMPLE_STEP = 0.025;
+const HISTORY_DURATION = Math.PI * 4;
 export const TIME_SPEED = 0.02;
-export const SAFE_VIEWPORT_RATIO = 0.72;
+const SAFE_VIEWPORT_RATIO = 0.72;
 export const PARAM_LERP = 0.08;
 
-export type PhasorSampleParams = {
+type PhasorSampleParams = {
   ampA: number;
   freqB: number;
   smoothPhase: number;

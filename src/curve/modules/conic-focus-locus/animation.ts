@@ -4,9 +4,7 @@ import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 export const REVEAL_SPEED = 0.004;
 export const PARAM_LERP = 0.08;
 
-export type ConicFocusLocusAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type ConicFocusLocusAnimState = {
   revealProgress: number;
   isComplete: boolean;
   time: number;
@@ -22,8 +20,6 @@ export function createConicFocusLocusAnimState(
   defaultParams: ParamValues,
 ): ConicFocusLocusAnimState {
   return {
-    params: { ...defaultParams },
-    targetParams: { ...defaultParams },
     revealProgress: 0,
     isComplete: false,
     time: 0,
@@ -48,7 +44,6 @@ export function stepConicFocusLocusAnimation(
     nextTarget.eccentricity !== state.previousEccentricity;
 
   let {
-    params,
     revealProgress,
     isComplete,
     time,
@@ -84,12 +79,6 @@ export function stepConicFocusLocusAnimation(
   const scale = frameScale(deltaMs);
   time += targetParams.orbitSpeed * scale;
 
-  params = {
-    semiMajorAxis: currentSemiMajorAxis,
-    eccentricity: currentEccentricity,
-    orbitSpeed: targetParams.orbitSpeed,
-  };
-
   const settled =
     Math.abs(currentSemiMajorAxis - targetParams.semiMajorAxis) < 0.05 &&
     Math.abs(currentEccentricity - targetParams.eccentricity) < 0.001;
@@ -112,8 +101,6 @@ export function stepConicFocusLocusAnimation(
   }
 
   return {
-    params,
-    targetParams,
     revealProgress,
     isComplete,
     time,

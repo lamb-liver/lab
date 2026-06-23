@@ -64,4 +64,4 @@ export const conicFocusLocusModule: CurveModule = {
   animation: { lerp: PARAM_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { PARAM_LERP, REVEAL_SPEED } from './animation';
+export { REVEAL_SPEED } from './animation';

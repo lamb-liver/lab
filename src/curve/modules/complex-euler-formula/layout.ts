@@ -18,7 +18,7 @@ export function computePlotRect(canvasW: number, canvasH: number): PlotRect {
   };
 }
 
-export type PlaneTransform = {
+type PlaneTransform = {
   cx: number;
   cy: number;
   unit: number;

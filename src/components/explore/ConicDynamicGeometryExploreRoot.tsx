@@ -97,7 +97,6 @@ export default function ConicDynamicGeometryExploreRoot() {
       ...anim,
       pointClock: nextClock,
       targetParams: { ...target, animatePoint: false },
-      params: { ...target, animatePoint: false },
     };
   }, []);
 

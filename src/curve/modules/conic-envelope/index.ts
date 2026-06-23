@@ -62,4 +62,4 @@ export const conicEnvelopeModule: CurveModule = {
   animation: { lerp: RATIO_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { RATIO_LERP, REVEAL_SPEED } from './animation';
+export { REVEAL_SPEED } from './animation';

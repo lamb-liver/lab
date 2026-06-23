@@ -48,8 +48,6 @@ export function useComplexArithmeticGeometryP5({
     renderComplexArithmeticGeometryScene(p, {
       width: p.width,
       height: p.height,
-      r1: anim.params.r1,
-      r2: anim.params.r2,
       smoothR1: anim.smoothR1,
       smoothR2: anim.smoothR2,
       smoothTheta1: anim.smoothTheta1,

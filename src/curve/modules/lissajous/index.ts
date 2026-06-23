@@ -1,11 +1,11 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
+import { DELTA_LERP } from './animation';
 
 const AMPLITUDE = 220;
 const TWO_PI = 2 * Math.PI;
 const REVEAL_SPEED = 0.0018;
-const DELTA_LERP = 0.06;
 
 const paramSchema: ParamSchema = [
   { key: 'a', label: '頻率 a', min: 1, max: 10, step: 1, default: 3 },
@@ -81,4 +81,4 @@ export const lissajousModule: CurveModule = {
   animation: { lerp: DELTA_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { DELTA_LERP, REVEAL_SPEED, TWO_PI as LISSAJOUS_TWO_PI };
+export { REVEAL_SPEED };

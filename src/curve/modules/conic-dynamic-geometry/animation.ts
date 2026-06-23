@@ -18,11 +18,9 @@ export type ConicDynamicParams = {
   animatePoint: boolean;
 };
 
-export type ConicDynamicAnimState = {
-  params: ConicDynamicParams;
+type ConicDynamicAnimState = {
   targetParams: ConicDynamicParams;
   smoothE: number;
-  lastTargetE: number;
   reveal: number;
   pointClock: number;
   lastMode: ConicMode;
@@ -35,10 +33,8 @@ export function createConicDynamicAnimState(
   params: ConicDynamicParams,
 ): ConicDynamicAnimState {
   return {
-    params: { ...params },
     targetParams: { ...params },
     smoothE: params.eccentricity,
-    lastTargetE: params.eccentricity,
     reveal: 1,
     pointClock: 0,
     lastMode: params.mode,
@@ -55,7 +51,6 @@ export function stepConicDynamicAnimation(
 ): ConicDynamicAnimState {
   let {
     smoothE,
-    lastTargetE,
     reveal,
     pointClock,
     lastMode,
@@ -87,10 +82,6 @@ export function stepConicDynamicAnimation(
   if (targetParams.mode === 'eccentricity') {
     const targetE = targetParams.eccentricity;
 
-    if (Math.abs(targetE - lastTargetE) > 0.002) {
-      lastTargetE = targetE;
-    }
-
     smoothE += (targetE - smoothE) * PARAM_LERP;
 
     const paths = buildEccentricityPaths(smoothE);
@@ -99,17 +90,15 @@ export function stepConicDynamicAnimation(
     subtitle = getEccentricityKind(smoothE);
   } else {
     const scene = buildFocusScene(targetParams.focusCurve);
-    const { point, metricPath } = getFocusMovingPoint(scene, pointClock);
+    const { metricPath } = getFocusMovingPoint(scene, pointClock);
 
     activeMetricPoints = metricPath;
     subtitle = scene.title;
   }
 
   return {
-    params: targetParams,
     targetParams,
     smoothE,
-    lastTargetE,
     reveal,
     pointClock,
     lastMode,

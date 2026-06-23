@@ -26,12 +26,12 @@
 | 狀態 | 檔案數 |
 |------|------:|
 | 掃描面總數 | 744 |
-| 已掃描檔案 | 523 |
-| 尚未掃描檔案 | 221 |
+| 已掃描檔案 | 623 |
+| 尚未掃描檔案 | 121 |
 | 已掃描但不列入 repo 掃描面 | 8 |
 
 <details open>
-<summary>已掃描檔案（523）</summary>
+<summary>已掃描檔案（623）</summary>
 
 - `.cursor/rules/code-review.mdc`
 - `.github/workflows/deploy.yml`
@@ -556,24 +556,6 @@
 - `src/works/interactiveRegistry.ts`
 - `tsconfig.json`
 - `vitest.config.ts`
-</details>
-
-<details>
-<summary>已掃描但不列入 repo 掃描面（8）</summary>
-
-- `.vscode/extensions.json` - 已掃描並移出 Git 追蹤；local-only。
-- `.vscode/launch.json` - 已掃描並移出 Git 追蹤；local-only。
-- `content-update-inventory.local.md` - 已刪除本地過期盤點檔；local-only。
-- `schedule.md` - 已掃描並移出 Git 追蹤；local-only。
-- `src/curve/morphPathCache.test.ts` - 已刪除並由 `morphFrame` 直接 sample 取代。
-- `src/curve/morphPathCache.ts` - 已刪除並由 `morphFrame` 直接 sample 取代。
-- `src/content/works/discrete-pmf-expectation.md` - 已保持刪除狀態。
-- `src/content/works/variance-spread-visualization.md` - 已保持刪除狀態。
-
-</details>
-
-<details>
-<summary>尚未掃描檔案（221）</summary>
 - `src/curve/modules/arithmetic-geometric-sequences/geometry.ts`
 - `src/curve/modules/arithmetic-geometric-sequences/index.ts`
 - `src/curve/modules/basel-problem/geometry.ts`
@@ -609,9 +591,6 @@
 - `src/curve/modules/complex-polar-form/animation.ts`
 - `src/curve/modules/complex-polar-form/geometry.ts`
 - `src/curve/modules/complex-polar-form/index.ts`
-- `src/curve/modules/conditional-probability-bayes/geometry.ts`
-- `src/curve/modules/conditional-probability-bayes/index.ts`
-- `src/curve/modules/conditional-probability-bayes/layout.ts`
 - `src/curve/modules/conic-dynamic-geometry/animation.ts`
 - `src/curve/modules/conic-dynamic-geometry/constants.ts`
 - `src/curve/modules/conic-dynamic-geometry/geometry.ts`
@@ -624,6 +603,9 @@
 - `src/curve/modules/conic-focus-locus/conic-focus-locus.test.ts`
 - `src/curve/modules/conic-focus-locus/geometry.ts`
 - `src/curve/modules/conic-focus-locus/index.ts`
+- `src/curve/modules/conditional-probability-bayes/geometry.ts`
+- `src/curve/modules/conditional-probability-bayes/index.ts`
+- `src/curve/modules/conditional-probability-bayes/layout.ts`
 - `src/curve/modules/differential-equations-geometry/constants.ts`
 - `src/curve/modules/differential-equations-geometry/equations.ts`
 - `src/curve/modules/differential-equations-geometry/layout.ts`
@@ -632,6 +614,66 @@
 - `src/curve/modules/dot-product-geometry/dot-product-geometry.test.ts`
 - `src/curve/modules/dot-product-geometry/geometry.ts`
 - `src/curve/modules/dot-product-geometry/index.ts`
+- `src/curve/modules/harmonograph/animation.ts`
+- `src/curve/modules/harmonograph/harmonograph.test.ts`
+- `src/curve/modules/harmonograph/index.ts`
+- `src/curve/modules/lissajous/animation.ts`
+- `src/curve/modules/lissajous/index.ts`
+- `src/curve/modules/lissajous/lissajous.test.ts`
+- `src/curve/modules/percentile-box-plot/index.ts`
+- `src/curve/modules/radian-arc-length/index.ts`
+- `src/curve/modules/rose/index.ts`
+- `src/curve/modules/rose/rose.test.ts`
+- `src/curve/modules/trig-angle-identities/index.ts`
+- `src/curve/modules/unit-circle-trig-definition/index.ts`
+- `src/explore/fourier/constants.ts`
+- `src/explore/fourier/path.test.ts`
+- `src/explore/fourier/path.ts`
+- `src/explore/function-equations/constants.ts`
+- `src/explore/function-equations/geometry.test.ts`
+- `src/explore/function-equations/geometry.ts`
+- `src/explore/function-equations/types.ts`
+- `src/explore/permutations-combinations/geometry.test.ts`
+- `src/explore/permutations-combinations/geometry.ts`
+- `src/explore/rational-functions-asymptotes/constants.ts`
+- `src/explore/rational-functions-asymptotes/geometry.ts`
+- `src/explore/rational-functions-asymptotes/types.ts`
+- `src/explore/trig-function-graphs/geometry.test.ts`
+- `src/explore/trig-function-graphs/geometry.ts`
+- `src/explore/trigonometry/constants.ts`
+- `src/explore/trigonometry/geometry.test.ts`
+- `src/explore/trigonometry/geometry.ts`
+- `src/explore/trigonometry/types.ts`
+- `src/explore/vectors/geometry.test.ts`
+- `src/explore/vectors/geometry.ts`
+- `src/explore/wave-superposition/canvasSize.test.ts`
+- `src/explore/wave-superposition/canvasSize.ts`
+- `src/explore/wave-superposition/constants.ts`
+- `src/explore/wave-superposition/geometry.test.ts`
+- `src/explore/wave-superposition/geometry.ts`
+- `src/lib/trigonometry/triangleGeometry.test.ts`
+- `src/lib/trigonometry/triangleGeometry.ts`
+- `tests/explore-single.smoke.spec.ts`
+- `tests/seo-ux.spec.ts`
+- `tests/work-integration.smoke.spec.ts`
+</details>
+
+<details>
+<summary>已掃描但不列入 repo 掃描面（8）</summary>
+
+- `.vscode/extensions.json` - 已掃描並移出 Git 追蹤；local-only。
+- `.vscode/launch.json` - 已掃描並移出 Git 追蹤；local-only。
+- `content-update-inventory.local.md` - 已刪除本地過期盤點檔；local-only。
+- `schedule.md` - 已掃描並移出 Git 追蹤；local-only。
+- `src/curve/morphPathCache.test.ts` - 已刪除並由 `morphFrame` 直接 sample 取代。
+- `src/curve/morphPathCache.ts` - 已刪除並由 `morphFrame` 直接 sample 取代。
+- `src/content/works/discrete-pmf-expectation.md` - 已保持刪除狀態。
+- `src/content/works/variance-spread-visualization.md` - 已保持刪除狀態。
+
+</details>
+
+<details>
+<summary>尚未掃描檔案（121）</summary>
 - `src/curve/modules/eigenvector-geometry/eigenvector-geometry.test.ts`
 - `src/curve/modules/eigenvector-geometry/geometry.ts`
 - `src/curve/modules/eigenvector-geometry/index.ts`
@@ -654,9 +696,6 @@
 - `src/curve/modules/function-graph-transform/function-graph-transform.test.ts`
 - `src/curve/modules/function-graph-transform/geometry.ts`
 - `src/curve/modules/function-graph-transform/index.ts`
-- `src/curve/modules/harmonograph/animation.ts`
-- `src/curve/modules/harmonograph/harmonograph.test.ts`
-- `src/curve/modules/harmonograph/index.ts`
 - `src/curve/modules/interference-fringes/animation.ts`
 - `src/curve/modules/interference-fringes/geometry.ts`
 - `src/curve/modules/interference-fringes/index.ts`
@@ -684,9 +723,6 @@
 - `src/curve/modules/linear-transform-grid/geometry.ts`
 - `src/curve/modules/linear-transform-grid/index.ts`
 - `src/curve/modules/linear-transform-grid/linear-transform-grid.test.ts`
-- `src/curve/modules/lissajous/animation.ts`
-- `src/curve/modules/lissajous/index.ts`
-- `src/curve/modules/lissajous/lissajous.test.ts`
 - `src/curve/modules/logarithmic-scale/geometry.ts`
 - `src/curve/modules/logarithmic-scale/index.ts`
 - `src/curve/modules/logarithmic-scale/logarithmic-scale.test.ts`
@@ -704,7 +740,6 @@
 - `src/curve/modules/parabolic-reflection/parabolic-reflection.test.ts`
 - `src/curve/modules/pascals-triangle/geometry.ts`
 - `src/curve/modules/pascals-triangle/index.ts`
-- `src/curve/modules/percentile-box-plot/index.ts`
 - `src/curve/modules/polynomial-roots-multiplicity/constants.ts`
 - `src/curve/modules/polynomial-roots-multiplicity/geometry.ts`
 - `src/curve/modules/polynomial-roots-multiplicity/index.ts`
@@ -713,7 +748,6 @@
 - `src/curve/modules/quadratic-completing-square/geometry.ts`
 - `src/curve/modules/quadratic-completing-square/index.ts`
 - `src/curve/modules/quadratic-completing-square/quadratic-completing-square.test.ts`
-- `src/curve/modules/radian-arc-length/index.ts`
 - `src/curve/modules/rational-oblique-asymptote/geometry.ts`
 - `src/curve/modules/rational-oblique-asymptote/index.ts`
 - `src/curve/modules/rational-vertical-horizontal-asymptotes/geometry.ts`
@@ -725,8 +759,6 @@
 - `src/curve/modules/riemann-sum/geometry.ts`
 - `src/curve/modules/riemann-sum/index.ts`
 - `src/curve/modules/riemann-sum/riemann-sum.test.ts`
-- `src/curve/modules/rose/index.ts`
-- `src/curve/modules/rose/rose.test.ts`
 - `src/curve/modules/rotation-scale-composition/animation.ts`
 - `src/curve/modules/rotation-scale-composition/geometry.ts`
 - `src/curve/modules/rotation-scale-composition/index.ts`
@@ -750,8 +782,6 @@
 - `src/curve/modules/taylor-polynomial-approximation/geometry.ts`
 - `src/curve/modules/taylor-polynomial-approximation/index.ts`
 - `src/curve/modules/taylor-polynomial-approximation/taylor-polynomial-approximation.test.ts`
-- `src/curve/modules/trig-angle-identities/index.ts`
-- `src/curve/modules/unit-circle-trig-definition/index.ts`
 - `src/curve/modules/vector-addition-scalar/geometry.ts`
 - `src/curve/modules/vector-addition-scalar/index.ts`
 - `src/curve/modules/vector-addition-scalar/vector-addition-scalar.test.ts`
@@ -1121,6 +1151,37 @@
 | `src/curve/modules/arithmetic-geometric-sequences/geometry.ts`、`src/curve/modules/arithmetic-geometric-sequences/index.ts` | 本輪重掃確認：已於第四批完整掃描並修正；本輪搜尋驗證沒有新可刪 export 或可縮項，不重複改碼。 |
 | `src/curve/modules/basel-problem/geometry.ts`、`src/curve/modules/basel-problem/index.ts` | 本輪重掃確認：已於第四批完整掃描並修正；本輪搜尋驗證沒有新可刪 export 或可縮項，不重複改碼。 |
 | 驗證 | 已執行並通過：`npm test -- src/curve/modules/rose/rose.test.ts src/curve/modules/radian-arc-length/radian-arc-length.test.ts src/curve/modules/trig-angle-identities/trig-angle-identities.test.ts src/curve/modules/unit-circle-trig-definition/unit-circle-trig-definition.test.ts src/curve/modules/percentile-box-plot/percentile-box-plot.test.ts`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run smoke:work -- combinatorial-path-counting`；`npm run smoke:work -- percentile-box-plot`；`npm run smoke:work -- radian-arc-length`；`npm run smoke:work -- trig-angle-identities`；`npm run smoke:work -- unit-circle-trig-definition`；`npm run smoke:work -- rose-curve`；`npm run smoke:work -- arithmetic-geometric-sequences`；`npm run smoke:work -- basel-problem`；`git diff --check`；`npm run audit:integration`；`npm run validate:changed -- --dry-run`。補充重審後已重跑並通過：`npm test -- src/curve/modules/unit-circle-trig-definition/unit-circle-trig-definition.test.ts src/curve/modules/rose/rose.test.ts`；`npm run smoke:work -- unit-circle-trig-definition`；`npm run smoke:work -- rose-curve`；`npm run audit:integration`；`git diff --check`。 |
+
+## 2026-06-23 curve modules 第六批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/complex-arithmetic-geometry/animation.ts`、`src/curve/modules/complex-arithmetic-geometry/geometry.ts`、`src/curve/modules/complex-arithmetic-geometry/index.ts` | 已掃描並修正：`TIME_SPEED` / `DRIFT_AMP`、`ComplexArithmeticGeometryAnimState` 無外部 import，已收窄；state 的 `targetParams` 只寫不讀，已刪；index 的 `PARAM_LERP` re-export 無外部讀端，已刪。保留 module、thumbnail geometry、`polar` / `add` / `multiply` / `computeViewportRadius`，因 root / registry / renderer / module sample 消費。 |
+| `src/components/curve/useComplexArithmeticGeometryP5.ts`、`src/systems/rendering/complexArithmeticGeometryRender.ts` | 支援性修正：renderer snap 的 `r1` / `r2` 欄位無讀端，hook 不再傳入，renderer type 同步刪除；兩檔先前已在其他批次掃描，本輪不重複計入掃描數。 |
+| `src/curve/modules/complex-euler-formula/complex.ts`、`src/curve/modules/complex-euler-formula/constants.ts`、`src/curve/modules/complex-euler-formula/layout.ts`、`src/curve/modules/complex-euler-formula/types.ts` | 已掃描並修正：`PlaneTransform` 無外部 type import，已收窄；保留 complex math / layout / constants / params types，因 `ComplexEulerFormulaExploreRoot` 與 `complexEulerFormulaRender` 消費。 |
+| `src/curve/modules/complex-phase-portrait/animation.ts`、`src/curve/modules/complex-phase-portrait/geometry.ts`、`src/curve/modules/complex-phase-portrait/index.ts`、`src/curve/modules/complex-phase-portrait/geometry.test.ts` | 已掃描並修正：`ComplexPhasePortraitAnimState`、`PhasorSampleParams`、`SAMPLE_STEP`、`HISTORY_DURATION`、`SAFE_VIEWPORT_RATIO` 無外部 import，已收窄；animation 不再 re-export `PARAM_LERP` / `TIME_SPEED`；index 直接讀 geometry 的 `PARAM_LERP` 並刪除無讀端 re-export。保留 history buffer、phasor sampling、camera scale 與 tests，因 hook / renderer / module sample 消費。 |
+| `src/curve/modules/complex-polar-form/animation.ts`、`src/curve/modules/complex-polar-form/geometry.ts`、`src/curve/modules/complex-polar-form/index.ts` | 已掃描並修正：`TIME_SPEED` / `DRIFT_AMP` / `DRIFT_SPD`、`ComplexPolarFormAnimState` 無外部 import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；index 的 `PARAM_LERP` re-export 無外部讀端，已刪。保留 module、`computePolarScale` 與 thumbnail sample，因 root / registry / renderer / module sample 消費。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/complex-phase-portrait/geometry.test.ts`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run audit:integration`；`npm run build`；`npm run smoke:work -- complex-arithmetic-geometry`；`npm run smoke:work -- complex-phase-portrait`；`npm run smoke:work -- complex-polar-form`；`npm run smoke:explore -- complex-euler-formula`；`git diff --check`；`npm run validate:changed -- --dry-run`。 |
+
+## 2026-06-23 curve modules 第七批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/conic-dynamic-geometry/animation.ts`、`src/curve/modules/conic-dynamic-geometry/constants.ts`、`src/curve/modules/conic-dynamic-geometry/geometry.ts`、`src/curve/modules/conic-dynamic-geometry/types.ts` | 已掃描並修正：`ConicDynamicAnimState` 無外部 type import，已收窄；state 的 `params` 與 `lastTargetE` 只寫不讀，已刪；focus 分支 unused `point` destructure 已刪；`cosh` / `sinh` 只有同檔取樣使用，已收窄為 private。保留 `targetParams`、drag metric path、constants 與 exported types，因 `ConicDynamicGeometryExploreRoot` / `conicDynamicGeometryRender` / geometry helpers 消費。 |
+| `src/curve/modules/conic-envelope/animation.ts`、`src/curve/modules/conic-envelope/geometry.ts`、`src/curve/modules/conic-envelope/index.ts`、`src/curve/modules/conic-envelope/conic-envelope.test.ts`、`src/components/curve/useConicEnvelopeP5.ts` | 已掃描並修正：`ConicEnvelopeAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；hook 改由目前 target 直接提供 render 所需 `lineDensity`；module root 不再 re-export 無外部讀端的 `RATIO_LERP`，只保留 root 實際消費的 `REVEAL_SPEED`。保留 geometry helpers / line types / tests，因 renderer、module sample 與白箱幾何測試消費。 |
+| `src/curve/modules/conic-focus-locus/animation.ts`、`src/curve/modules/conic-focus-locus/geometry.ts`、`src/curve/modules/conic-focus-locus/index.ts`、`src/curve/modules/conic-focus-locus/conic-focus-locus.test.ts` | 已掃描並修正：`ConicFocusLocusAnimState` 無外部 type import，已收窄；state 的 `params` / `targetParams` 只寫不讀，已刪；module root 不再 re-export 無外部讀端的 `PARAM_LERP`，只保留 root 實際消費的 `REVEAL_SPEED`。保留 ellipse/focus helpers、types、thumbnail helper 與 tests，因 renderer、module sample、OG/thumbnail pipeline 消費。 |
+| `src/curve/modules/harmonograph/animation.ts`、`src/curve/modules/harmonograph/index.ts`、`src/curve/modules/harmonograph/harmonograph.test.ts` | 已掃描並修正：`MORPH_LERP` 原本只為 animation 從 module root 反向 import 而 re-export，已移到 animation 並由 index 讀取；module root 不再 export 無外部讀端的 `MORPH_LERP` / `SAMPLE_STEP`，只保留 `REVEAL_SPEED` 給 `HarmonographCurveRoot`。保留 module sample / damping tests，因 Work root、registry、morph tests、thumbnail/OG pipeline 消費。 |
+| `src/curve/modules/lissajous/animation.ts`、`src/curve/modules/lissajous/index.ts`、`src/curve/modules/lissajous/lissajous.test.ts` | 已掃描並修正：`DELTA_LERP` 原本只為 animation 從 module root 反向 import 而 re-export，已移到 animation 並由 index 讀取；module root 不再 export 無外部讀端的 `DELTA_LERP` / `LISSAJOUS_TWO_PI`，只保留 `REVEAL_SPEED` 給 `LissajousCurveRoot`。保留 module sample tests，因 Work root、registry、morph tests、thumbnail/OG pipeline 消費。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/conic-envelope/conic-envelope.test.ts src/curve/modules/conic-focus-locus/conic-focus-locus.test.ts src/curve/modules/harmonograph/harmonograph.test.ts src/curve/modules/lissajous/lissajous.test.ts`；`npm run test -- src/components/curve/useMorphCurveP5.draw.test.ts src/curve/morphFrame.test.ts src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run test -- src/registry.sync.test.ts`；`npm run smoke:explore -- conic-dynamic-geometry`；`npm run smoke:work -- conic-envelope`；`npm run smoke:work -- conic-focus-locus`；`npm run smoke:work -- harmonograph-curve`；`npm run smoke:work -- lissajous-curve`；`npm run audit:integration`；`npm run build`；`git diff --check`；`npm run validate:changed -- --dry-run`；ledger 機械檢查確認已掃描 612 / 未掃描 132 / tracked 744，無重複、缺漏或 extra。 |
+
+## 2026-06-23 curve modules 第八批接續掃描
+
+| 範圍 | 結論 |
+|------|------|
+| `src/curve/modules/conditional-probability-bayes/geometry.ts`、`src/curve/modules/conditional-probability-bayes/index.ts`、`src/curve/modules/conditional-probability-bayes/layout.ts` | 已掃描並修正：`geometry.ts` 對 layout constants 的轉出口無外部讀端，已刪；`ScenarioConfig`、`BayesTreeLayout`、`BayesAreaLayout`、`BayesBarsLayout` 無外部 type import，已收窄。保留 `BayesMode`、`scenarios`、mode/scenario normalization、layout constants 與 thumbnail helper，因 Work root、hook、renderer、module sample 消費。 |
+| `src/curve/modules/differential-equations-geometry/constants.ts`、`src/curve/modules/differential-equations-geometry/equations.ts`、`src/curve/modules/differential-equations-geometry/layout.ts`、`src/curve/modules/differential-equations-geometry/math.ts`、`src/curve/modules/differential-equations-geometry/types.ts` | 已掃描；確認保留：constants、equation registry、layout mapping、Euler/exact/trace math 與 exported types 均被 `DifferentialEquationsGeometryExploreRoot` 或 `differentialEquationsGeometryRender` 消費；未找到可安全縮小的 export 面。 |
+| `src/curve/modules/dot-product-geometry/geometry.ts`、`src/curve/modules/dot-product-geometry/index.ts`、`src/curve/modules/dot-product-geometry/dot-product-geometry.test.ts` | 已掃描並修正：`DOT_PRODUCT_DRAG_LIMIT`、`dotVec`、`magnitude`、`scaleVec`、`computeDotProductExtent`、`DotProductLayout` 只有同檔或白箱測試讀取，已收窄為 private；測試改驗 `computeDotProductMetrics` 行為，不再替 private helper export 背書。保留 params/mode/metrics types、座標 mapping、drag clamp、angle delta、thumbnail sample，因 hook、renderer、module root、OG/thumbnail pipeline 消費。 |
+| 驗證 | 已執行並通過：`npm test -- src/curve/modules/dot-product-geometry/dot-product-geometry.test.ts`；`npm run smoke:work -- conditional-probability-bayes`；`npm run smoke:work -- dot-product-geometry`；`npm run smoke:explore -- differential-equations-geometry`；`npm run test -- src/lib/curveThumbnail.registry.test.ts src/lib/workOgImage.test.ts`；`npm run test -- src/registry.sync.test.ts`；`npm run audit:integration`；`npm run build`；`git diff --check`；`npm run validate:changed -- --dry-run`；ledger 機械檢查確認已掃描 623 / 未掃描 121 / tracked 744，無重複、缺漏或 extra。 |
 
 ## 接續審查記錄格式
 

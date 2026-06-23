@@ -1,8 +1,7 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, ParamSchema } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import { PARAM_LERP } from './animation';
-import { sampleComplexPhasePortraitThumbnail } from './geometry';
+import { PARAM_LERP, sampleComplexPhasePortraitThumbnail } from './geometry';
 
 const paramSchema: ParamSchema = [
   { key: 'ampA', label: '振幅 A', min: 0.5, max: 2, step: 0.05, default: 1.2 },
@@ -41,8 +40,6 @@ export const complexPhasePortraitModule: CurveModule = {
   },
   animation: { lerp: PARAM_LERP, revealSpeed: 0 },
 };
-
-export { PARAM_LERP } from './animation';
 
 export function measureComplexPhasePortraitCanvas(host: HTMLElement): {
   width: number;

@@ -12,8 +12,6 @@ const TAU = Math.PI * 2;
 type ComplexArithmeticGeometrySnap = {
   width: number;
   height: number;
-  r1: number;
-  r2: number;
   smoothR1: number;
   smoothR2: number;
   smoothTheta1: number;

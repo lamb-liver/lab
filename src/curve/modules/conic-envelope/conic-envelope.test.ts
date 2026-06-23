@@ -48,8 +48,6 @@ describe('stepConicEnvelopeAnimation', () => {
     const defaults = conicEnvelopeModule.defaultParams;
     const state = stepConicEnvelopeAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 1,
         isComplete: true,
         time: 1,
@@ -70,8 +68,6 @@ describe('stepConicEnvelopeAnimation', () => {
     const defaults = conicEnvelopeModule.defaultParams;
     const pending = stepConicEnvelopeAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 0.5,
         isComplete: false,
         time: 0,

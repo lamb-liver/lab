@@ -2,6 +2,7 @@ import { defaultsFromSchema } from '../../defaults';
 import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { harmonographRenderPreset } from '../../../systems/rendering/presets';
+import { MORPH_LERP } from './animation';
 
 const AMPLITUDE = 250;
 const MAX_T = Math.PI * 10;
@@ -9,7 +10,6 @@ const SAMPLE_STEP = 0.01;
 /** 衰減後振幅低於此值（px）時不再採樣 */
 const AMP_FLOOR = 1;
 const REVEAL_SPEED = 0.0015;
-const MORPH_LERP = 0.08;
 
 const paramSchema: ParamSchema = [
   { key: 'a', label: '頻率 a', min: 1, max: 10, step: 1, default: 3 },
@@ -92,4 +92,4 @@ export const harmonographModule: CurveModule = {
   animation: { lerp: MORPH_LERP, revealSpeed: REVEAL_SPEED },
 };
 
-export { MORPH_LERP, REVEAL_SPEED, SAMPLE_STEP };
+export { REVEAL_SPEED };

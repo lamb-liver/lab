@@ -13,7 +13,7 @@ export type BayesLeafLayout = {
   h: number;
 };
 
-export type BayesTreeLayout = {
+type BayesTreeLayout = {
   root: { x: number; y: number };
   a: { x: number; y: number };
   notA: { x: number; y: number };
@@ -21,14 +21,14 @@ export type BayesTreeLayout = {
   leafNotAB: BayesLeafLayout;
 };
 
-export type BayesAreaLayout = {
+type BayesAreaLayout = {
   x: number;
   y: number;
   w: number;
   h: number;
 };
 
-export type BayesBarsLayout = {
+type BayesBarsLayout = {
   x: number;
   y: number;
   w: number;

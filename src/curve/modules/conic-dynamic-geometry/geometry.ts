@@ -8,11 +8,11 @@ import type {
 
 const TAU = Math.PI * 2;
 
-export function cosh(x: number): number {
+function cosh(x: number): number {
   return (Math.exp(x) + Math.exp(-x)) * 0.5;
 }
 
-export function sinh(x: number): number {
+function sinh(x: number): number {
   return (Math.exp(x) - Math.exp(-x)) * 0.5;
 }
 

@@ -4,9 +4,7 @@ import { frameScale, shouldCommitPendingReset } from '../animationTiming';
 export const REVEAL_SPEED = 0.0025;
 export const RATIO_LERP = 0.08;
 
-export type ConicEnvelopeAnimState = {
-  params: ParamValues;
-  targetParams: ParamValues;
+type ConicEnvelopeAnimState = {
   revealProgress: number;
   isComplete: boolean;
   time: number;
@@ -22,8 +20,6 @@ export function createConicEnvelopeAnimState(
 ): ConicEnvelopeAnimState {
   const lineDensity = Math.round(defaultParams.lineDensity);
   return {
-    params: { ...defaultParams, lineDensity },
-    targetParams: { ...defaultParams, lineDensity },
     revealProgress: 0,
     isComplete: false,
     time: 0,
@@ -47,7 +43,6 @@ export function stepConicEnvelopeAnimation(
   const ratioChanged = nextTarget.deformationRatio !== state.previousRatio;
 
   let {
-    params,
     revealProgress,
     isComplete,
     time,
@@ -83,12 +78,6 @@ export function stepConicEnvelopeAnimation(
   const scale = frameScale(deltaMs);
   time += targetParams.timeSpeed * scale;
 
-  params = {
-    lineDensity,
-    deformationRatio: currentRatio,
-    timeSpeed: targetParams.timeSpeed,
-  };
-
   const settled = Math.abs(currentRatio - targetParams.deformationRatio) < 0.001;
   if (
     !ratioChanged &&
@@ -109,8 +98,6 @@ export function stepConicEnvelopeAnimation(
   }
 
   return {
-    params,
-    targetParams,
     revealProgress,
     isComplete,
     time,

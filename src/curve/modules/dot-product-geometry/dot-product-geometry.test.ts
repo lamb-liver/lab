@@ -3,7 +3,6 @@ import {
   clampDragWorld,
   computeDotProductMetrics,
   createDotProductLayout,
-  dotVec,
   screenToWorld,
   worldToScreen,
 } from './geometry';
@@ -19,7 +18,6 @@ describe('dot product geometry', () => {
       mode: 'dot',
     });
 
-    expect(dotVec({ x: 3, y: 0 }, { x: 2, y: 2 })).toBe(6);
     expect(metrics.dot).toBe(6);
     expect(metrics.cosTheta).toBeCloseTo(Math.SQRT1_2, 6);
     expect(metrics.projection.x).toBeCloseTo(1.5, 6);

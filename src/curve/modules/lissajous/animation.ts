@@ -1,5 +1,6 @@
 import type { AnimationState, ParamValues } from '../../types';
-import { DELTA_LERP } from './index';
+
+export const DELTA_LERP = 0.06;
 
 export function stepLissajousAnimation(
   state: AnimationState,

@@ -9,7 +9,7 @@ import {
   type HistoryBuffer,
 } from './geometry';
 
-export type ComplexPhasePortraitAnimState = {
+type ComplexPhasePortraitAnimState = {
   params: ParamValues;
   smoothPhase: number;
   time: number;
@@ -64,5 +64,3 @@ export function stepComplexPhasePortraitAnimation(
   state.time += TIME_SPEED;
   appendHistoryBuffer(state.history, state.time, phasor);
 }
-
-export { PARAM_LERP, TIME_SPEED };

@@ -1,13 +1,12 @@
 import type { ParamValues } from '../../types';
 
 export const PARAM_LERP = 0.08;
-export const TIME_SPEED = 0.012;
-export const DRIFT_AMP = 0.08;
+const TIME_SPEED = 0.012;
+const DRIFT_AMP = 0.08;
 const TAU = Math.PI * 2;
 
-export type ComplexArithmeticGeometryAnimState = {
+type ComplexArithmeticGeometryAnimState = {
   params: ParamValues;
-  targetParams: ParamValues;
   time: number;
   smoothR1: number;
   smoothR2: number;
@@ -20,7 +19,6 @@ export function createComplexArithmeticGeometryAnimState(
 ): ComplexArithmeticGeometryAnimState {
   return {
     params: { ...defaultParams },
-    targetParams: { ...defaultParams },
     time: 0,
     smoothR1: defaultParams.r1,
     smoothR2: defaultParams.r2,
@@ -53,7 +51,6 @@ export function stepComplexArithmeticGeometryAnimation(
 
   return {
     params: { ...nextTarget },
-    targetParams: { ...nextTarget },
     time,
     smoothR1: lerpToward(state.smoothR1, nextTarget.r1, PARAM_LERP),
     smoothR2: lerpToward(state.smoothR2, nextTarget.r2, PARAM_LERP),

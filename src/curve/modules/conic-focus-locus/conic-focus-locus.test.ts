@@ -41,8 +41,6 @@ describe('stepConicFocusLocusAnimation', () => {
     const defaults = conicFocusLocusModule.defaultParams;
     const pending = stepConicFocusLocusAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 1,
         isComplete: true,
         time: 1,
@@ -76,8 +74,6 @@ describe('stepConicFocusLocusAnimation', () => {
     const defaults = conicFocusLocusModule.defaultParams;
     const state = stepConicFocusLocusAnimation(
       {
-        params: defaults,
-        targetParams: defaults,
         revealProgress: 0.5,
         isComplete: false,
         time: 0,
