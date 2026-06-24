@@ -1,0 +1,45 @@
+.discrete-random-variables-explore__stage {
+  grid-template-columns: 1fr;
+}
+
+.discrete-random-variables-explore__visual {
+  padding: 0;
+}
+
+.discrete-random-variables-explore__toolbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3) 0;
+  background: rgb(10, 10, 10);
+}
+
+.discrete-random-variables-explore__toolbar button {
+  min-height: 34px;
+  border: 1px solid rgba(212, 184, 122, 0.26);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.055);
+  color: rgb(205, 205, 205);
+  font: inherit;
+  cursor: pointer;
+}
+
+.discrete-random-variables-explore__toolbar button:hover,
+.discrete-random-variables-explore__toolbar button[data-active='true'] {
+  border-color: rgba(212, 184, 122, 0.62);
+  color: rgb(212, 184, 122);
+}
+
+.discrete-random-variables-explore__toolbar button[data-active='true'] {
+  background: rgba(212, 184, 122, 0.14);
+  font-weight: 700;
+}
+
+.discrete-random-variables-explore__canvas {
+  background: rgb(10, 10, 10);
+  touch-action: none;
+}
+
+.discrete-random-variables-explore__canvas canvas {
+  cursor: crosshair;
+}

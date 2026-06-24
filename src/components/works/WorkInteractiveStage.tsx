@@ -44,6 +44,7 @@ import CombinatorialPathCountingCurveRoot from './CombinatorialPathCountingCurve
 import BinomialExpansionGeometryCurveRoot from './BinomialExpansionGeometryCurveRoot';
 import CatalanNumbersCurveRoot from './CatalanNumbersCurveRoot';
 import ConditionalProbabilityBayesCurveRoot from './ConditionalProbabilityBayesCurveRoot';
+import BinomialGeometricDistributionCurveRoot from './BinomialGeometricDistributionCurveRoot';
 import BinomialToNormalCurveRoot from './BinomialToNormalCurveRoot';
 import BuffonNeedleCurveRoot from './BuffonNeedleCurveRoot';
 import ExponentialGrowthDecayCurveRoot from './ExponentialGrowthDecayCurveRoot';
@@ -109,6 +110,7 @@ const rootBySlug = {
   'binomial-expansion-geometry': BinomialExpansionGeometryCurveRoot,
   'catalan-numbers': CatalanNumbersCurveRoot,
   'conditional-probability-bayes': ConditionalProbabilityBayesCurveRoot,
+  'binomial-geometric-distribution': BinomialGeometricDistributionCurveRoot,
   'binomial-to-normal': BinomialToNormalCurveRoot,
   'buffon-needle': BuffonNeedleCurveRoot,
   'exponential-growth-decay': ExponentialGrowthDecayCurveRoot,

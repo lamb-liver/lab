@@ -44,6 +44,7 @@ export const workInteractiveSlugs = [
   'catalan-numbers',
   'conditional-probability-bayes',
   'binomial-to-normal',
+  'binomial-geometric-distribution',
   'buffon-needle',
   'exponential-growth-decay',
   'logarithmic-scale',

@@ -43,6 +43,7 @@ import { binomialExpansionGeometryModule } from './modules/binomial-expansion-ge
 import { catalanNumbersModule } from './modules/catalan-numbers';
 import { conditionalProbabilityBayesModule } from './modules/conditional-probability-bayes';
 import { binomialToNormalModule } from './modules/binomial-to-normal';
+import { binomialGeometricDistributionModule } from './modules/binomial-geometric-distribution';
 import { buffonNeedleModule } from './modules/buffon-needle';
 import { exponentialGrowthDecayModule } from './modules/exponential-growth-decay';
 import { logarithmicScaleModule } from './modules/logarithmic-scale';
@@ -107,6 +108,7 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'catalan-numbers': catalanNumbersModule,
   'conditional-probability-bayes': conditionalProbabilityBayesModule,
   'binomial-to-normal': binomialToNormalModule,
+  'binomial-geometric-distribution': binomialGeometricDistributionModule,
   'buffon-needle': buffonNeedleModule,
   'exponential-growth-decay': exponentialGrowthDecayModule,
   'logarithmic-scale': logarithmicScaleModule,
