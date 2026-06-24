@@ -53,6 +53,12 @@
   max-height: calc(100vh - var(--nav-height));
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-color: var(--color-border-strong) transparent;
+  scrollbar-width: thin;
+}
+
+[class$='-explore__sidebar']:focus-within {
+  box-shadow: inset 2px 0 0 rgba(var(--color-accent-rgb), 0.16);
 }
 
 [class$='-explore__block'] {

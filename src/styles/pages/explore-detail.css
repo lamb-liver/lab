@@ -46,13 +46,23 @@
   color: var(--color-text);
   text-decoration: none;
   background: rgba(255, 255, 255, 0.018);
-  transition: border-color 200ms ease, color 200ms ease, background-color 200ms ease;
+  transition:
+    border-color 200ms ease,
+    color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 200ms ease;
 }
 
-.explore-detail__pager-link:hover {
+.explore-detail__pager-link:hover,
+.explore-detail__pager-link:focus-visible {
   border-color: var(--accent-border);
   color: var(--color-accent);
   background: rgba(var(--color-accent-rgb), 0.045);
+}
+
+.explore-detail__pager-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.14);
 }
 
 .explore-detail__pager-link span {
@@ -79,6 +89,7 @@
 .explore-detail__pager-link--disabled {
   color: var(--color-text-muted);
   opacity: 0.45;
+  cursor: default;
 }
 
 .explore-detail__pager-link--disabled:hover {

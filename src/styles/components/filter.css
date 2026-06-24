@@ -59,13 +59,24 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.018);
-  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+  cursor: pointer;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 200ms ease;
 }
 
-.filter-btn:hover {
+.filter-btn:hover,
+.filter-btn:focus-visible {
   color: var(--color-accent);
   border-color: var(--accent-border);
   background: rgba(var(--color-accent-rgb), 0.055);
+}
+
+.filter-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.14);
 }
 
 .filter-btn.is-active {
@@ -96,12 +107,25 @@
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  transition: color 200ms ease, border-color 200ms ease;
+  background: rgba(255, 255, 255, 0.018);
+  cursor: pointer;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 200ms ease;
 }
 
-.filter-empty__clear:hover {
+.filter-empty__clear:hover,
+.filter-empty__clear:focus-visible {
   color: var(--color-accent);
   border-color: var(--accent-border);
+  background: rgba(var(--color-accent-rgb), 0.055);
+}
+
+.filter-empty__clear:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.14);
 }
 
 .filter-empty[hidden] {

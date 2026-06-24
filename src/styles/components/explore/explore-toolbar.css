@@ -52,12 +52,37 @@
   padding: var(--explore-mode-pad);
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 150ms ease, color 150ms ease;
+  transition:
+    border-color 150ms ease,
+    color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 [class*='-explore__mode-btn']:hover,
-[class*='-explore__mode']:where(button):hover {
-  border-color: var(--color-text-muted);
+[class*='-explore__mode']:where(button):hover,
+[class*='-explore__toggle-btn']:hover,
+[class$='-explore__actions'] button:hover {
+  border-color: var(--accent-border);
+  color: var(--color-accent);
+}
+
+[class*='-explore__mode-btn'][data-active='true'],
+[class*='-explore__mode']:where(button)[data-active='true'],
+[class*='-explore__mode']:where(button)[aria-pressed='true'] {
+  border-color: var(--accent-border);
+  color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.08);
+}
+
+[class*='-explore__mode-btn']:focus-visible,
+[class*='-explore__mode']:where(button):focus-visible,
+[class*='-explore__toggle-btn']:focus-visible,
+[class$='-explore__actions'] button:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.14);
 }
 
 [class*='-explore__meta-label'],
