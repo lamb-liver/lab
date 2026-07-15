@@ -159,7 +159,7 @@ src/components/
 | 2 | `works/interactiveSlugs.ts` + `curve/registry.ts` 登記 slug |
 | 3 | `WorkInteractiveStage.tsx` 的 `rootBySlug` 加 Root |
 
-`works/interactiveSlugs.ts` 是互動 Work slug source；`WorkInteractiveStage.tsx` 只做 slug → component mapping。`controlsMountId` 慣例：`{slug}-controls`。
+`works/interactiveSlugs.ts` 是互動 Work slug source；`WorkInteractiveStage.tsx` 只做 slug → component mapping，條目寫成 `lazy(() => import('./XxxCurveRoot'))` 以維持 per-slug code splitting（勿改回靜態 import）。`controlsMountId` 慣例：`{slug}-controls`。
 
 ### 舞台佈局（canvas 左 · 控制右 · 互動優先）
 
@@ -251,7 +251,7 @@ DOM 順序須讓 `<details.work-detail__controls>` / `<aside id="{slug}-controls
 
 Explore 詳情引入 `explore-toolbar.css` + `explore-touch.css`（見 [`site-ux.md`](site-ux.md) §5）。
 
-新增互動 explore：`explore/interactiveSlugs.ts` 加 slug，`ExploreInteractiveStage.tsx` 的 `rootBySlug` 加 Root。
+新增互動 explore：`explore/interactiveSlugs.ts` 加 slug，`ExploreInteractiveStage.tsx` 的 `rootBySlug` 加 Root（同樣寫成 `lazy(() => import(...))`）。
 
 ### Path cache（`src/explore/fourier/path.ts`）
 

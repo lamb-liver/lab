@@ -53,6 +53,8 @@ React targetParams
 
 The detailed lifecycle contract is in `reactkey.md`.
 
+Both interactive stages code-split per slug: `rootBySlug` maps each slug to `lazy(() => import('./XxxRoot'))`, so a detail page downloads only its own root chunk plus shared chunks. p5 itself is loaded on demand inside `useRectP5CanvasHost`. Keep new registry entries in this lazy form; a static root import would pull that root into every page's stage bundle again.
+
 ## Explore Data Flow
 
 Explore pages are separate from Works. They do not use `CurveModule`, `WorkInteractiveStage`, or the Works portal controls.

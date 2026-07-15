@@ -1,134 +1,74 @@
-import type { ComponentType } from 'react';
+import { lazy, Suspense, type ComponentType } from 'react';
 import type { WorkInteractiveSlug } from '../../works/interactiveRegistry';
 import { isWorkInteractive, workControlsMountId } from '../../works/interactiveRegistry';
-import ChladniFiguresCurveRoot from './ChladniFiguresCurveRoot';
-import ConicEnvelopeCurveRoot from './ConicEnvelopeCurveRoot';
-import ConicFocusLocusCurveRoot from './ConicFocusLocusCurveRoot';
-import HarmonographCurveRoot from './HarmonographCurveRoot';
-import InterferenceFringesCurveRoot from './InterferenceFringesCurveRoot';
-import LissajousCurveRoot from './LissajousCurveRoot';
-import ParabolicReflectionCurveRoot from './ParabolicReflectionCurveRoot';
-import RoseCurveRoot from './RoseCurveRoot';
-import SpirographCurveRoot from './SpirographCurveRoot';
-import AffineIfsFractalCurveRoot from './AffineIfsFractalCurveRoot';
-import AffineTransformPatternCurveRoot from './AffineTransformPatternCurveRoot';
-import RiemannSumCurveRoot from './RiemannSumCurveRoot';
-import RotationScaleCompositionCurveRoot from './RotationScaleCompositionCurveRoot';
-import CatenaryCurveRoot from './CatenaryCurveRoot';
-import TangentApproximationCurveRoot from './TangentApproximationCurveRoot';
-import LinearTransformGridCurveRoot from './LinearTransformGridCurveRoot';
-import StandingWaveCurveRoot from './StandingWaveCurveRoot';
-import EquiangularSpiralCurveRoot from './EquiangularSpiralCurveRoot';
-import VectorFieldPatternsCurveRoot from './VectorFieldPatternsCurveRoot';
-import VectorFieldStreamlinesCurveRoot from './VectorFieldStreamlinesCurveRoot';
-import VectorAdditionScalarCurveRoot from './VectorAdditionScalarCurveRoot';
-import DotProductGeometryCurveRoot from './DotProductGeometryCurveRoot';
-import LawOfSinesCosinesCurveRoot from './LawOfSinesCosinesCurveRoot';
-import RadianArcLengthCurveRoot from './RadianArcLengthCurveRoot';
-import SinusoidAmplitudePeriodPhaseCurveRoot from './SinusoidAmplitudePeriodPhaseCurveRoot';
-import UnitCircleTrigDefinitionCurveRoot from './UnitCircleTrigDefinitionCurveRoot';
-import TrigAngleIdentitiesCurveRoot from './TrigAngleIdentitiesCurveRoot';
-import VectorProjectionCurveRoot from './VectorProjectionCurveRoot';
-import ComplexArithmeticGeometryCurveRoot from './ComplexArithmeticGeometryCurveRoot';
-import ComplexPolarFormCurveRoot from './ComplexPolarFormCurveRoot';
-import EulerFormulaRotationCurveRoot from './EulerFormulaRotationCurveRoot';
-import JuliaSetCurveRoot from './JuliaSetCurveRoot';
-import ComplexPhasePortraitCurveRoot from './ComplexPhasePortraitCurveRoot';
-import ArithmeticGeometricSequencesCurveRoot from './ArithmeticGeometricSequencesCurveRoot';
-import FibonacciSpiralCurveRoot from './FibonacciSpiralCurveRoot';
-import SierpinskiTriangleCurveRoot from './SierpinskiTriangleCurveRoot';
-import BaselProblemCurveRoot from './BaselProblemCurveRoot';
-import LogisticBifurcationCurveRoot from './LogisticBifurcationCurveRoot';
-import PascalsTriangleCurveRoot from './PascalsTriangleCurveRoot';
-import CombinatorialPathCountingCurveRoot from './CombinatorialPathCountingCurveRoot';
-import BinomialExpansionGeometryCurveRoot from './BinomialExpansionGeometryCurveRoot';
-import CatalanNumbersCurveRoot from './CatalanNumbersCurveRoot';
-import ConditionalProbabilityBayesCurveRoot from './ConditionalProbabilityBayesCurveRoot';
-import BinomialGeometricDistributionCurveRoot from './BinomialGeometricDistributionCurveRoot';
-import BinomialToNormalCurveRoot from './BinomialToNormalCurveRoot';
-import BuffonNeedleCurveRoot from './BuffonNeedleCurveRoot';
-import ExponentialGrowthDecayCurveRoot from './ExponentialGrowthDecayCurveRoot';
-import LogarithmicScaleCurveRoot from './LogarithmicScaleCurveRoot';
-import NaturalLogEGeometryCurveRoot from './NaturalLogEGeometryCurveRoot';
-import LogisticCurveCurveRoot from './LogisticCurveCurveRoot';
-import FunctionGraphTransformCurveRoot from './FunctionGraphTransformCurveRoot';
-import QuadraticCompletingSquareCurveRoot from './QuadraticCompletingSquareCurveRoot';
-import PolynomialRootsMultiplicityCurveRoot from './PolynomialRootsMultiplicityCurveRoot';
-import InverseFunctionReflectionCurveRoot from './InverseFunctionReflectionCurveRoot';
-import EigenvectorGeometryCurveRoot from './EigenvectorGeometryCurveRoot';
-import FunctionDerivativeGraphCurveRoot from './FunctionDerivativeGraphCurveRoot';
-import TaylorPolynomialApproximationCurveRoot from './TaylorPolynomialApproximationCurveRoot';
-import RationalVerticalHorizontalAsymptotesCurveRoot from './RationalVerticalHorizontalAsymptotesCurveRoot';
-import RationalObliqueAsymptoteCurveRoot from './RationalObliqueAsymptoteCurveRoot';
-import ScatterCorrelationRegressionCurveRoot from './ScatterCorrelationRegressionCurveRoot';
-import RegressionOutlierInfluenceCurveRoot from './RegressionOutlierInfluenceCurveRoot';
-import PercentileBoxPlotCurveRoot from './PercentileBoxPlotCurveRoot';
 
 type RootProps = { controlsMountId: string };
 
+// Each root is code-split per slug so a work page only downloads its own root chunk.
+
 const rootBySlug = {
-  'rose-curve': RoseCurveRoot,
-  'lissajous-curve': LissajousCurveRoot,
-  'harmonograph-curve': HarmonographCurveRoot,
-  'spirograph-curve': SpirographCurveRoot,
-  'standing-wave': StandingWaveCurveRoot,
-  'interference-fringes': InterferenceFringesCurveRoot,
-  'chladni-figures': ChladniFiguresCurveRoot,
-  'parabolic-reflection': ParabolicReflectionCurveRoot,
-  'conic-envelope': ConicEnvelopeCurveRoot,
-  'conic-focus-locus': ConicFocusLocusCurveRoot,
-  'linear-transform-grid': LinearTransformGridCurveRoot,
-  'affine-transform-pattern': AffineTransformPatternCurveRoot,
-  'rotation-scale-composition': RotationScaleCompositionCurveRoot,
-  'affine-ifs-fractal': AffineIfsFractalCurveRoot,
-  'riemann-sum': RiemannSumCurveRoot,
-  'tangent-approximation': TangentApproximationCurveRoot,
-  'catenary': CatenaryCurveRoot,
-  'equiangular-spiral': EquiangularSpiralCurveRoot,
-  'vector-field-patterns': VectorFieldPatternsCurveRoot,
-  'vector-field-streamlines': VectorFieldStreamlinesCurveRoot,
-  'vector-addition-scalar': VectorAdditionScalarCurveRoot,
-  'dot-product-geometry': DotProductGeometryCurveRoot,
-  'law-of-sines-cosines': LawOfSinesCosinesCurveRoot,
-  'radian-arc-length': RadianArcLengthCurveRoot,
-  'sinusoid-amplitude-period-phase': SinusoidAmplitudePeriodPhaseCurveRoot,
-  'unit-circle-trig-definition': UnitCircleTrigDefinitionCurveRoot,
-  'trig-angle-identities': TrigAngleIdentitiesCurveRoot,
-  'vector-projection': VectorProjectionCurveRoot,
-  'complex-arithmetic-geometry': ComplexArithmeticGeometryCurveRoot,
-  'complex-polar-form': ComplexPolarFormCurveRoot,
-  'euler-formula-rotation': EulerFormulaRotationCurveRoot,
-  'julia-set': JuliaSetCurveRoot,
-  'complex-phase-portrait': ComplexPhasePortraitCurveRoot,
-  'arithmetic-geometric-sequences': ArithmeticGeometricSequencesCurveRoot,
-  'fibonacci-spiral': FibonacciSpiralCurveRoot,
-  'sierpinski-triangle': SierpinskiTriangleCurveRoot,
-  'basel-problem': BaselProblemCurveRoot,
-  'logistic-bifurcation': LogisticBifurcationCurveRoot,
-  'pascals-triangle': PascalsTriangleCurveRoot,
-  'combinatorial-path-counting': CombinatorialPathCountingCurveRoot,
-  'binomial-expansion-geometry': BinomialExpansionGeometryCurveRoot,
-  'catalan-numbers': CatalanNumbersCurveRoot,
-  'conditional-probability-bayes': ConditionalProbabilityBayesCurveRoot,
-  'binomial-geometric-distribution': BinomialGeometricDistributionCurveRoot,
-  'binomial-to-normal': BinomialToNormalCurveRoot,
-  'buffon-needle': BuffonNeedleCurveRoot,
-  'exponential-growth-decay': ExponentialGrowthDecayCurveRoot,
-  'logarithmic-scale': LogarithmicScaleCurveRoot,
-  'natural-log-e-geometry': NaturalLogEGeometryCurveRoot,
-  'logistic-curve': LogisticCurveCurveRoot,
-  'function-graph-transform': FunctionGraphTransformCurveRoot,
-  'quadratic-completing-square': QuadraticCompletingSquareCurveRoot,
-  'polynomial-roots-multiplicity': PolynomialRootsMultiplicityCurveRoot,
-  'inverse-function-reflection': InverseFunctionReflectionCurveRoot,
-  'eigenvector-geometry': EigenvectorGeometryCurveRoot,
-  'function-derivative-graph': FunctionDerivativeGraphCurveRoot,
-  'taylor-polynomial-approximation': TaylorPolynomialApproximationCurveRoot,
-  'rational-vertical-horizontal-asymptotes': RationalVerticalHorizontalAsymptotesCurveRoot,
-  'rational-oblique-asymptote': RationalObliqueAsymptoteCurveRoot,
-  'scatter-correlation-regression': ScatterCorrelationRegressionCurveRoot,
-  'regression-outlier-influence': RegressionOutlierInfluenceCurveRoot,
-  'percentile-box-plot': PercentileBoxPlotCurveRoot,
+  'rose-curve': lazy(() => import('./RoseCurveRoot')),
+  'lissajous-curve': lazy(() => import('./LissajousCurveRoot')),
+  'harmonograph-curve': lazy(() => import('./HarmonographCurveRoot')),
+  'spirograph-curve': lazy(() => import('./SpirographCurveRoot')),
+  'standing-wave': lazy(() => import('./StandingWaveCurveRoot')),
+  'interference-fringes': lazy(() => import('./InterferenceFringesCurveRoot')),
+  'chladni-figures': lazy(() => import('./ChladniFiguresCurveRoot')),
+  'parabolic-reflection': lazy(() => import('./ParabolicReflectionCurveRoot')),
+  'conic-envelope': lazy(() => import('./ConicEnvelopeCurveRoot')),
+  'conic-focus-locus': lazy(() => import('./ConicFocusLocusCurveRoot')),
+  'linear-transform-grid': lazy(() => import('./LinearTransformGridCurveRoot')),
+  'affine-transform-pattern': lazy(() => import('./AffineTransformPatternCurveRoot')),
+  'rotation-scale-composition': lazy(() => import('./RotationScaleCompositionCurveRoot')),
+  'affine-ifs-fractal': lazy(() => import('./AffineIfsFractalCurveRoot')),
+  'riemann-sum': lazy(() => import('./RiemannSumCurveRoot')),
+  'tangent-approximation': lazy(() => import('./TangentApproximationCurveRoot')),
+  'catenary': lazy(() => import('./CatenaryCurveRoot')),
+  'equiangular-spiral': lazy(() => import('./EquiangularSpiralCurveRoot')),
+  'vector-field-patterns': lazy(() => import('./VectorFieldPatternsCurveRoot')),
+  'vector-field-streamlines': lazy(() => import('./VectorFieldStreamlinesCurveRoot')),
+  'vector-addition-scalar': lazy(() => import('./VectorAdditionScalarCurveRoot')),
+  'dot-product-geometry': lazy(() => import('./DotProductGeometryCurveRoot')),
+  'law-of-sines-cosines': lazy(() => import('./LawOfSinesCosinesCurveRoot')),
+  'radian-arc-length': lazy(() => import('./RadianArcLengthCurveRoot')),
+  'sinusoid-amplitude-period-phase': lazy(() => import('./SinusoidAmplitudePeriodPhaseCurveRoot')),
+  'unit-circle-trig-definition': lazy(() => import('./UnitCircleTrigDefinitionCurveRoot')),
+  'trig-angle-identities': lazy(() => import('./TrigAngleIdentitiesCurveRoot')),
+  'vector-projection': lazy(() => import('./VectorProjectionCurveRoot')),
+  'complex-arithmetic-geometry': lazy(() => import('./ComplexArithmeticGeometryCurveRoot')),
+  'complex-polar-form': lazy(() => import('./ComplexPolarFormCurveRoot')),
+  'euler-formula-rotation': lazy(() => import('./EulerFormulaRotationCurveRoot')),
+  'julia-set': lazy(() => import('./JuliaSetCurveRoot')),
+  'complex-phase-portrait': lazy(() => import('./ComplexPhasePortraitCurveRoot')),
+  'arithmetic-geometric-sequences': lazy(() => import('./ArithmeticGeometricSequencesCurveRoot')),
+  'fibonacci-spiral': lazy(() => import('./FibonacciSpiralCurveRoot')),
+  'sierpinski-triangle': lazy(() => import('./SierpinskiTriangleCurveRoot')),
+  'basel-problem': lazy(() => import('./BaselProblemCurveRoot')),
+  'logistic-bifurcation': lazy(() => import('./LogisticBifurcationCurveRoot')),
+  'pascals-triangle': lazy(() => import('./PascalsTriangleCurveRoot')),
+  'combinatorial-path-counting': lazy(() => import('./CombinatorialPathCountingCurveRoot')),
+  'binomial-expansion-geometry': lazy(() => import('./BinomialExpansionGeometryCurveRoot')),
+  'catalan-numbers': lazy(() => import('./CatalanNumbersCurveRoot')),
+  'conditional-probability-bayes': lazy(() => import('./ConditionalProbabilityBayesCurveRoot')),
+  'binomial-geometric-distribution': lazy(() => import('./BinomialGeometricDistributionCurveRoot')),
+  'binomial-to-normal': lazy(() => import('./BinomialToNormalCurveRoot')),
+  'buffon-needle': lazy(() => import('./BuffonNeedleCurveRoot')),
+  'exponential-growth-decay': lazy(() => import('./ExponentialGrowthDecayCurveRoot')),
+  'logarithmic-scale': lazy(() => import('./LogarithmicScaleCurveRoot')),
+  'natural-log-e-geometry': lazy(() => import('./NaturalLogEGeometryCurveRoot')),
+  'logistic-curve': lazy(() => import('./LogisticCurveCurveRoot')),
+  'function-graph-transform': lazy(() => import('./FunctionGraphTransformCurveRoot')),
+  'quadratic-completing-square': lazy(() => import('./QuadraticCompletingSquareCurveRoot')),
+  'polynomial-roots-multiplicity': lazy(() => import('./PolynomialRootsMultiplicityCurveRoot')),
+  'inverse-function-reflection': lazy(() => import('./InverseFunctionReflectionCurveRoot')),
+  'eigenvector-geometry': lazy(() => import('./EigenvectorGeometryCurveRoot')),
+  'function-derivative-graph': lazy(() => import('./FunctionDerivativeGraphCurveRoot')),
+  'taylor-polynomial-approximation': lazy(() => import('./TaylorPolynomialApproximationCurveRoot')),
+  'rational-vertical-horizontal-asymptotes': lazy(() => import('./RationalVerticalHorizontalAsymptotesCurveRoot')),
+  'rational-oblique-asymptote': lazy(() => import('./RationalObliqueAsymptoteCurveRoot')),
+  'scatter-correlation-regression': lazy(() => import('./ScatterCorrelationRegressionCurveRoot')),
+  'regression-outlier-influence': lazy(() => import('./RegressionOutlierInfluenceCurveRoot')),
+  'percentile-box-plot': lazy(() => import('./PercentileBoxPlotCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.
@@ -142,5 +82,20 @@ export default function WorkInteractiveStage({ slug }: Props) {
   if (!isWorkInteractive(slug)) return null;
 
   const Root = rootBySlug[slug];
-  return <Root controlsMountId={workControlsMountId(slug)} />;
+  return (
+    <Suspense
+      fallback={
+        <div
+          className="interactive-loading"
+          role="status"
+          aria-live="polite"
+          aria-label="互動內容載入中"
+        >
+          <span className="interactive-loading__mark" />
+        </div>
+      }
+    >
+      <Root controlsMountId={workControlsMountId(slug)} />
+    </Suspense>
+  );
 }
