@@ -47,7 +47,9 @@ describe('work OG image generation', () => {
     ).toThrow(/external url\(\)/);
   });
 
-  it('renders all registered work slugs as 1200x630 PNGs', async () => {
+  // Renders every registered slug through satori + sharp; needs more than the
+  // default 5s timeout on cold CI runners.
+  it('renders all registered work slugs as 1200x630 PNGs', { timeout: 120_000 }, async () => {
     for (const slug of Object.keys(workCurveBySlug)) {
       const png = await renderWorkOgPng(slug);
       const meta = await sharp(png).metadata();
