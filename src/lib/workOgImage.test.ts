@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
 import { workCurveBySlug } from '../curve/registry';
-import { readPublishedContentSlugs } from '../test/contentSlugs';
+import { readContentSlugs, readPublishedContentSlugs } from '../test/contentSlugs';
 import { getCurveThumbnailSvg } from './curveThumbnail';
 import {
   assertSharpCompatibleSvg,
@@ -14,8 +14,18 @@ import {
 describe('work OG image generation', () => {
   it('keeps registry aligned with content and SVGs sharp-compatible', () => {
     const registrySlugs = Object.keys(workCurveBySlug).sort();
-    const contentSlugs = readPublishedContentSlugs('works').sort();
-    expect(registrySlugs).toEqual(contentSlugs);
+    const contentSlugs = readContentSlugs('works').sort();
+    const publishedSlugs = readPublishedContentSlugs('works').sort();
+
+    // Draft works may register early (scaffold flow), so the registry can be a
+    // superset of published content, but every published work needs an entry
+    // and every entry needs a content file.
+    for (const slug of publishedSlugs) {
+      expect(registrySlugs, `published work missing registry entry: ${slug}`).toContain(slug);
+    }
+    for (const slug of registrySlugs) {
+      expect(contentSlugs, `registry entry without content file: ${slug}`).toContain(slug);
+    }
 
     for (const slug of registrySlugs) {
       const svg = getCurveThumbnailSvg(slug);

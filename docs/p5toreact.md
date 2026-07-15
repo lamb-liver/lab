@@ -151,7 +151,7 @@ src/components/
 ## 作品掛載（`pages/works/[slug].astro`）
 
 查 `isWorkInteractive(entry.id)` → 渲染 `WorkInteractiveStage` + portal 右欄。  
-新增互動作品時同步三處：
+新增互動作品可用 `npm run new:work -- <slug> --interactive` 一次生成 module 骨架、Root 元件並接好三個 registry（draft 階段即可接線；發布前替換佔位幾何與文案）。手動接線時同步三處：
 
 | 步驟 | 檔案 |
 |------|------|
