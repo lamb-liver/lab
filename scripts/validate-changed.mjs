@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { basename, dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parseStageRootImports } from './stage-root-map.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const packageAndConfigFiles = new Set([
@@ -81,27 +82,6 @@ function read(path) {
   return readFileSync(resolve(repoRoot, path), 'utf8');
 }
 
-function parseObjectMap(source, objectName) {
-  const match = source.match(new RegExp(`const\\s+${objectName}\\s*=\\s*\\{([\\s\\S]*?)\\}\\s+satisfies`));
-  if (!match) return new Map();
-  const map = new Map();
-  for (const item of match[1].matchAll(/'([^']+)':\s*([A-Za-z0-9_]+)/g)) {
-    map.set(item[1], item[2]);
-  }
-  for (const item of match[1].matchAll(/^\s*([A-Za-z0-9_]+):\s*([A-Za-z0-9_]+)/gm)) {
-    map.set(item[1], item[2]);
-  }
-  return map;
-}
-
-function parseDefaultImports(source) {
-  const imports = new Map();
-  for (const match of source.matchAll(/import\s+([A-Za-z0-9_]+)\s+from\s+'([^']+)'/g)) {
-    imports.set(match[1], match[2]);
-  }
-  return imports;
-}
-
 function parseWorkModuleMap() {
   const registry = read('src/curve/registry.ts');
   const imports = new Map();
@@ -133,41 +113,67 @@ function importPathToRelative(fromFile, importPath) {
     resolve(withoutExtension, 'index.ts'),
     resolve(withoutExtension, 'index.tsx'),
   ];
-  const target = candidates.find((candidate) => existsSync(candidate)) ?? candidates[0];
+  const target =
+    candidates.find((candidate) => existsSync(candidate) && statSync(candidate).isFile()) ??
+    candidates[0];
   return relative(repoRoot, target);
 }
 
 function buildStageFileMap(stageFile) {
-  const source = read(stageFile);
-  const bySlug = parseObjectMap(source, 'rootBySlug');
-  const imports = parseDefaultImports(source);
   const fileToSlug = new Map();
-  for (const [slug, component] of bySlug) {
-    const importPath = imports.get(component);
-    if (importPath) fileToSlug.set(importPathToRelative(stageFile, importPath), slug);
+  for (const [slug, importPath] of parseStageRootImports(read(stageFile))) {
+    fileToSlug.set(importPathToRelative(stageFile, importPath), slug);
   }
   return fileToSlug;
 }
 
-function buildWorkHookAndRendererMaps(workRootMap) {
-  const hookToSlug = new Map();
-  const rendererToSlug = new Map();
+function addSlug(map, file, slug) {
+  if (!map.has(file)) map.set(file, new Set());
+  map.get(file).add(slug);
+}
 
-  for (const [rootFile, slug] of workRootMap) {
-    if (!existsSync(resolve(repoRoot, rootFile))) continue;
-    const root = read(rootFile);
-    for (const match of root.matchAll(/from\s+'..\/curve\/(use[A-Za-z0-9_]+P5)'/g)) {
-      const hookFile = `src/components/curve/${match[1]}.ts`;
-      hookToSlug.set(hookFile, slug);
-      if (!existsSync(resolve(repoRoot, hookFile))) continue;
-      const hook = read(hookFile);
-      for (const renderImport of hook.matchAll(/from\s+'..\/..\/systems\/rendering\/([^']+)'/g)) {
-        rendererToSlug.set(`src/systems/rendering/${renderImport[1]}.ts`, slug);
-      }
+function relativeImportTargets(file) {
+  const absolute = resolve(repoRoot, file);
+  if (!existsSync(absolute) || !statSync(absolute).isFile()) return [];
+  const targets = [];
+  for (const match of read(file).matchAll(/from\s+'(\.{1,2}\/[^']+)'/g)) {
+    targets.push(importPathToRelative(file, match[1]));
+  }
+  return targets;
+}
+
+// Maps every file transitively imported by a stage root to the slugs that
+// consume it, so a change to any shared hook, renderer, geometry, or topic
+// module selects a smoke run for each affected page. Replaces the previous
+// hand-maintained hook/renderer/special-case tables, which dropped slugs on
+// shared files and went stale as consumers changed.
+function buildReachabilityMap(rootMap, allowPrefixes) {
+  const fileToSlugs = new Map();
+  const importCache = new Map();
+  const targetsOf = (file) => {
+    if (!importCache.has(file)) {
+      importCache.set(
+        file,
+        relativeImportTargets(file).filter((target) =>
+          allowPrefixes.some((prefix) => target.startsWith(prefix)),
+        ),
+      );
+    }
+    return importCache.get(file);
+  };
+
+  for (const [rootFile, slug] of rootMap) {
+    const stack = [rootFile];
+    const seen = new Set();
+    while (stack.length > 0) {
+      const file = stack.pop();
+      if (seen.has(file)) continue;
+      seen.add(file);
+      addSlug(fileToSlugs, file, slug);
+      stack.push(...targetsOf(file));
     }
   }
-
-  return { hookToSlug, rendererToSlug };
+  return fileToSlugs;
 }
 
 function buildExploreCssMap(exploreRootMap) {
@@ -208,8 +214,38 @@ function selectCommands(files) {
   const exploreRootMap = buildStageFileMap('src/components/explore/ExploreInteractiveStage.tsx');
   const interactiveWorkSlugs = new Set(workRootMap.values());
   const interactiveExploreSlugs = new Set(exploreRootMap.values());
-  const { hookToSlug, rendererToSlug } = buildWorkHookAndRendererMaps(workRootMap);
+  const workFileToSlugs = buildReachabilityMap(workRootMap, [
+    'src/components/',
+    'src/systems/',
+    'src/curve/',
+    'src/works/',
+    'src/lib/',
+  ]);
+  const exploreFileToSlugs = buildReachabilityMap(exploreRootMap, [
+    'src/components/',
+    'src/systems/',
+    'src/explore/',
+    'src/lib/',
+  ]);
   const exploreCssMap = buildExploreCssMap(exploreRootMap);
+
+  // Widely shared files can fan out to dozens of works; above this many
+  // affected slugs, one full works smoke run is cheaper and more complete.
+  const workSmokeFanOutLimit = 6;
+  const addWorkSmokes = (slugs) => {
+    if (slugs.size > workSmokeFanOutLimit) {
+      add(commands, command('works smoke suite', ['npm', 'run', 'test:works-smoke']));
+      return;
+    }
+    for (const slug of [...slugs].sort()) {
+      add(commands, command(`work smoke ${slug}`, ['npm', 'run', 'smoke:work', '--', slug]));
+    }
+  };
+  const addExploreSmokes = (slugs) => {
+    for (const slug of [...slugs].sort()) {
+      add(commands, command(`explore smoke ${slug}`, ['npm', 'run', 'smoke:explore', '--', slug]));
+    }
+  };
 
   for (const file of files) {
     if (packageAndConfigFiles.has(file)) {
@@ -282,22 +318,11 @@ function selectCommands(files) {
       add(commands, command(`work smoke ${workRootSlug}`, ['npm', 'run', 'smoke:work', '--', workRootSlug]));
     }
 
-    const hookSlug = hookToSlug.get(file);
-    if (hookSlug) {
-      add(commands, command(`work smoke ${hookSlug}`, ['npm', 'run', 'smoke:work', '--', hookSlug]));
-    }
+    const workSlugsForFile = workFileToSlugs.get(file);
+    if (workSlugsForFile) addWorkSmokes(workSlugsForFile);
 
-    const rendererSlug = rendererToSlug.get(file);
-    if (rendererSlug) {
-      add(commands, command(`work smoke ${rendererSlug}`, ['npm', 'run', 'smoke:work', '--', rendererSlug]));
-    }
-
-    if (file === 'src/systems/rendering/p5PlotHelpers.ts') {
-      add(commands, command('explore smoke data-analysis', ['npm', 'run', 'smoke:explore', '--', 'data-analysis']));
-      add(commands, command('work smoke scatter-correlation-regression', ['npm', 'run', 'smoke:work', '--', 'scatter-correlation-regression']));
-      add(commands, command('work smoke regression-outlier-influence', ['npm', 'run', 'smoke:work', '--', 'regression-outlier-influence']));
-      add(commands, command('work smoke percentile-box-plot', ['npm', 'run', 'smoke:work', '--', 'percentile-box-plot']));
-    }
+    const exploreSlugsForFile = exploreFileToSlugs.get(file);
+    if (exploreSlugsForFile) addExploreSmokes(exploreSlugsForFile);
 
     const exploreRootSlug = exploreRootMap.get(file);
     if (exploreRootSlug) {

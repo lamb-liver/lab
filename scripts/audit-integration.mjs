@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { auditExploreCovers } from './audit-explore-covers.mjs';
+import { parseStageRootImports } from './stage-root-map.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -81,15 +82,6 @@ function parseStringArray(source, exportName) {
   return [...match[1].matchAll(/'([^']+)'/g)].map((item) => item[1]);
 }
 
-function parseImports(source, prefix = './') {
-  const imports = new Map();
-  const pattern = /import\s+([A-Za-z0-9_]+)\s+from\s+'([^']+)'/g;
-  for (const match of source.matchAll(pattern)) {
-    if (match[2].startsWith(prefix)) imports.set(match[1], match[2]);
-  }
-  return imports;
-}
-
 function parseNamedImports(source, prefix) {
   const imports = new Map();
   const pattern = /import\s+\{\s*([A-Za-z0-9_]+)\s*\}\s+from\s+'([^']+)'/g;
@@ -97,20 +89,6 @@ function parseNamedImports(source, prefix) {
     if (match[2].startsWith(prefix)) imports.set(match[1], match[2]);
   }
   return imports;
-}
-
-function parseObjectMap(source, objectName) {
-  const match = source.match(new RegExp(`const\\s+${objectName}\\s*=\\s*\\{([\\s\\S]*?)\\}\\s+satisfies`));
-  if (!match) return new Map();
-  const body = match[1];
-  const map = new Map();
-  for (const item of body.matchAll(/'([^']+)':\s*([A-Za-z0-9_]+)/g)) {
-    map.set(item[1], item[2]);
-  }
-  for (const item of body.matchAll(/^\s*([A-Za-z0-9_]+):\s*([A-Za-z0-9_]+)/gm)) {
-    map.set(item[1], item[2]);
-  }
-  return map;
 }
 
 function parseWorkCurveMap(source) {
@@ -163,13 +141,12 @@ function checkWorkSurfaces(issues) {
   const workStage = read(paths.workStage);
   const interactiveSlugs = new Set(parseStringArray(workRegistry, 'workInteractiveSlugs'));
   const curveBySlug = parseWorkCurveMap(curveRegistry);
-  const stageBySlug = parseObjectMap(workStage, 'rootBySlug');
-  const stageImports = parseImports(workStage);
+  const stageRootImports = parseStageRootImports(workStage, 'rootBySlug');
   const allSlugs = new Set([
     ...content.published,
     ...interactiveSlugs,
     ...curveBySlug.keys(),
-    ...stageBySlug.keys(),
+    ...stageRootImports.keys(),
   ]);
 
   for (const slug of [...allSlugs].sort()) {
@@ -192,15 +169,9 @@ function checkWorkSurfaces(issues) {
       }
     }
 
-    const rootName = stageBySlug.get(slug);
-    if (!rootName) {
-      issues.push({ area: 'works', slug, file: paths.workStage, message: 'missing WorkInteractiveStage root entry' });
-      continue;
-    }
-
-    const rootImport = stageImports.get(rootName);
+    const rootImport = stageRootImports.get(slug);
     if (!rootImport) {
-      issues.push({ area: 'works', slug, file: paths.workStage, message: `missing import for ${rootName}` });
+      issues.push({ area: 'works', slug, file: paths.workStage, message: 'missing WorkInteractiveStage lazy root entry' });
       continue;
     }
 
@@ -254,12 +225,11 @@ function checkExploreSurfaces(issues) {
   const exploreRegistry = read(paths.exploreRegistry);
   const exploreStage = read(paths.exploreStage);
   const interactiveSlugs = new Set(parseStringArray(exploreRegistry, 'exploreInteractiveSlugs'));
-  const stageBySlug = parseObjectMap(exploreStage, 'rootBySlug');
-  const stageImports = parseImports(exploreStage);
+  const stageRootImports = parseStageRootImports(exploreStage, 'rootBySlug');
   const allSlugs = new Set([
     ...content.published,
     ...interactiveSlugs,
-    ...stageBySlug.keys(),
+    ...stageRootImports.keys(),
   ]);
 
   for (const slug of [...allSlugs].sort()) {
@@ -270,15 +240,9 @@ function checkExploreSurfaces(issues) {
       issues.push({ area: 'explore', slug, file: paths.exploreRegistry, message: 'missing exploreInteractiveSlugs entry' });
     }
 
-    const rootName = stageBySlug.get(slug);
-    if (!rootName) {
-      issues.push({ area: 'explore', slug, file: paths.exploreStage, message: 'missing ExploreInteractiveStage root entry' });
-      continue;
-    }
-
-    const rootImport = stageImports.get(rootName);
+    const rootImport = stageRootImports.get(slug);
     if (!rootImport) {
-      issues.push({ area: 'explore', slug, file: paths.exploreStage, message: `missing import for ${rootName}` });
+      issues.push({ area: 'explore', slug, file: paths.exploreStage, message: 'missing ExploreInteractiveStage lazy root entry' });
       continue;
     }
 
