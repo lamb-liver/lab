@@ -486,4 +486,26 @@ test.describe('SEO metadata and UX shell', () => {
     expect(proseCss).not.toContain('katex-mathml');
     expect(proseCss).not.toContain('annotation');
   });
+
+  test('first tab stop is a visible skip link that targets main content', async ({ page }) => {
+    await page.goto('/');
+    await page.keyboard.press('Tab');
+
+    const skipLink = page.locator('.skip-link');
+    await expect(skipLink).toBeFocused();
+    await expect(skipLink).toHaveText('跳至主要內容');
+    await expect(skipLink).toHaveAttribute('href', '#main-content');
+    await expect(skipLink).toBeInViewport();
+    await expect(page.locator('main#main-content')).toHaveCount(1);
+  });
+
+  test('reduced motion swaps the hero p5 canvas for a static SVG placeholder', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/', { waitUntil: 'networkidle' });
+
+    await expect(page.locator('.hero-canvas-static svg')).toBeVisible();
+    await expect(page.locator('.hero-canvas-shell canvas')).toHaveCount(0);
+  });
 });
