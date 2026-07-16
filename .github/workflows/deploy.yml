@@ -64,6 +64,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Some seo-ux cases assert built output under dist/.
+      - name: Build
+        run: npm run build
+
       # playwright.config.ts uses channel "chrome"; ubuntu-latest ships Chrome.
       - name: SEO / UX regression suite
         run: npm run test:seo-ux
