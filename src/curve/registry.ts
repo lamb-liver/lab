@@ -61,6 +61,13 @@ import { rationalObliqueAsymptoteModule } from './modules/rational-oblique-asymp
 import { scatterCorrelationRegressionModule } from './modules/scatter-correlation-regression';
 import { regressionOutlierInfluenceModule } from './modules/regression-outlier-influence';
 import { percentileBoxPlotModule } from './modules/percentile-box-plot';
+import { crossProductGeometryModule } from './modules/cross-product-geometry';
+import { spaceVectorThreePlaneProjectionModule } from './modules/space-vector-three-plane-projection';
+import { linePlaneIntersectionModule } from './modules/line-plane-intersection';
+import { planeNormalDistanceModule } from './modules/plane-normal-distance';
+import { lpFeasibleHalfPlanesModule } from './modules/lp-feasible-half-planes';
+import { lpObjectiveLevelCurvesModule } from './modules/lp-objective-level-curves';
+import { lpVertexOptimumModule } from './modules/lp-vertex-optimum';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -126,4 +133,11 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'scatter-correlation-regression': scatterCorrelationRegressionModule,
   'regression-outlier-influence': regressionOutlierInfluenceModule,
   'percentile-box-plot': percentileBoxPlotModule,
+  'cross-product-geometry': crossProductGeometryModule,
+  'space-vector-three-plane-projection': spaceVectorThreePlaneProjectionModule,
+  'line-plane-intersection': linePlaneIntersectionModule,
+  'plane-normal-distance': planeNormalDistanceModule,
+  'lp-feasible-half-planes': lpFeasibleHalfPlanesModule,
+  'lp-objective-level-curves': lpObjectiveLevelCurvesModule,
+  'lp-vertex-optimum': lpVertexOptimumModule,
 };

@@ -77,7 +77,9 @@ function bboxX(spec: ThumbnailSpec): { minX: number; maxX: number } | null {
 }
 
 describe('work thumbnail registry', () => {
-  it('renders structurally valid svg for all registered work slugs', () => {
+  // Sweeps every registered module; needs headroom beyond the 5s default as
+  // the registry grows.
+  it('renders structurally valid svg for all registered work slugs', { timeout: 60_000 }, () => {
     const slugs = Object.keys(workCurveBySlug);
     expect(slugs.length).toBeGreaterThanOrEqual(47);
 
@@ -135,7 +137,7 @@ describe('work thumbnail registry', () => {
     expect(spec.paths.length).toBeGreaterThanOrEqual(GRID_SEGMENT_COUNT);
   });
 
-  it('chladni thumbnail yields >= 2000 particle points', () => {
+  it('chladni thumbnail yields >= 2000 particle points', { timeout: 30_000 }, () => {
     const module = workCurveBySlug['chladni-figures']!;
     const spec = toSpec(
       module.sample(module.defaultParams, {

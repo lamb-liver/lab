@@ -102,6 +102,11 @@ export function buildNewWorkFiles(
         absolutePath: resolve(root, 'src/components/works', `${pascal}CurveRoot.tsx`),
         content: curveRootTemplate({ slug, camel, pascal, title: finalTitle }),
       },
+      {
+        relativePath: `src/curve/modules/${slug}/${slug}.test.ts`,
+        absolutePath: resolve(root, 'src/curve/modules', slug, `${slug}.test.ts`),
+        content: curveModuleTestTemplate({ slug, camel }),
+      },
     );
   }
 
@@ -284,6 +289,29 @@ export const ${camel}Module: CurveModule = {
 `;
 }
 
+function curveModuleTestTemplate({ slug, camel }) {
+  return `import { describe, expect, it } from 'vitest';
+import { BASE_CANVAS_SIZE, BASE_POINT_STEP } from '../../constants';
+import { ${camel}Module } from './index';
+
+// TODO: 替換佔位幾何後，補上此作品核心數學性質的斷言。
+describe('${slug} module', () => {
+  it('預設參數採樣非空且落在設計舞台內', () => {
+    const out = ${camel}Module.sample(${camel}Module.defaultParams, {
+      step: ${camel}Module.sampleStep ?? BASE_POINT_STEP,
+      purpose: 'default',
+    });
+    const points = Array.isArray(out) ? out : out.paths.flatMap((path) => path.points);
+    expect(points.length).toBeGreaterThan(0);
+    for (const point of points) {
+      expect(Math.abs(point.x)).toBeLessThanOrEqual(BASE_CANVAS_SIZE / 2);
+      expect(Math.abs(point.y)).toBeLessThanOrEqual(BASE_CANVAS_SIZE / 2);
+    }
+  });
+});
+`;
+}
+
 function curveRootTemplate({ slug, camel, pascal, title }) {
   return `import CurveWorkRoot from '../curve/CurveWorkRoot';
 import { ${camel}Module } from '../../curve/modules/${slug}';
@@ -395,8 +423,22 @@ function main() {
   }
 
   if (options.interactive) assertRegistrable(slug);
-  writeGeneratedFiles(files);
-  console.log(files.map((file) => `Created ${file.relativePath}`).join('\n'));
+  // Content-first flow: with --interactive an existing content draft is kept
+  // as-is and only the missing interactive pieces are scaffolded.
+  let toWrite = files;
+  const kept = [];
+  if (options.interactive) {
+    toWrite = files.filter((file) => {
+      if (file.relativePath.startsWith('src/content/') && existsSync(file.absolutePath)) {
+        kept.push(file.relativePath);
+        return false;
+      }
+      return true;
+    });
+  }
+  writeGeneratedFiles(toWrite);
+  for (const path of kept) console.log(`Kept existing ${path}`);
+  console.log(toWrite.map((file) => `Created ${file.relativePath}`).join('\n'));
   if (options.interactive) {
     for (const insertion of applyRegistryInsertions(slug)) {
       console.log(`Updated ${insertion.relativePath}: ${insertion.describe}`);

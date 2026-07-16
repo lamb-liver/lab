@@ -38,10 +38,15 @@ describe('morph 幾何不超出設計舞台', () => {
         });
         const points = Array.isArray(out) ? out : out.paths.flatMap((path) => path.points);
         expect(points.length).toBeGreaterThan(0);
+        // 逐點 expect 會讓大量採樣點超時；先算最大 extent 再一次斷言。
+        let maxExtent = 0;
         for (const point of points) {
-          expect(Math.abs(point.x), `${slug} x out of stage`).toBeLessThanOrEqual(STAGE_HALF);
-          expect(Math.abs(point.y), `${slug} y out of stage`).toBeLessThanOrEqual(STAGE_HALF);
+          const extent = Math.max(Math.abs(point.x), Math.abs(point.y));
+          if (extent > maxExtent) maxExtent = extent;
         }
+        expect(maxExtent, `${slug} out of stage at ${JSON.stringify(params)}`).toBeLessThanOrEqual(
+          STAGE_HALF,
+        );
       }
     });
   }

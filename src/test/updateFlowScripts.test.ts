@@ -104,7 +104,11 @@ describe('new:work --interactive scaffold', () => {
       'src/content/works/matrix-grid.md',
       'src/curve/modules/matrix-grid/index.ts',
       'src/components/works/MatrixGridCurveRoot.tsx',
+      'src/curve/modules/matrix-grid/matrix-grid.test.ts',
     ]);
+    const testFile = files[3].content as string;
+    expect(testFile).toContain("import { matrixGridModule } from './index'");
+    expect(testFile).toContain('BASE_CANVAS_SIZE / 2');
     const moduleFile = files[1].content as string;
     expect(moduleFile).toContain('export const matrixGridModule: CurveModule');
     expect(moduleFile).toContain("id: 'matrix-grid'");

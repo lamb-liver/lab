@@ -62,6 +62,13 @@ export const workInteractiveSlugs = [
   'scatter-correlation-regression',
   'regression-outlier-influence',
   'percentile-box-plot',
+  'cross-product-geometry',
+  'space-vector-three-plane-projection',
+  'line-plane-intersection',
+  'plane-normal-distance',
+  'lp-feasible-half-planes',
+  'lp-objective-level-curves',
+  'lp-vertex-optimum',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];

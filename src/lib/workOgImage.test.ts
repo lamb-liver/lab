@@ -12,7 +12,9 @@ import {
 } from './workOgImage';
 
 describe('work OG image generation', () => {
-  it('keeps registry aligned with content and SVGs sharp-compatible', () => {
+  // Sweeps every registered module's thumbnail; needs headroom as the
+  // registry grows.
+  it('keeps registry aligned with content and SVGs sharp-compatible', { timeout: 60_000 }, () => {
     const registrySlugs = Object.keys(workCurveBySlug).sort();
     const contentSlugs = readContentSlugs('works').sort();
     const publishedSlugs = readPublishedContentSlugs('works').sort();

@@ -69,6 +69,13 @@ const rootBySlug = {
   'scatter-correlation-regression': lazy(() => import('./ScatterCorrelationRegressionCurveRoot')),
   'regression-outlier-influence': lazy(() => import('./RegressionOutlierInfluenceCurveRoot')),
   'percentile-box-plot': lazy(() => import('./PercentileBoxPlotCurveRoot')),
+  'cross-product-geometry': lazy(() => import('./CrossProductGeometryCurveRoot')),
+  'space-vector-three-plane-projection': lazy(() => import('./SpaceVectorThreePlaneProjectionCurveRoot')),
+  'line-plane-intersection': lazy(() => import('./LinePlaneIntersectionCurveRoot')),
+  'plane-normal-distance': lazy(() => import('./PlaneNormalDistanceCurveRoot')),
+  'lp-feasible-half-planes': lazy(() => import('./LpFeasibleHalfPlanesCurveRoot')),
+  'lp-objective-level-curves': lazy(() => import('./LpObjectiveLevelCurvesCurveRoot')),
+  'lp-vertex-optimum': lazy(() => import('./LpVertexOptimumCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.
