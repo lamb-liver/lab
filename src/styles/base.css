@@ -67,3 +67,22 @@ ol {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
+
+/* Keyboard-only shortcut past the nav; visually hidden until focused. */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  transform: translateY(-200%);
+  background: var(--color-canvas, #111);
+  color: var(--color-accent, #d4b87a);
+  border: 1px solid var(--accent-border, rgba(212, 184, 122, 0.38));
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}

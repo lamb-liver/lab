@@ -1,4 +1,5 @@
 import type p5 from 'p5';
+import { BASE_CANVAS_SIZE } from '../../curve/constants';
 import { renderGhostCurve } from './polyline';
 import {
   renderCartesianGrid,
@@ -35,8 +36,13 @@ export function renderFrame(
     p.pop();
   }
 
+  // Module geometry is authored for the BASE_CANVAS_SIZE stage; on narrower
+  // canvases (mobile) shrink the curve uniformly so nothing clips.
+  const curveScale = Math.min(1, Math.min(snap.width, snap.height) / BASE_CANVAS_SIZE);
+
   p.push();
   p.translate(cx, cy);
+  if (curveScale < 1) p.scale(curveScale);
   renderGhostCurve(p, snap.points, config.curveStyle);
   renderReveal(
     p,

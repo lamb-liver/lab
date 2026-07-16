@@ -176,16 +176,17 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 | 項目 | 行為 |
 |------|------|
-| `prefers-reduced-motion: reduce` | 關閉 `.page-enter` 淡入、`.interactive-loading` 動畫；Hero 不掛 p5（`HeroCanvas.tsx`）。**Phase 4**：補靜態 Hero 佔位（同尺寸、不動畫、不掛 p5），避免首頁 Hero 區空白 |
+| `prefers-reduced-motion: reduce` | 關閉 `.page-enter` 淡入、`.interactive-loading` 動畫；Hero 不掛 p5，改渲染靜態金色幾何 SVG 佔位（`HeroCanvas.tsx` 的 `HeroCanvasStatic`，同尺寸、不動畫） |
 | `:focus-visible` | 全站 accent outline（`base.css`） |
+| Skip link | `BaseLayout.astro` 的 `.skip-link` →「跳至主要內容」，聚焦時可見（`base.css`） |
 | 手機選單 | `aria-expanded`、Escape 關閉、點外關閉（`Nav.astro`） |
+| 手機 canvas | morph 管線曲線依 `min(width, height) / BASE_CANVAS_SIZE` 縮放（`systems/rendering/frame.ts`），窄畫布不裁切幾何 |
 
 ---
 
 ## 9. 刻意延後（非現行規格）
 
-- Hero reduced motion **靜態佔位**（金色幾何 SVG/CSS，維持 hero 高度）
-- Skip link / 可見 TOC
+- 可見 TOC
 - 上下篇依 tag 相鄰
 - Explore vectors 等 **bottom sheet** 重構
 - Works / Explore 詳情版型完全統一

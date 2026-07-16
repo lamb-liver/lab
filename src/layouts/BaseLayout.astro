@@ -85,8 +85,9 @@ const jsonLd = [
     <title>{fullTitle}</title>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">跳至主要內容</a>
     <Nav />
-    <main class="page-enter">
+    <main id="main-content" class="page-enter">
       <slot />
     </main>
     <Footer />

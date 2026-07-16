@@ -70,8 +70,40 @@ function HeroCanvasAnimated() {
   );
 }
 
+// Static stand-in for prefers-reduced-motion: the same rotation-scale motif
+// as the animated hero, drawn once as SVG — same footprint, no p5, no motion.
+function HeroCanvasStatic() {
+  const squares = Array.from({ length: 7 }, (_, i) => {
+    const scale = 0.92 ** i;
+    const rotation = i * 9;
+    const half = 150 * scale;
+    return (
+      <rect
+        key={i}
+        x={-half}
+        y={-half}
+        width={half * 2}
+        height={half * 2}
+        transform={`rotate(${rotation})`}
+        fill="none"
+        stroke="var(--color-accent, #d4b87a)"
+        strokeWidth={1.2}
+        opacity={0.16 + i * 0.09}
+      />
+    );
+  });
+
+  return (
+    <div className="hero-canvas-host-inner hero-canvas-static" aria-hidden="true">
+      <svg viewBox="-300 -200 600 400" preserveAspectRatio="xMidYMid slice" role="presentation">
+        <g>{squares}</g>
+      </svg>
+    </div>
+  );
+}
+
 export default function HeroCanvas() {
   const reducedMotion = usePrefersReducedMotion();
-  if (reducedMotion) return null;
+  if (reducedMotion) return <HeroCanvasStatic />;
   return <HeroCanvasAnimated />;
 }
