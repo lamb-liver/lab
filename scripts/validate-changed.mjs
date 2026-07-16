@@ -147,7 +147,7 @@ function relativeImportTargets(file) {
 // module selects a smoke run for each affected page. Replaces the previous
 // hand-maintained hook/renderer/special-case tables, which dropped slugs on
 // shared files and went stale as consumers changed.
-function buildReachabilityMap(rootMap, allowPrefixes) {
+export function buildReachabilityMap(rootMap, allowPrefixes) {
   const fileToSlugs = new Map();
   const importCache = new Map();
   const targetsOf = (file) => {
@@ -207,7 +207,7 @@ function add(commands, next) {
   if (!commands.some((item) => item.key === next.key)) commands.push(next);
 }
 
-function selectCommands(files) {
+export function selectCommands(files) {
   const commands = [];
   const workModuleByDir = parseWorkModuleMap();
   const workRootMap = buildStageFileMap('src/components/works/WorkInteractiveStage.tsx');
@@ -410,9 +410,11 @@ function main() {
   }
 }
 
-try {
-  main();
-} catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = process.exitCode || 1;
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  try {
+    main();
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = process.exitCode || 1;
+  }
 }
