@@ -48,7 +48,7 @@ export default function CurveWorkRoot({
   const lastCachedTargetRef = useRef(paramsSnapshot(module.defaultParams));
   const cacheRef = useRef(createCurveCache(module));
 
-(() => {
+  useEffect(() => {
     targetParamsRef.current = targetParams;
     const snap = paramsSnapshot(targetParams);
     if (snap !== lastCachedTargetRef.current) {
