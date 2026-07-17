@@ -72,8 +72,10 @@ jobs:
       - name: SEO / UX regression suite
         run: npm run test:seo-ux
 
-      - name: Sampled work smoke (morph pipeline)
-        run: npm run smoke:work -- rose-curve
+      # Full sweep: six works shipped broken (truncated const) while only a
+      # sampled smoke ran; one dev-server boot covers every work page.
+      - name: Works smoke suite
+        run: npm run test:works-smoke
 
       - name: Sampled explore smoke
         run: npm run smoke:explore -- vectors

@@ -43,7 +43,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
     onAChange,
   });
 
-Params = valuesFromParams({
+  const metadataParams = valuesFromParams({
     preset: presetId,
     a: clampA(preset, a),
     n: clampN(n),

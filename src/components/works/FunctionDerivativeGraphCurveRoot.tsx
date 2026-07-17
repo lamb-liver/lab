@@ -40,7 +40,7 @@ export default function FunctionDerivativeGraphCurveRoot({ controlsMountId }: Pr
     onX0Change,
   });
 
-Params = valuesFromParams({
+  const metadataParams = valuesFromParams({
     preset: presetId,
     x0: clampX0(preset, x0),
   });

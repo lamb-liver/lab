@@ -34,7 +34,7 @@ export default function InverseFunctionReflectionCurveRoot({ controlsMountId }: 
     onParamsChange,
   });
 
-Params = paramsForMetadata(params);
+  const metadataParams = paramsForMetadata(params);
   const metadata = module.getMetadata(metadataParams, {
     revealPct: 100,
     smoothParams: metadataParams,

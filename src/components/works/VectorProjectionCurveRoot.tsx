@@ -34,7 +34,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
     onParamsChange,
   });
 
-Params = vectorProjectionParamsForMetadata(params);
+  const metadataParams = vectorProjectionParamsForMetadata(params);
   const metadata = module.getMetadata(metadataParams);
 
   const setProjectionMode = (projectionMode: ProjectionMode) => {

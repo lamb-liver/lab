@@ -18,7 +18,7 @@ $$
 位置讀法把向量端點視為平面上的點。
 
 $$
-\operatorname{proj}_{\mathbf d}\mathbf u
+\operatorname{proj}_{\mathbf d}\mathbf u=\frac{\mathbf u\cdot\mathbf d}{\mathbf d\cdot\mathbf d}\,\mathbf d
 $$
 
 方向讀法把向量視為測量方向，投影與內積都在問「沿這個方向有多少分量」。
@@ -27,7 +27,7 @@ $$
 \mathbf p=s\mathbf e_1+t\mathbf e_2,\qquad \mathbf n\cdot\mathbf x=c
 $$
 
-座標與約束讀法把同一個位置改用基底係數或法向量方程式描述。
+座標讀法把同一個位置寫成基準向量 $\mathbf e_1,\mathbf e_2$ 的係數組合；約束讀法則用一支法向量 $\mathbf n$ 與定值 $c$ 描出一整條直線。
 
 ## 互動說明
 

@@ -40,7 +40,7 @@ export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props)
 
   const { canvasHostRef } = useVectorFieldPatternsP5({ params, streamlines });
 
-Params = vectorFieldPatternParamsForMetadata(params);
+  const metadataParams = vectorFieldPatternParamsForMetadata(params);
   const metadata = module.getMetadata(metadataParams);
 
   const controls = (
