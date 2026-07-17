@@ -2,13 +2,17 @@ import { expect, test, type Page } from '@playwright/test';
 import { workInteractiveSlugs, type WorkInteractiveSlug } from '../src/works/interactiveRegistry';
 
 const selectedSlug = process.env.SMOKE_WORK_SLUG;
-const selectedSlugs = selectedSlug ? [selectedSlug] : workInteractiveSlugs;
 
 if (selectedSlug && !(workInteractiveSlugs as readonly string[]).includes(selectedSlug)) {
   throw new Error(
     `SMOKE_WORK_SLUG must be one of: ${workInteractiveSlugs.join(', ')}`,
   );
 }
+
+// 上方守門已驗證 selectedSlug 屬於 workInteractiveSlugs
+const selectedSlugs: readonly WorkInteractiveSlug[] = selectedSlug
+  ? [selectedSlug as WorkInteractiveSlug]
+  : workInteractiveSlugs;
 
 type ConsoleIssue = {
   type: string;

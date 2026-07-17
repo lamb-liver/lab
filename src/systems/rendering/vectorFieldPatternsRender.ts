@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   ARROW_DOMAIN,
@@ -23,12 +24,12 @@ const ACCENT: [number, number, number] = [212, 184, 122];
 const GUIDE: [number, number, number] = [255, 255, 255];
 
 function setDash(p: p5, pattern: number[]): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.setLineDash(pattern);
 }
 
 function withPlotClip(p: p5, plotMin: number, plotMax: number, draw: () => void): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   p.push();
   ctx.save();
   ctx.beginPath();
@@ -70,7 +71,7 @@ function drawArrow(
   const angle = Math.atan2(to.y - from.y, to.x - from.x);
 
   p.push();
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.save();
   ctx.shadowBlur = 5;
   ctx.shadowColor = 'rgba(212,184,122,0.25)';
@@ -159,7 +160,7 @@ export function renderVectorFieldPatternsScene(
       for (const path of snap.streamlines) {
         p.push();
         p.noFill();
-        const ctx = p.drawingContext as CanvasRenderingContext2D;
+        const ctx = canvas2d(p);
         ctx.save();
         ctx.shadowBlur = 10;
         ctx.shadowColor = 'rgba(212,184,122,0.28)';

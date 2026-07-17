@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   AREA_VIEW,
@@ -55,12 +56,12 @@ export function renderNaturalLogEGeometryScene(
 
 function withPlotClip(p: p5, drawFn: () => void): void {
   const plot = NAT_LOG_PLOT;
-  p.drawingContext.save();
-  p.drawingContext.beginPath();
-  p.drawingContext.rect(plot.x, plot.y, plot.w, plot.h);
-  p.drawingContext.clip();
+  canvas2d(p).save();
+  canvas2d(p).beginPath();
+  canvas2d(p).rect(plot.x, plot.y, plot.w, plot.h);
+  canvas2d(p).clip();
   drawFn();
-  p.drawingContext.restore();
+  canvas2d(p).restore();
 }
 
 function drawAreaPlot(p: p5, data: NaturalLogState, reveal: number): void {

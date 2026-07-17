@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   circumcircleWorld,
@@ -37,10 +38,10 @@ function mid(a: number, b: number) {
 function withDash(p: p5, pattern: number[], fn: () => void) {
   p.push();
   try {
-    p.drawingContext.setLineDash(pattern);
+    canvas2d(p).setLineDash(pattern);
     fn();
   } finally {
-    p.drawingContext.setLineDash([]);
+    canvas2d(p).setLineDash([]);
     p.pop();
   }
 }

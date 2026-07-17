@@ -122,7 +122,7 @@ export function quadraticVertex(q: QuadraticParams) {
   return { x: vx, y: vy };
 }
 
-function quadraticPositiveIntervals(a: number, roots: number[]) {
+function quadraticPositiveIntervals(a: number, roots: number[]): [number, number][] {
   if (roots.length === 0) return a > 0 ? [[X_MIN, X_MAX] as [number, number]] : [];
   if (roots.length === 1) return a > 0 ? [[X_MIN, roots[0]], [roots[0], X_MAX]] : [];
   const [r1, r2] = roots;

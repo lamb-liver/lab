@@ -7,7 +7,10 @@ import {
   screenToWorld,
   worldToScreen,
 } from './geometry';
-import { vectorAdditionScalarModule } from './index';
+import {
+  DEFAULT_VECTOR_ADDITION_SCALAR_PARAMS,
+  vectorAdditionScalarModule,
+} from './index';
 
 describe('vector arithmetic geometry', () => {
   it('computes vector sum and scalar multiple', () => {
@@ -19,7 +22,7 @@ describe('vector arithmetic geometry', () => {
     const layout = createVectorAdditionScalarLayout(
       640,
       640,
-      vectorAdditionScalarModule.defaultParams,
+      DEFAULT_VECTOR_ADDITION_SCALAR_PARAMS,
     );
     const world = { x: 1.25, y: -0.75 };
     const screen = worldToScreen(layout, world);

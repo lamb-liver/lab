@@ -6,6 +6,7 @@ import {
   deg,
   sampleLawOfSinesCosinesThumbnail,
   triangleMetrics,
+  type LawMode,
   type LawOfSinesCosinesParams,
 } from './geometry';
 
@@ -63,4 +64,4 @@ export const lawOfSinesCosinesModule: CurveModule = {
 };
 
 export { DEFAULT_LAW_OF_SINES_COSINES_PARAMS };
-export type { LawOfSinesCosinesParams };
+export type { LawMode, LawOfSinesCosinesParams };

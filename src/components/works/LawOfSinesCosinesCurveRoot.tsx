@@ -16,11 +16,12 @@ type Props = {
 };
 
 function paramsForMetadata(params: LawOfSinesCosinesParams): ParamValues {
+  // triangle 是 TriangleVerts 而非 number；getMetadata 內部以 asLawParams 還原
   return {
     mode: params.mode === 'cosine' ? 1 : 0,
     advanced: params.advanced ? 1 : 0,
     triangle: params.triangle,
-  };
+  } as unknown as ParamValues;
 }
 
 export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {

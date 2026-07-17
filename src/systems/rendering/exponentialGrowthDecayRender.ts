@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   EXP_PLOT,
@@ -23,9 +24,9 @@ const GUIDE = { r: 255, g: 255, b: 255 };
 
 function withPlotClip(p: p5, plot: typeof EXP_PLOT, draw: () => void): void {
   p.push();
-  p.drawingContext.beginPath();
-  p.drawingContext.rect(plot.x, plot.y, plot.w, plot.h);
-  p.drawingContext.clip();
+  canvas2d(p).beginPath();
+  canvas2d(p).rect(plot.x, plot.y, plot.w, plot.h);
+  canvas2d(p).clip();
   draw();
   p.pop();
 }

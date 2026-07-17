@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   LOG_LEFT_PLOT,
@@ -26,9 +27,9 @@ const GUIDE = { r: 255, g: 255, b: 255 };
 
 function withPlotClip(p: p5, box: PlotBox, draw: () => void): void {
   p.push();
-  p.drawingContext.beginPath();
-  p.drawingContext.rect(box.x, box.y, box.w, box.h);
-  p.drawingContext.clip();
+  canvas2d(p).beginPath();
+  canvas2d(p).rect(box.x, box.y, box.w, box.h);
+  canvas2d(p).clip();
   draw();
   p.pop();
 }

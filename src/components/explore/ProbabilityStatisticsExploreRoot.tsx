@@ -52,9 +52,9 @@ type Rect = {
   h: number;
 };
 
-const GOLD = [212, 184, 122] as const;
-const RED = [231, 111, 81] as const;
-const WHITE = [255, 255, 255] as const;
+const GOLD: readonly [number, number, number] = [212, 184, 122];
+const RED: readonly [number, number, number] = [231, 111, 81];
+const WHITE: readonly [number, number, number] = [255, 255, 255];
 
 const DEFAULT_CONDITIONAL: ConditionalState = {
   pA: 0.55,

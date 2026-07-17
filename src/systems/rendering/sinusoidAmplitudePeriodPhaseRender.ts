@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   SINUSOID_WORLD,
@@ -67,7 +68,7 @@ function gy(y: number, layout: SceneLayout) {
 }
 
 function withDash(p: p5, pattern: number[], draw: () => void) {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   p.push();
   ctx.save();
   ctx.setLineDash(pattern);
@@ -77,7 +78,7 @@ function withDash(p: p5, pattern: number[], draw: () => void) {
 }
 
 function withGraphClip(p: p5, graph: Rect, draw: () => void) {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   p.push();
   ctx.save();
   ctx.beginPath();

@@ -20,11 +20,11 @@ describe('law-of-sines-cosines module', () => {
   it('getMetadata switches by mode', () => {
     const sine = lawOfSinesCosinesModule.getMetadata(
       { ...lawOfSinesCosinesModule.defaultParams, mode: 0 },
-      { revealPct: 100 },
+      { revealPct: 100, smoothParams: { ...lawOfSinesCosinesModule.defaultParams, mode: 0 } },
     );
     const cosine = lawOfSinesCosinesModule.getMetadata(
       { ...lawOfSinesCosinesModule.defaultParams, mode: 1 },
-      { revealPct: 100 },
+      { revealPct: 100, smoothParams: { ...lawOfSinesCosinesModule.defaultParams, mode: 1 } },
     );
 
     expect(sine.title).toBe('正弦定理');

@@ -1,3 +1,4 @@
+import { asCurvePoints } from './curvePoints';
 import type { CacheStrategy, CurveModule, CurvePoint, ParamValues } from './types';
 
 /** 整數 k 的奇偶（Rose：奇數 θ∈[0,π]、偶數 θ∈[0,2π]，不可跨奇偶 blend） */
@@ -87,7 +88,7 @@ export function createCurveCache(module: CurveModule): CurveCache {
   const numericCache = new Map<number, CurvePoint[]>();
 
   const sampleAt = (params: ParamValues, step: number): CurvePoint[] =>
-    module.sample(params, { step });
+    asCurvePoints(module.sample(params, { step }));
 
   const clear = (): void => {
     numericCache.clear();

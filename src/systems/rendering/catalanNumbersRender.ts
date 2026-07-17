@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   CATALAN_VIEW,
@@ -48,9 +49,9 @@ function drawPathMode(p: p5, snap: CatalanSnap): void {
   for (let i = 0; i <= n; i += 1) p.line(x0 + i * step, y0, x0 + i * step, y0 - size);
   for (let j = 0; j <= n; j += 1) p.line(x0, y0 - j * step, x0 + size, y0 - j * step);
   p.stroke(255, 255, 255, 34);
-  p.drawingContext.setLineDash([6, 8]);
+  canvas2d(p).setLineDash([6, 8]);
   p.line(x0, y0, x0 + size, y0 - size);
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
 
   const points: Array<{ x: number; y: number }> = [];
   let x = 0;

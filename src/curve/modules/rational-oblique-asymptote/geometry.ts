@@ -1,4 +1,4 @@
-import type { CurvePoint, ThumbnailSpec } from '../../types';
+import type { CurvePoint, ThumbnailPath, ThumbnailSpec } from '../../types';
 
 export type RationalObliqueModeId = 'oblique' | 'horizontal' | 'proper';
 export type RationalObliqueParamKey = 'm' | 'b' | 'A' | 'c' | 'd';
@@ -196,7 +196,7 @@ export function buildRationalObliqueThumbnail(
   params: RationalObliqueParams,
 ): ThumbnailSpec {
   const model = buildRationalObliqueModel(modeById(modeId), params);
-  const paths = buildFunctionSegments(model.f, model.verticals).map((segment) => ({
+  const paths: ThumbnailPath[] = buildFunctionSegments(model.f, model.verticals).map((segment) => ({
     points: segment.map((point, index): CurvePoint => ({
       x: point.x,
       y: point.y,

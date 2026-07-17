@@ -6,7 +6,7 @@ import { juliaSmooth } from './math';
 export function sampleJuliaSetThumbnail(
   cx: number,
   cy: number,
-  maxIter = JULIA_CFG.MAX_ITER,
+  maxIter: number = JULIA_CFG.MAX_ITER,
   zoom = JULIA_CFG.ZOOM,
   grid = 168,
 ): ThumbnailSpec {

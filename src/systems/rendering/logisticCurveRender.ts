@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   LOGISTIC_CHART,
@@ -68,12 +69,12 @@ export function renderLogisticCurveScene(p: p5, snap: LogisticCurveSnap): void {
 
 function withChartClip(p: p5, drawFn: () => void): void {
   const c = LOGISTIC_CHART;
-  p.drawingContext.save();
-  p.drawingContext.beginPath();
-  p.drawingContext.rect(c.x, c.y, c.w, c.h);
-  p.drawingContext.clip();
+  canvas2d(p).save();
+  canvas2d(p).beginPath();
+  canvas2d(p).rect(c.x, c.y, c.w, c.h);
+  canvas2d(p).clip();
   drawFn();
-  p.drawingContext.restore();
+  canvas2d(p).restore();
 }
 
 function drawGrid(p: p5, params: LogisticParams): void {
@@ -122,9 +123,9 @@ function drawPhaseBoundary(p: p5, t: number): void {
   p.push();
   p.stroke(GUIDE.r, GUIDE.g, GUIDE.b, 16);
   p.strokeWeight(1);
-  p.drawingContext.setLineDash([4, 8]);
+  canvas2d(p).setLineDash([4, 8]);
   p.line(x, c.y, x, c.y + c.h);
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
   p.pop();
 }
 
@@ -251,7 +252,7 @@ function drawExponentialComparison(p: p5, params: LogisticParams): void {
   p.stroke(GUIDE.r, GUIDE.g, GUIDE.b, 46);
   p.strokeWeight(1);
   p.noFill();
-  p.drawingContext.setLineDash([7, 9]);
+  canvas2d(p).setLineDash([7, 9]);
   p.beginShape();
   for (let i = 0; i <= 220; i += 1) {
     const t = lerp(T_MIN, tEnd, i / 220);
@@ -259,7 +260,7 @@ function drawExponentialComparison(p: p5, params: LogisticParams): void {
     p.vertex(mapLogisticT(t), mapLogisticY(y, params.L));
   }
   p.endShape();
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
 
   p.fill(TEXT.r, TEXT.g, TEXT.b, 70);
   p.noStroke();
@@ -288,10 +289,10 @@ function drawInflection(p: p5, params: LogisticParams): void {
   p.push();
   p.stroke(GUIDE.r, GUIDE.g, GUIDE.b, 24);
   p.strokeWeight(1);
-  p.drawingContext.setLineDash([4, 8]);
+  canvas2d(p).setLineDash([4, 8]);
   p.line(x, c.y, x, c.y + c.h);
   p.line(c.x, y, c.x + c.w, y);
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
 
   p.noStroke();
   p.fill(GOLD.r, GOLD.g, GOLD.b, 38);

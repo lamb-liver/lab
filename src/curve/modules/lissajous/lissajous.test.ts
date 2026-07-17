@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { asCurvePoints } from '../../curvePoints';
 import { lissajousModule } from './index';
 
 describe('lissajousModule.sample', () => {
@@ -12,9 +13,11 @@ describe('lissajousModule.sample', () => {
   });
 
   it('default params produce positive arcLength', () => {
-    const points = lissajousModule.sample(lissajousModule.defaultParams, {
-      step: lissajousModule.sampleStep ?? 0.003,
-    });
+    const points = asCurvePoints(
+      lissajousModule.sample(lissajousModule.defaultParams, {
+        step: lissajousModule.sampleStep ?? 0.003,
+      }),
+    );
     expect(points.at(-1)?.arcLength).toBeGreaterThan(0);
   });
 });

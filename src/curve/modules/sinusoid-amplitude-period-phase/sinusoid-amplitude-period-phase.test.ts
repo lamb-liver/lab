@@ -51,8 +51,8 @@ describe('sinusoid amplitude period phase geometry', () => {
       T: Math.PI * 8,
       phi: Math.PI * 8,
       k: 5,
-      showGhost: 0,
-      showGuides: 1,
+      showGhost: false,
+      showGuides: true,
     });
 
     expect(params.amplitude).toBe(-2);

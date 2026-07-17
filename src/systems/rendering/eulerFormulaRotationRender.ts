@@ -1,4 +1,5 @@
 import type p5 from 'p5';
+import { canvas2d } from './canvas2d';
 
 type EulerFormulaRotationSnap = {
   width: number;
@@ -126,9 +127,9 @@ export function renderEulerFormulaRotationScene(
 
   glowCircle(p, planeCenterX, planeCenterY, planeRadius, GLOW.CIRCLE);
 
-  p.drawingContext.setLineDash([5, 5]);
+  canvas2d(p).setLineDash([5, 5]);
   glowLine(p, endpointX, endpointY, waveStartX, endpointY, GLOW.PROJECTION);
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
 
   glowLine(p, planeCenterX, planeCenterY, endpointX, endpointY, GLOW.VECTOR);
   pulseNode(p, endpointX, endpointY);

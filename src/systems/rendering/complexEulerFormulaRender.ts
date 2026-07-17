@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   DEMOIVRE_R,
@@ -67,9 +68,9 @@ function drawVisualHint(p: p5, plot: PlotRect, label: string): void {
 
 function withPlotClip(p: p5, plot: PlotRect, draw: () => void): void {
   p.push();
-  p.drawingContext.beginPath();
-  p.drawingContext.rect(plot.x, plot.y, plot.w, plot.h);
-  p.drawingContext.clip();
+  canvas2d(p).beginPath();
+  canvas2d(p).rect(plot.x, plot.y, plot.w, plot.h);
+  canvas2d(p).clip();
   draw();
   p.pop();
 }
@@ -237,10 +238,10 @@ function drawParallelogram(p: p5, a: Complex, b: Complex, plot: PlotRect): void 
   p.noFill();
   p.stroke(255, 255, 255, 24);
   p.strokeWeight(1);
-  p.drawingContext.setLineDash([5, 7]);
+  canvas2d(p).setLineDash([5, 7]);
   p.line(pa.x, pa.y, ps.x, ps.y);
   p.line(pb.x, pb.y, ps.x, ps.y);
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
   p.pop();
 }
 
@@ -251,9 +252,9 @@ function drawSubGuide(p: p5, a: Complex, b: Complex, plot: PlotRect): void {
   p.push();
   p.stroke(255, 255, 255, 28);
   p.strokeWeight(1);
-  p.drawingContext.setLineDash([5, 7]);
+  canvas2d(p).setLineDash([5, 7]);
   p.line(pb.x, pb.y, pa.x, pa.y);
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
 
   p.pop();
 }
@@ -456,10 +457,10 @@ function drawProjectionToWaves(
   p.push();
   p.stroke(255, 255, 255, 24);
   p.strokeWeight(1);
-  p.drawingContext.setLineDash([5, 7]);
+  canvas2d(p).setLineDash([5, 7]);
   p.line(px, py, tx, cosY);
   p.line(px, py, tx, sinY);
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
   p.pop();
 }
 

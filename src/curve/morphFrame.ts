@@ -1,3 +1,4 @@
+import { asCurvePoints } from './curvePoints';
 import type { AnimationState, CurveModule, CurvePoint, ParamValues } from './types';
 
 export type MorphAnimStep = (
@@ -16,7 +17,7 @@ export function getMorphDisplayPoints(
   params: ParamValues,
   step: number,
 ): ReadonlyArray<CurvePoint> {
-  return module.sample(params, { step });
+  return asCurvePoints(module.sample(params, { step }));
 }
 
 export function executeMorphDrawFrame(

@@ -1,3 +1,4 @@
+import { canvas2d } from '../../systems/rendering/canvas2d';
 import { useCallback, useMemo, useRef, useState, type MutableRefObject } from 'react';
 import type p5 from 'p5';
 import {
@@ -452,7 +453,7 @@ function drawMeanLine(
   }
 
   const x = xToScreen(stats.mean, plot, rows);
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
 
   strokeWhite(p, 80);
   p.strokeWeight(1);

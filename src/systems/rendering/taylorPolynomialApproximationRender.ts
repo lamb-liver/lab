@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   TAYLOR_MAX_TERM_CURVES,
@@ -233,7 +234,7 @@ function drawCenterLine(
   p.stroke(...PALETTE.gold, 108);
   p.strokeWeight(1.4);
   p.push();
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.setLineDash([5, 6]);
   p.line(sx, g.y, sx, g.y + g.h);
   ctx.setLineDash([]);

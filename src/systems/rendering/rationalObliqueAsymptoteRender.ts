@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   RATIONAL_OBLIQUE_CONFIG,
@@ -219,7 +220,7 @@ function dashedDataLine(
 }
 
 function dashedLine(p: p5, x1: number, y1: number, x2: number, y2: number, pattern: number[]): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.save();
   ctx.setLineDash(pattern);
   p.line(x1, y1, x2, y2);

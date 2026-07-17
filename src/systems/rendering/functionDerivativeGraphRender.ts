@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   FUNCTION_DERIVATIVE_SAMPLE_N,
@@ -220,7 +221,7 @@ function drawCheckerLine(
   p.stroke(...PALETTE.guide, 102);
   p.strokeWeight(1.3);
   p.push();
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.setLineDash([5, 6]);
   p.line(sx, graphs.top.y, sx, graphs.top.y + graphs.top.h);
   p.line(sx, graphs.bottom.y, sx, graphs.bottom.y + graphs.bottom.h);

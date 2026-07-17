@@ -1,4 +1,5 @@
 import type p5 from 'p5';
+import { canvas2d } from './canvas2d';
 
 export type PlotRectLike = {
   x: number;
@@ -35,17 +36,17 @@ export function drawBottomLabel(p: p5, plot: PlotRectLike, label: string, offset
 }
 
 export function withDash(p: p5, pattern: number[], drawFn: () => void): void {
-  p.drawingContext.save();
-  p.drawingContext.setLineDash(pattern);
+  canvas2d(p).save();
+  canvas2d(p).setLineDash(pattern);
   drawFn();
-  p.drawingContext.restore();
+  canvas2d(p).restore();
 }
 
 export function clipRect(p: p5, rect: PlotRectLike, drawFn: () => void): void {
-  p.drawingContext.save();
-  p.drawingContext.beginPath();
-  p.drawingContext.rect(rect.x, rect.y, rect.w, rect.h);
-  p.drawingContext.clip();
+  canvas2d(p).save();
+  canvas2d(p).beginPath();
+  canvas2d(p).rect(rect.x, rect.y, rect.w, rect.h);
+  canvas2d(p).clip();
   drawFn();
-  p.drawingContext.restore();
+  canvas2d(p).restore();
 }

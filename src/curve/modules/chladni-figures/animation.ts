@@ -55,7 +55,7 @@ export function stepChladniAnimation(
     previousN,
   } = state;
 
-  const targetParams = { ...nextTarget, modeM, modeN };
+  const targetParams: ParamValues = { ...nextTarget, modeM, modeN };
   let resetParticles = false;
 
   if (structureChanged) {

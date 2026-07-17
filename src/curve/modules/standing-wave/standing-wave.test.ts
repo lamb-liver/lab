@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { asCurvePoints } from '../../curvePoints';
 import { stepStandingWaveAnimation } from './animation';
 import {
   buildStandingWavePoints,
@@ -79,9 +80,9 @@ describe('stepStandingWaveAnimation', () => {
 
 describe('standingWaveModule.sample', () => {
   it('returns points for thumbnail', () => {
-    const points = standingWaveModule.sample(standingWaveModule.defaultParams, {
-      step: 2,
-    });
+    const points = asCurvePoints(
+      standingWaveModule.sample(standingWaveModule.defaultParams, { step: 2 }),
+    );
     expect(points.length).toBeGreaterThan(5);
     expect(points.at(-1)!.arcLength).toBeGreaterThan(0);
   });

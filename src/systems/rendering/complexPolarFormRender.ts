@@ -1,5 +1,6 @@
 import type p5 from 'p5';
 import { computePolarScale } from '../../curve/modules/complex-polar-form/geometry';
+import { canvas2d } from './canvas2d';
 
 const TAU = Math.PI * 2;
 
@@ -83,9 +84,9 @@ function guideLine(
   p.stroke(T.GUIDE[0], T.GUIDE[1], T.GUIDE[2], alpha);
   p.strokeWeight(0.7);
   p.noFill();
-  if (dashed) p.drawingContext.setLineDash([4, 5]);
+  if (dashed) canvas2d(p).setLineDash([4, 5]);
   p.line(x1, y1, x2, y2);
-  p.drawingContext.setLineDash([]);
+  canvas2d(p).setLineDash([]);
 }
 
 function buildArc(scale: number, r: number, theta: number, steps: number): Vec2[] {

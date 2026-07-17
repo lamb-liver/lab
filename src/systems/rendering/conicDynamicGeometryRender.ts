@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import { LATUS, VIEW_H, VIEW_W } from '../../curve/modules/conic-dynamic-geometry/constants';
 import {
@@ -41,7 +42,7 @@ const PATH_LAYERS = [
 ];
 
 function setDash(p: p5, pattern: number[]): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.setLineDash(pattern);
 }
 

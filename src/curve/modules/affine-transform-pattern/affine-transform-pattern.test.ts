@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { asCurvePoints } from '../../curvePoints';
 import { stepAffineTransformPatternAnimation } from './animation';
 import {
   buildAffineMatrix,
@@ -109,9 +110,10 @@ describe('stepAffineTransformPatternAnimation', () => {
 
 describe('affineTransformPatternModule.sample', () => {
   it('returns points for default sample', () => {
-    const points = affineTransformPatternModule.sample(
-      affineTransformPatternModule.defaultParams,
-      { step: 1 },
+    const points = asCurvePoints(
+      affineTransformPatternModule.sample(affineTransformPatternModule.defaultParams, {
+        step: 1,
+      }),
     );
     expect(points.length).toBeGreaterThan(3);
     expect(points.at(-1)!.arcLength).toBeGreaterThan(0);

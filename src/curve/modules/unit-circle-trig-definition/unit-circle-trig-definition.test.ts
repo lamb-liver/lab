@@ -22,7 +22,7 @@ describe('unit-circle-trig-definition module', () => {
   it('getMetadata reports quadrant and trig values', () => {
     const meta = unitCircleTrigDefinitionModule.getMetadata(
       { theta: Math.PI / 4 },
-      { revealPct: 100 },
+      { revealPct: 100, smoothParams: { theta: Math.PI / 4 } },
     );
 
     expect(meta.title).toBe('單位圓定義');

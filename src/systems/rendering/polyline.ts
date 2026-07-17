@@ -2,13 +2,16 @@ import type p5 from 'p5';
 import type { CurvePoint } from '../../curve/types';
 import type { CurveStyle, StrokeRGBA } from './types';
 
+/** 折線繪製只需要座標；接受缺 theta/arcLength 的點列 */
+type XYPoint = Pick<CurvePoint, 'x' | 'y'>;
+
 function strokeRGBA(p: p5, c: StrokeRGBA): void {
   p.stroke(c.r, c.g, c.b, c.a);
 }
 
 export function drawPolyline(
   p: p5,
-  points: ReadonlyArray<CurvePoint>,
+  points: ReadonlyArray<XYPoint>,
   stroke: StrokeRGBA,
   weight: number,
 ): void {
@@ -26,7 +29,7 @@ export function drawPolyline(
 
 export function renderGlowStroke(
   p: p5,
-  points: ReadonlyArray<CurvePoint>,
+  points: ReadonlyArray<XYPoint>,
   layers: CurveStyle['reveal']['layers'],
 ): void {
   for (const layer of layers) {
@@ -36,7 +39,7 @@ export function renderGlowStroke(
 
 export function renderGhostCurve(
   p: p5,
-  points: ReadonlyArray<CurvePoint>,
+  points: ReadonlyArray<XYPoint>,
   style: CurveStyle,
 ): void {
   const { stroke, weight } = style.ghost;

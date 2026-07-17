@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ChangeEvent } from 'react';
+import { useCallback, useMemo, useState, type FormEvent } from 'react';
 import { stepHarmonographAnimation } from '../../curve/modules/harmonograph/animation';
 import {
   harmonographModule,
@@ -60,7 +60,7 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
   );
 
   const handleDInput = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
+    (e: FormEvent<HTMLInputElement>) => {
       // 必須在 handler 同步讀 value；不可在 setState updater 內讀 e.currentTarget
       const d = Number(e.currentTarget.value);
       commitTarget({ d });

@@ -26,7 +26,7 @@ function makeParams(patch: Partial<ParamValues> = {}): ParamValues {
   return {
     ...DEFAULT_PARAMS,
     ...patch,
-  };
+  } as ParamValues;
 }
 
 describe('evaluateVectorField', () => {

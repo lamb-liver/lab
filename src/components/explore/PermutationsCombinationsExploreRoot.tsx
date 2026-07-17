@@ -52,11 +52,11 @@ type Rect = {
   h: number;
 };
 
-const GOLD = [212, 184, 122] as const;
-const WHITE = [255, 255, 255] as const;
-const BLUE = [93, 173, 226] as const;
-const GREEN = [84, 190, 146] as const;
-const MUTED = [150, 150, 150] as const;
+const GOLD: readonly [number, number, number] = [212, 184, 122];
+const WHITE: readonly [number, number, number] = [255, 255, 255];
+const BLUE: readonly [number, number, number] = [93, 173, 226];
+const GREEN: readonly [number, number, number] = [84, 190, 146];
+const MUTED: readonly [number, number, number] = [150, 150, 150];
 
 const DEFAULT_PARAMS: Params = {
   mode: 'pascal',

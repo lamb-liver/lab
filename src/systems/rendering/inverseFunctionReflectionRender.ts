@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   buildCaption,
@@ -25,19 +26,19 @@ const MUTED: [number, number, number] = [136, 136, 136];
 
 function withPlotClip(p: p5, plot: PlotRect, draw: () => void) {
   p.push();
-  p.drawingContext.beginPath();
-  p.drawingContext.rect(plot.x, plot.y, plot.w, plot.h);
-  p.drawingContext.clip();
+  canvas2d(p).beginPath();
+  canvas2d(p).rect(plot.x, plot.y, plot.w, plot.h);
+  canvas2d(p).clip();
   draw();
   p.pop();
 }
 
 function drawDashed(p: p5, draw: () => void) {
   p.push();
-  p.drawingContext.save();
-  p.drawingContext.setLineDash([4, 6]);
+  canvas2d(p).save();
+  canvas2d(p).setLineDash([4, 6]);
   draw();
-  p.drawingContext.restore();
+  canvas2d(p).restore();
   p.pop();
 }
 

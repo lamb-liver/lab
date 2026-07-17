@@ -9,6 +9,7 @@ import {
   transformValue,
 } from './geometry';
 import { DEFAULT_PARAMS } from './constants';
+import type { PolynomialParams } from './types';
 
 describe('function-equations geometry', () => {
   it('quadraticRoots returns two sorted roots when Δ>0', () => {
@@ -48,7 +49,7 @@ describe('function-equations geometry', () => {
   });
 
   it('polynomialPositiveIntervals respects multiplicity 1 and 2', () => {
-    const polynomial = { roots: [-2, 0, 2], mult: [1, 2, 1] } as const;
+    const polynomial: PolynomialParams = { roots: [-2, 0, 2], mult: [1, 2, 1] };
     const intervals = positiveIntervals({ ...DEFAULT_PARAMS, mode: 'polynomial', polynomial });
     expect(intervals.length).toBeGreaterThan(0);
     for (const [a, b] of intervals) {

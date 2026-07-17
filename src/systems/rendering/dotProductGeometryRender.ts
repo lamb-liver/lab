@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   computeDotProductMetrics,
@@ -27,12 +28,12 @@ const V_COLOR: [number, number, number] = [164, 225, 176];
 const PROJ_COLOR: [number, number, number] = [255, 187, 122];
 
 function setDash(p: p5, pattern: number[]): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.setLineDash(pattern);
 }
 
 function withPlotClip(p: p5, plotMin: number, plotMax: number, draw: () => void): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   p.push();
   ctx.save();
   ctx.beginPath();

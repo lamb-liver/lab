@@ -20,7 +20,7 @@ import {
   type InverseFunctionMode,
 } from './constants';
 
-export type { PlotRect, ViewSmoothState };
+export type { InverseFunctionMode, PlotRect, ViewSmoothState };
 
 export type CurveSample = {
   x: number;

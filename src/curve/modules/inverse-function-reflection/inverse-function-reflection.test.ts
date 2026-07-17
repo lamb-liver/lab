@@ -24,7 +24,7 @@ describe('inverse-function-reflection geometry', () => {
     const full = asInverseFunctionReflectionParams({
       mode: 'quadraticRestricted',
       input: 0,
-      advanced: 1,
+      advanced: true,
       base: 2,
     });
     expect(full.input).toBe(MODE_CONFIG.quadraticRestricted.inputMin);

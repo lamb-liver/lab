@@ -61,7 +61,7 @@ export function buildFourierPath(mode: FourierMode, N: number): FourierPathCache
       }
     }
 
-    if (prevX !== null) {
+    if (prevX !== null && prevY !== null) {
       cumulative += Math.hypot(x - prevX, y - prevY);
     }
 

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { asCurvePoints } from '../../curvePoints';
 import { harmonographModule } from './index';
 
 describe('harmonographModule.sample', () => {
@@ -9,22 +10,20 @@ describe('harmonographModule.sample', () => {
   });
 
   it('produces monotonic arcLength', () => {
-    const points = harmonographModule.sample(harmonographModule.defaultParams, {
-      step: 0.01,
-    });
+    const points = asCurvePoints(
+      harmonographModule.sample(harmonographModule.defaultParams, { step: 0.01 }),
+    );
     for (let i = 1; i < points.length; i++) {
       expect(points[i]!.arcLength).toBeGreaterThanOrEqual(points[i - 1]!.arcLength);
     }
   });
 
   it('shortens sampling domain when damping is high', () => {
-    const light = harmonographModule.sample(
-      { a: 3, b: 2, delta: 0, d: 0 },
-      { step: 0.01 },
+    const light = asCurvePoints(
+      harmonographModule.sample({ a: 3, b: 2, delta: 0, d: 0 }, { step: 0.01 }),
     );
-    const heavy = harmonographModule.sample(
-      { a: 3, b: 2, delta: 0, d: 0.2 },
-      { step: 0.01 },
+    const heavy = asCurvePoints(
+      harmonographModule.sample({ a: 3, b: 2, delta: 0, d: 0.2 }, { step: 0.01 }),
     );
     expect(heavy.length).toBeLessThan(light.length);
     expect(heavy.at(-1)!.theta).toBeLessThan(Math.PI * 10);

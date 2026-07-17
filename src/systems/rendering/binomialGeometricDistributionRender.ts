@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   BINOMIAL_GEOMETRIC_VIEW,
@@ -145,7 +146,7 @@ function drawMeanLine(p: p5, plot: PlotRect, data: DistributionData): void {
   if (data.mean < minK || data.mean > maxK) return;
 
   const x = kToScreen(data.mean, plot, data.rows);
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
 
   p.stroke(...WHITE, 82);
   p.strokeWeight(1);

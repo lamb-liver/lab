@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   type CircleLayout,
@@ -21,7 +22,7 @@ const BLUE = [93, 173, 226] as const;
 const GUIDE = [255, 255, 255] as const;
 
 function withDash(p: p5, pattern: number[], draw: () => void) {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   p.push();
   try {
     ctx.setLineDash(pattern);

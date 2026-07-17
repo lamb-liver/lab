@@ -47,11 +47,11 @@ type DragHandle = {
   scale: number;
 };
 
-const GOLD = [212, 184, 122] as const;
-const CYAN = [126, 210, 203] as const;
-const WHITE = [255, 255, 255] as const;
-const TEXT = [232, 232, 232] as const;
-const MUTED = [140, 140, 140] as const;
+const GOLD: readonly [number, number, number] = [212, 184, 122];
+const CYAN: readonly [number, number, number] = [126, 210, 203];
+const WHITE: readonly [number, number, number] = [255, 255, 255];
+const TEXT: readonly [number, number, number] = [232, 232, 232];
+const MUTED: readonly [number, number, number] = [140, 140, 140];
 
 const DEFAULT_PARAMS: Params = {
   mode: 'guide',

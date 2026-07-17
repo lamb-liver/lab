@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   RATIONAL_GAP_PX,
@@ -294,7 +295,7 @@ function dashedLine(
   y2: number,
   pattern: number[],
 ): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   try {
     ctx.setLineDash(pattern);
     p.line(x1, y1, x2, y2);

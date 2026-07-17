@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import type { ParamValues } from '../../curve/types';
 import {
@@ -113,9 +114,9 @@ function drawFeigenbaumOverlay(p: p5, params: ParamValues): void {
     const x = mapR(params, marker.r, bounds);
     p.stroke(PERIOD.r, PERIOD.g, PERIOD.b, 52);
     p.strokeWeight(1);
-    p.drawingContext.setLineDash([4, 6]);
+    canvas2d(p).setLineDash([4, 6]);
     p.line(x, bounds.y, x, bounds.y + bounds.height);
-    p.drawingContext.setLineDash([]);
+    canvas2d(p).setLineDash([]);
     p.noStroke();
     p.fill(PERIOD.r, PERIOD.g, PERIOD.b, 170);
     p.text(`2^${marker.exp}`, x, bounds.y - 4);

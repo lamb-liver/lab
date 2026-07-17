@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { asCurvePoints } from '../../curvePoints';
 import { stepRotationScaleCompositionAnimation } from './animation';
 import {
   STACK_LAYERS,
@@ -60,9 +61,10 @@ describe('stepRotationScaleCompositionAnimation', () => {
 
 describe('rotationScaleCompositionModule.sample', () => {
   it('returns points for thumbnail', () => {
-    const points = rotationScaleCompositionModule.sample(
-      rotationScaleCompositionModule.defaultParams,
-      { step: 1 },
+    const points = asCurvePoints(
+      rotationScaleCompositionModule.sample(rotationScaleCompositionModule.defaultParams, {
+        step: 1,
+      }),
     );
     expect(points.length).toBeGreaterThan(3);
   });

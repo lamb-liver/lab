@@ -20,7 +20,7 @@ export const GET: APIRoute = async ({ params, props }) => {
 
   try {
     const png = await renderWorkOgPng(slug, props.title);
-    return new Response(png, {
+    return new Response(png as Uint8Array<ArrayBuffer>, {
       headers: {
         'Content-Type': 'image/png',
         'Cache-Control': 'public, max-age=31536000, immutable',

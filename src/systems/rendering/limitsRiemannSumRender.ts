@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import { HINT_Y_OFFSET } from '../../curve/modules/limits-riemann-sum/constants';
 import {
@@ -39,9 +40,9 @@ function lerp(a: number, b: number, t: number): number {
 
 function withPlotClip(p: p5, plot: PlotRect, draw: () => void): void {
   p.push();
-  p.drawingContext.beginPath();
-  p.drawingContext.rect(plot.x, plot.y, plot.w, plot.h);
-  p.drawingContext.clip();
+  canvas2d(p).beginPath();
+  canvas2d(p).rect(plot.x, plot.y, plot.w, plot.h);
+  canvas2d(p).clip();
   draw();
   p.pop();
 }

@@ -3,6 +3,7 @@ import type p5 from 'p5';
 import { clipRect } from '../../systems/rendering/p5PlotHelpers';
 import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/exponential-logarithm-explore.css';
+import { canvas2d } from '../../systems/rendering/canvas2d';
 
 type Mode = 'inverse' | 'e' | 'compare';
 type AxisMode = 'linear' | 'logY';
@@ -677,7 +678,7 @@ function drawEConnection(p: p5, a: Point, b: Point) {
     return;
   }
 
-  const ctx = p.drawingContext;
+  const ctx = canvas2d(p);
   p.stroke(...GOLD, 42);
   p.strokeWeight(1);
 

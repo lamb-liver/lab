@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { ParamValues } from '../../types';
 import {
   formulaDisplayLine,
   formulaFromId,
@@ -29,14 +30,15 @@ describe('trig-angle-identities module', () => {
   });
 
   it('getMetadata reports m, d, and formula values', () => {
+    // getMetadata 內部以 asTrigAngleIdentitiesModuleParams 還原富參數
     const meta = trigAngleIdentitiesModule.getMetadata(
       asTrigAngleIdentitiesModuleParams({
         formulaId: 'sinSum',
         alpha: (2 * Math.PI) / 3,
         beta: Math.PI / 6,
         showRadians: false,
-      }),
-      { revealPct: 100 },
+      }) as unknown as ParamValues,
+      { revealPct: 100, smoothParams: {} },
     );
 
     expect(meta.title).toBe('sinα + sinβ');
@@ -47,7 +49,7 @@ describe('trig-angle-identities module', () => {
 
   it('thumbnail sample returns unit circle, directions, and m guide', () => {
     const spec = trigAngleIdentitiesModule.sample(
-      asTrigAngleIdentitiesModuleParams({ formulaId: 'sinSum' }),
+      asTrigAngleIdentitiesModuleParams({ formulaId: 'sinSum' }) as unknown as ParamValues,
       { step: 1, purpose: 'thumbnail' },
     );
     expect(spec).toHaveProperty('paths');

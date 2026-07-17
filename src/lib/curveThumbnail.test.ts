@@ -32,11 +32,6 @@ describe('curveThumbnail', () => {
         ],
       }),
       getMetadata: () => ({ title: '', formula: '', stats: [] }),
-      renderPreset: {
-        grid: { kind: 'none' },
-        backdrop: { color: '#000000', vignette: 0 },
-        curve: { stroke: '#ffffff', strokeWeight: 1, glow: false },
-      },
     };
 
     workCurveBySlug[slug] = module;
@@ -59,11 +54,6 @@ describe('curveThumbnail', () => {
         ],
       }),
       getMetadata: () => ({ title: '', formula: '', stats: [] }),
-      renderPreset: {
-        grid: { kind: 'none' },
-        backdrop: { color: '#000000', vignette: 0 },
-        curve: { stroke: '#ffffff', strokeWeight: 1, glow: false },
-      },
     };
 
     workCurveBySlug[slug] = module;
@@ -89,11 +79,6 @@ describe('curveThumbnail', () => {
         ],
       }),
       getMetadata: () => ({ title: '', formula: '', stats: [] }),
-      renderPreset: {
-        grid: { kind: 'none' },
-        backdrop: { color: '#000000', vignette: 0 },
-        curve: { stroke: '#ffffff', strokeWeight: 1, glow: false },
-      },
     };
 
     workCurveBySlug[slug] = module;
@@ -126,11 +111,6 @@ describe('curveThumbnail', () => {
         ],
       }),
       getMetadata: () => ({ title: '', formula: '', stats: [] }),
-      renderPreset: {
-        grid: { kind: 'none' },
-        backdrop: { color: '#000000', vignette: 0 },
-        curve: { stroke: '#ffffff', strokeWeight: 1, glow: false },
-      },
     };
     workCurveBySlug[slug] = module;
     const svg = getCurveThumbnailSvg(slug);

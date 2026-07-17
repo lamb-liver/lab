@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { asCurvePoints } from '../../curvePoints';
 import { stepInterferenceFringesAnimation } from './animation';
 import { buildInterferenceGeometry } from './geometry';
 import { interferenceFringesModule } from './index';
@@ -87,9 +88,10 @@ describe('stepInterferenceFringesAnimation', () => {
 
 describe('interferenceFringesModule.sample', () => {
   it('returns thumbnail points', () => {
-    const points = interferenceFringesModule.sample(
-      interferenceFringesModule.defaultParams,
-      { step: 4 },
+    const points = asCurvePoints(
+      interferenceFringesModule.sample(interferenceFringesModule.defaultParams, {
+        step: 4,
+      }),
     );
     expect(points.length).toBeGreaterThan(5);
   });

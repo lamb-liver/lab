@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   add,
@@ -26,7 +27,7 @@ const SUM_COLOR: [number, number, number] = [245, 215, 132];
 const SCALED_COLOR: [number, number, number] = [255, 178, 126];
 
 function setDash(p: p5, pattern: number[]): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.setLineDash(pattern);
 }
 

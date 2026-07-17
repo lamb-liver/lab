@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   add,
@@ -34,12 +35,12 @@ const RIGHT_ANGLE_PX = 11;
 const BASE_LINE_EXTEND = 1.5;
 
 function setDash(p: p5, pattern: number[]): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.setLineDash(pattern);
 }
 
 function withPlotClip(p: p5, plotMin: number, plotMax: number, draw: () => void): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   p.push();
   ctx.save();
   ctx.beginPath();

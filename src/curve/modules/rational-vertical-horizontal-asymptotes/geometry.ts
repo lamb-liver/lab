@@ -1,4 +1,4 @@
-import type { CurvePoint, ThumbnailSpec } from '../../types';
+import type { CurvePoint, ThumbnailPath, ThumbnailSpec } from '../../types';
 
 export type RationalAsymptotePresetId = 'factor' | 'hole' | 'proper' | 'equal' | 'higher';
 
@@ -217,7 +217,7 @@ export function buildRationalAsymptoteThumbnail(
   params: RationalAsymptoteParams,
 ): ThumbnailSpec {
   const model = buildRationalAsymptoteModel(presetById(presetId), params);
-  const paths = buildCurveSegments(model).map((segment) => ({
+  const paths: ThumbnailPath[] = buildCurveSegments(model).map((segment) => ({
     points: segment.map((point, index): CurvePoint => ({
       x: point.x,
       y: point.y,

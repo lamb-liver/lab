@@ -1,3 +1,4 @@
+import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   add,
@@ -48,7 +49,7 @@ const unitCircleScreen: Vec2[] = [];
 let cachedScale = -1;
 
 function setLineDash(p: p5, dashed: boolean): void {
-  const ctx = p.drawingContext as CanvasRenderingContext2D;
+  const ctx = canvas2d(p);
   ctx.setLineDash(dashed ? [5, 5] : []);
 }
 

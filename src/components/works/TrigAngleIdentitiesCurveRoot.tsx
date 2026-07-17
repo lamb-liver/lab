@@ -21,6 +21,7 @@ type Props = {
 };
 
 function paramsForMetadata(params: TrigAngleIdentitiesParams): ParamValues {
+  // formulaId 是 FormulaId 字串；getMetadata 內部以 formulaIdFromParam 還原
   return {
     formulaId: params.formulaId,
     alpha: params.alpha,
@@ -28,7 +29,7 @@ function paramsForMetadata(params: TrigAngleIdentitiesParams): ParamValues {
     showRadians: params.showRadians ? 1 : 0,
     reverseRead: params.reverseRead ? 1 : 0,
     showGuides: params.showGuides ? 1 : 0,
-  };
+  } as unknown as ParamValues;
 }
 
 export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props) {

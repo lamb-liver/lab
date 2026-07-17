@@ -68,7 +68,7 @@ export function useMorphCurveP5({
 
   /** 同步寫 ref；須搭配 urgent setState（勿用 startTransition 包住） */
   const patchTargetParams = useCallback((patch: Partial<ParamValues>): ParamValues => {
-    const next = { ...targetParamsRef.current, ...patch };
+    const next = { ...targetParamsRef.current, ...patch } as ParamValues;
     targetParamsRef.current = next;
     return next;
   }, []);

@@ -29,7 +29,7 @@ function formulaIdFromParam(value: number | FormulaId | undefined): FormulaId {
 }
 
 export function asTrigAngleIdentitiesModuleParams(
-  params: ParamValues | TrigAngleIdentitiesParams,
+  params: ParamValues | Partial<TrigAngleIdentitiesParams>,
 ): TrigAngleIdentitiesParams {
   const raw = params as TrigAngleIdentitiesParams & { formulaId?: FormulaId | number };
   return asTrigAngleIdentitiesParams({

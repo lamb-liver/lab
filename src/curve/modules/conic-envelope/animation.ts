@@ -53,7 +53,7 @@ export function stepConicEnvelopeAnimation(
     pendingRevealSince,
   } = state;
 
-  const targetParams = { ...nextTarget, lineDensity };
+  const targetParams: ParamValues = { ...nextTarget, lineDensity };
 
   if (densityChanged) {
     revealProgress = 0;

@@ -24,8 +24,8 @@ export class JuliaEngine {
   private buffer: HTMLCanvasElement | null = null;
   private ctx2d: CanvasRenderingContext2D | null = null;
   private imgData: ImageData | null = null;
-  private zxTable = new Float32Array(0);
-  private zyTable = new Float32Array(0);
+  private zxTable: Float32Array = new Float32Array(0);
+  private zyTable: Float32Array = new Float32Array(0);
   private renderQueue: TileCoord[] = [];
   private width = 0;
   private height = 0;
@@ -36,10 +36,10 @@ export class JuliaEngine {
   private scy = 0.1889;
   private qx = 0;
   private qy = 0;
-  private qMaxIter = JULIA_CFG.MAX_ITER;
+  private qMaxIter: number = JULIA_CFG.MAX_ITER;
   private t = 0;
   private autoDrift = true;
-  private maxIter = JULIA_CFG.MAX_ITER;
+  private maxIter: number = JULIA_CFG.MAX_ITER;
   private guideAlpha = 0;
   private lastInteract = 0;
   private totalTiles = 0;
