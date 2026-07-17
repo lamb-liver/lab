@@ -1,43 +1,57 @@
 #!/usr/bin/env node
-// Fatal-subset typecheck gate.
+// Full typecheck gate.
 //
-// The repo carries ~200 pre-existing tsc errors (canvas context unions,
-// p5 drawingContext typing) that don't break pages, so a full `tsc --noEmit`
-// gate isn't viable yet. This gate fails only on the classes that crash a
-// page at runtime — undefined identifiers and syntax errors — the exact
-// class behind the 2026-06-23 truncated-const incident (six broken works).
+// 2026-07-17: the repo reached 0 `tsc --noEmit` errors, so this gate now
+// fails on ANY type error. (It previously only caught the fatal subset —
+// syntax errors and undefined identifiers, the class behind the 2026-06-23
+// truncated-const incident — because ~200 known non-fatal errors existed.)
 //
-//   TS1xxx        syntax errors
-//   TS2304/TS2552 cannot find name
-//   TS2448/TS2454 used before declaration / before assigned
-//
-// Run the full report with: npx tsc --noEmit
+// `astro sync` runs first: tsconfig includes the generated `.astro/types.d.ts`
+// (astro:content types, CSS side-effect import declarations), so a fresh
+// checkout would otherwise report spurious errors.
 import { spawnSync } from 'node:child_process';
+import { createRequire } from 'node:module';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const FATAL_PATTERN = /error TS(1\d{3}|2304|2552|2448|2454):/;
-
-const tsc = spawnSync(
-  process.execPath,
-  [resolve(repoRoot, 'node_modules/typescript/bin/tsc'), '--noEmit', '--pretty', 'false'],
-  { cwd: repoRoot, encoding: 'utf8' },
+const requireFromRoot = createRequire(resolve(repoRoot, 'package.json'));
+const astroBin = resolve(
+  dirname(requireFromRoot.resolve('astro/package.json')),
+  'bin/astro.mjs',
 );
+const tscBin = resolve(
+  dirname(requireFromRoot.resolve('typescript/package.json')),
+  'bin/tsc',
+);
+
+const sync = spawnSync(process.execPath, [astroBin, 'sync'], {
+  cwd: repoRoot,
+  stdio: 'inherit',
+});
+if (sync.error || sync.status !== 0) {
+  if (sync.error) console.error(sync.error.message);
+  console.error('astro sync failed; cannot typecheck without .astro/types.d.ts');
+  process.exit(sync.status ?? 1);
+}
+
+const tsc = spawnSync(process.execPath, [tscBin, '--noEmit', '--pretty', 'false'], {
+  cwd: repoRoot,
+  encoding: 'utf8',
+});
 
 if (tsc.error) {
   console.error(tsc.error.message);
   process.exit(1);
 }
 
-const lines = `${tsc.stdout}\n${tsc.stderr}`.split('\n');
-const fatal = lines.filter((line) => FATAL_PATTERN.test(line));
-const total = lines.filter((line) => / error TS\d+:/.test(line) || /^([^\s].*)error TS\d+:/.test(line)).length;
+const output = `${tsc.stdout}\n${tsc.stderr}`;
+const errors = output.split('\n').filter((line) => /error TS\d+:/.test(line));
 
-if (fatal.length > 0) {
-  console.error(`Fatal type errors (${fatal.length}):`);
-  for (const line of fatal) console.error(`- ${line}`);
-  process.exit(1);
+if (tsc.status !== 0 || errors.length > 0) {
+  console.error(`Typecheck gate failed (${errors.length} errors):`);
+  process.stderr.write(output);
+  process.exit(tsc.status === 0 ? 1 : tsc.status);
 }
 
-console.log(`Typecheck fatal gate passed (0 fatal; ${total} known non-fatal errors, see npx tsc --noEmit).`);
+console.log('Typecheck gate passed (0 errors, full tsc --noEmit).');
