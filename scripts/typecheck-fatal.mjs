@@ -10,20 +10,31 @@
 // (astro:content types, CSS side-effect import declarations), so a fresh
 // checkout would otherwise report spurious errors.
 import { spawnSync } from 'node:child_process';
-import { createRequire } from 'node:module';
+import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const requireFromRoot = createRequire(resolve(repoRoot, 'package.json'));
-const astroBin = resolve(
-  dirname(requireFromRoot.resolve('astro/package.json')),
-  'bin/astro.mjs',
-);
-const tscBin = resolve(
-  dirname(requireFromRoot.resolve('typescript/package.json')),
-  'bin/tsc',
-);
+
+// Direct node_modules paths (require.resolve can't reach these files:
+// typescript 7's exports map hides them). Walk upward so git worktrees
+// that share the main checkout's node_modules also resolve.
+function findModuleFile(rel) {
+  let dir = repoRoot;
+  for (;;) {
+    const candidate = resolve(dir, 'node_modules', rel);
+    if (existsSync(candidate)) return candidate;
+    const parent = dirname(dir);
+    if (parent === dir) {
+      console.error(`Cannot find node_modules/${rel}; run npm install first.`);
+      process.exit(1);
+    }
+    dir = parent;
+  }
+}
+
+const astroBin = findModuleFile('astro/bin/astro.mjs');
+const tscBin = findModuleFile('typescript/bin/tsc');
 
 const sync = spawnSync(process.execPath, [astroBin, 'sync'], {
   cwd: repoRoot,
