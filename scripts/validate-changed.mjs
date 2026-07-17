@@ -248,6 +248,10 @@ export function selectCommands(files) {
   };
 
   for (const file of files) {
+    if (file.startsWith('src/') && /\.(ts|tsx)$/.test(file)) {
+      add(commands, command('typecheck fatal gate', ['npm', 'run', 'typecheck:fatal']));
+    }
+
     if (packageAndConfigFiles.has(file)) {
       add(commands, command('frontend validation', ['npm', 'run', 'validate:frontend', '--', '--skip-dom']));
       if (file === 'package.json') {

@@ -35,6 +35,7 @@ function usage() {
     '  audit:explore-covers',
     '  audit:public-pages',
     '  audit:integration',
+    '  typecheck:fatal',
     '  new:work [args...]',
     '  new:explore [args...]',
     '  validate:changed [--dry-run] [--base ref]',
@@ -338,6 +339,10 @@ function main() {
   if (command === 'audit:public-pages') {
     return runNodeScript(resolve(repoRoot, 'scripts/public-pages-audit.mjs'), args);
   }
+  if (command === 'typecheck:fatal') {
+    return runNodeScript(resolve(repoRoot, 'scripts/typecheck-fatal.mjs'), args);
+  }
+
   if (command === 'audit:integration') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-integration.mjs'), args);
   }

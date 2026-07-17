@@ -20,6 +20,8 @@
     "audit:explore-covers": "node scripts/lab.mjs audit:explore-covers",
     "audit:public-pages": "node scripts/lab.mjs audit:public-pages",
     "audit:integration": "node scripts/lab.mjs audit:integration",
+    "typecheck:fatal": "node scripts/lab.mjs typecheck:fatal",
+    "typecheck": "tsc --noEmit",
     "new:work": "node scripts/lab.mjs new:work",
     "new:explore": "node scripts/lab.mjs new:explore",
     "smoke:work": "node scripts/lab.mjs smoke:work",

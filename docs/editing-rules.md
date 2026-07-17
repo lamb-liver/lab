@@ -63,6 +63,7 @@ For a new interactive explore page, check:
 
 Use the narrowest reliable validation first:
 
+- Any `src/**/*.ts(x)` change: `npm run typecheck:fatal` (fast gate for undefined identifiers and syntax errors; the full `npm run typecheck` still reports known non-fatal errors).
 - Pure geometry or utility change: run focused Vitest files when available.
 - Registry or thumbnail change: run registry and thumbnail tests.
 - Rendering lifecycle change: run focused hook tests, then manually inspect the affected page if practical.

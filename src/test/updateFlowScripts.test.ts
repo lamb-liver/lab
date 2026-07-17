@@ -1,15 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-// @ts-expect-error untyped .mjs script module
 import { parseStageRootImports } from '../../scripts/stage-root-map.mjs';
-// @ts-expect-error untyped .mjs script module
 import { selectCommands } from '../../scripts/validate-changed.mjs';
 import {
   assertRegistrable,
   buildNewWorkFiles,
   buildRegistryInsertions,
-  // @ts-expect-error untyped .mjs script module
 } from '../../scripts/new-work.mjs';
 import { workInteractiveSlugs } from '../works/interactiveRegistry';
 import { exploreInteractiveSlugs } from '../explore/interactiveRegistry';

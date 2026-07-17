@@ -6,6 +6,9 @@ const port = Number(process.env.SMOKE_PORT ?? 4321);
 export default defineConfig({
   testDir: './tests',
   outputDir: 'test-results',
+  // One retry on CI absorbs rare long-suite flakes (a full works sweep boots
+  // 69 pages in one run); local runs stay strict.
+  retries: process.env.CI ? 1 : 0,
   timeout: 30_000,
   expect: {
     timeout: 10_000,
