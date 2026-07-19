@@ -21,13 +21,11 @@ $$
 
 ## 互動說明
 
-- **向量端點**：拖動 $\mathbf a,\mathbf b$ 的終點，面積 $\|\mathbf a\times\mathbf b\|$ 與夾角 $\theta$ 同步更新
-- **主畫面（預設）**：只顯示 $\mathbf a$、$\mathbf b$、平行四邊形、$\mathbf n=\mathbf a\times\mathbf b$ 與面積讀數；主體保持簡潔，guide／輔助線弱於向量與法向箭頭
-- **平行四邊形**：以 $\mathbf a,\mathbf b$ 為鄰邊繪製半透明平行四邊形，面積標註對應 $\|\mathbf a\times\mathbf b\|$
-- **平行判定**：當兩向量近共線或退化為零向量時，面積趨近零、法向箭頭縮短並提示「近平行／退化」
-- **進階模式**：可播放右手定則動畫、顯示分量公式、演示交換 $\mathbf a,\mathbf b$ 後法向反轉；預設畫面不常駐動畫
-- **狀態讀數**：右欄以中文＋符號顯示 $\mathbf a$、$\mathbf b$、$\mathbf n$、$\|\mathbf a\times\mathbf b\|$、$\theta$，以及狀態「一般／近平行／退化」
-- **統計區**：右欄同步顯示短式子（至多 3～4 行），例如 $\mathbf n=\mathbf a\times\mathbf b$、$\|\mathbf n\|=\|\mathbf a\|\|\mathbf b\|\sin\theta$、$\theta=\cdots$
+- **夾角 θ**：拖動 $\theta$，觀察面積依 $\|\mathbf a\times\mathbf b\|=|\mathbf a||\mathbf b|\sin\theta$ 改變；$\theta$ 趨近 $0°$ 或 $180°$ 時平行四邊形塌成一條線
+- **長度 |b|**：只放大 $|\mathbf b|$，觀察面積成正比增加，但法向指的方向不變
+- **傾斜 φ**：讓 $\mathbf b$ 繞 $\mathbf a$ 旋轉，觀察張成平面跟著傾斜、法向一起轉，夾角與面積卻不變
+- **面積 ‖a × b‖／右手定則**：切換兩種讀法，比較「量面積」與「定方向」各自關心什麼
+- **拖動畫面旋轉視角**：轉動整個場景，確認 $\mathbf n$ 真的垂直於 $\mathbf a,\mathbf b$ 張成的平面
 
 ## 觀察重點
 
