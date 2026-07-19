@@ -92,6 +92,17 @@ export const collectWorkTags = (
   return [...tags].sort((a, b) => a.localeCompare(b, 'zh-TW'));
 };
 
+/** 試題視覺化列表篩選：僅顯示目前有內容的考科 */
+export const collectExamSubjects = (
+  entries: CollectionEntry<'exam'>[],
+): string[] => {
+  const subjects = new Set<string>();
+  for (const entry of entries) {
+    subjects.add(entry.data.subject);
+  }
+  return [...subjects].sort((a, b) => a.localeCompare(b, 'zh-TW'));
+};
+
 /** 視覺化列表篩選：僅顯示目前有內容的 category */
 export const collectExploreCategories = (
   entries: CollectionEntry<'explore'>[],
