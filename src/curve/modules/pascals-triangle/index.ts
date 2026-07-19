@@ -10,7 +10,7 @@ import {
 
 export const PASCAL_REVEAL_SPEED = 0.04;
 
-const paramSchema: ParamSchema = [{ key: 'rows', label: '行數', min: 1, max: 42, step: 1, default: 24 }];
+const paramSchema: ParamSchema = [{ key: 'rows', label: '列數', min: 1, max: 42, step: 1, default: 24 }];
 
 const defaultParams: ParamValues = {
   ...defaultsFromSchema(paramSchema),
@@ -33,7 +33,7 @@ export const pascalsTriangleModule: CurveModule = {
       title: '帕斯卡三角形',
       formula: 'C(n,k) = n! / (k!(n-k)!)',
       stats: [
-        { key: 'rows', label: '行數 n', value: normalizeRows(params.rows) },
+        { key: 'rows', label: '列數 n', value: normalizeRows(params.rows) },
         { key: 'prime', label: '模數 p', value: normalizePrime(params.prime) },
         { key: 'active', label: '非零', value: `${activeCount}/${totalCount}` },
         { key: 'primes', label: '質數', value: PASCAL_PRIMES.join(', ') },

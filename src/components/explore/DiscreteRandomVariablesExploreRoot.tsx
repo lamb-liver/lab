@@ -573,7 +573,7 @@ function drawParamSection(
     drawSmallHint(p, area.x, y, '在主圖拖動長條高度');
     y += 24;
 
-    return drawSmallButton(p, area.x, y, area.w, '重置質量', 'reset', 'position', ui);
+    return drawSmallButton(p, area.x, y, area.w, '重設質量', 'reset', 'position', ui);
   }
 
   if (state.mode === 'spread') {

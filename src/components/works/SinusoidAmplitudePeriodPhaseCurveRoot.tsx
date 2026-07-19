@@ -85,7 +85,7 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
           aria-pressed="false"
           onClick={resetParams}
         >
-          重置
+          重設
         </button>
       </div>
 

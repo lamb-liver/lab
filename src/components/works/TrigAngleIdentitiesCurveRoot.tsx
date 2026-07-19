@@ -162,7 +162,7 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
             }))
           }
         >
-          重置 α=120°，β=30°
+          重設 α=120°，β=30°
         </button>
       </div>
     </WorkControlsPortal>

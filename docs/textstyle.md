@@ -138,6 +138,12 @@ tags:
 因此站內 column vector 一律寫 **「欄向量」**——「欄」在台灣明確指直的一欄，沒有歧義。
 正文避免單獨用「行」或「列」指稱矩陣方向；需要時寫「第 $i$ 個欄向量」或直接用符號。
 
+**刻意保留英文的介面字**（不要「修正」成中文）：控制項上的 `guide`、`Feigenbaum`、`Cobweb`，
+以及 `inverse-function-reflection` 的預設 `linear`／`quad`／`quad+`／`exp`。
+這些是既有數學／介面慣用詞，翻成中文反而增加閱讀成本。文案引用它們時照抄介面寫法。
+
+**統一用詞**：**重設**（不用重置）。
+
 **禁止寫進 content 的工程詞**（改寫成讀者語言，或移入 `p5toreact.md`）：
 
 `lerp`、`tile`、`ImageData`、`GC`、`out 參數`、`cacheStrategy`、`noLoop`、`deltaTime`、Progressive Rendering、smooth iteration 等。

@@ -78,7 +78,7 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
         </button>
       </div>
 
-      <div className="curve-work-mode-toggle" aria-label="重置">
+      <div className="curve-work-mode-toggle" aria-label="重設">
         <button
           type="button"
           className="curve-work-mode-button"
@@ -88,7 +88,7 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
             setResetNonce((prev) => prev + 1);
           }}
         >
-          重置參數
+          重設參數
         </button>
       </div>
 

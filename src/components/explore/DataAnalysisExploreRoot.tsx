@@ -407,7 +407,7 @@ export default function DataAnalysisExploreRoot() {
           <div className="data-analysis-explore__block">
             <div className="data-analysis-explore__actions">
               <button type="button" onClick={() => commit(resetCurrentData)}>
-                重置資料
+                重設資料
               </button>
               <button
                 type="button"
