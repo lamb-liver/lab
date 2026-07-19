@@ -29,10 +29,10 @@ $$
 
 ## 互動說明
 
-- **夾角弧線**：標示 $\theta$ 與 $\cos\theta$ 數值，$\mathbf{u}\perp\mathbf{v}$ 時高亮
-- **投影線段**：將 $\mathbf{u}$ 投影到 $\mathbf{v}$ 方向，顯示投影向量與內積
-- **代數展開**：並排顯示座標式與幾何式，驗證數值一致
-- **功的示意**：可選模式：力向量與位移向量，$W=\mathbf{F}\cdot\mathbf{d}$
+- **內積 u · v**：拖動兩支向量，觀察 $\mathbf{u}\cdot\mathbf{v}$ 隨夾角改變的正負與大小
+- **夾角 θ**：標示 $\theta$ 與 $\cos\theta$；$\mathbf{u}\perp\mathbf{v}$ 時內積為零並高亮
+- **投影 proj**：把 $\mathbf{u}$ 投影到 $\mathbf{v}$ 方向，對照投影長與內積的關係
+- **功 W = F · d**：切換成力與位移，觀察同一個式子在物理情境下的意義
 
 ## 相關作品
 

@@ -48,6 +48,15 @@
   這是刻意的取捨：works 大量依賴畫布拖曳與畫面元素，全面檢查的雜訊會蓋過訊號。
 - **草稿不檢查**。draft content 描述的是「打算做成什麼」，此時模組通常還是佔位幾何。
 
+### 已知盲區
+
+若一頁的**所有**控制項都是純中文（沒有符號可用），該頁就沒有標籤會被檢查，整頁跳過。
+目前有 3 篇：`law-of-sines-cosines`、`pascals-triangle`、`regression-outlier-influence`。
+它們的控制項確實叫「正弦定理」「模」「槓桿」，硬把符號塞進標籤只會讓文案變假，
+所以維持現狀。改動這三頁時要自己核對介面。
+
+`npm run audit:work-controls` 的輸出會顯示 skipped 數量，可用來追蹤這個數字有沒有變大。
+
 ### 比對規則
 
 標籤與控制項採一對一配對，每個標籤必須配到專屬的控制項。這一點很重要：
@@ -70,9 +79,18 @@
 
 ## 已知未解
 
-- `taylor-polynomial-approximation` 的模組 schema 有 `{ key: 'a', label: '展開中心 a' }`，
-  但該頁用客製 hook root，不吃 module 的 `paramSchema`，所以介面上沒有這個滑桿。
-  目前文案已不再宣稱它。要補控制項需要動互動。
+（目前沒有。）
+
+## 教訓：找不到控制項，先確認它是不是畫布互動
+
+`taylor-polynomial-approximation` 的模組 schema 有 `展開中心 a`，但該頁用客製 hook root
+不吃 `paramSchema`，側欄也沒有這個滑桿，於是一度被判定為「文案宣稱不存在的控制項」而刪掉條目。
+
+實際上它是**可以在圖上直接拖的**（`useTaylorPolynomialApproximationP5.ts` 的
+`draggingRef` + `mousePressed`/`mouseDragged` + `onAChange`），頁面上也寫著
+「拖動圖中的展開中心 a」。條目已復原，並登記為畫布互動。
+
+刪掉文案之前，先在 hook 與 renderer 裡找過一遍。
 
 ## 名詞不一致時：先問台灣正體怎麼寫
 
