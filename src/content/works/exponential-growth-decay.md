@@ -30,7 +30,7 @@ $$
 
 - [對數尺度](/works/logarithmic-scale)
 - [自然對數 e 的幾何定義](/works/natural-log-e-geometry)
-- [邏輯斯諦曲線](/works/logistic-curve)
+- [邏輯斯蒂曲線](/works/logistic-curve)
 
 ## 延伸閱讀
 

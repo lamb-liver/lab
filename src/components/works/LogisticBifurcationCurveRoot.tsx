@@ -45,7 +45,7 @@ export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props)
 
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
-      <div className="curve-work-mode-toggle" aria-label="邏輯斯諦視圖">
+      <div className="curve-work-mode-toggle" aria-label="單峰映射視圖">
         {modes.map((option) => (
           <button
             key={option.value}
@@ -113,7 +113,7 @@ export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props)
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="邏輯斯諦映射分岔圖"
+        aria-label="單峰映射分岔圖"
       />
       {controls}
     </>

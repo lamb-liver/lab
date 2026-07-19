@@ -33,7 +33,7 @@ draft: false
 
 - [碎形仿射疊代](/works/affine-ifs-fractal)
 - [朱利亞集合](/works/julia-set)
-- [邏輯斯諦映射分岔圖](/works/logistic-bifurcation)
+- [單峰映射分岔圖](/works/logistic-bifurcation)
 
 ## 延伸閱讀
 

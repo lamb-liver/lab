@@ -480,7 +480,7 @@ export default function SequencesAndSeriesExploreRoot() {
               >
                 <option value="sequence">數列圖像</option>
                 <option value="series">級數累加</option>
-                <option value="logistic">邏輯斯諦疊代</option>
+                <option value="logistic">單峰疊代</option>
               </select>
             </label>
 

@@ -42,7 +42,7 @@ export const logisticBifurcationModule: CurveModule = {
     const periodLabel =
       orbit.period === 'CHAOTIC' ? '混沌' : `${orbit.period}`;
     return {
-      title: '邏輯斯諦映射分岔圖',
+      title: '單峰映射分岔圖',
       formula: 'xₙ₊₁ = r xₙ(1 - xₙ)',
       stats: [
         { key: 'mode', label: '模式', value: MODE_LABELS[mode] },

@@ -100,7 +100,7 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="邏輯斯諦曲線互動視覺化"
+        aria-label="邏輯斯蒂曲線互動視覺化"
       />
       {controls}
     </>

@@ -33,7 +33,7 @@ $$
 
 - [尤拉公式旋轉動畫](/works/euler-formula-rotation)
 - [謝爾賓斯基三角形](/works/sierpinski-triangle)
-- [邏輯斯諦映射分岔圖](/works/logistic-bifurcation)
+- [單峰映射分岔圖](/works/logistic-bifurcation)
 
 ## 延伸閱讀
 
