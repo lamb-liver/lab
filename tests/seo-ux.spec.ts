@@ -304,14 +304,17 @@ test.describe('SEO metadata and UX shell', () => {
     await page.goto('/explore');
     const descriptions = await page.locator('.card--explore .card__desc').allTextContents();
     expectPlainTextDescriptions(descriptions);
-    await expect(
-      page.locator('[data-search-slug="exponential-logarithm"] .card__desc'),
-    ).toHaveText('比較指數成長與對數反推的鏡像關係；從倍增、尺度到自然底 e 與換底。');
-    await expect(
-      page.locator('[data-search-slug="permutations-combinations"] .card__desc'),
-    ).toHaveText(
-      '追蹤同一個組合數如何在二項式係數、格點路徑與遞迴依賴中反覆出現；並比較卡特蘭數如何由限制條件篩出子集合。',
-    );
+
+    // 卡片顯示的就是 frontmatter 的 description；從 content 讀取，避免把文案複製成
+    // 會過期的字面值（改寫 description 時這裡曾經連帶紅掉）。
+    const entries = readExploreEntries();
+    for (const slug of ['exponential-logarithm', 'permutations-combinations']) {
+      const entry = entries.find((item) => item.id === slug);
+      expect(entry, `${slug} 應存在於 explore content`).toBeDefined();
+      await expect(page.locator(`[data-search-slug="${slug}"] .card__desc`)).toHaveText(
+        entry!.data.description,
+      );
+    }
   });
 
   test('works filter reads, writes, and restores the tag query param', async ({ page }) => {

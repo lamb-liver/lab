@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import type { ContentEntry } from './utils';
 
 export type ExploreContentEntry = ContentEntry & {
-  data: ContentEntry['data'] & { title: string };
+  data: ContentEntry['data'] & { title: string; description: string };
 };
 
 function readFrontmatterValue(body: string, key: string): string | null {
@@ -42,6 +42,7 @@ export function readExploreEntries(root = process.cwd()): ExploreContentEntry[] 
         id,
         data: {
           title: readFrontmatterValue(body, 'title') ?? id,
+          description: readFrontmatterValue(body, 'description') ?? '',
           date: dateRaw ? new Date(dateRaw) : new Date(0),
           order: orderRaw ? Number(orderRaw) : 0,
           draft: readFrontmatterValue(body, 'draft') === 'true',

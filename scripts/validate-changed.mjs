@@ -304,6 +304,8 @@ export function selectCommands(files) {
       add(commands, command('content release audit', ['npm', 'run', 'audit:content']));
       add(commands, command('content audit', ['npm', 'run', 'test:content-audit']));
       add(commands, command('registry sync', ['npm', 'run', 'test', '--', 'src/registry.sync.test.ts']));
+      // seo-ux 會斷言列表卡片上的標題與 description，改文案時容易連帶紅掉
+      add(commands, command('seo/ux suite', ['npm', 'run', 'test:seo-ux']));
     }
 
     if (file.startsWith('src/content/works/')) {
