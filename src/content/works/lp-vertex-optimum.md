@@ -2,7 +2,7 @@
 title: 頂點法求最優解
 description: 逐一走訪可行域頂點並計算 z=px+qy，用候選表讀出最優解落在哪裡。
 tags:
-  - 線性代數
+  - 最佳化
 date: 2026-06-10
 order: 0
 featured: false

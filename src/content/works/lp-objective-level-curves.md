@@ -2,7 +2,7 @@
 title: 目標函數等值線
 description: 拖動目標函數 z=px+qy 的等值線，觀察整個平面如何被一族平行直線分層。
 tags:
-  - 線性代數
+  - 最佳化
 date: 2026-06-10
 order: 0
 featured: false

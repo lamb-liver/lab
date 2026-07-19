@@ -46,4 +46,4 @@ $$
 
 - [二項分佈（維基百科）](https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E9%A0%85%E5%88%86%E4%BD%88)
 - [常態分佈（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%AD%A3%E6%85%8B%E5%88%86%E4%BD%88)
-- [棣莫弗－拉普拉斯定理（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%A3%B7%E8%8E%AB%E5%BC%97-%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E5%AE%9A%E7%90%86)
+- [棣美弗－拉普拉斯定理（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%A3%B7%E8%8E%AB%E5%BC%97-%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E5%AE%9A%E7%90%86)

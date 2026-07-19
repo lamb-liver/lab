@@ -41,4 +41,4 @@ $$
 ## 延伸閱讀
 
 - [歐拉公式（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%AC%A7%E6%8B%89%E5%85%AC%E5%BC%8F)
-- [棣莫弗公式（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%A3%B7%E8%8E%AB%E5%BC%97%E5%85%AC%E5%BC%8F)
+- [棣美弗公式（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%A3%B7%E8%8E%AB%E5%BC%97%E5%85%AC%E5%BC%8F)
