@@ -33,11 +33,14 @@ function usage() {
     '  covers:explore',
     '  audit:content',
     '  audit:explore-covers',
+    '  audit:explore-controls',
+    '  audit:work-controls',
     '  audit:public-pages',
     '  audit:integration',
     '  typecheck:fatal',
     '  new:work [args...]',
     '  new:explore [args...]',
+    '  new:exam [args...]',
     '  validate:changed [--dry-run] [--base ref]',
     '  vite:deps:clean',
     '  ports [--ports 4321,4322]',
@@ -327,6 +330,9 @@ function main() {
   if (command === 'new:work') {
     return runNodeScript(resolve(repoRoot, 'scripts/new-work.mjs'), args);
   }
+  if (command === 'new:exam') {
+    return runNodeScript(resolve(repoRoot, 'scripts/new-exam.mjs'), args);
+  }
   if (command === 'covers:explore') {
     return runNodeScript(resolve(repoRoot, 'scripts/explore-covers/generate.mjs'), args);
   }
@@ -335,6 +341,12 @@ function main() {
   }
   if (command === 'audit:explore-covers') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-explore-covers.mjs'), args);
+  }
+  if (command === 'audit:explore-controls') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-explore-controls.mjs'), args);
+  }
+  if (command === 'audit:work-controls') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-work-controls.mjs'), args);
   }
   if (command === 'audit:public-pages') {
     return runNodeScript(resolve(repoRoot, 'scripts/public-pages-audit.mjs'), args);
