@@ -1,11 +1,12 @@
 ---
-title: 離散隨機變數與分布
+title: 離散隨機變數與分佈
 description: 同一張機率長條圖可讀成重心、展寬與尾端形狀；比較機率質量如何隨計數問題重新分配。
 category: 統計
-date: 2026-06-10
-order: 0
+date: 2026-07-19
+order: 18
+coverImage: /images/explore-covers/discrete-random-variables.png
 featured: false
-draft: true
+draft: false
 ---
 
 ## 基本概念
@@ -16,7 +17,7 @@ $$
 \sum_k P(X=x_k)=1
 $$
 
-本頁只建立同一張長條圖在「位置、展寬、尾巴」三種視角下的讀法；分布模型的對照則交給二項／幾何與常態近似作品。
+本頁只建立同一張長條圖在「位置、展寬、尾巴」三種視角下的讀法；分佈模型的對照則交給二項／幾何與常態近似作品。
 
 ## 互動說明
 
@@ -28,18 +29,18 @@ $$
 
 ## 觀察重點
 
-- 機率質量總和固定為 $1$；移動某些長條時，其他位置必須補償，整張分布才仍然有效。
+- 機率質量總和固定為 $1$；移動某些長條時，其他位置必須補償，整張分佈才仍然有效。
 - 重心與展寬是同一張長條圖的兩種讀法：前者問中心在哪裡，後者問質量離中心多遠。
 - 計數問題改變時，支撐範圍與尾端形狀會先改變；公式差異是這個形狀差異的代數版本。
 
 ## 相關作品
 
-- [二項分布與幾何分布](/works/binomial-geometric-distribution)
+- [二項分佈與幾何分佈](/works/binomial-geometric-distribution)
 - [二項分佈到常態分佈](/works/binomial-to-normal)
 
 ## 延伸閱讀
 
 - [離散型隨機變數（維基百科）](https://zh.wikipedia.org/zh-tw/%E9%9B%A2%E6%95%A3%E5%9E%8B%E9%9A%A8%E6%A9%9F%E8%AE%8A%E6%95%B8)
 - [期望值（維基百科）](https://zh.wikipedia.org/zh-tw/%E6%9C%9F%E6%9C%9B%E5%80%BC)
-- [二項分布（維基百科）](https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E9%A0%85%E5%88%86%E4%BD%88)
-- [幾何分布（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%B9%BE%E4%BD%95%E5%88%86%E4%BD%88)
+- [二項分佈（維基百科）](https://zh.wikipedia.org/zh-tw/%E4%BA%8C%E9%A0%85%E5%88%86%E4%BD%88)
+- [幾何分佈（維基百科）](https://zh.wikipedia.org/zh-tw/%E5%B9%BE%E4%BD%95%E5%88%86%E4%BD%88)

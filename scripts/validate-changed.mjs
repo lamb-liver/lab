@@ -247,6 +247,37 @@ export function selectCommands(files) {
     }
   };
 
+  const addWorkControlChecks = (slugs) => {
+    const list = [...slugs].sort();
+    if (list.length === 0) return;
+    add(
+      commands,
+      command(`work controls ${list.join(',')}`, [
+        'npm',
+        'run',
+        'audit:work-controls',
+        '--',
+        list.join(','),
+      ]),
+    );
+  };
+
+  // 文案改動不會被 smoke 抓到，另外跑控制項一致性檢查
+  const addExploreControlChecks = (slugs) => {
+    const list = [...slugs].sort();
+    if (list.length === 0) return;
+    add(
+      commands,
+      command(`explore controls ${list.join(',')}`, [
+        'npm',
+        'run',
+        'audit:explore-controls',
+        '--',
+        list.join(','),
+      ]),
+    );
+  };
+
   for (const file of files) {
     if (file.startsWith('src/') && /\.(ts|tsx)$/.test(file)) {
       add(commands, command('typecheck fatal gate', ['npm', 'run', 'typecheck:fatal']));
@@ -279,6 +310,7 @@ export function selectCommands(files) {
       const slug = basename(file).replace(/\.mdx?$/, '');
       if (interactiveWorkSlugs.has(slug)) {
         add(commands, command(`work smoke ${slug}`, ['npm', 'run', 'smoke:work', '--', slug]));
+        addWorkControlChecks(new Set([slug]));
       }
     }
 
@@ -286,6 +318,7 @@ export function selectCommands(files) {
       const slug = basename(file).replace(/\.mdx?$/, '');
       if (interactiveExploreSlugs.has(slug)) {
         add(commands, command(`explore smoke ${slug}`, ['npm', 'run', 'smoke:explore', '--', slug]));
+        addExploreControlChecks(new Set([slug]));
       }
     }
 
@@ -323,15 +356,22 @@ export function selectCommands(files) {
     }
 
     const workSlugsForFile = workFileToSlugs.get(file);
-    if (workSlugsForFile) addWorkSmokes(workSlugsForFile);
+    if (workSlugsForFile) {
+      addWorkSmokes(workSlugsForFile);
+      addWorkControlChecks(workSlugsForFile);
+    }
 
     const exploreSlugsForFile = exploreFileToSlugs.get(file);
-    if (exploreSlugsForFile) addExploreSmokes(exploreSlugsForFile);
+    if (exploreSlugsForFile) {
+      addExploreSmokes(exploreSlugsForFile);
+      addExploreControlChecks(exploreSlugsForFile);
+    }
 
     const exploreRootSlug = exploreRootMap.get(file);
     if (exploreRootSlug) {
       add(commands, command('registry sync', ['npm', 'run', 'test', '--', 'src/registry.sync.test.ts']));
       add(commands, command(`explore smoke ${exploreRootSlug}`, ['npm', 'run', 'smoke:explore', '--', exploreRootSlug]));
+      addExploreControlChecks(new Set([exploreRootSlug]));
     }
 
     const exploreCssSlug = exploreCssMap.get(file);

@@ -120,7 +120,7 @@ export default function RadianArcLengthCurveRoot({ controlsMountId }: Props) {
             }))
           }
         >
-          重置 θ
+          重設 θ
         </button>
       </div>
     </WorkControlsPortal>

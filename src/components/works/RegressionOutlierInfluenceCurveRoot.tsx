@@ -76,7 +76,7 @@ export default function RegressionOutlierInfluenceCurveRoot({ controlsMountId }:
           aria-pressed={false}
           onClick={() => updateState((next) => { next.outlier = { ...DEFAULT_OUTLIER }; })}
         >
-          重置
+          重設
         </button>
       </div>
 

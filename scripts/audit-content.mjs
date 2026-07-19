@@ -6,7 +6,25 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 export const EXPLORE_CATEGORIES = ['幾何', '代數', '統計', '拓樸', '分析'];
-const COLLECTIONS = ['works', 'explore'];
+export const EXAM_SUBJECTS = ['學測數A', '學測數B', '分科數甲'];
+const COLLECTIONS = ['works', 'explore', 'exam'];
+const REQUIRED_FIELDS = {
+  works: ['title', 'description', 'tags', 'date', 'order', 'draft'],
+  explore: ['title', 'description', 'category', 'date', 'order', 'draft'],
+  exam: [
+    'title',
+    'description',
+    'subject',
+    'year',
+    'questionType',
+    'questionNo',
+    'unit',
+    'concepts',
+    'date',
+    'order',
+    'draft',
+  ],
+};
 const DESCRIPTION_MAX_LENGTH = 80;
 const PLACEHOLDER_PATTERN = /\b(?:TODO|FIXME|placeholder|debug|lorem)\b|待補|暫定|測試用/i;
 function usage() {
@@ -82,9 +100,7 @@ export function auditContent(files = readContentFiles(), options = {}) {
 }
 
 function checkFrontmatter(file, parsed, issues) {
-  const required = file.collection === 'works'
-    ? ['title', 'description', 'tags', 'date', 'order', 'draft']
-    : ['title', 'description', 'category', 'date', 'order', 'draft'];
+  const required = REQUIRED_FIELDS[file.collection];
 
   for (const key of required) {
     if (!parsed.fields.has(key)) {
@@ -111,6 +127,28 @@ function checkFrontmatter(file, parsed, issues) {
     const tags = parsed.arrays.get('tags') ?? [];
     if (parsed.fields.has('tags') && tags.length === 0) {
       addIssue(issues, file, fieldLine(parsed, 'tags'), 'tags must include at least one item');
+    }
+  }
+
+  if (file.collection === 'exam') {
+    const subject = fieldValue(parsed, 'subject');
+    if (subject && !EXAM_SUBJECTS.includes(subject)) {
+      addIssue(
+        issues,
+        file,
+        fieldLine(parsed, 'subject'),
+        `subject must be one of: ${EXAM_SUBJECTS.join(', ')}`,
+      );
+    }
+
+    const year = fieldValue(parsed, 'year');
+    if (year && !/^\d{3}$/.test(year)) {
+      addIssue(issues, file, fieldLine(parsed, 'year'), 'year must be a 3-digit ROC year');
+    }
+
+    const concepts = parsed.arrays.get('concepts') ?? [];
+    if (parsed.fields.has('concepts') && concepts.length === 0) {
+      addIssue(issues, file, fieldLine(parsed, 'concepts'), 'concepts must include at least one item');
     }
   }
 

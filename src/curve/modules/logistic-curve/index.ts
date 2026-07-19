@@ -30,7 +30,7 @@ export const logisticCurveModule: CurveModule = {
     const stats = deriveLogisticStats(smooth);
 
     return {
-      title: '邏輯斯諦曲線',
+      title: '邏輯斯蒂曲線',
       formula: 'y(t) = L / (1 + a·e^(-kt))',
       stats: [
         { key: 'y0', label: 'y(0)', value: stats.y0.toFixed(2) },

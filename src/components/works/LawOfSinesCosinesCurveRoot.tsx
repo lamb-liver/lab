@@ -92,7 +92,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
             })
           }
         >
-          重置三角形
+          重設三角形
         </button>
       </div>
     </WorkControlsPortal>

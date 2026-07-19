@@ -121,7 +121,7 @@ export default function UnitCircleTrigDefinitionCurveRoot({ controlsMountId }: P
             }))
           }
         >
-          重置 θ = 45°
+          重設 θ = 45°
         </button>
       </div>
     </WorkControlsPortal>

@@ -521,7 +521,7 @@ function drawBottomLegend(p: p5, area: Rect, rows: DistributionRow[], state: Run
   if (state.mode === 'position') label = '拖動長條：質量重分配，總和維持 1';
   else if (state.mode === 'spread') label = '同一中心：比較質量離 μ 的距離';
   else if (state.tailModel === 'binomial') label = `固定上界：X = 0, 1, ..., ${Math.round(state.n)}`;
-  else label = `${rows[rows.length - 1].label} 是尾巴收納桶；統計仍讀無限幾何分布`;
+  else label = `${rows[rows.length - 1].label} 是尾巴收納桶；統計仍讀無限幾何分佈`;
 
   fillWhite(p, 95);
   p.noStroke();
@@ -573,7 +573,7 @@ function drawParamSection(
     drawSmallHint(p, area.x, y, '在主圖拖動長條高度');
     y += 24;
 
-    return drawSmallButton(p, area.x, y, area.w, '重置質量', 'reset', 'position', ui);
+    return drawSmallButton(p, area.x, y, area.w, '重設質量', 'reset', 'position', ui);
   }
 
   if (state.mode === 'spread') {

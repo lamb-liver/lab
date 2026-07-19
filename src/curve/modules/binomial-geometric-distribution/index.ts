@@ -38,10 +38,10 @@ export const binomialGeometricDistributionModule: CurveModule = {
         : 'P(X=k)=(1-p)^k p';
 
     return {
-      title: '二項分布與幾何分布',
+      title: '二項分佈與幾何分佈',
       formula,
       stats: [
-        { key: 'mode', label: '分布', value: MODE_LABELS[data.dist] },
+        { key: 'mode', label: '分佈', value: MODE_LABELS[data.dist] },
         { key: 'p', label: 'p', value: percent(data.p) },
         ...(data.dist === 'binomial' ? [{ key: 'n', label: 'n', value: data.n }] : []),
         { key: 'support', label: '支撐', value: data.supportLabel },

@@ -100,7 +100,7 @@ export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId 
           反轉 y
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.points = createScatterPoints(paramsFromValues(next.params)); next.selectedIndex = -1; })}>
-          重置
+          重設
         </button>
       </div>
     </WorkControlsPortal>

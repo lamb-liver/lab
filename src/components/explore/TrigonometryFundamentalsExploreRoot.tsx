@@ -216,7 +216,7 @@ export default function TrigonometryFundamentalsExploreRoot() {
                 className="trig-explore__reset-btn"
                 onClick={() => setParams((prev) => ({ ...prev, triangle: resetTriangle() }))}
               >
-                重置三角形
+                重設三角形
               </button>
             </div>
           )}

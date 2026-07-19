@@ -100,7 +100,7 @@ export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
           aria-pressed={false}
           onClick={() => updateState(resetValues)}
         >
-          重置
+          重設
         </button>
       </div>
 

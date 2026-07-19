@@ -480,7 +480,7 @@ export default function SequencesAndSeriesExploreRoot() {
               >
                 <option value="sequence">數列圖像</option>
                 <option value="series">級數累加</option>
-                <option value="logistic">邏輯斯諦迭代</option>
+                <option value="logistic">單峰疊代</option>
               </select>
             </label>
 
@@ -696,7 +696,7 @@ export default function SequencesAndSeriesExploreRoot() {
                 />
                 <RangeControl
                   id="logistic-iter"
-                  label="迭代數"
+                  label="疊代數"
                   min={20}
                   max={220}
                   step={1}

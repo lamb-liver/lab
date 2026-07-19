@@ -1,0 +1,49 @@
+/* 試題視覺化詳情頁：來源標記與延伸連結。版面主體沿用 explore-detail.css。 */
+
+.exam-source-label {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.exam-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+}
+
+.exam-source-links a {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.exam-source-links a:hover,
+.exam-source-links a:focus-visible {
+  color: var(--color-text);
+}
+
+.exam-related {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.exam-related h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.exam-related ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}

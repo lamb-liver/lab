@@ -1,0 +1,54 @@
+---
+import '../styles/components/card.css';
+import CardThumbFallback from './CardThumbFallback.astro';
+import type { ExamQuestionType, ExamSubject } from '../content.config';
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  subject: ExamSubject;
+  year: number;
+  questionType: ExamQuestionType;
+  questionNo: string;
+  concepts: string[];
+  draft?: boolean;
+}
+
+const {
+  slug,
+  title,
+  description,
+  subject,
+  year,
+  questionType,
+  questionNo,
+  concepts,
+  draft = false,
+} = Astro.props;
+const sourceLabel = `${year} ${subject}・${questionType}${questionNo}`;
+---
+
+<article
+  class:list={['card', 'card--explore']}
+  data-filter-item
+  data-filter-category={subject}
+  data-search-slug={slug}
+>
+  <a href={`/exam/${slug}`} class="card__link-wrap">
+    <span class="card__kind card__kind--explore">{draft ? '草稿' : '試題視覺化'}</span>
+    <div class="card__thumb" aria-hidden="true">
+      <CardThumbFallback />
+    </div>
+    <div class="card__body">
+      <div class="card__title-row">
+        <h3 class="card__title">{title}</h3>
+      </div>
+      <div class="card__tags">
+        <span class="card__tag">{sourceLabel}</span>
+        {concepts.slice(0, 2).map((concept) => <span class="card__tag">{concept}</span>)}
+      </div>
+      <p class="card__desc">{description}</p>
+    </div>
+  </a>
+</article>

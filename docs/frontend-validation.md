@@ -48,6 +48,34 @@ Examples:
 - Button/form behavior: audit/test/build/DOM, screenshot only if appearance changed.
 - CSS, chart, canvas, responsive layout, hero, image, or visual polish: audit/test/build/DOM plus screenshot.
 
+## p5 驅動的介面：截圖是必要的，不是可選的
+
+有些頁面的側欄讀數由 p5 的 draw loop 推動，而不是直接來自 React state
+（`matrix-linear-transform`、`exponential-logarithm` 的狀態區都是這樣：
+draw 每隔 `SIDEBAR_UPDATE_INTERVAL_MS` 呼叫一次 `setSidebar`）。
+
+瀏覽器在沒有實際繪製時會節流 `requestAnimationFrame`。**只用 JavaScript 求值而不觸發繪製時，
+draw loop 不會跑**，於是：
+
+- 側欄讀數停在初始值，看起來像「切換模式沒有反應」
+- `canvas.getContext('2d').getImageData()` 讀回全黑，看起來像「畫布沒有內容」
+
+2026-07-19 就因此誤判 `matrix-linear-transform` 有 bug 並回報出去。實際上一截圖強制繪製，
+模式切換、矩陣讀數、AB／BA 並列全部正常。
+
+規則：
+
+- 驗證 p5 驅動的狀態時，**先截圖再下結論**。截圖會強制一次繪製。
+- 不要只根據 DOM 文字或 `getImageData` 就宣告 canvas 頁面有 bug。
+- 純 React state 的讀數（值隨 props 改變而更新）不受影響，DOM 讀取可信。
+- 若 DOM 與截圖不一致，以截圖為準，並懷疑自己的驗證方式而不是產品程式碼。
+
+## 文案與控制項一致性
+
+`## 互動說明` 的粗體標籤必須對應真實存在的控制項。這條由
+`audit:explore-controls` 與 `audit:work-controls` 強制，契約與例外規則見
+`content-interaction-contract.md`。
+
 ## Report Format
 
 ```text
