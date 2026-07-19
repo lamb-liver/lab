@@ -1,58 +1,75 @@
-import { defaultsFromSchema } from '../../defaults';
-import { BASE_POINT_STEP } from '../../constants';
-import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurveModule, ParamSchema, ParamValues } from '../../types';
+import {
+  DEFAULT_PLANE_NORMAL_DISTANCE_PARAMS,
+  computePlaneNormalDistanceMetrics,
+  distanceFromGeneralForm,
+  formatGeneralForm,
+  formatVec3,
+  samplePlaneNormalDistanceThumbnail,
+  type PlaneNormalDistanceParams,
+} from './geometry';
 
-const RADIUS = 200;
+/** 控制項由 PlaneNormalDistanceCurveRoot 自行渲染 */
+const paramSchema: ParamSchema = [];
 
-const paramSchema: ParamSchema = [
-  { key: 'n', label: '待命名參數 n', min: 1, max: 8, step: 1, default: 3 },
-];
-
-function sampleCurve(params: ParamValues, step: number): CurvePoint[] {
-  const n = Math.round(params.n);
-  if (n <= 0 || step <= 0) return [];
-
-  const points: CurvePoint[] = [];
-  let cumulative = 0;
-  let prevX = 0;
-  let prevY = 0;
-
-  for (let theta = 0; theta <= 2 * Math.PI; theta += step) {
-    // 待替換：佔位幾何 r = R·(0.6 + 0.4·cos(nθ))
-    const r = RADIUS * (0.6 + 0.4 * Math.cos(n * theta));
-    const x = r * Math.cos(theta);
-    const y = r * Math.sin(theta);
-
-    if (points.length > 0) {
-      cumulative += Math.hypot(x - prevX, y - prevY);
-    }
-
-    points.push({ x, y, theta, arcLength: cumulative });
-    prevX = x;
-    prevY = y;
-  }
-
-  return points;
+export function asPlaneNormalDistanceParams(
+  params: ParamValues | PlaneNormalDistanceParams,
+): PlaneNormalDistanceParams {
+  const fallback = DEFAULT_PLANE_NORMAL_DISTANCE_PARAMS;
+  return {
+    planeTilt: (params.planeTilt as number) ?? fallback.planeTilt,
+    planeAzimuth: (params.planeAzimuth as number) ?? fallback.planeAzimuth,
+    h: (params.h as number) ?? fallback.h,
+    pointZ: (params.pointZ as number) ?? fallback.pointZ,
+    pointX: (params.pointX as number) ?? fallback.pointX,
+    scale: (params.scale as number) ?? fallback.scale,
+    yaw: (params.yaw as number) ?? fallback.yaw,
+    pitch: (params.pitch as number) ?? fallback.pitch,
+  };
 }
 
 export const planeNormalDistanceModule: CurveModule = {
   id: 'plane-normal-distance',
   paramSchema,
-  defaultParams: defaultsFromSchema(paramSchema),
-  sample: (params, { step, purpose }) => {
-    const points = sampleCurve(params, step);
-    if (purpose === 'thumbnail') {
-      const spec: ThumbnailSpec = {
-        paths: [{ points, closed: true }],
-      };
-      return spec;
-    }
-    return points;
+  defaultParams: { ...DEFAULT_PLANE_NORMAL_DISTANCE_PARAMS },
+  sample: (params, { purpose }) => {
+    const spec = samplePlaneNormalDistanceThumbnail(asPlaneNormalDistanceParams(params));
+    if (purpose === 'thumbnail') return spec;
+    return spec.paths[0]?.points ?? [];
   },
-  getMetadata: (params) => ({
-    title: '平面法向量與點面距離',
-    formula: '待補公式',
-    stats: [{ key: 'n', label: 'n', value: Math.round(params.n) }],
-  }),
-  sampleStep: BASE_POINT_STEP,
+  getMetadata: (params) => {
+    const distanceParams = asPlaneNormalDistanceParams(params);
+    const metrics = computePlaneNormalDistanceMetrics(distanceParams);
+    const viaGeneralForm = distanceFromGeneralForm(
+      metrics.coefficients,
+      metrics.constant,
+      metrics.point,
+    );
+
+    return {
+      title: '平面法向量與點面距離',
+      formula: 'dist = |a x₁ + b y₁ + c z₁ − h| / ‖n‖',
+      stats: [
+        { key: 'plane', label: '一般式', value: formatGeneralForm(metrics.coefficients, metrics.constant) },
+        { key: 'point', label: 'P₁', value: formatVec3(metrics.point) },
+        { key: 'dist', label: '距離', value: metrics.distance.toFixed(3) },
+        {
+          key: 'signed',
+          label: '帶號距離',
+          value: `${metrics.signedDistance.toFixed(3)}（${
+            metrics.signedDistance >= 0 ? '法向那一側' : '法向反側'
+          }）`,
+        },
+        { key: 'foot', label: '垂足', value: formatVec3(metrics.foot) },
+        {
+          key: 'scale',
+          label: '尺度不變',
+          value: `一般式算出 ${viaGeneralForm.toFixed(3)}，與尺度 k 無關`,
+        },
+      ],
+    };
+  },
+  animation: { lerp: 1, revealSpeed: 0 },
 };
+
+export type { PlaneNormalDistanceParams };
