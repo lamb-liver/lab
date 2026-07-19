@@ -1,14 +1,15 @@
 # 文案風格規範（Text Style）
 
-> **適用**：`src/content/explore/*.md`、`src/content/works/*.md` 的 Markdown 正文與 frontmatter。  
+> **適用**：`src/content/explore/*.md`、`src/content/works/*.md`、`src/content/exam/*.md`
+> 的 Markdown 正文與 frontmatter。  
 > **不適用**：`art.md`、`workart.md`、`exploreart.md`、`p5toreact.md`、`reactkey.md`、`README.md` 等工程規格（表格、英文識別符、程式路徑為主，見 §10）。
 > 互動工程見 [`p5toreact.md`](p5toreact.md)；canvas 視覺入口見 [`art.md`](art.md)。
 
 ---
 
-## 0. 審查摘要（2026-06-21）
+## 0. 審查摘要（2026-07-19）
 
-全站 content 共 **89 篇**：Explore **20**（public 17 · draft 3），Works **69**（public 61 · draft 8）。
+全站 content 共 **90 篇**：Explore **20**（public 18 · draft 2）、Works **69**（public 62 · draft 7）、Exam **1**（draft 1，尚未公開）。
 
 ### 0.1 目前驗證
 
@@ -16,6 +17,9 @@
 |------|------|
 | `npm run audit:content` | frontmatter、published placeholder、published-to-draft internal links |
 | `npm test -- src/content/contentAudit.test.ts` | description 數學格式、互動說明、觀察重點與 content 檔案讀取 |
+| `npm run audit:explore-controls` | explore 的 `## 互動說明` 粗體標籤是否對應真實控制項 |
+| `npm run audit:work-controls` | works 同上（僅已發布；範圍與盲區見 `content-interaction-contract.md`） |
+| `npm run test:seo-ux` | 列表卡片的標題與 description 是否與 frontmatter 一致 |
 
 ### 0.2 已完成的歷史批次
 

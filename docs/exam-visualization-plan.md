@@ -119,7 +119,7 @@ scripts/new-exam.mjs                   # 比照 new-explore.mjs，加 --interact
 | E2 | `gsat-112-sinusoid-superposition` | 112 學測數A 多選10 | 三角函數圖形 | 疊合公式、對稱軸 f(a−x)=f(a+x)、半角 | p5 2D，a/b 滑桿即時疊合 + 對稱軸虛線 + 平移動畫 | 中 |
 | E3 | `gsat-112-skew-line-distance` | 112 學測數A 選填17 | 空間向量 | 外積求公垂向量、投影長 \|AB·n\|/\|n\| | p5 2D + 自寫投影，拖曳視角，動態公垂線段 | 高 |
 | E4 | `ast-114-solid-of-revolution` | 114 分科數甲 | 積分應用 | 圓盤法 V=π∫f(x)²dx、黎曼和 | p5 2D + 投影線框，掃掠動畫 + 切片數 n 滑桿 | 高 |
-| E5 | `ast-113-geometric-distribution` | 113 分科數甲 | 機率分布 | 幾何分布 P(X=n)=0.9ⁿ⁻¹·0.1、無窮級數、大數法則 | Monte Carlo，一萬次直方圖累積 + 均值收斂折線 | 中 |
+| E5 | `ast-113-geometric-distribution` | 113 分科數甲 | 機率分佈 | 幾何分佈 P(X=n)=0.9ⁿ⁻¹·0.1、無窮級數、大數法則 | Monte Carlo，一萬次直方圖累積 + 均值收斂折線 | 中 |
 
 選題理由（答對率／鑑別度依據）記在各自的 `.md` 內文「為什麼會錯」段落，附 `analysisUrl`。
 
