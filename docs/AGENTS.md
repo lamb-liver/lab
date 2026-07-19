@@ -39,6 +39,7 @@ Cursor rules are not canonical runtime specifications.
 | p5 to React integration and rendering pipeline | `p5toreact.md` |
 | Morph animation lifecycle | `reactkey.md` |
 | Content writing style | `textstyle.md` |
+| Content ↔ interaction consistency | `content-interaction-contract.md` |
 | Site shell UX (nav, lists, detail chrome) | `site-ux.md` |
 
 ## Validation

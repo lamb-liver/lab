@@ -10,8 +10,8 @@ This document is the system map for AI agents and maintainers. It does not repla
 
 | System | Owns | Canonical detail |
 |--------|------|------------------|
-| Works content | `src/content/works/*.md` | `textstyle.md` |
-| Explore content | `src/content/explore/*.md` | `textstyle.md` |
+| Works content | `src/content/works/*.md` | `textstyle.md`, `content-interaction-contract.md` |
+| Explore content | `src/content/explore/*.md` | `textstyle.md`, `content-interaction-contract.md` |
 | Site shell UX | Astro layouts, list filter, nav/footer | `site-ux.md` |
 | Work geometry modules | `src/curve/modules/*` | `p5toreact.md` |
 | Work runtime mounting | `src/components/works/*CurveRoot.tsx`, `WorkInteractiveStage.tsx` | `p5toreact.md`, `reactkey.md` |
