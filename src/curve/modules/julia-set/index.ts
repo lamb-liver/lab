@@ -9,7 +9,7 @@ const paramSchema: ParamSchema = [
   { key: 'cy', label: 'c 虛部 Im(c)', min: -0.5, max: 0.5, step: 0.001, default: 0.189 },
   {
     key: 'maxIter',
-    label: '最大迭代',
+    label: '最大疊代',
     min: 80,
     max: 220,
     step: 10,

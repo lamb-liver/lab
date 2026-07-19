@@ -30,7 +30,7 @@ export default function BinomialGeometricDistributionCurveRoot({ controlsMountId
 
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
-      <div className="curve-work-mode-toggle" aria-label="分布">
+      <div className="curve-work-mode-toggle" aria-label="分佈">
         {modeOptions.map((option) => (
           <button
             key={option.value}
@@ -62,7 +62,7 @@ export default function BinomialGeometricDistributionCurveRoot({ controlsMountId
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="二項分布與幾何分布互動視覺化"
+        aria-label="二項分佈與幾何分佈互動視覺化"
       />
       {controls}
     </>
