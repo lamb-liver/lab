@@ -82,10 +82,7 @@
 
 ## 已知未解
 
-- **兩道 content 稽核的覆蓋範圍不一致**：`scripts/audit-content.mjs`（CLI）已涵蓋 exam，
-  但 `src/content/contentAudit.ts`（vitest）仍只讀 works 與 explore。exam 的章節結構不同
-  （題意／為什麼會錯／觀察／互動怎麼看），要納入得先為它定義規則。exam 目前是單篇草稿且未公開，
-  影響有限，但公開前必須補上。
+（目前沒有。）
 
 ## 教訓：找不到控制項，先確認它是不是畫布互動
 

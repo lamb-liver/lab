@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { auditContentFiles, readContentFiles } from './contentAudit';
 
-function countContentFiles(collection: 'works' | 'explore') {
+function countContentFiles(collection: 'works' | 'explore' | 'exam') {
   return readdirSync(join(process.cwd(), 'src/content', collection)).filter(
     (name) => name.endsWith('.md') || name.endsWith('.mdx'),
   ).length;
@@ -74,6 +74,24 @@ describe('content audit', () => {
         ].join('\n'),
       },
       {
+        collection: 'exam' as const,
+        path: 'src/content/exam/missing-sections.md',
+        body: [
+          '---',
+          'title: 測試試題',
+          'description: 旋轉變換的合成順序',
+          'subject: 學測數A',
+          '---',
+          '## 題意',
+          '',
+          '兩個旋轉變換先後套用。',
+          '',
+          '## 為什麼會錯',
+          '',
+          '看不見矩陣在動什麼。',
+        ].join('\n'),
+      },
+      {
         collection: 'explore' as const,
         path: 'src/content/explore/missing-observation.md',
         body: [
@@ -112,17 +130,21 @@ describe('content audit', () => {
           'src/content/explore/missing-observation.md',
           'explore content must include ## 觀察重點',
         ],
+        ['src/content/exam/missing-sections.md', 'exam content must include ## 觀念'],
+        ['src/content/exam/missing-sections.md', 'exam content must include ## 互動怎麼看'],
       ]),
     );
   });
 
-  it('covers every content file in works and explore', () => {
+  it('covers every content file in works, explore, and exam', () => {
     const files = readContentFiles();
     const worksCount = countContentFiles('works');
     const exploreCount = countContentFiles('explore');
+    const examCount = countContentFiles('exam');
 
-    expect(files).toHaveLength(worksCount + exploreCount);
+    expect(files).toHaveLength(worksCount + exploreCount + examCount);
     expect(files.filter((file) => file.collection === 'works')).toHaveLength(worksCount);
     expect(files.filter((file) => file.collection === 'explore')).toHaveLength(exploreCount);
+    expect(files.filter((file) => file.collection === 'exam')).toHaveLength(examCount);
   });
 });
