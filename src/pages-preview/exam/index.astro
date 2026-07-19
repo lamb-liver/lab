@@ -1,0 +1,97 @@
+---
+// 試題視覺化列表。此檔不在 src/pages 下，只由 astro.config.mjs 的 exam-preview
+// integration 在 dev 或 EXAM_PREVIEW=1 時注入路由，正式 build 不會產出。
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ListSearchFilterScript from '../../components/ListSearchFilterScript.astro';
+import FilterBar from '../../components/FilterBar.astro';
+import ExamCard from '../../components/ExamCard.astro';
+import { getCollection } from 'astro:content';
+import { collectExamSubjects, getPublishedAsc } from '../../content/utils';
+import { serializeSearchIndex } from '../../lib/listFilter';
+import { siteSeo } from '../../lib/seoCopy';
+import '../../styles/components/list-search.css';
+
+// 預覽階段連 draft 一起列出，否則列表會是空的。
+const all = await getCollection('exam');
+const exams = import.meta.env.DEV
+  ? [...all].sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id))
+  : getPublishedAsc(all);
+const subjectOptions = collectExamSubjects(exams);
+const searchIndex = exams.map((entry) => ({
+  slug: entry.id,
+  title: entry.data.title,
+  description: `${entry.data.year} ${entry.data.subject} ${entry.data.questionType}${entry.data.questionNo} ${entry.data.description} ${entry.data.concepts.join(' ')}`,
+}));
+---
+
+<BaseLayout title={siteSeo.exam.title} description={siteSeo.exam.description} ogType="website" noindex>
+  <div
+    class="container"
+    data-list-filter
+    data-filter-param="subject"
+    data-search-param="q"
+    data-search-index-id="exam-search-index"
+    data-filter-count-unit="題"
+  >
+    <header class="page-header">
+      <span class="section-badge section-badge--work">尚未公開</span>
+      <h1>試題視覺化</h1>
+      <p class="page-lead">
+        從一道歷屆試題出發：先看清楚全體考生卡在哪個心智步驟，再用互動把那一步拆開。
+      </p>
+    </header>
+
+    <section class="list-controls" aria-label="試題列表工具">
+      <div class="list-controls__top">
+        <div class="list-search">
+          <label class="list-search__label" for="exam-search-input">搜尋試題</label>
+          <input
+            id="exam-search-input"
+            class="list-search__input"
+            type="search"
+            name="q"
+            placeholder="搜尋標題、觀念或年份…"
+            autocomplete="off"
+            spellcheck="false"
+            data-list-search-input
+          />
+        </div>
+
+        <p class="list-filter-count" data-filter-count aria-live="polite">共 {exams.length} 題</p>
+      </div>
+
+      <FilterBar options={subjectOptions} ariaLabel="試題考科篩選" />
+    </section>
+
+    <script
+      type="application/json"
+      id="exam-search-index"
+      set:html={serializeSearchIndex(searchIndex)}
+    />
+
+    <div class="card-grid" data-card-grid>
+      {
+        exams.map((entry) => (
+          <ExamCard
+            slug={entry.id}
+            title={entry.data.title}
+            description={entry.data.description}
+            subject={entry.data.subject}
+            year={entry.data.year}
+            questionType={entry.data.questionType}
+            questionNo={entry.data.questionNo}
+            concepts={entry.data.concepts}
+            draft={entry.data.draft}
+          />
+        ))
+      }
+    </div>
+
+    <p class="filter-empty" data-filter-empty hidden>
+      找不到符合的試題
+      <button type="button" class="filter-empty__clear" data-filter-clear>清除篩選</button>
+    </p>
+  </div>
+
+  <ListSearchFilterScript />
+</BaseLayout>

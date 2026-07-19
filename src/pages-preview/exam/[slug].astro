@@ -1,0 +1,98 @@
+---
+// 試題視覺化詳情。同 index.astro，只在 dev 或 EXAM_PREVIEW=1 時被注入路由。
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
+import { getCollection, render } from 'astro:content';
+import { getStaticPathsFromCollection } from '../../content/utils';
+import 'katex/dist/katex.min.css';
+import '../../styles/components/canvas.css';
+import '../../styles/prose.css';
+import '../../styles/pages/explore-detail.css';
+import '../../styles/pages/exam-detail.css';
+
+export async function getStaticPaths() {
+  const exam = await getCollection('exam');
+  return getStaticPathsFromCollection(exam, { includeDraft: import.meta.env.DEV });
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { subject, year, questionType, questionNo } = entry.data;
+const sourceLabel = `${year} ${subject}・${questionType}${questionNo}`;
+
+const works = await getCollection('works');
+const explore = await getCollection('explore');
+const relatedWorks = entry.data.relatedWorks
+  .map((slug) => works.find((work) => work.id === slug))
+  .filter((work) => work !== undefined);
+const relatedExplore = entry.data.relatedExplore
+  .map((slug) => explore.find((topic) => topic.id === slug))
+  .filter((topic) => topic !== undefined);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description} ogType="article" noindex>
+  <div class="container explore-detail">
+    <div class="detail-top-nav">
+      <Breadcrumb
+        items={[
+          { label: '首頁', href: '/' },
+          { label: '試題視覺化', href: '/exam' },
+          { label: entry.data.title },
+        ]}
+      />
+      <a href="/exam" class="back-link back-link--top">← 返回試題視覺化</a>
+    </div>
+
+    <header class="page-header">
+      <p class="exam-source-label">{sourceLabel}</p>
+      <h1>{entry.data.title}</h1>
+      <div class="tag-list">
+        <span class="tag">{entry.data.unit}</span>
+        {entry.data.concepts.map((concept) => <span class="tag">{concept}</span>)}
+      </div>
+      {
+        entry.data.sourceUrl ? (
+          <p class="exam-source-links">
+            <a href={entry.data.sourceUrl} rel="noopener noreferrer" target="_blank">
+              大考中心原卷
+            </a>
+            {entry.data.analysisUrl ? (
+              <a href={entry.data.analysisUrl} rel="noopener noreferrer" target="_blank">
+                答對率與解析
+              </a>
+            ) : null}
+          </p>
+        ) : null
+      }
+    </header>
+
+    <CanvasPlaceholder class="interactive-canvas" />
+
+    <article class="prose">
+      <Content />
+    </article>
+
+    {
+      relatedExplore.length > 0 || relatedWorks.length > 0 ? (
+        <section class="exam-related" aria-label="延伸閱讀">
+          <h2>延伸</h2>
+          <ul>
+            {relatedExplore.map((topic) => (
+              <li>
+                <a href={`/explore/${topic.id}`}>主題導覽：{topic.data.title}</a>
+              </li>
+            ))}
+            {relatedWorks.map((work) => (
+              <li>
+                <a href={`/works/${work.id}`}>作品：{work.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null
+    }
+
+    <a href="/exam" class="back-link">← 返回試題視覺化</a>
+  </div>
+</BaseLayout>
