@@ -24,12 +24,13 @@ describe('explore collection pager', () => {
       'rational-functions-asymptotes',
       'trig-function-graphs',
       'data-analysis',
+      'discrete-random-variables',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'data-analysis');
-    expect(previous?.id).toBe('trig-function-graphs');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'discrete-random-variables');
+    expect(previous?.id).toBe('data-analysis');
     expect(next).toBeNull();
   });
 

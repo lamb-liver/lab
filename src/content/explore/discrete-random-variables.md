@@ -2,10 +2,11 @@
 title: 離散隨機變數與分布
 description: 同一張機率長條圖可讀成重心、展寬與尾端形狀；比較機率質量如何隨計數問題重新分配。
 category: 統計
-date: 2026-06-10
-order: 0
+date: 2026-07-19
+order: 18
+coverImage: /images/explore-covers/discrete-random-variables.png
 featured: false
-draft: true
+draft: false
 ---
 
 ## 基本概念

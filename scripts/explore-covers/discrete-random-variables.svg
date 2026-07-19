@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+
+  <line x1="270" y1="760" x2="1120" y2="760" stroke="#D8D8D8" stroke-width="4" opacity="0.2" stroke-linecap="round"/>
+  <line x1="270" y1="760" x2="270" y2="230" stroke="#D8D8D8" stroke-width="4" opacity="0.2" stroke-linecap="round"/>
+
+  <rect x="310" y="670" width="70" height="90" fill="rgba(212,184,122,0.22)" stroke="#D4B87A" stroke-width="4" opacity="0.78"/>
+  <rect x="400" y="620" width="70" height="140" fill="rgba(212,184,122,0.24)" stroke="#D4B87A" stroke-width="4" opacity="0.82"/>
+  <rect x="490" y="540" width="70" height="220" fill="rgba(212,184,122,0.26)" stroke="#D4B87A" stroke-width="4" opacity="0.86"/>
+  <rect x="580" y="430" width="70" height="330" fill="rgba(212,184,122,0.28)" stroke="#D4B87A" stroke-width="4" opacity="0.9"/>
+  <rect x="670" y="330" width="70" height="430" fill="rgba(212,184,122,0.34)" stroke="#D4B87A" stroke-width="5" opacity="0.95" filter="url(#softGlow)"/>
+  <rect x="760" y="430" width="70" height="330" fill="rgba(212,184,122,0.28)" stroke="#D4B87A" stroke-width="4" opacity="0.9"/>
+  <rect x="850" y="540" width="70" height="220" fill="rgba(212,184,122,0.26)" stroke="#D4B87A" stroke-width="4" opacity="0.86"/>
+  <rect x="940" y="620" width="70" height="140" fill="rgba(212,184,122,0.24)" stroke="#D4B87A" stroke-width="4" opacity="0.82"/>
+  <rect x="1030" y="670" width="70" height="90" fill="rgba(212,184,122,0.22)" stroke="#D4B87A" stroke-width="4" opacity="0.78"/>
+
+  <line x1="705" y1="250" x2="705" y2="800" stroke="#D8D8D8" stroke-width="5" opacity="0.72" stroke-linecap="round" stroke-dasharray="20 16"/>
+  <circle cx="705" cy="250" r="13" fill="#D4B87A" opacity="0.95" filter="url(#goldGlow)"/>
+
+  <line x1="525" y1="840" x2="885" y2="840" stroke="#D8D8D8" stroke-width="5" opacity="0.34" stroke-linecap="round"/>
+  <line x1="525" y1="812" x2="525" y2="868" stroke="#D8D8D8" stroke-width="5" opacity="0.34" stroke-linecap="round"/>
+  <line x1="885" y1="812" x2="885" y2="868" stroke="#D8D8D8" stroke-width="5" opacity="0.34" stroke-linecap="round"/>
+
+  <line x1="1200" y1="760" x2="1520" y2="760" stroke="#D8D8D8" stroke-width="4" opacity="0.2" stroke-linecap="round"/>
+  <line x1="1200" y1="760" x2="1200" y2="330" stroke="#D8D8D8" stroke-width="4" opacity="0.2" stroke-linecap="round"/>
+
+  <rect x="1220" y="380" width="48" height="380" fill="rgba(93,173,226,0.2)" stroke="#5DADE2" stroke-width="4" opacity="0.85"/>
+  <rect x="1282" y="532" width="48" height="228" fill="rgba(93,173,226,0.18)" stroke="#5DADE2" stroke-width="4" opacity="0.78"/>
+  <rect x="1344" y="623" width="48" height="137" fill="rgba(93,173,226,0.16)" stroke="#5DADE2" stroke-width="4" opacity="0.7"/>
+  <rect x="1406" y="678" width="48" height="82" fill="rgba(93,173,226,0.14)" stroke="#5DADE2" stroke-width="4" opacity="0.62"/>
+  <rect x="1468" y="711" width="48" height="49" fill="rgba(93,173,226,0.12)" stroke="#5DADE2" stroke-width="4" opacity="0.54"/>
+
+  <path d="M 1244 380 Q 1330 470 1400 640 T 1516 736" fill="none" stroke="#E76F51" stroke-width="5" opacity="0.55" stroke-linecap="round" stroke-dasharray="16 14"/>
+</svg>
