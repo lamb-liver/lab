@@ -26,6 +26,8 @@ const slugs = requested?.length ? requested : [...exploreInteractiveSlugs].sort(
 const canvasOnlyInteractions: Record<string, string[]> = {
   // DifferentialEquationsGeometryExploreRoot.tsx: p.mousePressed 於畫布上加點
   'differential-equations-geometry': ['初始條件'],
+  // useOrbitViewP5.ts: p.mousePressed/mouseDragged 拖曳改變 yaw、pitch
+  'space-vectors-planes-lines': ['拖動畫面旋轉視角'],
 };
 
 test.describe('explore 文案與介面控制項一致', () => {
