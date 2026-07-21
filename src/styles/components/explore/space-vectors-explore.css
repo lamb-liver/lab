@@ -89,3 +89,18 @@
 .space-vectors-explore__sidebar .control-field + .control-field {
   margin-top: var(--space-2);
 }
+
+/*
+ * explore-stage.css 沒有共用的 RWD，每個 slug 的樣式表要自己讓兩欄堆疊；
+ * 少了這段，手機上側欄仍佔 36vw，畫布會被擠成約 150px 而無法操作。
+ */
+@media (max-width: 768px) {
+  .space-vectors-explore__stage {
+    grid-template-columns: 1fr;
+  }
+
+  .space-vectors-explore__sidebar {
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+  }
+}
