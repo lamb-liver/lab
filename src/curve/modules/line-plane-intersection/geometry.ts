@@ -2,8 +2,13 @@ import type { CurvePoint, ThumbnailSpec } from '../../types';
 import {
   addVec3,
   degToRad,
+  directionFromAngles,
   dotVec3,
+  formatVec3,
   normalizeVec3,
+  planeAnchor,
+  planeBasis,
+  planeQuad,
   project,
   scaleVec3,
   vec3,
@@ -65,17 +70,6 @@ export function viewFromParams(params: LinePlaneParams): ViewAngles {
   return { yaw: degToRad(params.yaw), pitch: degToRad(params.pitch) };
 }
 
-/** 用仰角與方位表示單位向量，避免暴露三個彼此相關的分量滑桿 */
-export function directionFromAngles(tiltDeg: number, azimuthDeg: number): Vec3 {
-  const tilt = degToRad(tiltDeg);
-  const azimuth = degToRad(azimuthDeg);
-  return vec3(
-    Math.cos(tilt) * Math.cos(azimuth),
-    Math.cos(tilt) * Math.sin(azimuth),
-    Math.sin(tilt),
-  );
-}
-
 export function computeLinePlaneMetrics(params: LinePlaneParams): LinePlaneMetrics {
   const n = directionFromAngles(params.planeTilt, params.planeAzimuth);
   const d = directionFromAngles(params.lineTilt, params.lineAzimuth);
@@ -114,49 +108,10 @@ export function pointOnLine(metrics: LinePlaneMetrics, t: number): Vec3 {
   return addVec3(metrics.r0, scaleVec3(metrics.d, t));
 }
 
-/**
- * 平面上的一組正交基，用來畫出有限大小的平面方塊。
- * 取任一與 n 不平行的向量做外積即可。
- */
-export function planeBasis(n: Vec3): { u: Vec3; v: Vec3 } {
-  const seed = Math.abs(n.z) > 0.9 ? vec3(1, 0, 0) : vec3(0, 0, 1);
-  const u = normalizeVec3(vec3(
-    n.y * seed.z - n.z * seed.y,
-    n.z * seed.x - n.x * seed.z,
-    n.x * seed.y - n.y * seed.x,
-  ));
-  const v = normalizeVec3(vec3(
-    n.y * u.z - n.z * u.y,
-    n.z * u.x - n.x * u.z,
-    n.x * u.y - n.y * u.x,
-  ));
-  return { u, v };
-}
-
-/** 平面 n·r = h 上距離原點最近的點 */
-export function planeAnchor(n: Vec3, h: number): Vec3 {
-  return scaleVec3(n, h);
-}
-
-export function planeQuad(n: Vec3, h: number, half: number): Vec3[] {
-  const anchor = planeAnchor(n, h);
-  const { u, v } = planeBasis(n);
-  return [
-    addVec3(anchor, addVec3(scaleVec3(u, -half), scaleVec3(v, -half))),
-    addVec3(anchor, addVec3(scaleVec3(u, half), scaleVec3(v, -half))),
-    addVec3(anchor, addVec3(scaleVec3(u, half), scaleVec3(v, half))),
-    addVec3(anchor, addVec3(scaleVec3(u, -half), scaleVec3(v, half))),
-  ];
-}
-
 export function stateLabel(state: IntersectionState): string {
   if (state === 'point') return '交於一點';
   if (state === 'parallel') return '平行且不相交';
   return '直線落在平面上';
-}
-
-export function formatVec3(v: Vec3): string {
-  return `(${v.x.toFixed(2)}, ${v.y.toFixed(2)}, ${v.z.toFixed(2)})`;
 }
 
 // ── 縮圖 ────────────────────────────────────────────────────────────────
@@ -200,3 +155,6 @@ export function sampleLinePlaneThumbnail(params: LinePlaneParams): ThumbnailSpec
     ],
   };
 }
+
+// 共用的向量數學集中在 projection3d，這裡再匯出讓呼叫端不必知道它搬過家
+export { directionFromAngles, planeAnchor, planeBasis, planeQuad, formatVec3 } from '../../projection3d';

@@ -10,8 +10,8 @@
 
 export type Vec3 = { x: number; y: number; z: number };
 
-/** 投影後的畫面座標；`depth` 供畫家演算法排序（越大越靠近觀察者） */
-export type Projected = { x: number; y: number; depth: number };
+/** 投影後的畫面座標 */
+export type Projected = { x: number; y: number };
 
 /** 觀察角度，單位為弧度 */
 export type ViewAngles = { yaw: number; pitch: number };
@@ -71,14 +71,8 @@ export function project(v: Vec3, view: ViewAngles): Projected {
 
   // 抬高視角：y 與 z 混合
   const y2 = y1 * sinPitch + z1 * cosPitch;
-  const depth = -y1 * cosPitch + z1 * sinPitch;
 
-  return { x: x1, y: y2, depth };
-}
-
-/** 依 depth 由遠到近排序，供需要遮蔽感的圖層使用 */
-export function sortByDepth<T extends { depth: number }>(items: T[]): T[] {
-  return [...items].sort((a, b) => a.depth - b.depth);
+  return { x: x1, y: y2 };
 }
 
 export const degToRad = (deg: number): number => (deg * Math.PI) / 180;
@@ -86,4 +80,46 @@ export const radToDeg = (rad: number): number => (rad * 180) / Math.PI;
 
 export function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
+}
+
+/**
+ * 用仰角與方位表示單位向量。
+ * 兩個角度必然給出單位向量，比三個彼此相關的分量滑桿好維持一致。
+ */
+export function directionFromAngles(tiltDeg: number, azimuthDeg: number): Vec3 {
+  const tilt = degToRad(tiltDeg);
+  const azimuth = degToRad(azimuthDeg);
+  return vec3(
+    Math.cos(tilt) * Math.cos(azimuth),
+    Math.cos(tilt) * Math.sin(azimuth),
+    Math.sin(tilt),
+  );
+}
+
+/** 平面上的一組正交單位基；取任一與 n 不平行的向量做外積即可 */
+export function planeBasis(n: Vec3): { u: Vec3; v: Vec3 } {
+  const seed = Math.abs(n.z) > 0.9 ? vec3(1, 0, 0) : vec3(0, 0, 1);
+  const u = normalizeVec3(crossVec3(n, seed));
+  return { u, v: normalizeVec3(crossVec3(n, u)) };
+}
+
+/** 平面 n̂·r = h 上距離原點最近的點 */
+export function planeAnchor(unitNormal: Vec3, h: number): Vec3 {
+  return scaleVec3(unitNormal, h);
+}
+
+/** 以錨點為中心、邊長 2·half 的正方形，四個角都滿足 n̂·r = h */
+export function planeQuad(unitNormal: Vec3, h: number, half: number): Vec3[] {
+  const anchor = planeAnchor(unitNormal, h);
+  const { u, v } = planeBasis(unitNormal);
+  return [
+    addVec3(anchor, addVec3(scaleVec3(u, -half), scaleVec3(v, -half))),
+    addVec3(anchor, addVec3(scaleVec3(u, half), scaleVec3(v, -half))),
+    addVec3(anchor, addVec3(scaleVec3(u, half), scaleVec3(v, half))),
+    addVec3(anchor, addVec3(scaleVec3(u, -half), scaleVec3(v, half))),
+  ];
+}
+
+export function formatVec3(v: Vec3): string {
+  return `(${v.x.toFixed(2)}, ${v.y.toFixed(2)}, ${v.z.toFixed(2)})`;
 }

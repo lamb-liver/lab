@@ -2,9 +2,13 @@ import type { CurvePoint, ThumbnailSpec } from '../../types';
 import {
   addVec3,
   degToRad,
+  directionFromAngles,
   dotVec3,
+  formatVec3,
   lengthVec3,
   normalizeVec3,
+  planeBasis,
+  planeQuad,
   project,
   scaleVec3,
   subVec3,
@@ -65,16 +69,6 @@ export function viewFromParams(params: PlaneNormalDistanceParams): ViewAngles {
   return { yaw: degToRad(params.yaw), pitch: degToRad(params.pitch) };
 }
 
-export function directionFromAngles(tiltDeg: number, azimuthDeg: number): Vec3 {
-  const tilt = degToRad(tiltDeg);
-  const azimuth = degToRad(azimuthDeg);
-  return vec3(
-    Math.cos(tilt) * Math.cos(azimuth),
-    Math.cos(tilt) * Math.sin(azimuth),
-    Math.sin(tilt),
-  );
-}
-
 export function computePlaneNormalDistanceMetrics(
   params: PlaneNormalDistanceParams,
 ): PlaneNormalDistanceMetrics {
@@ -107,37 +101,6 @@ export function distanceFromGeneralForm(
   const norm = lengthVec3(coefficients);
   if (norm < 1e-9) return Number.NaN;
   return Math.abs(dotVec3(coefficients, point) - constant) / norm;
-}
-
-/** 平面上的一組正交基，用來畫出有限大小的平面方塊 */
-export function planeBasis(n: Vec3): { u: Vec3; v: Vec3 } {
-  const seed = Math.abs(n.z) > 0.9 ? vec3(1, 0, 0) : vec3(0, 0, 1);
-  const u = normalizeVec3(vec3(
-    n.y * seed.z - n.z * seed.y,
-    n.z * seed.x - n.x * seed.z,
-    n.x * seed.y - n.y * seed.x,
-  ));
-  const v = normalizeVec3(vec3(
-    n.y * u.z - n.z * u.y,
-    n.z * u.x - n.x * u.z,
-    n.x * u.y - n.y * u.x,
-  ));
-  return { u, v };
-}
-
-export function planeQuad(unitNormal: Vec3, h: number, half: number): Vec3[] {
-  const anchor = scaleVec3(unitNormal, h);
-  const { u, v } = planeBasis(unitNormal);
-  return [
-    addVec3(anchor, addVec3(scaleVec3(u, -half), scaleVec3(v, -half))),
-    addVec3(anchor, addVec3(scaleVec3(u, half), scaleVec3(v, -half))),
-    addVec3(anchor, addVec3(scaleVec3(u, half), scaleVec3(v, half))),
-    addVec3(anchor, addVec3(scaleVec3(u, -half), scaleVec3(v, half))),
-  ];
-}
-
-export function formatVec3(v: Vec3): string {
-  return `(${v.x.toFixed(2)}, ${v.y.toFixed(2)}, ${v.z.toFixed(2)})`;
 }
 
 export function formatGeneralForm(coefficients: Vec3, constant: number): string {
@@ -192,3 +155,6 @@ export function samplePlaneNormalDistanceThumbnail(
     ],
   };
 }
+
+// 共用的向量數學集中在 projection3d，這裡再匯出讓呼叫端不必知道它搬過家
+export { directionFromAngles, planeBasis, planeQuad, formatVec3 } from '../../projection3d';

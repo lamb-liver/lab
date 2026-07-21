@@ -1,6 +1,7 @@
 import type { CurvePoint, ThumbnailSpec } from '../../types';
 import {
   degToRad,
+  formatVec3,
   lengthVec3,
   project,
   vec3,
@@ -94,10 +95,6 @@ export function vectorLength(params: SpaceVectorProjectionParams): number {
   return lengthVec3(vectorFromParams(params));
 }
 
-export function formatVec3(v: Vec3): string {
-  return `(${v.x.toFixed(2)}, ${v.y.toFixed(2)}, ${v.z.toFixed(2)})`;
-}
-
 // ── 縮圖 ────────────────────────────────────────────────────────────────
 
 /** |v| 最大約 √3·3.2 ≈ 5.5，乘上此尺度後仍落在 BASE_CANVAS_SIZE / 2 = 300 之內 */
@@ -152,3 +149,6 @@ export function sampleSpaceVectorProjectionThumbnail(
     ],
   };
 }
+
+// 共用的向量數學集中在 projection3d，這裡再匯出讓呼叫端不必知道它搬過家
+export { formatVec3 } from '../../projection3d';

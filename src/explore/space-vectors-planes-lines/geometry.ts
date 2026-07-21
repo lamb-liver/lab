@@ -1,9 +1,12 @@
 import {
   crossVec3,
   degToRad,
+  directionFromAngles,
   dotVec3,
+  formatVec3,
   lengthVec3,
   normalizeVec3,
+  planeQuad,
   scaleVec3,
   subVec3,
   vec3,
@@ -52,7 +55,8 @@ export type SpaceVectorsMetrics = {
 
 export const AXIS_LIMIT = 3;
 export const PLANE_HALF = 2.1;
-const IN_PLANE_EPS = 0.02;
+/** 與 line-plane-intersection 的退化判定用同一個量級；預設按鈕給的是精確的 0 */
+const IN_PLANE_EPS = 1e-3;
 
 export const DEFAULT_SPACE_VECTORS_PARAMS: SpaceVectorsParams = {
   vx: 1.9,
@@ -68,16 +72,6 @@ export const DEFAULT_SPACE_VECTORS_PARAMS: SpaceVectorsParams = {
 
 export function viewFromParams(params: SpaceVectorsParams): ViewAngles {
   return { yaw: degToRad(params.yaw), pitch: degToRad(params.pitch) };
-}
-
-export function directionFromAngles(tiltDeg: number, azimuthDeg: number): Vec3 {
-  const tilt = degToRad(tiltDeg);
-  const azimuth = degToRad(azimuthDeg);
-  return vec3(
-    Math.cos(tilt) * Math.cos(azimuth),
-    Math.cos(tilt) * Math.sin(azimuth),
-    Math.sin(tilt),
-  );
 }
 
 /**
@@ -127,45 +121,11 @@ export function footOnPlane(metrics: SpaceVectorsMetrics): Vec3 {
   return subVec3(metrics.v, scaleVec3(metrics.unitNormal, metrics.signedDistance));
 }
 
-export function planeQuad(unitNormal: Vec3, h: number, half: number): Vec3[] {
-  const anchor = scaleVec3(unitNormal, h);
-  const { a, b } = spanningVectors(unitNormal);
-  const u = normalizeVec3(a);
-  const w = normalizeVec3(b);
-  return [
-    vec3(
-      anchor.x - u.x * half - w.x * half,
-      anchor.y - u.y * half - w.y * half,
-      anchor.z - u.z * half - w.z * half,
-    ),
-    vec3(
-      anchor.x + u.x * half - w.x * half,
-      anchor.y + u.y * half - w.y * half,
-      anchor.z + u.z * half - w.z * half,
-    ),
-    vec3(
-      anchor.x + u.x * half + w.x * half,
-      anchor.y + u.y * half + w.y * half,
-      anchor.z + u.z * half + w.z * half,
-    ),
-    vec3(
-      anchor.x - u.x * half + w.x * half,
-      anchor.y - u.y * half + w.y * half,
-      anchor.z - u.z * half + w.z * half,
-    ),
-  ];
-}
-
 export function stateLabel(state: RelationState): string {
   if (state === 'inPlane') return 'v 落在平面內';
   if (state === 'parallel') return 'v 平行於平面';
   return 'v 與平面有距離';
 }
 
-export function vectorLength(v: Vec3): number {
-  return lengthVec3(v);
-}
-
-export function formatVec3(v: Vec3): string {
-  return `(${v.x.toFixed(2)}, ${v.y.toFixed(2)}, ${v.z.toFixed(2)})`;
-}
+// 共用的向量數學集中在 projection3d，這裡再匯出讓呼叫端不必知道它搬過家
+export { directionFromAngles, planeQuad, formatVec3 } from '../../curve/projection3d';

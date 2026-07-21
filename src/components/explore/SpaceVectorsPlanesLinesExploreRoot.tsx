@@ -10,6 +10,7 @@ import {
   type SpaceVectorsParams,
 } from '../../explore/space-vectors-planes-lines/geometry';
 import { renderSpaceVectorsPlanesLinesScene } from '../../systems/rendering/spaceVectorsPlanesLinesExploreRender';
+import type { CanvasSize } from '../curve/useRectP5CanvasHost';
 import { useOrbitViewP5 } from '../curve/useOrbitViewP5';
 import '../../styles/components/explore/space-vectors-explore.css';
 
@@ -34,6 +35,25 @@ const SLIDERS: Array<{
   { key: 'vz', label: '分量 vz', min: -AXIS_LIMIT, max: AXIS_LIMIT, step: 0.05, format: (v) => v.toFixed(2) },
   { key: 'planeTilt', label: '平面傾角', min: 0, max: 90, step: 1, format: (v) => `${v.toFixed(0)}°` },
   { key: 'h', label: '平面位移 h', min: -2, max: 2, step: 0.05, format: (v) => v.toFixed(2) },
+];
+
+/**
+ * explore 的舞台比 works 寬，不能沿用 works 那個上限 600px 的方形量測——
+ * 那會讓畫布被放大而變糊。這裡填滿容器寬度，高度取 0.86 略帶直向以容納 z 軸。
+ */
+function measureExploreCanvas(host: HTMLElement): CanvasSize {
+  const width = Math.max(280, Math.min(1000, Math.round(host.clientWidth || 640)));
+  return { width, height: Math.max(320, Math.round(width * 0.86)) };
+}
+
+/**
+ * n̂·v 要恰好落在 0 才進得了「落在面內」與「平行」，靠拖滑桿碰不到，
+ * 所以跟 line-plane-intersection 一樣用預設把三種狀態都變得看得見。
+ */
+const RELATION_PRESETS: Array<{ label: string; patch: Partial<SpaceVectorsParams> }> = [
+  { label: '有距離', patch: { planeTilt: 78, vx: 1.9, vy: 1.2, vz: 1.6, h: 0.5 } },
+  { label: 'v 平行於平面', patch: { planeTilt: 90, vx: 1.9, vy: 1.2, vz: 0, h: 0.8 } },
+  { label: 'v 落在面內', patch: { planeTilt: 90, vx: 1.9, vy: 1.2, vz: 0, h: 0 } },
 ];
 
 function modeTitle(mode: ReadingMode): string {
@@ -63,6 +83,7 @@ export default function SpaceVectorsPlanesLinesExploreRoot() {
     onParamsChange: patchParams,
     render,
     redrawKey: `${params.vx}|${params.vy}|${params.vz}|${params.planeTilt}|${params.planeAzimuth}|${params.h}|${params.yaw}|${params.pitch}|${params.mode}`,
+    measure: measureExploreCanvas,
   });
 
   const metrics = useMemo(() => computeSpaceVectorsMetrics(params), [params]);
@@ -122,6 +143,24 @@ export default function SpaceVectorsPlanesLinesExploreRoot() {
               ))}
             </div>
           </div>
+
+          {params.mode === 'relation' ? (
+            <div className="space-vectors-explore__block">
+              <p className="space-vectors-explore__block-title">三種狀態</p>
+              <div className="space-vectors-explore__modes">
+                {RELATION_PRESETS.map((preset) => (
+                  <button
+                    key={preset.label}
+                    type="button"
+                    className="space-vectors-explore__mode-button"
+                    onClick={() => patchParams(preset.patch)}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           <div className="space-vectors-explore__block">
             <p className="space-vectors-explore__block-title">場景</p>

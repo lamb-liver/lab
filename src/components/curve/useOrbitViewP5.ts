@@ -21,6 +21,11 @@ type Options<P extends OrbitView> = {
   render: (p: p5, params: P, rotating: boolean) => void;
   /** 參數變動時觸發重畫的鍵值 */
   redrawKey: string;
+  /**
+   * 畫布量測。預設是 works 的正方形（上限 BASE_CANVAS_SIZE），
+   * explore 的舞台較寬，應自行傳入才不會被限制成 600px 而被放大變糊。
+   */
+  measure?: (host: HTMLElement) => CanvasSize;
 };
 
 /** 每像素轉多少度；橫向旋 yaw、縱向抬 pitch */
@@ -28,7 +33,8 @@ const YAW_PER_PX = 0.45;
 const PITCH_PER_PX = 0.35;
 const PITCH_LIMIT = 80;
 
-function measureSquareCanvas(host: HTMLElement): CanvasSize {
+/** works 的舞台是方形欄位，畫布跟著方形 */
+export function measureSquareWorkCanvas(host: HTMLElement): CanvasSize {
   const size = measureWorkCanvasSize(host);
   return { width: size, height: size };
 }
@@ -47,6 +53,7 @@ export function useOrbitViewP5<P extends OrbitView>({
   onParamsChange,
   render,
   redrawKey,
+  measure = measureSquareWorkCanvas,
 }: Options<P>) {
   const paramsRef = useRef(params);
   const onParamsChangeRef = useRef(onParamsChange);
@@ -118,8 +125,8 @@ export function useOrbitViewP5<P extends OrbitView>({
 
   const canvasHostRef = useRectP5CanvasHost(
     draw,
-    [draw, extendSketch],
-    measureSquareCanvas,
+    [draw, extendSketch, measure],
+    measure,
     extendSketch,
     { loop: false, redrawKey },
   );

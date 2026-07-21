@@ -2,6 +2,7 @@ import type { CurvePoint, ThumbnailSpec } from '../../types';
 import {
   crossVec3,
   degToRad,
+  formatVec3,
   lengthVec3,
   normalizeVec3,
   project,
@@ -116,10 +117,6 @@ export function projectPoints(points: Vec3[], view: ViewAngles): Projected[] {
   return points.map((point) => project(point, view));
 }
 
-export function formatVec3(v: Vec3): string {
-  return `(${v.x.toFixed(2)}, ${v.y.toFixed(2)}, ${v.z.toFixed(2)})`;
-}
-
 // ── 縮圖 ────────────────────────────────────────────────────────────────
 
 /** |a| + max|b| ≈ 7，乘上此尺度後仍落在 BASE_CANVAS_SIZE / 2 = 300 之內 */
@@ -167,3 +164,6 @@ export function sampleCrossProductThumbnail(
 function project0(view: ViewAngles) {
   return (point: Vec3): Projected => project(point, view);
 }
+
+// 共用的向量數學集中在 projection3d，這裡再匯出讓呼叫端不必知道它搬過家
+export { formatVec3 } from '../../projection3d';
