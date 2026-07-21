@@ -17,6 +17,7 @@ import {
 } from '../../systems/rendering/conicDynamicGeometryRender';
 import { useRectP5CanvasHost, type CanvasSize } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/conic-dynamic-geometry-explore.css';
+import { wireTouchToMouse } from '../curve/touchToMouse';
 
 const CANVAS_MIN_W = 280;
 const CANVAS_MAX_W = 720;
@@ -140,6 +141,8 @@ export default function ConicDynamicGeometryExploreRoot() {
   const extendSketch = useCallback((p: p5) => {
     p.mousePressed = () => updatePointFromMouse(p);
     p.mouseDragged = () => updatePointFromMouse(p);
+
+    wireTouchToMouse(p);
   }, [updatePointFromMouse]);
 
   const canvasHostRef = useRectP5CanvasHost(

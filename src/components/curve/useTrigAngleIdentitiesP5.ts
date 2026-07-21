@@ -13,6 +13,7 @@ import {
   type AngleDragKey,
 } from '../../systems/rendering/trigAngleIdentitiesRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   params: TrigAngleIdentitiesParams;
@@ -122,6 +123,8 @@ export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
       p.cursor(hit ? 'grab' : 'default');
       p.redraw();
     };
+
+    wireTouchToMouse(p);
   }, []);
 
   const redrawKey = `${params.formulaId}|${params.alpha}|${params.beta}|${

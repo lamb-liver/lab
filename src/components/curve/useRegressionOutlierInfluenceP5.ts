@@ -10,6 +10,7 @@ import {
 } from '../../curve/modules/scatter-correlation-regression/geometry';
 import { renderRegressionOutlierInfluenceScene } from '../../systems/rendering/regressionOutlierInfluenceRender';
 import { useRectP5CanvasHost } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 export type RegressionOutlierInfluenceWorkState = {
   outlier: ScatterPoint;
@@ -83,6 +84,8 @@ export function useRegressionOutlierInfluenceP5({
       onStateChange();
       return false;
     };
+
+    wireTouchToMouse(p);
   }, [onStateChange, stateRef]);
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureSquare, extendSketch, {

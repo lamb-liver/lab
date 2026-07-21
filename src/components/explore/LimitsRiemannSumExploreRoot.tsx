@@ -23,6 +23,7 @@ import {
 } from '../../systems/rendering/limitsRiemannSumRender';
 import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/limits-riemann-sum-explore.css';
+import { wireTouchToMouse } from '../curve/touchToMouse';
 
 const DEFAULT_PARAMS: LimitsRiemannParams = {
   mode: 'compare',
@@ -83,6 +84,8 @@ export default function LimitsRiemannSumExploreRoot() {
   const extendSketch = useCallback((p: p5) => {
     p.mousePressed = () => updateTangentRef.current(p);
     p.mouseDragged = () => updateTangentRef.current(p);
+
+    wireTouchToMouse(p);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

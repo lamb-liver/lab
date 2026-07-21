@@ -14,6 +14,7 @@ import {
   worldToScreen,
 } from '../../systems/rendering/eigenvectorGeometryRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   params: Record<string, number>;
@@ -103,6 +104,8 @@ export function useEigenvectorGeometryP5({
       draggingURef.current = false;
       p.cursor(isNearU() ? 'grab' : 'default');
     };
+
+    wireTouchToMouse(p);
 
     p.mouseWheel = () => false;
   }, []);
