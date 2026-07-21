@@ -111,6 +111,23 @@
 
 維基外連的 URL 保持 `zh-tw` 原樣（路徑含簡體轉寫不影響），但錨文字用站內統一譯名。
 
+## 發布一組互相連結的內容
+
+一個主題常是「1 篇 explore + N 件 works」互相連結。`audit:content` 禁止已發布內容連到 draft，
+所以**整組必須一起翻 `draft: false`**，不能逐件發布。空間向量那組四件 works 之所以完成後
+仍留在 draft，就是在等 explore 頁的互動。
+
+發布時要一起改的：
+
+- [ ] 五個檔案的 `draft: false` + `order`（explore 與 works 各自接續現有最大值）+ `date`
+- [ ] explore 的 `coverImage`：`scripts/explore-covers/{slug}.svg` → `npm run covers:explore`
+- [ ] **`src/content/explorePager.test.ts`**：硬編已發布的 explore 順序，
+      每次發布 explore 都要更新清單與「最新一篇」的鄰居斷言。連續兩次發布都被它擋下
+- [ ] 發布後才驗證得到的：縮圖路由（draft 會 404）、列表卡片、`npm run build` 的頁數
+
+封面圖要自己看過一眼。空間向量那張第一版把垂足畫在平面上方——而「點到平面的距離」的垂足
+當然要在平面上，這種錯誤只有目視才會發現。
+
 ## 相關文件
 
 - `textstyle.md` — `## 互動說明` 的寫作格式與用字

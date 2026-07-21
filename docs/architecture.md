@@ -18,6 +18,7 @@ This document is the system map for AI agents and maintainers. It does not repla
 | Shared rendering | `src/systems/rendering/*` | `art.md`, `workart.md`, `exploreart.md`, `p5toreact.md` |
 | Work thumbnails | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | `workart.md`, `p5toreact.md` |
 | Explore interactives | `src/explore/*`, `src/components/explore/*ExploreRoot.tsx` | `exploreart.md`, `p5toreact.md` |
+| 3D 空間向量共用層 | `src/curve/projection3d.ts`, `src/systems/rendering/scene3d.ts`, `src/components/curve/useOrbitViewP5.ts` | 本文件下節 |
 
 ## Works Data Flow
 
@@ -99,6 +100,28 @@ Keep these synchronized when adding an interactive explore page:
 - `src/explore/interactiveRegistry.ts`
 - `src/components/explore/ExploreInteractiveStage.tsx`
 - optional `public/images/explore-covers/*` cover image and frontmatter `coverImage`
+
+## 3D 空間向量共用層
+
+空間向量主題（1 篇 explore + 4 件 works）共用一條投影管線。要做新的 3D 頁面時從這裡接，
+不要另外造一套。
+
+| 檔案 | 職責 |
+|------|------|
+| `src/curve/projection3d.ts` | 純數學：`Vec3` 運算、正交投影、`directionFromAngles`、`planeBasis`／`planeQuad`、`formatVec3` |
+| `src/systems/rendering/scene3d.ts` | 繪製骨架：layout、`screenOf`、`drawArrow`／`drawLabel`／`drawAxes`／`drawReadout` |
+| `src/components/curve/useOrbitViewP5.ts` | 拖曳旋轉視角（含觸控）；`measure` 可覆寫，explore 舞台較寬要自己傳 |
+| `src/components/curve/OrbitViewControls.tsx` | 視角 yaw／pitch 滑桿，提供不依賴手勢的操作路徑 |
+
+**不引入 three.js。** `CurveModule.sample()` 的契約是回傳 2D `CurvePoint[]`，
+縮圖管線（`curveThumbnail.ts`）建立在這個契約上；加一套 WebGL 場景等於開第二個渲染世界，
+而縮圖、OG 圖與既有 renderer 都無法沿用。
+
+`screenOf` 收 `ViewAngles` 而不是 params：呼叫端每幀算一次 `viewFromParams`，
+不要讓每個投影點都重算角度轉換。
+
+縮圖尺度要自己驗邊界：`BASE_CANVAS_SIZE / 2 = 300`，模組測試應涵蓋極端參數。
+這一組有兩件在開發途中因尺度過大而超界（518、310），都是被測試擋下來的。
 
 ## Stable Boundaries
 

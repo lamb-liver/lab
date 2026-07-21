@@ -313,6 +313,45 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 
 ---
 
+## 畫布手勢與觸控
+
+**只要 sketch 有 `mousePressed` / `mouseDragged`，就必須呼叫 `wireTouchToMouse(p)`。**
+
+```ts
+import { wireTouchToMouse } from './touchToMouse';
+
+const extendSketch = useCallback((p: p5) => {
+  p.mousePressed = () => { /* … */ };
+  p.mouseDragged = () => { /* … */ };
+  p.mouseReleased = () => { /* … */ };
+
+  wireTouchToMouse(p); // 指派完 mouse handler 之後
+}, []);
+```
+
+### 為什麼不能只靠瀏覽器補送的 mouse 事件
+
+觸控時瀏覽器會補送相容 mouse 事件，所以「不接觸控看起來也能動」——但那只在瀏覽器**沒有**把手勢
+判給捲動或縮放時成立：
+
+- Works：`work-detail.css` 在手機給畫布 `touch-action: pan-y`，垂直拖曳會被判成捲頁。
+  這是刻意的（一般 works 靠側欄控件，畫布不該攔截捲動），但**有畫布手勢的作品是例外**。
+- Explore：`explore-stage.css` 沒設 `touch-action`，用瀏覽器預設，手勢可能被拿去平移縮放。
+  有畫布手勢的 explore 必須在自己的樣式表加 `touch-action: none`（見 `vectors-explore.css`）。
+
+`wireTouchToMouse` 的兩半是綁在一起的，只做一半都會壞：
+
+1. `return false` 讓 p5 呼叫 preventDefault，攔下上述接管；
+2. 一旦 preventDefault，瀏覽器就**不再**補送相容 mouse 事件，所以必須主動轉呼叫。
+
+未定義的 handler 會被略過，因此沒有 `mouseReleased` 的 sketch 也能直接用。
+
+### 新增有手勢的互動時
+
+- [ ] sketch 內呼叫 `wireTouchToMouse(p)`
+- [ ] Explore：該 slug 的 CSS 對 `__canvas canvas` 設 `touch-action: none`
+- [ ] 手機視窗實測拖得動，且**垂直方向**也拖得動（水平能動不代表垂直能動）
+
 ## 作品集縮圖（`WorkCard` + `curveThumbnail`）
 
 > **實作規格（封面優化版）**：現行工程契約見本節與 `src/lib/curveThumbnail.ts`；視覺語言見 [`workart.md`](workart.md)。
