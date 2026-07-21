@@ -130,7 +130,12 @@ export function drawAxes(
   p.pop();
 }
 
-/** 左上角的讀數區；`highlightIndex` 那一行改用強調色 */
+/**
+ * 左上角的讀數區；`highlightIndex` 那一行改用強調色。
+ *
+ * 行距要跟著實際換行數走：畫布窄時（手機）中文長句會折成兩行，
+ * 用固定行距會讓下一行壓上來。
+ */
 export function drawReadout(
   p: p5,
   width: number,
@@ -138,16 +143,25 @@ export function drawReadout(
   options: { highlightIndex?: number; highlightColor?: Rgb } = {},
 ): void {
   const { highlightIndex = -1, highlightColor = SCENE_GUIDE } = options;
+  const margin = 18;
+  const maxWidth = width - margin * 2;
+  const fontSize = width < 420 ? 12 : 14;
+  const lineHeight = fontSize + 6;
+
   p.push();
   p.noStroke();
-  p.textSize(14);
+  p.textSize(fontSize);
   p.textAlign(p.LEFT, p.TOP);
-  lines.forEach((line, index) => {
+
+  let y = 16;
+  for (const [index, line] of lines.entries()) {
     const on = index === highlightIndex;
     const color = on ? highlightColor : SCENE_GUIDE;
     p.fill(color[0], color[1], color[2], on ? 235 : 150);
-    p.text(line, 18, 16 + index * 20, width - 36);
-  });
+    p.text(line, margin, y, maxWidth);
+    const wrapped = Math.max(1, Math.ceil(p.textWidth(line) / maxWidth));
+    y += wrapped * lineHeight;
+  }
   p.pop();
 }
 

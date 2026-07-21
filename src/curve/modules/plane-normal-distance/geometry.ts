@@ -104,11 +104,14 @@ export function distanceFromGeneralForm(
 }
 
 export function formatGeneralForm(coefficients: Vec3, constant: number): string {
-  const lead = `${coefficients.x.toFixed(2)}x`;
-  // 負係數要寫成「− 0.44y」而不是「+ −0.44y」
+  // 全式統一用 U+2212 減號：toFixed 會給 ASCII 連字號，混用時同一行會出現兩種減號
+  const signed = (value: number) => value.toFixed(2).replace('-', '−');
   const follow = (value: number, name: string) =>
     `${value < 0 ? ' − ' : ' + '}${Math.abs(value).toFixed(2)}${name}`;
-  return `${lead}${follow(coefficients.y, 'y')}${follow(coefficients.z, 'z')} = ${constant.toFixed(2)}`;
+  return `${signed(coefficients.x)}x${follow(coefficients.y, 'y')}${follow(
+    coefficients.z,
+    'z',
+  )} = ${signed(constant)}`;
 }
 
 // ── 縮圖 ────────────────────────────────────────────────────────────────
