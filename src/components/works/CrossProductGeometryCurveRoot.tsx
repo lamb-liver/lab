@@ -7,6 +7,7 @@ import {
 import { DEFAULT_CROSS_PRODUCT_PARAMS } from '../../curve/modules/cross-product-geometry/geometry';
 import type { ParamValues } from '../../curve/types';
 import { useCrossProductGeometryP5 } from '../curve/useCrossProductGeometryP5';
+import OrbitViewControls from '../curve/OrbitViewControls';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -105,6 +106,8 @@ export default function CrossProductGeometryCurveRoot({ controlsMountId }: Props
           </div>
         </div>
       ))}
+
+      <OrbitViewControls idPrefix="cross-product-geometry" params={params} onParamsChange={onParamsChange} />
 
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
         <button

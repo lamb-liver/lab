@@ -11,6 +11,7 @@ import {
 } from '../../curve/modules/space-vector-three-plane-projection/geometry';
 import type { ParamValues } from '../../curve/types';
 import { useSpaceVectorThreePlaneProjectionP5 } from '../curve/useSpaceVectorThreePlaneProjectionP5';
+import OrbitViewControls from '../curve/OrbitViewControls';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -100,6 +101,8 @@ export default function SpaceVectorThreePlaneProjectionCurveRoot({ controlsMount
           </div>
         </div>
       ))}
+
+      <OrbitViewControls idPrefix="space-vector-three-plane-projection" params={params} onParamsChange={onParamsChange} />
 
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
         <button

@@ -6,6 +6,7 @@ import {
 } from '../../curve/modules/plane-normal-distance/geometry';
 import type { ParamValues } from '../../curve/types';
 import { usePlaneNormalDistanceP5 } from '../curve/usePlaneNormalDistanceP5';
+import OrbitViewControls from '../curve/OrbitViewControls';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -96,6 +97,8 @@ export default function PlaneNormalDistanceCurveRoot({ controlsMountId }: Props)
           </div>
         </div>
       ))}
+
+      <OrbitViewControls idPrefix="plane-normal-distance" params={params} onParamsChange={onParamsChange} />
 
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
         <button
