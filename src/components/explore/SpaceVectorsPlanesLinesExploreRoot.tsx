@@ -11,6 +11,7 @@ import {
 } from '../../explore/space-vectors-planes-lines/geometry';
 import { renderSpaceVectorsPlanesLinesScene } from '../../systems/rendering/spaceVectorsPlanesLinesExploreRender';
 import type { CanvasSize } from '../curve/useRectP5CanvasHost';
+import OrbitViewControls from '../curve/OrbitViewControls';
 import { useOrbitViewP5 } from '../curve/useOrbitViewP5';
 import '../../styles/components/explore/space-vectors-explore.css';
 
@@ -186,6 +187,11 @@ export default function SpaceVectorsPlanesLinesExploreRoot() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="space-vectors-explore__block">
+            <p className="space-vectors-explore__block-title">視角</p>
+            <OrbitViewControls idPrefix="space-vectors" params={params} onParamsChange={patchParams} />
           </div>
 
           <div className="space-vectors-explore__block">

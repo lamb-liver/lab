@@ -6,6 +6,7 @@ import {
 } from '../../curve/modules/line-plane-intersection/geometry';
 import type { ParamValues } from '../../curve/types';
 import { useLinePlaneIntersectionP5 } from '../curve/useLinePlaneIntersectionP5';
+import OrbitViewControls from '../curve/OrbitViewControls';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -113,6 +114,8 @@ export default function LinePlaneIntersectionCurveRoot({ controlsMountId }: Prop
           </div>
         </div>
       ))}
+
+      <OrbitViewControls idPrefix="line-plane-intersection" params={params} onParamsChange={onParamsChange} />
 
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
         <button
