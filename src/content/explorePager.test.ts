@@ -25,12 +25,13 @@ describe('explore collection pager', () => {
       'trig-function-graphs',
       'data-analysis',
       'discrete-random-variables',
+      'space-vectors-planes-lines',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'discrete-random-variables');
-    expect(previous?.id).toBe('data-analysis');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'space-vectors-planes-lines');
+    expect(previous?.id).toBe('discrete-random-variables');
     expect(next).toBeNull();
   });
 

@@ -2,10 +2,11 @@
 title: 空間向量與平面直線
 description: 固定一支向量與一個平面，三種讀法依序回答：它在哪裡、面朝哪裡、兩者什麼關係。
 category: 幾何
-date: 2026-06-10
-order: 0
+date: 2026-07-21
+order: 19
+coverImage: /images/explore-covers/space-vectors-planes-lines.png
 featured: false
-draft: true
+draft: false
 ---
 
 ## 基本概念
@@ -20,9 +21,10 @@ $$
 
 ## 互動說明
 
-- **位置讀法**：拖動 $\mathbf v$ 的端點，觀察一個 3D 位置如何被攤成三張 2D 圖來讀
-- **方向讀法**：拖動 $\mathbf a,\mathbf b$ 改變平面，觀察 $\mathbf n$ 如何把「張成這個面」換成「垂直這個面」
-- **關係讀法**：保持同一個平面移動 $\mathbf v$，用 $\mathbf n\cdot\mathbf v-h$ 判讀落在面內、平行或有距離
+- **位置讀法**：拖動分量 $v_x,v_y,v_z$，觀察一個 3D 位置如何被攤成三張 2D 影子
+- **方向讀法**：調整平面傾角，觀察 $\mathbf a,\mathbf b$ 張成的面如何壓縮成單一支 $\hat{\mathbf n}$
+- **關係讀法**：切換有距離、平行、落在面內三個狀態，對照 $\hat{\mathbf n}\cdot\mathbf v-h$ 的讀數怎麼變
+- **拖動畫面旋轉視角**：旋轉場景，確認三種讀法看的是同一個場景
 
 建議順序：位置讀法 → 方向讀法 → 關係讀法。
 

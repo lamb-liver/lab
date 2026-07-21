@@ -24,6 +24,7 @@ const rootBySlug = {
   'trigonometry-fundamentals': lazy(() => import('./TrigonometryFundamentalsExploreRoot')),
   'function-equations': lazy(() => import('./FunctionEquationsExploreRoot')),
   'rational-functions-asymptotes': lazy(() => import('./RationalFunctionsAsymptotesExploreRoot')),
+  'space-vectors-planes-lines': lazy(() => import('./SpaceVectorsPlanesLinesExploreRoot')),
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 export const exploreStageRootSlugs = Object.keys(rootBySlug).sort() as ExploreInteractiveSlug[];
