@@ -3,10 +3,10 @@ title: 平面法向量與點面距離
 description: 拖動法向量 n 與平面上定點，觀察 ax+by+cz=h 與點面距離的同步讀數。
 tags:
   - 線性代數
-date: 2026-06-10
-order: 0
+date: 2026-07-21
+order: 66
 featured: false
-draft: true
+draft: false
 ---
 
 ## 參數方程

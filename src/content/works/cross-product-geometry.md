@@ -3,10 +3,10 @@ title: 外積的幾何意義
 description: 拖動兩支空間向量，觀察平行四邊形面積、法向 n 與夾角 θ 的同步讀數。
 tags:
   - 線性代數
-date: 2026-06-10
-order: 0
+date: 2026-07-21
+order: 63
 featured: false
-draft: true
+draft: false
 ---
 
 ## 參數方程

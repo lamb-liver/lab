@@ -3,10 +3,10 @@ title: 空間直線與平面交點
 description: 拖動直線起點與方向、平面法向量與常數，觀察交點、平行或直線落在平面內。
 tags:
   - 線性代數
-date: 2026-06-10
-order: 0
+date: 2026-07-21
+order: 65
 featured: false
-draft: true
+draft: false
 ---
 
 ## 參數方程
