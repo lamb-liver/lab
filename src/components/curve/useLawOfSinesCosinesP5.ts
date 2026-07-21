@@ -11,6 +11,7 @@ import {
 } from '../../curve/modules/law-of-sines-cosines/geometry';
 import { renderLawOfSinesCosinesScene } from '../../systems/rendering/lawOfSinesCosinesRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type DragVertex = 'A' | 'B' | 'C';
 
@@ -112,6 +113,8 @@ export function useLawOfSinesCosinesP5({ params, onTriangleChange }: Options) {
       p.cursor(nearestVertex() ? 'grab' : 'default');
       p.redraw();
     };
+
+    wireTouchToMouse(p);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

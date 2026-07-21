@@ -12,6 +12,7 @@ import {
 import type { ParamValues } from '../../curve/types';
 import { renderPercentileBoxPlotScene } from '../../systems/rendering/percentileBoxPlotRender';
 import { useRectP5CanvasHost } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 export type PercentileBoxPlotWorkState = {
   params: ParamValues;
@@ -81,6 +82,8 @@ export function usePercentileBoxPlotP5({ stateRef, onStateChange, redrawKey }: O
       onStateChange();
       return false;
     };
+
+    wireTouchToMouse(p);
 
     p.doubleClicked = (event?: Event) => {
       if (!isCanvasPointer(p, host, event)) return;

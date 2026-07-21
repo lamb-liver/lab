@@ -11,6 +11,7 @@ import {
 } from '../../curve/modules/dot-product-geometry/geometry';
 import { renderDotProductGeometryScene } from '../../systems/rendering/dotProductGeometryRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type DragTarget = 'u' | 'v';
 
@@ -124,6 +125,8 @@ export function useDotProductGeometryP5({
       p.cursor(nearestDragTarget() ? 'grab' : 'default');
       p.redraw();
     };
+
+    wireTouchToMouse(p);
   }, []);
   const redrawKey = `${showAngle ? 1 : 0}|${showProjection ? 1 : 0}|${params.ux}|${
     params.uy

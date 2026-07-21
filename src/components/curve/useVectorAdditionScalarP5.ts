@@ -11,6 +11,7 @@ import {
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import { renderVectorAdditionScalarScene } from '../../systems/rendering/vectorAdditionScalarRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type DragTarget = 'u' | 'v';
 
@@ -117,6 +118,8 @@ export function useVectorAdditionScalarP5({
       p.cursor(nearestDragTarget() ? 'grab' : 'default');
       p.redraw();
     };
+
+    wireTouchToMouse(p);
   }, []);
 
   const redrawKey = `${showComponents ? 1 : 0}|${params.ux}|${params.uy}|${

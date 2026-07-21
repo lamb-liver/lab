@@ -20,6 +20,7 @@ import {
   renderComplexEulerFormulaScene,
 } from '../../systems/rendering/complexEulerFormulaRender';
 import '../../styles/components/explore/complex-euler-formula-explore.css';
+import { wireTouchToMouse } from '../curve/touchToMouse';
 
 const DEFAULT_PARAMS: ComplexEulerParams = {
   mode: 'operation',
@@ -96,6 +97,8 @@ export default function ComplexEulerFormulaExploreRoot() {
     p.mousePressed = () => handleMousePressed(p);
     p.mouseDragged = () => handleMouseDragged(p);
     p.mouseReleased = handleMouseReleased;
+
+    wireTouchToMouse(p);
   }, [handleMouseDragged, handleMousePressed, handleMouseReleased]);
 
   const canvasHostRef = useRectP5CanvasHost(

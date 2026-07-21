@@ -25,6 +25,7 @@ import {
 } from '../../systems/rendering/p5PlotHelpers';
 import { useRectP5CanvasHost, type ExtendSketch } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/data-analysis-explore.css';
+import { wireTouchToMouse } from '../curve/touchToMouse';
 
 type Mode = 'scatter' | 'outlier' | 'boxplot';
 
@@ -259,6 +260,8 @@ export default function DataAnalysisExploreRoot() {
         stateRef.current.dragging = null;
         return false;
       };
+
+      wireTouchToMouse(p);
 
       p.doubleClicked = (event?: Event) => {
         if (!isCanvasPointer(p, host, event)) return;

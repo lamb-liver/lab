@@ -13,6 +13,7 @@ import {
   thetaFromDrag,
 } from '../../systems/rendering/unitCircleTrigDefinitionRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   params: UnitCircleTrigDefinitionParams;
@@ -117,6 +118,8 @@ export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options
       p.cursor(hit ? 'grab' : 'default');
       p.redraw();
     };
+
+    wireTouchToMouse(p);
   }, []);
 
   const redrawKey = `${params.theta}|${params.showRadians ? 1 : 0}|${

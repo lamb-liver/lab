@@ -68,3 +68,11 @@
     max-height: none;
   }
 }
+
+/*
+ * 畫布有拖曳互動，必須關掉瀏覽器的預設手勢，否則觸控拖曳會被拿去平移或捲動。
+ * 與 sketch 內的 wireTouchToMouse 是一組：CSS 讓事件送得到，handler 才收得到。
+ */
+.sequences-series-explore__canvas canvas {
+  touch-action: none;
+}

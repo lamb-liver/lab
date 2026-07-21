@@ -12,6 +12,7 @@ import {
 import type { ParamValues } from '../../curve/types';
 import { renderScatterCorrelationRegressionScene } from '../../systems/rendering/scatterCorrelationRegressionRender';
 import { useRectP5CanvasHost } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 export type ScatterCorrelationWorkState = {
   params: ParamValues;
@@ -83,6 +84,8 @@ export function useScatterCorrelationRegressionP5({
       dragIndexRef.current = null;
       return false;
     };
+
+    wireTouchToMouse(p);
 
     p.doubleClicked = (event?: Event) => {
       if (!isCanvasPointer(p, host, event)) return;

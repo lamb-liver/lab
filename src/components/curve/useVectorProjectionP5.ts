@@ -11,6 +11,7 @@ import {
 } from '../../curve/modules/vector-projection/geometry';
 import { renderVectorProjectionScene } from '../../systems/rendering/vectorProjectionRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type DragTarget = 'a' | 'b';
 
@@ -119,6 +120,8 @@ export function useVectorProjectionP5({
       activeDragRef.current = null;
       p.cursor(nearestDragTarget() ? 'grab' : 'default');
     };
+
+    wireTouchToMouse(p);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

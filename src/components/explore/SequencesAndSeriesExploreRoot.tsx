@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
 import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/sequences-and-series-explore.css';
+import { wireTouchToMouse } from '../curve/touchToMouse';
 
 type Mode = 'sequence' | 'series' | 'logistic';
 type SequenceType = 'arith' | 'geom' | 'recurrence';
@@ -409,6 +410,8 @@ export default function SequencesAndSeriesExploreRoot() {
   const extendSketch = useCallback((p: p5) => {
     p.mousePressed = () => dragLogisticR(p);
     p.mouseDragged = () => dragLogisticR(p);
+
+    wireTouchToMouse(p);
   }, [dragLogisticR]);
   const canvasHostRef = useRectP5CanvasHost(
     draw,
