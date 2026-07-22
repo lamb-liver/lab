@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+
+  <!--
+    場景與 explore 預設一致：2x + y ≤ 10、x + 3y ≤ 15、x ≥ 0、y ≥ 0，目標方向 34°。
+    原點 (580, 880)，每單位 90px。角點 (0,0)(5,0)(3,4)(0,5) →
+    螢幕 (580,880)(1030,880)(850,520)(580,430)；最優在 (3,4)。
+
+    約束直線必須真的通過它所圍出的那兩個角點，否則圖上的線與區域對不起來。
+  -->
+
+  <!-- 坐標軸 -->
+  <line x1="520" y1="880" x2="1260" y2="880" stroke="#D8D8D8" stroke-width="4" opacity="0.20" stroke-linecap="round"/>
+  <line x1="580" y1="940" x2="580" y2="330" stroke="#D8D8D8" stroke-width="4" opacity="0.20" stroke-linecap="round"/>
+
+  <!-- 約束 2x + y ≤ 10：通過 (5,0) 與 (3,4) -->
+  <line x1="1093" y1="1006" x2="769" y2="358" stroke="#D8D8D8" stroke-width="4" opacity="0.32" stroke-linecap="round"/>
+  <!-- 約束 x + 3y ≤ 15：通過 (0,5) 與 (3,4) -->
+  <line x1="431" y1="380" x2="1201" y2="637" stroke="#D8D8D8" stroke-width="4" opacity="0.32" stroke-linecap="round"/>
+
+  <!-- 可行域 -->
+  <path d="M 580 880 L 1030 880 L 850 520 L 580 430 Z"
+        fill="rgba(164,225,176,0.16)" stroke="#A4E1B0" stroke-width="5" opacity="0.9"/>
+
+  <!-- 等值線族：由劣往優平移，方向垂直於 n -->
+  <line x1="433" y1="367" x2="835" y2="963" stroke="#A0CDFF" stroke-width="4" opacity="0.24" stroke-linecap="round" stroke-dasharray="16 14"/>
+  <line x1="550" y1="289" x2="952" y2="885" stroke="#A0CDFF" stroke-width="4" opacity="0.36" stroke-linecap="round" stroke-dasharray="16 14"/>
+
+  <!-- 掃到最優角點時的那一條：實線、金色，必須通過 (850, 520) -->
+  <line x1="649" y1="222" x2="1051" y2="818" stroke="#D4B87A" stroke-width="8" opacity="0.96" stroke-linecap="round" filter="url(#goldGlow)"/>
+
+  <!-- 法向 n：等值線平移的方向 -->
+  <line x1="580" y1="880" x2="771" y2="752" stroke="#D8D8D8" stroke-width="6" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 771 752 L 727 758 L 745 788 Z" fill="#D8D8D8" opacity="0.5"/>
+
+  <!-- 其餘角點 -->
+  <circle cx="580" cy="880" r="12" fill="#A0CDFF" opacity="0.75"/>
+  <circle cx="1030" cy="880" r="12" fill="#A0CDFF" opacity="0.75"/>
+  <circle cx="580" cy="430" r="12" fill="#A0CDFF" opacity="0.75"/>
+
+  <!-- 最優角點 -->
+  <circle cx="850" cy="520" r="30" fill="#D4B87A" opacity="0.18"/>
+  <circle cx="850" cy="520" r="15" fill="#D4B87A" opacity="0.96" filter="url(#softGlow)"/>
+</svg>

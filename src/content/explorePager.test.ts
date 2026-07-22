@@ -26,12 +26,13 @@ describe('explore collection pager', () => {
       'data-analysis',
       'discrete-random-variables',
       'space-vectors-planes-lines',
+      'linear-programming',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'space-vectors-planes-lines');
-    expect(previous?.id).toBe('discrete-random-variables');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'linear-programming');
+    expect(previous?.id).toBe('space-vectors-planes-lines');
     expect(next).toBeNull();
   });
 
