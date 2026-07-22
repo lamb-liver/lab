@@ -293,10 +293,15 @@ export function buildFunctionGraphTransformThumbnail(): ThumbnailSpec {
         excludeFromBbox: true,
       },
       {
+        /**
+         * 變換前的原曲線。這一層原本是 0.28 × 0.55 ≈ 0.15 的有效透明度，
+         * 縮到卡片大小就整條看不見，只剩變換後那條——一件叫「函數圖形變換」
+         * 的作品，縮圖卻看不出有變換過。對照組要看得見才有對照。
+         */
         points: curveToThumbPoints(ghost, viewHalfY),
-        stroke: 'rgba(212, 184, 122, 0.28)',
-        strokeWidth: 0.9,
-        opacity: 0.55,
+        stroke: 'rgba(212, 184, 122, 0.6)',
+        strokeWidth: 1.1,
+        opacity: 0.9,
         excludeFromBbox: true,
       },
       {
@@ -304,9 +309,10 @@ export function buildFunctionGraphTransformThumbnail(): ThumbnailSpec {
           { ...origin, theta: 0, arcLength: 0 },
           { ...target, theta: 1, arcLength: 1 },
         ],
-        stroke: 'rgba(255, 255, 255, 0.28)',
-        strokeWidth: 0.7,
-        opacity: 0.65,
+        // 原點連到變換後的頂點 P，同樣調亮才看得出位移的方向與距離
+        stroke: 'rgba(255, 255, 255, 0.45)',
+        strokeWidth: 0.8,
+        opacity: 0.85,
         excludeFromBbox: true,
       },
       {

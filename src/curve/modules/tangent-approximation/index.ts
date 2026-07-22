@@ -40,19 +40,23 @@ export const tangentApproximationModule: CurveModule = {
       const time = getTangentApproximationThumbnailTime();
       const dx = params.dx;
       const px = tangentPointX(time);
+      const secant = buildSecantSegment(BASE_CANVAS_SIZE, params.waveFrequency, time, px, dx);
       const spec: ThumbnailSpec = {
         paths: [
           {
+            /**
+             * 被逼近的那條曲線。原本只有 0.35 透明度，比割線還淡，
+             * 縮圖看起來就只是「兩條交叉的線」，看不出誰在逼近誰。
+             * 曲線才是主角，割線是疊在它上面的弦。
+             */
             points: canvasPointsToCurvePoints(
               buildFunctionCurvePoints(BASE_CANVAS_SIZE, params.waveFrequency, time),
             ),
-            opacity: 0.35,
+            opacity: 0.92,
             excludeFromBbox: true,
           },
           {
-            points: canvasPointsToCurvePoints(
-              buildSecantSegment(BASE_CANVAS_SIZE, params.waveFrequency, time, px, dx),
-            ),
+            points: canvasPointsToCurvePoints(secant),
           },
           {
             points: canvasPointsToCurvePoints(
@@ -64,9 +68,11 @@ export const tangentApproximationModule: CurveModule = {
                 dx,
               ),
             ),
-            opacity: 0.7,
+            opacity: 0.5,
           },
         ],
+        // 割線的兩個端點標出來，Δx 才看得見——那正是要收斂到零的量
+        circles: secantEndpointCircles(secant),
       };
       return spec;
     }
@@ -102,6 +108,16 @@ export { COLLAPSE_SPEED } from './animation';
 
 export function getTangentApproximationThumbnailTime(): number {
   return 0;
+}
+
+/** 割線兩端各放一個點；線段為空時不放，避免產生非有限座標的圓 */
+function secantEndpointCircles(secant: Array<{ x: number; y: number }>) {
+  const first = secant[0];
+  const last = secant[secant.length - 1];
+  if (!first || !last) return [];
+  return [first, last]
+    .filter((pt) => Number.isFinite(pt.x) && Number.isFinite(pt.y))
+    .map((pt) => ({ x: pt.x, y: pt.y, r: 7, fill: 'rgb(212, 184, 122)' }));
 }
 
 function canvasPointsToCurvePoints(raw: Array<{ x: number; y: number }>): CurvePoint[] {
