@@ -53,8 +53,35 @@ describe('quadratic-completing-square geometry', () => {
     const spec = buildQuadraticCompletingSquareThumbnail();
     expect(spec.paths.length).toBeGreaterThanOrEqual(4);
     expect(spec.circles?.length).toBeGreaterThanOrEqual(3);
-    expect(spec.paths.some((path) => path.excludeFromBbox === true && path.opacity === 0.55)).toBe(
-      true,
+    // 座標軸與配方前的基本拋物線是輔助層，不該把縮圖的邊界框撐大
+    expect(spec.paths.filter((path) => path.excludeFromBbox === true).length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('配方前後兩條拋物線都看得見，且前者較淡', () => {
+    /**
+     * 擋一種真的發生過的退化：配方前的基本拋物線用 stroke alpha 0.28
+     * 搭 opacity 0.55，相乘只有 0.15，縮到卡片大小整條消失，縮圖只剩一條
+     * 拋物線，看不出配方前後的對照。
+     *
+     * 原本這裡釘的是 `opacity === 0.55` 這個字面值——它只在改樣式時報錯，
+     * 不會在圖變得看不見時報錯，方向剛好相反。
+     *
+     * 門檻只套用在這兩條「內容」曲線上。座標軸與對稱軸是輔助線，本來就該退到背景，
+     * 對它們設同一個下限會逼著把不該搶眼的東西調亮。
+     */
+    const spec = buildQuadraticCompletingSquareThumbnail();
+    const alphaOf = (stroke?: string, opacity?: number) =>
+      Number(/rgba\([^)]*,\s*([\d.]+)\s*\)/.exec(stroke ?? '')?.[1] ?? 1) * (opacity ?? 1);
+
+    const curves = spec.paths.filter((path) => (path.stroke ?? '').includes('212, 184, 122'));
+    expect(curves).toHaveLength(2);
+
+    const [ghost, active] = curves;
+    expect(alphaOf(ghost.stroke, ghost.opacity), '配方前的對照曲線太淡').toBeGreaterThan(0.4);
+    expect(alphaOf(active.stroke, active.opacity)).toBeGreaterThan(0.8);
+    // 對照組要比主角淡，否則讀者分不出哪條是配方後的結果
+    expect(alphaOf(ghost.stroke, ghost.opacity)).toBeLessThan(
+      alphaOf(active.stroke, active.opacity),
     );
   });
 });

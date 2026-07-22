@@ -347,16 +347,21 @@ export function buildQuadraticCompletingSquareThumbnail(): ThumbnailSpec {
           { ...axisTop, theta: 0, arcLength: 0 },
           { ...axisBottom, theta: 1, arcLength: 1 },
         ],
-        stroke: 'rgba(255, 255, 255, 0.18)',
-        strokeWidth: 0.7,
-        opacity: 0.55,
+        // 對稱軸 x = h：配方的結果就是把它讀出來，太淡等於沒畫
+        stroke: 'rgba(255, 255, 255, 0.4)',
+        strokeWidth: 0.8,
+        opacity: 0.8,
         excludeFromBbox: true,
       },
       {
+        /**
+         * 配方前的基本拋物線 y = ax²。原本是 0.28 × 0.55 ≈ 0.15 的有效透明度，
+         * 縮到卡片大小整條看不見，只剩配方後那條，讀者看到的就只是「一條拋物線」。
+         */
         points: curveToThumbPoints(clipCurveForThumbnail(ghost, viewHalfY), viewHalfY),
-        stroke: 'rgba(212, 184, 122, 0.28)',
-        strokeWidth: 0.9,
-        opacity: 0.55,
+        stroke: 'rgba(212, 184, 122, 0.6)',
+        strokeWidth: 1.1,
+        opacity: 0.9,
         excludeFromBbox: true,
       },
       {
