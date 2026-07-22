@@ -4,25 +4,62 @@
       <feGaussianBlur stdDeviation="8" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
   </defs>
   <rect width="1600" height="1000" fill="#0A0A0A"/>
-  
-    <circle cx="560" cy="500" r="210" fill="none" opacity="1" stroke="#D8D8D8" stroke-width="4"/>
-    <line x1="324.79999999999995" y1="500" x2="795.2" y2="500" stroke="#D8D8D8" stroke-width="3" opacity="0.18" stroke-linecap="round" />
-    <line x1="560" y1="735.2" x2="560" y2="264.79999999999995" stroke="#D8D8D8" stroke-width="3" opacity="0.18" stroke-linecap="round" />
-    <line x1="708.492424049175" y1="351.50757595082507" x2="708.492424049175" y2="500" stroke="#D8D8D8" stroke-width="4" opacity="0.28" stroke-linecap="round" stroke-dasharray="16 14"/>
-    <line x1="708.492424049175" y1="351.50757595082507" x2="560" y2="351.50757595082507" stroke="#D8D8D8" stroke-width="4" opacity="0.28" stroke-linecap="round" stroke-dasharray="16 14"/>
-    <line x1="560" y1="500" x2="708.492424049175" y2="351.50757595082507" stroke="#D4B87A" stroke-width="10" opacity="1" stroke-linecap="round" filter="url(#goldGlow)"/>
-    <path d="M 623 500 A 63 63 0 0 0 604.5477272147525 455.4522727852475" fill="none" stroke="#D4B87A" stroke-width="5" opacity="0.72" stroke-linecap="round" stroke-linejoin="round" />
-    <circle cx="708.492424049175" cy="351.50757595082507" r="14" fill="#D4B87A" opacity="0.95" stroke="none" stroke-width="0"/>
-    <polygon points="1040,710 1210,710 1125,560" fill="rgba(212,184,122,0.08)" stroke="#D8D8D8" stroke-width="4" opacity="0.32" stroke-linejoin="round"/>
-    <line x1="1040" y1="710" x2="1210" y2="710" stroke="#D8D8D8" stroke-width="5" opacity="0.32" stroke-linecap="round" />
-    <line x1="1210" y1="710" x2="1125" y2="560" stroke="#D8D8D8" stroke-width="4" opacity="0.22" stroke-linecap="round" />
-    <line x1="1125" y1="560" x2="1040" y2="710" stroke="#D8D8D8" stroke-width="4" opacity="0.22" stroke-linecap="round" />
-    <circle cx="1125" cy="632" r="88" fill="none" opacity="0.22" stroke="#D8D8D8" stroke-width="3"/>
-  
+
+  <!--
+    單位圓上把三個比值畫成三段實際長度：cos（金，橫）、sin（藍，縱）、
+    tan（綠，切線上截出的一段）。
+
+    舊版右下角掛著一個圓內接三角形，opacity 只有 0.22、又小，看不出在說什麼，
+    「幾何定義」與「恆等式」兩者都沒交代到。
+
+    幾何：圓心 (760,520)、半徑 300，θ = 38°。
+    圓上的點 (760 + 300cos38, 520 − 300sin38) = (996.4, 335.3)。
+    切線在 x = 760 + 300 = 1060；半徑延長線交切線於
+    y = 520 − 300·tan38 = 285.6，所以那一段的長度正是 r·tan θ。
+  -->
+
+  <line x1="400" y1="520" x2="1200" y2="520" stroke="#D8D8D8" stroke-width="3" opacity="0.2" stroke-linecap="round"/>
+  <line x1="760" y1="160" x2="760" y2="880" stroke="#D8D8D8" stroke-width="3" opacity="0.2" stroke-linecap="round"/>
+
+  <circle cx="760" cy="520" r="300" fill="none" stroke="#D8D8D8" stroke-width="4" opacity="0.42"/>
+
+  <!-- 切線 x = r，tan 就量在這條線上 -->
+  <line x1="1060" y1="200" x2="1060" y2="840" stroke="#D8D8D8" stroke-width="3" opacity="0.24" stroke-dasharray="14 12" stroke-linecap="round"/>
+
+  <!-- 半徑延長到切線 -->
+  <line x1="996.4" y1="335.3" x2="1060" y2="285.6" stroke="#D8D8D8" stroke-width="3" opacity="0.32" stroke-dasharray="12 10"/>
+
+  <!-- 半徑（斜邊） -->
+  <line x1="760" y1="520" x2="996.4" y2="335.3" stroke="#D8D8D8" stroke-width="5" opacity="0.62" stroke-linecap="round"/>
+
+  <!--
+    以下三段都是軸向線段，**不能掛 filter**：
+    水平線的 bounding box 高度為零、垂直線寬度為零，而 filter 預設用
+    objectBoundingBox 計算區域，`-30% / 160%` 乘上零仍是零，Chrome 會整條不畫。
+    （斜線與圓沒這問題，所以同一份 defs 在別處正常。）
+    要發光就用「粗的低透明墊在下面」，不靠濾鏡。
+  -->
+
+  <!-- cos θ -->
+  <line x1="760" y1="520" x2="996.4" y2="520" stroke="#D4B87A" stroke-width="26" opacity="0.16" stroke-linecap="round"/>
+  <line x1="760" y1="520" x2="996.4" y2="520" stroke="#D4B87A" stroke-width="13" opacity="0.96" stroke-linecap="round"/>
+
+  <!-- sin θ -->
+  <line x1="996.4" y1="520" x2="996.4" y2="335.3" stroke="#5DADE2" stroke-width="26" opacity="0.16" stroke-linecap="round"/>
+  <line x1="996.4" y1="520" x2="996.4" y2="335.3" stroke="#5DADE2" stroke-width="13" opacity="0.96" stroke-linecap="round"/>
+
+  <!-- tan θ -->
+  <line x1="1060" y1="520" x2="1060" y2="285.6" stroke="#A4E1B0" stroke-width="26" opacity="0.16" stroke-linecap="round"/>
+  <line x1="1060" y1="520" x2="1060" y2="285.6" stroke="#A4E1B0" stroke-width="13" opacity="0.96" stroke-linecap="round"/>
+
+  <!-- 直角記號，點明 cos 與 sin 互相垂直 -->
+  <path d="M 960 520 L 960 484 L 996.4 484" fill="none" stroke="#D8D8D8" stroke-width="3" opacity="0.5"/>
+
+  <!-- 角 θ -->
+  <path d="M 850 520 A 90 90 0 0 0 830.9 464.6" fill="none" stroke="#D4B87A" stroke-width="6" opacity="0.8" stroke-linecap="round"/>
+
+  <circle cx="996.4" cy="335.3" r="15" fill="#D8D8D8" opacity="0.92"/>
+  <circle cx="760" cy="520" r="9" fill="#D8D8D8" opacity="0.6"/>
 </svg>

@@ -10,15 +10,47 @@
     </filter>
   </defs>
   <rect width="1600" height="1000" fill="#0A0A0A"/>
-  
-    <circle cx="560" cy="500" r="210" fill="none" opacity="1" stroke="#D8D8D8" stroke-width="4"/>
-    <line x1="300" y1="500" x2="830" y2="500" stroke="#D8D8D8" stroke-width="3" opacity="0.22" stroke-linecap="round" />
-    <line x1="560" y1="750" x2="560" y2="240" stroke="#D8D8D8" stroke-width="3" opacity="0.22" stroke-linecap="round" />
-    <line x1="717.8792031195879" y1="361.52921888599064" x2="860" y2="505" stroke="#D8D8D8" stroke-width="4" opacity="0.25" stroke-linecap="round" stroke-dasharray="18 18"/>
-    <line x1="560" y1="500" x2="717.8792031195879" y2="361.52921888599064" stroke="#D4B87A" stroke-width="10" opacity="1" stroke-linecap="round" filter="url(#goldGlow)"/>
-    <polygon points="717.8792031195879,361.52921888599064 711.6872020026311,382.63985890868076 696.1412990832381,364.9150021198146" fill="#D4B87A" stroke="#D4B87A" stroke-width="1" opacity="1" stroke-linejoin="round"/>
-    <path d="M 860 505 C 920 360 980 360 1040 505 S 1160 650 1220 505 S 1340 360 1400 505" fill="none" stroke="#5DADE2" stroke-width="8" opacity="0.9" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)"/>
-    <path d="M 860 575 C 920 705 980 705 1040 575 S 1160 445 1220 575 S 1340 705 1400 575" fill="none" stroke="#D4B87A" stroke-width="7" opacity="0.75" stroke-linecap="round" stroke-linejoin="round" />
-    <line x1="840" y1="540" x2="1420" y2="540" stroke="#D8D8D8" stroke-width="3" opacity="0.18" stroke-linecap="round" />
-  
+
+  <!--
+    複平面上「乘上 e^(iθ) 就是旋轉 θ」。
+
+    舊版畫的是「單位圓 + 正弦餘弦波」，與《三角函數圖形與弧度》構圖、配色
+    逐項相同，縮到卡片大小分不出哪張是哪張——而且圖裡沒有任何複數的成分。
+
+    幾何：圓心 (800,500)、半徑 300。實軸上的 1 在 (1100,500)、虛軸上的 i 在 (800,200)。
+    z = e^(iθ)，θ = 125°：(800 + 300cos125, 500 − 300sin125) = (627.9, 254.3)。
+    轉角取 125° 而非銳角，弧才夠長、看得出是「掃過去」，且必定經過 i，
+    順帶交代 i 就是四分之一圈。
+
+    畫面上角度增加的方向是逆時針（y 已在公式裡翻轉），所以 SVG 的 sweep-flag 取 0。
+  -->
+
+  <!-- 實軸與虛軸等長，才讀得出這是一個平面，而不是一張函數圖 -->
+  <line x1="400" y1="500" x2="1200" y2="500" stroke="#D8D8D8" stroke-width="4" opacity="0.26" stroke-linecap="round"/>
+  <line x1="800" y1="130" x2="800" y2="870" stroke="#D8D8D8" stroke-width="4" opacity="0.26" stroke-linecap="round"/>
+
+  <circle cx="800" cy="500" r="300" fill="none" stroke="#D8D8D8" stroke-width="4" opacity="0.4"/>
+
+  <!--
+    實部與虛部只用細虛線點到為止，不畫成粗的彩色線段——
+    《三角函數的幾何定義與恆等式》那張正是「圓 + 粗彩色分量」，
+    這裡再畫一次就換一種方式撞衫。這張的最重元素要是那條弧。
+  -->
+  <line x1="627.9" y1="254.3" x2="627.9" y2="500" stroke="#D8D8D8" stroke-width="3" opacity="0.32" stroke-dasharray="11 10"/>
+  <line x1="627.9" y1="254.3" x2="800" y2="254.3" stroke="#D8D8D8" stroke-width="3" opacity="0.32" stroke-dasharray="11 10"/>
+
+  <!-- 從 1 沿圓弧掃到 z -->
+  <path d="M 1100 500 A 300 300 0 0 0 627.9 254.3" fill="none" stroke="#D4B87A"
+        stroke-width="8" opacity="0.9" stroke-linecap="round" filter="url(#softGlow)"/>
+  <polygon points="603.3,271.5 619.9,242.8 635.9,265.8" fill="#D4B87A" opacity="0.95"/>
+
+  <!-- 向量 z -->
+  <line x1="800" y1="500" x2="627.9" y2="254.3" stroke="#D4B87A" stroke-width="9"
+        opacity="0.96" stroke-linecap="round" filter="url(#goldGlow)"/>
+
+  <!-- 實軸的 1 與虛軸的 i -->
+  <circle cx="1100" cy="500" r="12" fill="#D8D8D8" opacity="0.85"/>
+  <circle cx="800" cy="200" r="12" fill="#D8D8D8" opacity="0.85"/>
+
+  <circle cx="800" cy="500" r="9" fill="#D8D8D8" opacity="0.55"/>
 </svg>
