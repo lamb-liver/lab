@@ -1,6 +1,7 @@
 import type p5 from 'p5';
 import { canvas2d } from './canvas2d';
 import { project, vec3, type Projected, type Vec3, type ViewAngles } from '../../curve/projection3d';
+import { drawReadout, SCENE_GUIDE, type Rgb } from './readout';
 
 /**
  * 空間向量系列共用的 3D 場景繪製骨架。
@@ -13,9 +14,8 @@ import { project, vec3, type Projected, type Vec3, type ViewAngles } from '../..
 export type Point2 = { x: number; y: number };
 export type Scene3dLayout = { cx: number; cy: number; scale: number };
 
-export type Rgb = [number, number, number];
-
-export const SCENE_GUIDE: Rgb = [255, 255, 255];
+// 讀數區與配色常數與 3D 無關，2D 的線性規劃那組也共用，所以住在 readout.ts
+export { drawReadout, SCENE_GUIDE, type Rgb };
 
 type LayoutOptions = {
   /** 畫布短邊除以此值得到世界單位長度；數字越大場景越小 */
@@ -127,41 +127,6 @@ export function drawAxes(
     drawLabel(p, end, axis.label, SCENE_GUIDE, 74);
   }
   setDash(p, []);
-  p.pop();
-}
-
-/**
- * 左上角的讀數區；`highlightIndex` 那一行改用強調色。
- *
- * 行距要跟著實際換行數走：畫布窄時（手機）中文長句會折成兩行，
- * 用固定行距會讓下一行壓上來。
- */
-export function drawReadout(
-  p: p5,
-  width: number,
-  lines: string[],
-  options: { highlightIndex?: number; highlightColor?: Rgb } = {},
-): void {
-  const { highlightIndex = -1, highlightColor = SCENE_GUIDE } = options;
-  const margin = 18;
-  const maxWidth = width - margin * 2;
-  const fontSize = width < 420 ? 12 : 14;
-  const lineHeight = fontSize + 6;
-
-  p.push();
-  p.noStroke();
-  p.textSize(fontSize);
-  p.textAlign(p.LEFT, p.TOP);
-
-  let y = 16;
-  for (const [index, line] of lines.entries()) {
-    const on = index === highlightIndex;
-    const color = on ? highlightColor : SCENE_GUIDE;
-    p.fill(color[0], color[1], color[2], on ? 235 : 150);
-    p.text(line, margin, y, maxWidth);
-    const wrapped = Math.max(1, Math.ceil(p.textWidth(line) / maxWidth));
-    y += wrapped * lineHeight;
-  }
   p.pop();
 }
 
