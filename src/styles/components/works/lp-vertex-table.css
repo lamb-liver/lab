@@ -1,0 +1,57 @@
+/**
+ * 頂點法的候選表。
+ *
+ * 這一頁的主要輸出是表而不是圖，所以它是真的 <table>：
+ * 螢幕閱讀器讀得到列與欄，畫布裡的文字則讀不到。
+ */
+
+.lp-vertex-table {
+  width: 100%;
+  margin-bottom: var(--space-6);
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.lp-vertex-table caption {
+  margin-bottom: var(--space-2);
+  text-align: left;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.lp-vertex-table th,
+.lp-vertex-table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.lp-vertex-table th:first-child,
+.lp-vertex-table td:first-child {
+  text-align: left;
+}
+
+.lp-vertex-table thead th {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.lp-vertex-table tbody tr[data-optimal='true'] {
+  color: var(--color-accent);
+}
+
+/* 走訪中的那一列要在「最優」之外還看得出來，所以再加底色 */
+.lp-vertex-table tbody tr[data-visiting='true'] {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.lp-vertex-table__note {
+  margin-bottom: var(--space-6);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
