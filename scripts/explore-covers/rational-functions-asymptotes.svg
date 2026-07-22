@@ -13,7 +13,14 @@
   <line x1="250" y1="500" x2="1370" y2="500" stroke="#D8D8D8" stroke-width="4" opacity="0.18" stroke-linecap="round"/>
   <line x1="800" y1="190" x2="800" y2="820" stroke="#D8D8D8" stroke-width="4" opacity="0.16" stroke-linecap="round"/>
   <line x1="945" y1="180" x2="945" y2="820" stroke="#E76F51" stroke-width="7" opacity="0.58" stroke-linecap="round" stroke-dasharray="22 22"/>
-  <line x1="250" y1="395" x2="1370" y2="395" stroke="#5DADE2" stroke-width="7" opacity="0.58" stroke-linecap="round" stroke-dasharray="22 22" filter="url(#blueGlow)"/>
+  <!--
+    水平漸近線。原本掛 filter="url(#blueGlow)"，整條都沒畫出來——
+    水平線的 bounding box 高度為零，而 filter 預設用 objectBoundingBox
+    算區域，`-30% / 160%` 乘上零仍是零。這張叫《有理函數與漸近線》，
+    卻只看得到垂直那一條。改成粗線墊底做光暈，不掛濾鏡。
+  -->
+  <line x1="250" y1="395" x2="1370" y2="395" stroke="#5DADE2" stroke-width="16" opacity="0.14" stroke-linecap="round" stroke-dasharray="22 22"/>
+  <line x1="250" y1="395" x2="1370" y2="395" stroke="#5DADE2" stroke-width="7" opacity="0.58" stroke-linecap="round" stroke-dasharray="22 22"/>
   <path d="M 260 620 C 360 590 470 545 590 505 C 705 466 790 435 885 408"
         fill="none" stroke="#D4B87A" stroke-width="12" opacity="1" stroke-linecap="round" stroke-linejoin="round" filter="url(#goldGlow)"/>
   <path d="M 1008 750 C 1050 650 1108 555 1195 500 C 1262 458 1325 430 1395 410"

@@ -1,54 +1,63 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
   <defs>
-    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="8" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
     <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur stdDeviation="5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
   <rect width="1600" height="1000" fill="#0A0A0A"/>
-  <circle cx="250" cy="160" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="347" cy="213" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1220" cy="690" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1317" cy="743" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="314" cy="796" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="411" cy="189" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1284" cy="666" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="281" cy="719" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="378" cy="772" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="475" cy="165" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="572" cy="218" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1251" cy="589" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1348" cy="642" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="345" cy="695" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="539" cy="801" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="636" cy="194" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1218" cy="512" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1315" cy="565" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="312" cy="618" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="700" cy="170" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1282" cy="488" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="279" cy="541" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="376" cy="594" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="764" cy="806" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="861" cy="199" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1249" cy="411" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1346" cy="464" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="343" cy="517" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="828" cy="782" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="925" cy="175" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1216" cy="334" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1313" cy="387" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="310" cy="440" r="7" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="989" cy="811" r="5" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<circle cx="1086" cy="204" r="6" fill="#5DADE2" opacity="0.16" stroke="none" stroke-width="0"/>
-<rect x="390" y="220" width="820" height="560" fill="rgba(212,184,122,0.08)" stroke="#D4B87A" stroke-width="6" opacity="0.95"/>
-<line x1="800" y1="220" x2="800" y2="780" stroke="#D8D8D8" stroke-width="4" opacity="0.42" stroke-linecap="round" />
-<line x1="390" y1="505" x2="1210" y2="505" stroke="#D8D8D8" stroke-width="4" opacity="0.42" stroke-linecap="round" />
-<rect x="800" y="220" width="410" height="285" fill="rgba(93,173,226,0.16)" stroke="#5DADE2" stroke-width="5" opacity="0.72"/>
-<rect x="390" y="505" width="410" height="275" fill="rgba(212,184,122,0.18)" stroke="#D4B87A" stroke-width="5" opacity="0.72"/>
-<rect x="800" y="505" width="410" height="275" fill="rgba(212,184,122,0.28)" stroke="#D4B87A" stroke-width="5" opacity="0.95"/>
+
+  <!--
+    樣本空間裡兩個相交事件，交集加亮。
+
+    舊版是一個 2×2 色塊矩形：第一眼像矩陣或色票，還會跟《矩陣與線性變換》
+    的視覺語彙打架，四格也看不出各自代表什麼。
+    改成課本講條件機率時的標準圖——外框是樣本空間，兩個圓是事件 A、B，
+    交集 A∩B 加亮；圓內外都撒等機率的點，同時交代「古典機率靠數個數」。
+
+    幾何：A 圓心 (700,500)、B 圓心 (900,500)，半徑皆 210。
+    兩圓交點 x = 800、y = 500 ± √(210² − 100²) = 500 ± 184.66。
+  -->
+
+  <!-- 樣本空間 -->
+  <rect x="400" y="230" width="800" height="540" fill="none" stroke="#D8D8D8" stroke-width="4" opacity="0.34" rx="6"/>
+
+  <!-- 事件 A（金）與事件 B（藍） -->
+  <circle cx="700" cy="500" r="210" fill="rgba(212,184,122,0.10)" stroke="#D4B87A" stroke-width="5" opacity="0.85"/>
+  <circle cx="900" cy="500" r="210" fill="rgba(93,173,226,0.10)" stroke="#5DADE2" stroke-width="5" opacity="0.85"/>
+
+  <!-- 交集 A∩B -->
+  <path d="M 800 315.34 A 210 210 0 0 1 800 684.66 A 210 210 0 0 1 800 315.34 Z"
+        fill="rgba(212,184,122,0.26)" stroke="#D4B87A" stroke-width="3" opacity="0.9"/>
+
+  <!-- 交集內的結果：加亮，數得出來 -->
+  <circle cx="792" cy="404" r="9" fill="#D4B87A" opacity="0.95" filter="url(#softGlow)"/>
+  <circle cx="822" cy="466" r="9" fill="#D4B87A" opacity="0.95" filter="url(#softGlow)"/>
+  <circle cx="774" cy="524" r="9" fill="#D4B87A" opacity="0.95" filter="url(#softGlow)"/>
+  <circle cx="814" cy="584" r="9" fill="#D4B87A" opacity="0.95" filter="url(#softGlow)"/>
+
+  <!-- 只屬於 A -->
+  <circle cx="608" cy="428" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="652" cy="520" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="594" cy="592" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="688" cy="378" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="664" cy="622" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="556" cy="500" r="8" fill="#D8D8D8" opacity="0.5"/>
+
+  <!-- 只屬於 B -->
+  <circle cx="962" cy="430" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="1012" cy="522" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="948" cy="596" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="1044" cy="472" r="8" fill="#D8D8D8" opacity="0.5"/>
+  <circle cx="986" cy="652" r="8" fill="#D8D8D8" opacity="0.5"/>
+
+  <!-- 兩者皆非，但仍在樣本空間內 -->
+  <circle cx="462" cy="296" r="8" fill="#D8D8D8" opacity="0.3"/>
+  <circle cx="1136" cy="308" r="8" fill="#D8D8D8" opacity="0.3"/>
+  <circle cx="452" cy="712" r="8" fill="#D8D8D8" opacity="0.3"/>
+  <circle cx="1144" cy="722" r="8" fill="#D8D8D8" opacity="0.3"/>
+  <circle cx="800" cy="268" r="8" fill="#D8D8D8" opacity="0.3"/>
+  <circle cx="800" cy="736" r="8" fill="#D8D8D8" opacity="0.3"/>
+  <circle cx="558" cy="270" r="8" fill="#D8D8D8" opacity="0.3"/>
+  <circle cx="1040" cy="740" r="8" fill="#D8D8D8" opacity="0.3"/>
 </svg>
