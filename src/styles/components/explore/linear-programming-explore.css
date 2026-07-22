@@ -1,0 +1,107 @@
+.linear-programming-explore__stage {
+  grid-template-columns: minmax(0, 1fr) min(320px, 36vw);
+}
+
+.linear-programming-explore__visual-title {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(232, 232, 232, 0.65);
+}
+
+.linear-programming-explore__visual-sub {
+  margin: var(--space-1) 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgb(212, 184, 122);
+  opacity: 0.85;
+}
+
+.linear-programming-explore__sidebar {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.linear-programming-explore__block-title {
+  margin: 0 0 var(--space-2);
+  color: rgb(212, 184, 122);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+}
+
+.linear-programming-explore__modes {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.linear-programming-explore__mode-button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.linear-programming-explore__mode-button[data-active='true'] {
+  border-color: rgba(212, 184, 122, 0.6);
+  color: rgb(212, 184, 122);
+  background: rgba(212, 184, 122, 0.08);
+}
+
+.linear-programming-explore__reading {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0 0 0.35rem;
+  color: var(--color-text-muted);
+}
+
+.linear-programming-explore__reading span:last-child {
+  color: var(--color-text);
+}
+
+/* 三種讀法各自的結論；文字較長，不用兩欄排 */
+.linear-programming-explore__verdict {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+/* .control-field 的 label 版面在 works 由 controls-panel 提供；explore 側欄要自己給 */
+.linear-programming-explore__sidebar .control-field label {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: 0.35rem;
+  color: var(--color-text-muted);
+}
+
+.linear-programming-explore__sidebar .control-field__value {
+  color: var(--color-text);
+}
+
+.linear-programming-explore__sidebar .control-field + .control-field {
+  margin-top: var(--space-2);
+}
+
+/*
+ * explore-stage.css 沒有共用的 RWD，每個 slug 的樣式表要自己讓兩欄堆疊；
+ * 少了這段，手機上側欄仍佔 36vw，畫布會被擠成約 150px 而無法操作。
+ */
+@media (max-width: 768px) {
+  .linear-programming-explore__stage {
+    grid-template-columns: 1fr;
+  }
+
+  .linear-programming-explore__sidebar {
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+  }
+}

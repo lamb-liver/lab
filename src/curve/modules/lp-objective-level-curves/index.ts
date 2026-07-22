@@ -1,58 +1,87 @@
-import { defaultsFromSchema } from '../../defaults';
-import { BASE_POINT_STEP } from '../../constants';
-import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurveModule, ParamSchema, ParamValues } from '../../types';
+import { formatPoint } from '../../linearProgramming';
+import {
+  DEFAULT_LP_OBJECTIVE_LEVEL_CURVES_PARAMS,
+  LEVEL_STEP,
+  computeObjectiveMetrics,
+  sampleObjectiveThumbnail,
+  type LpObjectiveLevelCurvesParams,
+} from './geometry';
 
-const RADIUS = 200;
+/** 控制項由 LpObjectiveLevelCurvesCurveRoot 自行渲染 */
+const paramSchema: ParamSchema = [];
 
-const paramSchema: ParamSchema = [
-  { key: 'n', label: '待命名參數 n', min: 1, max: 8, step: 1, default: 3 },
-];
+export function asLpObjectiveLevelCurvesParams(
+  params: ParamValues | LpObjectiveLevelCurvesParams,
+): LpObjectiveLevelCurvesParams {
+  const fallback = DEFAULT_LP_OBJECTIVE_LEVEL_CURVES_PARAMS;
+  return {
+    p: (params.p as number) ?? fallback.p,
+    q: (params.q as number) ?? fallback.q,
+    k: (params.k as number) ?? fallback.k,
+    tx: (params.tx as number) ?? fallback.tx,
+    ty: (params.ty as number) ?? fallback.ty,
+    showFamily: params.showFamily === undefined ? fallback.showFamily : params.showFamily !== 0,
+  };
+}
 
-function sampleCurve(params: ParamValues, step: number): CurvePoint[] {
-  const n = Math.round(params.n);
-  if (n <= 0 || step <= 0) return [];
-
-  const points: CurvePoint[] = [];
-  let cumulative = 0;
-  let prevX = 0;
-  let prevY = 0;
-
-  for (let theta = 0; theta <= 2 * Math.PI; theta += step) {
-    // 待替換：佔位幾何 r = R·(0.6 + 0.4·cos(nθ))
-    const r = RADIUS * (0.6 + 0.4 * Math.cos(n * theta));
-    const x = r * Math.cos(theta);
-    const y = r * Math.sin(theta);
-
-    if (points.length > 0) {
-      cumulative += Math.hypot(x - prevX, y - prevY);
-    }
-
-    points.push({ x, y, theta, arcLength: cumulative });
-    prevX = x;
-    prevY = y;
-  }
-
-  return points;
+export function lpObjectiveLevelCurvesParamsForMetadata(
+  params: LpObjectiveLevelCurvesParams,
+): ParamValues {
+  return {
+    p: params.p,
+    q: params.q,
+    k: params.k,
+    tx: params.tx,
+    ty: params.ty,
+    showFamily: params.showFamily ? 1 : 0,
+  };
 }
 
 export const lpObjectiveLevelCurvesModule: CurveModule = {
   id: 'lp-objective-level-curves',
   paramSchema,
-  defaultParams: defaultsFromSchema(paramSchema),
-  sample: (params, { step, purpose }) => {
-    const points = sampleCurve(params, step);
-    if (purpose === 'thumbnail') {
-      const spec: ThumbnailSpec = {
-        paths: [{ points, closed: true }],
-      };
-      return spec;
-    }
-    return points;
+  defaultParams: lpObjectiveLevelCurvesParamsForMetadata(
+    DEFAULT_LP_OBJECTIVE_LEVEL_CURVES_PARAMS,
+  ),
+  sample: (params, { purpose }) => {
+    const spec = sampleObjectiveThumbnail(asLpObjectiveLevelCurvesParams(params));
+    if (purpose === 'thumbnail') return spec;
+    return spec.paths[0]?.points ?? [];
   },
-  getMetadata: (params) => ({
-    title: '目標函數等值線',
-    formula: '待補公式',
-    stats: [{ key: 'n', label: 'n', value: Math.round(params.n) }],
-  }),
-  sampleStep: BASE_POINT_STEP,
+  getMetadata: (params) => {
+    const objectiveParams = asLpObjectiveLevelCurvesParams(params);
+    const metrics = computeObjectiveMetrics(objectiveParams);
+
+    return {
+      title: '目標函數等值線',
+      formula: 'z = px + qy，等值線 px + qy = k',
+      stats: [
+        { key: 'normal', label: '法向 n', value: formatPoint(metrics.normal) },
+        { key: 'norm', label: '‖n‖', value: metrics.normalLength.toFixed(3) },
+        { key: 'k', label: '目前 k', value: objectiveParams.k.toFixed(2) },
+        {
+          key: 'test',
+          label: `測試點 ${formatPoint(metrics.testPoint, 1)}`,
+          value: `z = ${metrics.testValue.toFixed(2)}`,
+        },
+        {
+          key: 'spacing',
+          label: `相鄰間距（Δk = ${LEVEL_STEP}）`,
+          value: metrics.degenerate ? '係數皆為零，沒有等值線' : metrics.spacing.toFixed(3),
+        },
+      ],
+    };
+  },
+  animation: { lerp: 1, revealSpeed: 0 },
 };
+
+export {
+  AXIS_HALF,
+  DEFAULT_LP_OBJECTIVE_LEVEL_CURVES_PARAMS,
+  LEVEL_STEP,
+  computeObjectiveMetrics,
+  levelFromPoint,
+  type LpObjectiveLevelCurvesParams,
+  type ObjectiveMetrics,
+} from './geometry';
