@@ -126,9 +126,10 @@ export function nextSteps(slug) {
     '2. Rewrite the question in your own words. Do not paste the original text or options.',
     '3. Link relatedExplore / relatedWorks to published slugs.',
     '4. Add the interactive: src/exam/, src/components/exam/, and the stage registry.',
-    '5. Set the true publish date and a positive order before publishing.',
-    '6. Complete the Exam release Gate in docs/exam-visualization-plan.md.',
-    '7. Preview with npm run dev, then open /exam.',
+    `5. Add scripts/exam-covers/${slug}.svg, run npm run covers:exam, then set coverImage.`,
+    '6. Set the true publish date and a positive order before publishing.',
+    '7. Complete the Exam release Gate in docs/exam-visualization-plan.md.',
+    '8. Preview with npm run dev, then open /exam.',
     '',
     `Exam content: src/content/exam/${slug}.md`,
   ].join('\n');

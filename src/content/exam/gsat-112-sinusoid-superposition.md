@@ -20,6 +20,7 @@ relatedWorks:
   - function-graph-transform
 date: 2026-07-24
 order: 2
+coverImage: /images/exam-covers/gsat-112-sinusoid-superposition.png
 featured: false
 draft: false
 ---

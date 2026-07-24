@@ -25,7 +25,9 @@ npm run dev
 | `npm run build` | 建置靜態站到 `dist/` |
 | `npm run validate:frontend -- --url <route>` | 依序執行內容檢查、測試、建置與 DOM 驗證 |
 | `npm run audit:integration` | 驗證 content、registry 與 stage 接線 |
-| `npm run audit:public-pages` | 列出公開／草稿 Works 與 Explore，並執行發布檢查 |
+| `npm run covers:exam` | 由 SVG 來源生成 Exam 列表封面 |
+| `npm run audit:exam-covers` | 驗證公開 Exam 的 SVG、PNG、尺寸與 frontmatter |
+| `npm run audit:public-pages` | 列出公開／草稿 Works、Explore 與 Exam，並執行發布檢查 |
 | `npm run validate:changed` | 依 Git 變更選擇聚焦驗證 |
 
 需要視覺證據時才在 `validate:frontend` 後加 `--screenshot`。

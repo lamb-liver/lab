@@ -64,6 +64,7 @@ const exam = defineCollection({
     relatedWorks: z.array(z.string()).default([]),
     date: z.coerce.date(),
     order: z.number().int().nonnegative(),
+    coverImage: z.string().optional(),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),

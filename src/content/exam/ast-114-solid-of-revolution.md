@@ -18,6 +18,7 @@ relatedWorks:
   - riemann-sum
 date: 2026-07-24
 order: 4
+coverImage: /images/exam-covers/ast-114-solid-of-revolution.png
 featured: false
 draft: false
 ---

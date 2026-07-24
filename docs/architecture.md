@@ -12,12 +12,14 @@ This document is the system map for AI agents and maintainers. It does not repla
 |--------|------|------------------|
 | Works content | `src/content/works/*.md` | `textstyle.md`, `content-interaction-contract.md` |
 | Explore content | `src/content/explore/*.md` | `textstyle.md`, `content-interaction-contract.md` |
+| Exam content | `src/content/exam/*.md` | `textstyle.md`, `exam-visualization-plan.md` |
 | Site shell UX | Astro layouts, list filter, nav/footer | `site-ux.md` |
 | Work geometry modules | `src/curve/modules/*` | `p5toreact.md` |
 | Work runtime mounting | `src/components/works/*CurveRoot.tsx`, `WorkInteractiveStage.tsx` | `p5toreact.md`, `reactkey.md` |
 | Shared rendering | `src/systems/rendering/*` | `art.md`, `workart.md`, `exploreart.md`, `p5toreact.md` |
 | Work thumbnails | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | `workart.md`, `p5toreact.md` |
 | Explore interactives | `src/explore/*`, `src/components/explore/*ExploreRoot.tsx` | `exploreart.md`, `p5toreact.md` |
+| Exam interactives | `src/exam/*`, `src/components/exam/*ExamRoot.tsx` | `exam-visualization-plan.md`, `p5toreact.md` |
 | 3D 空間向量共用層 | `src/curve/projection3d.ts`, `src/systems/rendering/scene3d.ts`, `src/components/curve/useOrbitViewP5.ts` | 本文件下節 |
 
 ## Works Data Flow
@@ -70,7 +72,7 @@ src/content/explore/{slug}.md
     -> src/systems/rendering/*
 ```
 
-Explore list cards use static `coverImage` assets, not `curveThumbnail.ts`.
+Explore and Exam list cards use static `coverImage` assets, not `curveThumbnail.ts`.
 
 ## Site Shell and List Filter
 
@@ -81,6 +83,7 @@ src/lib/listFilter.ts              # pure filter/count/URL helpers
 src/components/ListSearchFilterScript.astro   # search + DOM events + scroll fade
 src/pages/works/index.astro
 src/pages/explore/index.astro
+src/pages/exam/index.astro
 ```
 
 Detail pages use `Breadcrumb.astro` + `.detail-top-nav` for context navigation vs quick back links. Full contract: `site-ux.md`.
@@ -99,7 +102,14 @@ Keep these synchronized when adding an interactive explore page:
 - `src/content/explore/{slug}.md`
 - `src/explore/interactiveRegistry.ts`
 - `src/components/explore/ExploreInteractiveStage.tsx`
-- optional `public/images/explore-covers/*` cover image and frontmatter `coverImage`
+- `scripts/explore-covers/{slug}.svg`, generated `public/images/explore-covers/{slug}.png`, and frontmatter `coverImage`
+
+Keep these synchronized when adding an interactive Exam page:
+
+- `src/content/exam/{slug}.md`
+- `src/exam/interactiveRegistry.ts`
+- `src/components/exam/ExamInteractiveStage.tsx`
+- `scripts/exam-covers/{slug}.svg`, generated `public/images/exam-covers/{slug}.png`, and frontmatter `coverImage`
 
 ## 3D 空間向量共用層
 

@@ -12,6 +12,7 @@ interface Props {
   questionType: ExamQuestionType;
   questionNo: string;
   concepts: string[];
+  coverImage?: string;
   draft?: boolean;
 }
 
@@ -24,6 +25,7 @@ const {
   questionType,
   questionNo,
   concepts,
+  coverImage,
   draft = false,
 } = Astro.props;
 const sourceLabel = `${year} ${subject}・${questionType}${questionNo}`;
@@ -38,7 +40,19 @@ const sourceLabel = `${year} ${subject}・${questionType}${questionNo}`;
   <a href={`/exam/${slug}`} class="card__link-wrap">
     <span class="card__kind card__kind--explore">{draft ? '草稿' : '試題視覺化'}</span>
     <div class="card__thumb" aria-hidden="true">
-      <CardThumbFallback />
+      {
+        coverImage ? (
+          <img
+            src={coverImage}
+            alt=""
+            class="card__thumb-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <CardThumbFallback />
+        )
+      }
     </div>
     <div class="card__body">
       <div class="card__title-row">

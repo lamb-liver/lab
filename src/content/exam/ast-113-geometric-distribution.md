@@ -20,6 +20,7 @@ relatedWorks:
   - arithmetic-geometric-sequences
 date: 2026-07-24
 order: 5
+coverImage: /images/exam-covers/ast-113-geometric-distribution.png
 featured: false
 draft: false
 ---

@@ -69,6 +69,7 @@ const validExam = {
     '  - valid-work',
     'relatedExplore:',
     '  - valid-explore',
+    'coverImage: /images/exam-covers/valid-exam.png',
     'date: 2026-07-24',
     'order: 1',
     'draft: false',
@@ -110,10 +111,26 @@ describe('release content audit', () => {
 
   it('passes valid published works, explore, and exam content', () => {
     const result = auditContent([validWork, validExplore, validExam], {
-      fileExists: (path: string) => path.endsWith('/public/images/explore-covers/valid-explore.png'),
+      fileExists: (path: string) =>
+        path.endsWith('/public/images/explore-covers/valid-explore.png') ||
+        path.endsWith('/public/images/exam-covers/valid-exam.png'),
     });
 
     expect(result.issues).toEqual([]);
+  });
+
+  it('requires a coverImage for published Exam content', () => {
+    const examWithoutCover = {
+      ...validExam,
+      body: validExam.body.replace('coverImage: /images/exam-covers/valid-exam.png\n', ''),
+    };
+    const result = auditContent([validWork, validExplore, examWithoutCover], {
+      fileExists: () => true,
+    });
+
+    expect(result.issues.map((issue) => issue.message)).toContain(
+      'published exam content must define coverImage',
+    );
   });
 
   it('requires published Exam frontmatter relations to exist and be public', () => {

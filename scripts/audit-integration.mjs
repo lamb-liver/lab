@@ -2,7 +2,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { auditExploreCovers } from './audit-explore-covers.mjs';
+import { auditExamCovers, auditExploreCovers } from './audit-static-covers.mjs';
 import { parseStageRootImports } from './stage-root-map.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -269,6 +269,10 @@ function auditIntegration() {
   const issues = [];
   checkWorkSurfaces(issues);
   checkExploreSurfaces(issues);
+  const examCoverResult = auditExamCovers();
+  for (const issue of examCoverResult.issues) {
+    issues.push({ area: 'exam-cover', ...issue });
+  }
   return { issues };
 }
 

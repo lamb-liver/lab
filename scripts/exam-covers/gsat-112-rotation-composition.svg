@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="blueGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="goldArrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto">
+      <path d="M 1 1 L 11 6 L 1 11 Z" fill="#D4B87A"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <g stroke="#D8D8D8" stroke-width="3" opacity="0.12">
+    <line x1="800" y1="140" x2="800" y2="860"/>
+    <line x1="280" y1="500" x2="1320" y2="500"/>
+    <line x1="430" y1="870" x2="1170" y2="130" stroke-dasharray="16 18"/>
+    <line x1="430" y1="130" x2="1170" y2="870" stroke-dasharray="16 18"/>
+  </g>
+  <path d="M 800 500 L 1120 500 L 920 280 Z" fill="#D8D8D8" fill-opacity="0.025"
+    stroke="#D8D8D8" stroke-width="5" stroke-dasharray="18 16" opacity="0.36"/>
+  <path d="M 800 500 L 800 180 L 580 380 Z" fill="#D4B87A" fill-opacity="0.08"
+    stroke="#D4B87A" stroke-width="9" stroke-linejoin="round" filter="url(#goldGlow)"/>
+  <path d="M 800 500 L 800 180 L 1020 380 Z" fill="#5DADE2" fill-opacity="0.07"
+    stroke="#5DADE2" stroke-width="7" stroke-linejoin="round" opacity="0.88" filter="url(#blueGlow)"/>
+  <path d="M 1095 535 C 1110 690 990 790 825 790 C 665 790 555 690 575 540"
+    fill="none" stroke="#D4B87A" stroke-width="7" stroke-linecap="round"
+    marker-end="url(#goldArrow)" opacity="0.78"/>
+  <g>
+    <circle cx="800" cy="500" r="15" fill="#D4B87A"/>
+    <circle cx="1120" cy="500" r="12" fill="#D8D8D8" opacity="0.55"/>
+    <circle cx="920" cy="280" r="12" fill="#D8D8D8" opacity="0.55"/>
+    <circle cx="580" cy="380" r="15" fill="#D4B87A"/>
+    <circle cx="1020" cy="380" r="15" fill="#5DADE2"/>
+    <circle cx="800" cy="180" r="15" fill="#D4B87A"/>
+  </g>
+</svg>

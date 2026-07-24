@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { fileURLToPath } from 'node:url';
 import { auditContent, parseFrontmatter, readContentFiles } from './audit-content.mjs';
-import { auditExploreCovers } from './audit-explore-covers.mjs';
+import { auditExamCovers, auditExploreCovers } from './audit-static-covers.mjs';
 
 function fieldValue(parsed, key) {
   return parsed?.fields.get(key)?.value ?? null;
@@ -38,7 +38,7 @@ function names(entries) {
   return entries.map((entry) => entry.slug).join(', ') || '(none)';
 }
 
-function printMarkdown(summary, contentResult, coverResult) {
+function printMarkdown(summary, contentResult, exploreCoverResult, examCoverResult) {
   console.log('# Public Pages Audit');
   console.log('');
   console.log('## Live Scope');
@@ -53,7 +53,8 @@ function printMarkdown(summary, contentResult, coverResult) {
   console.log('## Checks');
   console.log('');
   console.log(`- Content audit: ${contentResult.issues.length === 0 ? 'pass' : 'fail'}`);
-  console.log(`- Explore cover audit: ${coverResult.issues.length === 0 ? 'pass' : 'fail'}`);
+  console.log(`- Explore cover audit: ${exploreCoverResult.issues.length === 0 ? 'pass' : 'fail'}`);
+  console.log(`- Exam cover audit: ${examCoverResult.issues.length === 0 ? 'pass' : 'fail'}`);
   console.log('');
   console.log('## Public Pages');
   console.log('');
@@ -69,7 +70,8 @@ function printMarkdown(summary, contentResult, coverResult) {
 
   const issues = [
     ...contentResult.issues.map((issue) => `${issue.file}:${issue.line}: ${issue.message}`),
-    ...coverResult.issues.map((issue) => `${issue.file}: ${issue.message}`),
+    ...exploreCoverResult.issues.map((issue) => `${issue.file}: ${issue.message}`),
+    ...examCoverResult.issues.map((issue) => `${issue.file}: ${issue.message}`),
   ];
 
   if (issues.length > 0) {
@@ -84,16 +86,26 @@ function main() {
   const files = readContentFiles();
   const summary = contentSummary(files);
   const contentResult = auditContent(files);
-  const coverResult = auditExploreCovers();
-  const result = { summary, content: contentResult, exploreCovers: coverResult };
+  const exploreCoverResult = auditExploreCovers();
+  const examCoverResult = auditExamCovers();
+  const result = {
+    summary,
+    content: contentResult,
+    exploreCovers: exploreCoverResult,
+    examCovers: examCoverResult,
+  };
 
   if (process.argv.includes('--json')) {
     console.log(JSON.stringify(result, null, 2));
   } else {
-    printMarkdown(summary, contentResult, coverResult);
+    printMarkdown(summary, contentResult, exploreCoverResult, examCoverResult);
   }
 
-  if (contentResult.issues.length > 0 || coverResult.issues.length > 0) {
+  if (
+    contentResult.issues.length > 0 ||
+    exploreCoverResult.issues.length > 0 ||
+    examCoverResult.issues.length > 0
+  ) {
     process.exitCode = 1;
   }
 }

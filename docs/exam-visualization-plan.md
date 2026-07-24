@@ -37,6 +37,7 @@ const exam = defineCollection({
     analysisUrl: z.string().url().optional(), // 答對率／解析出處
     relatedExplore: z.array(z.string()).default([]),
     relatedWorks: z.array(z.string()).default([]),
+    coverImage: z.string().optional(),
     date: z.coerce.date(),
     order: z.number().int().nonnegative(),
     featured: z.boolean().default(false),
@@ -86,12 +87,30 @@ src/components/exam/ExamCard.astro
 src/components/curve/use{Xxx}P5.ts     # p5 hook 沿用既有位置
 src/systems/rendering/{xxx}Render.ts
 scripts/new-exam.mjs                   # 比照 new-explore.mjs，加 --interactive
+scripts/exam-covers/{slug}.svg         # 可重現的封面來源
+public/images/exam-covers/{slug}.png   # 1600×1000 列表封面
 ```
 
 同步清單（比照 `architecture.md` 的 registry relationships）：
 `src/content/exam/{slug}.md`、`src/exam/interactiveRegistry.ts`、
-`src/components/exam/ExamInteractiveStage.tsx`、封面圖（若採用）。
+`src/components/exam/ExamInteractiveStage.tsx`、封面 SVG／PNG 與 frontmatter `coverImage`。
 `registry.sync.test.ts` 要加上 exam 的對應斷言。
+
+## Exam 封面
+
+公開 Exam 必須有靜態封面，沿用 Explore 的生成方式與 16:10 卡片比例：
+
+```text
+scripts/exam-covers/{slug}.svg
+    -> npm run covers:exam
+    -> public/images/exam-covers/{slug}.png
+    -> coverImage: /images/exam-covers/{slug}.png
+```
+
+- SVG 與 PNG 固定為 1600×1000；深色背景、金色主體，最多一種輔助色。
+- 封面只保留題目的核心數學關係，不放題目文字、答案、控制項或完整舞台 UI。
+- 主體放在中央安全區，縮至 375px 寬仍能辨識，並與相鄰 Exam 卡片一起檢查。
+- 發布前執行 `npm run audit:exam-covers`，確認來源、PNG、尺寸與 frontmatter 完整同步。
 
 ## 3D 題目的技術決定
 
@@ -169,6 +188,7 @@ npm run typecheck
 npm test
 npm run audit:integration
 npm run audit:content
+npm run audit:exam-covers
 npm run test:content-audit
 npm run build
 ```
@@ -176,6 +196,7 @@ npm run build
 ### 4. 公開面與封鎖驗證
 
 - [ ] 新題維持 `draft: true` 時，production build 不產出該 slug；改為 `draft: false` 後才出現在列表與 sitemap
+- [ ] `scripts/exam-covers/{slug}.svg`、生成的 1600×1000 PNG 與 `coverImage` 路徑一致，且縮至 375px 仍清楚
 - [ ] `/exam` 路由位於 `src/pages/exam/`，頁面沒有 `noindex`，Nav 與 Footer 都有入口
 - [ ] 公開 `/exam` 列表看得到該題，卡片可點入，`/exam/[slug]` 直接開啟為 200
 - [ ] 原卷、解析、相關 Explore 與 Works 連結都能從公開頁實際點開
