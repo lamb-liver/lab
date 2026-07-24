@@ -12,7 +12,6 @@ const VIEW_W = 320;
 const VIEW_H = 200;
 const PAD = 16;
 const ACCENT = 'rgb(212, 184, 122)';
-const GUIDE_STROKE = 'rgb(255, 255, 255)';
 const DEFAULT_PATH_OPACITY = 1;
 const DEFAULT_PATH_STROKE_WIDTH = 1.2;
 

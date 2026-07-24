@@ -7,7 +7,6 @@ import {
   circleLayout,
   equivalentAngle,
   formatArcLength,
-  formatDeg,
   formatRad,
   pointOnCircle,
   radiusFromMode,

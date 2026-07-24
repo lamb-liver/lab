@@ -6,7 +6,6 @@ import {
 } from './constants';
 import type {
   RationalModel,
-  RationalParamKey,
   RationalParams,
   RationalPreset,
   RationalPresetId,

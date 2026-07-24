@@ -1,5 +1,5 @@
 import type p5 from 'p5';
-import { addVec3, planeAnchor, planeQuad, vec3 } from '../../curve/projection3d';
+import { addVec3, planeAnchor, planeQuad } from '../../curve/projection3d';
 import {
   createScene3dLayout,
   drawArrow,

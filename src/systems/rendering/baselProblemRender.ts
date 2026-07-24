@@ -2,12 +2,6 @@ import type p5 from 'p5';
 import type { ParamValues } from '../../curve/types';
 import {
   BASEL_VIEW,
-  MODE_AREA,
-  MODE_COMPARE,
-  MODE_EULER,
-  MODE_PARAM,
-  MODE_PARTIAL,
-  MODE_PSERIES,
   PI2_OVER_6,
   baselModeFromValue,
   buildAreaSquares,

@@ -23,11 +23,6 @@ const BG: [number, number, number] = [10, 10, 10];
 const ACCENT: [number, number, number] = [212, 184, 122];
 const GUIDE: [number, number, number] = [255, 255, 255];
 
-function setDash(p: p5, pattern: number[]): void {
-  const ctx = canvas2d(p);
-  ctx.setLineDash(pattern);
-}
-
 function withPlotClip(p: p5, plotMin: number, plotMax: number, draw: () => void): void {
   const ctx = canvas2d(p);
   p.push();
@@ -37,25 +32,6 @@ function withPlotClip(p: p5, plotMin: number, plotMax: number, draw: () => void)
   ctx.clip();
   draw();
   ctx.restore();
-  p.pop();
-}
-
-function drawLine(
-  p: p5,
-  a: Vec2,
-  b: Vec2,
-  color: readonly [number, number, number],
-  alpha: number,
-  weight: number,
-  dashed = false,
-): void {
-  p.push();
-  p.stroke(...color, alpha);
-  p.strokeWeight(weight);
-  p.strokeCap(p.ROUND);
-  setDash(p, dashed ? [5, 8] : []);
-  p.line(a.x, a.y, b.x, b.y);
-  setDash(p, []);
   p.pop();
 }
 

@@ -229,7 +229,6 @@ function drawDot(
 }
 
 function drawParallelogram(p: p5, a: Complex, b: Complex, plot: PlotRect): void {
-  const o = complexToScreen({ re: 0, im: 0 }, plot);
   const pa = complexToScreen(a, plot);
   const pb = complexToScreen(b, plot);
   const ps = complexToScreen({ re: a.re + b.re, im: a.im + b.im }, plot);

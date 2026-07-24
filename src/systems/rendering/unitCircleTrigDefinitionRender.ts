@@ -3,7 +3,6 @@ import type p5 from 'p5';
 import {
   circleGeometry,
   clamp,
-  EPS,
   getTrigValues,
   getVisualCaption,
   nearestSpecialAngle,

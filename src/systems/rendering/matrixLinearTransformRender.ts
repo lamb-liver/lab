@@ -3,7 +3,6 @@ import { DET_WARN_THRESHOLD, GRID_SAMPLE_STEP, GRID_STEP, WORLD_EXTENT } from '.
 import {
   getSpecialFormula,
   getSpecialNote,
-  getSpecialParam,
   getSpecialTitle,
   matrixDet,
   matrixDifference,

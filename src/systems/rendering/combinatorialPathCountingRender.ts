@@ -4,7 +4,6 @@ import {
   type GridLayout,
   type PathMode,
   gridToScreen,
-  modeFromValue,
 } from '../../curve/modules/combinatorial-path-counting/geometry';
 
 type CombinatorialSnap = {
@@ -160,8 +159,4 @@ function drawPathGlow(p: p5, points: Array<{ x: number; y: number }>, startIndex
     for (let i = startIndex; i < endIndex; i += 1) p.vertex(points[i]!.x, points[i]!.y);
     p.endShape();
   }
-}
-
-function resolveMode(paramsMode: number | undefined): PathMode {
-  return modeFromValue(paramsMode);
 }

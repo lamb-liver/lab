@@ -2,7 +2,6 @@ import type p5 from 'p5';
 import {
   BINOMIAL_VIEW,
   type BinomialMode,
-  modeFromValue,
   project3,
 } from '../../curve/modules/binomial-expansion-geometry/geometry';
 
@@ -306,8 +305,4 @@ function drawEdge(
   const a = project3(origin, ex, ey, ez, x1, y1, z1);
   const b = project3(origin, ex, ey, ez, x2, y2, z2);
   p.line(a.x, a.y, b.x, b.y);
-}
-
-function resolveMode(value: number | undefined): BinomialMode {
-  return modeFromValue(value);
 }

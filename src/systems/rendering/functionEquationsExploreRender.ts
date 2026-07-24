@@ -7,7 +7,6 @@ import {
   clamp,
   computeSceneLayout,
   curvesForView,
-  fmt,
   niceYStep,
   polyValue,
   positiveIntervals,

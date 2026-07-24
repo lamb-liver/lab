@@ -10,7 +10,6 @@ import type {
   CurvePoint,
   FunctionEquationsParams,
   FunctionEquationsSmooth,
-  Multiplicity,
   PlotRect,
   PolynomialParams,
   QuadraticParams,
