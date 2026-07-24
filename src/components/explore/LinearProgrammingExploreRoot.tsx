@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
 import {
-  AXIS_HALF,
   DEFAULT_LINEAR_PROGRAMMING_PARAMS,
   computeLinearProgrammingMetrics,
   modeTitle,

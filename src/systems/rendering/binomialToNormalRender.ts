@@ -4,7 +4,6 @@ import {
   type BinormalMode,
   deriveBinormalData,
   normalPDF,
-  percent,
 } from '../../curve/modules/binomial-to-normal/geometry';
 import type { ParamValues } from '../../curve/types';
 

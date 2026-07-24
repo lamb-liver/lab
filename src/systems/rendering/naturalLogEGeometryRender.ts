@@ -1,7 +1,6 @@
 import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
-  AREA_VIEW,
   INVERSE_VIEW,
   NAT_LOG_PLOT,
   NAT_LOG_VIEW,

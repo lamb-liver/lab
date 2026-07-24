@@ -119,7 +119,7 @@ function drawGrid(p: p5, width: number, height: number, origin: Vec2, scale: num
   p.pop();
 }
 
-function drawPlotLabels(p: p5, origin: Vec2, width: number, height: number, plotMin: number, plotMax: number): void {
+function drawPlotLabels(p: p5, origin: Vec2, width: number, plotMin: number, plotMax: number): void {
   p.push();
   p.noStroke();
   p.fill(232, 232, 232, 58);
@@ -292,7 +292,7 @@ export function renderVectorProjectionScene(
     p.circle(origin.x, origin.y, 4);
   });
 
-  drawPlotLabels(p, origin, snap.width, snap.height, layout.plotMin, layout.plotMax);
+  drawPlotLabels(p, origin, snap.width, layout.plotMin, layout.plotMax);
 
   if (!data.valid) {
     drawBadge(p, `${data.baseLabel} = 0，投影未定義`);

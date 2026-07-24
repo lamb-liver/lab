@@ -112,7 +112,6 @@ function sequenceValues(params: Params['sequence']) {
   let previous = params.a1;
 
   for (let i = 0; i < params.n; i += 1) {
-    const n = i + 1;
     if (params.type === 'arith') values.push(params.a1 + i * params.d);
     if (params.type === 'geom') values.push(params.a1 * params.q ** i);
     if (params.type === 'recurrence') {
