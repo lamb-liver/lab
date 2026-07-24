@@ -191,6 +191,7 @@ export function formatRad(value: number) {
     [Math.PI / 3, 'π/3'],
     [Math.PI / 2, 'π/2'],
     [Math.PI, 'π'],
+    [(Math.PI * 7) / 6, '7π/6'],
     [Math.PI * 1.5, '3π/2'],
     [TAU, '2π'],
     [Math.PI * 2.5, '5π/2'],

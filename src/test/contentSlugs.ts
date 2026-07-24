@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-type ContentCollection = 'works' | 'explore';
+type ContentCollection = 'works' | 'explore' | 'exam';
 
 type ContentSlugFile = {
   slug: string;

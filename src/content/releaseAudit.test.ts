@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { auditContent } from '../../scripts/audit-content.mjs';
+import { contentSummary } from '../../scripts/public-pages-audit.mjs';
 
 const validWork = {
   collection: 'works',
@@ -49,13 +50,118 @@ const validExplore = {
   ].join('\n'),
 } as const;
 
+const validExam = {
+  collection: 'exam',
+  slug: 'valid-exam',
+  path: 'src/content/exam/valid-exam.md',
+  body: [
+    '---',
+    'title: Valid Exam',
+    'description: Valid exam page.',
+    'subject: 學測數A',
+    'year: 112',
+    'questionType: 多選題',
+    'questionNo: 11',
+    'unit: 矩陣',
+    'concepts:',
+    '  - 矩陣合成',
+    'relatedWorks:',
+    '  - valid-work',
+    'relatedExplore:',
+    '  - valid-explore',
+    'date: 2026-07-24',
+    'order: 1',
+    'draft: false',
+    '---',
+    '',
+    '## 題目',
+    '',
+    '判斷矩陣合成關係。',
+  ].join('\n'),
+} as const;
+
 describe('release content audit', () => {
-  it('passes valid published works and explore content', () => {
-    const result = auditContent([validWork, validExplore], {
+  it('summarizes public and draft Works, Explore, and Exam routes', () => {
+    const summary = contentSummary([
+      validWork,
+      validExplore,
+      validExam,
+      {
+        collection: 'exam',
+        slug: 'preview-only-exam',
+        path: 'src/content/exam/preview-only-exam.md',
+        body: ['---', 'title: Preview only', 'draft: true', '---'].join('\n'),
+      },
+    ]);
+
+    expect(summary.works.public).toEqual([
+      expect.objectContaining({ slug: 'valid-work' }),
+    ]);
+    expect(summary.explore.public).toEqual([
+      expect.objectContaining({ slug: 'valid-explore' }),
+    ]);
+    expect(summary.exam.public).toEqual([
+      expect.objectContaining({ slug: 'valid-exam' }),
+    ]);
+    expect(summary.exam.draft).toEqual([
+      expect.objectContaining({ slug: 'preview-only-exam' }),
+    ]);
+  });
+
+  it('passes valid published works, explore, and exam content', () => {
+    const result = auditContent([validWork, validExplore, validExam], {
       fileExists: (path: string) => path.endsWith('/public/images/explore-covers/valid-explore.png'),
     });
 
     expect(result.issues).toEqual([]);
+  });
+
+  it('requires published Exam frontmatter relations to exist and be public', () => {
+    const missingResult = auditContent([
+      {
+        ...validExam,
+        body: validExam.body
+          .replace('valid-work', 'missing-work')
+          .replace('valid-explore', 'missing-explore'),
+      },
+    ]);
+    const draftWork = {
+      ...validWork,
+      slug: 'draft-work',
+      path: 'src/content/works/draft-work.md',
+      body: validWork.body.replace('draft: false', 'draft: true'),
+    };
+    const draftExplore = {
+      ...validExplore,
+      slug: 'draft-explore',
+      path: 'src/content/explore/draft-explore.md',
+      body: validExplore.body.replace('draft: false', 'draft: true'),
+    };
+    const draftResult = auditContent([
+      draftWork,
+      draftExplore,
+      {
+        ...validExam,
+        body: validExam.body
+          .replace('valid-work', 'draft-work')
+          .replace('valid-explore', 'draft-explore'),
+      },
+    ], {
+      fileExists: () => true,
+    });
+
+    expect(missingResult.issues.map((issue) => issue.message)).toEqual(
+      expect.arrayContaining([
+        'published exam references missing work: missing-work',
+        'published exam references missing explore: missing-explore',
+      ]),
+    );
+    expect(draftResult.issues.map((issue) => issue.message)).toEqual(
+      expect.arrayContaining([
+        'published exam references draft work: draft-work',
+        'published exam references draft explore: draft-explore',
+      ]),
+    );
   });
 
   it('rejects missing schema fields, invalid categories, and long descriptions', () => {

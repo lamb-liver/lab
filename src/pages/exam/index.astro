@@ -1,6 +1,4 @@
 ---
-// 試題視覺化列表。此檔不在 src/pages 下，只由 astro.config.mjs 的 exam-preview
-// integration 在 dev 或 EXAM_PREVIEW=1 時注入路由，正式 build 不會產出。
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ListSearchFilterScript from '../../components/ListSearchFilterScript.astro';
 import FilterBar from '../../components/FilterBar.astro';
@@ -11,7 +9,6 @@ import { serializeSearchIndex } from '../../lib/listFilter';
 import { siteSeo } from '../../lib/seoCopy';
 import '../../styles/components/list-search.css';
 
-// 預覽階段連 draft 一起列出，否則列表會是空的。
 const all = await getCollection('exam');
 const exams = import.meta.env.DEV
   ? [...all].sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id))
@@ -24,7 +21,7 @@ const searchIndex = exams.map((entry) => ({
 }));
 ---
 
-<BaseLayout title={siteSeo.exam.title} description={siteSeo.exam.description} ogType="website" noindex>
+<BaseLayout title={siteSeo.exam.title} description={siteSeo.exam.description} ogType="website">
   <div
     class="container"
     data-list-filter
@@ -34,7 +31,7 @@ const searchIndex = exams.map((entry) => ({
     data-filter-count-unit="題"
   >
     <header class="page-header">
-      <span class="section-badge section-badge--work">尚未公開</span>
+      <span class="section-badge section-badge--work">歷屆試題</span>
       <h1>試題視覺化</h1>
       <p class="page-lead">
         從一道歷屆試題出發：先看清楚全體考生卡在哪個心智步驟，再用互動把那一步拆開。

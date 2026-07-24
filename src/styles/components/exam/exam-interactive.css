@@ -1,0 +1,129 @@
+.exam-interactive-explore {
+  margin-bottom: var(--space-6);
+}
+
+.exam-interactive-explore__stage {
+  grid-template-columns: minmax(0, 1fr) min(300px, 34vw);
+}
+
+.exam-interactive-explore__visual-title,
+.exam-interactive-explore__block-title {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgb(212, 184, 122);
+}
+
+.exam-interactive-explore__visual-title {
+  color: rgba(232, 232, 232, 0.65);
+}
+
+.exam-interactive-explore__visual-sub {
+  margin: var(--space-1) 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: rgb(212, 184, 122);
+  opacity: 0.85;
+}
+
+.exam-interactive-explore__prompt {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-3);
+  border-left: 2px solid rgba(212, 184, 122, 0.45);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.exam-interactive-explore__prompt strong {
+  display: block;
+  color: rgb(212, 184, 122);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.exam-interactive-explore__sidebar {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.exam-interactive-explore__modes,
+.exam-interactive-explore__ranges {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.exam-interactive-explore__mode-button {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.exam-interactive-explore__mode-button[data-active='true'] {
+  border-color: rgba(212, 184, 122, 0.6);
+  color: rgb(212, 184, 122);
+  background: rgba(212, 184, 122, 0.08);
+}
+
+.exam-interactive-explore__mode-button:focus-visible,
+.exam-interactive-explore__range input:focus-visible {
+  outline: 2px solid rgba(212, 184, 122, 0.55);
+  outline-offset: 2px;
+}
+
+.exam-interactive-explore__range {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-1) var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.exam-interactive-explore__range output {
+  color: rgb(212, 184, 122);
+}
+
+.exam-interactive-explore__range input {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: rgb(212, 184, 122);
+}
+
+.exam-interactive-explore__result {
+  margin: 0;
+  color: rgb(212, 184, 122);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.exam-interactive-explore__note,
+.exam-interactive-explore__matrix {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+.exam-interactive-explore__matrix {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 768px) {
+  .exam-interactive-explore__stage {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-interactive-explore__sidebar {
+    position: static;
+    max-height: none;
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+  }
+}
