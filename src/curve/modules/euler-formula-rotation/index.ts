@@ -1,4 +1,4 @@
-import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurveModule, CurvePoint, ParamSchema, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { defaultsFromSchema } from '../../defaults';
 import { PARAM_LERP } from './animation';

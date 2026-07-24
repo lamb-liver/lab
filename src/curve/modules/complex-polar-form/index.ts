@@ -1,5 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
-import type { CurveModule, ParamSchema, ParamValues } from '../../types';
+import type { CurveModule, ParamSchema } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { PARAM_LERP } from './animation';
 import { sampleComplexPolarFormThumbnail } from './geometry';

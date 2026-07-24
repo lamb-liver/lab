@@ -1,6 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
-import type { CurveModule, ParamSchema, ParamValues } from '../../types';
+import type { CurveModule, ParamSchema } from '../../types';
 import { PARAM_LERP } from './animation';
 import { sampleComplexArithmeticGeometryThumbnail } from './geometry';
 

@@ -1,5 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
-import type { CurveModule, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurveModule, ParamSchema, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { AMPLITUDE_LERP, REVEAL_SPEED } from './animation';
 import { DEFAULT_SAMPLE_STEP, sampleStandingWaveCurve } from './geometry';

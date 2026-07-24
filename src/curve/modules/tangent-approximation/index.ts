@@ -1,6 +1,6 @@
 import { BASE_CANVAS_SIZE } from '../../constants';
 import { defaultsFromSchema } from '../../defaults';
-import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurveModule, CurvePoint, ParamSchema, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { COLLAPSE_SPEED, PARAM_LERP } from './animation';
 import {

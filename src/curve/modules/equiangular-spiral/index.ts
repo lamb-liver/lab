@@ -3,7 +3,6 @@ import type {
   CurveModule,
   CurvePoint,
   ParamSchema,
-  ParamValues,
   ThumbnailSpec,
 } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';

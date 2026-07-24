@@ -12,13 +12,6 @@ export const MODE_COMPARE = 3;
 
 type LogisticMode = 'bifurcation' | 'orbit' | 'cobweb' | 'compare';
 
-type Rect = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
-
 type Point = {
   x: number;
   y: number;

@@ -1,7 +1,6 @@
 import type { CurvePoint, ThumbnailSpec } from '../../types';
 import {
   degToRad,
-  formatVec3,
   lengthVec3,
   project,
   vec3,

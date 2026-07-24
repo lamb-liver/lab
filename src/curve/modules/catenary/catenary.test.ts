@@ -37,7 +37,6 @@ describe('updateCameraFromBounds', () => {
   it('produces positive scale', () => {
     const bounds = computeTractrixBounds(1.5, 3.5, 1);
     const cam = updateCameraFromBounds(
-      { scale: 1, offsetX: 0, offsetY: 0 },
       bounds,
       600,
       600,

@@ -1,13 +1,12 @@
 import { BASE_CANVAS_SIZE } from '../../constants';
 import { defaultsFromSchema } from '../../defaults';
-import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurveModule, CurvePoint, ParamSchema, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { PARAM_LERP, REVEAL_SPEED } from './animation';
 import {
   buildGridLines,
   calculateMatrix,
   calculateTransformBounds,
-  GRID_SEGMENT_COUNT,
   sampleLinearTransformGridCurve,
 } from './geometry';
 

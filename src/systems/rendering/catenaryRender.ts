@@ -1,6 +1,5 @@
 import type p5 from 'p5';
 import {
-  createCameraState,
   mapPath,
   updateCameraFromBounds,
   worldToScreen,
@@ -110,7 +109,6 @@ export function renderCatenaryScene(p: p5, snap: CatenarySnap): void {
     dynamicT,
   );
   const camera = updateCameraFromBounds(
-    createCameraState(),
     bounds,
     snap.width,
     snap.height,
