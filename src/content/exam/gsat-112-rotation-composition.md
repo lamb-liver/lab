@@ -19,6 +19,7 @@ relatedWorks:
   - rotation-scale-composition
 date: 2026-07-19
 order: 1
+coverImage: /images/exam-covers/gsat-112-rotation-composition.png
 featured: false
 draft: false
 ---

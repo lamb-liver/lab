@@ -384,6 +384,13 @@ export function selectCommands(files) {
     if (file.startsWith('scripts/explore-covers/') || file.startsWith('public/images/explore-covers/')) {
       add(commands, command('explore cover audit', ['npm', 'run', 'audit:explore-covers']));
     }
+    if (file.startsWith('scripts/exam-covers/') || file.startsWith('public/images/exam-covers/')) {
+      add(commands, command('exam cover audit', ['npm', 'run', 'audit:exam-covers']));
+    }
+    if (file === 'scripts/generate-static-covers.mjs' || file === 'scripts/audit-static-covers.mjs') {
+      add(commands, command('explore cover audit', ['npm', 'run', 'audit:explore-covers']));
+      add(commands, command('exam cover audit', ['npm', 'run', 'audit:exam-covers']));
+    }
 
     if (file.endsWith('.test.ts') && existsSync(resolve(repoRoot, file))) {
       add(commands, command(`test ${file}`, ['npm', 'run', 'test', '--', file]));

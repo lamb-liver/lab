@@ -121,6 +121,7 @@
 
 - [ ] 五個檔案的 `draft: false` + `order`（explore 與 works 各自接續現有最大值）+ `date`
 - [ ] explore 的 `coverImage`：`scripts/explore-covers/{slug}.svg` → `npm run covers:explore`
+- [ ] exam 的 `coverImage`：`scripts/exam-covers/{slug}.svg` → `npm run covers:exam`
 - [ ] **`src/content/explorePager.test.ts`**：硬編已發布的 explore 順序，
       每次發布 explore 都要更新清單與「最新一篇」的鄰居斷言。連續兩次發布都被它擋下
 - [ ] 發布後才驗證得到的：縮圖路由（draft 會 404）、列表卡片、`npm run build` 的頁數

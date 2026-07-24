@@ -20,6 +20,7 @@ relatedWorks:
   - plane-normal-distance
 date: 2026-07-24
 order: 3
+coverImage: /images/exam-covers/gsat-112-skew-line-distance.png
 featured: false
 draft: false
 ---

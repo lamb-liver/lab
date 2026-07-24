@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="blueGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <g stroke="#D8D8D8" stroke-width="4" opacity="0.2">
+    <line x1="230" y1="760" x2="1370" y2="760"/>
+    <line x1="260" y1="180" x2="260" y2="800"/>
+    <line x1="260" y1="290" x2="1370" y2="290" stroke-dasharray="18 18" opacity="0.55"/>
+  </g>
+  <g fill="#D4B87A" fill-opacity="0.16" stroke="#D4B87A" stroke-width="6" filter="url(#goldGlow)">
+    <rect x="310" y="390" width="72" height="370" rx="8"/>
+    <rect x="410" y="425" width="72" height="335" rx="8"/>
+    <rect x="510" y="460" width="72" height="300" rx="8"/>
+    <rect x="610" y="490" width="72" height="270" rx="8"/>
+    <rect x="710" y="520" width="72" height="240" rx="8"/>
+    <rect x="810" y="545" width="72" height="215" rx="8"/>
+    <rect x="910" y="565" width="72" height="195" rx="8"/>
+    <rect x="1010" y="585" width="72" height="175" rx="8"/>
+    <rect x="1110" y="600" width="72" height="160" rx="8"/>
+    <rect x="1210" y="615" width="72" height="145" rx="8"/>
+  </g>
+  <path d="M 346 680 C 450 600 520 525 646 455 S 860 350 946 325 S 1120 292 1280 285"
+    fill="none" stroke="#5DADE2" stroke-width="8" stroke-linecap="round"
+    stroke-linejoin="round" filter="url(#blueGlow)"/>
+  <g fill="#5DADE2">
+    <circle cx="346" cy="680" r="11"/>
+    <circle cx="646" cy="455" r="11"/>
+    <circle cx="946" cy="325" r="11"/>
+    <circle cx="1280" cy="285" r="13"/>
+  </g>
+</svg>

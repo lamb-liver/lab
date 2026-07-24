@@ -225,12 +225,12 @@ Before the `社團發布前` release:
 - `npm test` passes.
 - `npm run build` passes.
 - `npm run validate:frontend -- --skip-dom` passes.
-- Published Explore entries have covers.
+- Published Explore and Exam entries have covers.
 - Published pages do not contain placeholder/debug text.
 - Main pages work at 390px mobile width.
-- Home, works, explore, and representative detail pages open correctly.
+- Home, works, explore, exam, and representative detail pages open correctly.
 
-See `public-pages-audit.md` for the current post-release audit of public Works and Explore pages.
+See `public-pages-audit.md` for the current post-release audit of public Works, Explore, and Exam pages.
 
 For math semantics, use `math-content-review-checklist.md`; `audit:content` only covers structural release readiness.
 
@@ -244,6 +244,8 @@ Run these commands before release:
 
 ```bash
 npm run audit:content
+npm run audit:explore-covers
+npm run audit:exam-covers
 npm test
 npm run build
 npm run validate:frontend -- --skip-dom
@@ -267,13 +269,15 @@ DOM smoke and screenshots are opt-in:
 
 Before changing any item from draft to public:
 
-- List every Work and Explore item intended for this release.
+- List every Work, Explore, and Exam item intended for this release.
 - Confirm unfinished items remain `draft: true`.
 - Confirm published items use the intended `draft: false` state.
 - Confirm every published Explore item has `coverImage`.
 - Confirm every published Explore cover points to an existing public asset.
+- Confirm every published Exam item has `coverImage`.
+- Confirm every published Exam cover has a matching `scripts/exam-covers/{slug}.svg` and existing 1600×1000 public PNG.
 - Confirm published pages do not contain placeholder/debug text such as `TODO`, `FIXME`, `placeholder`, `debug`, `lorem`, `待補`, `暫定`, or `測試用`.
-- Confirm Works and Explore links are reasonable: published Explore pages should not link to missing or draft Works.
+- Confirm Works, Explore, and Exam links are reasonable: published pages must not link to missing or draft related content.
 - Confirm descriptions are concise enough for lists and metadata; rewrite long descriptions before release.
 - For math semantics, run the manual `math-content-review-checklist.md`; do not rely on `audit:content` for definitions, formulas, edge cases, or overclaims.
 - Confirm Explore `category` is one of `幾何`, `代數`, `統計`, `拓樸`, or `分析`.
@@ -287,8 +291,10 @@ Check the main release surfaces at 390px and 430px widths:
 - Home page opens and does not break layout.
 - Works list opens and cards, filters, and search remain usable.
 - Explore list opens and cards, filters, and search remain usable.
+- Exam list opens and cards, filters, and search remain usable.
 - Representative Work detail pages open correctly.
 - Representative Explore detail pages open correctly.
+- Representative Exam detail pages open correctly.
 - DOM controls do not cover the canvas or main content.
 - Canvas, stats, controls, and article content remain readable without horizontal overflow.
 

@@ -3,11 +3,32 @@ import { existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { basename, dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-const sourceDir = dirname(fileURLToPath(import.meta.url));
-const pngDir = resolve(sourceDir, '../../public/images/explore-covers');
+const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const collection = process.argv[2];
+const configs = {
+  explore: {
+    sourceDir: resolve(repoRoot, 'scripts/explore-covers'),
+    pngDir: resolve(repoRoot, 'public/images/explore-covers'),
+  },
+  exam: {
+    sourceDir: resolve(repoRoot, 'scripts/exam-covers'),
+    pngDir: resolve(repoRoot, 'public/images/exam-covers'),
+  },
+};
 const W = 1600;
 const H = 1000;
 
+if (collection === '--help' || collection === '-h') {
+  console.log('Usage: node scripts/generate-static-covers.mjs <explore|exam>');
+  process.exit(0);
+}
+
+const config = configs[collection];
+if (!config) {
+  throw new Error('Cover collection must be explore or exam');
+}
+
+const { sourceDir, pngDir } = config;
 mkdirSync(pngDir, { recursive: true });
 
 const slugs = readdirSync(sourceDir)

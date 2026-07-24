@@ -31,8 +31,10 @@ function usage() {
     '  smoke:work <slug> [playwright args...]',
     '  smoke:explore <slug> [playwright args...]',
     '  covers:explore',
+    '  covers:exam',
     '  audit:content',
     '  audit:explore-covers',
+    '  audit:exam-covers',
     '  audit:explore-controls',
     '  audit:work-controls',
     '  audit:public-pages',
@@ -334,13 +336,19 @@ function main() {
     return runNodeScript(resolve(repoRoot, 'scripts/new-exam.mjs'), args);
   }
   if (command === 'covers:explore') {
-    return runNodeScript(resolve(repoRoot, 'scripts/explore-covers/generate.mjs'), args);
+    return runNodeScript(resolve(repoRoot, 'scripts/generate-static-covers.mjs'), ['explore', ...args]);
+  }
+  if (command === 'covers:exam') {
+    return runNodeScript(resolve(repoRoot, 'scripts/generate-static-covers.mjs'), ['exam', ...args]);
   }
   if (command === 'audit:content') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-content.mjs'), args);
   }
   if (command === 'audit:explore-covers') {
-    return runNodeScript(resolve(repoRoot, 'scripts/audit-explore-covers.mjs'), args);
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-static-covers.mjs'), ['explore', ...args]);
+  }
+  if (command === 'audit:exam-covers') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-static-covers.mjs'), ['exam', ...args]);
   }
   if (command === 'audit:explore-controls') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-explore-controls.mjs'), args);
