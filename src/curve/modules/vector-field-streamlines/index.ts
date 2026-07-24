@@ -3,7 +3,6 @@ import type {
   CurveModule,
   CurvePoint,
   ParamSchema,
-  ParamValues,
   ThumbnailSpec,
 } from '../../types';
 import { INTEGRATION_STEP_SIZE, buildAllStreamlines } from './geometry';

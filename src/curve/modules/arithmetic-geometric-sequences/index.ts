@@ -2,7 +2,6 @@ import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
   MODE_ARITHMETIC,
-  MODE_GEOMETRIC,
   buildArithmeticScene,
   buildGeometricScene,
   buildSequenceThumbnail,

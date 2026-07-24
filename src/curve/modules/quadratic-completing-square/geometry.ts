@@ -8,8 +8,6 @@ import {
   type ViewSmoothState,
 } from '../../cartesianPlot';
 import {
-  COEFF_A_MAX,
-  COEFF_A_MIN,
   COEFF_B_MAX,
   COEFF_B_MIN,
   COEFF_C_MAX,

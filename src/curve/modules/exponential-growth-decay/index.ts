@@ -1,7 +1,6 @@
 import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
-  MODE_DECAY,
   MODE_GROWTH,
   EXP_REVEAL_SPEED,
   buildExponentialThumbnail,

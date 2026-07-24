@@ -5,7 +5,6 @@ import {
   computeTriangleSidesAngles,
   dist2,
   preventTriangleCollapse,
-  safeAcos,
   sub,
   TRIANGLE_EPS,
   type TriangleVerts,

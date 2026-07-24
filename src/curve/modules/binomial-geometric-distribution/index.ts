@@ -2,7 +2,6 @@ import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
   MODE_BINOMIAL,
-  MODE_GEOMETRIC,
   buildBinomialGeometricThumbnail,
   deriveDistributionData,
   formatNum,

@@ -1,5 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
-import type { CurveModule, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurveModule, ParamSchema, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import { buildPointCloudStroke } from '../../thumbnailPointCloud';
 import { PARAM_LERP, REVEAL_SPEED, sampleAffineIfsFractalCurve } from './geometry';

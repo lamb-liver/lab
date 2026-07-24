@@ -2,7 +2,6 @@ import { defaultsFromSchema } from '../../defaults';
 import type { CurveMetadata, CurveModule, ParamSchema, ParamValues } from '../../types';
 import {
   MODE_AREA,
-  MODE_INVERSE,
   NAT_LOG_REVEAL_SPEED,
   buildNaturalLogThumbnail,
   deriveNaturalLogState,

@@ -1,5 +1,5 @@
 import { defaultsFromSchema } from '../../defaults';
-import type { CurveModule, CurvePoint, ParamSchema, ParamValues, ThumbnailSpec } from '../../types';
+import type { CurveModule, CurvePoint, ParamSchema, ThumbnailSpec } from '../../types';
 import { resolveSmoothParams } from '../../resolveSmoothParams';
 import {
   PARAM_LERP,

@@ -8,7 +8,6 @@ import {
   fmt,
   paramsFromValues,
   presetById,
-  valuesFromParams,
 } from './geometry';
 
 const paramSchema: ParamSchema = [

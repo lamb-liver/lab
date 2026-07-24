@@ -6,7 +6,6 @@ import {
   objectiveOf,
   sampleVertexOptimumThumbnail,
   type LpVertexOptimumParams,
-  type RegionShape,
 } from './geometry';
 
 /** 控制項由 LpVertexOptimumCurveRoot 自行渲染 */

@@ -8,12 +8,7 @@ export type CameraState = {
   offsetY: number;
 };
 
-export function createCameraState(): CameraState {
-  return { scale: 100, offsetX: 0, offsetY: 0 };
-}
-
 export function updateCameraFromBounds(
-  camera: CameraState,
   bounds: Bounds,
   canvasWidth: number,
   canvasHeight: number,
