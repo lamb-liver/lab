@@ -1,15 +1,18 @@
 ---
-// 試題視覺化詳情。同 index.astro，只在 dev 或 EXAM_PREVIEW=1 時被注入路由。
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
+import ExamInteractiveStage from '../../components/exam/ExamInteractiveStage';
 import { getCollection, render } from 'astro:content';
 import { getStaticPathsFromCollection } from '../../content/utils';
+import { isExamInteractive } from '../../exam/interactiveRegistry';
 import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
 import '../../styles/prose.css';
 import '../../styles/pages/explore-detail.css';
 import '../../styles/pages/exam-detail.css';
+import '../../styles/components/explore-touch.css';
+import '../../styles/components/explore/explore-stage.css';
 
 export async function getStaticPaths() {
   const exam = await getCollection('exam');
@@ -18,21 +21,22 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const interactive = isExamInteractive(entry.id);
 const { subject, year, questionType, questionNo } = entry.data;
 const sourceLabel = `${year} ${subject}・${questionType}${questionNo}`;
 
 const works = await getCollection('works');
 const explore = await getCollection('explore');
 const relatedWorks = entry.data.relatedWorks
-  .map((slug) => works.find((work) => work.id === slug))
+  .map((slug) => works.find((work) => work.id === slug && (entry.data.draft || !work.data.draft)))
   .filter((work) => work !== undefined);
 const relatedExplore = entry.data.relatedExplore
-  .map((slug) => explore.find((topic) => topic.id === slug))
+  .map((slug) => explore.find((topic) => topic.id === slug && (entry.data.draft || !topic.data.draft)))
   .filter((topic) => topic !== undefined);
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.description} ogType="article" noindex>
-  <div class="container explore-detail">
+<BaseLayout title={entry.data.title} description={entry.data.description} ogType="article">
+  <div class={`container explore-detail${interactive ? ' explore-detail--interactive' : ''}`}>
     <div class="detail-top-nav">
       <Breadcrumb
         items={[
@@ -59,7 +63,7 @@ const relatedExplore = entry.data.relatedExplore
             </a>
             {entry.data.analysisUrl ? (
               <a href={entry.data.analysisUrl} rel="noopener noreferrer" target="_blank">
-                答對率與解析
+                試題解析
               </a>
             ) : null}
           </p>
@@ -67,7 +71,23 @@ const relatedExplore = entry.data.relatedExplore
       }
     </header>
 
-    <CanvasPlaceholder class="interactive-canvas" />
+    {
+      interactive ? (
+        <ExamInteractiveStage client:only="react" slug={entry.id}>
+          <div
+            slot="fallback"
+            class="interactive-loading interactive-loading--explore"
+            role="status"
+            aria-live="polite"
+            aria-label="互動內容載入中"
+          >
+            <span class="interactive-loading__mark"></span>
+          </div>
+        </ExamInteractiveStage>
+      ) : (
+        <CanvasPlaceholder class="interactive-canvas" />
+      )
+    }
 
     <article class="prose">
       <Content />

@@ -17,7 +17,7 @@ function usage() {
     `  --type     one of: ${QUESTION_TYPES.join(', ')}`,
     '',
     'Creates a draft-only Exam content skeleton and does not update registries.',
-    'The /exam section is not public: routes only exist in dev or with EXAM_PREVIEW=1.',
+    'Draft Exam entries are available in dev and stay out of production until the release Gate passes.',
   ].join('\n');
 }
 
@@ -127,7 +127,7 @@ export function nextSteps(slug) {
     '3. Link relatedExplore / relatedWorks to published slugs.',
     '4. Add the interactive: src/exam/, src/components/exam/, and the stage registry.',
     '5. Set the true publish date and a positive order before publishing.',
-    '6. Run npm run audit:content.',
+    '6. Complete the Exam release Gate in docs/exam-visualization-plan.md.',
     '7. Preview with npm run dev, then open /exam.',
     '',
     `Exam content: src/content/exam/${slug}.md`,

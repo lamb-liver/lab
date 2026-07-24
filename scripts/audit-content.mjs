@@ -33,7 +33,7 @@ function usage() {
     '  npm run audit:content',
     '  npm run audit:content -- --json',
     '',
-    'Checks content release readiness for src/content/works and src/content/explore.',
+    'Checks content release readiness for src/content/works, src/content/explore, and src/content/exam.',
     'Draft entries are checked for schema, but release-only checks apply only to published entries.',
   ].join('\n');
 }
@@ -89,7 +89,7 @@ export function auditContent(files = readContentFiles(), options = {}) {
     if (!draft) {
       checkPublishedOrder(file, parsed, publishedOrders, issues);
       checkPublishedPlaceholders(file, parsed, issues);
-      checkPublishedInternalLinks(file, byCollection, issues);
+      checkPublishedReferences(file, parsed, byCollection, issues);
     }
   }
 
@@ -231,22 +231,50 @@ function checkExploreCover(file, parsed, issues, root, fileExists) {
   }
 }
 
-function checkPublishedInternalLinks(file, byCollection, issues) {
-  const links = new Map();
+function checkPublishedReferences(file, parsed, byCollection, issues) {
+  const references = new Map();
   for (const match of file.body.matchAll(/\]\(\/(works|explore)\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?\)/g)) {
-    links.set(`${match[1]}/${match[2]}`, { collection: match[1], slug: match[2] });
+    references.set(`${match[1]}/${match[2]}`, {
+      collection: match[1],
+      slug: match[2],
+      line: 1,
+      label: 'published content links to',
+    });
   }
 
-  for (const link of links.values()) {
-    const target = byCollection.get(link.collection)?.get(link.slug);
+  if (file.collection === 'exam') {
+    for (const [field, collection] of [['relatedWorks', 'works'], ['relatedExplore', 'explore']]) {
+      for (const slug of parsed.arrays.get(field) ?? []) {
+        references.set(`${collection}/${slug}`, {
+          collection,
+          slug,
+          line: fieldLine(parsed, field),
+          label: 'published exam references',
+        });
+      }
+    }
+  }
+
+  for (const reference of references.values()) {
+    const target = byCollection.get(reference.collection)?.get(reference.slug);
     if (!target) {
-      addIssue(issues, file, 1, `published content links to missing ${singular(link.collection)}: ${link.slug}`);
+      addIssue(
+        issues,
+        file,
+        reference.line,
+        `${reference.label} missing ${singular(reference.collection)}: ${reference.slug}`,
+      );
       continue;
     }
 
-    const parsed = parseFrontmatter(target.body);
-    if (parsed && fieldValue(parsed, 'draft') === 'true') {
-      addIssue(issues, file, 1, `published content links to draft ${singular(link.collection)}: ${link.slug}`);
+    const targetFrontmatter = parseFrontmatter(target.body);
+    if (targetFrontmatter && fieldValue(targetFrontmatter, 'draft') === 'true') {
+      addIssue(
+        issues,
+        file,
+        reference.line,
+        `${reference.label} draft ${singular(reference.collection)}: ${reference.slug}`,
+      );
     }
   }
 }
