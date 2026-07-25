@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="blueGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <g stroke="#D8D8D8" stroke-width="3" opacity="0.12">
+    <line x1="190" y1="500" x2="1410" y2="500"/>
+    <line x1="800" y1="150" x2="800" y2="850" stroke-dasharray="15 18"/>
+  </g>
+  <path d="M 250 720 C 430 860 575 775 690 595 C 745 510 775 480 800 500 C 825 520 855 490 910 405 C 1025 225 1170 140 1350 280"
+    fill="none" stroke="#D4B87A" stroke-width="12" stroke-linecap="round"
+    stroke-linejoin="round" filter="url(#goldGlow)"/>
+  <line x1="535" y1="760" x2="1065" y2="240" stroke="#D8D8D8" stroke-width="4"
+    stroke-dasharray="18 20" opacity="0.46"/>
+  <g fill="#D4B87A" filter="url(#goldGlow)">
+    <circle cx="535" cy="760" r="13"/>
+    <circle cx="1065" cy="240" r="13"/>
+  </g>
+  <circle cx="800" cy="500" r="20" fill="#5DADE2" filter="url(#blueGlow)"/>
+  <circle cx="800" cy="500" r="6" fill="#D8D8D8"/>
+</svg>

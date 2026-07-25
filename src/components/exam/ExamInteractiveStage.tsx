@@ -10,6 +10,7 @@ const rootBySlug = {
   'gsat-112-rotation-composition': lazy(() => import('./RotationCompositionExamRoot')),
   'gsat-112-sinusoid-superposition': lazy(() => import('./SinusoidSuperpositionExamRoot')),
   'gsat-112-skew-line-distance': lazy(() => import('./SkewLineDistanceExamRoot')),
+  'gsat-114-cubic-symmetry-center': lazy(() => import('./CubicSymmetryCenterExamRoot')),
 } satisfies Record<ExamInteractiveSlug, ComponentType>;
 
 export const examStageRootSlugs = Object.keys(rootBySlug).sort() as ExamInteractiveSlug[];
