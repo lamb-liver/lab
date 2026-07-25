@@ -36,7 +36,7 @@
     linear-gradient(145deg, rgba(var(--color-accent-rgb), 0.055), transparent 42%),
     var(--color-surface-raised);
   border-color: var(--accent-border);
-  box-shadow: var(--shadow-elevated), 0 0 0 3px rgba(var(--color-accent-rgb), 0.08);
+  box-shadow: var(--shadow-elevated);
 }
 
 .card:hover::before,
@@ -51,6 +51,7 @@
     linear-gradient(90deg, rgba(var(--color-accent-rgb), 0.026) 1px, transparent 1px),
     var(--color-canvas);
   background-size: 24px 24px, 24px 24px, auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.035);
   overflow: hidden;
   line-height: 0;
 }
@@ -106,7 +107,7 @@
 
 .card__title {
   font-size: 1.25rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.1;
   letter-spacing: 0;
   transition: color 200ms ease;

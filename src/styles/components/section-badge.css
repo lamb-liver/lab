@@ -1,5 +1,6 @@
 .section-badge {
   display: inline-block;
+  align-self: flex-start;
   margin-bottom: var(--space-3);
   padding: 0.2em 0.65em;
   font-size: 0.75rem;

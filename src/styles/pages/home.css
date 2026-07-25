@@ -63,7 +63,7 @@
 
 .home-nav-card__title {
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.1;
   letter-spacing: 0;
 }
@@ -93,8 +93,27 @@
 }
 
 .home-featured-grid {
-  /* minmax(320px) → 約 ≤1024px 容器寬自然 2 欄，避免另設 1100px 斷點與全站 1023/1024 混搭 */
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  align-items: start;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+}
+
+.home-featured-grid > .card:first-child .card__title {
+  font-size: 1.5rem;
+}
+
+.home-featured-grid > .card:first-child .card__desc {
+  font-size: 0.9375rem;
+}
+
+@media (min-width: 1024px) {
+  .home-featured-grid > .card:not(:first-child) .card__body {
+    gap: var(--space-2);
+    padding: var(--space-5);
+  }
+
+  .home-featured-grid > .card:not(:first-child) .card__title {
+    font-size: 1.125rem;
+  }
 }
 
 .home-section-header {
@@ -182,7 +201,7 @@
 
 .home-topic-item__title {
   font-size: 1.125rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.35;
 }
 
@@ -280,6 +299,10 @@
 }
 
 @media (max-width: 767px) {
+  .home-nav-card {
+    padding: var(--space-6);
+  }
+
   .home-section-header {
     flex-direction: column;
     align-items: flex-start;
@@ -288,6 +311,14 @@
 
   .home-featured-grid {
     grid-template-columns: 1fr;
+  }
+
+  .home-featured-grid > .card:first-child .card__title {
+    font-size: 1.25rem;
+  }
+
+  .home-featured-grid > .card:first-child .card__desc {
+    font-size: 0.875rem;
   }
 
   .hero-section {
@@ -300,5 +331,15 @@
 
   .hero-content p {
     font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-featured-grid > .card:first-child {
+    grid-column: 1 / -1;
   }
 }

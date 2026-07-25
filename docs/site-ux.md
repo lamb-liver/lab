@@ -30,7 +30,7 @@
 | `--nav-height` | `64px` | sticky nav、Explore sidebar offset |
 | 手機 | `max-width: 767px` | 手機選單、filter 橫滑、Footer 堆疊、搜尋框 16px |
 | 平板 / 舞台 | `max-width: 1023px` / `min-width: 1024px` | Works 舞台單欄、控制 accordion；與全站 tablet 切換一致 |
-| 首頁精選 grid | `auto-fill` + `minmax(min(100%, 320px), 1fr)` | 不另設 1100px 斷點，避免 1024–1100px 與 nav/舞台 desktop 混搭不同 grid 規則 |
+| 首頁精選 grid | 桌面 `2fr 1fr 1fr`；平板主卡跨兩欄；手機單欄 | 讓第一件精選成為視覺主角，不另設 1100px 斷點 |
 
 Explore 共用 CSS token（`src/styles/components/explore/explore-toolbar.css`）：
 
@@ -164,7 +164,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 ### 7.1 首頁
 
-- 精選 grid：`.home-featured-grid` 使用 `repeat(auto-fill, minmax(min(100%, 320px), 1fr))`，在約 ≤1024px 容器寬自然降為 2 欄；≤767px 強制 1 欄（`home.css`）。**不**使用獨立 1100px 斷點，以免與全站 1023/1024 行為不一致。
+- 精選 grid：`.home-featured-grid` 桌面使用 `2fr 1fr 1fr`，第一張是主卡；768–1023px 主卡跨兩欄，≤767px 單欄（`home.css`）。**不**使用獨立 1100px 斷點，以免與全站 1023/1024 行為不一致。
 - `.home-section-header`：手機縱向堆疊標題與「查看全部 →」
 
 ### 7.2 Footer
@@ -178,7 +178,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 | 項目 | 行為 |
 |------|------|
-| `prefers-reduced-motion: reduce` | 關閉 `.page-enter` 淡入、`.interactive-loading` 動畫；Hero 不掛 p5，改渲染靜態金色幾何 SVG 佔位（`HeroCanvas.tsx` 的 `HeroCanvasStatic`，同尺寸、不動畫） |
+| `prefers-reduced-motion: reduce` | 關閉 `.interactive-loading` 動畫；Hero 不掛 p5，改渲染靜態金色幾何 SVG 佔位（`HeroCanvas.tsx` 的 `HeroCanvasStatic`，同尺寸、不動畫） |
 | `:focus-visible` | 全站 accent outline（`base.css`） |
 | Skip link | `BaseLayout.astro` 的 `.skip-link` →「跳至主要內容」，聚焦時可見（`base.css`） |
 | 手機選單 | `aria-expanded`、Escape 關閉、點外關閉（`Nav.astro`） |
