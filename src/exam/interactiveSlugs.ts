@@ -9,6 +9,7 @@ export const examInteractiveSlugs = [
   'gsat-112-rotation-composition',
   'gsat-112-sinusoid-superposition',
   'gsat-112-skew-line-distance',
+  'gsat-114-cubic-symmetry-center',
 ] as const;
 
 export type ExamInteractiveSlug = (typeof examInteractiveSlugs)[number];
