@@ -10,6 +10,7 @@ export const examInteractiveSlugs = [
   'gsat-112-sinusoid-superposition',
   'gsat-112-skew-line-distance',
   'gsat-114-cubic-symmetry-center',
+  'gsat-115-parabola-restricted-translation',
 ] as const;
 
 export type ExamInteractiveSlug = (typeof examInteractiveSlugs)[number];
