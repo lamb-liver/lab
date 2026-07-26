@@ -317,6 +317,27 @@ test.describe('SEO metadata and UX shell', () => {
     }
   });
 
+  test('works and explore expose audience labels and optional prerequisites', async ({ page }) => {
+    await page.goto('/works');
+    await expect(page.locator('[data-search-slug="rose-curve"]')).toHaveAttribute(
+      'data-content-audience',
+      '直觀探索',
+    );
+    await expect(
+      page.locator('[data-search-slug="rose-curve"] [data-audience-label]'),
+    ).toHaveText('直觀探索');
+
+    await page.goto('/works/eigenvector-geometry');
+    await expect(page.locator('[data-audience-label]')).toHaveText('大學概念');
+    await expect(page.locator('.content-prerequisites strong')).toHaveText('建議先備：');
+    await expect(page.locator('.content-prerequisites')).toContainText('矩陣、平面向量');
+
+    await page.goto('/explore/fourier-series');
+    await expect(page.locator('[data-audience-label]')).toHaveText('大學概念');
+    await expect(page.locator('.content-prerequisites strong')).toHaveText('建議先備：');
+    await expect(page.locator('.content-prerequisites')).toContainText('三角函數、級數');
+  });
+
   test('works filter reads, writes, and restores the tag query param', async ({ page }) => {
     await page.goto('/works?tag=幾何');
     await expect(page.getByRole('button', { name: '幾何' })).toHaveAttribute(

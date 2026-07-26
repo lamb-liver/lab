@@ -1,6 +1,7 @@
 ---
 title: 干涉條紋
 description: 雙源波的疊加產生明暗交替的干涉條紋圖樣。
+audience: 直觀探索
 tags:
   - 幾何
 date: 2026-05-25

@@ -1,6 +1,10 @@
 ---
 title: 向量場流線
 description: 沿向量場方向積分得到的軌跡，展示微分方程解的幾何圖像。
+audience: 大學概念
+prerequisites:
+  - 向量場
+  - 微分方程
 tags:
   - 函數與分析
 date: 2026-05-25

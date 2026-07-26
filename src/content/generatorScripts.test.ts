@@ -42,6 +42,8 @@ describe('draft content generators', () => {
     expect(files[0].content).toContain('draft: true');
     expect(files[0].content).toContain('order: 0');
     expect(files[0].content).toContain('tags:\n  - 代數');
+    expect(files[0].content).toContain('audience: 高中概念');
+    expect(files[0].content).toContain('prerequisites: []');
   });
 
   it('plans a new Explore draft with cover guidance left outside frontmatter', () => {
@@ -51,6 +53,8 @@ describe('draft content generators', () => {
       title: '矩陣與特徵向量',
       description: '矩陣與特徵向量的互動導覽草稿。',
       category: '代數',
+      audience: '大學概念',
+      prerequisites: ['矩陣', '平面向量'],
       date: '2026-06-12',
     }, root);
 
@@ -60,6 +64,8 @@ describe('draft content generators', () => {
     expect(files[0].content).toContain('draft: true');
     expect(files[0].content).toContain('order: 0');
     expect(files[0].content).toContain('category: 代數');
+    expect(files[0].content).toContain('audience: 大學概念');
+    expect(files[0].content).toContain('prerequisites:\n  - 矩陣\n  - 平面向量');
     expect(files[0].content).not.toContain('coverImage:');
   });
 

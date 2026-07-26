@@ -1,6 +1,10 @@
 ---
 title: 向量場的基本圖樣
 description: 源、匯、漩渦、鞍點等典型向量場，建立方向場的幾何詞彙。
+audience: 大學概念
+prerequisites:
+  - 平面向量
+  - 函數
 tags:
   - 函數與分析
 date: 2026-05-26

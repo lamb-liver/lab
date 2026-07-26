@@ -1,6 +1,7 @@
 ---
 title: 二次曲線包絡線
 description: 一族直線在座標軸上滑動，交織出拋物線型包絡輪廓。
+audience: 直觀探索
 tags:
   - 幾何
 date: 2026-05-25

@@ -1,6 +1,7 @@
 ---
 title: 帕斯卡三角形
 description: 二項式係數三角陣列，展示遞迴、對稱與組合恆等式。
+audience: 直觀探索
 tags:
   - 組合數學
 date: 2026-05-26

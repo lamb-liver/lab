@@ -2,6 +2,10 @@
 title: 傅立葉級數
 description: 疊加正弦與餘弦逼近週期函數；調整項數 N 觀察收斂與吉布斯現象。
 category: 分析
+audience: 大學概念
+prerequisites:
+  - 三角函數
+  - 級數
 date: 2026-05-25
 order: 1
 coverImage: /explore/fourier-series-epicycles-cover.png

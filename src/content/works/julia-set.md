@@ -1,6 +1,7 @@
 ---
 title: 朱利亞集合
 description: 疊代 z ↦ z² + c 在複平面上產生的分形邊界與自相似結構。
+audience: 直觀探索
 tags:
   - 動力系統
 date: 2026-05-26

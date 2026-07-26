@@ -1,6 +1,7 @@
 ---
 title: 焦點軌跡
 description: 橢圓上動點繞行雙焦點，展示 PF₁ + PF₂ = 2a 的幾何關係。
+audience: 直觀探索
 tags:
   - 幾何
 date: 2026-05-25

@@ -1,6 +1,7 @@
 ---
 title: 繁花曲線
 description: 內擺線（內擺線 / Hypotrochoid）模擬小圓在大圓內滾動的軌跡，R、r 決定角數結構，d 控制花瓣尖銳度。
+audience: 直觀探索
 tags:
   - 幾何
 date: 2026-05-25

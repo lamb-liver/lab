@@ -1,6 +1,10 @@
 ---
 title: 曳物線（Tractrix）
 description: 定長繩索牽引追蹤軌跡（Tractrix），觀察 sech/tanh 參數方程與對稱雙軌。
+audience: 大學概念
+prerequisites:
+  - 參數方程
+  - 雙曲函數
 tags:
   - 幾何
 date: 2026-05-25

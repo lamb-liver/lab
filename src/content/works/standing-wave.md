@@ -1,6 +1,7 @@
 ---
 title: 駐波圖
 description: 兩列反向波疊加形成駐波，觀察節點與腹點的分佈。
+audience: 直觀探索
 tags:
   - 幾何
 date: 2026-05-25

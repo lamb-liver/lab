@@ -2,6 +2,10 @@
 title: 複數與尤拉公式
 description: e^(iθ) 把旋轉與三角函數統一；觀察複數運算、單位圓上的旋轉與棣美弗定理。
 category: 代數
+audience: 大學概念
+prerequisites:
+  - 複數
+  - 三角函數
 date: 2026-05-26
 order: 7
 coverImage: /images/explore-covers/complex-euler-formula.png

@@ -2,14 +2,14 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { EXPLORE_CATEGORIES } from './audit-content.mjs';
+import { CONTENT_AUDIENCES, EXPLORE_CATEGORIES } from './audit-content.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 function usage() {
   return [
     'Usage:',
-    '  npm run new:explore -- <slug> [--title <title>] [--description <text>] [--category <category>] [--date YYYY-MM-DD] [--dry-run]',
+    '  npm run new:explore -- <slug> [--title <title>] [--description <text>] [--category <category>] [--audience <audience>] [--prerequisites item,item] [--date YYYY-MM-DD] [--dry-run]',
     '',
     'Creates a draft-only Explore content skeleton and does not update registries.',
   ].join('\n');
@@ -20,6 +20,8 @@ export function parseNewExploreArgs(argv) {
     title: null,
     description: null,
     category: '分析',
+    audience: '高中概念',
+    prerequisites: [],
     date: new Date().toISOString().slice(0, 10),
     dryRun: false,
   };
@@ -34,14 +36,18 @@ export function parseNewExploreArgs(argv) {
     }
     if (arg.startsWith('--')) {
       const key = arg.slice(2);
-      if (!['title', 'description', 'category', 'date'].includes(key)) {
+      if (!['title', 'description', 'category', 'audience', 'prerequisites', 'date'].includes(key)) {
         throw new Error(`Unknown option: ${arg}`);
       }
       const value = argv[i + 1];
       if (!value || value.startsWith('--')) {
         throw new Error(`Missing value for ${arg}`);
       }
-      options[key] = value;
+      if (key === 'prerequisites') {
+        options.prerequisites = value.split(',').map((item) => item.trim()).filter(Boolean);
+      } else {
+        options[key] = value;
+      }
       i += 1;
       continue;
     }
@@ -52,11 +58,28 @@ export function parseNewExploreArgs(argv) {
   return { help: false, slug, options };
 }
 
-export function buildNewExploreFiles({ slug, title, description, category, date }, root = repoRoot) {
+export function buildNewExploreFiles(
+  {
+    slug,
+    title,
+    description,
+    category,
+    audience = '高中概念',
+    prerequisites = /** @type {string[]} */ ([]),
+    date,
+  },
+  root = repoRoot,
+) {
   assertValidSlug(slug);
   assertValidDate(date);
   if (!EXPLORE_CATEGORIES.includes(category)) {
     throw new Error(`Category must be one of: ${EXPLORE_CATEGORIES.join(', ')}`);
+  }
+  if (!CONTENT_AUDIENCES.includes(audience)) {
+    throw new Error(`Audience must be one of: ${CONTENT_AUDIENCES.join(', ')}`);
+  }
+  if (!Array.isArray(prerequisites)) {
+    throw new Error('Prerequisites must be a list.');
   }
 
   const finalTitle = title || titleFromSlug(slug);
@@ -70,6 +93,8 @@ export function buildNewExploreFiles({ slug, title, description, category, date 
         title: finalTitle,
         description: finalDescription,
         category,
+        audience,
+        prerequisites,
         date,
       }),
     },
@@ -110,11 +135,23 @@ export function nextSteps(slug) {
   ].join('\n');
 }
 
-function exploreContentTemplate({ title, description, category, date }) {
+function exploreContentTemplate({
+  title,
+  description,
+  category,
+  audience,
+  prerequisites,
+  date,
+}) {
+  const prerequisiteField = prerequisites.length > 0
+    ? `prerequisites:\n${prerequisites.map((item) => `  - ${item}`).join('\n')}`
+    : 'prerequisites: []';
   return `---
 title: ${title}
 description: ${description}
 category: ${category}
+audience: ${audience}
+${prerequisiteField}
 date: ${date}
 order: 0
 featured: false

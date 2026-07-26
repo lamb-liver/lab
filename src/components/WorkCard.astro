@@ -2,16 +2,18 @@
 import '../styles/components/card.css';
 import CardThumbFallback from './CardThumbFallback.astro';
 import { getCurveThumbnailSvg } from '../lib/curveThumbnail';
+import type { ContentAudience } from '../content.config';
 
 interface Props {
   slug: string;
   title: string;
   description: string;
   tags: string[];
+  audience: ContentAudience;
   featured?: boolean;
 }
 
-const { slug, title, description, tags, featured = false } = Astro.props;
+const { slug, title, description, tags, audience, featured = false } = Astro.props;
 const hasThumb = !!getCurveThumbnailSvg(slug);
 const thumbSrc = `/thumbs/works/${slug}.svg`;
 ---
@@ -20,6 +22,7 @@ const thumbSrc = `/thumbs/works/${slug}.svg`;
   class:list={['card', 'card--work', { 'card--featured': featured }]}
   data-filter-item
   data-filter-tags={tags.join(',')}
+  data-content-audience={audience}
   data-search-slug={slug}
 >
   <a href={`/works/${slug}`} class="card__link-wrap">
@@ -46,6 +49,7 @@ const thumbSrc = `/thumbs/works/${slug}.svg`;
       </div>
       <div class="card__tags">
         {tags.map((tag) => <span class="card__tag">{tag}</span>)}
+        <span class="card__tag" data-audience-label>{audience}</span>
       </div>
       <p class="card__desc">{description}</p>
     </div>

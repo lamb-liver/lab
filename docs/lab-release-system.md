@@ -109,6 +109,7 @@ Done:
 - `npm run new:work -- <slug>` creates `src/content/works/<slug>.md`.
 - It does not create a component scaffold; add an interactive component only when the Work needs one.
 - Generated content defaults to `draft: true`.
+- Generated content explicitly records `audience` and `prerequisites`; use `--audience 大學概念` and `--prerequisites 極限,導數` when needed.
 
 ### Create new:explore generator
 
@@ -122,6 +123,7 @@ Done:
 
 - `npm run new:explore -- <slug>` creates `src/content/explore/<slug>.md`.
 - Generated content defaults to `draft: true`.
+- Generated content explicitly records `audience` and `prerequisites`; use `--audience 大學概念` and `--prerequisites 極限,導數` when needed.
 - Terminal output reminds the editor to add a cover before publishing.
 
 ### Add registry guidance to generator

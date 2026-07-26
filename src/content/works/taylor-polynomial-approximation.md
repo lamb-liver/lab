@@ -1,6 +1,10 @@
 ---
 title: 泰勒多項式逼近
 description: 調整階數 n 與展開中心 a，觀察泰勒多項式如何局部貼合 sin x、cos x、e^x。
+audience: 大學概念
+prerequisites:
+  - 導數
+  - 多項式
 tags:
   - 函數與分析
 date: 2026-06-11

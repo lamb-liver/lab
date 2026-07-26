@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 export const EXPLORE_CATEGORIES = ['幾何', '代數', '統計', '拓樸', '分析'];
+export const CONTENT_AUDIENCES = ['直觀探索', '高中概念', '大學概念'];
 export const EXAM_SUBJECTS = ['學測數A', '學測數B', '分科數甲'];
 const COLLECTIONS = ['works', 'explore', 'exam'];
 const REQUIRED_FIELDS = {
@@ -121,6 +122,28 @@ function checkFrontmatter(file, parsed, issues) {
   const order = fieldValue(parsed, 'order');
   if (order && !/^\d+$/.test(order)) {
     addIssue(issues, file, fieldLine(parsed, 'order'), 'order must be a non-negative integer');
+  }
+
+  if (file.collection === 'works' || file.collection === 'explore') {
+    const audience = fieldValue(parsed, 'audience');
+    if (audience && !CONTENT_AUDIENCES.includes(audience)) {
+      addIssue(
+        issues,
+        file,
+        fieldLine(parsed, 'audience'),
+        `audience must be one of: ${CONTENT_AUDIENCES.join(', ')}`,
+      );
+    }
+
+    const prerequisites = fieldValue(parsed, 'prerequisites');
+    if (prerequisites && prerequisites !== '[]') {
+      addIssue(
+        issues,
+        file,
+        fieldLine(parsed, 'prerequisites'),
+        'prerequisites must be a YAML list',
+      );
+    }
   }
 
   if (file.collection === 'works') {

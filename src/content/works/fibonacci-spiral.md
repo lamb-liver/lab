@@ -1,6 +1,7 @@
 ---
 title: 費波那契螺線
 description: 以費波那契正方形與四分之一圓弧拼合的對數螺線近似。
+audience: 直觀探索
 tags:
   - 幾何
 date: 2026-05-26

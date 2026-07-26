@@ -80,16 +80,24 @@ const structuredData = [
 
   <header class="container work-detail__header">
     <h1 class="work-detail__header-title">{entry.data.title}</h1>
-    {
-      entry.data.tags.length > 0 ? (
-        <div class="work-detail__header-tags">
-          {entry.data.tags.map((tag) => (
-            <span class="work-detail__header-tag">{tag}</span>
-          ))}
-        </div>
-      ) : null
-    }
+    <div class="work-detail__header-tags">
+      {entry.data.tags.map((tag) => (
+        <span class="work-detail__header-tag">{tag}</span>
+      ))}
+      <span class="work-detail__header-tag" data-audience-label>
+        {entry.data.audience}
+      </span>
+    </div>
   </header>
+
+  {
+    entry.data.prerequisites.length > 0 ? (
+      <p class="container content-prerequisites">
+        <strong>建議先備：</strong>
+        {entry.data.prerequisites.join('、')}
+      </p>
+    ) : null
+  }
 
   {
     interactive ? (

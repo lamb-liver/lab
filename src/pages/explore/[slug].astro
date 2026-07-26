@@ -83,7 +83,16 @@ const structuredData = [
       <h1>{entry.data.title}</h1>
       <div class="tag-list">
         <span class="tag">{entry.data.category}</span>
+        <span class="tag" data-audience-label>{entry.data.audience}</span>
       </div>
+      {
+        entry.data.prerequisites.length > 0 ? (
+          <p class="content-prerequisites">
+            <strong>建議先備：</strong>
+            {entry.data.prerequisites.join('、')}
+          </p>
+        ) : null
+      }
     </header>
 
     {

@@ -84,6 +84,7 @@ const latestExplore = excludeEntryIds(
                 title={entry.data.title}
                 description={entry.data.description}
                 tags={entry.data.tags}
+                audience={entry.data.audience}
                 featured
               />
             ))}
@@ -93,6 +94,7 @@ const latestExplore = excludeEntryIds(
                 title={entry.data.title}
                 description={entry.data.description}
                 category={entry.data.category}
+                audience={entry.data.audience}
                 coverImage={entry.data.coverImage}
                 featured
               />
@@ -122,6 +124,7 @@ const latestExplore = excludeEntryIds(
               title={entry.data.title}
               description={entry.data.description}
               tags={entry.data.tags}
+              audience={entry.data.audience}
             />
           ))
         }
@@ -143,10 +146,17 @@ const latestExplore = excludeEntryIds(
       <div class="home-topic-list">
         {
           latestExplore.map((entry) => (
-            <a class="home-topic-item" href={`/explore/${entry.id}`}>
+            <a
+              class="home-topic-item"
+              href={`/explore/${entry.id}`}
+              data-content-audience={entry.data.audience}
+            >
               <div class="home-topic-item__meta">
                 <span class="section-badge section-badge--explore">互動視覺化</span>
                 <span class="home-topic-item__category">{entry.data.category}</span>
+                <span class="home-topic-item__category" data-audience-label>
+                  {entry.data.audience}
+                </span>
               </div>
               <h3 class="home-topic-item__title">
                 {entry.data.title}

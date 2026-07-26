@@ -12,6 +12,14 @@ export const exploreCategories = [
 
 export type ExploreCategory = (typeof exploreCategories)[number];
 
+export const contentAudiences = [
+  '直觀探索',
+  '高中概念',
+  '大學概念',
+] as const;
+
+export type ContentAudience = (typeof contentAudiences)[number];
+
 export const examSubjects = ['學測數A', '學測數B', '分科數甲'] as const;
 
 export type ExamSubject = (typeof examSubjects)[number];
@@ -26,6 +34,8 @@ const works = defineCollection({
     title: z.string(),
     description: z.string(),
     tags: z.array(z.string()),
+    audience: z.enum(contentAudiences).default('高中概念'),
+    prerequisites: z.array(z.string()).default([]),
     date: z.coerce.date(),
     order: z.number().int().nonnegative(),
     featured: z.boolean().default(false),
@@ -39,6 +49,8 @@ const explore = defineCollection({
     title: z.string(),
     description: z.string(),
     category: z.enum(exploreCategories),
+    audience: z.enum(contentAudiences).default('高中概念'),
+    prerequisites: z.array(z.string()).default([]),
     date: z.coerce.date(),
     order: z.number().int().nonnegative(),
     coverImage: z.string().optional(),

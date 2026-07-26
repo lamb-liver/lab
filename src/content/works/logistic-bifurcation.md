@@ -1,6 +1,10 @@
 ---
 title: 單峰映射分岔圖
 description: x_{n+1} = r x_n(1-x_n) 隨參數 r 的週期倍化與混沌區域。
+audience: 大學概念
+prerequisites:
+  - 數列
+  - 函數疊代
 tags:
   - 動力系統
 date: 2026-05-26

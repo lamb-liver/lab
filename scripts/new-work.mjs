@@ -2,13 +2,14 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CONTENT_AUDIENCES } from './audit-content.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 function usage() {
   return [
     'Usage:',
-    '  npm run new:work -- <slug> [--title <title>] [--description <text>] [--date YYYY-MM-DD] [--tags tag,tag] [--interactive] [--dry-run]',
+    '  npm run new:work -- <slug> [--title <title>] [--description <text>] [--date YYYY-MM-DD] [--tags tag,tag] [--audience <audience>] [--prerequisites item,item] [--interactive] [--dry-run]',
     '',
     'Creates a draft-only Works skeleton. With --interactive it also scaffolds a',
     'curve module and Root component and wires all three registries',
@@ -22,6 +23,8 @@ export function parseNewWorkArgs(argv) {
     description: null,
     date: new Date().toISOString().slice(0, 10),
     tags: ['待分類'],
+    audience: '高中概念',
+    prerequisites: [],
     interactive: false,
     dryRun: false,
   };
@@ -40,15 +43,15 @@ export function parseNewWorkArgs(argv) {
     }
     if (arg.startsWith('--')) {
       const key = arg.slice(2);
-      if (!['title', 'description', 'date', 'tags'].includes(key)) {
+      if (!['title', 'description', 'date', 'tags', 'audience', 'prerequisites'].includes(key)) {
         throw new Error(`Unknown option: ${arg}`);
       }
       const value = argv[i + 1];
       if (!value || value.startsWith('--')) {
         throw new Error(`Missing value for ${arg}`);
       }
-      if (key === 'tags') {
-        options.tags = value.split(',').map((tag) => tag.trim()).filter(Boolean);
+      if (key === 'tags' || key === 'prerequisites') {
+        options[key] = value.split(',').map((item) => item.trim()).filter(Boolean);
       } else {
         options[key] = value;
       }
@@ -63,13 +66,28 @@ export function parseNewWorkArgs(argv) {
 }
 
 export function buildNewWorkFiles(
-  { slug, title, description, date, tags, interactive = false },
+  {
+    slug,
+    title,
+    description,
+    date,
+    tags,
+    audience = '高中概念',
+    prerequisites = /** @type {string[]} */ ([]),
+    interactive = false,
+  },
   root = repoRoot,
 ) {
   assertValidSlug(slug);
   assertValidDate(date);
   if (!Array.isArray(tags) || tags.length === 0) {
     throw new Error('At least one tag is required.');
+  }
+  if (!CONTENT_AUDIENCES.includes(audience)) {
+    throw new Error(`Audience must be one of: ${CONTENT_AUDIENCES.join(', ')}`);
+  }
+  if (!Array.isArray(prerequisites)) {
+    throw new Error('Prerequisites must be a list.');
   }
 
   const finalTitle = title || titleFromSlug(slug);
@@ -84,6 +102,8 @@ export function buildNewWorkFiles(
         description: finalDescription,
         date,
         tags,
+        audience,
+        prerequisites,
       }),
     },
   ];
@@ -332,13 +352,18 @@ export default function ${pascal}CurveRoot({ controlsMountId }: Props) {
 `;
 }
 
-function workContentTemplate({ title, description, date, tags }) {
+function workContentTemplate({ title, description, date, tags, audience, prerequisites }) {
   const tagLines = tags.map((tag) => `  - ${tag}`).join('\n');
+  const prerequisiteField = prerequisites.length > 0
+    ? `prerequisites:\n${prerequisites.map((item) => `  - ${item}`).join('\n')}`
+    : 'prerequisites: []';
   return `---
 title: ${title}
 description: ${description}
 tags:
 ${tagLines}
+audience: ${audience}
+${prerequisiteField}
 date: ${date}
 order: 0
 featured: false

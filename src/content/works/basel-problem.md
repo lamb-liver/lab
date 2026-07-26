@@ -1,6 +1,10 @@
 ---
 title: 巴塞爾問題
 description: 以圓周上正弦乘積或幾何級數視覺化 ζ(2) = π²/6。
+audience: 大學概念
+prerequisites:
+  - 無窮級數
+  - 三角函數
 tags:
   - 函數與分析
 date: 2026-05-26
