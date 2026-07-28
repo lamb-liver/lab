@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import type p5 from 'p5';
 import { symmetrySample } from '../../exam/gsat-114-cubic-symmetry-center/geometry';
 import { renderCubicSymmetryCenterExamScene } from '../../systems/rendering/cubicSymmetryCenterExamRender';
@@ -18,26 +18,23 @@ function measureCanvas(host: HTMLElement): CanvasSize {
 export default function CubicSymmetryCenterExamRoot() {
   const [distance, setDistance] = useState(2.5);
   const [guess, setGuess] = useState<CenterGuess | null>(null);
-  const distanceRef = useRef(distance);
   const sample = symmetrySample(distance);
 
-  const draw = useCallback((p: p5) => {
-    renderCubicSymmetryCenterExamScene(p, {
-      width: p.width,
-      height: p.height,
-      distance: distanceRef.current,
-    });
-  }, []);
+  const draw = useCallback(
+    (p: p5) => {
+      renderCubicSymmetryCenterExamScene(p, {
+        width: p.width,
+        height: p.height,
+        distance,
+      });
+    },
+    [distance],
+  );
 
-  const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, undefined, {
+  const canvasHostRef = useRectP5CanvasHost(draw, [], measureCanvas, undefined, {
     loop: false,
     redrawKey: distance,
   });
-
-  const updateDistance = (value: number) => {
-    distanceRef.current = value;
-    setDistance(value);
-  };
 
   return (
     <div className="exam-interactive-explore">
@@ -49,7 +46,7 @@ export default function CubicSymmetryCenterExamRoot() {
             q 的最高點是 (-6, 8)，它也是 f 的對稱中心嗎？
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            左圖比商式等高點；右圖追蹤原式兩點的中點
+            曲線取一個 a&lt;0 示意；中心結論與 a 無關
           </p>
           <div
             ref={canvasHostRef}
@@ -111,7 +108,7 @@ export default function CubicSymmetryCenterExamRoot() {
                   max="4"
                   step="0.25"
                   value={distance}
-                  onInput={(event) => updateDistance(Number(event.currentTarget.value))}
+                  onInput={(event) => setDistance(Number(event.currentTarget.value))}
                 />
               </label>
             </div>

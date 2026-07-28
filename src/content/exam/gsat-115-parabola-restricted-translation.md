@@ -59,8 +59,10 @@ $$
 代入固定通過點 $B=(\frac12,0)$：
 
 $$
-0=-4\left(\frac12-h\right)^2+1+2h
-  =2h(3-2h).
+\begin{aligned}
+0&=-4\left(\frac12-h\right)^2+1+2h\\
+ &=2h(3-2h).
+\end{aligned}
 $$
 
 因此 $h=0$ 或 $h=\frac32$。前者使 $Q=P$，違反兩點相異，所以取

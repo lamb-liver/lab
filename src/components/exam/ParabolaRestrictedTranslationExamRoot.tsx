@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import type p5 from 'p5';
 import {
   TRANSLATED_VERTEX_H,
@@ -17,26 +17,23 @@ function measureCanvas(host: HTMLElement): CanvasSize {
 
 export default function ParabolaRestrictedTranslationExamRoot() {
   const [selectedH, setSelectedH] = useState<CandidateH | null>(null);
-  const selectedHRef = useRef<CandidateH | null>(null);
   const q = selectedH === null ? null : translatedVertex(selectedH);
 
-  const draw = useCallback((p: p5) => {
-    renderParabolaRestrictedTranslationExamScene(p, {
-      width: p.width,
-      height: p.height,
-      selectedH: selectedHRef.current,
-    });
-  }, []);
+  const draw = useCallback(
+    (p: p5) => {
+      renderParabolaRestrictedTranslationExamScene(p, {
+        width: p.width,
+        height: p.height,
+        selectedH,
+      });
+    },
+    [selectedH],
+  );
 
-  const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, undefined, {
+  const canvasHostRef = useRectP5CanvasHost(draw, [], measureCanvas, undefined, {
     loop: false,
     redrawKey: selectedH,
   });
-
-  const selectCandidate = (h: CandidateH) => {
-    selectedHRef.current = h;
-    setSelectedH(h);
-  };
 
   return (
     <div className="exam-interactive-explore">
@@ -71,7 +68,7 @@ export default function ParabolaRestrictedTranslationExamRoot() {
                 className="exam-interactive-explore__mode-button"
                 data-active={selectedH === 0}
                 aria-pressed={selectedH === 0}
-                onClick={() => selectCandidate(0)}
+                onClick={() => setSelectedH(0)}
               >
                 h=0，Q=(0,1)
               </button>
@@ -80,7 +77,7 @@ export default function ParabolaRestrictedTranslationExamRoot() {
                 className="exam-interactive-explore__mode-button"
                 data-active={selectedH === TRANSLATED_VERTEX_H}
                 aria-pressed={selectedH === TRANSLATED_VERTEX_H}
-                onClick={() => selectCandidate(TRANSLATED_VERTEX_H)}
+                onClick={() => setSelectedH(TRANSLATED_VERTEX_H)}
               >
                 h=3/2，Q=(3/2,4)
               </button>

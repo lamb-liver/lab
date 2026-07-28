@@ -51,9 +51,10 @@ $$
 三角形的邊長比可得
 
 $$
-AM=\frac{\sqrt7}{\sqrt3}=\frac{\sqrt{21}}3,
-\qquad
-AN=\frac{\sqrt3}{\sqrt3}=1.
+\begin{aligned}
+AM&=\frac{\sqrt7}{\sqrt3}=\frac{\sqrt{21}}3,\\
+AN&=\frac{\sqrt3}{\sqrt3}=1.
+\end{aligned}
 $$
 
 兩個等腰三角形都作在原三角形外側，因此
