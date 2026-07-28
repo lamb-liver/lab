@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#0a0a0a"/>
+  <path d="M 1110 110 Q 730 305 730 500 Q 730 665 1002 830"
+        fill="none" stroke="#d4b87a" stroke-width="9" stroke-linecap="round" opacity=".78"/>
+  <line x1="630" y1="110" x2="630" y2="850" stroke="#e8e8e8" stroke-width="5" opacity=".38"/>
+  <line x1="630" y1="180" x2="986" y2="180" stroke="#e8e8e8" stroke-width="4"
+        stroke-dasharray="14 14" opacity=".52"/>
+  <line x1="630" y1="500" x2="830" y2="500" stroke="#e8e8e8" stroke-width="4"
+        stroke-dasharray="14 14" opacity=".42"/>
+  <line x1="630" y1="625" x2="769" y2="625" stroke="#e8e8e8" stroke-width="4"
+        stroke-dasharray="14 14" opacity=".52"/>
+  <line x1="986" y1="180" x2="769" y2="625" stroke="#d4b87a" stroke-width="10"
+        stroke-linecap="round"/>
+  <line x1="630" y1="500" x2="769" y2="625" stroke="#5dade2" stroke-width="7"
+        stroke-linecap="round" opacity=".88"/>
+  <line x1="630" y1="180" x2="630" y2="500" stroke="#d4b87a" stroke-width="11"
+        stroke-linecap="round"/>
+  <g fill="#e8e8e8">
+    <circle cx="986" cy="180" r="13"/>
+    <circle cx="830" cy="500" r="13"/>
+    <circle cx="769" cy="625" r="13"/>
+    <circle cx="630" cy="180" r="11"/>
+    <circle cx="630" cy="500" r="11"/>
+    <circle cx="630" cy="625" r="11"/>
+  </g>
+</svg>

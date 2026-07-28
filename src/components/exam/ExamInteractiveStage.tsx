@@ -5,6 +5,16 @@ import {
 } from '../../exam/interactiveRegistry';
 
 const rootBySlug = {
+  'ast-111-complex-unit-circle': lazy(() => import('./ComplexUnitCircleExamRoot')),
+  'ast-111-parabola-focal-chord-directrix-projection': lazy(
+    () => import('./ParabolaFocalChordDirectrixProjectionExamRoot'),
+  ),
+  'ast-112-isosceles-120-construction': lazy(
+    () => import('./Isosceles120ConstructionExamRoot'),
+  ),
+  'ast-113-augmented-matrix-row-operations': lazy(
+    () => import('./AugmentedMatrixRowOperationsExamRoot'),
+  ),
   'ast-113-geometric-distribution': lazy(() => import('./GeometricDistributionExamRoot')),
   'ast-114-solid-of-revolution': lazy(() => import('./SolidOfRevolutionExamRoot')),
   'gsat-112-rotation-composition': lazy(() => import('./RotationCompositionExamRoot')),

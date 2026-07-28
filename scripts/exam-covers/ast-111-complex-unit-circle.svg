@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="blueGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <g fill="none" stroke="#E8E8E8">
+    <line x1="260" y1="500" x2="1340" y2="500" stroke-width="4" opacity="0.12"/>
+    <line x1="800" y1="70" x2="800" y2="930" stroke-width="4" opacity="0.12"/>
+    <circle cx="800" cy="500" r="310" stroke-width="7" opacity="0.28"/>
+    <line x1="495" y1="555" x2="939" y2="223" stroke-width="7" opacity="0.30"
+      stroke-dasharray="18 18"/>
+  </g>
+  <line x1="986" y1="748" x2="614" y2="252" stroke="#D4B87A" stroke-width="8"
+    opacity="0.65" stroke-dasharray="20 16" filter="url(#goldGlow)"/>
+  <line x1="614" y1="252" x2="939" y2="223" stroke="#D4B87A" stroke-width="10"
+    stroke-linecap="round" filter="url(#goldGlow)"/>
+  <line x1="614" y1="252" x2="495" y2="555" stroke="#5DADE2" stroke-width="10"
+    stroke-linecap="round" filter="url(#blueGlow)"/>
+  <line x1="800" y1="500" x2="614" y2="252" stroke="#5DADE2" stroke-width="6"
+    opacity="0.48"/>
+  <circle cx="800" cy="500" r="11" fill="#E8E8E8" opacity="0.7"/>
+  <circle cx="939" cy="223" r="20" fill="#D4B87A" filter="url(#goldGlow)"/>
+  <circle cx="495" cy="555" r="20" fill="#5DADE2" filter="url(#blueGlow)"/>
+  <circle cx="614" cy="252" r="28" fill="#0A0A0A" stroke="#5DADE2" stroke-width="10"
+    filter="url(#blueGlow)"/>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto">
+      <path d="M1 1L11 6L1 11Z" fill="#D4B87A"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <g fill="none" stroke="#D8D8D8" stroke-width="7" opacity="0.32">
+    <path d="M270 210H210V790H270M610 210H670V790H610"/>
+    <path d="M930 210H870V790H930M1270 210H1330V790H1270"/>
+    <line x1="535" y1="260" x2="535" y2="740" opacity="0.45"/>
+    <line x1="1195" y1="260" x2="1195" y2="740" opacity="0.45"/>
+  </g>
+  <g fill="#D8D8D8" opacity="0.28">
+    <circle cx="340" cy="380" r="27"/><circle cx="455" cy="380" r="27"/>
+    <circle cx="340" cy="620" r="27"/><circle cx="455" cy="620" r="27"/>
+    <circle cx="1000" cy="380" r="27"/><circle cx="1115" cy="380" r="27"/>
+    <circle cx="1000" cy="620" r="27"/><circle cx="1115" cy="620" r="27"/>
+  </g>
+  <g fill="#5DADE2">
+    <circle cx="590" cy="380" r="34"/><circle cx="590" cy="620" r="34"/>
+  </g>
+  <g fill="#D4B87A" filter="url(#goldGlow)">
+    <circle cx="1250" cy="380" r="34"/><circle cx="1250" cy="620" r="34"/>
+  </g>
+  <path d="M720 500H820" fill="none" stroke="#D4B87A" stroke-width="12"
+    stroke-linecap="round" marker-end="url(#arrow)" filter="url(#goldGlow)"/>
+</svg>
