@@ -2,6 +2,9 @@
 title: 古典機率與條件機率
 description: 三個模式都在問同一件事：現在的樣本空間到底是什麼，以及直覺為什麼會失準。
 category: 統計
+concepts:
+  - classical-probability
+  - conditional-probability
 date: 2026-05-26
 order: 10
 coverImage: /images/explore-covers/probability-statistics.png

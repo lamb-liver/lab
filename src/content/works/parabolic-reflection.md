@@ -4,6 +4,8 @@ description: 由焦點發出的光線經拋物面反射後變為平行光束，�
 audience: 直觀探索
 tags:
   - 幾何
+concepts:
+  - conic-sections
 date: 2026-05-25
 order: 10
 featured: false

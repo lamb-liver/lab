@@ -169,7 +169,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 ### 7.2 Footer
 
-- `.site-footer__nav`：作品集 / 主題導覽 / 關於（站內連結）
+- `.site-footer__nav`：作品集 / 主題導覽 / 試題視覺化 / 概念 / 關於（站內連結；與 `Nav.astro` 同步）
 - 與頂部 `#site-nav-links` **文字可能相同**；Playwright 斷言 nav 連結時須 **限定 `#site-nav-links` 範圍**
 
 ---
@@ -205,6 +205,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 | 列表 filter | `lib/listFilter.ts`, `components/ListSearchFilterScript.astro`, `styles/components/filter.css` |
 | 首頁 | `styles/pages/home.css` |
 | Footer | `components/Footer.astro`, `styles/components/footer.css` |
+| 概念聚合（`/concept`） | `pages/concept/[slug].astro`、`index.astro`, `components/ConceptTags.astro`, `lib/concepts.ts`、`lib/conceptIndex.ts`、`lib/conceptCollections.ts`, `styles/pages/concept.css`；詞彙見 `docs/concept-taxonomy.md` |
 | UX 回歸測試 | `tests/seo-ux.spec.ts` |
 
 ---

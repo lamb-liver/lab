@@ -6,6 +6,11 @@ audience: 大學概念
 prerequisites:
   - 三角函數
   - 級數
+concepts:
+  - wave-superposition
+  - sequences-series
+  - trig-functions
+  - parametric-curve
 date: 2026-05-25
 order: 1
 coverImage: /explore/fourier-series-epicycles-cover.png

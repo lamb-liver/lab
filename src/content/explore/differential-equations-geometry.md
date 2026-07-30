@@ -6,6 +6,9 @@ audience: 大學概念
 prerequisites:
   - 導數
   - 積分
+concepts:
+  - differential-equation
+  - vector-field
 date: 2026-05-26
 order: 6
 coverImage: /images/explore-covers/differential-equations-geometry.png

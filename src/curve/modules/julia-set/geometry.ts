@@ -13,12 +13,21 @@ export function sampleJuliaSetThumbnail(
   const points: CurvePoint[] = [];
   const scale = 180 / zoom;
 
+  // Keep the filled interior (the never-escaping body) plus a wide boundary band,
+  // so the fractal reads as a coherent Julia set instead of the thin boundary shell
+  // that renders as scattered dust at thumbnail scale. The interior is lightly
+  // subsampled to hold the point count down and keep a little internal texture.
+  const boundaryBand = 42;
+  let interiorIndex = 0;
+
   for (let gy = 0; gy < grid; gy++) {
     const zy = -(gy / grid - 0.5) * zoom;
     for (let gx = 0; gx < grid; gx++) {
       const zx = (gx / grid - 0.5) * zoom;
       const t = juliaSmooth(zx, zy, cx, cy, maxIter);
-      if (t >= maxIter - 0.5 || t < maxIter - 24) continue;
+      const isInterior = t >= maxIter - 0.5;
+      if (!isInterior && t < maxIter - boundaryBand) continue;
+      if (isInterior && (interiorIndex++ & 1)) continue;
       points.push({
         x: zx * scale,
         y: -zy * scale,

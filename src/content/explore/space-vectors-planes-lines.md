@@ -2,6 +2,8 @@
 title: 空間向量與平面直線
 description: 固定一支向量與一個平面，三種讀法依序回答：它在哪裡、面朝哪裡、兩者什麼關係。
 category: 幾何
+concepts:
+  - space-vectors
 date: 2026-07-21
 order: 19
 coverImage: /images/explore-covers/space-vectors-planes-lines.png

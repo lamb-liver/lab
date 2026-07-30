@@ -1,6 +1,10 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { conceptSlugs } from './lib/concepts';
+
+/** 跨集合共用概念詞彙（slug）；registry 見 src/lib/concepts.ts */
+const conceptEnum = z.enum(conceptSlugs as [string, ...string[]]);
 
 export const exploreCategories = [
   '幾何',
@@ -34,6 +38,7 @@ const works = defineCollection({
     title: z.string(),
     description: z.string(),
     tags: z.array(z.string()),
+    concepts: z.array(conceptEnum).default([]),
     audience: z.enum(contentAudiences).default('高中概念'),
     prerequisites: z.array(z.string()).default([]),
     date: z.coerce.date(),
@@ -49,6 +54,7 @@ const explore = defineCollection({
     title: z.string(),
     description: z.string(),
     category: z.enum(exploreCategories),
+    concepts: z.array(conceptEnum).default([]),
     audience: z.enum(contentAudiences).default('高中概念'),
     prerequisites: z.array(z.string()).default([]),
     date: z.coerce.date(),
@@ -69,7 +75,8 @@ const exam = defineCollection({
     questionType: z.enum(examQuestionTypes),
     questionNo: z.string(),
     unit: z.string(),
-    concepts: z.array(z.string()),
+    topics: z.array(z.string()),
+    concepts: z.array(conceptEnum).default([]),
     sourceUrl: z.string().url().optional(),
     analysisUrl: z.string().url().optional(),
     relatedExplore: z.array(z.string()).default([]),

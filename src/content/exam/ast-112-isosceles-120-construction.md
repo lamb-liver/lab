@@ -6,10 +6,13 @@ year: 112
 questionType: 選填
 questionNo: '9'
 unit: 高一至高二數學A・三角比與三角函數
-concepts:
+topics:
   - 等腰三角形
   - 和角公式
   - 餘弦定理
+concepts:
+  - law-of-sines-cosines
+  - trig-identities
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0n214409428400270207/01-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf
 analysisUrl: https://www.ceec.edu.tw/files/file_pool/1/0N248425984561318981/1-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E5%90%84%E7%A7%91PD%E5%80%BC%28%E6%95%B8%E5%AD%B8%E7%94%B2%29.pdf
 relatedExplore:

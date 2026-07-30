@@ -6,10 +6,13 @@ year: 111
 questionType: 多選
 questionNo: '7'
 unit: 高三選修數甲・二次曲線
-concepts:
+topics:
   - 拋物線定義
   - 焦點與準線
   - 三角比
+concepts:
+  - conic-sections
+  - trig-functions
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0m223505137960339935/01-111%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7%E5%AE%9A%E7%A8%BF.pdf
 analysisUrl: https://www.ceec.edu.tw/xcepaper/cont?qperoid=0M280320869370643470&sid=0M289400243640279375&xsmsid=0J066588036013658199
 relatedExplore:

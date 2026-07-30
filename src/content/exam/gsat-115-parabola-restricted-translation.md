@@ -6,10 +6,13 @@ year: 115
 questionType: 選填
 questionNo: '16'
 unit: 高一必修數學・二次函數與圖形平移
-concepts:
+topics:
   - 二次函數頂點式
   - 圖形平移
   - 向量長度
+concepts:
+  - quadratic-function
+  - function-transformation
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0q054344158947111283/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf
 analysisUrl: https://math.ntnu.edu.tw/~li/108/115A.html
 relatedExplore:

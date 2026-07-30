@@ -4,6 +4,8 @@ description: 遞迴三等分挖空或混沌遊戲生成的自相似三角形碎�
 audience: 直觀探索
 tags:
   - 幾何
+concepts:
+  - fractal
 date: 2026-05-26
 order: 14
 featured: false

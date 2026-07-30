@@ -4,6 +4,8 @@ description: 拖動 a、b、c 對照一般式與頂點式，觀察頂點、對�
 audience: 直觀探索
 tags:
   - 函數與分析
+concepts:
+  - quadratic-function
 date: 2026-06-10
 order: 50
 featured: false

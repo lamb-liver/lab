@@ -4,6 +4,8 @@ description: 兩列反向波疊加形成駐波，觀察節點與腹點的分佈�
 audience: 直觀探索
 tags:
   - 幾何
+concepts:
+  - wave-superposition
 date: 2026-05-25
 order: 5
 featured: false

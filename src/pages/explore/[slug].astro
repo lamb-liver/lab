@@ -3,11 +3,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import ExploreInteractiveStage from '../../components/explore/ExploreInteractiveStage';
+import RelatedLinks from '../../components/RelatedLinks.astro';
+import ConceptTags from '../../components/ConceptTags.astro';
 import { getCollection, render } from 'astro:content';
 import {
   getCollectionPagerNeighbors,
   getStaticPathsFromCollection,
 } from '../../content/utils';
+import { buildExamBackrefs } from '../../lib/relatedContent';
 import { isExploreInteractive } from '../../explore/interactiveRegistry';
 import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
@@ -29,6 +32,10 @@ const { previous: previousExplore, next: nextExplore } = getCollectionPagerNeigh
   await getCollection('explore'),
   entry.id,
 );
+const relatedItems =
+  buildExamBackrefs(await getCollection('exam'), {
+    includeDraft: import.meta.env.DEV,
+  }).explore.get(entry.id) ?? [];
 const ogImage = entry.data.coverImage;
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL('/', site).href;
@@ -93,6 +100,7 @@ const structuredData = [
           </p>
         ) : null
       }
+      <ConceptTags slugs={entry.data.concepts} />
     </header>
 
     {
@@ -116,6 +124,8 @@ const structuredData = [
     <article class="prose">
       <Content />
     </article>
+
+    <RelatedLinks items={relatedItems} heading="相關試題" ariaLabel="相關試題" />
 
     <nav class="explore-detail__pager" aria-label="主題文章導覽">
       {

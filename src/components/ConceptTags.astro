@@ -1,0 +1,31 @@
+---
+import { conceptLabel } from '../lib/concepts';
+import { loadConceptIndex } from '../lib/conceptCollections';
+import { pagedConceptSlugs } from '../lib/conceptIndex';
+import '../styles/components/concept-tags.css';
+
+interface Props {
+  slugs: string[];
+  label?: string;
+}
+
+const { slugs, label = '概念' } = Astro.props;
+const paged = pagedConceptSlugs(await loadConceptIndex());
+---
+
+{
+  slugs.length > 0 ? (
+    <div class="concept-tags">
+      <span class="concept-tags__label">{label}</span>
+      {slugs.map((slug) =>
+        paged.has(slug) ? (
+          <a class="concept-tag" href={`/concept/${slug}`}>
+            {conceptLabel(slug)}
+          </a>
+        ) : (
+          <span class="concept-tag">{conceptLabel(slug)}</span>
+        ),
+      )}
+    </div>
+  ) : null
+}

@@ -11,7 +11,7 @@ interface Props {
   year: number;
   questionType: ExamQuestionType;
   questionNo: string;
-  concepts: string[];
+  topics: string[];
   coverImage?: string;
   draft?: boolean;
 }
@@ -24,7 +24,7 @@ const {
   year,
   questionType,
   questionNo,
-  concepts,
+  topics,
   coverImage,
   draft = false,
 } = Astro.props;
@@ -60,7 +60,7 @@ const sourceLabel = `${year} ${subject}・${questionType}${questionNo}`;
       </div>
       <div class="card__tags">
         <span class="card__tag">{sourceLabel}</span>
-        {concepts.slice(0, 2).map((concept) => <span class="card__tag">{concept}</span>)}
+        {topics.slice(0, 2).map((topic) => <span class="card__tag">{topic}</span>)}
       </div>
       <p class="card__desc">{description}</p>
     </div>

@@ -4,6 +4,8 @@ description: 雙源波的疊加產生明暗交替的干涉條紋圖樣。
 audience: 直觀探索
 tags:
   - 幾何
+concepts:
+  - wave-superposition
 date: 2026-05-25
 order: 6
 featured: false

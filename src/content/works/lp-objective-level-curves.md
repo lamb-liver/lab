@@ -3,6 +3,8 @@ title: 目標函數等值線
 description: 拖動目標函數 z=px+qy 的等值線，觀察整個平面如何被一族平行直線分層。
 tags:
   - 最佳化
+concepts:
+  - linear-programming
 date: 2026-07-22
 order: 68
 featured: false

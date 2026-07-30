@@ -6,10 +6,13 @@ year: 112
 questionType: 選填
 questionNo: '17'
 unit: 高二數學A・空間向量
-concepts:
+topics:
   - 空間直線
   - 向量外積
   - 歪斜線距離
+concepts:
+  - space-vectors
+  - dot-cross-product
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0n045358375872115148/03-112%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf
 analysisUrl: https://www.ceec.edu.tw/files/file_pool/1/0N060632491446652955/%E6%95%B8A%E7%A7%91%E7%AD%94%E5%B0%8D%E7%8E%87%E5%8F%8A%E9%91%91%E5%88%A5%E5%BA%A6%E8%A1%A8.pdf
 relatedExplore:

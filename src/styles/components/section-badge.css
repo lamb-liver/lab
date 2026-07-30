@@ -18,9 +18,15 @@
 }
 
 .section-badge--explore {
-  color: var(--color-accent);
-  border-color: var(--accent-border);
-  background: rgba(var(--color-accent-rgb), 0.065);
+  color: rgb(176, 150, 224);
+  border-color: rgba(176, 150, 224, 0.4);
+  background: rgba(176, 150, 224, 0.075);
+}
+
+.section-badge--exam {
+  color: rgb(110, 168, 255);
+  border-color: rgba(110, 168, 255, 0.4);
+  background: rgba(110, 168, 255, 0.07);
 }
 
 .card__link-wrap .card__kind {

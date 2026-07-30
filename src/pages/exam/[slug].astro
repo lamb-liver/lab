@@ -3,7 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import ExamInteractiveStage from '../../components/exam/ExamInteractiveStage';
+import RelatedLinks from '../../components/RelatedLinks.astro';
+import ConceptTags from '../../components/ConceptTags.astro';
 import { getCollection, render } from 'astro:content';
+import type { RelatedRef } from '../../lib/relatedContent';
 import { getStaticPathsFromCollection } from '../../content/utils';
 import { isExamInteractive } from '../../exam/interactiveRegistry';
 import 'katex/dist/katex.min.css';
@@ -61,6 +64,18 @@ const relatedWorks = entry.data.relatedWorks
 const relatedExplore = entry.data.relatedExplore
   .map((slug) => explore.find((topic) => topic.id === slug && (entry.data.draft || !topic.data.draft)))
   .filter((topic) => topic !== undefined);
+const relatedItems: RelatedRef[] = [
+  ...relatedExplore.map((topic) => ({
+    kind: 'explore' as const,
+    href: `/explore/${topic.id}`,
+    title: topic.data.title,
+  })),
+  ...relatedWorks.map((work) => ({
+    kind: 'work' as const,
+    href: `/works/${work.id}`,
+    title: work.data.title,
+  })),
+];
 ---
 
 <BaseLayout
@@ -88,7 +103,7 @@ const relatedExplore = entry.data.relatedExplore
       <h1>{entry.data.title}</h1>
       <div class="tag-list">
         <span class="tag">{entry.data.unit}</span>
-        {entry.data.concepts.map((concept) => <span class="tag">{concept}</span>)}
+        {entry.data.topics.map((topic) => <span class="tag">{topic}</span>)}
       </div>
       {
         entry.data.sourceUrl ? (
@@ -104,6 +119,7 @@ const relatedExplore = entry.data.relatedExplore
           </p>
         ) : null
       }
+      <ConceptTags slugs={entry.data.concepts} />
     </header>
 
     {
@@ -128,25 +144,7 @@ const relatedExplore = entry.data.relatedExplore
       <Content />
     </article>
 
-    {
-      relatedExplore.length > 0 || relatedWorks.length > 0 ? (
-        <section class="exam-related" aria-label="延伸閱讀">
-          <h2>延伸</h2>
-          <ul>
-            {relatedExplore.map((topic) => (
-              <li>
-                <a href={`/explore/${topic.id}`}>主題導覽：{topic.data.title}</a>
-              </li>
-            ))}
-            {relatedWorks.map((work) => (
-              <li>
-                <a href={`/works/${work.id}`}>作品：{work.data.title}</a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null
-    }
+    <RelatedLinks items={relatedItems} />
 
     <a href="/exam" class="back-link">← 返回試題視覺化</a>
   </div>

@@ -3,6 +3,8 @@ title: 約束半平面與可行域
 description: 拖動約束直線，觀察半平面遮罩與可行域凸多邊形的交集變化。
 tags:
   - 最佳化
+concepts:
+  - linear-programming
 date: 2026-07-22
 order: 67
 featured: false

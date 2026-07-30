@@ -6,10 +6,12 @@ year: 114
 questionType: 選填
 questionNo: '13'
 unit: 高一必修數學・多項式函數
-concepts:
+topics:
   - 多項式除法
   - 餘式定理
   - 三次函數對稱中心
+concepts:
+  - polynomial
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf
 analysisUrl: https://math.ntnu.edu.tw/~li/108/114A.html
 relatedExplore:

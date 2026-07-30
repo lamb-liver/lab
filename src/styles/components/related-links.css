@@ -1,0 +1,29 @@
+/* 跨集合延伸連結區塊：Works／Explore／Exam 詳情頁共用（RelatedLinks.astro）。 */
+
+.related-links {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.related-links h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.related-links ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.related-links__meta {
+  margin-left: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}

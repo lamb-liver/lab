@@ -2,6 +2,10 @@
 title: 矩陣與線性變換
 description: 2×2 矩陣作用於平面向量；觀察欄向量、行列式與變換順序的影響。
 category: 代數
+concepts:
+  - matrix
+  - linear-transformation
+  - eigenvector
 date: 2026-05-25
 order: 4
 coverImage: /images/explore-covers/matrix-linear-transform.png

@@ -4,6 +4,8 @@ description: 以極座標方程 r = a·cos(kθ) 描繪的玫瑰線圖形，參�
 audience: 直觀探索
 tags:
   - 幾何
+concepts:
+  - parametric-curve
 date: 2026-05-25
 order: 1
 featured: false

@@ -17,13 +17,13 @@ const subjectOptions = collectExamSubjects(exams);
 const searchIndex = exams.map((entry) => ({
   slug: entry.id,
   title: entry.data.title,
-  description: `${entry.data.year} ${entry.data.subject} ${entry.data.questionType}${entry.data.questionNo} ${entry.data.description} ${entry.data.concepts.join(' ')}`,
+  description: `${entry.data.year} ${entry.data.subject} ${entry.data.questionType}${entry.data.questionNo} ${entry.data.description} ${entry.data.topics.join(' ')}`,
 }));
 ---
 
 <BaseLayout title={siteSeo.exam.title} description={siteSeo.exam.description} ogType="website">
   <div
-    class="container"
+    class="container section-scope--exam"
     data-list-filter
     data-filter-param="subject"
     data-search-param="q"
@@ -31,7 +31,7 @@ const searchIndex = exams.map((entry) => ({
     data-filter-count-unit="題"
   >
     <header class="page-header">
-      <span class="section-badge section-badge--work">歷屆試題</span>
+      <span class="section-badge section-badge--exam">歷屆試題</span>
       <h1>試題視覺化</h1>
       <p class="page-lead">
         從一道歷屆試題出發：先看清楚全體考生卡在哪個心智步驟，再用互動把那一步拆開。
@@ -77,7 +77,7 @@ const searchIndex = exams.map((entry) => ({
             year={entry.data.year}
             questionType={entry.data.questionType}
             questionNo={entry.data.questionNo}
-            concepts={entry.data.concepts}
+            topics={entry.data.topics}
             coverImage={entry.data.coverImage}
             draft={entry.data.draft}
           />

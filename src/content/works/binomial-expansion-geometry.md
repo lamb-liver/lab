@@ -3,6 +3,8 @@ title: 二項式展開的幾何意義
 description: 以體積或面積分割視覺化 (a+b)^n 的展開與係數來源。
 tags:
   - 組合數學
+concepts:
+  - binomial-theorem
 date: 2026-05-26
 order: 32
 featured: false

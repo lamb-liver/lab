@@ -144,8 +144,9 @@ year: ${year}
 questionType: ${type}
 questionNo: '${no}'
 unit: ${unit}
-concepts:
+topics:
   - 待填觀念
+concepts: []
 sourceUrl:
 analysisUrl:
 relatedExplore: []

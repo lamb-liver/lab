@@ -4,6 +4,8 @@ description: 橢圓上動點繞行雙焦點，展示 PF₁ + PF₂ = 2a 的幾�
 audience: 直觀探索
 tags:
   - 幾何
+concepts:
+  - conic-sections
 date: 2026-05-25
 order: 15
 featured: false

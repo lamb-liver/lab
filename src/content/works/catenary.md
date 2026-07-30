@@ -7,6 +7,8 @@ prerequisites:
   - 雙曲函數
 tags:
   - 幾何
+concepts:
+  - parametric-curve
 date: 2026-05-25
 order: 22
 featured: false

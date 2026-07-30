@@ -4,6 +4,8 @@ description: 二項式係數三角陣列，展示遞迴、對稱與組合恆等�
 audience: 直觀探索
 tags:
   - 組合數學
+concepts:
+  - binomial-theorem
 date: 2026-05-26
 order: 30
 featured: false
