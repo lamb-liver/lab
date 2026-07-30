@@ -3,6 +3,9 @@ title: 複數的極座標形式
 description: 以模長 r 與幅角 θ 表示 z = re^(iθ)，連結直角座標與極座標。
 tags:
   - 幾何
+concepts:
+  - complex-numbers
+  - euler-formula
 date: 2026-05-26
 order: 27
 featured: false

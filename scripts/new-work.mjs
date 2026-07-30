@@ -362,6 +362,7 @@ title: ${title}
 description: ${description}
 tags:
 ${tagLines}
+concepts: []
 audience: ${audience}
 ${prerequisiteField}
 date: ${date}

@@ -4,6 +4,9 @@ description: 以費波那契正方形與四分之一圓弧拼合的對數螺線�
 audience: 直觀探索
 tags:
   - 幾何
+concepts:
+  - parametric-curve
+  - sequences-series
 date: 2026-05-26
 order: 9
 featured: false

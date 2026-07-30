@@ -7,6 +7,10 @@ prerequisites:
   - 多項式
 tags:
   - 函數與分析
+concepts:
+  - taylor-approximation
+  - derivative-tangent
+  - polynomial
 date: 2026-06-11
 order: 55
 featured: false

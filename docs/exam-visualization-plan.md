@@ -5,7 +5,7 @@
 
 - 顯示名稱：試題視覺化
 - 路由：`/exam`、`/exam/[slug]`
-- Nav 位置：`作品集｜主題導覽｜試題視覺化｜關於`
+- Nav 位置：`作品集｜主題導覽｜試題視覺化｜概念｜關於`
 
 ## 為什麼獨立成一個集合
 
@@ -32,7 +32,8 @@ const exam = defineCollection({
     questionType: z.enum(examQuestionTypes),
     questionNo: z.string(),             // '11'、'17'
     unit: z.string(),                   // '高三選修數A・矩陣與線性變換'
-    concepts: z.array(z.string()),      // 篩選與搜尋用的觀念標籤
+    topics: z.array(z.string()),        // 細粒度觀念標籤：卡片顯示與站內搜尋用（原 concepts 欄改名）
+    concepts: z.array(conceptEnum).default([]), // 跨集合共用概念 slug（餵 /concept；registry 見 src/lib/concepts.ts）
     sourceUrl: z.string().url().optional(),   // 大考中心原卷 PDF
     analysisUrl: z.string().url().optional(), // 答對率／解析出處
     relatedExplore: z.array(z.string()).default([]),

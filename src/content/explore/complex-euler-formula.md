@@ -6,6 +6,9 @@ audience: 大學概念
 prerequisites:
   - 複數
   - 三角函數
+concepts:
+  - complex-numbers
+  - euler-formula
 date: 2026-05-26
 order: 7
 coverImage: /images/explore-covers/complex-euler-formula.png

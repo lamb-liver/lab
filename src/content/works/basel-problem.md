@@ -7,6 +7,9 @@ prerequisites:
   - 三角函數
 tags:
   - 函數與分析
+concepts:
+  - sequences-series
+  - trig-functions
 date: 2026-05-26
 order: 11
 featured: false

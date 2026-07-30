@@ -23,6 +23,9 @@ type Plot = {
 
 const ACCENT = [212, 184, 122] as const;
 const WHITE = [235, 235, 235] as const;
+// Give one component its own hue so the two inputs are told apart by colour, not
+// only by a faint alpha difference. Blue matches the shared exam second colour.
+const BLUE = [93, 173, 226] as const;
 const TAU = Math.PI * 2;
 
 function px(x: number, plot: Plot): number {
@@ -68,8 +71,8 @@ export function renderSinusoidSuperpositionExamScene(
   };
 
   const legend = [
-    { label: 'a sin x', color: WHITE, alpha: 62 },
-    { label: 'b cos x', color: WHITE, alpha: 92 },
+    { label: 'a sin x', color: WHITE, alpha: 92 },
+    { label: 'b cos x', color: BLUE, alpha: 165 },
     { label: '合成波', color: ACCENT, alpha: 230 },
   ] as const;
   p.textSize(12);
@@ -112,8 +115,8 @@ export function renderSinusoidSuperpositionExamScene(
   }
   ctx.restore();
 
-  drawCurve(p, plot, (x) => snap.a * Math.sin(x), WHITE, 62, 1.2);
-  drawCurve(p, plot, (x) => snap.b * Math.cos(x), WHITE, 92, 1.2);
+  drawCurve(p, plot, (x) => snap.a * Math.sin(x), WHITE, 92, 1.2);
+  drawCurve(p, plot, (x) => snap.b * Math.cos(x), BLUE, 165, 1.4);
   if (snap.progress < 1) {
     drawCurve(p, plot, (x) => sinusoidValue(x, coefficients), ACCENT, 55, 1.5);
   }

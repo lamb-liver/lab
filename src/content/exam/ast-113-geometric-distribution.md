@@ -6,10 +6,14 @@ year: 113
 questionType: 多選
 questionNo: '4'
 unit: 高三選修數甲・機率與隨機變數
-concepts:
+topics:
   - 幾何分佈
   - 期望值
   - 無窮等比級數
+concepts:
+  - probability-distribution
+  - expected-value
+  - sequences-series
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf
 analysisUrl: https://math.ntnu.edu.tw/~li/108/113G.html
 relatedExplore:

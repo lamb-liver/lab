@@ -39,8 +39,16 @@ export function renderLogisticBifurcationScene(p: p5, snap: LogisticBifurcationS
   const mode = logisticModeFromValue(snap.params.mode);
   drawBifurcation(p, snap.params, snap.revealProgress);
   if (mode === 'orbit') {
-    drawOrbitPanel(p, snap.params, LOGISTIC_LAYOUT.chart.x, LOGISTIC_LAYOUT.chart.y + 650, 350, 120);
-    drawDivergencePanel(p, snap.params, LOGISTIC_LAYOUT.chart.x + 380, LOGISTIC_LAYOUT.chart.y + 650, 236, 120);
+    const { orbit, divergence } = LOGISTIC_LAYOUT;
+    drawOrbitPanel(p, snap.params, orbit.x, orbit.y, orbit.width, orbit.height);
+    drawDivergencePanel(
+      p,
+      snap.params,
+      divergence.x,
+      divergence.y,
+      divergence.width,
+      divergence.height,
+    );
   } else if (mode === 'cobweb') {
     drawCobwebPanel(p, snap.params, LOGISTIC_LAYOUT.orbit.x, LOGISTIC_LAYOUT.orbit.y, 250);
   } else {
@@ -51,7 +59,6 @@ export function renderLogisticBifurcationScene(p: p5, snap: LogisticBifurcationS
     }
   }
 
-  drawTitle(p, snap.params);
   p.pop();
 }
 
@@ -207,18 +214,5 @@ function drawValuePolyline(
     );
   }
   p.endShape();
-  p.pop();
-}
-
-function drawTitle(p: p5, params: ParamValues): void {
-  p.push();
-  p.noStroke();
-  p.fill(PRIMARY.r, PRIMARY.g, PRIMARY.b, 220);
-  p.textSize(16);
-  p.textAlign(p.LEFT, p.TOP);
-  p.text('LOGISTIC MAP · BIFURCATION', 56, 28);
-  p.fill(GUIDE.r, GUIDE.g, GUIDE.b, 92);
-  p.textSize(11);
-  p.text(`xₙ₊₁ = r xₙ(1 − xₙ)    r=${(params.r ?? 3.5).toFixed(5)}    x₀=${(params.x0 ?? 0.2).toFixed(5)}`, 56, 50);
   p.pop();
 }

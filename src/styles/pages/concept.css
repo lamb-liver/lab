@@ -1,0 +1,62 @@
+/* 概念聚合頁（/concept 索引與 /concept/[slug]）。卡片沿用 card.css、page-header 為全站樣式。 */
+
+/* --- /concept/[slug] 聚合頁 --- */
+.concept-section {
+  margin-top: 2.5rem;
+}
+
+.concept-section__title {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+
+/* --- /concept 索引頁 --- */
+.concept-area {
+  margin-top: 2.25rem;
+}
+
+.concept-area__title {
+  margin: 0 0 0.9rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.concept-area__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.concept-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.concept-chip:hover,
+.concept-chip:focus-visible {
+  border-color: var(--color-accent, rgb(212, 184, 122));
+  color: var(--color-accent, rgb(212, 184, 122));
+}
+
+.concept-chip__count {
+  min-width: 1.5rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--color-surface, rgba(127, 127, 127, 0.12));
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--color-text-muted);
+}

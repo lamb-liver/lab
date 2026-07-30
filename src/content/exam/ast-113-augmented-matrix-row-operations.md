@@ -6,10 +6,13 @@ year: 113
 questionType: 選填
 questionNo: '9'
 unit: 高二數學A・矩陣與線性方程組
-concepts:
+topics:
   - 增廣矩陣
   - 列運算
   - 線性組合
+concepts:
+  - linear-systems
+  - matrix
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf
 analysisUrl: https://www.ceec.edu.tw/xcepaper/cont?qunit=0O241581647352902046&sid=0O260306744213652490&xsmsid=0J066588036013658199
 relatedExplore:

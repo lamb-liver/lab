@@ -3,6 +3,9 @@ title: 切線逼近動畫
 description: 割線斜率趨近切線斜率，展示導數作為瞬時變化率。
 tags:
   - 函數與分析
+concepts:
+  - derivative-tangent
+  - limit
 date: 2026-05-25
 order: 21
 featured: false

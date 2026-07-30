@@ -6,10 +6,13 @@ year: 112
 questionType: 多選
 questionNo: '12'
 unit: 高二數學A・三角函數圖形
-concepts:
+topics:
   - 三角函數疊合
   - 相位平移
   - 對稱軸
+concepts:
+  - wave-superposition
+  - trig-functions
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0n045358375872115148/03-112%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf
 analysisUrl: https://public.ehanlin.com.tw/pre-exam/gsat/112%E7%BF%B0%E6%9E%97%E5%AD%B8%E6%B8%AC%E7%B2%BE%E5%BD%A9%E8%A7%A3%E6%9E%90-%E6%95%B8%E5%AD%B8A%E8%80%83%E7%A7%91.pdf
 relatedExplore:

@@ -7,6 +7,10 @@ prerequisites:
   - 平面向量
 tags:
   - 線性代數
+concepts:
+  - eigenvector
+  - matrix
+  - linear-transformation
 date: 2026-06-11
 order: 54
 featured: false

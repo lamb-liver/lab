@@ -3,6 +3,9 @@ title: 向量投影與分解
 description: 將向量分解為沿指定方向與垂直方向的兩個分量；拖動向量觀察投影長度隨夾角的變化。
 tags:
   - 線性代數
+concepts:
+  - vectors
+  - dot-cross-product
 date: 2026-05-26
 order: 43
 featured: false

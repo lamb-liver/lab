@@ -150,6 +150,7 @@ function exploreContentTemplate({
 title: ${title}
 description: ${description}
 category: ${category}
+concepts: []
 audience: ${audience}
 ${prerequisiteField}
 date: ${date}

@@ -67,22 +67,32 @@
     box-shadow 200ms ease;
 }
 
+/* Per-section accent for the active/hover filter chip. Works keeps the gold
+   fallback; explore/exam set --section-accent-rgb on the list wrapper. */
+.section-scope--explore {
+  --section-accent-rgb: 176, 150, 224;
+}
+
+.section-scope--exam {
+  --section-accent-rgb: 110, 168, 255;
+}
+
 .filter-btn:hover,
 .filter-btn:focus-visible {
-  color: var(--color-accent);
-  border-color: var(--accent-border);
-  background: rgba(var(--color-accent-rgb), 0.055);
+  color: rgb(var(--section-accent-rgb, var(--color-accent-rgb)));
+  border-color: rgba(var(--section-accent-rgb, var(--color-accent-rgb)), 0.38);
+  background: rgba(var(--section-accent-rgb, var(--color-accent-rgb)), 0.055);
 }
 
 .filter-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.14);
+  box-shadow: 0 0 0 3px rgba(var(--section-accent-rgb, var(--color-accent-rgb)), 0.14);
 }
 
 .filter-btn.is-active {
-  color: var(--color-accent);
-  border-color: var(--accent-border);
-  background: rgba(var(--color-accent-rgb), 0.095);
+  color: rgb(var(--section-accent-rgb, var(--color-accent-rgb)));
+  border-color: rgba(var(--section-accent-rgb, var(--color-accent-rgb)), 0.38);
+  background: rgba(var(--section-accent-rgb, var(--color-accent-rgb)), 0.095);
 }
 
 /* [hidden] loses to .card { display: flex } without this */

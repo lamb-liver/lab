@@ -7,6 +7,8 @@ prerequisites:
   - 三角函數
 tags:
   - 幾何
+concepts:
+  - complex-numbers
 date: 2026-05-26
 order: 25
 featured: false

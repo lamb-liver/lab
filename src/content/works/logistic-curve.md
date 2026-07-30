@@ -3,6 +3,8 @@ title: 邏輯斯蒂曲線
 description: S 形邏輯斯蒂成長 y = L/(1+ae^{-kt})，描述飽和與承載上限。
 tags:
   - 函數與分析
+concepts:
+  - logistic-growth
 date: 2026-05-26
 order: 40
 featured: false

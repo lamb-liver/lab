@@ -4,6 +4,9 @@ description: 平移、旋轉、縮放組合的仿射變換在圖樣上的疊代�
 audience: 直觀探索
 tags:
   - 線性代數
+concepts:
+  - linear-transformation
+  - matrix
 date: 2026-05-25
 order: 17
 featured: false

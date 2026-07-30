@@ -7,6 +7,9 @@ prerequisites:
   - 函數疊代
 tags:
   - 動力系統
+concepts:
+  - dynamical-system
+  - logistic-growth
 date: 2026-05-26
 order: 13
 featured: false

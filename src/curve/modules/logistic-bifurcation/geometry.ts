@@ -38,8 +38,8 @@ export const FEIGENBAUM_MARKERS = [
 ];
 
 export const LOGISTIC_LAYOUT = {
-  chart: { x: 56, y: 74, width: 560, height: 620 },
-  orbit: { x: 646, y: 74, width: 210, height: 160 },
+  chart: { x: 56, y: 56, width: 560, height: 780 },
+  orbit: { x: 646, y: 56, width: 210, height: 180 },
   divergence: { x: 646, y: 266, width: 210, height: 140 },
   cobweb: { x: 646, y: 456, width: 210, height: 210 },
 };

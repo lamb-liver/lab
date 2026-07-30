@@ -7,6 +7,9 @@ prerequisites:
   - 微分方程
 tags:
   - 函數與分析
+concepts:
+  - vector-field
+  - differential-equation
 date: 2026-05-25
 order: 24
 featured: false

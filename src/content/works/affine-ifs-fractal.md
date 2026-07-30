@@ -3,6 +3,9 @@ title: 碎形仿射疊代
 description: 疊代函數系統（IFS）以多組仿射映射疊代，生成自相似碎形。
 tags:
   - 幾何
+concepts:
+  - fractal
+  - linear-transformation
 date: 2026-05-25
 order: 19
 featured: false

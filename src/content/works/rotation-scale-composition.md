@@ -3,6 +3,9 @@ title: 旋轉縮放疊加
 description: 連續旋轉與均勻縮放的矩陣乘積，觀察螺旋與對數螺線的生成。
 tags:
   - 線性代數
+concepts:
+  - linear-transformation
+  - matrix
 date: 2026-05-25
 order: 18
 featured: false

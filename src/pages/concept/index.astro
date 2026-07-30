@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { concepts, conceptAreas } from '../../lib/concepts';
+import { loadConceptIndex } from '../../lib/conceptCollections';
+import { conceptHasPage } from '../../lib/conceptIndex';
+import { siteSeo } from '../../lib/seoCopy';
+import '../../styles/pages/concept.css';
+
+const index = await loadConceptIndex();
+
+// 依領域分組，只列達門檻（有頁）的概念，附篇數
+const groupsByArea = conceptAreas
+  .map((area) => ({
+    area,
+    items: concepts
+      .filter((c) => c.area === area)
+      .map((c) => ({ ...c, group: index.get(c.slug) }))
+      .filter((c) => c.group && conceptHasPage(c.group))
+      .map((c) => ({ slug: c.slug, label: c.label, total: c.group!.total })),
+  }))
+  .filter((g) => g.items.length > 0);
+
+const pagedCount = groupsByArea.reduce((n, g) => n + g.items.length, 0);
+---
+
+<BaseLayout title={siteSeo.concept.title} description={siteSeo.concept.description} ogType="website">
+  <div class="container concept-index">
+    <div class="detail-top-nav">
+      <Breadcrumb items={[{ label: '首頁', href: '/' }, { label: '概念' }]} />
+    </div>
+
+    <header class="page-header">
+      <span class="section-badge">概念索引</span>
+      <h1>概念索引</h1>
+      <p class="page-lead">
+        依數學概念橫向串連作品集、主題導覽與試題視覺化。目前收錄 {pagedCount} 個跨集合概念。
+      </p>
+    </header>
+
+    {
+      groupsByArea.map((group) => (
+        <section class="concept-area" aria-label={group.area}>
+          <h2 class="concept-area__title">{group.area}</h2>
+          <ul class="concept-area__list">
+            {group.items.map((item) => (
+              <li>
+                <a class="concept-chip" href={`/concept/${item.slug}`}>
+                  <span class="concept-chip__label">{item.label}</span>
+                  <span class="concept-chip__count">{item.total}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

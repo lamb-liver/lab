@@ -116,6 +116,34 @@ test.describe('SEO metadata and UX shell', () => {
       'content',
       defaultOgImageUrl,
     );
+
+    await page.goto('/concept');
+    await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website');
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+      'content',
+      /https:\/\/lab\.lambliver\.dev\/concept\/?$/,
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      `${siteSeo.concept.title} · 羊·實驗`,
+    );
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+      'content',
+      siteSeo.concept.description,
+    );
+  });
+
+  test('concept detail aggregates Works, Explore, and Exam', async ({ page }) => {
+    await page.goto('/concept/complex-numbers');
+
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      /https:\/\/lab\.lambliver\.dev\/concept\/complex-numbers\/?$/,
+    );
+    await expect(page.getByRole('heading', { level: 1, name: '複數' })).toBeVisible();
+    await expect(page.locator('[data-search-slug="complex-arithmetic-geometry"]')).toBeVisible();
+    await expect(page.locator('[data-search-slug="complex-euler-formula"]')).toBeVisible();
+    await expect(page.locator('[data-search-slug="ast-111-complex-unit-circle"]')).toBeVisible();
   });
 
   test('about page uses the shared layout SEO metadata', async ({ page }) => {
@@ -401,7 +429,7 @@ test.describe('SEO metadata and UX shell', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    for (const route of ['/', '/works', '/explore']) {
+    for (const route of ['/', '/works', '/explore', '/concept']) {
       await page.goto(route);
       await expect(page.locator('[data-nav-toggle]')).toBeHidden();
       await expect(page.locator('.site-nav__link[href="/explore"]')).toHaveText('主題導覽');
@@ -409,6 +437,7 @@ test.describe('SEO metadata and UX shell', () => {
         'href',
         '/explore',
       );
+      await expect(page.locator('.site-nav__link[href="/concept"]')).toHaveText('概念');
     }
   });
 
@@ -430,6 +459,7 @@ test.describe('SEO metadata and UX shell', () => {
     await expect(navLinks).toBeVisible();
     await expect(navLinks.getByRole('link', { name: '作品集' })).toHaveCount(1);
     await expect(navLinks.getByRole('link', { name: '主題導覽' })).toHaveCount(1);
+    await expect(navLinks.getByRole('link', { name: '概念', exact: true })).toHaveCount(1);
     await expect(navLinks.getByRole('link', { name: '關於' })).toHaveCount(1);
 
     await page.keyboard.press('Escape');

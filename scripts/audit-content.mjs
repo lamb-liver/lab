@@ -20,6 +20,7 @@ const REQUIRED_FIELDS = {
     'questionType',
     'questionNo',
     'unit',
+    'topics',
     'concepts',
     'date',
     'order',
@@ -169,10 +170,25 @@ function checkFrontmatter(file, parsed, issues) {
       addIssue(issues, file, fieldLine(parsed, 'year'), 'year must be a 3-digit ROC year');
     }
 
-    const concepts = parsed.arrays.get('concepts') ?? [];
-    if (parsed.fields.has('concepts') && concepts.length === 0) {
-      addIssue(issues, file, fieldLine(parsed, 'concepts'), 'concepts must include at least one item');
+    const topics = parsed.arrays.get('topics') ?? [];
+    if (
+      parsed.fields.has('topics') &&
+      topics.length === 0 &&
+      fieldValue(parsed, 'draft') !== 'true'
+    ) {
+      addIssue(issues, file, fieldLine(parsed, 'topics'), 'topics must include at least one item');
     }
+  }
+
+  // 跨集合共用概念：已發布內容至少要有一個 concepts（草稿可留空）
+  const conceptsList = parsed.arrays.get('concepts') ?? [];
+  if (fieldValue(parsed, 'draft') !== 'true' && conceptsList.length === 0) {
+    addIssue(
+      issues,
+      file,
+      fieldLine(parsed, 'concepts') || 1,
+      'published content must include at least one concept',
+    );
   }
 
   if (file.collection === 'explore') {

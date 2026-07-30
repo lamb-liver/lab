@@ -2,6 +2,9 @@
 title: 指數與對數
 description: 同一組指數關係的三種讀法：沿 y=x 的鏡像、換成 log 軸後的直線、以及 e 為何自然。
 category: 分析
+concepts:
+  - exponential-logarithm
+  - inverse-function
 date: 2026-05-26
 order: 11
 coverImage: /images/explore-covers/exponential-logarithm.png

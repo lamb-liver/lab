@@ -4,6 +4,10 @@ description: 疊代 z ↦ z² + c 在複平面上產生的分形邊界與自相�
 audience: 直觀探索
 tags:
   - 動力系統
+concepts:
+  - fractal
+  - dynamical-system
+  - complex-numbers
 date: 2026-05-26
 order: 29
 featured: true

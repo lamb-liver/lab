@@ -3,6 +3,8 @@ title: 垂直與水平漸近線
 description: 拖動零點與漸近線位置，觀察 x 趨近分母為零處時圖形爆開、遠處趨近水平漸近線。
 tags:
   - 函數與分析
+concepts:
+  - rational-asymptote
 date: 2026-06-12
 order: 57
 featured: false

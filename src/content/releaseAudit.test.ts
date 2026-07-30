@@ -12,6 +12,8 @@ const validWork = {
     'description: Valid work draft.',
     'tags:',
     '  - 代數',
+    'concepts:',
+    '  - matrix',
     'date: 2026-06-12',
     'order: 1',
     'featured: false',
@@ -33,6 +35,8 @@ const validExplore = {
     'title: Valid Explore',
     'description: Valid explore page.',
     'category: 代數',
+    'concepts:',
+    '  - matrix',
     'date: 2026-06-12',
     'order: 1',
     'coverImage: /images/explore-covers/valid-explore.png',
@@ -63,8 +67,10 @@ const validExam = {
     'questionType: 多選題',
     'questionNo: 11',
     'unit: 矩陣',
-    'concepts:',
+    'topics:',
     '  - 矩陣合成',
+    'concepts:',
+    '  - matrix',
     'relatedWorks:',
     '  - valid-work',
     'relatedExplore:',
@@ -117,6 +123,22 @@ describe('release content audit', () => {
     });
 
     expect(result.issues).toEqual([]);
+  });
+
+  it('requires topics for published Exam content', () => {
+    const examWithoutTopics = {
+      ...validExam,
+      body: validExam.body.replace('topics:\n  - 矩陣合成\n', ''),
+    };
+    const result = auditContent([validWork, validExplore, examWithoutTopics], {
+      fileExists: (path: string) =>
+        path.endsWith('/public/images/explore-covers/valid-explore.png') ||
+        path.endsWith('/public/images/exam-covers/valid-exam.png'),
+    });
+
+    expect(result.issues.map((issue) => issue.message)).toContain(
+      'missing required frontmatter field: topics',
+    );
   });
 
   it('requires a coverImage for published Exam content', () => {
