@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+import { learningPaths, getLearningPath, type StepCollection } from '../../lib/learningPaths';
+import '../../styles/pages/path.css';
+
+export async function getStaticPaths() {
+  return learningPaths.map((path) => ({ params: { slug: path.slug }, props: { slug: path.slug } }));
+}
+
+const { slug } = Astro.props as { slug: string };
+const path = getLearningPath(slug)!;
+
+const [works, explore, exams] = await Promise.all([
+  getCollection('works'),
+  getCollection('explore'),
+  getCollection('exam'),
+]);
+const byCollection: Record<StepCollection, typeof works | typeof explore | typeof exams> = {
+  works,
+  explore,
+  exam: exams,
+};
+const kindMeta: Record<StepCollection, { label: string; base: string }> = {
+  works: { label: '作品', base: '/works' },
+  explore: { label: '主題導覽', base: '/explore' },
+  exam: { label: '試題視覺化', base: '/exam' },
+};
+
+const steps = path.steps.map((step) => {
+  const entry = byCollection[step.collection].find((e) => e.id === step.slug);
+  if (!entry) {
+    throw new Error(`learning path "${path.slug}": missing ${step.collection}/${step.slug}`);
+  }
+  if (entry.data.draft) {
+    throw new Error(`learning path "${path.slug}": draft step ${step.collection}/${step.slug}`);
+  }
+  const meta = kindMeta[step.collection];
+  return {
+    note: step.note,
+    kindLabel: meta.label,
+    kindClass: step.collection,
+    title: entry.data.title,
+    href: `${meta.base}/${entry.id}`,
+  };
+});
+
+const site = Astro.site ?? Astro.url;
+const siteRoot = new URL('/', site).href;
+const pageUrl = new URL(`/path/${slug}`, site).href;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首頁', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: path.title, item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: path.title,
+    description: path.description,
+    itemListElement: steps.map((step, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: step.title,
+      item: new URL(step.href, site).href,
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={path.title}
+  description={path.description}
+  ogType="website"
+  structuredData={structuredData}
+>
+  <div class="container path-detail">
+    <div class="detail-top-nav">
+      <Breadcrumb items={[{ label: '首頁', href: '/' }, { label: path.title }]} />
+      <a href="/" class="back-link back-link--top">← 返回首頁</a>
+    </div>
+
+    <header class="page-header">
+      <span class="section-badge">策展路徑</span>
+      <h1>{path.title}</h1>
+      <p class="page-lead">{path.description}</p>
+    </header>
+
+    <ol class="path-steps">
+      {
+        steps.map((step, i) => (
+          <li class="path-step">
+            <span class="path-step__num" aria-hidden="true">{i + 1}</span>
+            <div class="path-step__body">
+              <span class={`path-step__kind path-step__kind--${step.kindClass}`}>{step.kindLabel}</span>
+              <a class="path-step__title" href={step.href}>{step.title}</a>
+              <p class="path-step__note">{step.note}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</BaseLayout>

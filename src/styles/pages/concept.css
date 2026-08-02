@@ -11,6 +11,42 @@
   letter-spacing: 0.02em;
 }
 
+/* 概念頁的策展路徑入口 */
+.concept-paths {
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+}
+
+.concept-paths__title {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.concept-paths__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.concept-paths__link {
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.concept-paths__link:hover,
+.concept-paths__link:focus-visible {
+  color: var(--color-accent, rgb(212, 184, 122));
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
 /* --- /concept 索引頁 --- */
 .concept-area {
   margin-top: 2.25rem;

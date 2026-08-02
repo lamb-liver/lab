@@ -7,6 +7,7 @@ import ExamCard from '../../components/ExamCard.astro';
 import { conceptBySlug } from '../../lib/concepts';
 import { loadConceptIndex } from '../../lib/conceptCollections';
 import { conceptHasPage, type ConceptGroup } from '../../lib/conceptIndex';
+import { pathsForConcept } from '../../lib/learningPaths';
 import '../../styles/components/card.css';
 import '../../styles/pages/concept.css';
 
@@ -24,6 +25,7 @@ interface Props {
 
 const { slug, group } = Astro.props as Props;
 const concept = conceptBySlug(slug)!;
+const relatedPaths = pathsForConcept(slug);
 const title = `${concept.label}`;
 const description = `與「${concept.label}」相關的作品、主題導覽與試題視覺化，共 ${group.total} 篇。`;
 
@@ -64,6 +66,23 @@ const structuredData = [
         橫跨作品集、主題導覽與試題視覺化，共 {group.total} 篇與此概念相關。
       </p>
     </header>
+
+    {
+      relatedPaths.length > 0 && (
+        <section class="concept-paths" aria-label="策展路徑">
+          <h2 class="concept-paths__title">跟著策展路徑</h2>
+          <ul class="concept-paths__list">
+            {relatedPaths.map((p) => (
+              <li>
+                <a class="concept-paths__link" href={`/path/${p.slug}`}>
+                  {p.title} →
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
     {
       group.explore.length > 0 && (
