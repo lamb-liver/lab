@@ -30,7 +30,7 @@ export const learningPaths: LearningPath[] = [
     title: '從三角函數到傅立葉',
     description:
       '從單位圓上的三角函數出發，看「一條正弦波」如何疊加成任意週期訊號——高中三角起步，終點延伸到大學的傅立葉級數。',
-    concepts: ['trig-functions', 'wave-superposition'],
+    concepts: ['trig-functions', 'trig-identities', 'wave-superposition'],
     steps: [
       { collection: 'works', slug: 'unit-circle-trig-definition', note: '從單位圓定義 sin/cos，全段的幾何起點。' },
       { collection: 'works', slug: 'radian-arc-length', note: '用弧度給週期性一把自然刻度。' },
@@ -47,7 +47,7 @@ export const learningPaths: LearningPath[] = [
     title: '從平面向量到空間幾何',
     description:
       '從平面向量的基本運算出發，把內積與投影推廣到三維——外積、法向量與點面距離，收束在空間距離的學測考題。',
-    concepts: ['vectors', 'space-vectors'],
+    concepts: ['vectors', 'dot-cross-product', 'space-vectors'],
     steps: [
       { collection: 'works', slug: 'vector-addition-scalar', note: '向量最基本的兩種運算：加法與純量乘法。' },
       { collection: 'works', slug: 'dot-product-geometry', note: '內積＝投影×長度，帶出角度與投影。' },
@@ -59,8 +59,6 @@ export const learningPaths: LearningPath[] = [
     ],
   },
 ];
-
-export const learningPathSlugs = learningPaths.map((p) => p.slug);
 
 export const getLearningPath = (slug: string): LearningPath | undefined =>
   learningPaths.find((p) => p.slug === slug);
