@@ -1,0 +1,79 @@
+/* 策展學習路徑頁（/path/[slug]）：有序步驟清單。 */
+
+.path-steps {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.path-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+}
+
+.path-step__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: var(--color-surface, rgba(127, 127, 127, 0.12));
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.path-step__body {
+  min-width: 0;
+}
+
+.path-step__kind {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.path-step__title {
+  display: block;
+  margin: 0.15rem 0 0.35rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.path-step__title:hover,
+.path-step__title:focus-visible {
+  color: var(--color-accent, rgb(212, 184, 122));
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.path-step__note {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* 步驟之間的連接線提示 */
+.path-step:not(:last-child) {
+  position: relative;
+}
+.path-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(1.1rem + 1rem - 1px);
+  bottom: -1rem;
+  width: 2px;
+  height: 1rem;
+  background: var(--color-border);
+}
