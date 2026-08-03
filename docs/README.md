@@ -12,6 +12,7 @@
 | [`frontend-validation.md`](frontend-validation.md) | 前端驗證流程：build / test / DOM，僅在需要視覺證據時 screenshot |
 | [`math-content-review-checklist.md`](math-content-review-checklist.md) | 維護期數學內容審查：定義、例外條件、公式、教學語氣 |
 | [`review-scan-ledger.md`](review-scan-ledger.md) | 嚴格審查接續用 ledger：已掃描、已修正、已確認保留的範圍 |
+| [`product-review-freeze.md`](product-review-freeze.md) | 產品凍結基準、外部審查包、邀請信與解凍門檻 |
 
 ## 視覺與互動規格
 
