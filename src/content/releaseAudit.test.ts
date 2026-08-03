@@ -87,12 +87,39 @@ const validExam = {
   ].join('\n'),
 } as const;
 
+const validContestStudy = {
+  collection: 'contest-studies',
+  slug: 'valid-contest-study',
+  path: 'src/content/contest-studies/valid-contest-study.md',
+  body: [
+    '---',
+    'title: Valid Contest Study',
+    'description: Valid contest study.',
+    'domain: 代數',
+    'difficulty: 中階',
+    'estimatedMinutes: 20',
+    'source:',
+    '  contest: Example Contest',
+    '  year: 2026',
+    'date: 2026-08-02',
+    'order: 1',
+    'coverImage: /images/contest-covers/valid-contest-study.png',
+    'draft: false',
+    '---',
+    '',
+    '## 互動說明',
+    '',
+    '- 調整參數觀察證明結構。',
+  ].join('\n'),
+} as const;
+
 describe('release content audit', () => {
-  it('summarizes public and draft Works, Explore, and Exam routes', () => {
+  it('summarizes public and draft routes for every collection', () => {
     const summary = contentSummary([
       validWork,
       validExplore,
       validExam,
+      validContestStudy,
       {
         collection: 'exam',
         slug: 'preview-only-exam',
@@ -113,13 +140,17 @@ describe('release content audit', () => {
     expect(summary.exam.draft).toEqual([
       expect.objectContaining({ slug: 'preview-only-exam' }),
     ]);
+    expect(summary['contest-studies'].public).toEqual([
+      expect.objectContaining({ slug: 'valid-contest-study' }),
+    ]);
   });
 
-  it('passes valid published works, explore, and exam content', () => {
-    const result = auditContent([validWork, validExplore, validExam], {
+  it('passes valid published content from every collection', () => {
+    const result = auditContent([validWork, validExplore, validExam, validContestStudy], {
       fileExists: (path: string) =>
         path.endsWith('/public/images/explore-covers/valid-explore.png') ||
-        path.endsWith('/public/images/exam-covers/valid-exam.png'),
+        path.endsWith('/public/images/exam-covers/valid-exam.png') ||
+        path.endsWith('/public/images/contest-covers/valid-contest-study.png'),
     });
 
     expect(result.issues).toEqual([]);

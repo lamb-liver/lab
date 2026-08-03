@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { auditContentFiles, readContentFiles } from './contentAudit';
 
-function countContentFiles(collection: 'works' | 'explore' | 'exam') {
+function countContentFiles(collection: 'works' | 'explore' | 'exam' | 'contest-studies') {
   return readdirSync(join(process.cwd(), 'src/content', collection)).filter(
     (name) => name.endsWith('.md') || name.endsWith('.mdx'),
   ).length;
@@ -141,10 +141,12 @@ describe('content audit', () => {
     const worksCount = countContentFiles('works');
     const exploreCount = countContentFiles('explore');
     const examCount = countContentFiles('exam');
+    const contestStudiesCount = countContentFiles('contest-studies');
 
-    expect(files).toHaveLength(worksCount + exploreCount + examCount);
+    expect(files).toHaveLength(worksCount + exploreCount + examCount + contestStudiesCount);
     expect(files.filter((file) => file.collection === 'works')).toHaveLength(worksCount);
     expect(files.filter((file) => file.collection === 'explore')).toHaveLength(exploreCount);
     expect(files.filter((file) => file.collection === 'exam')).toHaveLength(examCount);
+    expect(files.filter((file) => file.collection === 'contest-studies')).toHaveLength(contestStudiesCount);
   });
 });

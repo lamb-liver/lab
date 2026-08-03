@@ -71,6 +71,17 @@ describe('validate-changed 命令選擇', () => {
     expect(lines).toContain('npm run smoke:explore -- fourier-series');
   });
 
+  it('contest 內容與互動改動 → registry、控制項與封面 gate', () => {
+    const lines = commandLines([
+      'src/content/contest-studies/homogeneous-normalization.md',
+      'src/contest/homogeneous-normalization/geometry.ts',
+      'public/images/contest-covers/homogeneous-normalization.png',
+    ]);
+    expect(lines).toContain('npm run test -- src/registry.sync.test.ts');
+    expect(lines).toContain('npm run audit:contest-controls');
+    expect(lines).toContain('npm run audit:contest-covers');
+  });
+
   it('curve module 改動 → module 測試 + 縮圖 registry + 該作品 smoke', () => {
     const lines = commandLines(['src/curve/modules/rose/index.ts']);
     expect(lines).toContain('npm run test -- src/curve/modules/rose/rose.test.ts');

@@ -3,9 +3,11 @@ import { exploreStageRootSlugs } from './components/explore/ExploreInteractiveSt
 import { examStageRootSlugs } from './components/exam/ExamInteractiveStage';
 import { workStageRootSlugs } from './components/works/WorkInteractiveStage';
 import { examInteractiveSlugs } from './exam/interactiveRegistry';
+import { contestInteractiveSlugs } from './contest/interactiveRegistry';
 import { exploreInteractiveSlugs } from './explore/interactiveRegistry';
 import { workCurveBySlug } from './curve/registry';
 import { workInteractiveSlugs } from './works/interactiveRegistry';
+import { contestStageRootSlugs } from './components/contest/ContestInteractiveStage';
 import { readContentSlugs } from './test/contentSlugs';
 
 describe('registry ↔ content 同步', () => {
@@ -38,6 +40,15 @@ describe('registry ↔ content 同步', () => {
 
     for (const slug of examInteractiveSlugs) {
       expect(contentSlugs, `interactive slug missing content: ${slug}`).toContain(slug);
+    }
+  });
+
+  it('contestInteractiveSlugs 皆存在於 content/contest-studies', () => {
+    const contentSlugs = readContentSlugs('contest-studies');
+    expect(contestStageRootSlugs).toEqual([...contestInteractiveSlugs].sort());
+
+    for (const slug of contestInteractiveSlugs) {
+      expect(contentSlugs, `interactive slug missing contest study: ${slug}`).toContain(slug);
     }
   });
 });

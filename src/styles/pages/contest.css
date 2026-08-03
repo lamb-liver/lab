@@ -1,0 +1,43 @@
+.section-badge--contest {
+  color: rgb(164, 225, 176);
+  border-color: rgba(164, 225, 176, 0.4);
+  background: rgba(164, 225, 176, 0.07);
+}
+
+.card__kind--contest {
+  color: rgb(164, 225, 176);
+  background: rgba(9, 9, 9, 0.84);
+  border: 1px solid rgba(164, 225, 176, 0.4);
+}
+
+.contest-empty {
+  margin: var(--space-12) 0;
+  color: var(--color-text-muted);
+}
+
+.contest-source-label {
+  margin: 0 0 0.35rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+}
+
+.contest-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+}
+
+.contest-source-links a {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.contest-source-links a:hover,
+.contest-source-links a:focus-visible {
+  color: var(--color-text);
+}

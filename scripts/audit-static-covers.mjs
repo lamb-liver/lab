@@ -15,12 +15,18 @@ const configs = {
   exam: {
     legacyCovers: new Map(),
   },
+  'contest-studies': {
+    legacyCovers: new Map(),
+    sourceDir: 'contest-covers',
+    publicDir: 'contest-covers',
+    publicPrefix: '/images/contest-covers',
+  },
 };
 
 function usage() {
   return [
     'Usage:',
-    '  node scripts/audit-static-covers.mjs <explore|exam> [--json]',
+    '  node scripts/audit-static-covers.mjs <explore|exam|contest-studies> [--json]',
     '',
     'Checks published content coverImage, generated PNGs, and reproducible SVG sources.',
     'Draft entries are not required. Fourier Explore keeps its legacy cover.',
@@ -100,9 +106,9 @@ export function auditStaticCovers(collection, options = {}) {
 
   const root = options.root ?? repoRoot;
   const contentDir = resolve(root, 'src/content', collection);
-  const coverSourceDir = resolve(root, 'scripts', `${collection}-covers`);
-  const coverPublicDir = resolve(root, 'public/images', `${collection}-covers`);
-  const publicPrefix = `/images/${collection}-covers`;
+  const coverSourceDir = resolve(root, 'scripts', config.sourceDir ?? `${collection}-covers`);
+  const coverPublicDir = resolve(root, 'public/images', config.publicDir ?? `${collection}-covers`);
+  const publicPrefix = config.publicPrefix ?? `/images/${collection}-covers`;
   const { legacyCovers } = config;
   const issues = [];
   const entries = readEntries(contentDir);

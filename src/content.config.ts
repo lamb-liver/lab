@@ -32,6 +32,14 @@ export const examQuestionTypes = ['單選', '多選', '選填', '非選'] as con
 
 export type ExamQuestionType = (typeof examQuestionTypes)[number];
 
+export const contestDomains = ['代數', '幾何', '組合', '數論', '分析'] as const;
+
+export type ContestDomain = (typeof contestDomains)[number];
+
+export const contestDifficulties = ['入門', '中階', '進階'] as const;
+
+export type ContestDifficulty = (typeof contestDifficulties)[number];
+
 const works = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/works' }),
   schema: z.object({
@@ -89,4 +97,31 @@ const exam = defineCollection({
   }),
 });
 
-export const collections = { works, explore, exam };
+const contestStudies = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/contest-studies' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    domain: z.enum(contestDomains),
+    methods: z.array(z.string()).default([]),
+    difficulty: z.enum(contestDifficulties),
+    estimatedMinutes: z.number().int().positive(),
+    source: z.object({
+      contest: z.string(),
+      year: z.number().int(),
+      round: z.string().optional(),
+      problemNo: z.string().optional(),
+      url: z.string().url().optional(),
+    }),
+    prerequisites: z.array(z.string()).default([]),
+    relatedWorks: z.array(z.string()).default([]),
+    relatedExplore: z.array(z.string()).default([]),
+    date: z.coerce.date(),
+    order: z.number().int().nonnegative(),
+    coverImage: z.string().optional(),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { works, explore, exam, contestStudies };

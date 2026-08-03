@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#0a0a0a"/>
+  <g fill="none" stroke="#2e2b26" stroke-width="2" opacity="0.7">
+    <path d="M180 790 L800 150 L1420 790 Z"/>
+    <path d="M490 470 L1110 470"/>
+    <path d="M335 630 L1265 630"/>
+    <path d="M490 470 L1110 790"/>
+    <path d="M1110 470 L490 790"/>
+  </g>
+  <path d="M800 150 L180 790 L1420 790 Z" fill="rgba(212,184,122,0.04)" stroke="#d4b87a" stroke-width="7"/>
+  <circle cx="800" cy="563" r="18" fill="#d4b87a"/>
+  <circle cx="800" cy="563" r="7" fill="#0a0a0a"/>
+  <g fill="#d4b87a" font-family="system-ui, sans-serif" text-anchor="middle">
+    <text x="800" y="105" font-size="44">a+b+c=1</text>
+    <text x="800" y="920" font-size="34">比例 · 尺度 · 等號</text>
+  </g>
+  <g fill="#a4e1b0" font-family="ui-monospace, monospace" font-size="42">
+    <text x="96" y="120">sq−9r ≥ 0</text>
+  </g>
+  <g fill="#6ea8ff" font-family="ui-monospace, monospace" font-size="42" text-anchor="end">
+    <text x="1504" y="120">s³+9r−4sq ≥ 0</text>
+  </g>
+</svg>

@@ -27,7 +27,9 @@ npm run dev
 | `npm run audit:integration` | 驗證 content、registry 與 stage 接線 |
 | `npm run covers:exam` | 由 SVG 來源生成 Exam 列表封面 |
 | `npm run audit:exam-covers` | 驗證公開 Exam 的 SVG、PNG、尺寸與 frontmatter |
-| `npm run audit:public-pages` | 列出公開／草稿 Works、Explore 與 Exam，並執行發布檢查 |
+| `npm run covers:contest` | 由 SVG 來源生成 Contest Studies 列表封面 |
+| `npm run audit:contest-covers` | 驗證公開 Contest Studies 的 SVG、PNG、尺寸與 frontmatter |
+| `npm run audit:public-pages` | 列出四個 collection 的公開／草稿頁面，並執行發布檢查 |
 | `npm run validate:changed` | 依 Git 變更選擇聚焦驗證 |
 
 需要視覺證據時才在 `validate:frontend` 後加 `--screenshot`。
@@ -36,13 +38,14 @@ npm run dev
 
 ```text
 src/
-├── content/             # Works、Explore 與 Exam 的 Markdown
+├── content/             # 四個 collection 的 Markdown
 ├── curve/               # Works 純幾何、參數與 registries（不依賴 p5／React）
 ├── explore/             # Explore 專屬幾何與 registries
 ├── exam/                # Exam 專屬數學與互動 registry
+├── contest/             # Contest Studies 專屬數學與互動 registry
 ├── components/          # Astro shell、React roots、p5 hooks 與控制項
 ├── systems/rendering/   # 只接收 snapshot 的共用 renderer
-└── pages/               # Works、Explore、Exam 與網站 shell routes
+└── pages/               # 四個 collection 與網站 shell routes
 ```
 
 主要資料流：
@@ -51,9 +54,10 @@ src/
 Works:   content → work registries → WorkInteractiveStage → CurveRoot → renderer
 Explore: content → explore registry → ExploreInteractiveStage → ExploreRoot → renderer
 Exam:    content → exam registry → ExamInteractiveStage → ExamRoot → renderer
+Contest: content → contest registry → ContestInteractiveStage → ContestRoot → renderer
 ```
 
-Works、Explore 與 Exam 是三套獨立互動架構；新增頁面時必須同步各自的 content、registry 與 stage map。完整邊界見 [`docs/architecture.md`](docs/architecture.md)。
+Works、Explore、Exam 與 Contest Studies 是四套獨立互動架構；新增頁面時必須同步各自的 content、registry 與 stage map。Contest Studies 目前只含草稿，不會出現在正式站。完整邊界見 [`docs/architecture.md`](docs/architecture.md)。
 
 ## 新增內容
 

@@ -14,18 +14,22 @@ const configs = {
     sourceDir: resolve(repoRoot, 'scripts/exam-covers'),
     pngDir: resolve(repoRoot, 'public/images/exam-covers'),
   },
+  contest: {
+    sourceDir: resolve(repoRoot, 'scripts/contest-covers'),
+    pngDir: resolve(repoRoot, 'public/images/contest-covers'),
+  },
 };
 const W = 1600;
 const H = 1000;
 
 if (collection === '--help' || collection === '-h') {
-  console.log('Usage: node scripts/generate-static-covers.mjs <explore|exam>');
+  console.log('Usage: node scripts/generate-static-covers.mjs <explore|exam|contest>');
   process.exit(0);
 }
 
 const config = configs[collection];
 if (!config) {
-  throw new Error('Cover collection must be explore or exam');
+  throw new Error('Cover collection must be explore, exam, or contest');
 }
 
 const { sourceDir, pngDir } = config;

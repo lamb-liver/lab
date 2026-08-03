@@ -20,6 +20,7 @@ export const exploreInteractiveSlugs = [
   'rational-functions-asymptotes',
   'space-vectors-planes-lines',
   'linear-programming',
+  'iteration-dynamics',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];

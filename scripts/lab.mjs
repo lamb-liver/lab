@@ -32,10 +32,12 @@ function usage() {
     '  smoke:explore <slug> [playwright args...]',
     '  covers:explore',
     '  covers:exam',
+    '  covers:contest',
     '  audit:content',
     '  audit:explore-covers',
     '  audit:exam-covers',
     '  audit:explore-controls',
+    '  audit:contest-controls',
     '  audit:work-controls',
     '  audit:public-pages',
     '  audit:integration',
@@ -341,6 +343,9 @@ function main() {
   if (command === 'covers:exam') {
     return runNodeScript(resolve(repoRoot, 'scripts/generate-static-covers.mjs'), ['exam', ...args]);
   }
+  if (command === 'covers:contest') {
+    return runNodeScript(resolve(repoRoot, 'scripts/generate-static-covers.mjs'), ['contest', ...args]);
+  }
   if (command === 'audit:content') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-content.mjs'), args);
   }
@@ -350,8 +355,14 @@ function main() {
   if (command === 'audit:exam-covers') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-static-covers.mjs'), ['exam', ...args]);
   }
+  if (command === 'audit:contest-covers') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-static-covers.mjs'), ['contest-studies', ...args]);
+  }
   if (command === 'audit:explore-controls') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-explore-controls.mjs'), args);
+  }
+  if (command === 'audit:contest-controls') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-contest-controls.mjs'), args);
   }
   if (command === 'audit:work-controls') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-work-controls.mjs'), args);

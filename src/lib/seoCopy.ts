@@ -19,6 +19,10 @@ export const siteSeo = {
     description:
       '從歷屆學測與分科試題出發，用互動視覺化拆開考生最常卡住的那一個心智步驟。',
   },
+  contest: {
+    title: '競賽研題',
+    description: '從競賽母題出發，拆出可遷移的數學結構、證明與等號位置。',
+  },
   concept: {
     title: '概念索引',
     description:

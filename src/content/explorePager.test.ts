@@ -27,12 +27,13 @@ describe('explore collection pager', () => {
       'discrete-random-variables',
       'space-vectors-planes-lines',
       'linear-programming',
+      'iteration-dynamics',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'linear-programming');
-    expect(previous?.id).toBe('space-vectors-planes-lines');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'iteration-dynamics');
+    expect(previous?.id).toBe('linear-programming');
     expect(next).toBeNull();
   });
 

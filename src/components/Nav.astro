@@ -1,10 +1,13 @@
 ---
 import '../styles/components/nav.css';
+import { getCollection } from 'astro:content';
 
+const showContest = import.meta.env.DEV || (await getCollection('contestStudies')).some((entry) => !entry.data.draft);
 const links = [
   { path: '/works', label: '作品集' },
   { path: '/explore', label: '主題導覽' },
   { path: '/exam', label: '試題視覺化' },
+  ...(showContest ? [{ path: '/contest', label: '競賽研題' }] : []),
   { path: '/concept', label: '概念' },
   { path: '/about', label: '關於' },
 ];
