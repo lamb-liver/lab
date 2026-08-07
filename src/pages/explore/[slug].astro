@@ -12,6 +12,7 @@ import {
 } from '../../content/utils';
 import { buildExamBackrefs } from '../../lib/relatedContent';
 import { isExploreInteractive } from '../../explore/interactiveRegistry';
+import { SITE_AUTHOR } from '../../lib/siteLinks';
 import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
 import '../../styles/prose.css';
@@ -62,6 +63,7 @@ const structuredData = [
     mainEntityOfPage: articleUrl,
     inLanguage: 'zh-Hant',
     datePublished: entry.data.date.toISOString(),
+    author: SITE_AUTHOR,
   },
 ];
 ---

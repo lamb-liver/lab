@@ -52,6 +52,7 @@ test.describe('SEO metadata and UX shell', () => {
       'content',
       '羊·實驗',
     );
+    await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'zh_TW');
     await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
       'content',
       '玫瑰曲線',
@@ -216,6 +217,10 @@ test.describe('SEO metadata and UX shell', () => {
       'content',
       DEFAULT_OG_IMAGE_ALT,
     );
+    const jsonLd = readJsonLd(
+      await page.locator('script[type="application/ld+json"]').allTextContents(),
+    );
+    expect(jsonLd.some((item) => item['@type'] === 'WebSite')).toBe(true);
   });
 
   test('explore detail exposes article OG metadata', async ({ page }) => {
@@ -240,14 +245,19 @@ test.describe('SEO metadata and UX shell', () => {
     );
   });
 
-  test('detail pages expose WebSite, Article, and BreadcrumbList JSON-LD', async ({ page }) => {
+  test('detail pages expose authored Article and BreadcrumbList JSON-LD', async ({ page }) => {
     await page.goto('/works/rose-curve');
     const workJsonLd = readJsonLd(
       await page.locator('script[type="application/ld+json"]').allTextContents(),
     );
-    expect(workJsonLd.some((item) => item['@type'] === 'WebSite')).toBe(true);
+    expect(workJsonLd.some((item) => item['@type'] === 'WebSite')).toBe(false);
     expect(
-      workJsonLd.some((item) => item['@type'] === 'Article' && item.headline === '玫瑰曲線'),
+      workJsonLd.some(
+        (item) =>
+          item['@type'] === 'Article' &&
+          item.headline === '玫瑰曲線' &&
+          (item.author as Record<string, unknown>)?.name === 'lamb-liver',
+      ),
     ).toBe(true);
     expect(workJsonLd.some((item) => item['@type'] === 'BreadcrumbList')).toBe(true);
 
@@ -256,7 +266,12 @@ test.describe('SEO metadata and UX shell', () => {
       await page.locator('script[type="application/ld+json"]').allTextContents(),
     );
     expect(
-      exploreJsonLd.some((item) => item['@type'] === 'Article' && item.headline === '傅立葉級數'),
+      exploreJsonLd.some(
+        (item) =>
+          item['@type'] === 'Article' &&
+          item.headline === '傅立葉級數' &&
+          (item.author as Record<string, unknown>)?.name === 'lamb-liver',
+      ),
     ).toBe(true);
     expect(exploreJsonLd.some((item) => item['@type'] === 'BreadcrumbList')).toBe(true);
   });

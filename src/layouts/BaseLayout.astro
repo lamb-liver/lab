@@ -42,14 +42,20 @@ const inferredOgImageSize =
     ? { width: 1200, height: 630 }
     : null;
 const siteRootURL = new URL('/', site).href;
+const siteStructuredData =
+  canonicalURL === siteRootURL
+    ? [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: '羊·實驗',
+          url: siteRootURL,
+          inLanguage: 'zh-Hant',
+        },
+      ]
+    : [];
 const jsonLd = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: '羊·實驗',
-    url: siteRootURL,
-    inLanguage: 'zh-Hant',
-  },
+  ...siteStructuredData,
   ...structuredData,
 ].map((data) => JSON.stringify(data).replace(/</g, '\\u003c'));
 ---
@@ -69,6 +75,7 @@ const jsonLd = [
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content="羊·實驗" />
+    <meta property="og:locale" content="zh_TW" />
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:alt" content={resolvedOgImageAlt} />
     {

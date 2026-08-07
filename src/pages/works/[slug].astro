@@ -16,6 +16,7 @@ import {
   workControlsMountId,
 } from '../../works/interactiveRegistry';
 import { getWorkOgImagePath } from '../../lib/workOgImage';
+import { SITE_AUTHOR } from '../../lib/siteLinks';
 import 'katex/dist/katex.min.css';
 import '../../styles/prose.css';
 import '../../styles/pages/work-detail.css';
@@ -62,6 +63,7 @@ const structuredData = [
     mainEntityOfPage: articleUrl,
     inLanguage: 'zh-Hant',
     datePublished: entry.data.date.toISOString(),
+    author: SITE_AUTHOR,
   },
 ];
 ---
