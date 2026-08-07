@@ -221,18 +221,20 @@ Done:
 
 ## Release Gate
 
+Lab 採持續部署：例行內容與功能更新合併到 `main` 後直接部署，不建立 SemVer tag，也不調整 package version。`package.json` 的既有 `1.2.1` 是歷史 metadata，不是 production revision；正式部署以 `main` commit 為準。若未來明確重啟版本化 release，再讓 package、tag 與 release commit 同步。
+
 Before the `社團發布前` release:
 
 - `npm run audit:content` passes.
 - `npm test` passes.
 - `npm run build` passes.
 - `npm run validate:frontend -- --skip-dom` passes.
-- Published Explore and Exam entries have covers.
+- Published Explore, Exam, and Contest Studies entries have covers.
 - Published pages do not contain placeholder/debug text.
 - Main pages work at 390px mobile width.
-- Home, works, explore, exam, and representative detail pages open correctly.
+- Home, works, explore, exam, and representative detail pages open correctly. Contest joins only when it has published content.
 
-See `public-pages-audit.md` for the current post-release audit of public Works, Explore, and Exam pages.
+See `public-pages-audit.md` for the current post-release audit of all four collections.
 
 For math semantics, use `math-content-review-checklist.md`; `audit:content` only covers structural release readiness.
 
@@ -248,6 +250,7 @@ Run these commands before release:
 npm run audit:content
 npm run audit:explore-covers
 npm run audit:exam-covers
+npm run audit:contest-covers
 npm test
 npm run build
 npm run validate:frontend -- --skip-dom
@@ -271,15 +274,16 @@ DOM smoke and screenshots are opt-in:
 
 Before changing any item from draft to public:
 
-- List every Work, Explore, and Exam item intended for this release.
+- List every Work, Explore, Exam, and Contest Studies item intended for this release.
 - Confirm unfinished items remain `draft: true`.
 - Confirm published items use the intended `draft: false` state.
 - Confirm every published Explore item has `coverImage`.
 - Confirm every published Explore cover points to an existing public asset.
 - Confirm every published Exam item has `coverImage`.
 - Confirm every published Exam cover has a matching `scripts/exam-covers/{slug}.svg` and existing 1600×1000 public PNG.
+- Confirm every published Contest Studies item has `coverImage` and a matching `scripts/contest-covers/{slug}.svg` plus existing 1600×1000 public PNG.
 - Confirm published pages do not contain placeholder/debug text such as `TODO`, `FIXME`, `placeholder`, `debug`, `lorem`, `待補`, `暫定`, or `測試用`.
-- Confirm Works, Explore, and Exam links are reasonable: published pages must not link to missing or draft related content.
+- Confirm cross-collection links are reasonable: published pages must not link to missing or draft related content.
 - Confirm descriptions are concise enough for lists and metadata; rewrite long descriptions before release.
 - For math semantics, run the manual `math-content-review-checklist.md`; do not rely on `audit:content` for definitions, formulas, edge cases, or overclaims.
 - Confirm Explore `category` is one of `幾何`, `代數`, `統計`, `拓樸`, or `分析`.
@@ -294,6 +298,7 @@ Check the main release surfaces at 390px and 430px widths:
 - Works list opens and cards, filters, and search remain usable.
 - Explore list opens and cards, filters, and search remain usable.
 - Exam list opens and cards, filters, and search remain usable.
+- Contest list and representative detail open correctly when at least one study is published.
 - Representative Work detail pages open correctly.
 - Representative Explore detail pages open correctly.
 - Representative Exam detail pages open correctly.
@@ -304,7 +309,7 @@ Check the main release surfaces at 390px and 430px widths:
 
 Before publishing:
 
-- Write down the exact Works and Explore entries included in this release.
+- Write down the exact collection entries included in this release.
 - Keep unfinished content as draft.
 - Keep experimental, incomplete, or placeholder entries out of public entry points.
 - Do not auto-edit registries from generator output.

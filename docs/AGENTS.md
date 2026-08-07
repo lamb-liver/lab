@@ -46,7 +46,7 @@ Cursor rules are not canonical runtime specifications.
 
 Before modifying rendering systems:
 
-- Check work and explore registry synchronization.
+- Check the affected collection's content, registry, and lazy stage synchronization.
 - Check thumbnail generation assumptions when `CurveModule.sample()` changes.
 - Check animation lifecycle stability when refs, `draw`, or p5 hooks change.
 - Run focused tests first, then `npm run build` for cross-file integration changes.
@@ -60,5 +60,7 @@ For frontend changes, use `frontend-validation.md` as the default gate:
 
 - Works use `CurveModule` + work registries + `WorkInteractiveStage`.
 - Explore interactives use `src/explore/*` + explore registries; they do not use the Works portal architecture.
+- Exam interactives use `src/exam/*` + exam registries + `ExamInteractiveStage`; Exam remains high-school-senior exam preparation.
+- Contest Studies uses `src/contest/*` + contest registries + `ContestInteractiveStage`; it is not an advanced Explore tier or an Exam question bank.
 - `curve/modules/*` should stay free of p5 and React dependencies.
 - `systems/rendering/*` renders snapshots and should not read React state.

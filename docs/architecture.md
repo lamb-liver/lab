@@ -78,7 +78,7 @@ Explore、Exam 與 Contest Studies list cards use static `coverImage` assets, no
 
 ## Contest Studies Data Flow
 
-Contest Studies is an independent collection for competition-problem research. It is not an advanced Explore tier or an Exam question bank. The first study remains draft-only until external product and mathematical review are complete.
+Contest Studies is an independent collection for competition-problem research. It is not an advanced Explore tier or an Exam question bank. The first study is an explicit draft backlog item; it is not blocked on an external reviewer. Keep it unpublished until the user explicitly reopens release and the repo-local math, content, cover, typecheck, test, build, and desktop/mobile gates pass.
 
 ```text
 src/content/contest-studies/{slug}.md

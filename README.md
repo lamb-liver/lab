@@ -57,7 +57,7 @@ Exam:    content → exam registry → ExamInteractiveStage → ExamRoot → ren
 Contest: content → contest registry → ContestInteractiveStage → ContestRoot → renderer
 ```
 
-Works、Explore、Exam 與 Contest Studies 是四套獨立互動架構；新增頁面時必須同步各自的 content、registry 與 stage map。Contest Studies 目前只含草稿，不會出現在正式站。完整邊界見 [`docs/architecture.md`](docs/architecture.md)。
+Works、Explore、Exam 與 Contest Studies 是四套獨立互動架構；新增頁面時必須同步各自的 content、registry 與 stage map。Contest Studies 目前是明確保留的草稿 backlog，不依賴外部 reviewer，也不會出現在正式站。完整邊界見 [`docs/architecture.md`](docs/architecture.md)。
 
 ## 新增內容
 
@@ -76,7 +76,7 @@ npm run new:exam -- <slug> --year 112 --subject 學測數A --type 多選 --no 11
 
 ## 部署
 
-推送 `main` 後，[GitHub Actions](.github/workflows/deploy.yml) 會執行 `npm ci`、建置並部署 `dist/` 到 GitHub Pages。正式網域由 [`public/CNAME`](public/CNAME) 設定。
+本專案採持續部署。推送 `main` 後，[GitHub Actions](.github/workflows/deploy.yml) 會執行 `npm ci`、建置並部署 `dist/` 到 GitHub Pages；日常內容與功能更新不建立 SemVer tag。正式網域由 [`public/CNAME`](public/CNAME) 設定。
 
 ## 文件
 
