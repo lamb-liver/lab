@@ -16,7 +16,6 @@ import '../styles/pages/home.css';
 
 const works = await getCollection('works');
 const explore = await getCollection('explore');
-const showContest = import.meta.env.DEV || (await getCollection('contestStudies')).some((entry) => !entry.data.draft);
 
 const featuredWorks = getFeaturedInteractive(works, workInteractiveSlugs, 2);
 const featuredExplore = getFeaturedInteractive(explore, exploreInteractiveSlugs, 1);
@@ -177,13 +176,12 @@ const latestExplore = excludeEntryIds(
         <div class="home-section-heading">
           <h2 class="section-title">更多入口</h2>
           <p class="home-section-desc">
-            從正式試題{showContest ? '、競賽母題' : ''}與概念索引繼續探索。
+            從正式試題與概念索引繼續探索。
           </p>
         </div>
       </div>
       <div class="home-more-links">
         <a href="/exam">試題視覺化 →</a>
-        {showContest ? <a href="/contest">競賽研題 →</a> : null}
         <a href="/concept">概念索引 →</a>
       </div>
     </div>

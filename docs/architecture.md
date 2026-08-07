@@ -13,7 +13,6 @@ This document is the system map for AI agents and maintainers. It does not repla
 | Works content | `src/content/works/*.md` | `textstyle.md`, `content-interaction-contract.md` |
 | Explore content | `src/content/explore/*.md` | `textstyle.md`, `content-interaction-contract.md` |
 | Exam content | `src/content/exam/*.md` | `textstyle.md`, `exam-visualization-plan.md` |
-| Contest Studies content | `src/content/contest-studies/*.md` | `textstyle.md`, `content-interaction-contract.md` |
 | Site shell UX | Astro layouts, list filter, nav/footer | `site-ux.md` |
 | Work geometry modules | `src/curve/modules/*` | `p5toreact.md` |
 | Work runtime mounting | `src/components/works/*CurveRoot.tsx`, `WorkInteractiveStage.tsx` | `p5toreact.md`, `reactkey.md` |
@@ -21,7 +20,6 @@ This document is the system map for AI agents and maintainers. It does not repla
 | Work thumbnails | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | `workart.md`, `p5toreact.md` |
 | Explore interactives | `src/explore/*`, `src/components/explore/*ExploreRoot.tsx` | `exploreart.md`, `p5toreact.md` |
 | Exam interactives | `src/exam/*`, `src/components/exam/*ExamRoot.tsx` | `exam-visualization-plan.md`, `p5toreact.md` |
-| Contest Studies interactives | `src/contest/*`, `src/components/contest/*ContestRoot.tsx` | `p5toreact.md`, 本文件下節 |
 | 3D 空間向量共用層 | `src/curve/projection3d.ts`, `src/systems/rendering/scene3d.ts`, `src/components/curve/useOrbitViewP5.ts` | 本文件下節 |
 
 ## Works Data Flow
@@ -74,23 +72,7 @@ src/content/explore/{slug}.md
     -> src/systems/rendering/*
 ```
 
-Explore、Exam 與 Contest Studies list cards use static `coverImage` assets, not `curveThumbnail.ts`.
-
-## Contest Studies Data Flow
-
-Contest Studies is an independent collection for competition-problem research. It is not an advanced Explore tier or an Exam question bank. The first study is an explicit draft backlog item; it is not blocked on an external reviewer. Keep it unpublished until the user explicitly reopens release and the repo-local math, content, cover, typecheck, test, build, and desktop/mobile gates pass.
-
-```text
-src/content/contest-studies/{slug}.md
-    -> route /contest/[slug]
-    -> isContestInteractive(slug)
-    -> ContestInteractiveStage
-    -> *ContestRoot
-    -> src/contest/{topic}/*
-    -> src/systems/rendering/*
-```
-
-Contest may link one-way to published Works or Explore entries. Do not add automatic reverse links or Concept aggregation until product evidence establishes that need.
+Explore and Exam list cards use static `coverImage` assets, not `curveThumbnail.ts`.
 
 ## Site Shell and List Filter
 
@@ -102,7 +84,6 @@ src/components/ListSearchFilterScript.astro   # search + DOM events + scroll fad
 src/pages/works/index.astro
 src/pages/explore/index.astro
 src/pages/exam/index.astro
-src/pages/contest/index.astro
 ```
 
 Detail pages use `Breadcrumb.astro` + `.detail-top-nav` for context navigation vs quick back links. Full contract: `site-ux.md`.
@@ -129,13 +110,6 @@ Keep these synchronized when adding an interactive Exam page:
 - `src/exam/interactiveRegistry.ts`
 - `src/components/exam/ExamInteractiveStage.tsx`
 - `scripts/exam-covers/{slug}.svg`, generated `public/images/exam-covers/{slug}.png`, and frontmatter `coverImage`
-
-Keep these synchronized when adding an interactive Contest Studies page:
-
-- `src/content/contest-studies/{slug}.md`
-- `src/contest/interactiveRegistry.ts`
-- `src/components/contest/ContestInteractiveStage.tsx`
-- `scripts/contest-covers/{slug}.svg`, generated `public/images/contest-covers/{slug}.png`, and frontmatter `coverImage`
 
 ## 3D 空間向量共用層
 
@@ -164,7 +138,6 @@ Keep these synchronized when adding an interactive Contest Studies page:
 - Do not move p5 or React dependencies into `src/curve/modules/*`.
 - Do not make renderers read React state directly.
 - Do not route Explore interactives through the Works portal model.
-- Do not route Contest Studies through Explore or Exam, or publish a draft merely to expose its navigation.
 - Do not replace established glow, grid, reveal, or thumbnail behavior for one-off convenience.
 - Add abstractions only when they remove real duplication or match an existing local pattern.
 

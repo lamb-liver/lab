@@ -297,13 +297,6 @@ export function selectCommands(files) {
         add(commands, command('content release audit', ['npm', 'run', 'audit:content']));
         add(commands, command('integration audit', ['npm', 'run', 'audit:integration']));
       }
-      if (
-        file.startsWith('scripts/contest-covers/') ||
-        file === 'scripts/generate-static-covers.mjs' ||
-        file === 'scripts/audit-static-covers.mjs'
-      ) {
-        add(commands, command('contest cover audit', ['npm', 'run', 'audit:contest-covers']));
-      }
       continue;
     }
 
@@ -331,13 +324,6 @@ export function selectCommands(files) {
       }
     }
 
-    if (file.startsWith('src/content/contest-studies/')) {
-      add(commands, command('content release audit', ['npm', 'run', 'audit:content']));
-      add(commands, command('content audit', ['npm', 'run', 'test:content-audit']));
-      add(commands, command('registry sync', ['npm', 'run', 'test', '--', 'src/registry.sync.test.ts']));
-      add(commands, command('contest controls', ['npm', 'run', 'audit:contest-controls']));
-    }
-
     if (file.startsWith('src/curve/modules/')) {
       const moduleDir = file.split('/').slice(3, 4)[0];
       const testPath = moduleTestPath(moduleDir);
@@ -359,9 +345,7 @@ export function selectCommands(files) {
       file === 'src/works/interactiveRegistry.ts' ||
       file === 'src/components/works/WorkInteractiveStage.tsx' ||
       file === 'src/explore/interactiveRegistry.ts' ||
-      file === 'src/components/explore/ExploreInteractiveStage.tsx' ||
-      file === 'src/contest/interactiveRegistry.ts' ||
-      file === 'src/components/contest/ContestInteractiveStage.tsx'
+      file === 'src/components/explore/ExploreInteractiveStage.tsx'
     ) {
       add(commands, command('registry sync', ['npm', 'run', 'test', '--', 'src/registry.sync.test.ts']));
       add(commands, command('integration audit', ['npm', 'run', 'audit:integration']));
@@ -397,26 +381,11 @@ export function selectCommands(files) {
       add(commands, command(`explore smoke ${exploreCssSlug}`, ['npm', 'run', 'smoke:explore', '--', exploreCssSlug]));
     }
 
-    if (
-      file.startsWith('src/components/contest/') ||
-      file.startsWith('src/contest/') ||
-      file.startsWith('src/pages/contest/') ||
-      file.startsWith('src/styles/components/contest/') ||
-      file === 'src/styles/pages/contest.css' ||
-      (file.startsWith('src/systems/rendering/') && file.includes('Contest'))
-    ) {
-      add(commands, command('registry sync', ['npm', 'run', 'test', '--', 'src/registry.sync.test.ts']));
-      add(commands, command('contest controls', ['npm', 'run', 'audit:contest-controls']));
-    }
-
     if (file.startsWith('scripts/explore-covers/') || file.startsWith('public/images/explore-covers/')) {
       add(commands, command('explore cover audit', ['npm', 'run', 'audit:explore-covers']));
     }
     if (file.startsWith('scripts/exam-covers/') || file.startsWith('public/images/exam-covers/')) {
       add(commands, command('exam cover audit', ['npm', 'run', 'audit:exam-covers']));
-    }
-    if (file.startsWith('scripts/contest-covers/') || file.startsWith('public/images/contest-covers/')) {
-      add(commands, command('contest cover audit', ['npm', 'run', 'audit:contest-covers']));
     }
     if (file === 'scripts/generate-static-covers.mjs' || file === 'scripts/audit-static-covers.mjs') {
       add(commands, command('explore cover audit', ['npm', 'run', 'audit:explore-covers']));

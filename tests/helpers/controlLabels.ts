@@ -13,7 +13,7 @@ const repoRoot = resolve(import.meta.dirname, '..', '..');
 
 /** 取出 `## 互動說明` 的粗體標籤；括號註記如「（預設）」不列入比對 */
 export function readInteractionLabels(
-  collection: 'explore' | 'works' | 'contest-studies',
+  collection: 'explore' | 'works',
   slug: string,
 ): string[] {
   const body = readFileSync(

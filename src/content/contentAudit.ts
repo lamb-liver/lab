@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { descriptionHasRawMath } from './descriptionMath';
 
-export type ContentCollectionName = 'works' | 'explore' | 'exam' | 'contest-studies';
+export type ContentCollectionName = 'works' | 'explore' | 'exam';
 
 export type ContentAuditIssue = {
   file: string;
@@ -16,7 +16,7 @@ type ContentFile = {
   body: string;
 };
 
-const CONTENT_COLLECTIONS: ContentCollectionName[] = ['works', 'explore', 'exam', 'contest-studies'];
+const CONTENT_COLLECTIONS: ContentCollectionName[] = ['works', 'explore', 'exam'];
 
 /** exam 的章節範本與 works／explore 不同，見 textstyle.md §2.3 */
 const EXAM_SECTIONS = ['題意', '為什麼會錯', '觀念', '互動怎麼看'];

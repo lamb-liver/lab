@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { fileURLToPath } from 'node:url';
 import { auditContent, parseFrontmatter, readContentFiles } from './audit-content.mjs';
-import { auditExamCovers, auditExploreCovers, auditStaticCovers } from './audit-static-covers.mjs';
+import { auditExamCovers, auditExploreCovers } from './audit-static-covers.mjs';
 
 function fieldValue(parsed, key) {
   return parsed?.fields.get(key)?.value ?? null;
@@ -12,7 +12,6 @@ export function contentSummary(files) {
     works: { public: [], draft: [] },
     explore: { public: [], draft: [] },
     exam: { public: [], draft: [] },
-    'contest-studies': { public: [], draft: [] },
   };
 
   for (const file of files) {
@@ -39,7 +38,7 @@ function names(entries) {
   return entries.map((entry) => entry.slug).join(', ') || '(none)';
 }
 
-function printMarkdown(summary, contentResult, exploreCoverResult, examCoverResult, contestCoverResult) {
+function printMarkdown(summary, contentResult, exploreCoverResult, examCoverResult) {
   console.log('# Public Pages Audit');
   console.log('');
   console.log('## Live Scope');
@@ -50,35 +49,29 @@ function printMarkdown(summary, contentResult, exploreCoverResult, examCoverResu
   console.log(`- Draft Explore: ${summary.explore.draft.length}`);
   console.log(`- Public Exam: ${summary.exam.public.length}`);
   console.log(`- Draft Exam: ${summary.exam.draft.length}`);
-  console.log(`- Public Contest Studies: ${summary['contest-studies'].public.length}`);
-  console.log(`- Draft Contest Studies: ${summary['contest-studies'].draft.length}`);
   console.log('');
   console.log('## Checks');
   console.log('');
   console.log(`- Content audit: ${contentResult.issues.length === 0 ? 'pass' : 'fail'}`);
   console.log(`- Explore cover audit: ${exploreCoverResult.issues.length === 0 ? 'pass' : 'fail'}`);
   console.log(`- Exam cover audit: ${examCoverResult.issues.length === 0 ? 'pass' : 'fail'}`);
-  console.log(`- Contest cover audit: ${contestCoverResult.issues.length === 0 ? 'pass' : 'fail'}`);
   console.log('');
   console.log('## Public Pages');
   console.log('');
   console.log(`- Works: ${names(summary.works.public)}`);
   console.log(`- Explore: ${names(summary.explore.public)}`);
   console.log(`- Exam: ${names(summary.exam.public)}`);
-  console.log(`- Contest Studies: ${names(summary['contest-studies'].public)}`);
   console.log('');
   console.log('## Draft Pages');
   console.log('');
   console.log(`- Works: ${names(summary.works.draft)}`);
   console.log(`- Explore: ${names(summary.explore.draft)}`);
   console.log(`- Exam: ${names(summary.exam.draft)}`);
-  console.log(`- Contest Studies: ${names(summary['contest-studies'].draft)}`);
 
   const issues = [
     ...contentResult.issues.map((issue) => `${issue.file}:${issue.line}: ${issue.message}`),
     ...exploreCoverResult.issues.map((issue) => `${issue.file}: ${issue.message}`),
     ...examCoverResult.issues.map((issue) => `${issue.file}: ${issue.message}`),
-    ...contestCoverResult.issues.map((issue) => `${issue.file}: ${issue.message}`),
   ];
 
   if (issues.length > 0) {
@@ -95,26 +88,23 @@ function main() {
   const contentResult = auditContent(files);
   const exploreCoverResult = auditExploreCovers();
   const examCoverResult = auditExamCovers();
-  const contestCoverResult = auditStaticCovers('contest-studies');
   const result = {
     summary,
     content: contentResult,
     exploreCovers: exploreCoverResult,
     examCovers: examCoverResult,
-    contestCovers: contestCoverResult,
   };
 
   if (process.argv.includes('--json')) {
     console.log(JSON.stringify(result, null, 2));
   } else {
-    printMarkdown(summary, contentResult, exploreCoverResult, examCoverResult, contestCoverResult);
+    printMarkdown(summary, contentResult, exploreCoverResult, examCoverResult);
   }
 
   if (
     contentResult.issues.length > 0 ||
     exploreCoverResult.issues.length > 0 ||
-    examCoverResult.issues.length > 0 ||
-    contestCoverResult.issues.length > 0
+    examCoverResult.issues.length > 0
   ) {
     process.exitCode = 1;
   }

@@ -61,6 +61,5 @@ For frontend changes, use `frontend-validation.md` as the default gate:
 - Works use `CurveModule` + work registries + `WorkInteractiveStage`.
 - Explore interactives use `src/explore/*` + explore registries; they do not use the Works portal architecture.
 - Exam interactives use `src/exam/*` + exam registries + `ExamInteractiveStage`; Exam remains high-school-senior exam preparation.
-- Contest Studies uses `src/contest/*` + contest registries + `ContestInteractiveStage`; it is not an advanced Explore tier or an Exam question bank.
 - `curve/modules/*` should stay free of p5 and React dependencies.
 - `systems/rendering/*` renders snapshots and should not read React state.

@@ -169,7 +169,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 
 ### 7.2 Footer
 
-- `.site-footer__nav`：作品集 / 主題導覽 / 試題視覺化 / 概念 / 關於；Contest Studies 只在 dev 或至少一篇公開時插入「競賽研題」（與 `Nav.astro` 同步）
+- `.site-footer__nav`：作品集 / 主題導覽 / 試題視覺化 / 概念 / 關於（與 `Nav.astro` 同步）
 - 與頂部 `#site-nav-links` **文字可能相同**；Playwright 斷言 nav 連結時須 **限定 `#site-nav-links` 範圍**
 
 ---
@@ -203,7 +203,6 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 | Works 舞台 | `pages/works/[slug].astro`, `styles/pages/work-detail.css` |
 | Explore 殼層 | `pages/explore/[slug].astro`, `styles/pages/explore-detail.css` |
 | Exam 殼層 | `pages/exam/[slug].astro`, `styles/pages/exam-detail.css` |
-| Contest Studies 殼層 | `pages/contest/[slug].astro`, `styles/pages/contest.css`；目前 draft-only |
 | 列表 filter | `lib/listFilter.ts`, `components/ListSearchFilterScript.astro`, `styles/components/filter.css` |
 | 首頁 | `styles/pages/home.css` |
 | Footer | `components/Footer.astro`, `styles/components/footer.css` |

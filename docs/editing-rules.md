@@ -42,7 +42,7 @@ For a new interactive explore page, check:
 - `coverImage` is set only when an actual static cover exists
 - Explore cover PNGs follow `exploreart.md` and keep their reproducible source files
 
-Exam and Contest Studies synchronization lists live in [`architecture.md`](architecture.md). Use those canonical lists instead of copying a Works or Explore pipeline; Contest currently remains draft-only.
+Exam synchronization lists live in [`architecture.md`](architecture.md). Use the canonical list instead of copying a Works or Explore pipeline.
 
 ## Content Changes
 
@@ -81,7 +81,7 @@ If several React-backed work pages fail with `jsxDEV is not a function`, treat i
 
 - Does the change preserve the authority order in [`AGENTS.md`](AGENTS.md)?
 - Did it avoid duplicating canonical rules into another file?
-- Are Works, Explore, Exam, and Contest Studies boundaries still separate?
+- Are Works, Explore, and Exam boundaries still separate?
 - Are registries synchronized?
 - Did any deferred review item remain before marking a scan batch complete?
 - Are thumbnails still generated at build time?

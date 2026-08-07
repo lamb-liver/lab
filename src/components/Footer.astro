@@ -1,10 +1,8 @@
 ---
 import '../styles/components/footer.css';
-import { getCollection } from 'astro:content';
 import { PERSONAL_SITE_HOST, PERSONAL_SITE_URL } from '../lib/siteLinks';
 
 const year = new Date().getFullYear();
-const showContest = import.meta.env.DEV || (await getCollection('contestStudies')).some((entry) => !entry.data.draft);
 ---
 
 <footer class="site-footer">
@@ -14,7 +12,6 @@ const showContest = import.meta.env.DEV || (await getCollection('contestStudies'
       <a href="/works" class="site-footer__link">作品集</a>
       <a href="/explore" class="site-footer__link">主題導覽</a>
       <a href="/exam" class="site-footer__link">試題視覺化</a>
-      {showContest ? <a href="/contest" class="site-footer__link">競賽研題</a> : null}
       <a href="/concept" class="site-footer__link">概念</a>
       <a href="/about" class="site-footer__link">關於</a>
     </nav>

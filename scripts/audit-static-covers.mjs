@@ -15,18 +15,12 @@ const configs = {
   exam: {
     legacyCovers: new Map(),
   },
-  'contest-studies': {
-    legacyCovers: new Map(),
-    sourceDir: 'contest-covers',
-    publicDir: 'contest-covers',
-    publicPrefix: '/images/contest-covers',
-  },
 };
 
 function usage() {
   return [
     'Usage:',
-    '  node scripts/audit-static-covers.mjs <explore|exam|contest-studies> [--json]',
+    '  node scripts/audit-static-covers.mjs <explore|exam> [--json]',
     '',
     'Checks published content coverImage, generated PNGs, and reproducible SVG sources.',
     'Draft entries are not required. Fourier Explore keeps its legacy cover.',

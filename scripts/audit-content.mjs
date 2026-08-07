@@ -8,9 +8,7 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const EXPLORE_CATEGORIES = ['幾何', '代數', '統計', '拓樸', '分析'];
 export const CONTENT_AUDIENCES = ['直觀探索', '高中概念', '大學概念'];
 export const EXAM_SUBJECTS = ['學測數A', '學測數B', '分科數甲'];
-export const CONTEST_DOMAINS = ['代數', '幾何', '組合', '數論', '分析'];
-export const CONTEST_DIFFICULTIES = ['入門', '中階', '進階'];
-const COLLECTIONS = ['works', 'explore', 'exam', 'contest-studies'];
+const COLLECTIONS = ['works', 'explore', 'exam'];
 const REQUIRED_FIELDS = {
   works: ['title', 'description', 'tags', 'date', 'order', 'draft'],
   explore: ['title', 'description', 'category', 'date', 'order', 'draft'],
@@ -24,17 +22,6 @@ const REQUIRED_FIELDS = {
     'unit',
     'topics',
     'concepts',
-    'date',
-    'order',
-    'draft',
-  ],
-  'contest-studies': [
-    'title',
-    'description',
-    'domain',
-    'difficulty',
-    'estimatedMinutes',
-    'source',
     'date',
     'order',
     'draft',
@@ -96,7 +83,7 @@ export function auditContent(files = readContentFiles(), options = {}) {
 
     checkFrontmatter(file, parsed, issues);
     checkDescription(file, parsed, issues);
-    if (file.collection === 'explore' || file.collection === 'exam' || file.collection === 'contest-studies') {
+    if (file.collection === 'explore' || file.collection === 'exam') {
       checkStaticCover(file, parsed, issues, root, fileExists);
     }
 
@@ -193,17 +180,14 @@ function checkFrontmatter(file, parsed, issues) {
     }
   }
 
-  // Works/Explore/Exam 使用共用 Concept；研題先保留獨立的方法詞彙。
-  if (file.collection !== 'contest-studies') {
-    const conceptsList = parsed.arrays.get('concepts') ?? [];
-    if (fieldValue(parsed, 'draft') !== 'true' && conceptsList.length === 0) {
-      addIssue(
-        issues,
-        file,
-        fieldLine(parsed, 'concepts') || 1,
-        'published content must include at least one concept',
-      );
-    }
+  const conceptsList = parsed.arrays.get('concepts') ?? [];
+  if (fieldValue(parsed, 'draft') !== 'true' && conceptsList.length === 0) {
+    addIssue(
+      issues,
+      file,
+      fieldLine(parsed, 'concepts') || 1,
+      'published content must include at least one concept',
+    );
   }
 
   if (file.collection === 'explore') {
@@ -218,20 +202,6 @@ function checkFrontmatter(file, parsed, issues) {
     }
   }
 
-  if (file.collection === 'contest-studies') {
-    const domain = fieldValue(parsed, 'domain');
-    if (domain && !CONTEST_DOMAINS.includes(domain)) {
-      addIssue(issues, file, fieldLine(parsed, 'domain'), `domain must be one of: ${CONTEST_DOMAINS.join(', ')}`);
-    }
-    const difficulty = fieldValue(parsed, 'difficulty');
-    if (difficulty && !CONTEST_DIFFICULTIES.includes(difficulty)) {
-      addIssue(issues, file, fieldLine(parsed, 'difficulty'), `difficulty must be one of: ${CONTEST_DIFFICULTIES.join(', ')}`);
-    }
-    const estimatedMinutes = fieldValue(parsed, 'estimatedMinutes');
-    if (estimatedMinutes && !/^[1-9]\d*$/.test(estimatedMinutes)) {
-      addIssue(issues, file, fieldLine(parsed, 'estimatedMinutes'), 'estimatedMinutes must be a positive integer');
-    }
-  }
 }
 
 function checkDescription(file, parsed, issues) {
