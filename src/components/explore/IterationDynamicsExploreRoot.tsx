@@ -101,7 +101,7 @@ export default function IterationDynamicsExploreRoot() {
   if (mode === 'cobweb') {
     stateText = `r = ${r.toFixed(2)}｜長期行為：${behavior.label}`;
   } else if (mode === 'bifurcation') {
-    stateText = `拖動 r 移動標記，看它落在單一分支、週期分裂或混沌帶（目前：${behavior.label}）`;
+    stateText = `拖動 r 移動標記，看它落在單一分支、短週期分支或密集帶（有限尾段判讀：${behavior.label}）`;
   } else {
     stateText = `ratio = ${ratio.toFixed(2)}｜朝隨機頂點移動此比例；0.5 → 謝爾賓斯基三角形`;
   }
@@ -217,7 +217,7 @@ export default function IterationDynamicsExploreRoot() {
             {mode === 'cobweb'
               ? 'xₙ₊₁ = r·xₙ(1 − xₙ)｜階梯沿曲線與 y=x 反覆彈跳'
               : mode === 'bifurcation'
-                ? '每個 r 丟棄暫態後畫出長期落點；週期倍增一路通往混沌'
+                ? '每個 r 丟棄暫態後畫出長期落點；週期倍增後可見密集帶與週期窗口'
                 : '隨機反覆套用收縮映射，散點聚成自我相似的碎形'}
           </p>
         </aside>
