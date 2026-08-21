@@ -22,7 +22,10 @@ npm run dev
 | `npm run dev` | 啟動本地開發環境 |
 | `npm test` | 執行 Vitest |
 | `npm run typecheck` | 執行 TypeScript 檢查 |
+| `npm run typecheck:fatal` | 執行 CI 使用的完整 TypeScript fatal gate |
 | `npm run build` | 建置靜態站到 `dist/` |
+| `npm run test:seo-ux` | 驗證 metadata、導覽、filter 與 accessibility shell |
+| `npm run test:works-smoke` | 逐頁驗證所有公開 Works 的互動接線 |
 | `npm run validate:frontend -- --url <route>` | 依序執行內容檢查、測試、建置與 DOM 驗證 |
 | `npm run audit:integration` | 驗證 content、registry 與 stage 接線 |
 | `npm run covers:exam` | 由 SVG 來源生成 Exam 列表封面 |
@@ -72,7 +75,7 @@ npm run new:exam -- <slug> --year 112 --subject 學測數A --type 多選 --no 11
 
 ## 部署
 
-本專案採持續部署。推送 `main` 後，[GitHub Actions](.github/workflows/deploy.yml) 會執行 `npm ci`、建置並部署 `dist/` 到 GitHub Pages；日常內容與功能更新不建立 SemVer tag。正式網域由 [`public/CNAME`](public/CNAME) 設定。
+本專案採持續部署。對 `main` 的 pull request 由 [GitHub Actions](.github/workflows/deploy.yml) 執行 `build` 與 `e2e` checks，但不取得 Pages 寫入權限，也不執行 `deploy`。推送 `main` 或手動觸發 workflow 時，通過相同 checks 後才部署 `dist/` 到 GitHub Pages；日常內容與功能更新不建立 SemVer tag。正式網域由 [`public/CNAME`](public/CNAME) 設定。
 
 ## 文件
 
