@@ -7,6 +7,26 @@
   background: #0a0a0a;
 }
 
+.julia-stage {
+  position: relative;
+  width: 100%;
+}
+
+.julia-recalc {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  background: rgba(10, 10, 10, 0.72);
+  color: #e8e8e8;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
 /* 非 stage 佈局時的 fallback（佔位 canvas） */
 .work-canvas.curve-work-canvas-host,
 .work-canvas:not(.curve-work-canvas-host) {
