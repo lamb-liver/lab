@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { juliaSetModule } from '../../curve/modules/julia-set';
 import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
@@ -21,6 +21,10 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
   });
 
   const onRenderProgress = useCallback((pct: number) => setRenderPct(pct), []);
+
+  useEffect(() => {
+    setRenderPct(0);
+  }, [targetParams.cx, targetParams.cy, targetParams.maxIter]);
   const onSmoothCChange = useCallback((cx: number, cy: number) => {
     setSmoothParams((prev) => ({ ...prev, cx, cy }));
   }, []);
@@ -80,11 +84,18 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
 
   return (
     <>
-      <div
-        ref={canvasHostRef}
-        className="curve-work-canvas-host work-canvas"
-        aria-label="朱利亞集合分形"
-      />
+      <div className="julia-stage" aria-busy={renderPct < 100}>
+        <div
+          ref={canvasHostRef}
+          className="curve-work-canvas-host work-canvas"
+          aria-label="朱利亞集合分形"
+        />
+        {renderPct < 100 ? (
+          <div className="julia-recalc" role="status">
+            重新計算中… {renderPct}%
+          </div>
+        ) : null}
+      </div>
       {controls}
     </>
   );
