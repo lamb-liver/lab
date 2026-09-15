@@ -1,7 +1,8 @@
 .prose {
-  max-width: 68ch;
+  max-width: 40rem;
   line-height: 1.7;
   color: var(--color-text);
+  text-wrap: pretty;
 }
 
 .prose > :first-child {
