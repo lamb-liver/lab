@@ -2,7 +2,6 @@ export const PERSONAL_SITE_URL = 'https://lambliver.dev/';
 export const PERSONAL_SITE_HOST = 'lambliver.dev';
 export const CONTACT_EMAIL = 'lambliver.dev@gmail.com';
 export const GITHUB_URL = 'https://github.com/lamb-liver';
-export const GITHUB_HOST_PATH = 'github.com/lamb-liver';
 export const THREADS_URL = 'https://www.threads.com/@lambliver0420';
 export const THREADS_HANDLE = '@lambliver0420';
 export const FACEBOOK_URL = 'https://www.facebook.com/profile.php?id=61589694329153';

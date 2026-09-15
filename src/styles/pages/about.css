@@ -79,9 +79,9 @@
 
 .about-contact__copy {
   min-height: var(--touch-target-min);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 0.35rem 0.75rem;
+  min-width: var(--touch-target-min);
+  border: 0;
+  padding: 0 var(--space-2);
   background: transparent;
   color: var(--color-text-muted);
   font: inherit;
@@ -89,12 +89,11 @@
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   cursor: pointer;
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  transition: color 200ms ease;
 }
 
 .about-contact__copy:hover {
-  color: var(--color-text);
-  border-color: var(--accent-border);
+  color: var(--color-accent);
 }
 
 .about-contact__copy:focus-visible {

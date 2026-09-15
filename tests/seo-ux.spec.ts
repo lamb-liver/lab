@@ -205,7 +205,7 @@ test.describe('SEO metadata and UX shell', () => {
       'href',
       'https://lambliver.dev/',
     );
-    await expect(contact.getByRole('link', { name: 'github.com/lamb-liver' })).toHaveAttribute(
+    await expect(contact.getByRole('link', { name: 'GitHub' })).toHaveAttribute(
       'href',
       'https://github.com/lamb-liver',
     );
