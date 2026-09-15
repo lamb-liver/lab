@@ -31,7 +31,6 @@ export const siteSeo = {
   },
   path: {
     title: '策展路徑',
-    description:
-      '從一個已知起點走到圖像延伸：可停在高中應用，也可接到大學概念。這是策展路徑，不是課程系統。',
+    description: '從已知起點走到圖像延伸：可停在高中應用，也可接到大學概念。',
   },
 } as const;

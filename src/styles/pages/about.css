@@ -1,5 +1,5 @@
 .about-page {
-  max-width: 68ch;
+  max-width: 40rem;
   padding-bottom: var(--space-16);
 }
 
@@ -19,6 +19,7 @@
 .about-section p {
   line-height: 1.7;
   color: var(--color-text-muted);
+  text-wrap: pretty;
 }
 
 .about-section p + p {

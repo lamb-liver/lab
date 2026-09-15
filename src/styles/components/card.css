@@ -137,6 +137,7 @@
   line-height: 1.5;
   color: var(--color-text-muted);
   flex: 1;
+  text-wrap: pretty;
 }
 
 .card__link-wrap {
