@@ -6,22 +6,36 @@ import '../styles/components/comments.css';
 <section class="page-comments" aria-label="留言">
   <h2 class="page-comments__title">留言</h2>
   <p class="page-comments__hint">用 GitHub 帳號留言。可操作的回饋會整理成 Issues。</p>
-  <script
-    is:inline
-    src="https://giscus.app/client.js"
-    data-repo={GISCUS.repo}
-    data-repo-id={GISCUS.repoId}
-    data-category={GISCUS.category}
-    data-category-id={GISCUS.categoryId}
-    data-mapping="pathname"
-    data-strict="1"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="bottom"
-    data-theme="transparent_dark"
-    data-lang="zh-TW"
-    data-loading="lazy"
-    crossorigin="anonymous"
-    async
-  ></script>
+  <div class="page-comments__host" data-giscus-host>
+    <button type="button" class="page-comments__load" data-giscus-load>載入留言</button>
+  </div>
 </section>
+
+<script define:vars={{ giscus: GISCUS }}>
+  document.querySelector('[data-giscus-load]')?.addEventListener('click', (event) => {
+    const host = document.querySelector('[data-giscus-host]');
+    const button = event.currentTarget;
+    if (!(host instanceof HTMLElement) || !(button instanceof HTMLElement) || host.dataset.loaded) {
+      return;
+    }
+    host.dataset.loaded = 'true';
+    button.remove();
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.setAttribute('data-repo', giscus.repo);
+    script.setAttribute('data-repo-id', giscus.repoId);
+    script.setAttribute('data-category', giscus.category);
+    script.setAttribute('data-category-id', giscus.categoryId);
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '1');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', 'transparent_dark');
+    script.setAttribute('data-lang', 'zh-TW');
+    script.setAttribute('data-loading', 'lazy');
+    host.appendChild(script);
+  });
+</script>

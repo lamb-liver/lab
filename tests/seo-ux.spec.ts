@@ -496,15 +496,12 @@ test.describe('SEO metadata and UX shell', () => {
     expect(exploreHtml).toContain('interactive-loading');
   });
 
-  test('detail pages mount giscus; lists and home do not', async ({ page }) => {
+  test('detail pages offer giscus; lists and home do not', async ({ page }) => {
     for (const route of ['/works/rose-curve', '/explore/fourier-series', '/exam/gsat-112-rotation-composition']) {
       await page.goto(route);
-      const script = page.locator('.page-comments script[src="https://giscus.app/client.js"]');
       await expect(page.locator('.page-comments')).toBeVisible();
-      await expect(script).toHaveCount(1);
-      await expect(script).toHaveAttribute('data-repo', 'lamb-liver/lab');
-      await expect(script).toHaveAttribute('data-category', 'Announcements');
-      await expect(script).toHaveAttribute('data-mapping', 'pathname');
+      await expect(page.locator('[data-giscus-load]')).toHaveText('載入留言');
+      await expect(page.locator('script[src="https://giscus.app/client.js"]')).toHaveCount(0);
     }
 
     await page.goto('/');
