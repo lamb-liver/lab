@@ -32,7 +32,9 @@ function usage() {
     '  smoke:explore <slug> [playwright args...]',
     '  covers:explore',
     '  covers:exam',
+    '  og:works',
     '  audit:content',
+    '  audit:work-og',
     '  audit:explore-covers',
     '  audit:exam-covers',
     '  audit:explore-controls',
@@ -306,7 +308,13 @@ function main() {
     return runServer('dev', args, ['--force']);
   }
   if (command === 'preview') return runServer('preview', args);
-  if (command === 'build') return runBin('astro', ['build', ...args]);
+  if (command === 'build') {
+    runNodeScript(resolve(repoRoot, 'scripts/generate-work-og.mjs'));
+    if (process.exitCode && process.exitCode !== 0) return;
+    runBin('astro', ['build', ...args]);
+    if (process.exitCode && process.exitCode !== 0) return;
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-work-og.mjs'));
+  }
   if (command === 'astro') return runBin('astro', args);
 
   if (command === 'test') return runBin('vitest', ['run', ...args]);
@@ -340,6 +348,12 @@ function main() {
   }
   if (command === 'covers:exam') {
     return runNodeScript(resolve(repoRoot, 'scripts/generate-static-covers.mjs'), ['exam', ...args]);
+  }
+  if (command === 'og:works') {
+    return runNodeScript(resolve(repoRoot, 'scripts/generate-work-og.mjs'), args);
+  }
+  if (command === 'audit:work-og') {
+    return runNodeScript(resolve(repoRoot, 'scripts/audit-work-og.mjs'), args);
   }
   if (command === 'audit:content') {
     return runNodeScript(resolve(repoRoot, 'scripts/audit-content.mjs'), args);

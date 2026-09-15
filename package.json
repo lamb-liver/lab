@@ -38,7 +38,9 @@
     "validate:changed": "node scripts/lab.mjs validate:changed",
     "vite:deps:clean": "node scripts/lab.mjs vite:deps:clean",
     "astro": "node scripts/lab.mjs astro",
-    "validate:frontend": "bash scripts/validate-frontend.sh"
+    "validate:frontend": "bash scripts/validate-frontend.sh",
+    "og:works": "node scripts/lab.mjs og:works",
+    "audit:work-og": "node scripts/lab.mjs audit:work-og"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.5",
@@ -51,16 +53,20 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
-  },
-  "devDependencies": {
+    "remark-math": "^6.0.0",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/noto-sans-tc": "^5.2.9",
+    "satori": "^0.26.0",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
     "@playwright/test": "^1.60.0",
     "@types/p5": "^1.7.7",
-    "satori": "^0.26.0",
-    "sharp": "^0.34.5",
     "typescript": "^7.0.2",
     "vitest": "^4.1.7"
+  },
+  "allowScripts": {
+    "sharp@0.34.5": true,
+    "esbuild@0.27.7": true
   }
 }
