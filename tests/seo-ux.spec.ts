@@ -496,6 +496,28 @@ test.describe('SEO metadata and UX shell', () => {
     expect(exploreHtml).toContain('interactive-loading');
   });
 
+  test('detail pages mount giscus; lists and home do not', async ({ page }) => {
+    for (const route of ['/works/rose-curve', '/explore/fourier-series', '/exam/gsat-112-rotation-composition']) {
+      await page.goto(route);
+      const script = page.locator('.page-comments script[src="https://giscus.app/client.js"]');
+      await expect(page.locator('.page-comments')).toBeVisible();
+      await expect(script).toHaveCount(1);
+      await expect(script).toHaveAttribute('data-repo', 'lamb-liver/lab');
+      await expect(script).toHaveAttribute('data-category', 'Announcements');
+      await expect(script).toHaveAttribute('data-mapping', 'pathname');
+    }
+
+    await page.goto('/');
+    await expect(page.locator('.page-comments')).toHaveCount(0);
+    await page.goto('/works');
+    await expect(page.locator('.page-comments')).toHaveCount(0);
+  });
+
+  test('umami is omitted in local/dev without a production website id', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('script[data-website-id]')).toHaveCount(0);
+  });
+
   test('detail pages include top return links', async ({ page }) => {
     await page.goto('/works/rose-curve');
     await expect(page.locator('.back-link--top')).toHaveText('← 返回作品集');

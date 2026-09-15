@@ -1,0 +1,19 @@
+---
+import { UMAMI_DOMAINS, UMAMI_SCRIPT_URL_DEFAULT } from '../lib/siteOps';
+
+const websiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const scriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || UMAMI_SCRIPT_URL_DEFAULT;
+const enabled = import.meta.env.PROD && Boolean(websiteId);
+---
+
+{
+  enabled ? (
+    <script
+      is:inline
+      defer
+      src={scriptUrl}
+      data-website-id={websiteId}
+      data-domains={UMAMI_DOMAINS}
+    ></script>
+  ) : null
+}

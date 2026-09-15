@@ -75,7 +75,13 @@ npm run new:exam -- <slug> --year 112 --subject 學測數A --type 多選 --no 11
 
 ## 部署
 
-本專案採持續部署。對 `main` 的 pull request 由 [GitHub Actions](.github/workflows/deploy.yml) 執行 `build` 與 `e2e` checks，但不取得 Pages 寫入權限，也不執行 `deploy`。推送 `main` 或手動觸發 workflow 時，通過相同 checks 後才部署 `dist/` 到 GitHub Pages；日常內容與功能更新不建立 SemVer tag。正式網域由 [`public/CNAME`](public/CNAME) 設定。
+正式站是 [lab.lambliver.dev](https://lab.lambliver.dev/)，由 Vercel 從 `main` 建置並提供靜態 `dist/`。GitHub Actions（[`.github/workflows/ci.yml`](.github/workflows/ci.yml)）只跑 typecheck、audit、build 與 e2e，不再部署 GitHub Pages。日常更新合併到 `main` 即上線，不打 SemVer tag。
+
+## 流量與留言
+
+- **Umami**：只在 production 且設了 `PUBLIC_UMAMI_WEBSITE_ID` 時載入；`data-domains=lab.lambliver.dev` 擋 localhost 與 preview。Dashboard 在 [cloud.umami.is](https://cloud.umami.is)。變數範例見 [`.env.example`](.env.example)。
+- **giscus**：Works / Explore / Exam 詳情頁留言寫進 GitHub Discussions（Announcements）。需安裝 [giscus app](https://github.com/apps/giscus) 到本 repo。
+- **回饋轉 Issue**：規則與標題格式見 [`docs/feedback.md`](docs/feedback.md)。
 
 ## 文件
 
