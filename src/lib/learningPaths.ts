@@ -29,7 +29,7 @@ export const learningPaths: LearningPath[] = [
     slug: 'trig-to-fourier',
     title: '從三角函數到傅立葉',
     description:
-      '從單位圓上的三角函數出發，看「一條正弦波」如何疊加成任意週期訊號——高中三角起步，終點延伸到大學的傅立葉級數。',
+      '從單位圓上的三角函數出發，看「一條正弦波」如何疊加成任意週期訊號。高中三角起步，終點延伸到大學的傅立葉級數。',
     concepts: ['trig-functions', 'trig-identities', 'wave-superposition'],
     steps: [
       { collection: 'works', slug: 'unit-circle-trig-definition', note: '從單位圓定義 sin/cos，全段的幾何起點。' },
@@ -46,7 +46,7 @@ export const learningPaths: LearningPath[] = [
     slug: 'vectors-to-space',
     title: '從平面向量到空間幾何',
     description:
-      '從平面向量的基本運算出發，把內積與投影推廣到三維——外積、法向量與點面距離，收束在空間距離的學測考題。',
+      '從平面向量的基本運算出發，把內積與投影推廣到三維。外積、法向量與點面距離，收束在空間距離的學測考題。',
     concepts: ['vectors', 'dot-cross-product', 'space-vectors'],
     steps: [
       { collection: 'works', slug: 'vector-addition-scalar', note: '向量最基本的兩種運算：加法與純量乘法。' },

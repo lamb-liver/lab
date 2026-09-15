@@ -29,7 +29,6 @@ export default function WorkControlsPortal({
   return createPortal(
     <div className="curve-work-controls">
       <div className="curve-work-controls__meta">
-        <p className="curve-work-controls__title">{metadata.title}</p>
         <p className="curve-work-controls__formula">{metadata.formula}</p>
         {metaExtra}
       </div>

@@ -36,7 +36,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
   margin-top: var(--space-12);
-  max-width: 68ch;
+  max-width: 40rem;
 }
 
 .explore-detail__pager-link {

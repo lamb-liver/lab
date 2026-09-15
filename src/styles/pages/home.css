@@ -70,10 +70,10 @@
 
 .home-nav-card__desc {
   flex: 1;
-  max-width: 42ch;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--color-text-muted);
+  text-wrap: pretty;
 }
 
 .home-nav-card__cta {
@@ -134,10 +134,11 @@
 
 .home-section-desc {
   margin-top: var(--space-2);
-  max-width: 42ch;
+  max-width: 40rem;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--color-text-muted);
+  text-wrap: pretty;
 }
 
 .home-section-link {
@@ -241,10 +242,10 @@
 
 .home-topic-item__desc {
   margin-top: var(--space-2);
-  max-width: 58ch;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--color-text-muted);
+  text-wrap: pretty;
 }
 
 .home-topic-item__link {
