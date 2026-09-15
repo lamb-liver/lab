@@ -58,10 +58,10 @@ import '../styles/pages/about.css';
 
       <section class="about-section about-section--contact">
         <h2>聯絡方式</h2>
-        <ul class="about-contact-list">
-          <li>
+        <div class="about-contact">
+          <div class="about-contact__row">
             <p class="about-contact__label">Email</p>
-            <div class="about-contact__email">
+            <div class="about-contact__value">
               <a href={`mailto:${CONTACT_EMAIL}`} class="about-contact__link">
                 {CONTACT_EMAIL}
               </a>
@@ -71,49 +71,51 @@ import '../styles/pages/about.css';
                 data-copy-email={CONTACT_EMAIL}
                 aria-describedby="about-copy-status"
               >
-                複製信箱
+                複製
               </button>
               <span id="about-copy-status" class="about-contact__copy-status" aria-live="polite"
               ></span>
             </div>
-          </li>
-          <li>
-            <p class="about-contact__label">個人網站</p>
-            <a
-              href={PERSONAL_SITE_URL}
-              class="about-contact__link"
-              target="_blank"
-              rel="noopener noreferrer">{PERSONAL_SITE_HOST}</a
-            >
-          </li>
-          <li>
-            <p class="about-contact__label">GitHub</p>
-            <a
-              href={GITHUB_URL}
-              class="about-contact__link"
-              target="_blank"
-              rel="noopener noreferrer">{GITHUB_HOST_PATH}</a
-            >
-          </li>
-          <li>
-            <p class="about-contact__label">Threads</p>
-            <a
-              href={THREADS_URL}
-              class="about-contact__link"
-              target="_blank"
-              rel="noopener noreferrer">{THREADS_HANDLE}</a
-            >
-          </li>
-          <li>
-            <p class="about-contact__label">Facebook</p>
-            <a
-              href={FACEBOOK_URL}
-              class="about-contact__link"
-              target="_blank"
-              rel="noopener noreferrer">個人檔案</a
-            >
-          </li>
-        </ul>
+          </div>
+          <div class="about-contact__row">
+            <p class="about-contact__label">其它</p>
+            <ul class="about-contact__social">
+              <li>
+                <a
+                  href={PERSONAL_SITE_URL}
+                  class="about-contact__link"
+                  target="_blank"
+                  rel="noopener noreferrer">{PERSONAL_SITE_HOST}</a
+                >
+              </li>
+              <li>
+                <a
+                  href={GITHUB_URL}
+                  class="about-contact__link"
+                  target="_blank"
+                  rel="noopener noreferrer">{GITHUB_HOST_PATH}</a
+                >
+              </li>
+              <li>
+                <a
+                  href={THREADS_URL}
+                  class="about-contact__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Threads ${THREADS_HANDLE}`}>{THREADS_HANDLE}</a
+                >
+              </li>
+              <li>
+                <a
+                  href={FACEBOOK_URL}
+                  class="about-contact__link"
+                  target="_blank"
+                  rel="noopener noreferrer">Facebook</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
       </section>
     </div>
   </div>
