@@ -4,17 +4,17 @@ Site typography roles (see `src/styles/fonts.css` + `src/styles/tokens.css`):
 
 | Role | CSS token | Family | Source |
 | --- | --- | --- | --- |
-| UI / body / nav / cards | `--font-sans` | 解星／**宇文天穹** (`UoqMunThenKhung`) — Kaisei TC sibling | [MoonlitOwen/ThenKhung](https://github.com/MoonlitOwen/ThenKhung) v1.005 |
+| UI / body / nav / cards | `--font-sans` | 思源黑體 **Noto Sans TC** (`Source Han Sans TC`) | [adobe-fonts/source-han-sans](https://github.com/adobe-fonts/source-han-sans) 2.005R TC OTFs |
 | Large headings / display | `--font-display` | 源雲明體 **TW 月版** (`GenWanMin2TW`) | [ButTaiwan/genwan-font](https://github.com/ButTaiwan/genwan-font) v2.100 |
 | Concept / educational prose | `--font-concept` | 霞鶩文楷 TC | [lxgw/LxgwWenkaiTC](https://github.com/lxgw/LxgwWenkaiTC) v1.522 |
 
 Applied via `.prose` (works / explore / exam long-form), `.page-lead`, concept aggregation copy (`.concept-detail` / `.concept-index` leads & path links), and `.path-step__note`. Homepage preloads UI + display only; pages that need WenKai pass `preloadConceptFont` to `BaseLayout`.
 
-## Why 宇文天穹 instead of Google Fonts Kaisei (Opti / Decol / …)
+## Why 思源黑體 for UI
 
-Upstream 解星 (Kaisei Opti / Decol / HarunoUmi / Tokumin) is Adobe-Japan1-3 Japanese. Shared kanji cover many site glyphs, but not full Traditional Chinese (e.g. Kaisei Opti misses **值** U+503C among former Glow gaps). **宇文天穹** is the open-source Kaisei-based TC cut (inherited glyph forms + Big-5 common set), so `--font-sans` can cover site CJK without system-sans fallbacks for missing glyphs.
+Noto Sans TC / Source Han Sans TC is a neutral gothic (sans) with full Traditional Chinese coverage. It keeps UI chrome readable and less 「q」than the previous Kaisei-based 宇文天穹 cut, while display headings stay GenWanMin TW and concept/prose stay LXGW WenKai TC.
 
-Only **Regular** ships upstream; the same Regular file is registered at weights 400/500/700 to avoid browser faux-bold.
+Shipped weights: **Regular (400)**, **Medium (500)**, **Bold (700)** — subsetted from Adobe Source Han Sans TC OTFs; CSS family name is `Noto Sans TC` (Google naming; same design).
 
 ## Why GenWanMin TW（月）not TC（丹）
 
@@ -22,6 +22,6 @@ TW（月版）uses contemporary Taiwan character forms (e.g. 「者」without th
 
 ## Subsetting
 
-Shipped `.woff2` files are subsets of site-used CJK + Latin/punctuation (built with `fonttools` `pyftsubset`). Rebuild with `scripts/subset-site-fonts.py` if content adds many new characters.
+Shipped `.woff2` files are subsets of site-used CJK + Latin/punctuation (built with `fonttools` `pyftsubset`). Rebuild with `scripts/subset-site-fonts.py` if content adds many new characters. Sources live under `/tmp/lab-fonts` (see script).
 
-Licenses: UoqMunThenKhung, GenWanMin & WenKai are SIL OFL (`*/OFL.txt`).
+Licenses: Noto/Source Han Sans, GenWanMin & WenKai are SIL OFL (`*/OFL.txt`).
