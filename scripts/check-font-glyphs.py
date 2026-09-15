@@ -15,11 +15,8 @@ BLOCK_COMMENT_RE = re.compile(r'/\*.*?\*/', re.S)
 LINE_COMMENT_RE = re.compile(r'(^|[^:])//.*?$', re.M)
 HTML_COMMENT_RE = re.compile(r'<!--.*?-->', re.S)
 
-# Known upstream Glow Sans TC v0.93 cmap gaps (not introduced by subsetting).
-KNOWN_GLOW_GAPS = set('值告填清真')
-
 ROLE_FONTS = {
-    'GlowSansTC (UI)': ROOT / 'public/fonts/glow-sans-tc/GlowSansTC-Regular.woff2',
+    'UoqMunThenKhung/Kaisei (UI)': ROOT / 'public/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2',
     'GenWanMin2TW (display)': ROOT / 'public/fonts/genwanmin-tw/GenWanMin2TW-R.woff2',
     'LXGWWenKaiTC (concept)': ROOT / 'public/fonts/lxgw-wenkai-tc/LXGWWenKaiTC-Regular.woff2',
 }
@@ -99,14 +96,7 @@ def main() -> int:
             print(f'  {ch} U+{cp:04X} {unicodedata.name(ch, "?")}')
             for f, i, snip in locs.get(ch, [])[:2]:
                 print(f'    {f.relative_to(ROOT)}:{i}: {snip}')
-        if role.startswith('GlowSansTC'):
-            unexpected = [ch for ch in missing if ch not in KNOWN_GLOW_GAPS]
-            if unexpected:
-                print('UNEXPECTED Glow gaps beyond known set:', ''.join(unexpected))
-                exit_code = 1
-            elif missing:
-                print('  (known Glow Sans TC v0.93 upstream gaps; CSS system-sans fallback covers)')
-        elif missing:
+        if missing:
             exit_code = 1
     return exit_code
 

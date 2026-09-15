@@ -31,7 +31,7 @@ GLOBS = [
     'public/fonts/README.md',
 ]
 
-FORCE_CJK = '未來熒黑源雲明體霞鶩文楷月版丹版'
+FORCE_CJK = '解星宇文天穹源雲明體霞鶩文楷月版丹版'
 
 
 def strip_comments(text: str, suffix: str) -> str:
@@ -91,9 +91,7 @@ def main() -> int:
     text_file = SRC_ROOT / 'subset-chars.txt'
     text_file.write_text(build_subset_text(collect_text()), encoding='utf-8')
     jobs = [
-        (SRC_ROOT / 'glow/GlowSansTC-Normal-Regular.otf', OUT / 'glow-sans-tc/GlowSansTC-Regular.woff2'),
-        (SRC_ROOT / 'glow/GlowSansTC-Normal-Medium.otf', OUT / 'glow-sans-tc/GlowSansTC-Medium.woff2'),
-        (SRC_ROOT / 'glow/GlowSansTC-Normal-Bold.otf', OUT / 'glow-sans-tc/GlowSansTC-Bold.woff2'),
+        (SRC_ROOT / 'uoqmun/UoqMunThenKhung-Regular.ttf', OUT / 'uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2'),
         (SRC_ROOT / 'genwan/GenWanMin2TW-R.otf', OUT / 'genwanmin-tw/GenWanMin2TW-R.woff2'),
         (SRC_ROOT / 'genwan/GenWanMin2TW-M.otf', OUT / 'genwanmin-tw/GenWanMin2TW-M.woff2'),
         (SRC_ROOT / 'LXGWWenKaiTC-Regular.ttf', OUT / 'lxgw-wenkai-tc/LXGWWenKaiTC-Regular.woff2'),

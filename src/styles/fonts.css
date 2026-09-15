@@ -1,25 +1,26 @@
 /* Self-hosted TC webfonts (subset). See public/fonts/README.md */
 
-/* 未來熒黑 Glow Sans TC — UI / body / nav / cards */
+/* 解星／宇文天穹 UoqMunThenKhung (Kaisei TC) — UI / body / nav / cards
+   Single Regular cut; same file registered at 400/500/700 to avoid faux-bold. */
 @font-face {
-  font-family: 'Glow Sans TC';
-  src: url('/fonts/glow-sans-tc/GlowSansTC-Regular.woff2') format('woff2');
+  font-family: 'UoqMunThenKhung';
+  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Glow Sans TC';
-  src: url('/fonts/glow-sans-tc/GlowSansTC-Medium.woff2') format('woff2');
+  font-family: 'UoqMunThenKhung';
+  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Glow Sans TC';
-  src: url('/fonts/glow-sans-tc/GlowSansTC-Bold.woff2') format('woff2');
+  font-family: 'UoqMunThenKhung';
+  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
