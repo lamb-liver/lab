@@ -5,11 +5,11 @@ import {
   MODE_TRIANGULATION,
   catalanNumbersModule,
 } from '../../curve/modules/catalan-numbers';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useCatalanNumbersP5 } from '../curve/useCatalanNumbersP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = { controlsMountId: string };
 
@@ -21,7 +21,7 @@ const modeOptions = [
 
 export default function CatalanNumbersCurveRoot({ controlsMountId }: Props) {
   const module = catalanNumbersModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [nextNonce, setNextNonce] = useState(0);
 
   const { canvasHostRef } = useCatalanNumbersP5({

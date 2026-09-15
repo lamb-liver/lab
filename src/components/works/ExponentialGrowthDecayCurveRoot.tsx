@@ -9,6 +9,7 @@ import ParamControls from '../curve/ParamControls';
 import { useExponentialGrowthDecayP5 } from '../curve/useExponentialGrowthDecayP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = { controlsMountId: string };
 
@@ -19,7 +20,7 @@ const modeOptions = [
 
 export default function ExponentialGrowthDecayCurveRoot({ controlsMountId }: Props) {
   const module = exponentialGrowthDecayModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);

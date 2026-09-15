@@ -6,7 +6,9 @@ describe('site SEO copy consistency', () => {
     expect(siteSeo.works.title).toBe('作品集');
     expect(siteSeo.explore.title).toBe('數學主題導覽');
     expect(siteSeo.home.description).toContain('主題導覽');
+    expect(siteSeo.home.description).toContain('大學');
     expect(siteSeo.home.description).not.toContain('generative art');
+    expect(siteSeo.path.title).toBe('策展路徑');
   });
 
   it('does not label explore as a works portfolio in metadata', () => {

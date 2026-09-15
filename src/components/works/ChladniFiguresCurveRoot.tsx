@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { chladniFiguresModule } from '../../curve/modules/chladni-figures';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useChladniP5 } from '../curve/useChladniP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -13,7 +13,7 @@ type Props = {
 export default function ChladniFiguresCurveRoot({ controlsMountId }: Props) {
   const module = chladniFiguresModule;
 
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [smoothM, setSmoothM] = useState(module.defaultParams.modeM);
   const [smoothN, setSmoothN] = useState(module.defaultParams.modeN);

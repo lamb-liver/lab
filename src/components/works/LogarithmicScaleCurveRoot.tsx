@@ -5,12 +5,13 @@ import ParamControls from '../curve/ParamControls';
 import { useLogarithmicScaleP5 } from '../curve/useLogarithmicScaleP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = { controlsMountId: string };
 
 export default function LogarithmicScaleCurveRoot({ controlsMountId }: Props) {
   const module = logarithmicScaleModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);

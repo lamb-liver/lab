@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { standingWaveModule } from '../../curve/modules/standing-wave';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useStandingWaveP5 } from '../curve/useStandingWaveP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -13,7 +13,7 @@ type Props = {
 export default function StandingWaveCurveRoot({ controlsMountId }: Props) {
   const module = standingWaveModule;
 
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [smoothAmplitude, setSmoothAmplitude] = useState(module.defaultParams.amplitude);
 

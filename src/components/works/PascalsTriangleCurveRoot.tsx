@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { PASCAL_PRIMES, pascalsTriangleModule } from '../../curve/modules/pascals-triangle';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { usePascalsTriangleP5 } from '../curve/usePascalsTriangleP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -12,7 +11,7 @@ type Props = {
 
 export default function PascalsTriangleCurveRoot({ controlsMountId }: Props) {
   const module = pascalsTriangleModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
 
   const { canvasHostRef } = usePascalsTriangleP5({
     targetParams,

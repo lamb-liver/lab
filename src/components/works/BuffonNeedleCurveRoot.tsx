@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { buffonNeedleModule } from '../../curve/modules/buffon-needle';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useBuffonNeedleP5 } from '../curve/useBuffonNeedleP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = { controlsMountId: string };
 
 export default function BuffonNeedleCurveRoot({ controlsMountId }: Props) {
   const module = buffonNeedleModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [resetNonce, setResetNonce] = useState(0);
 
   const { canvasHostRef } = useBuffonNeedleP5({

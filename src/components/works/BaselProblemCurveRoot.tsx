@@ -13,6 +13,7 @@ import ParamControls from '../curve/ParamControls';
 import { useBaselProblemP5 } from '../curve/useBaselProblemP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -29,7 +30,7 @@ const modeOptions = [
 
 export default function BaselProblemCurveRoot({ controlsMountId }: Props) {
   const module = baselProblemModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [replayNonce, setReplayNonce] = useState(0);

@@ -75,6 +75,21 @@ test.describe('SEO metadata and UX shell', () => {
     expect(ogResponse.headers()['content-type']).toContain('image/png');
   });
 
+  test('work params hydrate from the query and write changes back', async ({ page }) => {
+    await page.goto('/works/rose-curve/?k=3');
+
+    const slider = page.locator('#rose-k');
+    await expect(slider).toHaveValue('3');
+
+    await slider.evaluate((el) => {
+      const input = el as HTMLInputElement;
+      input.value = '8';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    await expect.poll(() => new URL(page.url()).searchParams.get('k')).toBe('8');
+  });
+
   test('collection pages expose website OG metadata', async ({ page }) => {
     await page.goto('/works');
     await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website');
@@ -250,6 +265,44 @@ test.describe('SEO metadata and UX shell', () => {
       await page.locator('script[type="application/ld+json"]').allTextContents(),
     );
     expect(jsonLd.some((item) => item['@type'] === 'WebSite')).toBe(true);
+
+    await expect(page.getByRole('link', { name: '從三角函數到傅立葉 →' })).toHaveAttribute(
+      'href',
+      '/path/trig-to-fourier',
+    );
+    await expect(page.getByRole('link', { name: '從平面向量到空間幾何 →' })).toHaveAttribute(
+      'href',
+      '/path/vectors-to-space',
+    );
+    await expect(page.getByRole('link', { name: '概念索引 →' })).toHaveAttribute('href', '/concept');
+    await expect(page.getByRole('link', { name: '試題視覺化 →' })).toHaveAttribute('href', '/exam');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+    const homeOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+    );
+    expect(homeOverflow).toBe(false);
+  });
+
+  test('learning path index lists curated paths', async ({ page }) => {
+    await page.goto('/path');
+    await expect(page.locator('h1')).toHaveText('策展路徑');
+    await expect(page.getByRole('link', { name: /從三角函數到傅立葉/ })).toHaveAttribute(
+      'href',
+      '/path/trig-to-fourier',
+    );
+    await expect(page.getByRole('link', { name: /從平面向量到空間幾何/ })).toHaveAttribute(
+      'href',
+      '/path/vectors-to-space',
+    );
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/path');
+    const pathOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+    );
+    expect(pathOverflow).toBe(false);
   });
 
   test('explore detail exposes article OG metadata', async ({ page }) => {

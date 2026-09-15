@@ -10,6 +10,7 @@ import type { ParamValues } from '../../curve/types';
 import { useEigenvectorGeometryP5 } from '../curve/useEigenvectorGeometryP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -22,7 +23,7 @@ const MATRIX_KEYS: MatrixKey[] = ['a', 'b', 'c', 'd'];
 
 export default function EigenvectorGeometryCurveRoot({ controlsMountId }: Props) {
   const module = eigenvectorGeometryModule;
-  const [params, setParams] = useState<ParamValues>(module.defaultParams);
+  const [params, setParams] = useQuerySyncedParams(module.defaultParams);
   const [presetId, setPresetId] = useState<PresetSelection>('stretch');
   const [advanced, setAdvanced] = useState(false);
 

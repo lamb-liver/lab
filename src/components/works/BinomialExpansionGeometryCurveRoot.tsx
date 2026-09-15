@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import {
   MODE_CUBE,
   MODE_SQUARE,
   binomialExpansionGeometryModule,
 } from '../../curve/modules/binomial-expansion-geometry';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useBinomialExpansionGeometryP5 } from '../curve/useBinomialExpansionGeometryP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -21,7 +20,7 @@ const modeOptions = [
 
 export default function BinomialExpansionGeometryCurveRoot({ controlsMountId }: Props) {
   const module = binomialExpansionGeometryModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const { canvasHostRef } = useBinomialExpansionGeometryP5({
     targetParams,
   });

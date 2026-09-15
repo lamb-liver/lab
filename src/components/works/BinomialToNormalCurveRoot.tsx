@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { MODE_SIM, MODE_X, MODE_Z, binomialToNormalModule } from '../../curve/modules/binomial-to-normal';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useBinomialToNormalP5 } from '../curve/useBinomialToNormalP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = { controlsMountId: string };
 
@@ -16,7 +16,7 @@ const modeOptions = [
 
 export default function BinomialToNormalCurveRoot({ controlsMountId }: Props) {
   const module = binomialToNormalModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [runNonce, setRunNonce] = useState(0);
   const [resetNonce, setResetNonce] = useState(0);
 

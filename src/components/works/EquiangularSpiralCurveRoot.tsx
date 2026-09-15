@@ -5,6 +5,7 @@ import ParamControls from '../curve/ParamControls';
 import { useEquiangularSpiralP5 } from '../curve/useEquiangularSpiralP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -13,7 +14,7 @@ type Props = {
 export default function EquiangularSpiralCurveRoot({ controlsMountId }: Props) {
   const module = equiangularSpiralModule;
 
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealTheta, setRevealTheta] = useState(0);
   const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
 

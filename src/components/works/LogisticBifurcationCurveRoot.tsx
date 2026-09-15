@@ -11,6 +11,7 @@ import ParamControls from '../curve/ParamControls';
 import { useLogisticBifurcationP5 } from '../curve/useLogisticBifurcationP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -25,7 +26,7 @@ const modes = [
 
 export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props) {
   const module = logisticBifurcationModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [playing, setPlaying] = useState(true);
   const [replayNonce, setReplayNonce] = useState(0);
 
