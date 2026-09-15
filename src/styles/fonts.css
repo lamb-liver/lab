@@ -1,0 +1,60 @@
+/* Self-hosted TC webfonts (subset). See public/fonts/README.md */
+
+/* 未來熒黑 Glow Sans TC — UI / body / nav / cards */
+@font-face {
+  font-family: 'Glow Sans TC';
+  src: url('/fonts/glow-sans-tc/GlowSansTC-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Glow Sans TC';
+  src: url('/fonts/glow-sans-tc/GlowSansTC-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Glow Sans TC';
+  src: url('/fonts/glow-sans-tc/GlowSansTC-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 源雲明體 TW（月版）GenWanMin2TW — large headings / display */
+@font-face {
+  font-family: 'GenWanMin TW';
+  src: url('/fonts/genwanmin-tw/GenWanMin2TW-R.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GenWanMin TW';
+  src: url('/fonts/genwanmin-tw/GenWanMin2TW-M.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 霞鶩文楷 TC — concept / educational prose */
+@font-face {
+  font-family: 'LXGW WenKai TC';
+  src: url('/fonts/lxgw-wenkai-tc/LXGWWenKaiTC-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LXGW WenKai TC';
+  src: url('/fonts/lxgw-wenkai-tc/LXGWWenKaiTC-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
