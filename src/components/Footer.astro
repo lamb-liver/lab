@@ -1,6 +1,6 @@
 ---
 import '../styles/components/footer.css';
-import { PERSONAL_SITE_HOST, PERSONAL_SITE_URL } from '../lib/siteLinks';
+import { GITHUB_URL, PERSONAL_SITE_HOST, PERSONAL_SITE_URL } from '../lib/siteLinks';
 
 const year = new Date().getFullYear();
 ---
@@ -25,7 +25,7 @@ const year = new Date().getFullYear();
         {PERSONAL_SITE_HOST}
       </a>
       <a
-        href="https://github.com/lamb-liver"
+        href={GITHUB_URL}
         class="site-footer__github"
         target="_blank"
         rel="noopener noreferrer"

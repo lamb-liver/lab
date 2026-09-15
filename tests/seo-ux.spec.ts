@@ -195,6 +195,20 @@ test.describe('SEO metadata and UX shell', () => {
       'content',
       defaultOgImageUrl,
     );
+
+    const contact = page.locator('.about-contact-list');
+    await expect(contact.getByRole('link', { name: 'lambliver.dev@gmail.com' })).toHaveAttribute(
+      'href',
+      'mailto:lambliver.dev@gmail.com',
+    );
+    await expect(contact.getByRole('link', { name: '@lambliver0420' })).toHaveAttribute(
+      'href',
+      'https://www.threads.com/@lambliver0420',
+    );
+    await expect(contact.getByRole('link', { name: '個人檔案' })).toHaveAttribute(
+      'href',
+      'https://www.facebook.com/profile.php?id=61589694329153',
+    );
   });
 
   test('home page uses default spirograph OG and aligned metadata', async ({ page }) => {

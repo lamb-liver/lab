@@ -93,4 +93,4 @@ Astro 6、React 19、p5.js、TypeScript、Vitest、Playwright、KaTeX；樣式�
 
 ## 聯絡
 
-[lambliver.dev@gmail.com](mailto:lambliver.dev@gmail.com) · [lamb-liver](https://github.com/lamb-liver)
+[lambliver.dev@gmail.com](mailto:lambliver.dev@gmail.com) · [GitHub](https://github.com/lamb-liver) · [Threads](https://www.threads.com/@lambliver0420) · [Facebook](https://www.facebook.com/profile.php?id=61589694329153)

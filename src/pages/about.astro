@@ -1,10 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteSeo } from '../lib/seoCopy';
-import { PERSONAL_SITE_HOST, PERSONAL_SITE_URL } from '../lib/siteLinks';
+import {
+  CONTACT_EMAIL,
+  FACEBOOK_URL,
+  GITHUB_HOST_PATH,
+  GITHUB_URL,
+  PERSONAL_SITE_HOST,
+  PERSONAL_SITE_URL,
+  THREADS_HANDLE,
+  THREADS_URL,
+} from '../lib/siteLinks';
 import '../styles/pages/about.css';
-
-const contactEmail = 'lambliver.dev@gmail.com';
 ---
 
 <BaseLayout title={siteSeo.about.title} description={siteSeo.about.description} ogType="website">
@@ -55,13 +62,13 @@ const contactEmail = 'lambliver.dev@gmail.com';
           <li>
             <p class="about-contact__label">Email</p>
             <div class="about-contact__email">
-              <a href={`mailto:${contactEmail}`} class="about-contact__link">
-                {contactEmail}
+              <a href={`mailto:${CONTACT_EMAIL}`} class="about-contact__link">
+                {CONTACT_EMAIL}
               </a>
               <button
                 type="button"
                 class="about-contact__copy"
-                data-copy-email={contactEmail}
+                data-copy-email={CONTACT_EMAIL}
                 aria-describedby="about-copy-status"
               >
                 複製信箱
@@ -82,10 +89,28 @@ const contactEmail = 'lambliver.dev@gmail.com';
           <li>
             <p class="about-contact__label">GitHub</p>
             <a
-              href="https://github.com/lamb-liver"
+              href={GITHUB_URL}
               class="about-contact__link"
               target="_blank"
-              rel="noopener noreferrer">github.com/lamb-liver</a
+              rel="noopener noreferrer">{GITHUB_HOST_PATH}</a
+            >
+          </li>
+          <li>
+            <p class="about-contact__label">Threads</p>
+            <a
+              href={THREADS_URL}
+              class="about-contact__link"
+              target="_blank"
+              rel="noopener noreferrer">{THREADS_HANDLE}</a
+            >
+          </li>
+          <li>
+            <p class="about-contact__label">Facebook</p>
+            <a
+              href={FACEBOOK_URL}
+              class="about-contact__link"
+              target="_blank"
+              rel="noopener noreferrer">個人檔案</a
             >
           </li>
         </ul>
