@@ -10,6 +10,7 @@ import ParamControls from '../curve/ParamControls';
 import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -19,7 +20,7 @@ export default function LissajousCurveRoot({ controlsMountId }: Props) {
   const module = lissajousModule;
   const sampleStep = module.sampleStep ?? 0.003;
 
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [smoothDelta, setSmoothDelta] = useState(module.defaultParams.delta);
 

@@ -5,11 +5,11 @@ import {
   MODE_SINGLE,
   combinatorialPathCountingModule,
 } from '../../curve/modules/combinatorial-path-counting';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useCombinatorialPathCountingP5 } from '../curve/useCombinatorialPathCountingP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -23,7 +23,7 @@ const modeOptions = [
 
 export default function CombinatorialPathCountingCurveRoot({ controlsMountId }: Props) {
   const module = combinatorialPathCountingModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [rerollNonce, setRerollNonce] = useState(0);
 
   const { canvasHostRef } = useCombinatorialPathCountingP5({

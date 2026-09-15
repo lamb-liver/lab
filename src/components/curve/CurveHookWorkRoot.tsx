@@ -1,6 +1,7 @@
 import { useCallback, useState, type RefObject } from 'react';
 import type { CurveModule, ParamValues } from '../../curve/types';
 import ParamControls from './ParamControls';
+import { useQuerySyncedParams } from './useQuerySyncedParams';
 import WorkControlsPortal from './WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
@@ -26,9 +27,9 @@ export default function CurveHookWorkRoot({
   controlsMountId,
   canvasAriaLabel,
 }: Props) {
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
-  const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
+  const [smoothParams, setSmoothParams] = useState<ParamValues>(targetParams);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);
   const onSmoothParamsChange = useCallback(

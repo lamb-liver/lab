@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   MODE_CHAOS,
   MODE_COMPARE,
@@ -9,6 +8,7 @@ import type { ParamValues } from '../../curve/types';
 import { useSierpinskiTriangleP5 } from '../curve/useSierpinskiTriangleP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -16,7 +16,7 @@ type Props = {
 
 export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) {
   const module = sierpinskiTriangleModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
 
   const { canvasHostRef } = useSierpinskiTriangleP5({
     targetParams,

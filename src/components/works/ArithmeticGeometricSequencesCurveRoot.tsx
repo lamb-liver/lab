@@ -8,6 +8,7 @@ import type { ParamValues } from '../../curve/types';
 import { useArithmeticGeometricSequencesP5 } from '../curve/useArithmeticGeometricSequencesP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -26,7 +27,7 @@ type RangeFieldProps = {
 
 export default function ArithmeticGeometricSequencesCurveRoot({ controlsMountId }: Props) {
   const module = arithmeticGeometricSequencesModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
 
   const onRevealPctChange = useCallback((pct: number) => setRevealPct(pct), []);

@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { interferenceFringesModule } from '../../curve/modules/interference-fringes';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useInterferenceFringesP5 } from '../curve/useInterferenceFringesP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -13,7 +13,7 @@ type Props = {
 export default function InterferenceFringesCurveRoot({ controlsMountId }: Props) {
   const module = interferenceFringesModule;
 
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [smoothSourceDistance, setSmoothSourceDistance] = useState(
     module.defaultParams.sourceDistance,

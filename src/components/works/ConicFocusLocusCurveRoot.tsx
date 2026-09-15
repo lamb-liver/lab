@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { conicFocusLocusModule } from '../../curve/modules/conic-focus-locus';
-import type { ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useConicFocusLocusP5 } from '../curve/useConicFocusLocusP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -13,7 +13,7 @@ type Props = {
 export default function ConicFocusLocusCurveRoot({ controlsMountId }: Props) {
   const module = conicFocusLocusModule;
 
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
   const [smoothA, setSmoothA] = useState(module.defaultParams.semiMajorAxis);
   const [smoothE, setSmoothE] = useState(module.defaultParams.eccentricity);

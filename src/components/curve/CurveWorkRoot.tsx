@@ -7,6 +7,7 @@ import type { AnimationState, CurveModule, ParamKey, ParamValues } from '../../c
 import { renderFrame } from '../../systems/rendering/frame';
 import { lissajousRenderPreset } from '../../systems/rendering/presets';
 import { useSmoothParamNotifier } from './useSmoothParamNotifier';
+import { useQuerySyncedParams } from './useQuerySyncedParams';
 import ParamControls from './ParamControls';
 import { useP5CanvasHost } from './useP5CanvasHost';
 import WorkControlsPortal from './WorkControlsPortal';
@@ -32,12 +33,12 @@ export default function CurveWorkRoot({
   const renderPreset = module.renderPreset ?? lissajousRenderPreset;
   const revealResetKey = module.cacheStrategy?.paramKey;
 
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
-  const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
+  const [smoothParams, setSmoothParams] = useState<ParamValues>(targetParams);
 
-  const animRef = useRef<AnimationState>(createInitialState(module.defaultParams));
-  const targetParamsRef = useRef<ParamValues>(module.defaultParams);
+  const animRef = useRef<AnimationState>(createInitialState(targetParams));
+  const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealPctRef = useRef(-1);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
@@ -45,7 +46,7 @@ export default function CurveWorkRoot({
       setSmoothParams((prev) => ({ ...prev, ...partial }));
     },
   });
-  const lastCachedTargetRef = useRef(paramsSnapshot(module.defaultParams));
+  const lastCachedTargetRef = useRef(paramsSnapshot(targetParams));
   const cacheRef = useRef(createCurveCache(module));
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function CurveWorkRoot({
   }, [targetParams, sampleStep]);
 
   useEffect(() => {
-    cacheRef.current.rebuildForTarget(module.defaultParams, sampleStep);
+    cacheRef.current.rebuildForTarget(targetParamsRef.current, sampleStep);
     return () => cacheRef.current.clear();
   }, [module, sampleStep]);
 

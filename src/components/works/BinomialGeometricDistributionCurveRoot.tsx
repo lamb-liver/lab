@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import {
   MODE_BINOMIAL,
   MODE_GEOMETRIC,
   binomialGeometricDistributionModule,
 } from '../../curve/modules/binomial-geometric-distribution';
-import type { CurveModule, ParamValues } from '../../curve/types';
+import type { CurveModule } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useBinomialGeometricDistributionP5 } from '../curve/useBinomialGeometricDistributionP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = { controlsMountId: string };
 
@@ -19,7 +19,7 @@ const modeOptions = [
 
 export default function BinomialGeometricDistributionCurveRoot({ controlsMountId }: Props) {
   const module = binomialGeometricDistributionModule;
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const { canvasHostRef } = useBinomialGeometricDistributionP5({ targetParams });
   const mode = Math.round(targetParams.mode ?? MODE_BINOMIAL);
   const metadata = module.getMetadata(targetParams);

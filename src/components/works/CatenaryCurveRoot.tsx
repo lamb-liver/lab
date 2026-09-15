@@ -5,6 +5,7 @@ import ParamControls from '../curve/ParamControls';
 import { useCatenaryP5 } from '../curve/useCatenaryP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
+import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
@@ -13,7 +14,7 @@ type Props = {
 export default function CatenaryCurveRoot({ controlsMountId }: Props) {
   const module = catenaryModule;
 
-  const [targetParams, setTargetParams] = useState<ParamValues>(module.defaultParams);
+  const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [pullPct, setPullPct] = useState(0);
   const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
 

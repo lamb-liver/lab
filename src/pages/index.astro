@@ -12,6 +12,7 @@ import {
 } from '../content/utils';
 import { workInteractiveSlugs } from '../works/interactiveRegistry';
 import { siteSeo } from '../lib/seoCopy';
+import { learningPaths } from '../lib/learningPaths';
 import '../styles/pages/home.css';
 
 const works = await getCollection('works');
@@ -176,13 +177,18 @@ const latestExplore = excludeEntryIds(
         <div class="home-section-heading">
           <h2 class="section-title">更多入口</h2>
           <p class="home-section-desc">
-            從正式試題與概念索引繼續探索。
+            從策展路徑、概念索引或試題繼續走。
           </p>
         </div>
       </div>
       <div class="home-more-links">
-        <a href="/exam">試題視覺化 →</a>
+        {
+          learningPaths.map((path) => (
+            <a href={`/path/${path.slug}`}>{path.title} →</a>
+          ))
+        }
         <a href="/concept">概念索引 →</a>
+        <a href="/exam">試題視覺化 →</a>
       </div>
     </div>
   </section>
