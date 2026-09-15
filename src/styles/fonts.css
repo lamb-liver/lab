@@ -1,0 +1,61 @@
+/* Self-hosted TC webfonts (subset). See public/fonts/README.md */
+
+/* 解星／宇文天穹 UoqMunThenKhung (Kaisei TC) — UI / body / nav / cards
+   Single Regular cut; same file registered at 400/500/700 to avoid faux-bold. */
+@font-face {
+  font-family: 'UoqMunThenKhung';
+  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UoqMunThenKhung';
+  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UoqMunThenKhung';
+  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 源雲明體 TW（月版）GenWanMin2TW — large headings / display */
+@font-face {
+  font-family: 'GenWanMin TW';
+  src: url('/fonts/genwanmin-tw/GenWanMin2TW-R.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GenWanMin TW';
+  src: url('/fonts/genwanmin-tw/GenWanMin2TW-M.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 霞鶩文楷 TC — concept / educational prose */
+@font-face {
+  font-family: 'LXGW WenKai TC';
+  src: url('/fonts/lxgw-wenkai-tc/LXGWWenKaiTC-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LXGW WenKai TC';
+  src: url('/fonts/lxgw-wenkai-tc/LXGWWenKaiTC-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

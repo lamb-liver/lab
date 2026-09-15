@@ -1,4 +1,5 @@
 ---
+import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/scrollbar.css';
@@ -66,6 +67,20 @@ const jsonLd = [
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/lab-favicon-eb-garamond.svg" />
+    <link
+      rel="preload"
+      href="/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/genwanmin-tw/GenWanMin2TW-M.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="description" content={description} />

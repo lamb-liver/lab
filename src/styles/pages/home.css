@@ -306,6 +306,7 @@
 }
 
 .hero-content h1 {
+  font-family: var(--font-display);
   color: #ffffff;
   font-size: 4.5rem;
   font-weight: 520;

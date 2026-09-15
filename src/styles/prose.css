@@ -2,6 +2,7 @@
   max-width: 40rem;
   line-height: 1.7;
   color: var(--color-text);
+  font-family: var(--font-concept);
   text-wrap: pretty;
 }
 
@@ -16,6 +17,7 @@
 .prose h1,
 .prose h2,
 .prose h3 {
+  font-family: var(--font-display);
   line-height: 1.1;
   letter-spacing: 0;
   font-weight: 500;
