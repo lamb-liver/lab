@@ -24,7 +24,7 @@ const groupsByArea = conceptAreas
 const pagedCount = groupsByArea.reduce((n, g) => n + g.items.length, 0);
 ---
 
-<BaseLayout title={siteSeo.concept.title} description={siteSeo.concept.description} ogType="website">
+<BaseLayout title={siteSeo.concept.title} description={siteSeo.concept.description} ogType="website" preloadConceptFont>
   <div class="container concept-index">
     <div class="detail-top-nav">
       <Breadcrumb items={[{ label: '首頁', href: '/' }, { label: '概念' }]} />

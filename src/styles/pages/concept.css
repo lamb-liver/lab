@@ -1,5 +1,12 @@
 /* 概念聚合頁（/concept 索引與 /concept/[slug]）。卡片沿用 card.css、page-header 為全站樣式。 */
 
+/* Educational copy on concept pages — LXGW WenKai TC (--font-concept).
+   Cards / chips / nav stay --font-sans; large titles stay --font-display. */
+.concept-detail .page-lead,
+.concept-index .page-lead {
+  font-family: var(--font-concept);
+}
+
 /* --- /concept/[slug] 聚合頁 --- */
 .concept-section {
   margin-top: 2.5rem;
@@ -7,7 +14,9 @@
 
 .concept-section__title {
   margin: 0 0 1rem;
+  font-family: var(--font-display);
   font-size: 1.15rem;
+  font-weight: 500;
   letter-spacing: 0.02em;
 }
 
@@ -37,6 +46,7 @@
 .concept-paths__link {
   color: var(--color-text);
   text-decoration: none;
+  font-family: var(--font-concept);
   font-weight: 600;
 }
 
