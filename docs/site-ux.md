@@ -206,6 +206,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 | 列表 filter | `lib/listFilter.ts`, `components/ListSearchFilterScript.astro`, `styles/components/filter.css` |
 | 首頁 | `styles/pages/home.css` |
 | Footer | `components/Footer.astro`, `styles/components/footer.css` |
+| 詳情頁留言 | `components/Giscus.astro`, `styles/components/comments.css`；規則見 `feedback.md` |
 | 概念聚合（`/concept`） | `pages/concept/[slug].astro`、`index.astro`, `components/ConceptTags.astro`, `lib/concepts.ts`、`lib/conceptIndex.ts`、`lib/conceptCollections.ts`, `styles/pages/concept.css`；詞彙見 `docs/concept-taxonomy.md` |
 | UX 回歸測試 | `tests/seo-ux.spec.ts` |
 

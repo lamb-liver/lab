@@ -171,20 +171,20 @@ Done:
 - type: `feature`
 - project: `lab`
 - priority: `P2`
-- status: `inbox`
+- status: `done`
 - release: `社團發布前`
 
 Done:
 
 - Only published pages are tracked.
-- Pageviews are visible in Umami.
+- Pageviews are visible in Umami after `PUBLIC_UMAMI_WEBSITE_ID` is set on Vercel.
 
 ### Add giscus comments
 
 - type: `feature`
 - project: `lab`
 - priority: `P2`
-- status: `inbox`
+- status: `done`
 - release: `社團發布前`
 
 Done:
@@ -197,7 +197,7 @@ Done:
 - type: `feature`
 - project: `lab`
 - priority: `P2`
-- status: `inbox`
+- status: `done`
 - release: `社團發布前`
 
 Done:
@@ -317,13 +317,12 @@ Before publishing:
 
 After deployment:
 
-- Open the formal production URL.
+- Open the formal production URL (`https://lab.lambliver.dev/`, Vercel).
 - Open Home, Works list, Explore list, and representative detail pages.
 - Check sitemap output and canonical URLs for obvious mistakes.
-- If Umami is not connected yet, keep it marked as a P2 follow-up.
-- If giscus is not connected yet, keep it marked as a P2 follow-up.
-- If Umami is connected, confirm pageviews are recorded.
-- If giscus is connected, confirm comments can load and post in the intended GitHub Discussions area.
+- Confirm Umami records a production pageview at [cloud.umami.is](https://cloud.umami.is).
+- Confirm a detail-page giscus thread can load and post into Discussions → Announcements.
+- Convert actionable comments with [`docs/feedback.md`](feedback.md).
 
 ### 6. Rollback or correction
 

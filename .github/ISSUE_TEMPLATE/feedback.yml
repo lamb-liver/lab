@@ -1,0 +1,45 @@
+name: 回饋
+description: 把 giscus、社團或私訊回饋轉成可追蹤的 issue
+title: '[feedback] '
+labels: [feedback]
+body:
+  - type: dropdown
+    id: source
+    attributes:
+      label: 來源
+      options:
+        - giscus
+        - 社團
+        - 私訊
+        - 其他
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: 頁面
+      description: 路徑或完整 URL，例如 /works/julia-set
+      placeholder: /works/julia-set
+  - type: textarea
+    id: quote
+    attributes:
+      label: 原文
+      description: 貼上留言或私訊原文，可略作匿名。
+    validations:
+      required: true
+  - type: textarea
+    id: action
+    attributes:
+      label: 建議處理
+      description: 可留空。有明確修法或重現步驟時再寫。
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先級
+      options:
+        - P2
+        - P1
+        - P0
+      default: 0
+    validations:
+      required: true

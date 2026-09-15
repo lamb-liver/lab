@@ -5,6 +5,7 @@ import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import WorkInteractiveStage from '../../components/works/WorkInteractiveStage';
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import ConceptTags from '../../components/ConceptTags.astro';
+import Giscus from '../../components/Giscus.astro';
 import { getCollection, render } from 'astro:content';
 import {
   getCollectionPagerNeighbors,
@@ -189,6 +190,8 @@ const structuredData = [
         )
       }
     </nav>
+
+    <Giscus />
 
     <a href="/works" class="back-link">← 返回作品集</a>
   </div>

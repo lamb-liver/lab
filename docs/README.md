@@ -9,6 +9,7 @@
 | [`AGENTS.md`](AGENTS.md) | AI 入口：權威順序、架構入口、編輯原則 |
 | [`architecture.md`](architecture.md) | 系統地圖：data flow、ownership、registry |
 | [`editing-rules.md`](editing-rules.md) | 編輯與驗收規則 |
+| [`feedback.md`](feedback.md) | giscus 留言、何時轉 Issue、標題與優先級 |
 | [`frontend-validation.md`](frontend-validation.md) | 前端驗證流程：build / test / DOM，僅在需要視覺證據時 screenshot |
 | [`math-content-review-checklist.md`](math-content-review-checklist.md) | 維護期數學內容審查：定義、例外條件、公式、教學語氣 |
 | [`project-retrospective.md`](project-retrospective.md) | Git 全歷史回顧：優化、彎路、誤判、待修正與未來工作流程 |

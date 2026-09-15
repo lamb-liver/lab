@@ -195,6 +195,35 @@ test.describe('SEO metadata and UX shell', () => {
       'content',
       defaultOgImageUrl,
     );
+
+    const contact = page.locator('.about-section--contact');
+    await expect(contact.getByRole('link', { name: 'lambliver.dev@gmail.com' })).toHaveAttribute(
+      'href',
+      'mailto:lambliver.dev@gmail.com',
+    );
+    await expect(contact.getByRole('link', { name: 'lambliver.dev', exact: true })).toHaveAttribute(
+      'href',
+      'https://lambliver.dev/',
+    );
+    await expect(contact.getByRole('link', { name: 'github.com/lamb-liver' })).toHaveAttribute(
+      'href',
+      'https://github.com/lamb-liver',
+    );
+    await expect(contact.getByRole('link', { name: 'Threads @lambliver0420' })).toHaveAttribute(
+      'href',
+      'https://www.threads.com/@lambliver0420',
+    );
+    await expect(contact.getByRole('link', { name: 'Facebook' })).toHaveAttribute(
+      'href',
+      'https://www.facebook.com/profile.php?id=61589694329153',
+    );
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/about');
+    const hasHorizontalOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+    );
+    expect(hasHorizontalOverflow).toBe(false);
   });
 
   test('home page uses default spirograph OG and aligned metadata', async ({ page }) => {
@@ -494,6 +523,25 @@ test.describe('SEO metadata and UX shell', () => {
 
     const exploreHtml = await (await request.get('/explore/conic-dynamic-geometry')).text();
     expect(exploreHtml).toContain('interactive-loading');
+  });
+
+  test('detail pages offer giscus; lists and home do not', async ({ page }) => {
+    for (const route of ['/works/rose-curve', '/explore/fourier-series', '/exam/gsat-112-rotation-composition']) {
+      await page.goto(route);
+      await expect(page.locator('.page-comments')).toBeVisible();
+      await expect(page.locator('[data-giscus-load]')).toHaveText('載入留言');
+      await expect(page.locator('script[src="https://giscus.app/client.js"]')).toHaveCount(0);
+    }
+
+    await page.goto('/');
+    await expect(page.locator('.page-comments')).toHaveCount(0);
+    await page.goto('/works');
+    await expect(page.locator('.page-comments')).toHaveCount(0);
+  });
+
+  test('umami is omitted in local/dev without a production website id', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('script[data-website-id]')).toHaveCount(0);
   });
 
   test('detail pages include top return links', async ({ page }) => {
