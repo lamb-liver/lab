@@ -7,3 +7,8 @@ export const GISCUS = {
   category: 'Announcements',
   categoryId: 'DIC_kwDOSnhjXc4DFqsH',
 } as const;
+
+/** Canonical discussion term: always trailing slash, never duplicate slashes. */
+export function giscusDiscussionTerm(pathname: string): string {
+  return `${pathname.replace(/\/+$/, '')}/`;
+}

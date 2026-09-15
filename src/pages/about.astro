@@ -4,7 +4,6 @@ import { siteSeo } from '../lib/seoCopy';
 import {
   CONTACT_EMAIL,
   FACEBOOK_URL,
-  GITHUB_HOST_PATH,
   GITHUB_URL,
   PERSONAL_SITE_HOST,
   PERSONAL_SITE_URL,
@@ -22,37 +21,11 @@ import '../styles/pages/about.css';
       </header>
 
       <section class="about-section">
-        <h2>簡介</h2>
         <p>
-          數學系背景，現為前端與 Android 工程師。此站是實驗場地，以程式呈現數學形狀與演算法圖形。
+          數學系背景，現為前端與 Android 工程師。此站用程式把數學形狀與演算法做成可調的互動實驗。
         </p>
-      </section>
-
-      <section class="about-section">
-        <h2>做這個的原因</h2>
         <p>
-          以視覺化協助理解抽象數學，並作為整理與展示作品的空間。
-        </p>
-      </section>
-
-      <section class="about-section">
-        <h2>正在做什麼</h2>
-        <p>
-          目前重心放在把單一數學對象拆成可操作的互動作品：先穩定公式、參數與圖形生成，再補上可閱讀的說明文字。
-        </p>
-      </section>
-
-      <section class="about-section">
-        <h2>接下來的主題</h2>
-        <p>
-          會持續整理曲線、線性代數、複數、機率與微積分相關的主題，讓作品集與主題式視覺化能互相連結。
-        </p>
-      </section>
-
-      <section class="about-section">
-        <h2>站點方向</h2>
-        <p>
-          這裡不是完整課程，而是可反覆調整的實驗筆記。每個頁面都盡量保留公式、互動與觀察重點，方便回頭比較不同概念的形狀。
+          作品集深挖一個對象；主題導覽串起同一概念的幾種讀法；試題視覺化對準高三考題會卡住的步驟。這裡不是完整課程，而是方便回頭比較形狀的實驗筆記。
         </p>
       </section>
 
@@ -93,7 +66,7 @@ import '../styles/pages/about.css';
                   href={GITHUB_URL}
                   class="about-contact__link"
                   target="_blank"
-                  rel="noopener noreferrer">{GITHUB_HOST_PATH}</a
+                  rel="noopener noreferrer">GitHub</a
                 >
               </li>
               <li>
@@ -102,7 +75,7 @@ import '../styles/pages/about.css';
                   class="about-contact__link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Threads ${THREADS_HANDLE}`}>{THREADS_HANDLE}</a
+                  aria-label={`Threads ${THREADS_HANDLE}`}>Threads</a
                 >
               </li>
               <li>

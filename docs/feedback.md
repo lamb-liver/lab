@@ -4,7 +4,7 @@
 
 ## 留言在哪
 
-Works、Explore、Exam 詳情頁底部有 giscus。對應 GitHub Discussions 的 **Announcements**（giscus 建議：只有維護者能開新討論串，避免每則留言變成獨立討論）。
+Works、Explore、Exam 詳情頁底部有 giscus，點「載入留言」後才連第三方。Discussion 的 term 一律用帶結尾斜線的 pathname（`/works/foo/`），避免 `/works/foo` 與 `/works/foo/` 拆成兩串。對應 GitHub Discussions 的 **Announcements**。
 
 安裝 [giscus GitHub App](https://github.com/apps/giscus) 到 `lamb-liver/lab` 後才能真正送出留言。
 
