@@ -16,7 +16,7 @@ LINE_COMMENT_RE = re.compile(r'(^|[^:])//.*?$', re.M)
 HTML_COMMENT_RE = re.compile(r'<!--.*?-->', re.S)
 
 ROLE_FONTS = {
-    'UoqMunThenKhung/Kaisei (UI)': ROOT / 'public/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2',
+    'Noto Sans TC (UI)': ROOT / 'public/fonts/noto-sans-tc/NotoSansTC-Regular.woff2',
     'GenWanMin2TW (display)': ROOT / 'public/fonts/genwanmin-tw/GenWanMin2TW-R.woff2',
     'LXGWWenKaiTC (concept)': ROOT / 'public/fonts/lxgw-wenkai-tc/LXGWWenKaiTC-Regular.woff2',
 }

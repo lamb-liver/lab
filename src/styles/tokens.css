@@ -11,9 +11,9 @@
   --color-accent-rgb: 212, 184, 122;
   --color-canvas: #0a0a0a;
 
-  /* UI / body / nav / cards — 解星／宇文天穹 (Kaisei TC sibling) */
-  --font-sans: 'UoqMunThenKhung', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+  /* UI / body / nav / cards — 思源黑體 Noto Sans TC / Source Han Sans TC */
+  --font-sans: 'Noto Sans TC', 'Source Han Sans TC', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
   /* Large headings / display — GenWanMin TW（月版）, Taiwan-appropriate forms */
   --font-display: 'GenWanMin TW', 'Songti TC', 'Noto Serif TC', serif;
   /* Concept / educational prose — LXGW WenKai TC */

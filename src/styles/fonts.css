@@ -1,26 +1,25 @@
 /* Self-hosted TC webfonts (subset). See public/fonts/README.md */
 
-/* 解星／宇文天穹 UoqMunThenKhung (Kaisei TC) — UI / body / nav / cards
-   Single Regular cut; same file registered at 400/500/700 to avoid faux-bold. */
+/* 思源黑體 Noto Sans TC / Source Han Sans TC — UI / body / nav / cards */
 @font-face {
-  font-family: 'UoqMunThenKhung';
-  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
+  font-family: 'Noto Sans TC';
+  src: url('/fonts/noto-sans-tc/NotoSansTC-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'UoqMunThenKhung';
-  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
+  font-family: 'Noto Sans TC';
+  src: url('/fonts/noto-sans-tc/NotoSansTC-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'UoqMunThenKhung';
-  src: url('/fonts/uoqmun-thenkhung/UoqMunThenKhung-Regular.woff2') format('woff2');
+  font-family: 'Noto Sans TC';
+  src: url('/fonts/noto-sans-tc/NotoSansTC-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
