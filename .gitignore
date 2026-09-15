@@ -36,3 +36,8 @@ pnpm-debug.log*
 schedule.md
 *.local
 content-update-inventory.local.md
+
+# Generated work OG images (npm run build / og:works)
+public/og/works/*.png
+!public/og/works/.gitkeep
+public/og/works/.generated

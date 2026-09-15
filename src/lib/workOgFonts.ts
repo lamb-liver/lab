@@ -10,6 +10,12 @@ const monoPath = require.resolve(
   '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff',
 );
 
+/** Copy file bytes into a detached ArrayBuffer (never reuse Buffer.buffer pools). */
+function readFontArrayBuffer(path: string): ArrayBuffer {
+  const bytes = readFileSync(path);
+  return Uint8Array.from(bytes).buffer;
+}
+
 let cachedFonts: Array<{ name: string; data: ArrayBuffer; weight: 400; style: 'normal' }> | null =
   null;
 
@@ -24,13 +30,13 @@ export function getWorkOgFonts(): Array<{
   cachedFonts = [
     {
       name: 'Noto Sans TC',
-      data: readFileSync(sansPath).buffer as ArrayBuffer,
+      data: readFontArrayBuffer(sansPath),
       weight: 400,
       style: 'normal',
     },
     {
       name: 'JetBrains Mono',
-      data: readFileSync(monoPath).buffer as ArrayBuffer,
+      data: readFontArrayBuffer(monoPath),
       weight: 400,
       style: 'normal',
     },
