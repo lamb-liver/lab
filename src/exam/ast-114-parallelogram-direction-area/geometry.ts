@@ -26,6 +26,16 @@ export function sub2(u: Vec2, v: Vec2): Vec2 {
 
 export type SideScales = { alpha: number; beta: number; mode: 'sum' | 'diff' };
 
+export type SolutionKey = { mode: SideScales['mode']; sign: 1 | -1 };
+
+/** 四組離散解（mode × sign）；連續拖曳無法同時維持全部約束。 */
+export const ALL_SOLUTIONS: readonly SolutionKey[] = [
+  { mode: 'sum', sign: 1 },
+  { mode: 'sum', sign: -1 },
+  { mode: 'diff', sign: 1 },
+  { mode: 'diff', sign: -1 },
+] as const;
+
 /**
  * 2·PQ = ±(α DIR_PARALLEL ± β DIR_PERP).
  * 四組解的 |αβ| 皆為 12，面積 = |αβ|·|DIR_PARALLEL × DIR_PERP| = 204。
@@ -68,6 +78,42 @@ export function verticesFromCenter(q: Point2, scales: SideScales): Point2[] {
   const b = sub2(p, v);
   const opposite = sub2(q, halfDiag);
   return [p, a, opposite, b];
+}
+
+/** 與 P 相鄰的兩頂點（可拖來切換四組解）。 */
+export function adjacentVertices(q: Point2, scales: SideScales): Point2[] {
+  const verts = verticesFromCenter(q, scales);
+  return [verts[1], verts[3]];
+}
+
+/**
+ * Snap 目標：P 與兩相鄰頂點。含 P 才能區分同形的 PQ 同向／反向。
+ */
+export function solutionSnapTargets(q: Point2, scales: SideScales): Point2[] {
+  const verts = verticesFromCenter(q, scales);
+  return [verts[0], verts[1], verts[3]];
+}
+
+/**
+ * 依世界座標點，選出 snap 目標最近的一組 (mode, sign) 解。
+ * PQ 固定 + 方向鎖死後只有四組解，故拖曳只能 snap，不能連續變形。
+ */
+export function nearestSolution(point: Point2, q: Point2 = { x: 0, y: 0 }): SolutionKey {
+  let best: SolutionKey = ALL_SOLUTIONS[0];
+  let bestDist = Number.POSITIVE_INFINITY;
+  for (const key of ALL_SOLUTIONS) {
+    const scales = solveSideScales(key.mode, key.sign);
+    for (const vertex of solutionSnapTargets(q, scales)) {
+      const dx = vertex.x - point.x;
+      const dy = vertex.y - point.y;
+      const dist = dx * dx + dy * dy;
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = key;
+      }
+    }
+  }
+  return best;
 }
 
 export const OFFICIAL_AREA = 204;
