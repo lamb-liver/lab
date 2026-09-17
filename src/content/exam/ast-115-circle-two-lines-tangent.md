@@ -1,7 +1,6 @@
 ---
 title: 圓心在 x 軸、兩垂線距離比與切線斜率
 description: 115 分科數甲選填10：圓心在x軸、兩垂線距離比定圓，再求原點切線斜率。
-coverImage: /images/exam-covers/ast-115-circle-two-lines-tangent.png
 subject: 分科數甲
 year: 115
 questionType: 選填
