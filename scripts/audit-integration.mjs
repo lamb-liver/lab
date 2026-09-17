@@ -208,7 +208,6 @@ function checkWorkSurfaces(issues) {
 
   const sharedCoverRoutes = [
     'src/pages/thumbs/works/[slug].svg.ts',
-    'src/pages/og/works/[slug].png.ts',
     'src/lib/curveThumbnail.registry.test.ts',
     'src/lib/workOgImage.test.ts',
   ];
@@ -217,6 +216,26 @@ function checkWorkSurfaces(issues) {
     if (!existsSync(file)) {
       issues.push({ area: 'works', file, message: 'missing shared work cover/thumbnail surface' });
     }
+  }
+
+  // OG moved to prebuilt public/og/works/*.png (see audit-work-og / generate-work-og).
+  const workOgPipeline = [
+    'scripts/audit-work-og.mjs',
+    'scripts/generate-work-og.mjs',
+  ];
+  for (const relativePath of workOgPipeline) {
+    const file = resolve(repoRoot, relativePath);
+    if (!existsSync(file)) {
+      issues.push({ area: 'works', file, message: 'missing work OG pipeline script' });
+    }
+  }
+  const publicOgWorksDir = resolve(repoRoot, 'public/og/works');
+  if (!existsSync(publicOgWorksDir)) {
+    issues.push({
+      area: 'works',
+      file: publicOgWorksDir,
+      message: 'missing public/og/works directory for prebuilt work OG PNGs',
+    });
   }
 }
 
