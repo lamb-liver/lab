@@ -17,6 +17,13 @@ const rootBySlug = {
   ),
   'ast-113-geometric-distribution': lazy(() => import('./GeometricDistributionExamRoot')),
   'ast-114-solid-of-revolution': lazy(() => import('./SolidOfRevolutionExamRoot')),
+  'ast-114-plane-parallel-line-distance': lazy(
+    () => import('./PlaneParallelLineDistanceExamRoot'),
+  ),
+  'ast-114-parallelogram-direction-area': lazy(
+    () => import('./ParallelogramDirectionAreaExamRoot'),
+  ),
+  'ast-115-circle-two-lines-tangent': lazy(() => import('./CircleTwoLinesTangentExamRoot')),
   'gsat-112-rotation-composition': lazy(() => import('./RotationCompositionExamRoot')),
   'gsat-112-sinusoid-superposition': lazy(() => import('./SinusoidSuperpositionExamRoot')),
   'gsat-112-skew-line-distance': lazy(() => import('./SkewLineDistanceExamRoot')),
