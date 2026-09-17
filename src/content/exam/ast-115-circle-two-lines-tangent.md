@@ -21,9 +21,10 @@ relatedWorks:
   - vector-projection
   - parabolic-reflection
 date: 2026-09-17
-order: 0
+order: 12
+coverImage: /images/exam-covers/ast-115-circle-two-lines-tangent.png
 featured: false
-draft: true
+draft: false
 ---
 
 ## 題意

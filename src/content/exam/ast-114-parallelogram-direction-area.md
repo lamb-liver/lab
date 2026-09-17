@@ -21,9 +21,10 @@ relatedWorks:
   - cross-product-geometry
   - vector-addition-scalar
 date: 2026-09-17
-order: 0
+order: 14
+coverImage: /images/exam-covers/ast-114-parallelogram-direction-area.png
 featured: false
-draft: true
+draft: false
 ---
 
 ## 題意

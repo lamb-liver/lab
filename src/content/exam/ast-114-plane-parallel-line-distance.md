@@ -22,9 +22,10 @@ relatedWorks:
   - plane-normal-distance
   - cross-product-geometry
 date: 2026-09-17
-order: 0
+order: 13
+coverImage: /images/exam-covers/ast-114-plane-parallel-line-distance.png
 featured: false
-draft: true
+draft: false
 ---
 
 ## 題意
