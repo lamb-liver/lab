@@ -1,4 +1,4 @@
-name: One-shot commit exam cover PNGs
+name: oneshot-covers
 
 on:
   workflow_dispatch:
@@ -6,57 +6,26 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: oneshot-exam-covers
-  cancel-in-progress: false
-
 jobs:
   commit-covers:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout feature branch
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           ref: feat/ast-115-114-math-jia-exams
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node
-        uses: actions/setup-node@v7
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Generate exam cover PNGs
-        run: npm run covers:exam
-
-      - name: Commit and push cover PNGs + cleanup probes
+      - run: npm ci
+      - run: npm run covers:exam
+      - name: Commit PNGs and cleanup
         run: |
-          set -euo pipefail
-          git config user.name "羊肝"
+          git config user.name "yang-gan"
           git config user.email "147922854+lamb-liver@users.noreply.github.com"
-          git rm -f --ignore-unmatch \
-            public/images/exam-covers/_probe-tiny.png \
-            public/images/exam-covers/_probe-ascii.txt \
-            public/images/exam-covers/_probe-bytes.bin \
-            public/images/exam-covers/_probe-push.png \
-            public/images/exam-covers/_probe-sig.png \
-            .github/workflows/oneshot-exam-covers.yml || true
-          git add \
-            public/images/exam-covers/ast-115-circle-two-lines-tangent.png \
-            public/images/exam-covers/ast-114-plane-parallel-line-distance.png \
-            public/images/exam-covers/ast-114-parallelogram-direction-area.png
-          if git diff --cached --quiet; then
-            echo "Nothing to commit"
-            exit 0
-          fi
-          git commit -m "$(cat <<'EOF'
-feat(exam): add AST-115/114 cover PNGs for share preview
-
-Generated from scripts/exam-covers SVGs via covers:exam; remove MCP probe leftovers.
-EOF
-)"
+          git rm -f --ignore-unmatch public/images/exam-covers/_probe-tiny.png public/images/exam-covers/_probe-ascii.txt public/images/exam-covers/_probe-bytes.bin public/images/exam-covers/_probe-push.png public/images/exam-covers/_probe-sig.png .github/workflows/oneshot-exam-covers.yml || true
+          git add public/images/exam-covers/ast-115-circle-two-lines-tangent.png public/images/exam-covers/ast-114-plane-parallel-line-distance.png public/images/exam-covers/ast-114-parallelogram-direction-area.png
+          git diff --cached --quiet && echo nothing && exit 0
+          git commit -m "feat(exam): add AST-115/114 cover PNGs for share preview"
           git push origin HEAD:feat/ast-115-114-math-jia-exams
