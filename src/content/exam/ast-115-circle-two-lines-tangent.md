@@ -14,7 +14,6 @@ concepts:
   - conic-sections
   - vectors
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0Q194554571830884494/01-115%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf
-analysisUrl:
 relatedExplore:
   - conic-dynamic-geometry
   - vectors
@@ -60,7 +59,7 @@ $$
 代入 $d_1=3d_2$ 得 $r=|a|/2$。再求過原點的切線 $y=mx$：圓心到該直線距離等於半徑，
 
 $$
-\frac{|a|}{\sqrt{m^2+1}}=\frac{|a|}{2}\implies |m|=\frac{1}{\sqrt3}=\frac{\sqrt3}{3}.
+\frac{|a m|}{\sqrt{m^2+1}}=\frac{|a|}{2}\implies |m|=\frac{\sqrt3}{3}.
 $$
 
 因此斜率為 $\pm\sqrt3/3$（選填寫成 $\pm$、$\sqrt3$、$3$）。
