@@ -1,16 +1,19 @@
 import type p5 from 'p5';
 import {
+  ALL_SOLUTIONS,
   DIR_PARALLEL,
   DIR_PERP,
   PQ,
+  adjacentVertices,
   sideVectors,
   solveSideScales,
   verticesFromCenter,
   type SideScales,
+  type SolutionKey,
 } from '../../exam/ast-114-parallelogram-direction-area/geometry';
 import { withDash, type PlotRectLike } from './p5PlotHelpers';
 
-type Plot = PlotRectLike & {
+export type ParallelogramExamPlot = PlotRectLike & {
   xMin: number;
   xMax: number;
   yMin: number;
@@ -29,17 +32,41 @@ const BLUE = [93, 173, 226] as const;
 const PURPLE = [198, 166, 235] as const;
 const WHITE = [232, 232, 232] as const;
 
-function sx(x: number, plot: Plot): number {
+export function parallelogramExamPlot(width: number, height: number): ParallelogramExamPlot {
+  return {
+    x: 42,
+    y: 28,
+    w: width - 76,
+    h: height - 66,
+    xMin: -24,
+    xMax: 24,
+    yMin: -18,
+    yMax: 18,
+  };
+}
+
+export function sx(x: number, plot: ParallelogramExamPlot): number {
   return plot.x + ((x - plot.xMin) / (plot.xMax - plot.xMin)) * plot.w;
 }
 
-function sy(y: number, plot: Plot): number {
+export function sy(y: number, plot: ParallelogramExamPlot): number {
   return plot.y + plot.h - ((y - plot.yMin) / (plot.yMax - plot.yMin)) * plot.h;
+}
+
+export function worldFromScreen(
+  screenX: number,
+  screenY: number,
+  plot: ParallelogramExamPlot,
+): { x: number; y: number } {
+  return {
+    x: plot.xMin + ((screenX - plot.x) / plot.w) * (plot.xMax - plot.xMin),
+    y: plot.yMax - ((screenY - plot.y) / plot.h) * (plot.yMax - plot.yMin),
+  };
 }
 
 function drawRailFamily(
   p: p5,
-  plot: Plot,
+  plot: ParallelogramExamPlot,
   direction: { x: number; y: number },
   color: readonly [number, number, number],
 ): void {
@@ -61,20 +88,16 @@ function drawRailFamily(
   });
 }
 
+function sameSolution(a: SolutionKey, b: SolutionKey): boolean {
+  return a.mode === b.mode && a.sign === b.sign;
+}
+
 export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): void {
   p.background(10, 10, 10);
   p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
 
-  const plot: Plot = {
-    x: 42,
-    y: 28,
-    w: snap.width - 76,
-    h: snap.height - 66,
-    xMin: -24,
-    xMax: 24,
-    yMin: -18,
-    yMax: 18,
-  };
+  const plot = parallelogramExamPlot(snap.width, snap.height);
+  const active: SolutionKey = { mode: snap.mode, sign: snap.sign };
 
   p.noFill();
   p.stroke(...WHITE, 18);
@@ -85,6 +108,17 @@ export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): vo
 
   drawRailFamily(p, plot, DIR_PARALLEL, BLUE);
   drawRailFamily(p, plot, DIR_PERP, PURPLE);
+
+  // Ghost adjacent handles for the other three solutions (drag targets).
+  for (const key of ALL_SOLUTIONS) {
+    if (sameSolution(key, active)) continue;
+    const ghostScales = solveSideScales(key.mode, key.sign);
+    for (const vertex of adjacentVertices({ x: 0, y: 0 }, ghostScales)) {
+      p.noStroke();
+      p.fill(...WHITE, 55);
+      p.circle(sx(vertex.x, plot), sy(vertex.y, plot), 9);
+    }
+  }
 
   const scales = solveSideScales(snap.mode, snap.sign);
   const verts = verticesFromCenter({ x: 0, y: 0 }, scales);
@@ -113,6 +147,16 @@ export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): vo
   p.circle(pScreen.x, pScreen.y, 8);
   p.fill(...WHITE, 230);
   p.circle(origin.x, origin.y, 7);
+
+  // Active adjacent vertices as drag handles.
+  for (const vertex of adjacentVertices({ x: 0, y: 0 }, scales)) {
+    p.stroke(...GOLD, 220);
+    p.strokeWeight(2);
+    p.fill(10, 10, 10, 220);
+    p.circle(sx(vertex.x, plot), sy(vertex.y, plot), 12);
+  }
+
+  p.noStroke();
   p.textSize(11);
   p.fill(...GOLD, 230);
   p.text('P', pScreen.x + 8, pScreen.y - 8);
@@ -123,4 +167,6 @@ export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): vo
   p.text(`PQ=(${PQ.x},${PQ.y})`, plot.x + 10, plot.y + 16);
   p.text('∥ 5x−y=0', plot.x + 10, plot.y + 32);
   p.text('⊥ 3x−2y=0', plot.x + 10, plot.y + 48);
+  p.fill(...WHITE, 90);
+  p.text('拖相鄰頂點 → 四組解', plot.x + 10, plot.y + plot.h - 10);
 }
