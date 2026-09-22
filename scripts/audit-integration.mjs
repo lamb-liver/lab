@@ -208,6 +208,7 @@ function checkWorkSurfaces(issues) {
 
   const sharedCoverRoutes = [
     'src/pages/thumbs/works/[slug].svg.ts',
+    'src/lib/workOgImage.ts',
     'src/lib/curveThumbnail.registry.test.ts',
     'src/lib/workOgImage.test.ts',
   ];

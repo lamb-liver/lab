@@ -21,6 +21,7 @@ export const exploreInteractiveSlugs = [
   'space-vectors-planes-lines',
   'linear-programming',
   'iteration-dynamics',
+  'complex-powers-roots',
 ] as const;
 
 export type ExploreInteractiveSlug = (typeof exploreInteractiveSlugs)[number];

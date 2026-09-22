@@ -76,6 +76,8 @@ const rootBySlug = {
   'lp-feasible-half-planes': lazy(() => import('./LpFeasibleHalfPlanesCurveRoot')),
   'lp-objective-level-curves': lazy(() => import('./LpObjectiveLevelCurvesCurveRoot')),
   'lp-vertex-optimum': lazy(() => import('./LpVertexOptimumCurveRoot')),
+  'gradient-level-curves': lazy(() => import('./GradientLevelCurvesCurveRoot')),
+  'demoivre-nth-roots': lazy(() => import('./DemoivreNthRootsCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.
