@@ -51,17 +51,15 @@ export default function ParallelogramDirectionAreaExamRoot() {
     if (next.sign !== signRef.current) setSign(next.sign);
   }, []);
 
-  const draw = useCallback(
-    (p: p5) => {
-      renderParallelogramDirectionAreaExamScene(p, {
-        width: p.width,
-        height: p.height,
-        mode,
-        sign,
-      });
-    },
-    [mode, sign],
-  );
+  // sketch 只建立一次；draw 讀 ref，按鈕切換只走 redrawKey，避免拆掉 p5 閃一下
+  const draw = useCallback((p: p5) => {
+    renderParallelogramDirectionAreaExamScene(p, {
+      width: p.width,
+      height: p.height,
+      mode: modeRef.current,
+      sign: signRef.current,
+    });
+  }, []);
 
   const extendSketch = useMemo<ExtendSketch>(() => {
     return (p, host) => {
@@ -91,7 +89,7 @@ export default function ParallelogramDirectionAreaExamRoot() {
     };
   }, [snapToNearest]);
 
-  const canvasHostRef = useRectP5CanvasHost(draw, [draw, extendSketch], measureCanvas, extendSketch, {
+  const canvasHostRef = useRectP5CanvasHost(draw, [], measureCanvas, extendSketch, {
     loop: false,
     redrawKey: `${mode}|${sign}`,
   });
