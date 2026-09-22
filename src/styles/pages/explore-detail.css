@@ -12,7 +12,8 @@
 .explore-detail .sequences-series-explore,
 .explore-detail .permutations-combinations-explore,
 .explore-detail .iteration-explore,
-.explore-detail .vectors-explore {
+.explore-detail .vectors-explore,
+.explore-detail .complex-powers-roots-explore {
   margin-bottom: var(--space-8);
 }
 

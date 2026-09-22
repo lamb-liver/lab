@@ -69,6 +69,8 @@ export const workInteractiveSlugs = [
   'lp-feasible-half-planes',
   'lp-objective-level-curves',
   'lp-vertex-optimum',
+  'gradient-level-curves',
+  'demoivre-nth-roots',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];

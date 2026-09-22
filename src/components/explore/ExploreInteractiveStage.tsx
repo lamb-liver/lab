@@ -27,6 +27,7 @@ const rootBySlug = {
   'space-vectors-planes-lines': lazy(() => import('./SpaceVectorsPlanesLinesExploreRoot')),
   'linear-programming': lazy(() => import('./LinearProgrammingExploreRoot')),
   'iteration-dynamics': lazy(() => import('./IterationDynamicsExploreRoot')),
+  'complex-powers-roots': lazy(() => import('./ComplexPowersRootsExploreRoot')),
 } satisfies Record<ExploreInteractiveSlug, ComponentType>;
 
 export const exploreStageRootSlugs = Object.keys(rootBySlug).sort() as ExploreInteractiveSlug[];

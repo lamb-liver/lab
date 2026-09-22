@@ -68,6 +68,8 @@ import { planeNormalDistanceModule } from './modules/plane-normal-distance';
 import { lpFeasibleHalfPlanesModule } from './modules/lp-feasible-half-planes';
 import { lpObjectiveLevelCurvesModule } from './modules/lp-objective-level-curves';
 import { lpVertexOptimumModule } from './modules/lp-vertex-optimum';
+import { gradientLevelCurvesModule } from './modules/gradient-level-curves';
+import { demoivreNthRootsModule } from './modules/demoivre-nth-roots';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -140,4 +142,6 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'lp-feasible-half-planes': lpFeasibleHalfPlanesModule,
   'lp-objective-level-curves': lpObjectiveLevelCurvesModule,
   'lp-vertex-optimum': lpVertexOptimumModule,
+  'gradient-level-curves': gradientLevelCurvesModule,
+  'demoivre-nth-roots': demoivreNthRootsModule,
 };

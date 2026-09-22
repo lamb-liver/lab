@@ -1,5 +1,17 @@
 ---
-description: "Local AI-assisted code review workflow (Cursor). Not canonical runtime spec — see docs/art.md / docs/p5toreact.md."
+description: "Local AI-assisted code review workflow. Not canonical runtime spec — see docs/art.md / docs/p5toreact.md."
+globs:
+  - src/content/**
+  - src/curve/**
+  - src/explore/**
+  - src/exam/**
+  - src/components/works/**
+  - src/components/explore/**
+  - src/components/exam/**
+  - src/components/curve/**
+  - src/systems/rendering/**
+  - src/works/**
+  - src/curve/registry.ts
 alwaysApply: false
 ---
 
@@ -84,7 +96,7 @@ alwaysApply: false
 ## 輸出（預設）
 
 1. 問題清單（CRITICAL → MAJOR → MINOR）
-2. 優先修復 3～5 項
+2. 同一則直接修：CRITICAL／MAJOR 與錯誤數學敘述一律改；一行能解的 MINOR 也改。不要問使用者要不要修。
 3. 可合併判定：無 CRITICAL；MAJOR 已修或接受；build 通過
 
 大 PR 可加十維度評分表；小改可省略。

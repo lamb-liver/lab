@@ -63,6 +63,8 @@ Exam synchronization lists live in [`architecture.md`](architecture.md). Use the
 
 ## Validation Strategy
 
+After adding or editing Works, Explore, or Exam, run the automatic post-change review in `.grok/rules/post-change-review.md` before finishing. Do not wait to be asked. Fix findings in the same turn; do not ask whether to patch.
+
 Use the narrowest reliable validation first:
 
 - Any `src/**/*.ts(x)` change: `npm run typecheck` (the full `tsc --noEmit` gate is expected to stay at zero errors).

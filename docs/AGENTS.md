@@ -56,6 +56,8 @@ For frontend changes, use `frontend-validation.md` as the default gate:
 - Add `--screenshot` only when visual evidence is needed.
 - If DOM is verified by a browser tool instead of the script, report the route and checked elements/interactions.
 
+After adding or editing Works, Explore, or Exam (content, modules, roots, registries, renderers), run the post-change review before finishing the turn. Do not wait to be asked. Fix review findings in the same turn; do not ask whether to patch. Canonical steps: `.grok/rules/post-change-review.md`. Criteria: `.cursor/rules/code-review.mdc` and `math-content-review-checklist.md`.
+
 ## Boundaries
 
 - Works use `CurveModule` + work registries + `WorkInteractiveStage`.

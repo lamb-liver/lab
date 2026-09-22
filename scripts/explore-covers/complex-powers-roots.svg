@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+
+  <!--
+    1 的三次方根：單位圓上三等分。圓心 (800,500)、半徑 280。
+    1 → (1080,500)；ω (120°) → (660, 257.5)；ω² (240°) → (660, 742.5)。
+    與《複數與尤拉公式》封面（單向量 + 掃弧）分開：這裡是三支等長箭頭。
+  -->
+
+  <line x1="430" y1="500" x2="1170" y2="500" stroke="#D8D8D8" stroke-width="4" opacity="0.22" stroke-linecap="round"/>
+  <line x1="800" y1="170" x2="800" y2="830" stroke="#D8D8D8" stroke-width="4" opacity="0.22" stroke-linecap="round"/>
+
+  <circle cx="800" cy="500" r="280" fill="none" stroke="#D8D8D8" stroke-width="4" opacity="0.34" stroke-dasharray="16 14"/>
+
+  <line x1="800" y1="500" x2="1080" y2="500" stroke="#D4B87A" stroke-width="9" opacity="0.96" stroke-linecap="round" filter="url(#goldGlow)"/>
+  <polygon points="1102,500 1066,482 1066,518" fill="#D4B87A" opacity="0.96"/>
+
+  <line x1="800" y1="500" x2="660" y2="257.5" stroke="#D4B87A" stroke-width="9" opacity="0.96" stroke-linecap="round" filter="url(#goldGlow)"/>
+  <polygon points="644,230 681,262 651,275" fill="#D4B87A" opacity="0.96"/>
+
+  <line x1="800" y1="500" x2="660" y2="742.5" stroke="#D4B87A" stroke-width="9" opacity="0.96" stroke-linecap="round" filter="url(#goldGlow)"/>
+  <polygon points="644,770 651,725 681,738" fill="#D4B87A" opacity="0.96"/>
+
+  <circle cx="1080" cy="500" r="14" fill="#D4B87A" opacity="0.96" filter="url(#softGlow)"/>
+  <circle cx="660" cy="257.5" r="14" fill="#D4B87A" opacity="0.96" filter="url(#softGlow)"/>
+  <circle cx="660" cy="742.5" r="14" fill="#D4B87A" opacity="0.96" filter="url(#softGlow)"/>
+  <circle cx="800" cy="500" r="9" fill="#D8D8D8" opacity="0.55"/>
+</svg>
