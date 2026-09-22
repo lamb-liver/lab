@@ -106,8 +106,13 @@ export function useRectP5CanvasHost(
         if (disposed) return;
         if (!isP5RendererReady(instance)) return;
         const { width, height } = measureRef.current(host);
+        const density = Math.min(window.devicePixelRatio || 1, 2);
+        // 寫入相同的 canvas.width 也會清空位圖；側欄改字觸發 RO 時就會閃一幀
+        if (instance.width === width && instance.height === height && instance.pixelDensity() === density) {
+          return;
+        }
         instance.resizeCanvas(width, height);
-        instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
+        instance.pixelDensity(density);
         if (!shouldLoopRef.current) instance.redraw();
         else if (autoStoppedRef.current) instance.redraw();
         else instance.loop();

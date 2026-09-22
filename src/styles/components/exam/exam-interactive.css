@@ -16,6 +16,10 @@
   color: rgb(212, 184, 122);
 }
 
+.exam-interactive-explore__canvas canvas {
+  touch-action: none;
+}
+
 .exam-interactive-explore__visual-title {
   color: rgba(232, 232, 232, 0.65);
 }

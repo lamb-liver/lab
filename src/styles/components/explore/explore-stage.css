@@ -38,6 +38,7 @@
   max-width: 100%;
   width: auto !important;
   height: auto !important;
+  touch-action: none;
 }
 
 [class$='-explore__sidebar'] {
