@@ -14,9 +14,14 @@ type RectP5Options = {
 
 export type ExtendSketch = (p: p5, host: HTMLElement) => void;
 
+/**
+ * p5 instance 跟 React 元件同壽命。draw / extendSketch / measure 走 ref，
+ * 參數變化用 redrawKey（noLoop）或 restartOn（loop），不要靠第二個參數拆掉重建——
+ * 那會讓按鈕切換閃空白畫布。
+ */
 export function useRectP5CanvasHost(
   draw: (p: p5) => DrawResult,
-  deps: unknown[],
+  _deps: unknown[],
   measureRect: MeasureRect,
   extendSketch?: ExtendSketch,
   options: RectP5Options = {},
@@ -27,7 +32,9 @@ export function useRectP5CanvasHost(
   const measureRef = useRef(measureRect);
   const extendSketchRef = useRef(extendSketch);
   const autoStoppedRef = useRef(false);
+  const shouldLoopRef = useRef(options.loop ?? true);
   const shouldLoop = options.loop ?? true;
+  shouldLoopRef.current = shouldLoop;
 
   useEffect(() => {
     drawRef.current = draw;
@@ -39,6 +46,10 @@ export function useRectP5CanvasHost(
 
   useEffect(() => {
     extendSketchRef.current = extendSketch;
+    const instance = instanceRef.current;
+    const host = canvasHostRef.current;
+    if (!instance || !host || !extendSketch || !isP5RendererReady(instance)) return;
+    extendSketch(instance, host);
   }, [extendSketch]);
 
   useEffect(() => {
@@ -69,20 +80,21 @@ export function useRectP5CanvasHost(
           const { width, height } = measureRef.current(host);
           p.createCanvas(width, height);
           p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-          if (!shouldLoop) {
+          if (!shouldLoopRef.current) {
             p.noLoop();
             p.redraw();
           }
         };
 
         p.draw = () => {
+          const looping = shouldLoopRef.current;
           const result = drawRef.current(p);
-          if (shouldLoop && result?.keepLooping === false) {
+          if (looping && result?.keepLooping === false) {
             autoStoppedRef.current = true;
             p.noLoop();
             return;
           }
-          if (shouldLoop) autoStoppedRef.current = false;
+          if (looping) autoStoppedRef.current = false;
         };
         extendSketchRef.current?.(p, host);
       };
@@ -96,7 +108,7 @@ export function useRectP5CanvasHost(
         const { width, height } = measureRef.current(host);
         instance.resizeCanvas(width, height);
         instance.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
-        if (!shouldLoop) instance.redraw();
+        if (!shouldLoopRef.current) instance.redraw();
         else if (autoStoppedRef.current) instance.redraw();
         else instance.loop();
       });
@@ -116,8 +128,7 @@ export function useRectP5CanvasHost(
       disposed = true;
       cleanup?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- caller controls sketch deps
-  }, deps);
+  }, []);
 
   return canvasHostRef;
 }

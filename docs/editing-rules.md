@@ -17,7 +17,7 @@ Before changing rendering code, identify which layer owns the behavior:
 | Layer | Files | Rule |
 |-------|-------|------|
 | Geometry | `src/curve/modules/*`, `src/explore/*` | Keep p5 and React out of pure geometry modules. |
-| Runtime lifecycle | `src/components/curve/*`, `src/components/works/*`, `src/components/explore/*` | Preserve p5 mount/unmount and ref synchronization contracts. |
+| Runtime lifecycle | `src/components/curve/*`, `src/components/works/*`, `src/components/explore/*` | Preserve p5 mount/unmount and ref synchronization contracts. `useRectP5CanvasHost` mounts the sketch once; param/button changes go through `redrawKey` or `restartOn`, never by putting a changing `draw` in boot deps. |
 | Renderer | `src/systems/rendering/*` | Render snapshots only; do not read React state. |
 | Thumbnail | `src/lib/curveThumbnail.ts`, `src/curve/registry.ts` | Preserve build-time SVG generation and multi-path support. |
 
