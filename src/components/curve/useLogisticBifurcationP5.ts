@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { LOGISTIC_REVEAL_SPEED } from '../../curve/modules/logistic-bifurcation';
+import { advanceReveal } from '../../lib/reducedMotion';
 import type { ParamValues } from '../../curve/types';
 import { renderLogisticBifurcationScene } from '../../systems/rendering/logisticBifurcationRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
@@ -46,7 +47,7 @@ export function useLogisticBifurcationP5({
     }
 
     if (playingRef.current) {
-      revealRef.current = Math.min(1, revealRef.current + LOGISTIC_REVEAL_SPEED);
+      revealRef.current = advanceReveal(revealRef.current, LOGISTIC_REVEAL_SPEED);
     }
 
     renderLogisticBifurcationScene(p, {

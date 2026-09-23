@@ -1,3 +1,4 @@
+import { advanceReveal } from '../../../lib/reducedMotion';
 import type { ParamValues } from '../../types';
 
 export const REVEAL_SPEED = 0.004;
@@ -54,11 +55,8 @@ export function stepRiemannSumAnimation(
   time += nextTarget.timeSpeed;
 
   if (!isComplete) {
-    activeDomain += revealSpeed;
-    if (activeDomain >= 1) {
-      activeDomain = 1;
-      isComplete = true;
-    }
+    activeDomain = advanceReveal(activeDomain, revealSpeed);
+    if (activeDomain >= 1) isComplete = true;
   }
 
   return {

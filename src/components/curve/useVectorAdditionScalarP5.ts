@@ -103,10 +103,10 @@ export function useVectorAdditionScalarP5({
 
     p.mousePressed = () => {
       activeDragRef.current = nearestDragTarget();
-      if (activeDragRef.current) {
-        p.cursor('grabbing');
-        updateDrag();
-      }
+      if (!activeDragRef.current) return true;
+      p.cursor('grabbing');
+      updateDrag();
+      return false;
     };
 
     p.mouseDragged = () => {

@@ -14,6 +14,7 @@ import {
 } from '../../curve/modules/quadratic-completing-square/geometry';
 import { renderQuadraticCompletingSquareScene } from '../../systems/rendering/quadraticCompletingSquareRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   params: QuadraticCompletingSquareParams;
@@ -83,7 +84,9 @@ export function useQuadraticCompletingSquareP5({ params, onParamsChange }: Optio
         p.mouseX,
         p.mouseY,
       );
-      if (draggingVertexRef.current) updateVertexDrag();
+      if (!draggingVertexRef.current) return true;
+      updateVertexDrag();
+      return false;
     };
 
     p.mouseDragged = () => {
@@ -100,20 +103,7 @@ export function useQuadraticCompletingSquareP5({ params, onParamsChange }: Optio
       draggingVertexRef.current = false;
     };
 
-    p.touchStarted = () => {
-      p.mousePressed();
-      return false;
-    };
-
-    p.touchMoved = () => {
-      p.mouseDragged();
-      return false;
-    };
-
-    p.touchEnded = () => {
-      p.mouseReleased();
-      return false;
-    };
+    wireTouchToMouse(p);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

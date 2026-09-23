@@ -6,6 +6,7 @@ import ExploreInteractiveStage from '../../components/explore/ExploreInteractive
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import ConceptTags from '../../components/ConceptTags.astro';
 import Giscus from '../../components/Giscus.astro';
+import FitKatexDisplay from '../../components/FitKatexDisplay.astro';
 import { getCollection, render } from 'astro:content';
 import {
   getCollectionPagerNeighbors,
@@ -112,7 +113,7 @@ const structuredData = [
         <ExploreInteractiveStage client:only="react" slug={entry.id}>
           <div
             slot="fallback"
-            class="interactive-loading interactive-loading--explore"
+            class={`interactive-loading interactive-loading--explore${entry.id === 'fourier-series' ? ' interactive-loading--square' : ''}`}
             role="status"
             aria-live="polite"
             aria-label="互動內容載入中"
@@ -169,6 +170,7 @@ const structuredData = [
     </nav>
 
     <Giscus />
+    <FitKatexDisplay />
 
     <a href="/explore" class="back-link">← 返回主題導覽</a>
   </div>

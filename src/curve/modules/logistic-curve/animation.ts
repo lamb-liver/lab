@@ -7,7 +7,7 @@ import {
   paramsSettled,
 } from './geometry';
 import type { ParamValues } from '../../types';
-import { REVEAL_RESET_TIMEOUT_MS } from '../animationTiming';
+import { advanceReveal, REVEAL_RESET_TIMEOUT_MS } from '../animationTiming';
 
 export type LogisticCurveAnimState = {
   smooth: LogisticParams;
@@ -79,7 +79,7 @@ export function stepLogisticCurveAnimation(
     }
   }
 
-  reveal = Math.min(1, reveal + (deltaMs / 1000) * LOGISTIC_CURVE_REVEAL_SPEED);
+  reveal = advanceReveal(reveal, (deltaMs / 1000) * LOGISTIC_CURVE_REVEAL_SPEED);
 
   return {
     smooth,

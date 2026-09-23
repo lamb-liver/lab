@@ -6,6 +6,7 @@ import WorkInteractiveStage from '../../components/works/WorkInteractiveStage';
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import ConceptTags from '../../components/ConceptTags.astro';
 import Giscus from '../../components/Giscus.astro';
+import FitKatexDisplay from '../../components/FitKatexDisplay.astro';
 import { getCollection, render } from 'astro:content';
 import {
   getCollectionPagerNeighbors,
@@ -193,6 +194,7 @@ const structuredData = [
     </nav>
 
     <Giscus />
+    <FitKatexDisplay />
 
     <a href="/works" class="back-link">← 返回作品集</a>
   </div>
@@ -212,7 +214,7 @@ const structuredData = [
           details.open = true;
           details.dataset.workControlsUserToggled = '';
         } else if (!details.dataset.workControlsUserToggled) {
-          details.open = false;
+          details.open = true;
         }
         syncing = false;
       }

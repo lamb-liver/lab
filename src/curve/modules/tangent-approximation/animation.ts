@@ -1,3 +1,4 @@
+import { advanceReveal } from '../../../lib/reducedMotion';
 import type { ParamValues } from '../../types';
 import type { CanvasPoint } from './geometry';
 import {
@@ -81,11 +82,8 @@ export function stepTangentApproximationAnimation(
   time += nextTarget.timeSpeed;
 
   if (!isComplete) {
-    collapseProgress += collapseSpeed;
-    if (collapseProgress >= 1) {
-      collapseProgress = 1;
-      isComplete = true;
-    }
+    collapseProgress = advanceReveal(collapseProgress, collapseSpeed);
+    if (collapseProgress >= 1) isComplete = true;
   }
 
   const targetDx = lerpToward(

@@ -11,6 +11,7 @@ import {
   renderTaylorPolynomialApproximationScene,
 } from '../../systems/rendering/taylorPolynomialApproximationRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   preset: TaylorPreset;
@@ -113,9 +114,7 @@ export function useTaylorPolynomialApproximationP5({
       return wasDragging ? false : true;
     };
 
-    p.touchStarted = () => p.mousePressed();
-    p.touchMoved = () => p.mouseDragged();
-    p.touchEnded = () => p.mouseReleased();
+    wireTouchToMouse(p);
     p.mouseWheel = () => !isTaylorPointerInPlot(p.width, p.mouseX, p.mouseY);
   }, []);
 

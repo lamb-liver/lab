@@ -62,7 +62,7 @@ export function useLpVertexOptimumP5({ params, onParamsChange }: Options) {
 
     p.mousePressed = () => {
       const index = hitCandidate();
-      if (index === null) return;
+      if (index === null) return true;
       // 再點一次同一個頂點就取消走訪，回到整表一起看
       onParamsChangeRef.current({
         visiting: paramsRef.current.visiting === index ? -1 : index,

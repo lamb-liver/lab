@@ -11,6 +11,7 @@ import {
   xFromFunctionDerivativePointer,
 } from '../../systems/rendering/functionDerivativeGraphRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   preset: FunctionDerivativePreset;
@@ -113,9 +114,7 @@ export function useFunctionDerivativeGraphP5({
       return wasDragging ? false : true;
     };
 
-    p.touchStarted = () => p.mousePressed();
-    p.touchMoved = () => p.mouseDragged();
-    p.touchEnded = () => p.mouseReleased();
+    wireTouchToMouse(p);
     p.mouseWheel = () => !isFunctionDerivativePointerInPlot(p.width, p.mouseX, p.mouseY);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(

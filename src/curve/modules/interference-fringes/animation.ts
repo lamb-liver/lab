@@ -1,5 +1,5 @@
 import type { ParamValues } from '../../types';
-import { frameScale, shouldCommitPendingReset } from '../animationTiming';
+import { advanceReveal, frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.0024;
 export const SOURCE_DISTANCE_LERP = 0.08;
@@ -81,11 +81,8 @@ export function stepInterferenceFringesAnimation(
   }
 
   if (!isComplete) {
-    revealProgress += revealSpeed * scale;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed * scale);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   return {

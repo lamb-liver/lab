@@ -8,6 +8,7 @@ import {
   normalizeN,
 } from '../../curve/modules/catalan-numbers/geometry';
 import type { ParamValues } from '../../curve/types';
+import { prefersReducedMotion } from '../../lib/reducedMotion';
 import { renderCatalanNumbersScene } from '../../systems/rendering/catalanNumbersRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
 
@@ -56,10 +57,16 @@ export function useCatalanNumbersP5({
       revealRef.current = 0;
     }
 
-    revealRef.current += 0.035;
     const objects = cacheRef.current.objects;
-    if (revealRef.current > ((mode === 'triangulation' ? (objects[cacheRef.current.active] as number[][])?.length : (objects[cacheRef.current.active] as string)?.length) ?? 1) + 0.7) {
-      revealRef.current = 0;
+    const objectLength =
+      (mode === 'triangulation'
+        ? (objects[cacheRef.current.active] as number[][])?.length
+        : (objects[cacheRef.current.active] as string)?.length) ?? 1;
+    if (prefersReducedMotion()) {
+      revealRef.current = objectLength;
+    } else {
+      revealRef.current += 0.035;
+      if (revealRef.current > objectLength + 0.7) revealRef.current = 0;
     }
 
     renderCatalanNumbersScene(p, {

@@ -1,3 +1,4 @@
+import { advanceReveal } from '../../../lib/reducedMotion';
 import type { AnimationState, ParamValues } from '../../types';
 
 export const MORPH_LERP = 0.08;
@@ -30,11 +31,8 @@ export function stepSpirographAnimation(
   params = { R: targetParams.R, r: targetParams.r, d };
 
   if (!isComplete) {
-    revealProgress += revealSpeed;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   return { params, targetParams, revealProgress, isComplete };

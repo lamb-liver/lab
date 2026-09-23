@@ -9,6 +9,7 @@ import {
   rotationScaleCompositionModule,
 } from '../curve/modules/rotation-scale-composition';
 import { renderRotationScaleCompositionScene } from '../systems/rendering/rotationScaleCompositionRender';
+import { prefersReducedMotion } from '../lib/reducedMotion';
 import { useRectP5CanvasHost } from './curve/useRectP5CanvasHost';
 
 const MIN_HERO_CANVAS_SIZE = 320;
@@ -24,7 +25,7 @@ function subscribeReducedMotion(onStoreChange: () => void) {
 }
 
 function getReducedMotionSnapshot() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return prefersReducedMotion();
 }
 
 function usePrefersReducedMotion() {

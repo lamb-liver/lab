@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { FIBONACCI_REVEAL_SPEED } from '../../curve/modules/fibonacci-spiral';
+import { lerpReveal } from '../../lib/reducedMotion';
 import type { ParamValues } from '../../curve/types';
 import { renderFibonacciSpiralScene } from '../../systems/rendering/fibonacciSpiralRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
@@ -40,7 +41,7 @@ export function useFibonacciSpiralP5({
       revealRef.current = 0;
     }
 
-    revealRef.current += (1 - revealRef.current) * FIBONACCI_REVEAL_SPEED;
+    revealRef.current = lerpReveal(revealRef.current, FIBONACCI_REVEAL_SPEED);
     if (1 - revealRef.current <= FIBONACCI_REVEAL_COMPLETE_EPSILON) {
       revealRef.current = 1;
     }

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { modeFromValue } from '../../curve/modules/conditional-probability-bayes/geometry';
+import { advanceReveal } from '../../lib/reducedMotion';
 import type { ParamValues } from '../../curve/types';
 import { renderConditionalProbabilityBayesScene } from '../../systems/rendering/conditionalProbabilityBayesRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
@@ -27,7 +28,7 @@ export function useConditionalProbabilityBayesP5({
       lastKeyRef.current = key;
       revealRef.current = 0;
     }
-    revealRef.current = Math.min(1, revealRef.current + 0.025);
+    revealRef.current = advanceReveal(revealRef.current, 0.025);
     renderConditionalProbabilityBayesScene(p, {
       width: p.width,
       height: p.height,

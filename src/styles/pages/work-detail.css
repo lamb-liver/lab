@@ -299,6 +299,7 @@
   .work-detail__canvas {
     grid-column: 1;
     grid-row: 1;
+    min-height: 0;
   }
 
   .work-detail__canvas-scroll-hint {
@@ -311,15 +312,27 @@
     grid-row: 3;
   }
 
-  /* 畫布不攔截垂直滑動；Works 互動靠右側／下方控件，不需 canvas 手勢 */
+  /* 純側欄頁從畫布捲頁；有拖／轉的 sketch 會加 --gestures 並設 none */
   .work-detail__canvas,
   .work-detail__canvas .curve-work-canvas-host,
   .work-detail__canvas canvas {
     touch-action: pan-y;
   }
 
-  .work-detail__canvas .curve-work-canvas-host {
-    min-height: min(42vh, 420px);
+  .work-detail__canvas .curve-work-canvas-host--gestures,
+  .work-detail__canvas .curve-work-canvas-host--gestures canvas {
+    touch-action: none;
+  }
+
+  /* 首屏要看到參數：方形畫布上限 42vh，不要再吃滿 60vh */
+  .work-detail__canvas .interactive-loading,
+  .work-detail__canvas .curve-work-canvas-host,
+  .work-detail__canvas .curve-work-canvas-host.work-canvas {
+    width: min(100%, 42vh, 420px);
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1;
   }
 
   .work-detail__canvas-scroll-hint {

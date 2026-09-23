@@ -37,6 +37,20 @@ export function canvasHeightForWidth(
   return Math.round(height);
 }
 
+const WAVE_MODES: readonly WaveMode[] = ['guide', 'superposition', 'beat'];
+
+/** Max height across modes so switching tabs does not resizeCanvas. */
+export function stableCanvasHeightForWidth(
+  width: number,
+  options?: { vhCapPx?: number },
+): number {
+  let height = 0;
+  for (const mode of WAVE_MODES) {
+    height = Math.max(height, canvasHeightForWidth(mode, width, options));
+  }
+  return height;
+}
+
 export function vhCapPx(): number {
   if (typeof window === 'undefined') return CANVAS_HEIGHT_MAX;
   return Math.floor(window.innerHeight * CANVAS_VH_CAP_RATIO);

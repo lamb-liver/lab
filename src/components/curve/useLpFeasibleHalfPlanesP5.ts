@@ -92,7 +92,7 @@ export function useLpFeasibleHalfPlanesP5({ params, onParamsChange }: Options) {
     p.mousePressed = () => {
       const index = nearestAdjustable();
       draggingRef.current = index;
-      if (index === null) return;
+      if (index === null) return true;
       p.cursor('grabbing');
       // 抓住哪一條就選中哪一條，側欄滑桿跟著切過去
       onParamsChangeRef.current({ selected: index });

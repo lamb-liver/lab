@@ -9,6 +9,7 @@ import {
 } from '../../curve/modules/radian-arc-length/geometry';
 import { renderRadianArcLengthScene } from '../../systems/rendering/radianArcLengthRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   params: RadianArcLengthParams;
@@ -56,10 +57,11 @@ export function useRadianArcLengthP5({ params, onThetaChange }: Options) {
     };
 
     p.mousePressed = () => {
-      if (!pickThetaDrag(p.mouseX, p.mouseY, currentCircle())) return;
+      if (!pickThetaDrag(p.mouseX, p.mouseY, currentCircle())) return true;
       draggingRef.current = true;
       p.cursor('grabbing');
       updateDrag();
+      return false;
     };
 
     p.mouseDragged = updateDrag;
@@ -70,23 +72,7 @@ export function useRadianArcLengthP5({ params, onThetaChange }: Options) {
       p.redraw();
     };
 
-    p.touchStarted = () => {
-      if (!pickThetaDrag(p.mouseX, p.mouseY, currentCircle())) return true;
-      draggingRef.current = true;
-      updateDrag();
-      return false;
-    };
-
-    p.touchMoved = () => {
-      updateDrag();
-      return !draggingRef.current;
-    };
-
-    p.touchEnded = () => {
-      draggingRef.current = false;
-      p.redraw();
-      return false;
-    };
+    wireTouchToMouse(p);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

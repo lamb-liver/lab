@@ -77,10 +77,11 @@ export function useDemoivreNthRootsP5({ params, onParamsChange }: Options) {
     };
     p.mousePressed = () => {
       dragRef.current = hitPoint();
-      if (!dragRef.current) return;
+      if (!dragRef.current) return true;
       dragLayoutRadiusRef.current = computeDemoivreMetrics(paramsRef.current).viewportRadius;
       p.cursor('grabbing');
       updateDrag();
+      return false;
     };
     p.mouseDragged = () => {
       updateDrag();

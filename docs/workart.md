@@ -123,7 +123,7 @@ Guide 只提供空間感，不是主體。
 - 舞台：`.work-detail__stage`，canvas 左、`.controls-panel--stage` 右（React portal）。
 - 桌面 `>=1024px`：右欄 `sticky`；手機：canvas 上、控制下（均在 prose 之前）。
 - **互動優先**：compact header（`.work-detail__header`：`h1` + tags）在舞台**上方**；prose 在舞台下方。詳情頂部 breadcrumb + 返回分工見 [`site-ux.md`](site-ux.md) §3–§4。
-- 手機 `<1024px`：控制區包在 `<details.work-detail__controls>`，summary「調整參數」，預設收合；portal 目標 `<aside>` 收合時仍在 DOM，參數來自 React state 非 input 初值。
+- 手機 `<1024px`：控制區包在 `<details.work-detail__controls>`，summary「調整參數」，**預設展開**；畫布正方形上限 `min(100%, 42vh, 420px)`。portal 目標 `<aside>` 收合時仍在 DOM，參數來自 React state 非 input 初值。有畫布拖／轉的頁 canvas `touch-action: none`；其餘維持 `pan-y`。
 - 控件：`ParamControls` + `StatsPanel`（需要時 `DeltaPhaseControl`、自訂 range 或 `curve-work-mode-toggle`）；標準 `ParamControls` 是 native range，由 `getMetadata` 驅動公式與 stats。
 - **分組小標**（`.controls-panel__section-label`）：僅用於自訂 `*CurveRoot` 且面板有 **≥2 語意群組** 時；標準 `CurveWorkRoot` **不加**「參數」小標。見 [`site-ux.md`](site-ux.md) §4.4。
 - Canvas 內不放大段說明文字、公式清單或狀態面板；這些交給右側 React controls / Markdown。

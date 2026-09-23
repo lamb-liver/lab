@@ -15,6 +15,7 @@ import {
 } from '../../curve/modules/inverse-function-reflection/geometry';
 import { renderInverseFunctionReflectionScene } from '../../systems/rendering/inverseFunctionReflectionRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   params: InverseFunctionReflectionParams;
@@ -88,7 +89,9 @@ export function useInverseFunctionReflectionP5({ params, onParamsChange }: Optio
         p.mouseX,
         p.mouseY,
       );
-      if (draggingPointRef.current) updatePointDrag();
+      if (!draggingPointRef.current) return true;
+      updatePointDrag();
+      return false;
     };
 
     p.mouseDragged = () => {
@@ -102,20 +105,7 @@ export function useInverseFunctionReflectionP5({ params, onParamsChange }: Optio
       draggingPointRef.current = false;
     };
 
-    p.touchStarted = () => {
-      p.mousePressed();
-      return false;
-    };
-
-    p.touchMoved = () => {
-      p.mouseDragged();
-      return false;
-    };
-
-    p.touchEnded = () => {
-      p.mouseReleased();
-      return false;
-    };
+    wireTouchToMouse(p);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

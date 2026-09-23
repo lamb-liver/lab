@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { BASEL_REVEAL_LERP } from '../../curve/modules/basel-problem';
+import { lerpReveal } from '../../lib/reducedMotion';
 import type { ParamValues } from '../../curve/types';
 import { renderBaselProblemScene } from '../../systems/rendering/baselProblemRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
@@ -50,7 +51,7 @@ export function useBaselProblemP5({
     }
 
     if (playingRef.current) {
-      revealRef.current += (1 - revealRef.current) * BASEL_REVEAL_LERP;
+      revealRef.current = lerpReveal(revealRef.current, BASEL_REVEAL_LERP);
     }
 
     const pct = Math.min(100, Math.floor(revealRef.current * 100));

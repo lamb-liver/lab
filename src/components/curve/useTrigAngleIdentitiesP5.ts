@@ -101,9 +101,10 @@ export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
         smoothRef.current.alpha,
         smoothRef.current.beta,
       );
-      if (!activeDragRef.current) return;
+      if (!activeDragRef.current) return true;
       p.cursor('grabbing');
       updateDrag();
+      return false;
     };
 
     p.mouseDragged = () => {

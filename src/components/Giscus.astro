@@ -13,14 +13,10 @@ import '../styles/components/comments.css';
 <script>
   import { GISCUS, giscusDiscussionTerm } from '../lib/siteOps';
 
-  document.querySelector('[data-giscus-load]')?.addEventListener('click', (event) => {
-    const host = document.querySelector('[data-giscus-host]');
-    const button = event.currentTarget;
-    if (!(host instanceof HTMLElement) || !(button instanceof HTMLElement) || host.dataset.loaded) {
-      return;
-    }
+  function loadGiscus(host: HTMLElement) {
+    if (host.dataset.loaded) return;
     host.dataset.loaded = 'true';
-    button.remove();
+    host.querySelector('[data-giscus-load]')?.remove();
     const script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
     script.async = true;
@@ -39,5 +35,23 @@ import '../styles/components/comments.css';
     script.setAttribute('data-lang', 'zh-TW');
     script.setAttribute('data-loading', 'lazy');
     host.appendChild(script);
-  });
+  }
+
+  const host = document.querySelector('[data-giscus-host]');
+  if (host instanceof HTMLElement) {
+    const load = () => loadGiscus(host);
+    host.querySelector('[data-giscus-load]')?.addEventListener('click', load);
+    const section = document.querySelector('.page-comments');
+    if (section && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          io.disconnect();
+          load();
+        },
+        { rootMargin: '240px' },
+      );
+      io.observe(section);
+    }
+  }
 </script>

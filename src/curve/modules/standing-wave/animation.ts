@@ -1,5 +1,5 @@
 import type { ParamValues } from '../../types';
-import { frameScale } from '../animationTiming';
+import { advanceReveal, frameScale } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.0024;
 export const AMPLITUDE_LERP = 0.08;
@@ -50,11 +50,8 @@ export function stepStandingWaveAnimation(
   time += nextTarget.timeSpeed * scale;
 
   if (!isComplete) {
-    revealProgress += revealSpeed * scale;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed * scale);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   return {

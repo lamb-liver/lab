@@ -96,10 +96,11 @@ export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options
         p.height,
         smoothRef.current.theta,
       );
-      if (!hit) return;
+      if (!hit) return true;
       draggingRef.current = true;
       p.cursor('grabbing');
       updateDrag();
+      return false;
     };
 
     p.mouseDragged = () => {

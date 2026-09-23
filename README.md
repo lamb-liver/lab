@@ -79,8 +79,8 @@ npm run new:exam -- <slug> --year 112 --subject 學測數A --type 多選 --no 11
 
 ## 流量與留言
 
-- **Umami**：只在 production 且設了 `PUBLIC_UMAMI_WEBSITE_ID` 時載入；`data-domains=lab.lambliver.dev` 擋 localhost 與 preview。Dashboard 在 [cloud.umami.is](https://cloud.umami.is)。變數範例見 [`.env.example`](.env.example)。
-- **giscus**：Works / Explore / Exam 詳情頁留言寫進 GitHub Discussions（Announcements）。需安裝 [giscus app](https://github.com/apps/giscus) 到本 repo。
+- **Umami**：只在 production 且設了 `PUBLIC_UMAMI_WEBSITE_ID` 時載入；script 走本站 `/stats/*` 反代 `cloud.umami.is`（避開部分 ISP 對 `*.umami.is` 的 DNS 攔截）。`data-domains=lab.lambliver.dev` 擋 localhost 與 preview。Dashboard 在 [cloud.umami.is](https://cloud.umami.is)。變數範例見 [`.env.example`](.env.example)。
+- **giscus**：Works / Explore / Exam 詳情頁留言寫進 GitHub Discussions（Announcements）。留言區進入視窗後才載入。需安裝 [giscus app](https://github.com/apps/giscus) 到本 repo。
 - **回饋轉 Issue**：規則與標題格式見 [`docs/feedback.md`](docs/feedback.md)。
 
 ## 文件

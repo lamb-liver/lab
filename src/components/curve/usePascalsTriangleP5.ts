@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { PASCAL_REVEAL_SPEED } from '../../curve/modules/pascals-triangle';
+import { advanceReveal } from '../../lib/reducedMotion';
 import {
   PASCAL_VIEW,
   buildDependencyCone,
@@ -37,7 +38,7 @@ export function usePascalsTriangleP5({ targetParams }: Options) {
       highlightSetRef.current = new Set();
     }
 
-    revealRef.current = Math.min(1, revealRef.current + PASCAL_REVEAL_SPEED);
+    revealRef.current = advanceReveal(revealRef.current, PASCAL_REVEAL_SPEED);
     const frame = buildPascalFrameData(params);
 
     const pressed = p.mouseIsPressed;

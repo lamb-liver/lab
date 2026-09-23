@@ -6,6 +6,7 @@ import ExamInteractiveStage from '../../components/exam/ExamInteractiveStage';
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import ConceptTags from '../../components/ConceptTags.astro';
 import Giscus from '../../components/Giscus.astro';
+import FitKatexDisplay from '../../components/FitKatexDisplay.astro';
 import { getCollection, render } from 'astro:content';
 import type { RelatedRef } from '../../lib/relatedContent';
 import { getStaticPathsFromCollection } from '../../content/utils';
@@ -151,6 +152,7 @@ const relatedItems: RelatedRef[] = [
     <RelatedLinks items={relatedItems} />
 
     <Giscus />
+    <FitKatexDisplay />
 
     <a href="/exam" class="back-link">← 返回試題視覺化</a>
   </div>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
 import {
-  canvasHeightForWidth,
+  stableCanvasHeightForWidth,
   vhCapPx,
 } from '../../explore/wave-superposition/canvasSize';
 import {
@@ -35,10 +35,10 @@ function clampedDeltaSeconds(deltaMs: number): number {
   return Math.min(safeDelta, MAX_VISUAL_DELTA_MS) / 1000;
 }
 
-function measureWaveCanvas(host: HTMLElement, mode: WaveMode): { width: number; height: number } {
+function measureWaveCanvas(host: HTMLElement): { width: number; height: number } {
   const w = host.clientWidth;
   const width = Math.max(280, Math.round(w > 0 ? w : 480));
-  const height = canvasHeightForWidth(mode, width, { vhCapPx: vhCapPx() });
+  const height = stableCanvasHeightForWidth(width, { vhCapPx: vhCapPx() });
   return { width, height };
 }
 
@@ -50,7 +50,6 @@ export default function WaveSuperpositionExploreRoot() {
   });
   const [beat, setBeat] = useState<BeatParams>({ ...DEFAULT_BEAT });
 
-  const modeRef = useRef(mode);
   const snapRef = useRef({
     mode,
     time: 0,
@@ -58,10 +57,6 @@ export default function WaveSuperpositionExploreRoot() {
     superposition,
     beat,
   });
-
-  useEffect(() => {
-    modeRef.current = mode;
-  }, [mode]);
 
   useEffect(() => {
     snapRef.current = { ...snapRef.current, mode, guide, superposition, beat };
@@ -82,17 +77,11 @@ export default function WaveSuperpositionExploreRoot() {
     const snap = snapRef.current;
     snap.time += clampedDeltaSeconds(p.deltaTime) * SPEED_SCALE;
     snapRef.current = snap;
-
-    const targetH = canvasHeightForWidth(snap.mode, p.width, { vhCapPx: vhCapPx() });
-    if (Math.abs(p.height - targetH) > 2) {
-      p.resizeCanvas(p.width, targetH);
-    }
-
     renderWaveSuperpositionScene(p, snap);
   }, []);
 
   const measureRect = useCallback(
-    (host: HTMLElement) => measureWaveCanvas(host, modeRef.current),
+    (host: HTMLElement) => measureWaveCanvas(host),
     [],
   );
 
