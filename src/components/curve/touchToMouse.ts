@@ -46,30 +46,61 @@ export function eventClientY(event?: Event): number | null {
   return null;
 }
 
+function setTouchAction(el: { style: CSSStyleDeclaration }, value: string): void {
+  el.style.setProperty('touch-action', value, 'important');
+}
+
 /**
  * p5 setup 結束後會把頁上所有 canvas 設成 none。
- * 非拖點頁在手機要改回 pan-y，否則從圖上無法捲頁。
+ * 非拖點頁在手機要改回 pan-y（important），否則從圖上無法捲頁。
  */
 export function syncWorksCanvasTouch(host: HTMLElement): void {
-  const canvas = host.querySelector('canvas');
-  if (!(canvas instanceof HTMLElement)) return;
+  const canvas = host.querySelector('canvas') as HTMLElement | null;
+  if (!canvas?.style) return;
   if (host.classList.contains(CANVAS_GESTURE_HOST_CLASS)) {
-    canvas.style.touchAction = 'none';
-    host.style.touchAction = 'none';
+    setTouchAction(canvas, 'none');
+    setTouchAction(host, 'none');
     return;
   }
   if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches) {
-    canvas.style.touchAction = 'pan-y';
+    setTouchAction(canvas, 'pan-y');
   }
+}
+
+/** 監 childList／style／class；debounce 後同步，並在 1s 再補一次以蓋過 p5 晚寫的 none。 */
+export function observeWorksCanvasTouch(host: HTMLElement): () => void {
+  let debounce: ReturnType<typeof setTimeout> | undefined;
+  const run = () => syncWorksCanvasTouch(host);
+  const schedule = () => {
+    if (debounce !== undefined) clearTimeout(debounce);
+    debounce = setTimeout(run, 16);
+  };
+  const mo =
+    typeof MutationObserver === 'undefined'
+      ? null
+      : new MutationObserver(schedule);
+  mo?.observe(host, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['style', 'class'],
+  });
+  run();
+  const late = typeof window === 'undefined' ? undefined : window.setTimeout(run, 1000);
+  return () => {
+    mo?.disconnect();
+    if (debounce !== undefined) clearTimeout(debounce);
+    if (late !== undefined) window.clearTimeout(late);
+  };
 }
 
 /** 有畫布觸控拖／轉的 sketch 才呼叫。無手勢頁不要呼叫，否則會誤設 none。 */
 export function lockCanvasTouchAction(p: p5, host?: HTMLElement | null): void {
   const canvas = sketchCanvasElement(p) ?? asHtmlElement(host?.querySelector('canvas'));
   const wrap = host ?? canvas?.parentElement;
-  if (canvas) canvas.style.touchAction = 'none';
+  if (canvas) setTouchAction(canvas, 'none');
   if (!wrap) return;
-  wrap.style.touchAction = 'none';
+  setTouchAction(wrap, 'none');
   wrap.classList.add(CANVAS_GESTURE_HOST_CLASS);
 }
 
