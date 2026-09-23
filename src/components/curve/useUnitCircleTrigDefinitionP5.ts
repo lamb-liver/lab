@@ -66,7 +66,7 @@ export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options
     return { keepLooping: !isSmoothSettled(smooth, params) };
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const updateDrag = () => {
       if (!draggingRef.current) return;
       const angle = thetaFromDrag(p.mouseX, p.mouseY, p.width, p.height);
@@ -120,7 +120,7 @@ export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options
       p.redraw();
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const redrawKey = `${params.theta}|${params.showRadians ? 1 : 0}|${

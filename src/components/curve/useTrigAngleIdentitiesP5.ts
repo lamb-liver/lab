@@ -65,7 +65,7 @@ export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
     return { keepLooping: !isSmoothSettled(smooth, params) };
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const updateDrag = () => {
       const key = activeDragRef.current;
       if (!key) return;
@@ -125,7 +125,7 @@ export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
       p.redraw();
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const redrawKey = `${params.formulaId}|${params.alpha}|${params.beta}|${

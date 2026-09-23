@@ -261,7 +261,7 @@ export default function DataAnalysisExploreRoot() {
         return false;
       };
 
-      wireTouchToMouse(p);
+      wireTouchToMouse(p, host);
 
       p.doubleClicked = (event?: Event) => {
         if (!isCanvasPointer(p, host, event)) return;

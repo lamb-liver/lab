@@ -50,7 +50,7 @@ export function useDemoivreNthRootsP5({ params, onParamsChange }: Options) {
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     function layoutRadius(): number {
       if (dragLayoutRadiusRef.current != null) return dragLayoutRadiusRef.current;
       return computeDemoivreMetrics(paramsRef.current).viewportRadius;
@@ -91,7 +91,7 @@ export function useDemoivreNthRootsP5({ params, onParamsChange }: Options) {
       dragLayoutRadiusRef.current = null;
       p.cursor(hitPoint() ? 'grab' : 'default');
     };
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

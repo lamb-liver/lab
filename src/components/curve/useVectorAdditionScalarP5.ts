@@ -64,7 +64,7 @@ export function useVectorAdditionScalarP5({
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     function nearestDragTarget(): DragTarget | null {
       const layout = createVectorAdditionScalarLayout(p.width, p.height, paramsRef.current);
       const { u, v } = vectorFromParams(paramsRef.current);
@@ -119,7 +119,7 @@ export function useVectorAdditionScalarP5({
       p.redraw();
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const redrawKey = `${showComponents ? 1 : 0}|${params.ux}|${params.uy}|${

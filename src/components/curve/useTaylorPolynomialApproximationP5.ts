@@ -80,7 +80,7 @@ export function useTaylorPolynomialApproximationP5({
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const updateDrag = () => {
       if (!draggingRef.current) return;
       const next = aFromTaylorPointer(p.width, p.mouseX, presetRef.current);
@@ -114,7 +114,7 @@ export function useTaylorPolynomialApproximationP5({
       return wasDragging ? false : true;
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
     p.mouseWheel = () => !isTaylorPointerInPlot(p.width, p.mouseX, p.mouseY);
   }, []);
 

@@ -56,7 +56,7 @@ export function useQuadraticCompletingSquareP5({ params, onParamsChange }: Optio
       p.deltaTime,
     );
   }, []);
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const syncSceneCache = () => {
       sceneCacheRef.current = buildQuadraticSceneCache(paramsRef.current);
     };
@@ -103,7 +103,7 @@ export function useQuadraticCompletingSquareP5({ params, onParamsChange }: Optio
       draggingVertexRef.current = false;
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

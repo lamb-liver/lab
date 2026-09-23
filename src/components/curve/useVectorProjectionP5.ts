@@ -73,7 +73,7 @@ export function useVectorProjectionP5({
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     function nearestDragTarget(): DragTarget | null {
       const layout = createVectorProjectionLayout(p.width, p.height, paramsRef.current);
       const { a, b } = vectorFromParams(paramsRef.current);
@@ -121,7 +121,7 @@ export function useVectorProjectionP5({
       p.cursor(nearestDragTarget() ? 'grab' : 'default');
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

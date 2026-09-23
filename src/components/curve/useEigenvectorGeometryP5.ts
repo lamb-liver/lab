@@ -66,7 +66,7 @@ export function useEigenvectorGeometryP5({
       presetNote: presetNoteRef.current,
     });
   }, []);
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     function updateDrag(): void {
       if (!draggingURef.current) return;
       const geo = createEigenvectorSceneGeometry(p.width, p.height);
@@ -106,7 +106,7 @@ export function useEigenvectorGeometryP5({
       p.cursor(isNearU() ? 'grab' : 'default');
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
 
     p.mouseWheel = () => false;
   }, []);

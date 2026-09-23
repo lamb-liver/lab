@@ -83,7 +83,7 @@ export function usePercentileBoxPlotP5({ stateRef, onStateChange, redrawKey }: O
       return false;
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
 
     p.doubleClicked = (event?: Event) => {
       if (!isCanvasPointer(p, host, event)) return;

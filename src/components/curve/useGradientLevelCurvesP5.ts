@@ -47,7 +47,7 @@ export function useGradientLevelCurvesP5({ params, onParamsChange }: Options) {
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     function hitPoint(): boolean {
       const layout = createPlotLayout(p.width, p.height);
       const metrics = computeGradientMetrics(paramsRef.current);
@@ -85,7 +85,7 @@ export function useGradientLevelCurvesP5({ params, onParamsChange }: Options) {
       p.cursor(hitPoint() ? 'grab' : 'default');
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

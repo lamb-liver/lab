@@ -81,11 +81,11 @@ export default function LimitsRiemannSumExploreRoot() {
     updateTangentRef.current = updateTangentFromMouse;
   }, [updateTangentFromMouse]);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     p.mousePressed = () => updateTangentRef.current(p);
     p.mouseDragged = () => updateTangentRef.current(p);
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

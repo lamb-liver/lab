@@ -50,7 +50,7 @@ export function useFunctionGraphTransformP5({ params, onParamsChange }: Options)
       p.deltaTime,
     );
   }, []);
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const updateDrag = () => {
       if (!draggingFeatureRef.current) return;
       const plot = computeWorkPlotRect(p.width);
@@ -86,7 +86,7 @@ export function useFunctionGraphTransformP5({ params, onParamsChange }: Options)
       draggingFeatureRef.current = false;
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

@@ -35,7 +35,7 @@ export function useRadianArcLengthP5({ params, onThetaChange }: Options) {
   }, [onThetaChange]);
 
   const draw = useCallback((p: p5) => renderRadianArcLengthScene(p, paramsRef.current), []);
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const currentCircle = () => circleLayout(p.width, p.height, paramsRef.current.radiusMode);
 
     const updateDrag = () => {
@@ -72,7 +72,7 @@ export function useRadianArcLengthP5({ params, onThetaChange }: Options) {
       p.redraw();
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

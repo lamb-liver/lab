@@ -93,12 +93,12 @@ export default function ComplexEulerFormulaExploreRoot() {
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     p.mousePressed = () => handleMousePressed(p);
     p.mouseDragged = () => handleMouseDragged(p);
     p.mouseReleased = handleMouseReleased;
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, [handleMouseDragged, handleMousePressed, handleMouseReleased]);
 
   const canvasHostRef = useRectP5CanvasHost(
