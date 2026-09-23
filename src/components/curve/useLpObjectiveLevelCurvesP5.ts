@@ -97,9 +97,10 @@ export function useLpObjectiveLevelCurvesP5({ params, onParamsChange }: Options)
 
     p.mousePressed = () => {
       dragRef.current = pickTarget();
-      if (!dragRef.current) return;
+      if (!dragRef.current) return true;
       p.cursor('grabbing');
       updateDrag();
+      return false;
     };
 
     p.mouseDragged = () => {

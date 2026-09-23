@@ -1,3 +1,5 @@
+export { advanceReveal, lerpReveal, prefersReducedMotion } from '../../lib/reducedMotion';
+
 export const FRAME_MS_60FPS = 1000 / 60;
 export const REVEAL_RESET_TIMEOUT_MS = 1200;
 

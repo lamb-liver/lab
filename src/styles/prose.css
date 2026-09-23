@@ -83,6 +83,11 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
+.prose .katex-display[data-katex-fitted] {
+  overflow-x: hidden;
 }
 
 .prose table {

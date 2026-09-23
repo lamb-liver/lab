@@ -1,3 +1,4 @@
+import { advanceReveal } from '../../../lib/reducedMotion';
 import { PARAM_LERP, POINT_SPEED_PER_MS, REVEAL_SPEED_PER_SEC } from './constants';
 import {
   buildEccentricityPaths,
@@ -77,7 +78,7 @@ export function stepConicDynamicAnimation(
     pointClock += clampedDeltaMs * POINT_SPEED_PER_MS;
   }
 
-  reveal = Math.min(1, reveal + (clampedDeltaMs / 1000) * REVEAL_SPEED_PER_SEC);
+  reveal = advanceReveal(reveal, (clampedDeltaMs / 1000) * REVEAL_SPEED_PER_SEC);
 
   if (targetParams.mode === 'eccentricity') {
     const targetE = targetParams.eccentricity;

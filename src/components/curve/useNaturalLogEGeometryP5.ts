@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
-import { frameScale } from '../../curve/modules/animationTiming';
+import { advanceReveal, frameScale } from '../../curve/modules/animationTiming';
 import { NAT_LOG_REVEAL_SPEED } from '../../curve/modules/natural-log-e-geometry';
 import type { ParamValues } from '../../curve/types';
 import { renderNaturalLogEGeometryScene } from '../../systems/rendering/naturalLogEGeometryRender';
@@ -41,9 +41,9 @@ export function useNaturalLogEGeometryP5({
       revealRef.current = 0;
     }
 
-    revealRef.current = Math.min(
-      1,
-      revealRef.current + NAT_LOG_REVEAL_SPEED * frameScale(p.deltaTime),
+    revealRef.current = advanceReveal(
+      revealRef.current,
+      NAT_LOG_REVEAL_SPEED * frameScale(p.deltaTime),
     );
 
     const pct = Math.floor(revealRef.current * 100);

@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react';
 import type p5 from 'p5';
+import { prefersReducedMotion } from '../../lib/reducedMotion';
 import { isP5RendererReady } from './p5RendererReady';
+
+const REDUCED_MOTION_KEEP_LOOP_CAP = 600;
 
 export type CanvasSize = { width: number; height: number };
 
@@ -57,6 +60,14 @@ export function useRectP5CanvasHost(
   }, [shouldLoop, options.redrawKey]);
 
   useEffect(() => {
+    if (!shouldLoop || !prefersReducedMotion()) return;
+    const instance = instanceRef.current;
+    if (!instance || !isP5RendererReady(instance)) return;
+    instance.redraw();
+    // reduced-motion sketches noLoop after the first frame; parent re-render is the param-change signal
+  });
+
+  useEffect(() => {
     if (shouldLoop) {
       autoStoppedRef.current = false;
       instanceRef.current?.loop();
@@ -88,6 +99,16 @@ export function useRectP5CanvasHost(
 
         p.draw = () => {
           const looping = shouldLoopRef.current;
+          if (looping && prefersReducedMotion()) {
+            let result = drawRef.current(p);
+            let steps = 0;
+            while (result?.keepLooping === true && steps++ < REDUCED_MOTION_KEEP_LOOP_CAP) {
+              result = drawRef.current(p);
+            }
+            autoStoppedRef.current = true;
+            p.noLoop();
+            return;
+          }
           const result = drawRef.current(p);
           if (looping && result?.keepLooping === false) {
             autoStoppedRef.current = true;

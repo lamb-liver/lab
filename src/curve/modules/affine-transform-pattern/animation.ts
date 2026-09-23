@@ -1,5 +1,5 @@
 import type { ParamValues } from '../../types';
-import { frameScale, shouldCommitPendingReset } from '../animationTiming';
+import { advanceReveal, frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.004;
 export const PARAM_LERP = 0.08;
@@ -103,11 +103,8 @@ export function stepAffineTransformPatternAnimation(
   }
 
   if (!isComplete) {
-    revealProgress += revealSpeed * scale;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed * scale);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   return {

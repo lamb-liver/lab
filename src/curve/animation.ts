@@ -1,3 +1,4 @@
+import { advanceReveal } from '../lib/reducedMotion';
 import type { AnimationState, ParamValues } from './types';
 
 export function createInitialState(targetParams: ParamValues): AnimationState {
@@ -37,11 +38,8 @@ export function stepAnimation(
   }
 
   if (!isComplete) {
-    revealProgress += revealSpeed;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   return { params, targetParams, revealProgress, isComplete };

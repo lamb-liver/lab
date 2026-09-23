@@ -195,7 +195,7 @@ DOM 順序須讓 `<details.work-detail__controls>` / `<aside id="{slug}-controls
 | 斷點 | 行為 |
 |------|------|
 | ≥1024px | canvas **左** · 控制 **右**（320px 欄）；`<details>` 視覺上恆開，summary 隱藏 |
-| <1024px | canvas 上 · 控制下；`<details>` **預設收合**，summary 可展開 |
+| <1024px | canvas 上 · 控制下；`<details>` **預設展開**，summary 可收合；畫布正方形上限 42vh |
 
 `<details>` 收合時 `<aside>` 仍在 DOM；參數初始值來自 React `defaultParams`，不讀 slider DOM。見 [`site-ux.md`](site-ux.md) §4.3。
 
@@ -315,7 +315,8 @@ coverImage: /explore/fourier-series-epicycles-cover.png
 
 ## 畫布手勢與觸控
 
-**只要 sketch 有 `mousePressed` / `mouseDragged`，就必須呼叫 `wireTouchToMouse(p)`。**
+**凡 canvas 上需要觸控拖拽／旋轉的 sketch，必須呼叫 `wireTouchToMouse(p)`。**  
+純側欄滑桿／按鈕的頁維持 `pan-y`，不要呼叫（會把該 canvas 設成 `none`）。
 
 ```ts
 import { wireTouchToMouse } from './touchToMouse';
@@ -334,23 +335,20 @@ const extendSketch = useCallback((p: p5) => {
 觸控時瀏覽器會補送相容 mouse 事件，所以「不接觸控看起來也能動」——但那只在瀏覽器**沒有**把手勢
 判給捲動或縮放時成立：
 
-- Works：`work-detail.css` 在手機給畫布 `touch-action: pan-y`，垂直拖曳會被判成捲頁。
-  這是刻意的（一般 works 靠側欄控件，畫布不該攔截捲動），但**有畫布手勢的作品是例外**。
-- Explore：`explore-stage.css` 沒設 `touch-action`，用瀏覽器預設，手勢可能被拿去平移縮放。
-  有畫布手勢的 explore 必須在自己的樣式表加 `touch-action: none`（見 `vectors-explore.css`）。
+- Works：手機預設畫布 `touch-action: pan-y`（純側欄頁要能從圖上捲頁）。
+  有畫布拖／轉的頁由 `wireTouchToMouse` 把該 canvas 與 host 設成 `none`（class `--gestures`）。
+  `none` 是底層保障；`mousePressed`／`touchStarted` `return false` 仍要留，p5 2.2 pointer 路徑靠這個 preventDefault。
+- Explore／Exam：畫布已是 `touch-action: none`；有手勢仍要 `wireTouchToMouse`。
 
-`wireTouchToMouse` 的兩半是綁在一起的，只做一半都會壞：
-
-1. `return false` 讓 p5 呼叫 preventDefault，攔下上述接管；
-2. 一旦 preventDefault，瀏覽器就**不再**補送相容 mouse 事件，所以必須主動轉呼叫。
+`none` 與 JS `preventDefault` 都要留：只設 CSS 時舊路徑／p5 改版可能漏；只靠 JS 時 `pan-y` 仍可能在 preventDefault 前收下垂直平移。p5 2.2 走 window pointer，`mousePressed` `return false` 才會 preventDefault；`touchStarted` 回傳 false 當舊路徑保險。
 
 未定義的 handler 會被略過，因此沒有 `mouseReleased` 的 sketch 也能直接用。
 
 ### 新增有手勢的互動時
 
-- [ ] sketch 內呼叫 `wireTouchToMouse(p)`
-- [ ] Explore：該 slug 的 CSS 對 `__canvas canvas` 設 `touch-action: none`
-- [ ] 手機視窗實測拖得動，且**垂直方向**也拖得動（水平能動不代表垂直能動）
+- [ ] 有畫布觸控拖／轉才呼叫 `wireTouchToMouse(p)`（會設 `none`）
+- [ ] 無畫布手勢頁不要呼叫
+- [ ] iOS Safari 與 Android Chrome 真機：垂直拖點要跟著走；玫瑰從畫布滑仍能捲頁
 
 ## 作品集縮圖（`WorkCard` + `curveThumbnail`）
 

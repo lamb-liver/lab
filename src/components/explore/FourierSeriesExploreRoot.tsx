@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type p5 from 'p5';
 import { FOURIER_CURVE_STYLE, REVEAL_SPEED_PER_SEC } from '../../explore/fourier/constants';
+import { advanceReveal } from '../../lib/reducedMotion';
 import {
   buildFourierPath,
   tAtArcLength,
@@ -69,11 +70,11 @@ export default function FourierSeriesExploreRoot() {
     let { revealProgress, isComplete } = animRef.current;
 
     if (!isComplete) {
-      revealProgress += clampedDeltaSeconds(p.deltaTime) * REVEAL_SPEED_PER_SEC;
-      if (revealProgress >= 1) {
-        revealProgress = 1;
-        isComplete = true;
-      }
+      revealProgress = advanceReveal(
+        revealProgress,
+        clampedDeltaSeconds(p.deltaTime) * REVEAL_SPEED_PER_SEC,
+      );
+      if (revealProgress >= 1) isComplete = true;
       animRef.current = { revealProgress, isComplete };
     }
 

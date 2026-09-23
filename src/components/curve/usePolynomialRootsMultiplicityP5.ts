@@ -14,6 +14,7 @@ import {
 } from '../../curve/modules/polynomial-roots-multiplicity/geometry';
 import { renderPolynomialRootsMultiplicityScene } from '../../systems/rendering/polynomialRootsMultiplicityRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   params: PolynomialRootsMultiplicityParams;
@@ -82,7 +83,9 @@ export function usePolynomialRootsMultiplicityP5({ params, onParamsChange }: Opt
         p.mouseX,
         p.mouseY,
       );
-      if (draggingRootIndexRef.current >= 0) updateRootDrag();
+      if (draggingRootIndexRef.current < 0) return true;
+      updateRootDrag();
+      return false;
     };
 
     p.mouseDragged = () => {
@@ -96,20 +99,7 @@ export function usePolynomialRootsMultiplicityP5({ params, onParamsChange }: Opt
       draggingRootIndexRef.current = -1;
     };
 
-    p.touchStarted = () => {
-      p.mousePressed();
-      return false;
-    };
-
-    p.touchMoved = () => {
-      p.mouseDragged();
-      return false;
-    };
-
-    p.touchEnded = () => {
-      p.mouseReleased();
-      return false;
-    };
+    wireTouchToMouse(p);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

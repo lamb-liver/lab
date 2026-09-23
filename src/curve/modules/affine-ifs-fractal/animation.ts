@@ -1,5 +1,5 @@
 import type { ParamValues } from '../../types';
-import { frameScale, shouldCommitPendingReset } from '../animationTiming';
+import { advanceReveal, frameScale, shouldCommitPendingReset } from '../animationTiming';
 import { mathToCanvas, stepIfsPoint, type GrainPoint, type IfsMathPoint } from './geometry';
 import {
   MAX_GRAINS,
@@ -108,11 +108,8 @@ export function stepAffineIfsFractalAnimation(
   }
 
   if (!isComplete) {
-    revealProgress += revealSpeed * scale;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed * scale);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   const shouldGenerate = grains.length < MAX_GRAINS;

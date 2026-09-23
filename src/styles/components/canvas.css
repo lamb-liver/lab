@@ -50,13 +50,17 @@
 }
 
 .interactive-canvas {
-  height: 500px;
+  width: 100%;
+  min-height: 340px;
+  height: auto;
+  aspect-ratio: 1 / 0.62;
 }
 
 .interactive-loading {
   width: 100%;
   min-height: 320px;
   height: 100%;
+  contain: layout;
   background:
     linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent),
     var(--color-canvas);
@@ -67,8 +71,31 @@
   animation: interactive-loading-sheen 1.2s ease-in-out infinite;
 }
 
+/* Exam／Explore 實畫布多為 max(340, 寬×0.62)；固定 500px 會在進頁縮一次 */
 .interactive-loading--explore {
-  height: 500px;
+  height: auto;
+  min-height: 340px;
+  aspect-ratio: 1 / 0.62;
+}
+
+.interactive-loading--square {
+  aspect-ratio: 1;
+  min-height: 200px;
+  max-width: 400px;
+  margin-inline: auto;
+}
+
+@media (max-width: 1023px) {
+  /* 手機 hydrate 後側欄疊在畫布下；預留接近整塊舞台的高度 */
+  .interactive-loading--explore {
+    aspect-ratio: auto;
+    min-height: 32rem;
+  }
+
+  .interactive-loading--square {
+    min-height: 28rem;
+    max-width: none;
+  }
 }
 
 .interactive-loading__mark {

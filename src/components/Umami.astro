@@ -1,8 +1,13 @@
 ---
-import { UMAMI_DOMAINS, UMAMI_SCRIPT_URL_DEFAULT } from '../lib/siteOps';
+import {
+  UMAMI_DOMAINS,
+  UMAMI_HOST_URL_DEFAULT,
+  UMAMI_SCRIPT_URL_DEFAULT,
+} from '../lib/siteOps';
 
 const websiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
 const scriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || UMAMI_SCRIPT_URL_DEFAULT;
+const hostUrl = import.meta.env.PUBLIC_UMAMI_HOST_URL || UMAMI_HOST_URL_DEFAULT;
 const enabled = import.meta.env.PROD && Boolean(websiteId);
 ---
 
@@ -13,6 +18,7 @@ const enabled = import.meta.env.PROD && Boolean(websiteId);
       defer
       src={scriptUrl}
       data-website-id={websiteId}
+      data-host-url={hostUrl}
       data-domains={UMAMI_DOMAINS}
     ></script>
   ) : null

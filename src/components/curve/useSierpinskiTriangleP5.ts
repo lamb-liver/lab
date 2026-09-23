@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { SIERPINSKI_REVEAL_SPEED } from '../../curve/modules/sierpinski-triangle';
+import { advanceReveal } from '../../lib/reducedMotion';
 import type { ParamValues } from '../../curve/types';
 import { renderSierpinskiTriangleScene } from '../../systems/rendering/sierpinskiTriangleRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
@@ -28,7 +29,7 @@ export function useSierpinskiTriangleP5({ targetParams }: Options) {
       revealRef.current = 0;
     }
 
-    revealRef.current = Math.min(1, revealRef.current + SIERPINSKI_REVEAL_SPEED);
+    revealRef.current = advanceReveal(revealRef.current, SIERPINSKI_REVEAL_SPEED);
 
     renderSierpinskiTriangleScene(p, {
       width: p.width,

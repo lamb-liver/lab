@@ -98,10 +98,10 @@ export function useLawOfSinesCosinesP5({ params, onTriangleChange }: Options) {
 
     p.mousePressed = () => {
       activeVertexRef.current = nearestVertex();
-      if (activeVertexRef.current) {
-        p.cursor('grabbing');
-        updateDrag();
-      }
+      if (!activeVertexRef.current) return true;
+      p.cursor('grabbing');
+      updateDrag();
+      return false;
     };
 
     p.mouseDragged = () => {

@@ -28,12 +28,13 @@ describe('explore collection pager', () => {
       'space-vectors-planes-lines',
       'linear-programming',
       'iteration-dynamics',
+      'complex-powers-roots',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'iteration-dynamics');
-    expect(previous?.id).toBe('linear-programming');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'complex-powers-roots');
+    expect(previous?.id).toBe('iteration-dynamics');
     expect(next).toBeNull();
   });
 

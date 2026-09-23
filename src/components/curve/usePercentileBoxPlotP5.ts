@@ -57,14 +57,14 @@ export function usePercentileBoxPlotP5({ stateRef, onStateChange, redrawKey }: O
 
   const extendSketch = useCallback((p: p5, host: HTMLElement) => {
     p.mousePressed = (event?: Event) => {
-      if (!isCanvasPointer(p, host, event)) return;
+      if (!isCanvasPointer(p, host, event)) return true;
       const state = stateRef.current;
       const mouse = screenToBoxplotView(p.width, p.height, p.mouseX, p.mouseY);
       const index = nearestValueDot(state.values, mouse.x, mouse.y);
       state.selectedIndex = index;
       dragIndexRef.current = index >= 0 ? index : null;
       onStateChange();
-      return false;
+      return index >= 0 ? false : true;
     };
 
     p.mouseDragged = () => {

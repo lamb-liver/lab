@@ -44,7 +44,7 @@ export default function ExploreInteractiveStage({ slug }: Props) {
     <Suspense
       fallback={
         <div
-          className="interactive-loading interactive-loading--explore"
+          className={`interactive-loading interactive-loading--explore${slug === 'fourier-series' ? ' interactive-loading--square' : ''}`}
           role="status"
           aria-live="polite"
           aria-label="互動內容載入中"

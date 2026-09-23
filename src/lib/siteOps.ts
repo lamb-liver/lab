@@ -1,5 +1,6 @@
 export const UMAMI_DOMAINS = 'lab.lambliver.dev';
-export const UMAMI_SCRIPT_URL_DEFAULT = 'https://cloud.umami.is/script.js';
+export const UMAMI_SCRIPT_URL_DEFAULT = '/stats/script.js';
+export const UMAMI_HOST_URL_DEFAULT = 'https://lab.lambliver.dev/stats';
 
 export const GISCUS = {
   repo: 'lamb-liver/lab',

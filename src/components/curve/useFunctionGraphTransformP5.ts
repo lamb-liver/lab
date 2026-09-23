@@ -12,6 +12,7 @@ import {
 } from '../../curve/modules/function-graph-transform/geometry';
 import { renderFunctionGraphTransformScene } from '../../systems/rendering/functionGraphTransformRender';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 type Options = {
   params: FunctionGraphTransformParams;
@@ -72,7 +73,9 @@ export function useFunctionGraphTransformP5({ params, onParamsChange }: Options)
         p.mouseX,
         p.mouseY,
       );
-      if (draggingFeatureRef.current) updateDrag();
+      if (!draggingFeatureRef.current) return true;
+      updateDrag();
+      return false;
     };
 
     p.mouseDragged = () => {
@@ -83,20 +86,7 @@ export function useFunctionGraphTransformP5({ params, onParamsChange }: Options)
       draggingFeatureRef.current = false;
     };
 
-    p.touchStarted = () => {
-      p.mousePressed();
-      return false;
-    };
-
-    p.touchMoved = () => {
-      p.mouseDragged();
-      return false;
-    };
-
-    p.touchEnded = () => {
-      p.mouseReleased();
-      return false;
-    };
+    wireTouchToMouse(p);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

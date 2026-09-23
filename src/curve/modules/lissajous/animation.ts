@@ -1,3 +1,4 @@
+import { advanceReveal } from '../../../lib/reducedMotion';
 import type { AnimationState, ParamValues } from '../../types';
 
 export const DELTA_LERP = 0.06;
@@ -30,11 +31,8 @@ export function stepLissajousAnimation(
   params = { a: targetParams.a, b: targetParams.b, delta };
 
   if (!isComplete) {
-    revealProgress += revealSpeed;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   return { params, targetParams, revealProgress, isComplete };

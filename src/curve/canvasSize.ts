@@ -2,6 +2,8 @@ import { BASE_CANVAS_SIZE } from './constants';
 
 export function measureWorkCanvasSize(host: HTMLElement): number {
   const w = host.clientWidth;
-  const size = w > 0 ? Math.min(w, BASE_CANVAS_SIZE) : BASE_CANVAS_SIZE;
-  return Math.max(280, size);
+  const h = host.clientHeight;
+  const fromWidth = w > 0 ? w : BASE_CANVAS_SIZE;
+  const fromHeight = h > 0 ? h : fromWidth;
+  return Math.max(280, Math.round(Math.min(fromWidth, fromHeight, BASE_CANVAS_SIZE)));
 }

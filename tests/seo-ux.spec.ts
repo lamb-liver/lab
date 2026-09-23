@@ -579,12 +579,12 @@ test.describe('SEO metadata and UX shell', () => {
   });
 
   test('detail pages offer giscus; lists and home do not', async ({ page }) => {
-    for (const route of ['/works/rose-curve', '/explore/fourier-series', '/exam/gsat-112-rotation-composition']) {
-      await page.goto(route);
-      await expect(page.locator('.page-comments')).toBeVisible();
-      await expect(page.locator('[data-giscus-load]')).toHaveText('載入留言');
-      await expect(page.locator('script[src="https://giscus.app/client.js"]')).toHaveCount(0);
-    }
+    await page.goto('/works/rose-curve');
+    await expect(page.locator('.page-comments')).toBeVisible();
+    await expect(page.locator('script[src="https://giscus.app/client.js"]')).toHaveCount(0);
+
+    await page.locator('.page-comments').scrollIntoViewIfNeeded();
+    await expect(page.locator('script[src="https://giscus.app/client.js"]')).toHaveCount(1);
 
     await page.goto('/');
     await expect(page.locator('.page-comments')).toHaveCount(0);

@@ -3,6 +3,7 @@ import type p5 from 'p5';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import { clamp } from '../../curve/projection3d';
 import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
+import { wireTouchToMouse } from './touchToMouse';
 
 /**
  * 空間向量系列共用的「拖動畫布旋轉視角」掛載。
@@ -122,27 +123,7 @@ export function useOrbitViewP5<P extends OrbitView>({
       p.redraw();
     };
 
-    /*
-     * 觸控要自己接，不能只靠瀏覽器補送的相容 mouse 事件：
-     * work-detail.css 在手機上給畫布 `touch-action: pan-y`，垂直滑動會被判成捲頁，
-     * pitch 就轉不動。回傳 false 讓 p5 呼叫 preventDefault 攔下捲動；
-     * 一旦 preventDefault，相容 mouse 事件就不會產生，所以這裡必須主動轉呼叫。
-     * 這與站內既有有畫布手勢的作品（如 quadratic-completing-square）做法一致。
-     */
-    p.touchStarted = () => {
-      p.mousePressed();
-      return false;
-    };
-
-    p.touchMoved = () => {
-      p.mouseDragged();
-      return false;
-    };
-
-    p.touchEnded = () => {
-      p.mouseReleased();
-      return false;
-    };
+    wireTouchToMouse(p);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

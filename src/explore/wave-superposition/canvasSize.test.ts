@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { canvasHeightForWidth } from './canvasSize';
+import { canvasHeightForWidth, stableCanvasHeightForWidth } from './canvasSize';
 
 describe('canvasHeightForWidth', () => {
   it('clamps superposition height at min width', () => {
@@ -28,5 +28,13 @@ describe('canvasHeightForWidth', () => {
   it('does not exceed max at ultrawide width', () => {
     const h = canvasHeightForWidth('superposition', 2000);
     expect(h).toBe(520);
+  });
+
+  it('stable height is the max across modes so beat does not shrink the canvas', () => {
+    const w = 680;
+    const stable = stableCanvasHeightForWidth(w);
+    expect(stable).toBe(canvasHeightForWidth('superposition', w));
+    expect(stable).toBe(canvasHeightForWidth('guide', w));
+    expect(stable).toBeGreaterThan(canvasHeightForWidth('beat', w));
   });
 });

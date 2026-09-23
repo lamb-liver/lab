@@ -1,5 +1,5 @@
 import type { ParamValues } from '../../types';
-import { frameScale } from '../animationTiming';
+import { advanceReveal, frameScale } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.004;
 export const MODE_LERP = 0.08;
@@ -81,11 +81,8 @@ export function stepChladniAnimation(
   };
 
   if (!isComplete) {
-    revealProgress += revealSpeed * scale;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed * scale);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   return {

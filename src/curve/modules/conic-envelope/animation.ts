@@ -1,5 +1,5 @@
 import type { ParamValues } from '../../types';
-import { frameScale, shouldCommitPendingReset } from '../animationTiming';
+import { advanceReveal, frameScale, shouldCommitPendingReset } from '../animationTiming';
 
 export const REVEAL_SPEED = 0.0025;
 export const RATIO_LERP = 0.08;
@@ -90,11 +90,8 @@ export function stepConicEnvelopeAnimation(
   }
 
   if (!isComplete) {
-    revealProgress += revealSpeed * scale;
-    if (revealProgress >= 1) {
-      revealProgress = 1;
-      isComplete = true;
-    }
+    revealProgress = advanceReveal(revealProgress, revealSpeed * scale);
+    if (revealProgress >= 1) isComplete = true;
   }
 
   return {

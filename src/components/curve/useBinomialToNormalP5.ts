@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { deriveBinormalData, modeFromValue } from '../../curve/modules/binomial-to-normal/geometry';
+import { advanceReveal } from '../../lib/reducedMotion';
 import type { ParamValues } from '../../curve/types';
 import { renderBinomialToNormalScene } from '../../systems/rendering/binomialToNormalRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
@@ -49,7 +50,7 @@ export function useBinomialToNormalP5({
       revealRef.current = 0;
       trialRef.current = { sequence: [], index: 0, clock: 0, success: 0 };
     }
-    revealRef.current = Math.min(1, revealRef.current + 0.025);
+    revealRef.current = advanceReveal(revealRef.current, 0.025);
     const mode = modeFromValue(params.mode);
     if (mode === 'sim' && trialRef.current.sequence.length > 0 && trialRef.current.index < trialRef.current.sequence.length) {
       trialRef.current.clock += p.deltaTime;

@@ -59,14 +59,14 @@ export function useRegressionOutlierInfluenceP5({
 
   const extendSketch = useCallback((p: p5, host: HTMLElement) => {
     p.mousePressed = (event?: Event) => {
-      if (!isCanvasPointer(p, host, event)) return;
+      if (!isCanvasPointer(p, host, event)) return true;
       const mouse = screenToScatterView(p.width, p.height, p.mouseX, p.mouseY);
       const outlier = stateRef.current.outlier;
       const point = worldToCanvas(SCATTER_PLOT, outlier.x, outlier.y);
       draggingRef.current = Math.hypot(mouse.x - point.x, mouse.y - point.y) <= 24;
       stateRef.current.dragging = draggingRef.current;
       onStateChange();
-      return false;
+      return draggingRef.current ? false : true;
     };
 
     p.mouseDragged = () => {

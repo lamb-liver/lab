@@ -83,10 +83,10 @@ Explore 詳情維持 **標題 → 互動 → prose**；頂部同樣有 `.detail-
 - canvas 上、控制下（仍在 prose 之前）
 - 控制區包在 `<details class="work-detail__controls">`：
   - `<summary>調整參數</summary>` + 收合時提示「點開後向下滑動」；展開後自動 `scrollIntoView` 至控制面板
-  - canvas 下方手機專用滑動提示列；canvas 區 `touch-action: pan-y` 不攔截垂直捲動
-  - **例外**：有畫布手勢的作品（拖曳旋轉／拖動把手）必須呼叫 `wireTouchToMouse(p)`，
-    否則垂直拖曳會被 `pan-y` 判給捲動。見 `p5toreact.md` §畫布手勢與觸控
-  - **預設收合**，減少滑到 prose 前的垂直深度
+  - canvas 下方手機專用滑動提示列
+  - 純側欄頁：畫布 `touch-action: pan-y`，可從圖上捲頁
+  - **凡 canvas 上需要觸控拖拽／旋轉的 sketch**：該 canvas（與 host）必須 `touch-action: none`，並呼叫 `wireTouchToMouse(p)`（CSS none 是底；JS `return false` 是 pointer／舊 touch 雙保險）。無畫布手勢頁不要呼叫。`mousePressed` 回傳 `true` 表示沒中把手，之後用 `scrollBy` 捲頁。見 `p5toreact.md` §畫布手勢與觸控
+  - **預設展開**（可手動收合）。畫布正方形上限 `min(100%, 42vh, 420px)`，讓首屏看得到參數。Desmos / Seeing Theory / 3b1b explainables 都把主控放在畫布旁邊或正下方，不藏進預設關的摺疊。
 
 ### 4.3 Accordion 與 portal 安全
 
@@ -183,6 +183,7 @@ Explore 詳情頁引入（`explore/[slug].astro`）：
 | Skip link | `BaseLayout.astro` 的 `.skip-link` →「跳至主要內容」，聚焦時可見（`base.css`） |
 | 手機選單 | `aria-expanded`、Escape 關閉、點外關閉（`Nav.astro`） |
 | 手機 canvas | morph 管線曲線依 `min(width, height) / BASE_CANVAS_SIZE` 縮放（`systems/rendering/frame.ts`），窄畫布不裁切幾何 |
+| `client:only` loading | Works 佔位與畫布同一正方形；Exam／Explore 用 `aspect-ratio: 1 / 0.62`、`min-height: 340px`（對齊 `max(340, 寬×0.62)`），不要固定 500px |
 
 ---
 

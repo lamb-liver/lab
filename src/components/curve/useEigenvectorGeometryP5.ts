@@ -90,10 +90,11 @@ export function useEigenvectorGeometryP5({
     };
 
     p.mousePressed = () => {
-      if (!isNearU()) return;
+      if (!isNearU()) return true;
       draggingURef.current = true;
       p.cursor('grabbing');
       updateDrag();
+      return false;
     };
 
     p.mouseDragged = () => {

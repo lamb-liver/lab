@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import type { ParamValues } from '../../curve/types';
 import { SEQUENCE_REVEAL_SPEED } from '../../curve/modules/arithmetic-geometric-sequences';
+import { lerpReveal } from '../../lib/reducedMotion';
 import { renderArithmeticGeometricSequencesScene } from '../../systems/rendering/arithmeticGeometricSequencesRender';
 import { useP5CanvasHost } from './useP5CanvasHost';
 
@@ -36,7 +37,7 @@ export function useArithmeticGeometricSequencesP5({
       revealRef.current = 0;
     }
 
-    revealRef.current += (1 - revealRef.current) * SEQUENCE_REVEAL_SPEED;
+    revealRef.current = lerpReveal(revealRef.current, SEQUENCE_REVEAL_SPEED);
     const pct = Math.min(100, Math.floor(revealRef.current * 100));
     if (pct !== lastRevealPctRef.current) {
       lastRevealPctRef.current = pct;

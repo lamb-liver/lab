@@ -87,9 +87,13 @@ function exponentialCanvasHeight(width: number, mode: Mode = 'inverse') {
   );
 }
 
-function measureExponentialCanvas(host: HTMLElement, mode: Mode = 'inverse') {
+function measureExponentialCanvas(host: HTMLElement) {
   const width = Math.max(320, Math.floor(host.clientWidth || 640));
-  const height = exponentialCanvasHeight(width, mode);
+  const height = Math.max(
+    exponentialCanvasHeight(width, 'inverse'),
+    exponentialCanvasHeight(width, 'e'),
+    exponentialCanvasHeight(width, 'compare'),
+  );
   return { width, height };
 }
 
@@ -837,12 +841,10 @@ export default function ExponentialLogarithmExploreRoot() {
   }, []);
 
   const measureCanvas = useCallback(
-    (host: HTMLElement) => measureExponentialCanvas(host, paramsRef.current.mode),
+    (host: HTMLElement) => measureExponentialCanvas(host),
     [],
   );
   const draw = useCallback((p: p5) => {
-    const targetHeight = exponentialCanvasHeight(p.width, paramsRef.current.mode);
-    if (Math.abs(p.height - targetHeight) > 1) p.resizeCanvas(p.width, targetHeight);
     p.textFont('sans-serif');
     renderScene(p, paramsRef.current);
   }, []);

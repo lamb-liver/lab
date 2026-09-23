@@ -70,9 +70,10 @@ export function useGradientLevelCurvesP5({ params, onParamsChange }: Options) {
 
     p.mousePressed = () => {
       dragRef.current = hitPoint();
-      if (!dragRef.current) return;
+      if (!dragRef.current) return true;
       p.cursor('grabbing');
       updateDrag();
+      return false;
     };
 
     p.mouseDragged = () => {
