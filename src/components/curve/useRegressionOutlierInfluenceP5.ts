@@ -85,7 +85,7 @@ export function useRegressionOutlierInfluenceP5({
       return false;
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, [onStateChange, stateRef]);
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureSquare, extendSketch, {

@@ -48,7 +48,7 @@ export function useLawOfSinesCosinesP5({ params, onTriangleChange }: Options) {
       activeVertex: activeVertexRef.current,
     });
   }, []);
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     function nearestVertex(): DragVertex | null {
       const T = createTriangleTransform(p.width, p.height);
       let best: DragVertex | null = null;
@@ -114,7 +114,7 @@ export function useLawOfSinesCosinesP5({ params, onTriangleChange }: Options) {
       p.redraw();
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

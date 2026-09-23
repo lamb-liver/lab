@@ -53,7 +53,7 @@ export function useLpObjectiveLevelCurvesP5({ params, onParamsChange }: Options)
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     /**
      * 測試點優先於等值線：兩者常常疊在一起（測試點本來就落在某條等值線上），
      * 先判點才抓得到它。
@@ -112,7 +112,7 @@ export function useLpObjectiveLevelCurvesP5({ params, onParamsChange }: Options)
       p.cursor(pickTarget() ? 'grab' : 'default');
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

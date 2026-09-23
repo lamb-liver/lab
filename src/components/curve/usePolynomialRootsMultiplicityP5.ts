@@ -56,7 +56,7 @@ export function usePolynomialRootsMultiplicityP5({ params, onParamsChange }: Opt
       p.deltaTime,
     );
   }, []);
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const syncSceneCache = () => {
       sceneCacheRef.current = buildPolynomialSceneCache(paramsRef.current);
     };
@@ -99,7 +99,7 @@ export function usePolynomialRootsMultiplicityP5({ params, onParamsChange }: Opt
       draggingRootIndexRef.current = -1;
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

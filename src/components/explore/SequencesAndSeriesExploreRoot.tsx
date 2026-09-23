@@ -406,11 +406,11 @@ export default function SequencesAndSeriesExploreRoot() {
   }, []);
 
   const draw = useCallback((p: p5) => renderScene(p, paramsRef.current), []);
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     p.mousePressed = () => dragLogisticR(p);
     p.mouseDragged = () => dragLogisticR(p);
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, [dragLogisticR]);
   const canvasHostRef = useRectP5CanvasHost(
     draw,

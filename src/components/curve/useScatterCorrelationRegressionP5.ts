@@ -85,7 +85,7 @@ export function useScatterCorrelationRegressionP5({
       return false;
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
 
     p.doubleClicked = (event?: Event) => {
       if (!isCanvasPointer(p, host, event)) return;

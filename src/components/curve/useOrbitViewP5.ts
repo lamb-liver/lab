@@ -78,7 +78,7 @@ export function useOrbitViewP5<P extends OrbitView>({
     renderRef.current(p, paramsRef.current, rotatingRef.current);
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     function insideCanvas(): boolean {
       return p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
     }
@@ -123,7 +123,7 @@ export function useOrbitViewP5<P extends OrbitView>({
       p.redraw();
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

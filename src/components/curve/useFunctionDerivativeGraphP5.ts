@@ -71,7 +71,7 @@ export function useFunctionDerivativeGraphP5({
       activeDrag: draggingRef.current,
     });
   }, []);
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const updateDrag = () => {
       if (!draggingRef.current) return;
       const next = xFromFunctionDerivativePointer(
@@ -114,7 +114,7 @@ export function useFunctionDerivativeGraphP5({
       return wasDragging ? false : true;
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
     p.mouseWheel = () => !isFunctionDerivativePointerInPlot(p.width, p.mouseX, p.mouseY);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(

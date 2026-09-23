@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import type p5 from 'p5';
 import { prefersReducedMotion } from '../../lib/reducedMotion';
 import { isP5RendererReady } from './p5RendererReady';
+import { syncWorksCanvasTouch } from './touchToMouse';
 
 const REDUCED_MOTION_KEEP_LOOP_CAP = 600;
 
@@ -123,6 +124,13 @@ export function useRectP5CanvasHost(
       const instance = new P5(sketch, host);
       instanceRef.current = instance;
 
+      const touchSync = new MutationObserver(() => {
+        if (disposed) return;
+        syncWorksCanvasTouch(host);
+      });
+      touchSync.observe(host, { childList: true, subtree: true });
+      const touchTimers = [0, 50, 250].map((ms) => window.setTimeout(() => syncWorksCanvasTouch(host), ms));
+
       const ro = new ResizeObserver(() => {
         if (disposed) return;
         if (!isP5RendererReady(instance)) return;
@@ -142,6 +150,8 @@ export function useRectP5CanvasHost(
 
       cleanup = () => {
         disposed = true;
+        touchSync.disconnect();
+        for (const id of touchTimers) window.clearTimeout(id);
         ro.disconnect();
         if (instanceRef.current === instance) instanceRef.current = null;
         instance.remove();

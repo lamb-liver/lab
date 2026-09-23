@@ -138,11 +138,11 @@ export default function ConicDynamicGeometryExploreRoot() {
     }
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     p.mousePressed = () => updatePointFromMouse(p);
     p.mouseDragged = () => updatePointFromMouse(p);
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, [updatePointFromMouse]);
 
   const canvasHostRef = useRectP5CanvasHost(

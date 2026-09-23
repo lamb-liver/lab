@@ -43,7 +43,7 @@ export function useLpVertexOptimumP5({ params, onParamsChange }: Options) {
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     /** 點圖上的頂點就跳到候選表的那一列，兩邊指的是同一件事 */
     function hitCandidate(): number | null {
       const layout = createLpLayout(p.width, p.height, AXIS_HALF);
@@ -69,7 +69,7 @@ export function useLpVertexOptimumP5({ params, onParamsChange }: Options) {
       });
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

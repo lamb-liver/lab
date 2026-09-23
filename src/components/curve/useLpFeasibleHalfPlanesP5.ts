@@ -47,7 +47,7 @@ export function useLpFeasibleHalfPlanesP5({ params, onParamsChange }: Options) {
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     /**
      * 只有三條可調約束抓得動；x ≥ 0、y ≥ 0 是場景的框，拖它們會讓
      * 「可行域在第一象限」這個前提消失。
@@ -108,7 +108,7 @@ export function useLpFeasibleHalfPlanesP5({ params, onParamsChange }: Options) {
       p.cursor(nearestAdjustable() === null ? 'default' : 'grab');
     };
 
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(

@@ -60,7 +60,7 @@ export default function ComplexPowersRootsExploreRoot() {
     });
   }, []);
 
-  const extendSketch = useCallback((p: p5) => {
+  const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     function liveRadius(current: PowersRootsParams): number {
       if (current.mode === 'multiply') return multiplyViewportRadius(current.z1, current.z2);
       return computeDemoivreMetrics({
@@ -118,7 +118,7 @@ export default function ComplexPowersRootsExploreRoot() {
       dragLayoutRadiusRef.current = null;
       p.cursor(hit() ? 'grab' : 'default');
     };
-    wireTouchToMouse(p);
+    wireTouchToMouse(p, host);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(
