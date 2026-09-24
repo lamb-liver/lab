@@ -5,6 +5,13 @@ import {
 } from '../../exam/interactiveRegistry';
 
 const rootBySlug = {
+  'amc12a-2024-20-random-points-area-probability': lazy(
+    () => import('./RandomPointsAreaProbabilityExamRoot'),
+  ),
+  'amc12b-2023-21-lampshade-shortest-path': lazy(() => import('./LampshadeShortestPathExamRoot')),
+  'amc12b-2025-25-concentric-circles-equilateral': lazy(
+    () => import('./ConcentricCirclesEquilateralExamRoot'),
+  ),
   'ast-111-complex-unit-circle': lazy(() => import('./ComplexUnitCircleExamRoot')),
   'ast-111-parabola-focal-chord-directrix-projection': lazy(
     () => import('./ParabolaFocalChordDirectrixProjectionExamRoot'),

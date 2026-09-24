@@ -2,6 +2,7 @@
 import '../styles/components/card.css';
 import CardThumbFallback from './CardThumbFallback.astro';
 import type { ExamQuestionType, ExamSubject } from '../content.config';
+import { examSourceLabel } from '../lib/examSource';
 
 interface Props {
   slug: string;
@@ -28,7 +29,7 @@ const {
   coverImage,
   draft = false,
 } = Astro.props;
-const sourceLabel = `${year} ${subject}・${questionType}${questionNo}`;
+const sourceLabel = examSourceLabel({ year, subject, questionType, questionNo });
 ---
 
 <article

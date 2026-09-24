@@ -125,6 +125,53 @@ describe('release content audit', () => {
     expect(result.issues).toEqual([]);
   });
 
+  it('accepts AMC entries with a Western year and single-answer type', () => {
+    const amcExam = {
+      ...validExam,
+      body: validExam.body
+        .replace('subject: 學測數A', 'subject: AMC 12B')
+        .replace('year: 112', 'year: 2023')
+        .replace('questionType: 多選題', 'questionType: 單選'),
+    };
+    const result = auditContent([validWork, validExplore, amcExam], {
+      fileExists: (path: string) =>
+        path.endsWith('/public/images/explore-covers/valid-explore.png') ||
+        path.endsWith('/public/images/exam-covers/valid-exam.png'),
+    });
+
+    expect(result.issues).toEqual([]);
+  });
+
+  it('rejects mismatched year formats and multi-select AMC entries', () => {
+    const fileExists = () => true;
+    const amcRocYear = auditContent([validWork, validExplore, {
+      ...validExam,
+      body: validExam.body
+        .replace('subject: 學測數A', 'subject: AMC 12A')
+        .replace('questionType: 多選題', 'questionType: 單選'),
+    }], { fileExists });
+    const taiwanWesternYear = auditContent([validWork, validExplore, {
+      ...validExam,
+      body: validExam.body.replace('year: 112', 'year: 2023'),
+    }], { fileExists });
+    const amcMulti = auditContent([validWork, validExplore, {
+      ...validExam,
+      body: validExam.body
+        .replace('subject: 學測數A', 'subject: AMC 12B')
+        .replace('year: 112', 'year: 2023'),
+    }], { fileExists });
+
+    expect(amcRocYear.issues.map((issue) => issue.message)).toContain(
+      'year must be a 4-digit Western year for AMC subjects',
+    );
+    expect(taiwanWesternYear.issues.map((issue) => issue.message)).toContain(
+      'year must be a 3-digit ROC year',
+    );
+    expect(amcMulti.issues.map((issue) => issue.message)).toContain(
+      'AMC questions are single-answer A–E; questionType must be 單選',
+    );
+  });
+
   it('requires topics for published Exam content', () => {
     const examWithoutTopics = {
       ...validExam,

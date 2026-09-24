@@ -2,6 +2,7 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import { conceptSlugs } from './lib/concepts';
+import { examSubjects } from './lib/examSource';
 
 /** 跨集合共用概念詞彙（slug）；registry 見 src/lib/concepts.ts */
 const conceptEnum = z.enum(conceptSlugs as [string, ...string[]]);
@@ -24,10 +25,12 @@ export const contentAudiences = [
 
 export type ContentAudience = (typeof contentAudiences)[number];
 
-export const examSubjects = ['學測數A', '學測數B', '分科數甲'] as const;
+/** 台灣考科 + AMC 12；清單本體在 src/lib/examSource.ts（scripts/audit-content.mjs 需同步） */
+export { examSubjects };
 
 export type ExamSubject = (typeof examSubjects)[number];
 
+/** AMC 12 為五選一（A–E），沿用「單選」 */
 export const examQuestionTypes = ['單選', '多選', '選填', '非選'] as const;
 
 export type ExamQuestionType = (typeof examQuestionTypes)[number];
@@ -71,6 +74,7 @@ const exam = defineCollection({
     title: z.string(),
     description: z.string(),
     subject: z.enum(examSubjects),
+    /** 台灣考科用民國年（3 位數）；AMC 用西元年（4 位數），由 audit-content 檢查 */
     year: z.number().int(),
     questionType: z.enum(examQuestionTypes),
     questionNo: z.string(),
