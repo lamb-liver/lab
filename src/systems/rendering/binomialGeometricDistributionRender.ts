@@ -33,7 +33,7 @@ export function renderBinomialGeometricDistributionScene(
   const data = deriveDistributionData(snap.params);
 
   p.background(...BG);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const scale = Math.min(
     snap.width / BINOMIAL_GEOMETRIC_VIEW.width,

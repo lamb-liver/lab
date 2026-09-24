@@ -29,7 +29,7 @@ export function renderGeometricDistributionExamScene(
   snap: GeometricDistributionExamSnap,
 ): void {
   p.background(10, 10, 10);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const histogram: Rect = {
     x: 46,

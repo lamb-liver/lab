@@ -144,7 +144,7 @@ export function renderCubicSymmetryCenterExamScene(
   snap: CubicSymmetryCenterExamSnap,
 ): void {
   p.background(10, 10, 10);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const [quotientPlot, cubicPlot] = plotsFor(snap.width, snap.height);
   const sample = symmetrySample(snap.distance);

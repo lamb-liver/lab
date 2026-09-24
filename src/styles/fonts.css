@@ -25,6 +25,37 @@
   font-display: fallback;
 }
 
+/* 思源黑體 CJK-only alias, used before generic families in --font-mono and canvas text.
+   Chrome resolves generic families per script (zh-Hant monospace / sans-serif can map to a
+   system CJK font), so the webfont must come before the generic; unicode-range keeps Latin,
+   digits and symbols on the monospace / system fonts. Same files as 'Noto Sans TC'. */
+@font-face {
+  font-family: 'Noto Sans TC CJK';
+  src: url('/fonts/noto-sans-tc/NotoSansTC-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+  unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF;
+}
+
+@font-face {
+  font-family: 'Noto Sans TC CJK';
+  src: url('/fonts/noto-sans-tc/NotoSansTC-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback;
+  unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF;
+}
+
+@font-face {
+  font-family: 'Noto Sans TC CJK';
+  src: url('/fonts/noto-sans-tc/NotoSansTC-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: fallback;
+  unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF;
+}
+
 /* 源雲明體 TW（月版）GenWanMin2TW — large headings / display */
 @font-face {
   font-family: 'GenWanMin TW';

@@ -47,7 +47,7 @@ function drawLineThroughOrigin(p: p5, plot: Plot, slope: number, color: readonly
 
 export function renderCircleTwoLinesTangentExamScene(p: p5, snap: Snap): void {
   p.background(10, 10, 10);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const extent = Math.max(4.5, Math.abs(snap.a) + radiusForRatio(snap.a) + 1.5);
   const plot: Plot = {

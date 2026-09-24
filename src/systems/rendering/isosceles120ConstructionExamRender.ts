@@ -21,7 +21,7 @@ export function renderIsosceles120ConstructionExamScene(
   snap: Isosceles120ConstructionExamSnap,
 ): void {
   p.background(10, 10, 10);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const points = toScreenPoints(snap);
   drawTriangle(p, points.A, points.B, points.C, WHITE, 0);

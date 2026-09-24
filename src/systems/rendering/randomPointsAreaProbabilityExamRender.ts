@@ -13,7 +13,7 @@ const GOLD = [212, 184, 122] as const;
 const BLUE = [93, 173, 226] as const;
 const RED = [235, 110, 100] as const;
 const WHITE = [232, 232, 232] as const;
-const CANVAS_FONT = "'Noto Sans TC', system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
+const CANVAS_FONT = 'system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC CJK", sans-serif';
 const SQRT3_2 = Math.sqrt(3) / 2;
 const DOT_LIMIT = 2500;
 

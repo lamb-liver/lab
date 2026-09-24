@@ -60,7 +60,7 @@ export function renderSinusoidSuperpositionExamScene(
   snap: SinusoidSuperpositionExamSnap,
 ): void {
   p.background(10, 10, 10);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const plot: Plot = {
     x: 44,

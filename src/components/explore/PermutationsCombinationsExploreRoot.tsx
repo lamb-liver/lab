@@ -151,7 +151,7 @@ function renderRecurrenceScene(p: p5, params: Params['recurrence']) {
       p.fill(...(isTarget ? GOLD : isParent ? GREEN : BLUE), isTarget ? 230 : isParent ? 190 : 120);
       p.circle(node.x, node.y, isTarget ? 18 : isParent ? 15 : 11);
       p.fill(...WHITE, isTarget ? 230 : 170);
-      p.textFont('monospace');
+      p.textFont('"Noto Sans TC CJK", monospace');
       p.textSize(isTarget ? 12 : 10);
       p.textAlign(p.CENTER, p.CENTER);
       p.text(String(value), node.x, node.y + 0.5);
@@ -160,7 +160,7 @@ function renderRecurrenceScene(p: p5, params: Params['recurrence']) {
 
   p.noStroke();
   p.fill(...GOLD, 220);
-  p.textFont('monospace');
+  p.textFont('"Noto Sans TC CJK", monospace');
   p.textSize(13);
   p.textAlign(p.LEFT, p.TOP);
   p.text(`C(${safeN}, ${safeK}) = ${fmt(parts.total)}`, rect.x + 14, rect.y + 14);

@@ -25,7 +25,7 @@ const GOLD: Rgb = [212, 184, 122];
 const BLUE: Rgb = [160, 205, 255];
 const RED: Rgb = [235, 110, 100];
 const GUIDE: Rgb = [255, 255, 255];
-const CANVAS_FONT = "'Noto Sans TC', system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
+const CANVAS_FONT = 'system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC CJK", sans-serif';
 
 const HALF_SECTOR = SECTOR_ANGLE / 2;
 const RULINGS = 24;

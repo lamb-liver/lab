@@ -43,6 +43,12 @@ jobs:
       - name: Integration audit
         run: npm run audit:integration
 
+      # Shipped woff2 subsets must cover every CJK character in site copy.
+      - name: Font glyph coverage
+        run: |
+          python3 -m pip install --quiet fonttools brotli
+          python3 scripts/check-font-glyphs.py
+
       - name: Build
         run: npm run build
 

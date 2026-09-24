@@ -352,7 +352,7 @@ function drawCosineLawScene(
 
 export function renderLawOfSinesCosinesScene(p: p5, snap: LawRenderSnap) {
   p.background(BG[0], BG[1], BG[2]);
-  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, sans-serif');
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC CJK", sans-serif');
   p.strokeCap(p.ROUND);
   p.strokeJoin(p.ROUND);
 

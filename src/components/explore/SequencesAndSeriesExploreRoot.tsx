@@ -355,7 +355,7 @@ function renderLogistic(p: p5, params: Params['logistic']) {
 
 function renderScene(p: p5, params: Params) {
   p.background(10, 10, 10);
-  p.textFont('monospace');
+  p.textFont('"Noto Sans TC CJK", monospace');
 
   if (params.mode === 'sequence') renderSequence(p, params.sequence);
   if (params.mode === 'series') renderSeries(p, params.series);
