@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <pattern id="samples" width="26" height="26" patternUnits="userSpaceOnUse" x="930" y="240">
+      <circle cx="13" cy="13" r="4.5" fill="#5DADE2" fill-opacity="0.6"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <polygon points="170,800 730,800 450,315" fill="none" stroke="#E8E8E8" stroke-opacity="0.45" stroke-width="6" stroke-linejoin="round"/>
+  <polygon points="170,800 607,800 344,499" fill="#D4B87A" fill-opacity="0.28" stroke="#D4B87A" stroke-width="10" stroke-linejoin="round"/>
+  <g fill="#D4B87A">
+    <circle cx="607" cy="800" r="14"/>
+    <circle cx="344" cy="499" r="14"/>
+  </g>
+  <path d="M 930 760 L 930 240 L 1190 240 L 1206 271 L 1222 298 L 1239 322 L 1255 344 L 1271 364 L 1288 382 L 1304 398 L 1320 413 L 1336 427 L 1352 440 L 1369 452 L 1385 463 L 1401 473 L 1418 483 L 1434 492 L 1450 500 L 1450 760 Z" fill="#5DADE2" fill-opacity="0.14"/>
+  <path d="M 930 760 L 930 240 L 1190 240 L 1206 271 L 1222 298 L 1239 322 L 1255 344 L 1271 364 L 1288 382 L 1304 398 L 1320 413 L 1336 427 L 1352 440 L 1369 452 L 1385 463 L 1401 473 L 1418 483 L 1434 492 L 1450 500 L 1450 760 Z" fill="url(#samples)"/>
+  <rect x="930" y="240" width="520" height="520" fill="none" stroke="#E8E8E8" stroke-opacity="0.45" stroke-width="6"/>
+  <path d="M 1190 240 L 1206 271 L 1222 298 L 1239 322 L 1255 344 L 1271 364 L 1288 382 L 1304 398 L 1320 413 L 1336 427 L 1352 440 L 1369 452 L 1385 463 L 1401 473 L 1418 483 L 1434 492 L 1450 500" fill="none" stroke="#D4B87A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="1336" cy="438" r="28" fill="#D4B87A" opacity="0.22"/>
+  <circle cx="1336" cy="438" r="13" fill="#D4B87A"/>
+</svg>
