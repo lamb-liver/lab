@@ -1,0 +1,164 @@
+name: One-shot commit AMC exam binaries
+
+# 暫時性 workflow：MCP push_files 無法上傳二進位檔，改由 CI 產生並提交
+# 3 張 AMC 封面 PNG 與補字後的網站字型子集；既有檔案的修改以 patch 帶入。
+# GITHUB_TOKEN 不能修改 workflow 檔，本檔於 bot commit 之後另以一般 commit 刪除。
+on:
+  push:
+    branches: [feat/amc12-exams]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: oneshot-amc-binaries
+  cancel-in-progress: false
+
+jobs:
+  commit-binaries:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v7
+        with:
+          ref: feat/amc12-exams
+          fetch-depth: 0
+
+      - name: Apply patch for modified existing files
+        run: |
+          set -euo pipefail
+          git apply --index .github/oneshot/amc-modified.patch
+          git rm -q -f .github/oneshot/amc-modified.patch
+
+      - name: Verify every text file matches the locally tested version
+        run: |
+          cat > /tmp/amc-manifest.sha256 <<'SUMS'
+          1fb17b8ff9f8e5e86d451d4605fee204968ffb90a04006187d2722489d8ab8e7  docs/exam-visualization-plan.md
+          551c3efc93018988e5fd72f931d970e016cbdc7c830862a53df2162737868a3e  docs/textstyle.md
+          9e88947e5a5de89dd903bc5c54f8bc2bc90af4311ca3719f79037c2d386b03d5  scripts/audit-content.mjs
+          3834791219282a25b97afc0382884de001c03d273b3027848b9a2a0a3cb2edfa  scripts/exam-covers/amc12a-2024-20-random-points-area-probability.svg
+          5a4a72570b5b6e37d1f02bf3f016b3d582dafeaae8818972de14a3ce3c56b39e  scripts/exam-covers/amc12b-2023-21-lampshade-shortest-path.svg
+          f0e1c0ed8ba447c7599acd5eadce88dcac8c9cad54542215d25c6d3395727cb2  scripts/exam-covers/amc12b-2025-25-concentric-circles-equilateral.svg
+          7de400f2f44befb9ada356cc6c6841114ccf3625d383da3e169a647078a67624  scripts/new-exam.mjs
+          2913516d07bff4ff43557461b4930da5d8e3d092fb20d47c6d24abd013e0f1c0  src/components/ExamCard.astro
+          05f2cbfff2ddcbd2a95ff329ca266e0f2a2f48c573d16b2f33e0117dd52c85bc  src/components/exam/ConcentricCirclesEquilateralExamRoot.tsx
+          32c743c5e3996c4f25259c81fd0654c9c469eca897c679e3b2418518a364f6e7  src/components/exam/ExamInteractiveStage.tsx
+          5d9c9d760bfadbefea0ca7454a8d03058af57b6fba5f48c24084c96d3b509e38  src/components/exam/LampshadeShortestPathExamRoot.tsx
+          9baab42f4cc698ae6d94b694a9f993813c6f37abcf5caa806b5212fd43701fb4  src/components/exam/RandomPointsAreaProbabilityExamRoot.tsx
+          d2a47dc2c6f314f482a8f206f5655c614429f1efadd34039f808ba0288428538  src/content.config.ts
+          0419dc03f5dcf96f2fb03f66fd605794fb05a4b092b48abd4c4440d2ffbb0a58  src/content/exam/amc12a-2024-20-random-points-area-probability.md
+          05634f313af06d3c82b5412496562c5d76442cbb08ffbf33f5cb1299735eafe6  src/content/exam/amc12b-2023-21-lampshade-shortest-path.md
+          23319b97dc534132d5ee3fe50a3e8421e3409c94a00cb2faf9348444617cde22  src/content/exam/amc12b-2025-25-concentric-circles-equilateral.md
+          77a761e0773dae0b957efbff098651e6412fe0d23340798c958a26e50e9df8d3  src/content/releaseAudit.test.ts
+          b9b8d752b5bf3c74321bad7bfd9d056125a54a1c2cf26788137b872c5f33f2ac  src/exam/amc12a-2024-20-random-points-area-probability/geometry.test.ts
+          6d4a8742ae7ccd6f783e3e6a1caed0524c5a0fdb0505c8eaa6e556d5003b4af8  src/exam/amc12a-2024-20-random-points-area-probability/geometry.ts
+          80ed83c0801176041c022b4319b84dffb9c4fa3e8c1281c5c8ddd86f6e068095  src/exam/amc12b-2023-21-lampshade-shortest-path/geometry.test.ts
+          353a2ea636827d74b04e41e6f71571021e3d155e3b9d5e819a6e461e399149dd  src/exam/amc12b-2023-21-lampshade-shortest-path/geometry.ts
+          137e1032ba96b042ad71ece457d8699ed4c4ddde5d126941960702e68fb7ff3f  src/exam/amc12b-2025-25-concentric-circles-equilateral/geometry.test.ts
+          dab1b3aadfe21fd265b0c1c9fb2743e5e9797113f55a5a9906a346ff03c1d75c  src/exam/amc12b-2025-25-concentric-circles-equilateral/geometry.ts
+          a768285b1077b704d703b0f80a98403cb941ade51c7dee49097cca1c9b419b62  src/exam/interactiveSlugs.ts
+          fc05d21c592df344c829151aac79aff35aad8954927f2707fb2cee0c91bda248  src/lib/examSource.test.ts
+          e73dcbb353595eb220fe02eb4064a8753e270267f37fbb82216478c296ef8b05  src/lib/examSource.ts
+          afed350dbdd2f5de27f90a44359ae6a37bebe971c233c1ebea80a53048bc5214  src/lib/relatedContent.ts
+          c84bf3de0ac1faea77dfdcaf78d9f2ea7de924aeb2714c44f08293b9c7ae8b66  src/pages/exam/[slug].astro
+          d58d24a71e887875cedb325f5f3609144c53f4f929b8db9cb4ba6a5d4d55ff18  src/pages/exam/index.astro
+          a2ea3c10972deb091e6a33d893198de29405c5a452b3ebac155fd1421d28195a  src/styles/pages/exam-detail.css
+          7aeea3d49fa741aa67d821ccd62f55662d0b5520cab0a800e22d9f822fd0eb0d  src/systems/rendering/concentricCirclesEquilateralExamRender.ts
+          db3d71268b06e02239eb87cd3f588e6e05c0387c628d42e919d66a6b502d9db8  src/systems/rendering/lampshadeShortestPathExamRender.ts
+          381559e57fa97320bd9bcad13b1d790c4c67be55b9e885e637e5ca62d8f93a63  src/systems/rendering/randomPointsAreaProbabilityExamRender.ts
+          SUMS
+          sha256sum -c /tmp/amc-manifest.sha256
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate exam cover PNGs
+        run: npm run covers:exam
+
+      - name: Download source fonts
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet fonttools brotli
+          mkdir -p /tmp/dl /tmp/lab-fonts/noto-sans-tc /tmp/lab-fonts/genwan
+          cd /tmp/dl
+          curl -sSfL -o shs-tc.zip https://github.com/adobe-fonts/source-han-sans/releases/download/2.005R/10_SourceHanSansTC.zip
+          curl -sSfL -o genwan-tw.zip https://github.com/ButTaiwan/genwan-font/releases/download/v2.100/GenWanMin2TW-otf.zip
+          curl -sSfL -o /tmp/lab-fonts/LXGWWenKaiTC-Regular.ttf https://github.com/lxgw/LxgwWenkaiTC/releases/download/v1.522/LXGWWenKaiTC-Regular.ttf
+          curl -sSfL -o /tmp/lab-fonts/LXGWWenKaiTC-Medium.ttf https://github.com/lxgw/LxgwWenkaiTC/releases/download/v1.522/LXGWWenKaiTC-Medium.ttf
+          unzip -oj -q shs-tc.zip OTF/TraditionalChinese/SourceHanSansTC-Regular.otf OTF/TraditionalChinese/SourceHanSansTC-Medium.otf OTF/TraditionalChinese/SourceHanSansTC-Bold.otf -d /tmp/lab-fonts/noto-sans-tc
+          unzip -oj -q genwan-tw.zip GenWanMin2TW-R.otf GenWanMin2TW-M.otf -d /tmp/lab-fonts/genwan
+
+      - name: Re-subset site fonts (keep every shipped glyph, add AMC page glyphs)
+        run: |
+          set -euo pipefail
+          cat > /tmp/resubset.py <<'PY'
+          import glob, os, re, subprocess, sys
+          from pathlib import Path
+          from fontTools.ttLib import TTFont
+          ROOT = Path(os.environ['GITHUB_WORKSPACE']); SRC = Path('/tmp/lab-fonts'); OUT = ROOT / 'public/fonts'
+          NEW = (glob.glob(str(ROOT / 'src/content/exam/amc*.md'))
+            + [str(p) for p in ROOT.glob('src/components/exam/*') if re.search('Lampshade|Concentric|RandomPoints', p.name)]
+            + [str(p) for p in ROOT.glob('src/systems/rendering/*') if re.search('lampshade|concentric|randomPoints', p.name)]
+            + glob.glob(str(ROOT / 'src/exam/amc*/*.ts'))
+            + [str(ROOT / 'src/lib/examSource.ts'), str(ROOT / 'src/pages/exam/[slug].astro'), str(ROOT / 'src/components/ExamCard.astro')])
+          new_chars = set()
+          for f in NEW:
+              if '.test.' in f: continue
+              new_chars |= {c for c in Path(f).read_text(encoding='utf-8') if ord(c) > 0x7E}
+          new_chars |= set('\u2212\u2220\u25b3')
+          jobs = [
+            ('noto-sans-tc/SourceHanSansTC-Regular.otf', 'noto-sans-tc/NotoSansTC-Regular.woff2'),
+            ('noto-sans-tc/SourceHanSansTC-Medium.otf', 'noto-sans-tc/NotoSansTC-Medium.woff2'),
+            ('noto-sans-tc/SourceHanSansTC-Bold.otf', 'noto-sans-tc/NotoSansTC-Bold.woff2'),
+            ('genwan/GenWanMin2TW-R.otf', 'genwanmin-tw/GenWanMin2TW-R.woff2'),
+            ('genwan/GenWanMin2TW-M.otf', 'genwanmin-tw/GenWanMin2TW-M.woff2'),
+            ('LXGWWenKaiTC-Regular.ttf', 'lxgw-wenkai-tc/LXGWWenKaiTC-Regular.woff2'),
+            ('LXGWWenKaiTC-Medium.ttf', 'lxgw-wenkai-tc/LXGWWenKaiTC-Medium.woff2'),
+          ]
+          for src, dst in jobs:
+              old = set(TTFont(OUT / dst).getBestCmap())
+              want = old | {ord(c) for c in new_chars}
+              tf = SRC / 'subset-union.txt'
+              tf.write_text(''.join(chr(u) for u in sorted(want)), encoding='utf-8')
+              subprocess.check_call(['pyftsubset', str(SRC / src), f'--text-file={tf}', '--layout-features=*', '--glyph-names', '--symbol-cmap', '--legacy-cmap', '--notdef-glyph', '--notdef-outline', '--recommended-glyphs', '--name-IDs=*', '--name-legacy', '--name-languages=*', '--flavor=woff2', f'--output-file={OUT / dst}'])
+              now = set(TTFont(OUT / dst).getBestCmap())
+              missing = want - now
+              print(dst, 'added', len(now - old), 'lost', len(old - now), 'still missing', ''.join(chr(u) for u in sorted(missing)))
+              if old - now or missing:
+                  sys.exit(1)
+          PY
+          python3 /tmp/resubset.py
+
+      - name: Commit binaries and patched files
+        run: |
+          set -euo pipefail
+          git config user.name "羊肝"
+          git config user.email "147922854+lamb-liver@users.noreply.github.com"
+          git add \
+            public/images/exam-covers/amc12b-2023-21-lampshade-shortest-path.png \
+            public/images/exam-covers/amc12b-2025-25-concentric-circles-equilateral.png \
+            public/images/exam-covers/amc12a-2024-20-random-points-area-probability.png \
+            public/fonts/noto-sans-tc/NotoSansTC-Regular.woff2 \
+            public/fonts/noto-sans-tc/NotoSansTC-Medium.woff2 \
+            public/fonts/noto-sans-tc/NotoSansTC-Bold.woff2 \
+            public/fonts/genwanmin-tw/GenWanMin2TW-R.woff2 \
+            public/fonts/genwanmin-tw/GenWanMin2TW-M.woff2 \
+            public/fonts/lxgw-wenkai-tc/LXGWWenKaiTC-Regular.woff2 \
+            public/fonts/lxgw-wenkai-tc/LXGWWenKaiTC-Medium.woff2
+          git status --short
+          git commit -m "$(cat <<'EOF'
+          feat(exam): AMC 12 structure changes, cover PNGs and font subsets
+
+          Generated in CI because MCP push cannot upload binaries: covers from
+          scripts/exam-covers SVGs via covers:exam; font subsets keep every shipped
+          glyph and add the characters used by the three AMC pages. Also applies
+          the AMC changes to existing files (source label, audit, docs).
+          EOF
+          )"
+          git push origin HEAD:feat/amc12-exams
