@@ -36,7 +36,9 @@ describe('eventClientY', () => {
 function fakeStyle() {
   const decls = new Map<string, { value: string; priority: string }>();
   return {
+    writes: 0,
     setProperty(name: string, value: string, priority = '') {
+      this.writes += 1;
       decls.set(name, { value, priority });
     },
     getPropertyValue(name: string) {
@@ -113,6 +115,15 @@ describe('syncWorksCanvasTouch', () => {
     expect(canvasStyle.getPropertyValue('touch-action')).toBe('none');
     expect(canvasStyle.getPropertyPriority('touch-action')).toBe('');
   });
+
+  it('does not rewrite when value and important already match', () => {
+    stubViewport(true);
+    const { host, canvasStyle } = makeHost();
+    syncWorksCanvasTouch(host);
+    const writes = canvasStyle.writes;
+    syncWorksCanvasTouch(host);
+    expect(canvasStyle.writes).toBe(writes);
+  });
 });
 
 describe('observeWorksCanvasTouch', () => {
@@ -155,6 +166,30 @@ describe('observeWorksCanvasTouch', () => {
     canvasStyle.setProperty('touch-action', 'none');
     vi.advanceTimersByTime(2000);
     expect(canvasStyle.getPropertyValue('touch-action')).toBe('none');
+  });
+
+  it('does not rewrite when the observer re-fires on an identical value', () => {
+    vi.useFakeTimers();
+    stubViewport(true);
+    const callbacks: Array<() => void> = [];
+    vi.stubGlobal(
+      'MutationObserver',
+      class {
+        constructor(cb: MutationCallback) {
+          callbacks.push(() => {
+            cb([], this as unknown as MutationObserver);
+          });
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    const { host, canvasStyle } = makeHost();
+    observeWorksCanvasTouch(host);
+    const writes = canvasStyle.writes;
+    callbacks[0]?.();
+    vi.advanceTimersByTime(16);
+    expect(canvasStyle.writes).toBe(writes);
   });
 });
 

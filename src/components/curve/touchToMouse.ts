@@ -47,7 +47,9 @@ export function eventClientY(event?: Event): number | null {
 }
 
 function setTouchAction(el: { style: CSSStyleDeclaration }, value: string): void {
-  el.style.setProperty('touch-action', value, 'important');
+  const s = el.style;
+  if (s.getPropertyValue('touch-action') === value && s.getPropertyPriority('touch-action') === 'important') return;
+  s.setProperty('touch-action', value, 'important');
 }
 
 /**
