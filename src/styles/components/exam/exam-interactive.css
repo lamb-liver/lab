@@ -9,7 +9,7 @@
 .exam-interactive-explore__visual-title,
 .exam-interactive-explore__block-title {
   margin: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-mono), var(--font-sans);
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -26,7 +26,7 @@
 
 .exam-interactive-explore__visual-sub {
   margin: var(--space-1) 0 var(--space-3);
-  font-family: var(--font-mono);
+  font-family: var(--font-mono), var(--font-sans);
   font-size: 0.8125rem;
   color: rgb(212, 184, 122);
   opacity: 0.85;
@@ -44,13 +44,13 @@
 .exam-interactive-explore__prompt strong {
   display: block;
   color: rgb(212, 184, 122);
-  font-family: var(--font-mono);
+  font-family: var(--font-mono), var(--font-sans);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
 }
 
 .exam-interactive-explore__sidebar {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono), var(--font-sans);
   font-size: 0.8125rem;
 }
 
