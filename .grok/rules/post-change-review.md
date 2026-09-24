@@ -22,7 +22,8 @@ Skip only for unrelated edits (docs-only, CI, fonts) that do not touch the paths
 1. `npm run validate:changed` in the lab repo.
 2. Architecture / visual / registry pass using `.cursor/rules/code-review.mdc` (§1–§8).
 3. Math pass on every changed Markdown using `docs/math-content-review-checklist.md`. Write the record format from that file. Verdict: `pass` | `concern` | `blocked` | `follow-up`.
-4. If the working tree is dirty, a `/review` local pass is the code-review vehicle; if the tree is clean, `/review --main`. Do not skip because tests already passed.
+4. Explore／Works 文案：用 [`exploreplan.md`](../../docs/exploreplan.md) 的「同一個什麼」看 Explore 的 `description` 與 `觀察重點`。若某條觀察重點可以直接當某件 Work 的標題或核心句，改成跨表徵關係。**沒有結論複製就寫「沒有」，不要硬改。** 新增 Work 時，掃過相關 Explore 是否把新結論搬進去。
+5. If the working tree is dirty, a `/review` local pass is the code-review vehicle; if the tree is clean, `/review --main`. Do not skip because tests already passed.
 
 ## Fix without asking
 
