@@ -93,6 +93,9 @@ Explore 與 Works 共用 §3～§6 的 frontmatter、數學、用字、分層規
 `## 互動怎麼看`。題意必須是改寫，附 `sourceUrl` 連回大考中心原卷，不整段轉載題目與選項。
 章節由 `src/content/contentAudit.ts` 強制。
 
+AMC 12 題目同樣四節；`sourceUrl` 改連 AoPS 題目頁，詳情頁自動附「© MAA」出處標示，
+題意不得貼英文原文或 AoPS 解答，細則見 `docs/exam-visualization-plan.md` 的 AMC Gate。
+
 ---
 
 ## 3. Frontmatter

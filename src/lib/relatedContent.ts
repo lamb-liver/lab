@@ -1,4 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
+import { examSourceLabel as formatExamSourceLabel } from './examSource';
 
 /** 跨集合關聯連結的統一資料形狀，餵給 RelatedLinks.astro */
 export interface RelatedRef {
@@ -6,13 +7,13 @@ export interface RelatedRef {
   /** 站內絕對路徑，例 `/works/complex-arithmetic-geometry` */
   href: string;
   title: string;
-  /** 補充脈絡；exam 用來源標籤，例 `111 分科數甲・選填11` */
+  /** 補充脈絡；exam 用來源標籤，例 `111 分科數甲・選填11`、`2023 AMC 12B・第21題` */
   meta?: string;
 }
 
-/** 與 exam/[slug].astro 的 sourceLabel 同格式 */
+/** 與 exam/[slug].astro 的 sourceLabel 同格式（見 lib/examSource.ts） */
 const examSourceLabel = (data: CollectionEntry<'exam'>['data']): string =>
-  `${data.year} ${data.subject}・${data.questionType}${data.questionNo}`;
+  formatExamSourceLabel(data);
 
 /** exam 反向索引：每個 work/explore slug → 引用它的試題（新→舊） */
 export function buildExamBackrefs(

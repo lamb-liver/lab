@@ -7,7 +7,18 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 export const EXPLORE_CATEGORIES = ['幾何', '代數', '統計', '拓樸', '分析'];
 export const CONTENT_AUDIENCES = ['直觀探索', '高中概念', '大學概念'];
-export const EXAM_SUBJECTS = ['學測數A', '學測數B', '分科數甲'];
+/** 與 src/lib/examSource.ts 的 examSubjects 同步（src/lib/examSource.test.ts 把關） */
+export const TAIWAN_EXAM_SUBJECTS = ['學測數A', '學測數B', '分科數甲'];
+export const AMC_EXAM_SUBJECTS = ['AMC 12A', 'AMC 12B'];
+export const EXAM_SUBJECTS = [...TAIWAN_EXAM_SUBJECTS, ...AMC_EXAM_SUBJECTS];
+
+/** 台灣考科用民國年（3 位數）；AMC 用西元年（4 位數） */
+export function examYearIssue(subject, year) {
+  if (AMC_EXAM_SUBJECTS.includes(subject)) {
+    return /^\d{4}$/.test(year) ? null : 'year must be a 4-digit Western year for AMC subjects';
+  }
+  return /^\d{3}$/.test(year) ? null : 'year must be a 3-digit ROC year';
+}
 const COLLECTIONS = ['works', 'explore', 'exam'];
 const REQUIRED_FIELDS = {
   works: ['title', 'description', 'tags', 'date', 'order', 'draft'],
@@ -166,8 +177,19 @@ function checkFrontmatter(file, parsed, issues) {
     }
 
     const year = fieldValue(parsed, 'year');
-    if (year && !/^\d{3}$/.test(year)) {
-      addIssue(issues, file, fieldLine(parsed, 'year'), 'year must be a 3-digit ROC year');
+    const yearIssue = year ? examYearIssue(subject, year) : null;
+    if (yearIssue) {
+      addIssue(issues, file, fieldLine(parsed, 'year'), yearIssue);
+    }
+
+    const questionType = fieldValue(parsed, 'questionType');
+    if (subject && AMC_EXAM_SUBJECTS.includes(subject) && questionType && questionType !== '單選') {
+      addIssue(
+        issues,
+        file,
+        fieldLine(parsed, 'questionType'),
+        'AMC questions are single-answer A–E; questionType must be 單選',
+      );
     }
 
     const topics = parsed.arrays.get('topics') ?? [];

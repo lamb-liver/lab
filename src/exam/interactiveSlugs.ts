@@ -1,5 +1,8 @@
 /** Interactive Exam slug source. Keep in sync with ExamInteractiveStage. */
 export const examInteractiveSlugs = [
+  'amc12a-2024-20-random-points-area-probability',
+  'amc12b-2023-21-lampshade-shortest-path',
+  'amc12b-2025-25-concentric-circles-equilateral',
   'ast-111-complex-unit-circle',
   'ast-111-parabola-focal-chord-directrix-projection',
   'ast-112-isosceles-120-construction',

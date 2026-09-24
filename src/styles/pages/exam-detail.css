@@ -26,3 +26,10 @@
 .exam-source-links a:focus-visible {
   color: var(--color-text);
 }
+
+/* AMC 等需標示出處的題目：一行小字，放在原題連結下方 */
+.exam-source-credit {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}

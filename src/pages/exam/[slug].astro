@@ -12,6 +12,7 @@ import type { RelatedRef } from '../../lib/relatedContent';
 import { getStaticPathsFromCollection } from '../../content/utils';
 import { isExamInteractive } from '../../exam/interactiveRegistry';
 import { SITE_AUTHOR } from '../../lib/siteLinks';
+import { examCreditLine, examSourceLabel, examSourceLinkLabels } from '../../lib/examSource';
 import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
 import '../../styles/prose.css';
@@ -28,8 +29,9 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const interactive = isExamInteractive(entry.id);
-const { subject, year, questionType, questionNo } = entry.data;
-const sourceLabel = `${year} ${subject}・${questionType}${questionNo}`;
+const sourceLabel = examSourceLabel(entry.data);
+const sourceLinkLabels = examSourceLinkLabels(entry.data.subject);
+const creditLine = examCreditLine(entry.data);
 const ogImage = entry.data.coverImage;
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL('/', site).href;
@@ -114,16 +116,17 @@ const relatedItems: RelatedRef[] = [
         entry.data.sourceUrl ? (
           <p class="exam-source-links">
             <a href={entry.data.sourceUrl} rel="noopener noreferrer" target="_blank">
-              大考中心原卷
+              {sourceLinkLabels.source}
             </a>
             {entry.data.analysisUrl ? (
               <a href={entry.data.analysisUrl} rel="noopener noreferrer" target="_blank">
-                試題解析
+                {sourceLinkLabels.analysis}
               </a>
             ) : null}
           </p>
         ) : null
       }
+      {creditLine ? <p class="exam-source-credit">{creditLine}</p> : null}
       <ConceptTags slugs={entry.data.concepts} />
     </header>
 

@@ -19,7 +19,7 @@ Works 的敘事是「這個數學對象長什麼樣」，Explore 是「這個單
 新增 `src/content.config.ts` 的第三個 collection：
 
 ```ts
-export const examSubjects = ['學測數A', '學測數B', '分科數甲'] as const;
+export const examSubjects = ['學測數A', '學測數B', '分科數甲', 'AMC 12A', 'AMC 12B'] as const; // 實際清單在 src/lib/examSource.ts
 export const examQuestionTypes = ['單選', '多選', '選填', '非選'] as const;
 
 const exam = defineCollection({
@@ -28,7 +28,7 @@ const exam = defineCollection({
     title: z.string(),
     description: z.string(),
     subject: z.enum(examSubjects),      // 考科
-    year: z.number().int(),             // 民國年：112 / 113 / 114
+    year: z.number().int(),             // 台灣考科用民國年（112 / 113 / 114）；AMC 用西元年（2023）
     questionType: z.enum(examQuestionTypes),
     questionNo: z.string(),             // '11'、'17'
     unit: z.string(),                   // '高三選修數A・矩陣與線性變換'
@@ -219,3 +219,39 @@ npm run build
 
 - [ ] 實作者完成修正與上述驗證後，再進行一次不依賴原實作假設的 code review
 - [ ] 複審重新核對數學、學生可讀性、無障礙、手機版與正式封鎖；所有 finding 關閉後才可上線
+
+## AMC 12 題目的額外 Gate
+
+AMC 12A／12B 題目沿用上方 Gate 1～5 全部步驟，只有下列項目改用 AMC 版本；未列出的項目照舊。
+
+### 題源與版權
+
+- [ ] `subject` 為 `AMC 12A` 或 `AMC 12B`，`year` 用 4 位數西元年（台灣考科仍是 3 位數民國年），
+  `questionType` 一律 `單選`（AMC 為 A～E 單選），slug 用 `amc12a-2024-20-<topic>` 格式
+- [ ] `sourceUrl` 指向 AoPS Wiki 的該題題目頁（`…/2023_AMC_12B_Problems/Problem_21`），
+  頁面以「AoPS 題目頁」顯示，不出現「大考中心」字樣；除非另有可引用的官方解析，否則不填 `analysisUrl`
+- [ ] 詳情頁顯示出處標示「題目出處：2023 AMC 12B, Problem #21 © MAA」（由 `src/lib/examSource.ts` 產生）
+- [ ] 題意只寫繁體中文改寫，不貼英文原文、不重製選項全文、不轉載 AoPS 的解答、討論或示意圖；
+  互動與封面都要自己重畫
+- [ ] 不引用、不捏造答對率等統計；「為什麼會錯」只寫可由數學本身說明的陷阱
+
+### 範圍與單元
+
+- [ ] `unit` 寫成 `AMC 12・主題`（例：`AMC 12・立體幾何與展開圖`），課綱編碼改為選填；
+  有對應的高中學習內容時仍建議列出
+- [ ] 允許超出台灣高中課綱的內容（例：以積分算出 ln 2），但內文要點明哪一步超出課綱，
+  並盡量提供不需該工具也能理解的圖像或估計（例：用正方形面積把答案夾在選項區間）
+- [ ] 高中範圍驗證紀錄改填：
+
+```text
+AMC 範圍驗證：
+- 使用的觀念／是否超出台灣課綱：
+- 解題鏈：
+- 官方答案核對（AoPS 答案鍵）：
+- 改寫與版權檢查（無英文原文、無 AoPS 解答／圖）：
+```
+
+### 封面與列表
+
+- [ ] 封面規則與台灣題相同（`scripts/exam-covers/{slug}.svg` → 1600×1000 PNG，不含文字、答案或控制項）
+- [ ] `/exam` 列表的考科篩選自動出現 `AMC 12A`／`AMC 12B`；卡片來源標籤為 `2023 AMC 12B・第21題`
