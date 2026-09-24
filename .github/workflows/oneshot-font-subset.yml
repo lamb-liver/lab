@@ -1,0 +1,96 @@
+name: One-shot regenerate font subsets
+
+# 暫時性 workflow：MCP push_files 無法上傳二進位檔，改由 CI 以修正後的
+# scripts/subset-site-fonts.py 重建 7 個 woff2 子集並提交。
+# GITHUB_TOKEN 不能修改 workflow 檔，本檔於 bot commit 之後另以一般 commit 刪除。
+on:
+  push:
+    branches: [fix/font-subset-scan]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: oneshot-font-subset
+  cancel-in-progress: false
+
+jobs:
+  regenerate-fonts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+        with:
+          ref: fix/font-subset-scan
+          fetch-depth: 0
+
+      - name: Verify scripts match the locally tested version
+        run: |
+          cat > /tmp/manifest.sha256 <<'SUMS'
+          9fe5b0bd2eb1a06da51e10d317ab4711327aa286ad24ee555d7a425e50831c4c  scripts/font_text_sources.py
+          68f937f2720088291085b5be6fa25ef5a2a69f63758659a3af56672b2ff9038c  scripts/subset-site-fonts.py
+          d5b414555218bd47df1e25eb8d9771b35e5db0cc58f10b24f18edf116cfa82c8  scripts/check-font-glyphs.py
+          SUMS
+          sha256sum -c /tmp/manifest.sha256
+
+      - name: Download source fonts
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet fonttools brotli
+          mkdir -p /tmp/dl /tmp/lab-fonts/noto-sans-tc /tmp/lab-fonts/genwan
+          cd /tmp/dl
+          curl -sSfL -o shs-tc.zip https://github.com/adobe-fonts/source-han-sans/releases/download/2.005R/10_SourceHanSansTC.zip
+          curl -sSfL -o genwan-tw.zip https://github.com/ButTaiwan/genwan-font/releases/download/v2.100/GenWanMin2TW-otf.zip
+          curl -sSfL -o /tmp/lab-fonts/LXGWWenKaiTC-Regular.ttf https://github.com/lxgw/LxgwWenkaiTC/releases/download/v1.522/LXGWWenKaiTC-Regular.ttf
+          curl -sSfL -o /tmp/lab-fonts/LXGWWenKaiTC-Medium.ttf https://github.com/lxgw/LxgwWenkaiTC/releases/download/v1.522/LXGWWenKaiTC-Medium.ttf
+          unzip -oj -q shs-tc.zip OTF/TraditionalChinese/SourceHanSansTC-Regular.otf OTF/TraditionalChinese/SourceHanSansTC-Medium.otf OTF/TraditionalChinese/SourceHanSansTC-Bold.otf -d /tmp/lab-fonts/noto-sans-tc
+          unzip -oj -q genwan-tw.zip GenWanMin2TW-R.otf GenWanMin2TW-M.otf -d /tmp/lab-fonts/genwan
+
+      - name: Regenerate subsets with the fixed script
+        run: python3 scripts/subset-site-fonts.py
+
+      - name: Glyph coverage check
+        run: python3 scripts/check-font-glyphs.py
+
+      - name: Verify cmaps match the locally built subsets
+        run: |
+          set -euo pipefail
+          cat > /tmp/cmap.py <<'PY'
+          import hashlib, sys
+          from fontTools.ttLib import TTFont
+          want = {
+            'noto-sans-tc/NotoSansTC-Regular.woff2': 'c919240e1e1b24fa52b5d8c64d690017a3d6ece6151f773fb2a77d181d84fe45',
+            'noto-sans-tc/NotoSansTC-Medium.woff2': 'c919240e1e1b24fa52b5d8c64d690017a3d6ece6151f773fb2a77d181d84fe45',
+            'noto-sans-tc/NotoSansTC-Bold.woff2': 'c919240e1e1b24fa52b5d8c64d690017a3d6ece6151f773fb2a77d181d84fe45',
+            'genwanmin-tw/GenWanMin2TW-R.woff2': '0f9cf8b1a949ea76845293205287c5ffc5bc779221a5c7da2a01921a3266d769',
+            'genwanmin-tw/GenWanMin2TW-M.woff2': '0f9cf8b1a949ea76845293205287c5ffc5bc779221a5c7da2a01921a3266d769',
+            'lxgw-wenkai-tc/LXGWWenKaiTC-Regular.woff2': '66489c8781b1337cfda3f1582518b4022e6e5d136fb1668f7c57faed5621e102',
+            'lxgw-wenkai-tc/LXGWWenKaiTC-Medium.woff2': '66489c8781b1337cfda3f1582518b4022e6e5d136fb1668f7c57faed5621e102',
+          }
+          bad = 0
+          for f, h in want.items():
+              cps = sorted(TTFont('public/fonts/' + f).getBestCmap())
+              got = hashlib.sha256(','.join(map(str, cps)).encode()).hexdigest()
+              print(f, len(cps), 'OK' if got == h else 'MISMATCH ' + got)
+              bad += got != h
+          sys.exit(1 if bad else 0)
+          PY
+          python3 /tmp/cmap.py
+          ls -l public/fonts/*/*.woff2
+
+      - name: Commit regenerated fonts
+        run: |
+          set -euo pipefail
+          git config user.name "羊肝"
+          git config user.email "147922854+lamb-liver@users.noreply.github.com"
+          git add public/fonts/noto-sans-tc/*.woff2 public/fonts/genwanmin-tw/*.woff2 public/fonts/lxgw-wenkai-tc/*.woff2
+          git status --short
+          git commit -m "$(cat <<'EOF'
+          fix(fonts): regenerate subsets with the fixed text scan
+
+          Generated in CI because MCP push cannot upload binaries. Runs the fixed
+          scripts/subset-site-fonts.py against the full source fonts, so every
+          .astro/.ts/.tsx/.md glyph under src/ is covered (53 CJK glyphs were missing).
+          EOF
+          )"
+          git push origin HEAD:fix/font-subset-scan
