@@ -300,7 +300,7 @@ function drawUnitCircleScene(p: p5, geo: CircleGeometry, snap: UnitCircleRenderS
 
 export function renderUnitCircleTrigDefinitionScene(p: p5, snap: UnitCircleRenderSnap) {
   p.background(BG[0], BG[1], BG[2]);
-  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, sans-serif');
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC CJK", sans-serif');
   p.strokeCap(p.ROUND);
   p.strokeJoin(p.ROUND);
 

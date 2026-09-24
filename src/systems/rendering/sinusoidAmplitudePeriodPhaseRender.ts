@@ -431,7 +431,7 @@ export function renderSinusoidAmplitudePeriodPhaseScene(
   const layout = layoutScene(p.width, p.height);
 
   p.background(BG[0], BG[1], BG[2]);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   drawTitle(p, layout);
   drawGraphFrame(p, layout);

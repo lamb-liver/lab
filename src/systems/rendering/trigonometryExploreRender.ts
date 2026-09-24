@@ -379,7 +379,7 @@ function drawVisualCaption(p: p5, plot: PlotRect, caption: string) {
 
 export function renderTrigonometryExploreScene(p: p5, snap: TrigExploreSnap) {
   p.background(BG[0], BG[1], BG[2]);
-  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, sans-serif');
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC CJK", sans-serif');
   p.strokeCap(p.ROUND);
   p.strokeJoin(p.ROUND);
 

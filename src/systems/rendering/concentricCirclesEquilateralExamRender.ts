@@ -16,7 +16,7 @@ const GOLD = [212, 184, 122] as const;
 const BLUE = [93, 173, 226] as const;
 const PURPLE = [198, 166, 235] as const;
 const WHITE = [232, 232, 232] as const;
-const CANVAS_FONT = "'Noto Sans TC', system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
+const CANVAS_FONT = 'system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC CJK", sans-serif';
 type Color = readonly [number, number, number];
 
 export type ConcentricPlot = { cx: number; cy: number; scale: number };

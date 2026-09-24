@@ -599,7 +599,7 @@ export function renderTrigFunctionGraphsExploreScene(
   const layout = computeTrigFunctionGraphLayout(p.width, p.height, params.mode);
 
   p.background(BG[0], BG[1], BG[2]);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   if (params.mode === 'transform') {
     drawTransformControl(p, layout, params);

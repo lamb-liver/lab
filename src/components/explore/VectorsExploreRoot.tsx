@@ -911,7 +911,7 @@ export default function VectorsExploreRoot() {
   }, []);
 
   const draw = useCallback((p: p5) => {
-    p.textFont('system-ui, -apple-system, BlinkMacSystemFont, sans-serif');
+    p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC CJK", sans-serif');
     const handles: DragHandle[] = [];
     const current = paramsRef.current;
 

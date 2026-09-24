@@ -985,7 +985,7 @@ export default function ProbabilityStatisticsExploreRoot() {
   }, [chooseMontyStrategy]);
 
   const draw = useCallback((p: p5) => {
-    p.textFont('sans-serif');
+    p.textFont('"Noto Sans TC CJK", sans-serif');
 
     if (modeRef.current === 'clt') {
       const wasRunning = cltRef.current.running;

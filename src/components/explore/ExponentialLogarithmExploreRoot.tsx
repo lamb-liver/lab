@@ -845,7 +845,7 @@ export default function ExponentialLogarithmExploreRoot() {
     [],
   );
   const draw = useCallback((p: p5) => {
-    p.textFont('sans-serif');
+    p.textFont('"Noto Sans TC CJK", sans-serif');
     renderScene(p, paramsRef.current);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, undefined, {

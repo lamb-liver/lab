@@ -18,7 +18,8 @@
   --font-display: 'GenWanMin TW', 'Songti TC', 'Noto Serif TC', serif;
   /* Concept / educational prose — LXGW WenKai TC */
   --font-concept: 'LXGW WenKai TC', 'Kaiti TC', 'BiauKai', 'KaiTi', cursive;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* Monospace labels — CJK falls back to 思源黑體 (CJK-only alias, see fonts.css), Latin stays mono */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Noto Sans TC CJK', monospace;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;

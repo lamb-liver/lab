@@ -6,6 +6,13 @@ import { observeWorksCanvasTouch } from './touchToMouse';
 
 const REDUCED_MOTION_KEEP_LOOP_CAP = 600;
 
+/**
+ * p5 預設字型是泛用 sans-serif；zh-Hant 下 Chrome 會把泛用字族解析成系統 CJK 字型。
+ * 先放只含 CJK 的思源黑體別名（fonts.css），拉丁字母與數字仍走原本的 sans-serif。
+ * 個別 renderer 自己呼叫 textFont() 時會覆寫這個預設。
+ */
+export const CANVAS_DEFAULT_FONT = '"Noto Sans TC CJK", sans-serif';
+
 export type CanvasSize = { width: number; height: number };
 
 type MeasureRect = (host: HTMLElement) => CanvasSize;
@@ -92,6 +99,7 @@ export function useRectP5CanvasHost(
           const { width, height } = measureRef.current(host);
           p.createCanvas(width, height);
           p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
+          p.textFont(CANVAS_DEFAULT_FONT);
           if (!shouldLoopRef.current) {
             p.noLoop();
             p.redraw();
@@ -126,6 +134,14 @@ export function useRectP5CanvasHost(
 
       const stopTouchSync = observeWorksCanvasTouch(host);
 
+      // canvas 用到尚未載入的 webfont 時，那一幀會先畫 fallback；noLoop 畫布載完後補畫一次
+      const fontSet = typeof document !== 'undefined' ? document.fonts : undefined;
+      const onFontsLoaded = () => {
+        if (disposed || !isP5RendererReady(instance)) return;
+        if (!shouldLoopRef.current || autoStoppedRef.current) instance.redraw();
+      };
+      fontSet?.addEventListener?.('loadingdone', onFontsLoaded);
+
       const ro = new ResizeObserver(() => {
         if (disposed) return;
         if (!isP5RendererReady(instance)) return;
@@ -146,6 +162,7 @@ export function useRectP5CanvasHost(
       cleanup = () => {
         disposed = true;
         stopTouchSync();
+        fontSet?.removeEventListener?.('loadingdone', onFontsLoaded);
         ro.disconnect();
         if (instanceRef.current === instance) instanceRef.current = null;
         instance.remove();

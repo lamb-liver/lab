@@ -34,7 +34,7 @@ export function renderScatterCorrelationRegressionScene(
   snap: ScatterCorrelationSnap,
 ): void {
   p.background(...BG);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const t = scatterViewTransform(snap.width, snap.height);
   p.push();

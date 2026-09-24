@@ -27,7 +27,7 @@ const RED = [231, 111, 81] as const;
 
 export function renderPercentileBoxPlotScene(p: p5, snap: PercentileBoxPlotSnap): void {
   p.background(...BG);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const t = boxplotViewTransform(snap.width, snap.height);
   p.push();

@@ -134,7 +134,7 @@ export default function DiscreteRandomVariablesExploreRoot() {
     const ui = createUiHits();
     uiRef.current = ui;
 
-    p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+    p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
     p.background(...BG);
 
     const layout = getLayout(p.width, p.height);

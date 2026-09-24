@@ -94,7 +94,7 @@ function sameSolution(a: SolutionKey, b: SolutionKey): boolean {
 
 export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): void {
   p.background(10, 10, 10);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const plot = parallelogramExamPlot(snap.width, snap.height);
   const active: SolutionKey = { mode: snap.mode, sign: snap.sign };

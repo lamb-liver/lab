@@ -18,7 +18,7 @@ export function renderAugmentedMatrixRowOperationsExamScene(
   snap: AugmentedMatrixRowOperationsExamSnap,
 ): void {
   p.background(10, 10, 10);
-  p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const vertical = snap.width < 520;
   const panels = vertical

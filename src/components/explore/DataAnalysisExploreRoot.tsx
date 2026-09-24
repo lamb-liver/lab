@@ -183,7 +183,7 @@ export default function DataAnalysisExploreRoot() {
   }, []);
 
   const draw = useCallback((p: p5) => {
-    p.textFont("system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif");
+    p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
     p.background(...BG);
     drawMode(p, computePlot(p.width, p.height), stateRef.current);
   }, []);
