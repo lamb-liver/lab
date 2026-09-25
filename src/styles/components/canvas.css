@@ -92,8 +92,9 @@
     min-height: 32rem;
   }
 
+  /* 傅立葉畫布 min(34vh, 400px) + 工具列／說明；28rem 對不準實際舞台 */
   .interactive-loading--square {
-    min-height: 28rem;
+    min-height: calc(min(34vh, 400px) + 15rem);
     max-width: none;
   }
 }

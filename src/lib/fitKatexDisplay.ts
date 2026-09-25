@@ -1,4 +1,4 @@
-export const KATEX_FIT_MIN_SCALE = 0.5;
+export const KATEX_FIT_MIN_SCALE = 0.35;
 
 export function fitKatexDisplay(
   box: HTMLElement,
