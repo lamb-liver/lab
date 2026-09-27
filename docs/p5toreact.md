@@ -338,6 +338,7 @@ const extendSketch = useCallback((p: p5) => {
 - Works：手機預設畫布 `touch-action: pan-y`（純側欄頁要能從圖上捲頁）。
   有畫布拖／轉的頁由 `wireTouchToMouse` 把該 canvas 與 host 設成 `none`（class `--gestures`）。
   `none` 是底層保障；`mousePressed`／`touchStarted` `return false` 仍要留，p5 2.2 pointer 路徑靠這個 preventDefault。
+- p5 2.2 setup 結束後會把頁上所有 canvas 印 inline `touch-action: none`。非手勢頁由 `observeWorksCanvasTouch` 監 childList／`style`／`class`（debounce 16ms，1s 再補一次），用 `setProperty(..., 'important')` 蓋回 `pan-y`。值與 priority 都已相同就不要再寫，避免 Observer 自觸發空轉。
 - Explore／Exam：畫布已是 `touch-action: none`；有手勢仍要 `wireTouchToMouse`。
 
 `none` 與 JS `preventDefault` 都要留：只設 CSS 時舊路徑／p5 改版可能漏；只靠 JS 時 `pan-y` 仍可能在 preventDefault 前收下垂直平移。p5 2.2 走 window pointer，`mousePressed` `return false` 才會 preventDefault；`touchStarted` 回傳 false 當舊路徑保險。

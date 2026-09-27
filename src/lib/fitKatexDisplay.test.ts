@@ -40,7 +40,7 @@ describe('fitKatexDisplay', () => {
 
   it('does not go below the minimum scale', () => {
     const { box, inner } = makeDisplay(390, 2000);
-    expect(fitKatexDisplay(box)).toBe(0.5);
-    expect(inner.style.transform).toBe('scale(0.5)');
+    expect(fitKatexDisplay(box)).toBe(0.35);
+    expect(inner.style.transform).toBe('scale(0.35)');
   });
 });
