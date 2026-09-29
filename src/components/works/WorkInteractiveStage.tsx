@@ -78,6 +78,8 @@ const rootBySlug = {
   'lp-vertex-optimum': lazy(() => import('./LpVertexOptimumCurveRoot')),
   'gradient-level-curves': lazy(() => import('./GradientLevelCurvesCurveRoot')),
   'demoivre-nth-roots': lazy(() => import('./DemoivreNthRootsCurveRoot')),
+  'mandelbrot-map': lazy(() => import('./MandelbrotMapCurveRoot')),
+  'circle-inversion': lazy(() => import('./CircleInversionCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

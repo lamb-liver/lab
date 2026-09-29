@@ -51,6 +51,7 @@ export const concepts = [
   { slug: 'dynamical-system', label: '動力系統與混沌', area: '曲線・碎形・最佳化' },
   { slug: 'vector-field', label: '向量場', area: '曲線・碎形・最佳化' },
   { slug: 'linear-programming', label: '線性規劃', area: '曲線・碎形・最佳化' },
+  { slug: 'inversion', label: '反演', area: '幾何' },
 ] as const satisfies readonly Concept[];
 
 /** 領域顯示順序沿用 registry 首次出現順序，避免平行清單漂移。 */

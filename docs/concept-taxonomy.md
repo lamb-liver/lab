@@ -17,7 +17,7 @@
 
 一個概念要涵蓋至少 2 個已發布內容集合，才會產生 `/concept/[slug]` 頁（由 `conceptIndex.test.ts` 驗證）。未達門檻的概念仍是合法標籤，只是在詳情頁顯示為純文字、不加連結；目前結果以 `/concept` 索引為準。
 
-## 正規詞彙（40）
+## 正規詞彙（41）
 
 | slug | label | area |
 |------|-------|------|
@@ -61,3 +61,4 @@
 | dynamical-system | 動力系統與混沌 | 曲線・碎形・最佳化 |
 | vector-field | 向量場 | 曲線・碎形・最佳化 |
 | linear-programming | 線性規劃 | 曲線・碎形・最佳化 |
+| inversion | 反演 | 幾何 |

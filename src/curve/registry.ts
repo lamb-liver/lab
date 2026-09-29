@@ -70,6 +70,8 @@ import { lpObjectiveLevelCurvesModule } from './modules/lp-objective-level-curve
 import { lpVertexOptimumModule } from './modules/lp-vertex-optimum';
 import { gradientLevelCurvesModule } from './modules/gradient-level-curves';
 import { demoivreNthRootsModule } from './modules/demoivre-nth-roots';
+import { mandelbrotMapModule } from './modules/mandelbrot-map';
+import { circleInversionModule } from './modules/circle-inversion';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -144,4 +146,6 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'lp-vertex-optimum': lpVertexOptimumModule,
   'gradient-level-curves': gradientLevelCurvesModule,
   'demoivre-nth-roots': demoivreNthRootsModule,
+  'mandelbrot-map': mandelbrotMapModule,
+  'circle-inversion': circleInversionModule,
 };

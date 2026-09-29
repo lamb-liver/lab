@@ -71,6 +71,8 @@ export const workInteractiveSlugs = [
   'lp-vertex-optimum',
   'gradient-level-curves',
   'demoivre-nth-roots',
+  'mandelbrot-map',
+  'circle-inversion',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];

@@ -41,6 +41,7 @@ draft: false
 - [謝爾賓斯基三角形](/works/sierpinski-triangle)
 - [碎形仿射疊代](/works/affine-ifs-fractal)
 - [朱利亞集合](/works/julia-set)
+- [曼德博集合與朱利亞](/works/mandelbrot-map)
 
 ## 延伸閱讀
 
