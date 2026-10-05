@@ -80,6 +80,7 @@ const rootBySlug = {
   'demoivre-nth-roots': lazy(() => import('./DemoivreNthRootsCurveRoot')),
   'mandelbrot-map': lazy(() => import('./MandelbrotMapCurveRoot')),
   'circle-inversion': lazy(() => import('./CircleInversionCurveRoot')),
+  'row-op-solution-space': lazy(() => import('./RowOpSolutionSpaceCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

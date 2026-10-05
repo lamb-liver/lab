@@ -72,6 +72,7 @@ import { gradientLevelCurvesModule } from './modules/gradient-level-curves';
 import { demoivreNthRootsModule } from './modules/demoivre-nth-roots';
 import { mandelbrotMapModule } from './modules/mandelbrot-map';
 import { circleInversionModule } from './modules/circle-inversion';
+import { rowOpSolutionSpaceModule } from './modules/row-op-solution-space';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -148,4 +149,5 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'demoivre-nth-roots': demoivreNthRootsModule,
   'mandelbrot-map': mandelbrotMapModule,
   'circle-inversion': circleInversionModule,
+  'row-op-solution-space': rowOpSolutionSpaceModule,
 };

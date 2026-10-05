@@ -19,6 +19,7 @@ relatedExplore:
   - matrix-linear-transform
 relatedWorks:
   - linear-transform-grid
+  - row-op-solution-space
 date: 2026-07-28
 order: 8
 coverImage: /images/exam-covers/ast-113-augmented-matrix-row-operations.png

@@ -73,6 +73,7 @@ export const workInteractiveSlugs = [
   'demoivre-nth-roots',
   'mandelbrot-map',
   'circle-inversion',
+  'row-op-solution-space',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
