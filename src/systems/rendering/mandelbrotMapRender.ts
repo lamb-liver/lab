@@ -98,5 +98,15 @@ export function renderMandelbrotMap(p: p5, params: Params, dragging: boolean) {
   p.circle(marker.x, marker.y, 12);
   p.line(marker.x - 7, marker.y, marker.x + 7, marker.y);
   p.line(marker.x, marker.y - 7, marker.x, marker.y + 7);
+  p.stroke(BG[0], BG[1], BG[2]);
+  p.strokeWeight(6);
   p.rect(inset.left, inset.top, inset.w, inset.h);
+  p.stroke(ACCENT[0], ACCENT[1], ACCENT[2]);
+  p.strokeWeight(1.75);
+  p.rect(inset.left, inset.top, inset.w, inset.h);
+  p.noStroke();
+  p.fill(ACCENT[0], ACCENT[1], ACCENT[2]);
+  p.textAlign(p.RIGHT, p.TOP);
+  p.textSize(13);
+  p.text('這個 c', inset.left + inset.w, inset.top + inset.h + 6);
 }

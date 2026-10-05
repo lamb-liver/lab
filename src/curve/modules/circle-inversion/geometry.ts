@@ -15,7 +15,7 @@ export type CircleInversionParams = {
   rho: number;
 };
 
-export const VIEW = 2.4;
+export const VIEW = 1.8;
 const ORIGIN_EPS = 1e-8;
 const THROUGH_EPS = 1e-5;
 

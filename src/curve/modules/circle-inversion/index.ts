@@ -45,9 +45,9 @@ export function sampleCircleInversion(params: CircleInversionParams): ThumbnailS
   const circle = invertCircle({ x: params.cx, y: params.cy }, params.rho, params.radius);
   return {
     paths: [
-      { points: circlePoints({ x: 0, y: 0 }, params.radius), stroke: '#ffffff', strokeWidth: 0.8, opacity: 0.45 },
-      { points: imagePoints(line), stroke: '#ffffff', strokeWidth: 1.2 },
-      { points: imagePoints(circle), stroke: '#ffffff', strokeWidth: 1.2 },
+      { points: circlePoints({ x: 0, y: 0 }, params.radius), stroke: '#ffffff', strokeWidth: 1.15, opacity: 0.8 },
+      { points: imagePoints(line), stroke: '#ffffff', strokeWidth: 1.6 },
+      { points: imagePoints(circle), stroke: '#ffffff', strokeWidth: 1.6 },
       {
         points: imagePoints({
           kind: 'line',

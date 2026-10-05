@@ -64,11 +64,11 @@ describe('circle-inversion module', () => {
 
   it('半徑把手留在畫面內，兩點重合時直線的像是未定義', () => {
     const parked = moveHandle({ ...DEFAULT_CIRCLE_INVERSION, cx: 2.2, rho: 0.45 }, 'center', { x: 5, y: 0 });
-    expect(parked.cx).toBeCloseTo(1.75);
-    expect(parked.cx + parked.rho).toBeCloseTo(2.2);
+    expect(parked.cx).toBeCloseTo(1.15);
+    expect(parked.cx + parked.rho).toBeCloseTo(1.6);
     const widened = moveHandle({ ...DEFAULT_CIRCLE_INVERSION, cx: 1, rho: 0.3 }, 'rim', { x: 10, y: 0 });
-    expect(widened.rho).toBeCloseTo(1.2);
-    expect(widened.cx + widened.rho).toBeCloseTo(2.2);
+    expect(widened.rho).toBeCloseTo(0.6);
+    expect(widened.cx + widened.rho).toBeCloseTo(1.6);
 
     const meta = circleInversionModule.getMetadata({ ...DEFAULT_CIRCLE_INVERSION, ax: 0.2, ay: 0.2, bx: 0.2, by: 0.2 });
     expect(meta.stats.find((stat) => stat.key === 'line')?.value).toBe('未定義');

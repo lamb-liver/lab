@@ -10,6 +10,7 @@ import {
   type InversionImage,
   type Vec,
 } from '../../curve/modules/circle-inversion/geometry';
+import { canvas2d } from './canvas2d';
 
 const BG: [number, number, number] = [10, 10, 10];
 const ACCENT: [number, number, number] = [212, 184, 122];
@@ -49,15 +50,18 @@ export function renderCircleInversion(p: p5, params: CircleInversionParams) {
   const line = invertLine({ x: params.ax, y: params.ay }, { x: params.bx, y: params.by }, params.radius);
   const circle = invertCircle({ x: params.cx, y: params.cy }, params.rho, params.radius);
 
-  p.stroke(GUIDE[0], GUIDE[1], GUIDE[2], 90);
-  p.strokeWeight(1.25);
+  const ctx = canvas2d(p);
+  ctx.setLineDash([7, 6]);
+  p.stroke(GUIDE[0], GUIDE[1], GUIDE[2], 170);
+  p.strokeWeight(1.5);
   drawCircleMath(p, { x: 0, y: 0 }, params.radius, size);
+  ctx.setLineDash([]);
 
   // 像若與原線重合，先畫較粗的白線，金線蓋上去才留得見白邊
   p.stroke(GUIDE[0], GUIDE[1], GUIDE[2], 210);
-  p.strokeWeight(line?.kind === 'line' ? 4 : 1.6);
+  p.strokeWeight(line?.kind === 'line' ? 4 : 2);
   if (line) drawLineImage(p, line, size);
-  p.strokeWeight(circle?.kind === 'line' ? 4 : 1.6);
+  p.strokeWeight(circle?.kind === 'line' ? 4 : 2);
   if (circle) drawLineImage(p, circle, size);
 
   p.stroke(ACCENT[0], ACCENT[1], ACCENT[2], 230);
@@ -77,11 +81,25 @@ export function renderCircleInversion(p: p5, params: CircleInversionParams) {
     }
   }
   drawCircleMath(p, { x: params.cx, y: params.cy }, params.rho, size);
+  drawOrigin(p, size);
 
   drawHandle(p, { x: params.ax, y: params.ay }, size);
   drawHandle(p, { x: params.bx, y: params.by }, size);
   drawHandle(p, { x: params.cx, y: params.cy }, size);
   drawHandle(p, rimPoint(params), size);
+}
+
+function drawOrigin(p: p5, size: number) {
+  const o = mathToPx({ x: 0, y: 0 }, size);
+  const arm = 7;
+  p.stroke(BG[0], BG[1], BG[2]);
+  p.strokeWeight(3.5);
+  p.line(o.x - arm, o.y, o.x + arm, o.y);
+  p.line(o.x, o.y - arm, o.x, o.y + arm);
+  p.stroke(GUIDE[0], GUIDE[1], GUIDE[2], 230);
+  p.strokeWeight(1.4);
+  p.line(o.x - arm, o.y, o.x + arm, o.y);
+  p.line(o.x, o.y - arm, o.x, o.y + arm);
 }
 
 function unit(x: number, y: number): Vec {
