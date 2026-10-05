@@ -22,7 +22,7 @@ TW（月版）uses contemporary Taiwan character forms (e.g. 「者」without th
 
 ## Subsetting
 
-Shipped `.woff2` files are subsets of site-used CJK + Latin/punctuation (built with `fonttools` `pyftsubset`). Rebuild with `scripts/subset-site-fonts.py` if content adds many new characters. Sources live under `/tmp/lab-fonts` (see script).
+Shipped `.woff2` files are subsets of site-used CJK + Latin/punctuation (built with `fonttools` `pyftsubset`). Rebuild with `scripts/subset-site-fonts.py` when content adds characters. Full sources stay out of git, in `~/.local/share/lab-fonts` (`LAB_FONTS` overrides). The script prints the release pages if a file is missing.
 
 Both `scripts/subset-site-fonts.py` and `scripts/check-font-glyphs.py` read the same text sources (`scripts/font_text_sources.py`: every `.astro/.ts/.tsx/.js/.mjs/.md/.mdx/.json/.css` under `src/`, minus real test files). CI runs the checker, so new copy with characters outside the shipped subsets fails until the fonts are rebuilt.
 
