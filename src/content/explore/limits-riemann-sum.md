@@ -44,6 +44,7 @@ $$
 - [原函數與導函數圖形對照](/works/function-derivative-graph)
 - [黎曼和動態圖](/works/riemann-sum)
 - [切線逼近動畫](/works/tangent-approximation)
+- [面積與右端高度](/works/variable-upper-limit)
 - [等角螺線](/works/equiangular-spiral)
 
 ## 延伸閱讀

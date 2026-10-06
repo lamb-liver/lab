@@ -73,6 +73,7 @@ import { demoivreNthRootsModule } from './modules/demoivre-nth-roots';
 import { mandelbrotMapModule } from './modules/mandelbrot-map';
 import { circleInversionModule } from './modules/circle-inversion';
 import { rowOpSolutionSpaceModule } from './modules/row-op-solution-space';
+import { variableUpperLimitModule } from './modules/variable-upper-limit';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -150,4 +151,5 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'mandelbrot-map': mandelbrotMapModule,
   'circle-inversion': circleInversionModule,
   'row-op-solution-space': rowOpSolutionSpaceModule,
+  'variable-upper-limit': variableUpperLimitModule,
 };

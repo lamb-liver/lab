@@ -74,6 +74,7 @@ export const workInteractiveSlugs = [
   'mandelbrot-map',
   'circle-inversion',
   'row-op-solution-space',
+  'variable-upper-limit',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
