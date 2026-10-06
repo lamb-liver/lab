@@ -82,6 +82,7 @@ const rootBySlug = {
   'circle-inversion': lazy(() => import('./CircleInversionCurveRoot')),
   'row-op-solution-space': lazy(() => import('./RowOpSolutionSpaceCurveRoot')),
   'variable-upper-limit': lazy(() => import('./VariableUpperLimitCurveRoot')),
+  'poincare-triangle': lazy(() => import('./PoincareTriangleCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

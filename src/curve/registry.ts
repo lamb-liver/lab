@@ -74,6 +74,7 @@ import { mandelbrotMapModule } from './modules/mandelbrot-map';
 import { circleInversionModule } from './modules/circle-inversion';
 import { rowOpSolutionSpaceModule } from './modules/row-op-solution-space';
 import { variableUpperLimitModule } from './modules/variable-upper-limit';
+import { poincareTriangleModule } from './modules/poincare-triangle';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -152,4 +153,5 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'circle-inversion': circleInversionModule,
   'row-op-solution-space': rowOpSolutionSpaceModule,
   'variable-upper-limit': variableUpperLimitModule,
+  'poincare-triangle': poincareTriangleModule,
 };

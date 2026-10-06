@@ -40,6 +40,7 @@ $$
 ## 相關作品
 
 - [弧度與圓弧長](/works/radian-arc-length)
+- [圓盤上的三角形](/works/poincare-triangle)
 
 ## 延伸閱讀
 
