@@ -29,12 +29,13 @@ describe('explore collection pager', () => {
       'linear-programming',
       'iteration-dynamics',
       'complex-powers-roots',
+      'secants-and-tangents',
     ]);
   });
 
   it('resolves neighbors for the newest explore slug', () => {
-    const { previous, next } = getCollectionPagerNeighbors(explore, 'complex-powers-roots');
-    expect(previous?.id).toBe('iteration-dynamics');
+    const { previous, next } = getCollectionPagerNeighbors(explore, 'secants-and-tangents');
+    expect(previous?.id).toBe('complex-powers-roots');
     expect(next).toBeNull();
   });
 

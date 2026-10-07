@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <!--
+    水平割線與上方切線。圓心 (640,500)、半徑 260，P 在 1.8 倍半徑。
+    A (900,500)、B (380,500)、P (1108,500)、T (784.4,283.8)。
+  -->
+  <circle cx="640" cy="500" r="260" fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.22"/>
+  <line x1="1108" y1="500" x2="333" y2="500" stroke="#D4B87A" stroke-width="4" opacity="0.9" stroke-linecap="round"/>
+  <line x1="1108" y1="500" x2="737" y2="252" stroke="#D4B87A" stroke-width="4" opacity="0.9" stroke-linecap="round"/>
+  <circle cx="900" cy="500" r="7" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="380" cy="500" r="7" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="784.4" cy="283.8" r="8" fill="#D4B87A" opacity="0.95"/>
+  <circle cx="1108" cy="500" r="10" fill="#D4B87A" opacity="0.95"/>
+</svg>

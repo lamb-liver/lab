@@ -83,6 +83,8 @@ const rootBySlug = {
   'row-op-solution-space': lazy(() => import('./RowOpSolutionSpaceCurveRoot')),
   'variable-upper-limit': lazy(() => import('./VariableUpperLimitCurveRoot')),
   'poincare-triangle': lazy(() => import('./PoincareTriangleCurveRoot')),
+  'two-secants': lazy(() => import('./TwoSecantsCurveRoot')),
+  'tangent-secant': lazy(() => import('./TangentSecantCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

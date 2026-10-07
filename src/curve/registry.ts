@@ -75,6 +75,8 @@ import { circleInversionModule } from './modules/circle-inversion';
 import { rowOpSolutionSpaceModule } from './modules/row-op-solution-space';
 import { variableUpperLimitModule } from './modules/variable-upper-limit';
 import { poincareTriangleModule } from './modules/poincare-triangle';
+import { twoSecantsModule } from './modules/two-secants';
+import { tangentSecantModule } from './modules/tangent-secant';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -154,4 +156,6 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'row-op-solution-space': rowOpSolutionSpaceModule,
   'variable-upper-limit': variableUpperLimitModule,
   'poincare-triangle': poincareTriangleModule,
+  'two-secants': twoSecantsModule,
+  'tangent-secant': tangentSecantModule,
 };

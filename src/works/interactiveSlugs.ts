@@ -76,6 +76,8 @@ export const workInteractiveSlugs = [
   'row-op-solution-space',
   'variable-upper-limit',
   'poincare-triangle',
+  'two-secants',
+  'tangent-secant',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
