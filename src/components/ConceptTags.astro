@@ -1,5 +1,6 @@
 ---
 import { conceptLabel } from '../lib/concepts';
+import { conceptLabelEn, type ConceptSlug } from '../lib/conceptLabels';
 import { loadConceptIndex } from '../lib/conceptCollections';
 import { pagedConceptSlugs } from '../lib/conceptIndex';
 import '../styles/components/concept-tags.css';
@@ -7,9 +8,13 @@ import '../styles/components/concept-tags.css';
 interface Props {
   slugs: string[];
   label?: string;
+  locale?: 'en';
 }
 
-const { slugs, label = '概念' } = Astro.props;
+const { slugs, locale } = Astro.props;
+const en = locale === 'en';
+const label = Astro.props.label ?? (en ? 'Concepts' : '概念');
+const display = (slug: string) => (en ? conceptLabelEn(slug as ConceptSlug) : conceptLabel(slug));
 const paged = pagedConceptSlugs(await loadConceptIndex());
 ---
 
@@ -19,11 +24,11 @@ const paged = pagedConceptSlugs(await loadConceptIndex());
       <span class="concept-tags__label">{label}</span>
       {slugs.map((slug) =>
         paged.has(slug) ? (
-          <a class="concept-tag" href={`/concept/${slug}`}>
-            {conceptLabel(slug)}
+          <a class="concept-tag" href={en ? `/en/concept/${slug}` : `/concept/${slug}`}>
+            {display(slug)}
           </a>
         ) : (
-          <span class="concept-tag">{conceptLabel(slug)}</span>
+          <span class="concept-tag">{display(slug)}</span>
         ),
       )}
     </div>

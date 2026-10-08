@@ -162,6 +162,38 @@ test.describe('SEO metadata and UX shell', () => {
     await expect(page.locator('[data-search-slug="ast-111-complex-unit-circle"]')).toBeVisible();
   });
 
+  test('English concept pages use English labels, cards, and hreflang pairs', async ({ page }) => {
+    await page.goto('/en/concept/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('heading', { level: 1, name: 'Concept index' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Breadcrumb' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Complex numbers/ })).toHaveAttribute(
+      'href',
+      '/en/concept/complex-numbers',
+    );
+    await expect(page.locator('link[rel="alternate"][hreflang="zh-Hant"]')).toHaveAttribute(
+      'href',
+      /\/concept\/$/,
+    );
+
+    await page.goto('/en/concept/complex-numbers/');
+    await expect(page.getByRole('heading', { level: 1, name: 'Complex numbers' })).toBeVisible();
+    await expect(
+      page.locator('a[href="/en/works/complex-arithmetic-geometry/"]').first(),
+    ).toBeVisible();
+    await expect(page.locator('a[href="/en/exam/ast-111-complex-unit-circle/"]').first()).toBeVisible();
+    await expect(page.locator('a[hreflang="zh-Hant"]').first()).toHaveAttribute(
+      'href',
+      '/concept/complex-numbers/',
+    );
+
+    await page.goto('/en/works/complex-arithmetic-geometry/');
+    await expect(page.locator('.concept-tag', { hasText: 'Complex numbers' })).toHaveAttribute(
+      'href',
+      '/en/concept/complex-numbers',
+    );
+  });
+
   test('about page uses the shared layout SEO metadata', async ({ page }) => {
     await page.goto('/about');
 

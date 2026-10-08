@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import WorkCard from '../../../components/WorkCard.astro';
+import ExploreCard from '../../../components/ExploreCard.astro';
+import ExamCard from '../../../components/ExamCard.astro';
+import { conceptBySlug } from '../../../lib/concepts';
+import { loadConceptIndex } from '../../../lib/conceptCollections';
+import { conceptHasPage, type ConceptGroup } from '../../../lib/conceptIndex';
+import { indexAlternates } from '../../../lib/translatedSlugs';
+import { conceptAreaEn, conceptLabelEn, type ConceptSlug } from '../../../lib/conceptLabels';
+import '../../../styles/components/card.css';
+import '../../../styles/pages/concept.css';
+
+export async function getStaticPaths() {
+  const index = await loadConceptIndex();
+  return [...index.entries()]
+    .filter(([slug, group]) => conceptBySlug(slug) && conceptHasPage(group))
+    .map(([slug, group]) => ({ params: { slug }, props: { slug, group } }));
+}
+
+interface Props {
+  slug: string;
+  group: ConceptGroup;
+}
+
+const { slug, group } = Astro.props as Props;
+const concept = conceptBySlug(slug)!;
+const label = conceptLabelEn(slug as ConceptSlug);
+const title = label;
+const description = `Works, topic guides, and exam visualizations about ${label}: ${group.total} in all.`;
+
+const site = Astro.site ?? Astro.url;
+const siteRoot = new URL('/en/', site).href;
+const conceptRoot = new URL('/en/concept', site).href;
+const pageUrl = new URL(`/en/concept/${slug}`, site).href;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: 'Concepts', item: conceptRoot },
+      { '@type': 'ListItem', position: 3, name: label, item: pageUrl },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="website"
+  htmlLang="en"
+  ogLocale="en_US"
+  skipLabel="Skip to main content"
+  alternates={indexAlternates(site, `/concept/${slug}/`)}
+  structuredData={structuredData}
+  preloadConceptFont
+>
+  <div class="container concept-detail">
+    <div class="detail-top-nav">
+      <Breadcrumb
+        label="Breadcrumb"
+        items={[
+          { label: 'Home', href: '/en/' },
+          { label: 'Concepts', href: '/en/concept' },
+          { label },
+        ]}
+      />
+      <a href="/en/concept" class="back-link back-link--top">← Back to the concept index</a>
+    </div>
+
+    <header class="page-header">
+      <span class="section-badge">{conceptAreaEn(concept.area)}</span>
+      <h1>{label}</h1>
+      <p class="page-lead">
+        {group.total} pieces about this concept, across works, topic guides, and exam visualizations.
+      </p>
+    </header>
+
+
+    {
+      group.explore.length > 0 && (
+        <section class="concept-section" aria-label="Topics">
+          <h2 class="concept-section__title">Topics</h2>
+          <div class="card-grid">
+            {(group.exploreEn ?? []).map((entry) => (
+              <ExploreCard
+                slug={entry.id}
+                title={entry.data.title}
+                description={entry.data.description}
+                category={entry.data.category}
+                audience={entry.data.audience}
+                coverImage={entry.data.coverImage}
+                locale="en"
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      group.works.length > 0 && (
+        <section class="concept-section" aria-label="Works">
+          <h2 class="concept-section__title">Works</h2>
+          <div class="card-grid">
+            {(group.worksEn ?? []).map((entry) => (
+              <WorkCard
+                slug={entry.id}
+                title={entry.data.title}
+                description={entry.data.description}
+                tags={entry.data.tags}
+                audience={entry.data.audience}
+                locale="en"
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      group.exams.length > 0 && (
+        <section class="concept-section" aria-label="Exam visualizations">
+          <h2 class="concept-section__title">Exam visualizations</h2>
+          <div class="card-grid">
+            {(group.examsEn ?? []).map((entry) => (
+              <ExamCard
+                slug={entry.id}
+                title={entry.data.title}
+                description={entry.data.description}
+                subject={entry.data.subject}
+                year={entry.data.year}
+                questionType={entry.data.questionType}
+                questionNo={entry.data.questionNo}
+                topics={entry.data.topics}
+                coverImage={entry.data.coverImage}
+                draft={entry.data.draft}
+                locale="en"
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <a href="/en/concept" class="back-link">← Back to the concept index</a>
+  </div>
+</BaseLayout>

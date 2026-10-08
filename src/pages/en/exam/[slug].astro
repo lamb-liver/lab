@@ -1,4 +1,5 @@
 ---
+import ConceptTags from '../../../components/ConceptTags.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import CanvasPlaceholder from '../../../components/CanvasPlaceholder.astro';
@@ -152,6 +153,7 @@ const relatedItems: RelatedRef[] = [
         ) : null
       }
       {creditLine ? <p class="exam-source-credit">{creditLine}</p> : null}
+      <ConceptTags slugs={entry.data.concepts} locale="en" />
     </header>
 
     {

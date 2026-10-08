@@ -5,6 +5,7 @@ import { concepts, conceptAreas } from '../../lib/concepts';
 import { loadConceptIndex } from '../../lib/conceptCollections';
 import { conceptHasPage } from '../../lib/conceptIndex';
 import { siteSeo } from '../../lib/seoCopy';
+import { indexAlternates } from '../../lib/translatedSlugs';
 import '../../styles/pages/concept.css';
 
 const index = await loadConceptIndex();
@@ -24,7 +25,13 @@ const groupsByArea = conceptAreas
 const pagedCount = groupsByArea.reduce((n, g) => n + g.items.length, 0);
 ---
 
-<BaseLayout title={siteSeo.concept.title} description={siteSeo.concept.description} ogType="website" preloadConceptFont>
+<BaseLayout
+  title={siteSeo.concept.title}
+  description={siteSeo.concept.description}
+  ogType="website"
+  alternates={indexAlternates(Astro.site ?? Astro.url, '/concept/')}
+  preloadConceptFont
+>
   <div class="container concept-index">
     <div class="detail-top-nav">
       <Breadcrumb items={[{ label: '首頁', href: '/' }, { label: '概念' }]} />
