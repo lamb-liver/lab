@@ -1,22 +1,23 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
 import { getCollection } from 'astro:content';
-import { learningPaths, getLearningPath, type StepCollection } from '../../lib/learningPaths';
-import { indexAlternates } from '../../lib/translatedSlugs';
-import '../../styles/pages/path.css';
+import { learningPaths, getLearningPath, type StepCollection } from '../../../lib/learningPaths';
+import { learningPathEn } from '../../../lib/learningPathsEn';
+import { indexAlternates } from '../../../lib/translatedSlugs';
+import '../../../styles/pages/path.css';
 
 export async function getStaticPaths() {
   return learningPaths.map((path) => ({ params: { slug: path.slug }, props: { slug: path.slug } }));
 }
 
 const { slug } = Astro.props as { slug: string };
-const path = getLearningPath(slug)!;
+const path = learningPathEn(getLearningPath(slug)!);
 
 const [works, explore, exams] = await Promise.all([
-  getCollection('works'),
-  getCollection('explore'),
-  getCollection('exam'),
+  getCollection('worksEn'),
+  getCollection('exploreEn'),
+  getCollection('examEn'),
 ]);
 const byCollection: Record<StepCollection, typeof works | typeof explore | typeof exams> = {
   works,
@@ -24,9 +25,9 @@ const byCollection: Record<StepCollection, typeof works | typeof explore | typeo
   exam: exams,
 };
 const kindMeta: Record<StepCollection, { label: string; base: string }> = {
-  works: { label: '作品', base: '/works' },
-  explore: { label: '主題導覽', base: '/explore' },
-  exam: { label: '試題視覺化', base: '/exam' },
+  works: { label: 'Work', base: '/en/works' },
+  explore: { label: 'Explore', base: '/en/explore' },
+  exam: { label: 'Exam', base: '/en/exam' },
 };
 
 const steps = path.steps.map((step) => {
@@ -43,21 +44,21 @@ const steps = path.steps.map((step) => {
     kindLabel: meta.label,
     kindClass: step.collection,
     title: entry.data.title,
-    href: `${meta.base}/${entry.id}`,
+    href: `${meta.base}/${entry.id}/`,
   };
 });
 
 const site = Astro.site ?? Astro.url;
-const siteRoot = new URL('/', site).href;
-const pathIndexUrl = new URL('/path', site).href;
-const pageUrl = new URL(`/path/${slug}`, site).href;
+const siteRoot = new URL('/en/', site).href;
+const pathIndexUrl = new URL('/en/path', site).href;
+const pageUrl = new URL(`/en/path/${slug}`, site).href;
 const structuredData = [
   {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: '首頁', item: siteRoot },
-      { '@type': 'ListItem', position: 2, name: '策展路徑', item: pathIndexUrl },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: 'Curated paths', item: pathIndexUrl },
       { '@type': 'ListItem', position: 3, name: path.title, item: pageUrl },
     ],
   },
@@ -80,6 +81,9 @@ const structuredData = [
   title={path.title}
   description={path.description}
   ogType="website"
+  htmlLang="en"
+  ogLocale="en_US"
+  skipLabel="Skip to main content"
   alternates={indexAlternates(site, `/path/${slug}/`)}
   structuredData={structuredData}
   preloadConceptFont
@@ -87,17 +91,18 @@ const structuredData = [
   <div class="container path-detail">
     <div class="detail-top-nav">
       <Breadcrumb
+        label="Breadcrumb"
         items={[
-          { label: '首頁', href: '/' },
-          { label: '策展路徑', href: '/path' },
+          { label: 'Home', href: '/en/' },
+          { label: 'Curated paths', href: '/en/path' },
           { label: path.title },
         ]}
       />
-      <a href="/path" class="back-link back-link--top">← 返回策展路徑</a>
+      <a href="/en/path" class="back-link back-link--top">← Back to curated paths</a>
     </div>
 
     <header class="page-header">
-      <span class="section-badge">策展路徑</span>
+      <span class="section-badge">Curated path</span>
       <h1>{path.title}</h1>
       <p class="page-lead">{path.description}</p>
     </header>

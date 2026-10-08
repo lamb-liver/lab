@@ -57,6 +57,11 @@ export const siteSeoEn = {
     description:
       'Past GSAT, AST, and AMC 12 problems, with an interactive figure that takes apart the one step most students get stuck on.',
   },
+  path: {
+    title: 'Curated paths',
+    description:
+      'Walk from a familiar starting point to a visual extension: stop at a high-school application, or keep going to a university concept.',
+  },
   concept: {
     title: 'Concept index',
     description:

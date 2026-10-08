@@ -7,6 +7,8 @@ import ExamCard from '../../../components/ExamCard.astro';
 import { conceptBySlug } from '../../../lib/concepts';
 import { loadConceptIndex } from '../../../lib/conceptCollections';
 import { conceptHasPage, type ConceptGroup } from '../../../lib/conceptIndex';
+import { pathsForConcept } from '../../../lib/learningPaths';
+import { learningPathEn } from '../../../lib/learningPathsEn';
 import { indexAlternates } from '../../../lib/translatedSlugs';
 import { conceptAreaEn, conceptLabelEn, type ConceptSlug } from '../../../lib/conceptLabels';
 import '../../../styles/components/card.css';
@@ -27,6 +29,7 @@ interface Props {
 const { slug, group } = Astro.props as Props;
 const concept = conceptBySlug(slug)!;
 const label = conceptLabelEn(slug as ConceptSlug);
+const relatedPaths = pathsForConcept(slug).map(learningPathEn);
 const title = label;
 const description = `Works, topic guides, and exam visualizations about ${label}: ${group.total} in all.`;
 
@@ -78,6 +81,23 @@ const structuredData = [
         {group.total} pieces about this concept, across works, topic guides, and exam visualizations.
       </p>
     </header>
+
+    {
+      relatedPaths.length > 0 && (
+        <section class="concept-paths" aria-label="Curated paths">
+          <h2 class="concept-paths__title">Follow a curated path</h2>
+          <ul class="concept-paths__list">
+            {relatedPaths.map((p) => (
+              <li>
+                <a class="concept-paths__link" href={`/en/path/${p.slug}`}>
+                  {p.title} →
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
 
     {
