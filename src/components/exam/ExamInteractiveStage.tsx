@@ -4,6 +4,8 @@ import {
   isExamInteractive,
 } from '../../exam/interactiveRegistry';
 
+type RootProps = { locale?: 'en' };
+
 const rootBySlug = {
   'amc12a-2024-20-random-points-area-probability': lazy(
     () => import('./RandomPointsAreaProbabilityExamRoot'),
@@ -38,11 +40,9 @@ const rootBySlug = {
   'gsat-115-parabola-restricted-translation': lazy(
     () => import('./ParabolaRestrictedTranslationExamRoot'),
   ),
-} satisfies Record<ExamInteractiveSlug, ComponentType>;
+} satisfies Record<ExamInteractiveSlug, ComponentType<RootProps>>;
 
 export const examStageRootSlugs = Object.keys(rootBySlug).sort() as ExamInteractiveSlug[];
-
-type LocaleRootProps = { locale?: 'en' };
 
 type Props = {
   slug: string;
@@ -52,8 +52,7 @@ type Props = {
 export default function ExamInteractiveStage({ slug, locale }: Props) {
   if (!isExamInteractive(slug)) return null;
 
-  // ponytail: roots that ignore locale still go through this cast. Drop it when every root takes locale.
-  const Root = rootBySlug[slug] as ComponentType<LocaleRootProps>;
+  const Root: ComponentType<RootProps> = rootBySlug[slug];
   return (
     <Suspense
       fallback={

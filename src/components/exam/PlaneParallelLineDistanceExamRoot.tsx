@@ -19,7 +19,10 @@ function measureCanvas(host: HTMLElement): CanvasSize {
   return { width, height: Math.max(330, Math.round(width * 0.64)) };
 }
 
-export default function PlaneParallelLineDistanceExamRoot() {
+type Props = { locale?: 'en' };
+
+export default function PlaneParallelLineDistanceExamRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [params, setParams] = useState(DEFAULT_PARAMS);
   const patchParams = useCallback((patch: Partial<Params>) => {
     setParams((current) => ({ ...current, ...patch }));
@@ -31,8 +34,9 @@ export default function PlaneParallelLineDistanceExamRoot() {
         height: p.height,
         ...current,
         rotating,
+        locale,
       }),
-    [],
+    [locale],
   );
   const { canvasHostRef } = useOrbitViewP5({
     params,
@@ -46,39 +50,52 @@ export default function PlaneParallelLineDistanceExamRoot() {
     <div className="exam-interactive-explore">
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
-          <p className="exam-interactive-explore__visual-title">坐標面截線與平行距離</p>
+          <p className="exam-interactive-explore__visual-title">
+            {en ? 'Traces on coordinate planes and the distance between parallel lines' : '坐標面截線與平行距離'}
+          </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>先想一想</strong>
-            一條線在 x=0、另一條在 z=0，又互相平行時，方向向量還能有幾個自由度？
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
+            {en
+              ? 'If one line lies in x=0, the other in z=0, and they are parallel, how much freedom is left in the direction vector?'
+              : '一條線在 x=0、另一條在 z=0，又互相平行時，方向向量還能有幾個自由度？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            藍、紫半透明面是坐標面；金線是兩平行線的最短線段
+            {en
+              ? 'The translucent blue and purple planes are coordinate planes. The gold line is the shortest segment between the two parallel lines'
+              : '藍、紫半透明面是坐標面；金線是兩平行線的最短線段'}
           </p>
           <div
             ref={canvasHostRef}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label="平面與 x=0、z=0 的交線為平行線，並標出公垂線；拖動可旋轉視角"
+            aria-label={
+              en
+                ? 'The plane meets x=0 and z=0 in parallel lines, with the common perpendicular marked. Drag to rotate the view'
+                : '平面與 x=0、z=0 的交線為平行線，並標出公垂線；拖動可旋轉視角'
+            }
           />
         </div>
 
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">距離</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Distance' : '距離'}</p>
             <p className="exam-interactive-explore__result" aria-live="polite">
               |AB|=√185≈{PARALLEL_METRICS.distance.toFixed(3)}
             </p>
             <p className="exam-interactive-explore__note">
-              方向被鎖成 (0,1,0) 後，距離就是兩已知點在 xz 平面投影的距離 √(8²+11²)。
+              {en
+                ? 'Once the direction is locked to (0,1,0), the distance is the distance between the projections of the two known points onto the xz-plane, √(8²+11²).'
+                : '方向被鎖成 (0,1,0) 後，距離就是兩已知點在 xz 平面投影的距離 √(8²+11²)。'}
             </p>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">視角</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'View' : '視角'}</p>
             <OrbitViewControls
               idPrefix="plane-parallel-line-distance"
               params={params}
               onParamsChange={patchParams}
+              locale={locale}
             />
           </div>
         </aside>

@@ -16,6 +16,7 @@ type RotationCompositionExamSnap = {
   leftMatrix: Matrix2;
   rightMatrix: Matrix2;
   progress: number;
+  locale?: 'en';
 };
 
 const ACCENT: [number, number, number] = [212, 184, 122];
@@ -76,6 +77,7 @@ function drawPanel(
   firstMatrix: Matrix2,
   target: Matrix2,
   progress: number,
+  locale?: 'en',
 ): void {
   p.push();
   p.translate(cx, cy);
@@ -106,7 +108,13 @@ function drawPanel(
   p.textStyle(p.NORMAL);
   p.textSize(11);
   p.fill(...GUIDE, 125);
-  p.text(`先 ${firstLabel} → 再 ${secondLabel}`, cx, 43);
+  p.text(
+    locale === 'en'
+      ? `First ${firstLabel} → then ${secondLabel}`
+      : `先 ${firstLabel} → 再 ${secondLabel}`,
+    cx,
+    43,
+  );
   p.pop();
 }
 
@@ -129,6 +137,7 @@ export function renderRotationCompositionExamScene(
     snap.leftFirstMatrix,
     snap.leftMatrix,
     snap.progress,
+    snap.locale,
   );
   drawPanel(
     p,
@@ -141,5 +150,6 @@ export function renderRotationCompositionExamScene(
     snap.rightFirstMatrix,
     snap.rightMatrix,
     snap.progress,
+    snap.locale,
   );
 }
