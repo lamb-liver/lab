@@ -46,7 +46,7 @@ If the intersection is bounded, $\mathcal F$ is a convex polygon. If it is unbou
 ## Related
 
 - [Level curves of the objective](/en/works/lp-objective-level-curves/)
-- [Finding the optimum at a vertex](/en/works/lp-vertex-optimum/)
+- [Finding the optimal solution at a vertex](/en/works/lp-vertex-optimum/)
 - [Linear programming](/en/explore/linear-programming/)
 
 ## Further reading

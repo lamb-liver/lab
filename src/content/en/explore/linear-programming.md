@@ -43,7 +43,7 @@ The three readings act on the same problem. Switching only changes what the figu
 
 - [Constraint half-planes and the feasible region](/en/works/lp-feasible-half-planes/)
 - [Level curves of the objective](/en/works/lp-objective-level-curves/)
-- [Finding the optimum at a vertex](/en/works/lp-vertex-optimum/)
+- [Finding the optimal solution at a vertex](/en/works/lp-vertex-optimum/)
 
 ## Further reading
 

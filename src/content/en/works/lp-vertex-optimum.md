@@ -1,6 +1,6 @@
 ---
-title: Finding the optimum at a vertex
-description: Visit each vertex of the feasible region, compute z=px+qy, and read from the candidate table where the optimum lies.
+title: Finding the optimal solution at a vertex
+description: Visit each vertex of the feasible region, compute z=px+qy, and read from the candidate table where the optimal solution lies.
 audience: High-school concept
 tags:
   - Optimization

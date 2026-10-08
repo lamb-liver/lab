@@ -41,7 +41,7 @@ This family splits the whole plane into layers. Every point lies on exactly one 
 ## Related
 
 - [Constraint half-planes and the feasible region](/en/works/lp-feasible-half-planes/)
-- [Finding the optimum at a vertex](/en/works/lp-vertex-optimum/)
+- [Finding the optimal solution at a vertex](/en/works/lp-vertex-optimum/)
 - [Linear programming](/en/explore/linear-programming/)
 
 ## Further reading
