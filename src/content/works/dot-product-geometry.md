@@ -14,7 +14,7 @@ draft: false
 
 ## 參數方程
 
-內積 $\mathbf{u}\cdot\mathbf{v}=u_x v_x+u_y v_y$ 幾何上等於 $|\mathbf{u}||\mathbf{v}|\cos\theta$。正負號反映夾角銳鈍；為零表示垂直。力沿位移的功 $W=\mathbf{F}\cdot\mathbf{d}$ 是同一結構的物理實例。
+內積 $\mathbf{u}\cdot\mathbf{v}=u_x v_x+u_y v_y$ 幾何上等於 $|\mathbf{u}||\mathbf{v}|\cos\theta$。正負號反映夾角銳鈍。兩支都不是零向量時，內積為零表示垂直。力沿位移的功 $W=\mathbf{F}\cdot\mathbf{d}$ 是同一結構的物理實例。
 
 $$
 \mathbf{u}\cdot\mathbf{v}=|\mathbf{u}||\mathbf{v}|\cos\theta
