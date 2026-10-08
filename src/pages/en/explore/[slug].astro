@@ -36,7 +36,8 @@ const { previous: previousExplore, next: nextExplore } = getCollectionPagerNeigh
 );
 const ogImage = entry.data.coverImage;
 const site = Astro.site ?? Astro.url;
-const siteRoot = new URL('/', site).href;
+const siteRoot = new URL('/en/', site).href;
+const sectionUrl = new URL('/en/explore/', site).href;
 const articleUrl = new URL(`/en/explore/${entry.id}`, site).href;
 const imageUrl = ogImage ? new URL(ogImage, site).href : undefined;
 const alternates = translationAlternates(site, 'explore', entry.id);
@@ -45,8 +46,9 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: '羊·實驗', item: siteRoot },
-      { '@type': 'ListItem', position: 2, name: entry.data.title, item: articleUrl },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: 'Explore', item: sectionUrl },
+      { '@type': 'ListItem', position: 3, name: entry.data.title, item: articleUrl },
     ],
   },
   {
@@ -82,12 +84,21 @@ const structuredData = [
       <Breadcrumb
         label="Breadcrumb"
         items={[
-          { label: '羊·實驗', href: '/' },
+          { label: 'Home', href: '/en/' },
+          { label: 'Explore', href: '/en/explore' },
           { label: entry.data.title },
         ]}
       />
       <div class="detail-top-nav__actions">
-        <a href={`/explore/${entry.id}/`} class="back-link back-link--top" hreflang="zh-Hant">Chinese</a>
+        <a
+          href={`/explore/${entry.id}/`}
+          class="back-link detail-top-nav__lang"
+          hreflang="zh-Hant"
+          lang="zh-Hant"
+        >
+          中文
+        </a>
+        <a href="/en/explore" class="back-link back-link--top">← Back to Explore</a>
       </div>
     </div>
 
@@ -176,6 +187,6 @@ const structuredData = [
     <Giscus locale="en" />
     <FitKatexDisplay />
 
-    <a href={`/explore/${entry.id}/`} class="back-link" hreflang="zh-Hant">Chinese</a>
+    <a href="/en/explore" class="back-link">← Back to Explore</a>
   </div>
 </BaseLayout>

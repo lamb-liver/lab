@@ -33,6 +33,24 @@ describe('English pages', () => {
     expect(broken).toEqual([]);
   });
 
+  // 沒英文版時暫時連回中文頁；英文頁補上後就要改回 /en/，避免讀者被帶離英文站。
+  it('link to the /en/ page instead of the Chinese page once it exists', () => {
+    const published = Object.fromEntries(KINDS.map((kind) => [kind, slugs(kind)]));
+    const stale: string[] = [];
+    for (const kind of KINDS) {
+      for (const name of enFiles(kind)) {
+        const body = readFileSync(join(EN_ROOT, kind, name), 'utf8');
+        for (const match of body.matchAll(/\]\(\/(works|explore|exam)\/([^/)#?]+)\/?[^)]*\)/g)) {
+          const [, target, slug] = match;
+          if (published[target as (typeof KINDS)[number]].has(slug)) {
+            stale.push(`${kind}/${name} -> /${target}/${slug}/`);
+          }
+        }
+      }
+    }
+    expect(stale).toEqual([]);
+  });
+
   it('only translate slugs that exist in Chinese', () => {
     const orphans: string[] = [];
     for (const kind of KINDS) {
