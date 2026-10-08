@@ -90,23 +90,7 @@ const structuredData = [
         { label: entry.data.title },
       ]}
     />
-    {
-      alternates ? (
-        <div class="detail-top-nav__actions">
-          <a
-            href={`/en/works/${entry.id}/`}
-            class="back-link detail-top-nav__lang"
-            hreflang="en"
-            lang="en"
-          >
-            English
-          </a>
-          <a href="/works" class="back-link back-link--top">← 返回作品集</a>
-        </div>
-      ) : (
-        <a href="/works" class="back-link back-link--top">← 返回作品集</a>
-      )
-    }
+    <a href="/works" class="back-link back-link--top">← 返回作品集</a>
   </div>
 
   <header class="container work-detail__header">

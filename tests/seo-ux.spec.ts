@@ -182,7 +182,7 @@ test.describe('SEO metadata and UX shell', () => {
       page.locator('a[href="/en/works/complex-arithmetic-geometry/"]').first(),
     ).toBeVisible();
     await expect(page.locator('a[href="/en/exam/ast-111-complex-unit-circle/"]').first()).toBeVisible();
-    await expect(page.locator('a[hreflang="zh-Hant"]').first()).toHaveAttribute(
+    await expect(page.locator('[data-lang-toggle]')).toHaveAttribute(
       'href',
       '/concept/complex-numbers/',
     );
@@ -215,7 +215,7 @@ test.describe('SEO metadata and UX shell', () => {
       'href',
       '/en/exam/gsat-112-skew-line-distance/',
     );
-    await expect(page.locator('a[hreflang="zh-Hant"]').first()).toHaveAttribute(
+    await expect(page.locator('[data-lang-toggle]')).toHaveAttribute(
       'href',
       '/path/vectors-to-space/',
     );
@@ -609,7 +609,7 @@ test.describe('SEO metadata and UX shell', () => {
     await expect(menuButton).toHaveAttribute('aria-label', 'Close menu');
     const navLinks = page.locator('#site-nav-links');
     await expect(navLinks.getByRole('link', { name: 'Works' })).toHaveAttribute('href', '/en/works');
-    await expect(navLinks.locator('a[hreflang="zh-Hant"]')).toHaveAttribute(
+    await expect(page.locator('[data-lang-toggle]')).toHaveAttribute(
       'href',
       '/works/rose-curve/',
     );
@@ -632,16 +632,17 @@ test.describe('SEO metadata and UX shell', () => {
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/works/rose-curve/');
-    await expect(page.locator('.site-nav__link[hreflang="en"]')).toHaveText('English');
-    await expect(page.locator('.site-nav__link[hreflang="en"]')).toHaveAttribute(
+    await expect(page.locator('[data-lang-toggle][hreflang="en"]')).toHaveText('English');
+    await expect(page.locator('[data-lang-toggle][hreflang="en"]')).toHaveAttribute(
       'href',
       '/en/works/rose-curve/',
     );
     await page.goto('/about');
-    await expect(page.locator('.site-nav__link[hreflang="en"]')).toHaveAttribute('href', '/en/about/');
+    await expect(page.locator('[data-lang-toggle][hreflang="en"]')).toHaveAttribute('href', '/en/about/');
 
     await page.goto('/en/');
-    await expect(page.locator('.site-nav__link[hreflang="en"]')).toHaveCount(0);
+    await expect(page.locator('[data-lang-toggle]')).toHaveAttribute('hreflang', 'zh-Hant');
+    await expect(page.locator('[data-lang-toggle]')).toHaveAttribute('href', '/');
     await expect(page.locator('.site-nav__link[href="/en/concept"]')).toHaveText('Concepts');
     await expect(page.locator('.site-nav__link[href="/en/about"]')).toHaveText('About');
     const footer = page.locator('.site-footer__nav');
@@ -654,7 +655,139 @@ test.describe('SEO metadata and UX shell', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByRole('heading', { level: 1, name: 'About' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Copy' })).toBeVisible();
-    await expect(page.locator('a[hreflang="zh-Hant"]').first()).toHaveAttribute('href', '/about/');
+    await expect(page.locator('[data-lang-toggle]')).toHaveAttribute('href', '/about/');
+  });
+
+  test('one language toggle in the header on every route type, round-tripping to the same page', async ({
+    page,
+  }) => {
+    const pairs: Array<[string, string]> = [
+      ['/', '/en/'],
+      ['/works/', '/en/works/'],
+      ['/works/rose-curve/', '/en/works/rose-curve/'],
+      ['/explore/', '/en/explore/'],
+      ['/explore/vectors/', '/en/explore/vectors/'],
+      ['/exam/', '/en/exam/'],
+      ['/exam/gsat-112-skew-line-distance/', '/en/exam/gsat-112-skew-line-distance/'],
+      ['/concept/', '/en/concept/'],
+      ['/concept/complex-numbers/', '/en/concept/complex-numbers/'],
+      ['/path/', '/en/path/'],
+      ['/path/trig-to-fourier/', '/en/path/trig-to-fourier/'],
+      ['/about/', '/en/about/'],
+    ];
+    const strip = (url: string) => new URL(url).pathname.replace(/\/?$/, '/');
+    for (const width of [1280, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      for (const [zh, en] of pairs) {
+        await page.goto(zh);
+        const toggle = page.locator('[data-lang-toggle]');
+        await expect(toggle).toHaveCount(1);
+        await expect(toggle).toBeVisible();
+        await expect(toggle).toHaveText('English');
+        await expect(toggle).toHaveAttribute('lang', 'en');
+        await expect(page.locator('a[hreflang="en"]')).toHaveCount(1);
+        const box = await toggle.boundingBox();
+        expect(box!.height).toBeGreaterThanOrEqual(44);
+        expect(box!.width).toBeGreaterThanOrEqual(44);
+        await toggle.click();
+        await expect(page).toHaveURL((url) => strip(url.href) === en);
+        const back = page.locator('[data-lang-toggle]');
+        await expect(back).toHaveText('中文');
+        await expect(back).toHaveAttribute('lang', 'zh-Hant');
+        await expect(page.locator('a[hreflang="zh-Hant"]')).toHaveCount(1);
+        await back.click();
+        await expect(page).toHaveURL((url) => strip(url.href) === zh);
+      }
+    }
+  });
+
+  test('one click switches the whole site language and the choice sticks', async ({
+    page,
+    context,
+  }) => {
+    const lang = () => page.locator('html').getAttribute('lang');
+    const expectAllInternalLinks = async (prefix: 'en' | 'zh') => {
+      const hrefs = await page
+        .locator('a[href^="/"]:not([data-lang-toggle])')
+        .evaluateAll((links) => links.map((a) => a.getAttribute('href') ?? ''));
+      const assets = /^\/(og|images|fonts|thumbs|_astro|rss|sitemap)/;
+      const pages = hrefs.filter((href) => !assets.test(href) && !/\.[a-z0-9]+$/i.test(href));
+      expect(pages.length).toBeGreaterThan(0);
+      for (const href of pages) {
+        if (prefix === 'en') expect(href, href).toMatch(/^\/en(\/|$)/);
+        else expect(href, href).not.toMatch(/^\/en(\/|$)/);
+      }
+    };
+
+    await page.goto('/works/rose-curve/');
+    await page.locator('[data-lang-toggle]').click();
+    await expect(page).toHaveURL(/\/en\/works\/rose-curve\/?$/);
+    expect(await page.evaluate(() => localStorage.getItem('lab-lang'))).toBe('en');
+    expect((await context.cookies()).find((c) => c.name === 'lab-lang')?.value).toBe('en');
+
+    // 透過導覽列、卡片、內文連結走幾頁，全都要維持英文
+    await expectAllInternalLinks('en');
+    await page.locator('.site-nav__links').getByRole('link', { name: 'Exams' }).click();
+    await expect(page).toHaveURL(/\/en\/exam\/?$/);
+    expect(await lang()).toBe('en');
+    await expectAllInternalLinks('en');
+    await page.locator('main a[href^="/en/exam/"]').first().click();
+    await expect(page).toHaveURL(/\/en\/exam\/[^/]+\/?$/);
+    expect(await lang()).toBe('en');
+    await page.locator('main a[href^="/en/concept/"]').first().click();
+    await expect(page).toHaveURL(/\/en\/concept\/[^/]+\/?$/);
+    expect(await lang()).toBe('en');
+    await expectAllInternalLinks('en');
+    await page.locator('.site-footer a[href^="/en/path"]').first().click();
+    await expect(page).toHaveURL(/\/en\/path\/?$/);
+    expect(await lang()).toBe('en');
+
+    // 重新整理、以及直接打中文網址，都依偏好換成英文對應頁
+    await page.reload();
+    expect(await lang()).toBe('en');
+    await page.goto('/explore/vectors/?subject=x#top');
+    await expect(page).toHaveURL(/\/en\/explore\/vectors\/(\?subject=x)?$/);
+    expect(await lang()).toBe('en');
+    const fresh = await context.newPage();
+    await fresh.goto('/about/');
+    await expect(fresh).toHaveURL(/\/en\/about\/?$/);
+    await fresh.close();
+
+    // 只靠 cookie 也有效（localStorage 被清掉時）
+    await page.evaluate(() => localStorage.removeItem('lab-lang'));
+    await page.goto('/concept/');
+    await expect(page).toHaveURL(/\/en\/concept\/?$/);
+
+    // 再按一次切回中文，全站恢復中文
+    await page.locator('[data-lang-toggle]').click();
+    await expect(page).toHaveURL(/\/concept\/?$/);
+    expect(await lang()).toBe('zh-Hant');
+    await expectAllInternalLinks('zh');
+    await page.goto('/en/works/rose-curve/');
+    await expect(page).toHaveURL(/\/works\/rose-curve\/?$/);
+    expect(await lang()).toBe('zh-Hant');
+    await page.locator('.site-nav__links').getByRole('link', { name: '作品集' }).click();
+    expect(await lang()).toBe('zh-Hant');
+    await expectAllInternalLinks('zh');
+  });
+
+  test('crawlers are never redirected by the saved language', async ({ browser }) => {
+    const base = test.info().project.use.baseURL as string;
+    const context = await browser.newContext({
+      baseURL: base,
+      userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1)',
+    });
+    await context.addCookies([{ name: 'lab-lang', value: 'en', url: base }]);
+    const page = await context.newPage();
+    await page.goto('/works/rose-curve/');
+    expect(await page.locator('html').getAttribute('lang')).toBe('zh-Hant');
+    await context.close();
+  });
+
+  test('language toggle keeps the shared exam subject filter', async ({ page }) => {
+    await page.goto('/exam/?subject=%E5%88%86%E7%A7%91%E6%95%B8%E7%94%B2');
+    await page.locator('[data-lang-toggle]').click();
+    await expect(page).toHaveURL(/\/en\/exam\/\?subject=%E5%88%86%E7%A7%91%E6%95%B8%E7%94%B2$/);
   });
 
   test('mobile nav exposes links only after opening the controlled menu', async ({ page }) => {

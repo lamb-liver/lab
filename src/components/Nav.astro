@@ -3,14 +3,15 @@ import '../styles/components/nav.css';
 
 interface Props {
   locale?: 'en';
-  /** 英文頁對應的中文頁路徑；有值時在英文導覽列加「中文」切換連結 */
-  zhPath?: string;
-  /** 中文頁對應的英文頁路徑；有值時在中文導覽列加「English」切換連結 */
-  enPath?: string;
+  /** 語言切換按鈕的目標：另一語言的對應頁（沒有就是最近的列表頁或首頁） */
+  langTogglePath: string;
 }
 
-const { locale, zhPath, enPath } = Astro.props;
+const { locale, langTogglePath } = Astro.props;
 const en = locale === 'en';
+const langToggle = en
+  ? { label: '中文', lang: 'zh-Hant', aria: '切換至中文版' }
+  : { label: 'English', lang: 'en', aria: 'Switch to English' };
 
 const links = en
   ? [
@@ -77,25 +78,56 @@ function isActivePath(path: string, current: string): boolean {
           </a>
         ))
       }
-      {
-        en && zhPath ? (
-          <a href={zhPath} class="site-nav__link" hreflang="zh-Hant" lang="zh-Hant">
-            中文
-          </a>
-        ) : null
-      }
-      {
-        !en && enPath ? (
-          <a href={enPath} class="site-nav__link" hreflang="en" lang="en">
-            English
-          </a>
-        ) : null
-      }
     </nav>
+
+    <a
+      href={langTogglePath}
+      class="site-nav__lang"
+      hreflang={langToggle.lang}
+      lang={langToggle.lang}
+      aria-label={langToggle.aria}
+      data-lang-toggle
+      data-keep-params="subject"
+    >
+      {langToggle.label}
+    </a>
   </div>
 </header>
 
 <script>
+  // 語言切換保留兩種語言共用的篩選參數（試題考科用同一組 enum）；搜尋字與錨點不同語言對不上，不帶
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-toggle]').forEach((link) => {
+    const base = link.getAttribute('href') ?? '/';
+    const keep = (link.dataset.keepParams ?? '').split(',').filter(Boolean);
+    const sync = () => {
+      const current = new URLSearchParams(window.location.search);
+      const next = new URLSearchParams();
+      for (const key of keep) {
+        const value = current.get(key);
+        if (value) next.set(key, value);
+      }
+      const query = next.toString();
+      link.href = query ? `${base}?${query}` : base;
+    };
+    // 按下切換就把語言偏好存成全站設定（localStorage + cookie），之後瀏覽都維持這個語言
+    const remember = () => {
+      const lang = link.getAttribute('lang') === 'en' ? 'en' : 'zh-Hant';
+      try {
+        localStorage.setItem('lab-lang', lang);
+      } catch {
+        /* 私密模式等情況下 localStorage 不可用，靠 cookie */
+      }
+      document.cookie = `lab-lang=${lang}; path=/; max-age=31536000; SameSite=Lax`;
+    };
+    link.addEventListener('pointerdown', sync);
+    link.addEventListener('focus', sync);
+    link.addEventListener('click', () => {
+      sync();
+      remember();
+    });
+    link.addEventListener('auxclick', remember);
+  });
+
   const toggle = document.querySelector('[data-nav-toggle]') as HTMLButtonElement | null;
   const links = document.querySelector('[data-nav-links]') as HTMLElement | null;
 

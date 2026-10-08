@@ -37,3 +37,14 @@ export function translationAlternates(
     { hreflang: 'x-default', href: zh },
   ];
 }
+
+const SECTIONS = ['works', 'explore', 'exam', 'concept', 'path', 'about'];
+
+/** 沒有對應頁時，語言切換改去另一語言同一區塊的列表頁；不屬於任何區塊就回首頁 */
+export function nearestCounterpartList(pathname: string, locale?: 'en'): string {
+  const parts = pathname.split('/').filter(Boolean);
+  if (parts[0] === 'en') parts.shift();
+  const section = SECTIONS.includes(parts[0] ?? '') ? parts[0] : undefined;
+  if (locale === 'en') return section ? `/${section}/` : '/';
+  return section ? `/en/${section}/` : '/en/';
+}
