@@ -17,6 +17,8 @@ type CombinatorialSnap = {
   allPaths: string[][];
   currentPathPoints: Array<{ x: number; y: number }>;
   pathProgress: number;
+  /** English page passes 'en'. This scene draws no words. */
+  locale?: 'en';
 };
 
 const ACCENT = { r: 212, g: 184, b: 122 };

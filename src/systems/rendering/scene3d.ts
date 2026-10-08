@@ -131,12 +131,12 @@ export function drawAxes(
 }
 
 /** 拖曳旋轉時的右下角提示 */
-export function drawRotatingHint(p: p5, width: number, height: number): void {
+export function drawRotatingHint(p: p5, width: number, height: number, locale?: 'en'): void {
   p.push();
   p.noStroke();
   p.fill(SCENE_GUIDE[0], SCENE_GUIDE[1], SCENE_GUIDE[2], 110);
   p.textSize(13);
   p.textAlign(p.RIGHT, p.BOTTOM);
-  p.text('拖動中：旋轉視角', width - 18, height - 16);
+  p.text(locale === 'en' ? 'Dragging: rotate the view' : '拖動中：旋轉視角', width - 18, height - 16);
   p.pop();
 }

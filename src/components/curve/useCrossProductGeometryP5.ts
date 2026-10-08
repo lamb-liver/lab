@@ -7,9 +7,10 @@ import { useOrbitViewP5 } from './useOrbitViewP5';
 type Options = {
   params: CrossProductGeometryParams;
   onParamsChange: (patch: Partial<CrossProductGeometryParams>) => void;
+  locale?: 'en';
 };
 
-export function useCrossProductGeometryP5({ params, onParamsChange }: Options) {
+export function useCrossProductGeometryP5({ params, onParamsChange, locale }: Options) {
   const render = useCallback(
     (p: p5, current: CrossProductGeometryParams, rotating: boolean) => {
       renderCrossProductGeometryScene(p, {
@@ -17,9 +18,10 @@ export function useCrossProductGeometryP5({ params, onParamsChange }: Options) {
         height: p.height,
         params: current,
         rotating,
+        locale,
       });
     },
-    [],
+    [locale],
   );
 
   return useOrbitViewP5({

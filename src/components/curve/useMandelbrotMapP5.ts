@@ -10,6 +10,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: ParamValues;
   onCChange: (cx: number, cy: number) => void;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -17,9 +18,10 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useMandelbrotMapP5({ params, onCChange }: Options) {
+export function useMandelbrotMapP5({ params, onCChange, locale }: Options) {
   const paramsRef = useRef(params);
   const onCChangeRef = useRef(onCChange);
+  const localeRef = useRef(locale);
   const draggingRef = useRef(false);
 
   useEffect(() => {
@@ -30,12 +32,17 @@ export function useMandelbrotMapP5({ params, onCChange }: Options) {
     onCChangeRef.current = onCChange;
   }, [onCChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     const values = paramsRef.current;
     renderMandelbrotMap(
       p,
       { cx: values.cx, cy: values.cy, maxIter: values.maxIter },
       draggingRef.current,
+      localeRef.current,
     );
   }, []);
 
@@ -95,7 +102,7 @@ export function useMandelbrotMapP5({ params, onCChange }: Options) {
 
   const canvasHostRef = useRectP5CanvasHost(draw, [], measureSquareCanvas, extendSketch, {
     loop: false,
-    redrawKey: params,
+    redrawKey: `${params.cx}|${params.cy}|${params.maxIter}|${locale ?? 'zh'}`,
   });
 
   return { canvasHostRef };

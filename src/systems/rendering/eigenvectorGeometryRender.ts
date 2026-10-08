@@ -19,6 +19,7 @@ type EigenvectorGeometrySnap = {
   u: Vector2;
   activeDrag: boolean;
   presetNote?: string;
+  locale?: 'en';
 };
 
 type Color = readonly [number, number, number];
@@ -77,7 +78,7 @@ export function renderEigenvectorGeometryScene(
   const eigen = eigenData(snap.matrix);
 
   drawGrid(p, geo, snap.matrix);
-  drawEigenDirections(p, geo, eigen);
+  drawEigenDirections(p, geo, eigen, snap.locale);
   drawGeneralVector(p, geo, snap.matrix, snap.u, snap.activeDrag);
   drawAxes(p, geo);
   drawHud(p, snap, eigen);
@@ -115,14 +116,14 @@ function drawAxes(p: p5, geo: SceneGeometry): void {
   p.circle(origin.x, origin.y, 4.5);
 }
 
-function drawEigenDirections(p: p5, geo: SceneGeometry, eigen: EigenData): void {
+function drawEigenDirections(p: p5, geo: SceneGeometry, eigen: EigenData, locale?: 'en'): void {
   if (eigen.kind === 'complex') {
-    drawNoRealDirectionMark(p, geo);
+    drawNoRealDirectionMark(p, geo, locale);
     return;
   }
 
   if (eigen.kind === 'all') {
-    drawAllDirectionGlow(p, geo, eigen.lambda);
+    drawAllDirectionGlow(p, geo, eigen.lambda, locale);
     return;
   }
 
@@ -167,7 +168,7 @@ function drawDirectionLine(
   drawWorldLine(p, geo, a, b);
 }
 
-function drawAllDirectionGlow(p: p5, geo: SceneGeometry, lambda: number): void {
+function drawAllDirectionGlow(p: p5, geo: SceneGeometry, lambda: number, locale?: 'en'): void {
   for (let i = 0; i < 18; i += 1) {
     const t = (Math.PI * i) / 18;
     const v = { x: Math.cos(t), y: Math.sin(t) };
@@ -179,10 +180,17 @@ function drawAllDirectionGlow(p: p5, geo: SceneGeometry, lambda: number): void {
   const v = { x: 1.3, y: 0.75 };
   drawWorldArrow(p, geo, { x: 0, y: 0 }, v, PALETTE.guide, 184, 1.6, 'v');
   drawWorldArrow(p, geo, { x: 0, y: 0 }, scaleVec(v, lambda), PALETTE.gold, 242, 3, 'Av');
-  drawWorldLabel(p, geo, { x: -3.6, y: 3.6 }, '每個方向', PALETTE.gold, 13);
+  drawWorldLabel(
+    p,
+    geo,
+    { x: -3.6, y: 3.6 },
+    locale === 'en' ? 'Every direction' : '每個方向',
+    PALETTE.gold,
+    13,
+  );
 }
 
-function drawNoRealDirectionMark(p: p5, geo: SceneGeometry): void {
+function drawNoRealDirectionMark(p: p5, geo: SceneGeometry, locale?: 'en'): void {
   const center = worldToScreen(geo, { x: 0, y: 0 });
   p.noFill();
   p.stroke(...PALETTE.red, 190);
@@ -192,7 +200,14 @@ function drawNoRealDirectionMark(p: p5, geo: SceneGeometry): void {
   p.stroke(...PALETTE.red, 180);
   p.strokeWeight(2.4);
   drawWorldLine(p, geo, { x: -1, y: -1 }, { x: 1, y: 1 });
-  drawWorldLabel(p, geo, { x: -2.45, y: 2.3 }, '無實特徵方向', PALETTE.red, 13);
+  drawWorldLabel(
+    p,
+    geo,
+    { x: -2.45, y: 2.3 },
+    locale === 'en' ? 'No real eigen direction' : '無實特徵方向',
+    PALETTE.red,
+    13,
+  );
 }
 
 function drawGeneralVector(
@@ -222,7 +237,8 @@ function drawHud(p: p5, snap: EigenvectorGeometrySnap, eigen: EigenData): void {
   p.textSize(12);
   p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 230);
-  p.text(`${eigenStatusText(eigen)} · 拖動藍色 u`, 18, 24);
+  const drag = snap.locale === 'en' ? 'drag the blue u' : '拖動藍色 u';
+  p.text(`${eigenStatusText(eigen, snap.locale)} · ${drag}`, 18, 24);
 
   if (!snap.presetNote) return;
   p.textAlign(p.RIGHT, p.TOP);

@@ -13,17 +13,20 @@ type Options = {
   targetParams: ParamValues;
   onRevealThetaChange: (theta: number) => void;
   onSmoothParamsChange: (params: ParamValues) => void;
+  locale?: 'en';
 };
 
 export function useEquiangularSpiralP5({
   targetParams,
   onRevealThetaChange,
   onSmoothParamsChange,
+  locale,
 }: Options) {
   const animRef = useRef(createEquiangularSpiralAnimState(targetParams));
   const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastRevealRef = useRef(-1);
   const onRevealThetaChangeRef = useRef(onRevealThetaChange);
+  const localeRef = useRef(locale);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
     onChange: onSmoothParamsChange,
@@ -36,6 +39,10 @@ export function useEquiangularSpiralP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepEquiangularSpiralAnimation(
@@ -64,6 +71,7 @@ export function useEquiangularSpiralP5({
       ghostPath: anim.ghostPath,
       activePath: anim.activePath,
       headPoint: anim.headPoint,
+      locale: localeRef.current,
     });
   }, []);
 

@@ -7,37 +7,62 @@ import {
   type GradientLevelCurvesParams,
   type SurfaceKind,
 } from '../../curve/modules/gradient-level-curves';
+import type { CurveMetadata } from '../../curve/types';
 import { useGradientLevelCurvesP5 } from '../curve/useGradientLevelCurvesP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-const KIND_LABELS: Record<SurfaceKind, string> = {
-  paraboloid: '圓 x²+y²',
-  saddle: '鞍 x²−y²',
-  product: '雙曲 xy',
+const KIND_LABELS: Record<'zh' | 'en', Record<SurfaceKind, string>> = {
+  zh: {
+    paraboloid: '圓 x²+y²',
+    saddle: '鞍 x²−y²',
+    product: '雙曲 xy',
+  },
+  en: {
+    paraboloid: 'Circle x²+y²',
+    saddle: 'Saddle x²−y²',
+    product: 'Hyperbola xy',
+  },
 };
 
-export default function GradientLevelCurvesCurveRoot({ controlsMountId }: Props) {
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Gradient and level curves',
+    formula: metadata.formula.replaceAll('，', ', '),
+    stats: metadata.stats.map((stat) => ({
+      ...stat,
+      label: stat.key === 'point' ? 'Test point P' : stat.label,
+      value: stat.value === '0（臨界點）' ? '0 (critical point)' : stat.value,
+    })),
+  };
+}
+
+export default function GradientLevelCurvesCurveRoot({ controlsMountId, locale }: Props) {
   const [params, setParams] = useState<GradientLevelCurvesParams>(
     DEFAULT_GRADIENT_LEVEL_CURVES_PARAMS,
   );
+  const en = locale === 'en';
+  const kindLabels = en ? KIND_LABELS.en : KIND_LABELS.zh;
 
   const onParamsChange = useCallback((patch: Partial<GradientLevelCurvesParams>) => {
     setParams((prev) => ({ ...prev, ...patch }));
   }, []);
 
-  const { canvasHostRef } = useGradientLevelCurvesP5({ params, onParamsChange });
+  const { canvasHostRef } = useGradientLevelCurvesP5({ params, onParamsChange, locale });
 
   const metadata = gradientLevelCurvesModule.getMetadata(
     gradientLevelCurvesParamsForMetadata(params),
   );
+  const shown = en ? englishMetadata(metadata) : metadata;
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
         {SURFACE_KINDS.map((kind) => (
           <button
@@ -47,7 +72,7 @@ export default function GradientLevelCurvesCurveRoot({ controlsMountId }: Props)
             aria-pressed={params.kind === kind}
             onClick={() => onParamsChange({ kind })}
           >
-            {KIND_LABELS[kind]}
+            {kindLabels[kind]}
           </button>
         ))}
       </div>
@@ -58,7 +83,7 @@ export default function GradientLevelCurvesCurveRoot({ controlsMountId }: Props)
           aria-pressed={params.showFamily}
           onClick={() => onParamsChange({ showFamily: !params.showFamily })}
         >
-          等位線族
+          {en ? 'Level curve family' : '等位線族'}
         </button>
         <button
           type="button"
@@ -66,7 +91,7 @@ export default function GradientLevelCurvesCurveRoot({ controlsMountId }: Props)
           aria-pressed="false"
           onClick={() => setParams(DEFAULT_GRADIENT_LEVEL_CURVES_PARAMS)}
         >
-          重設
+          {en ? 'Reset' : '重設'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -77,7 +102,9 @@ export default function GradientLevelCurvesCurveRoot({ controlsMountId }: Props)
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="梯度與等位線互動：可拖動測試點"
+        aria-label={
+          en ? 'Gradient and level curves: drag the test point' : '梯度與等位線互動：可拖動測試點'
+        }
       />
       {controls}
     </>

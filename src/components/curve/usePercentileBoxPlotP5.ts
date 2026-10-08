@@ -1,4 +1,4 @@
-import { useCallback, useRef, type MutableRefObject } from 'react';
+import { useCallback, useEffect, useRef, type MutableRefObject } from 'react';
 import type p5 from 'p5';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import {
@@ -26,6 +26,7 @@ type Options = {
   stateRef: MutableRefObject<PercentileBoxPlotWorkState>;
   onStateChange: () => void;
   redrawKey: number;
+  locale?: 'en';
 };
 
 function measureSquare(host: HTMLElement) {
@@ -39,8 +40,13 @@ function isCanvasPointer(p: p5, host: HTMLElement, event?: Event): boolean {
   return p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
 }
 
-export function usePercentileBoxPlotP5({ stateRef, onStateChange, redrawKey }: Options) {
+export function usePercentileBoxPlotP5({ stateRef, onStateChange, redrawKey, locale }: Options) {
   const dragIndexRef = useRef<number | null>(null);
+  const localeRef = useRef(locale);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const state = stateRef.current;
@@ -52,6 +58,7 @@ export function usePercentileBoxPlotP5({ stateRef, onStateChange, redrawKey }: O
       selectedIndex: state.selectedIndex,
       showPercentiles: state.showPercentiles,
       showSortedRanks: state.showSortedRanks,
+      locale: localeRef.current,
     });
   }, [stateRef]);
 

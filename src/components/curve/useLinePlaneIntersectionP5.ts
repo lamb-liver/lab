@@ -7,17 +7,22 @@ import { useOrbitViewP5 } from './useOrbitViewP5';
 type Options = {
   params: LinePlaneParams;
   onParamsChange: (patch: Partial<LinePlaneParams>) => void;
+  locale?: 'en';
 };
 
-export function useLinePlaneIntersectionP5({ params, onParamsChange }: Options) {
-  const render = useCallback((p: p5, current: LinePlaneParams, rotating: boolean) => {
-    renderLinePlaneIntersectionScene(p, {
-      width: p.width,
-      height: p.height,
-      params: current,
-      rotating,
-    });
-  }, []);
+export function useLinePlaneIntersectionP5({ params, onParamsChange, locale }: Options) {
+  const render = useCallback(
+    (p: p5, current: LinePlaneParams, rotating: boolean) => {
+      renderLinePlaneIntersectionScene(p, {
+        width: p.width,
+        height: p.height,
+        params: current,
+        rotating,
+        locale,
+      });
+    },
+    [locale],
+  );
 
   return useOrbitViewP5({
     params,

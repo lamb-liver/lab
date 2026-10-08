@@ -18,16 +18,19 @@ type Options = {
   defaultParams: ParamValues;
   targetParams: ParamValues;
   onSmoothParamsChange: (params: ParamValues) => void;
+  locale?: 'en';
 };
 
 export function useEulerFormulaRotationP5({
   defaultParams,
   targetParams,
   onSmoothParamsChange,
+  locale,
 }: Options) {
   const animRef = useRef(createEulerFormulaRotationAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
   const trackRef = useRef(createTrackBuffer());
+  const localeRef = useRef(locale);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
     onChange: onSmoothParamsChange,
@@ -37,6 +40,10 @@ export function useEulerFormulaRotationP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepEulerFormulaRotationAnimation(
@@ -59,6 +66,7 @@ export function useEulerFormulaRotationP5({
       smoothPhase: anim.smoothPhase,
       time: anim.time,
       trackValues: trackRef.current,
+      locale: localeRef.current,
     });
   }, []);
 

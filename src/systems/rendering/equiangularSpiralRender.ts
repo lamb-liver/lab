@@ -17,6 +17,7 @@ type EquiangularSpiralSnap = {
   ghostPath: ReadonlyArray<WorldPoint>;
   activePath: ReadonlyArray<WorldPoint>;
   headPoint: WorldPoint;
+  locale?: 'en';
 };
 
 const PRIMARY = { r: 212, g: 184, b: 122 };

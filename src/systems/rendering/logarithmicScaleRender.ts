@@ -20,6 +20,7 @@ type LogarithmicScaleSnap = {
   height: number;
   params: ParamValues;
   reveal: number;
+  locale?: 'en';
 };
 
 const GOLD = { r: 212, g: 184, b: 122 };
@@ -46,8 +47,9 @@ export function renderLogarithmicScaleScene(p: p5, snap: LogarithmicScaleSnap): 
   p.translate(ox, oy);
   p.scale(scale);
 
-  drawPlot(p, LOG_LEFT_PLOT, data, 'linear', '線性軸 y', snap.reveal);
-  drawPlot(p, LOG_RIGHT_PLOT, data, 'log', '對數軸 log₁₀ y', snap.reveal);
+  const en = snap.locale === 'en';
+  drawPlot(p, LOG_LEFT_PLOT, data, 'linear', en ? 'Linear axis y' : '線性軸 y', snap.reveal);
+  drawPlot(p, LOG_RIGHT_PLOT, data, 'log', en ? 'Log axis log₁₀ y' : '對數軸 log₁₀ y', snap.reveal);
 
   p.pop();
 }

@@ -20,6 +20,7 @@ type Options = {
   showDrop: boolean;
   showError: boolean;
   onParamsChange: (patch: Partial<VectorProjectionParams>) => void;
+  locale?: 'en';
 };
 
 const HIT_RADIUS = 18;
@@ -38,11 +39,13 @@ export function useVectorProjectionP5({
   showDrop,
   showError,
   onParamsChange,
+  locale,
 }: Options) {
   const paramsRef = useRef(params);
   const showDropRef = useRef(showDrop);
   const showErrorRef = useRef(showError);
   const onParamsChangeRef = useRef(onParamsChange);
+  const localeRef = useRef(locale);
   const activeDragRef = useRef<DragTarget | null>(null);
 
   useEffect(() => {
@@ -61,6 +64,10 @@ export function useVectorProjectionP5({
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     renderVectorProjectionScene(p, {
       width: p.width,
@@ -70,6 +77,7 @@ export function useVectorProjectionP5({
       showError: showErrorRef.current,
       activeDrag: activeDragRef.current,
       timeMs: p.millis(),
+      locale: localeRef.current,
     });
   }, []);
 

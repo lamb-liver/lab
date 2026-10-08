@@ -18,6 +18,7 @@ type FunctionGraphTransformSnap = {
   size: number;
   params: FunctionGraphTransformParams;
   smooth: ViewSmoothState;
+  locale?: 'en';
 };
 
 const GOLD: [number, number, number] = [212, 184, 122];
@@ -195,6 +196,12 @@ function drawFeaturePoints(
   p.text('P', target.x + 9, target.y - 9);
 }
 
+function shownCaption(params: FunctionGraphTransformParams, locale?: 'en') {
+  const text = buildCaption(params);
+  if (locale !== 'en') return text;
+  return text.replaceAll('；', '; ').replaceAll('，', ', ');
+}
+
 function drawCaption(p: p5, size: number, text: string) {
   p.noStroke();
   p.fill(...MUTED, 175);
@@ -228,7 +235,7 @@ export function renderFunctionGraphTransformScene(
     drawFeaturePoints(p, plot, viewHalfY, snap.params);
   });
 
-  drawCaption(p, snap.size, buildCaption(snap.params));
+  drawCaption(p, snap.size, shownCaption(snap.params, snap.locale));
 
   return targetViewHalfY;
 }

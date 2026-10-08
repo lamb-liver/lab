@@ -17,6 +17,7 @@ type Snapshot = {
   params: DemoivreNthRootsParams;
   dragging: boolean;
   layoutRadius?: number;
+  locale?: 'en';
 };
 
 type Rgb = [number, number, number];
@@ -146,17 +147,26 @@ export function renderDemoivreNthRootsScene(p: p5, snap: Snapshot): void {
   drawDot(p, layout, metrics.z, ACCENT, snap.dragging);
 
   const n = metrics.n;
+  const en = snap.locale === 'en';
   const powerLines = [
     `(r e^(iθ))^${n} = r^${n} e^(i${n}θ)`,
     `z = ${formatComplex(metrics.z)}`,
     `z^${n} = ${formatComplex(metrics.result)}`,
   ];
   const rootLines = metrics.zero
-    ? ['w = 0 只有原點這一個根，幅角沒有定義']
+    ? [
+        en
+          ? 'w = 0 has only the origin as a root, and the argument is undefined'
+          : 'w = 0 只有原點這一個根，幅角沒有定義',
+      ]
     : [
-        `n 次方根均勻分佈，相鄰差 2π/${n}`,
+        en
+          ? `${n} roots, equally spaced, neighbors differ by 2π/${n}`
+          : `n 次方根均勻分佈，相鄰差 2π/${n}`,
         `w = ${formatComplex(metrics.z)}`,
-        `k=0 根 = ${formatComplex(metrics.result)}`,
+        en
+          ? `k=0 root = ${formatComplex(metrics.result)}`
+          : `k=0 根 = ${formatComplex(metrics.result)}`,
       ];
   drawReadout(p, snap.width, snap.params.mode === 'power' ? powerLines : rootLines, {
     highlightIndex: 0,

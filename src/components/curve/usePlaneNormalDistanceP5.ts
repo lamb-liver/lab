@@ -7,17 +7,22 @@ import { useOrbitViewP5 } from './useOrbitViewP5';
 type Options = {
   params: PlaneNormalDistanceParams;
   onParamsChange: (patch: Partial<PlaneNormalDistanceParams>) => void;
+  locale?: 'en';
 };
 
-export function usePlaneNormalDistanceP5({ params, onParamsChange }: Options) {
-  const render = useCallback((p: p5, current: PlaneNormalDistanceParams, rotating: boolean) => {
-    renderPlaneNormalDistanceScene(p, {
-      width: p.width,
-      height: p.height,
-      params: current,
-      rotating,
-    });
-  }, []);
+export function usePlaneNormalDistanceP5({ params, onParamsChange, locale }: Options) {
+  const render = useCallback(
+    (p: p5, current: PlaneNormalDistanceParams, rotating: boolean) => {
+      renderPlaneNormalDistanceScene(p, {
+        width: p.width,
+        height: p.height,
+        params: current,
+        rotating,
+        locale,
+      });
+    },
+    [locale],
+  );
 
   return useOrbitViewP5({
     params,

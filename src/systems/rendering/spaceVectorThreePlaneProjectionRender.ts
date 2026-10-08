@@ -26,6 +26,7 @@ type Snap = {
   height: number;
   params: SpaceVectorProjectionParams;
   rotating: boolean;
+  locale?: 'en';
 };
 
 const BG: Rgb = [10, 10, 10];
@@ -109,13 +110,24 @@ export function renderSpaceVectorThreePlaneProjectionScene(p: p5, snap: Snap): v
   drawLabel(p, tip, 'v', GOLD);
 
   const norm = Math.hypot(v.x, v.y, v.z);
+  const en = snap.locale === 'en';
   drawReadout(
     p,
     width,
     params.plane === 'all'
-      ? ['三個影子兩兩共用一個分量，可互相校驗同一支 v', `‖v‖ = ${norm.toFixed(3)}`]
-      : [`聚焦 ${params.plane} 平面：把不屬於它的分量設為 0`, `‖v‖ = ${norm.toFixed(3)}`],
+      ? [
+          en
+            ? 'Paired shadows share a component and check the same v'
+            : '三個影子兩兩共用一個分量，可互相校驗同一支 v',
+          `‖v‖ = ${norm.toFixed(3)}`,
+        ]
+      : [
+          en
+            ? `Focus on the ${params.plane} plane: set the other component to 0`
+            : `聚焦 ${params.plane} 平面：把不屬於它的分量設為 0`,
+          `‖v‖ = ${norm.toFixed(3)}`,
+        ],
   );
 
-  if (snap.rotating) drawRotatingHint(p, width, height);
+  if (snap.rotating) drawRotatingHint(p, width, height, snap.locale);
 }

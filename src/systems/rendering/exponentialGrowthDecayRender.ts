@@ -17,6 +17,7 @@ type ExponentialGrowthDecaySnap = {
   height: number;
   params: ParamValues;
   reveal: number;
+  locale?: 'en';
 };
 
 const GOLD = { r: 212, g: 184, b: 122 };
@@ -57,7 +58,7 @@ export function renderExponentialGrowthDecayScene(
     }
   });
 
-  drawPlotCaption(p, data);
+  drawPlotCaption(p, data, snap.locale);
   p.pop();
 }
 
@@ -88,13 +89,19 @@ function drawPlotFrame(p: p5, data: ExponentialState): void {
   p.text(data.logScale ? 'ln y' : 'y', plot.x - 8, plot.y - 12);
 }
 
-function drawPlotCaption(p: p5, data: ExponentialState): void {
+function drawPlotCaption(p: p5, data: ExponentialState, locale?: 'en'): void {
   const plot = EXP_PLOT;
   const label = data.logScale
-    ? '對數尺度：ln y = ln C + kt'
+    ? locale === 'en'
+      ? 'Logarithmic scale: ln y = ln C + kt'
+      : '對數尺度：ln y = ln C + kt'
     : data.mode === 'growth'
-      ? '指數成長'
-      : '指數衰減';
+      ? locale === 'en'
+        ? 'Exponential growth'
+        : '指數成長'
+      : locale === 'en'
+        ? 'Exponential decay'
+        : '指數衰減';
 
   p.noStroke();
   p.fill(GOLD.r, GOLD.g, GOLD.b, 155);

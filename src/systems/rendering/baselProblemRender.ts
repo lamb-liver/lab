@@ -19,6 +19,7 @@ type BaselProblemSnap = {
   height: number;
   params: ParamValues;
   revealProgress: number;
+  locale?: 'en';
 };
 
 const PRIMARY = { r: 212, g: 184, b: 122 };
@@ -42,14 +43,14 @@ export function renderBaselProblemScene(p: p5, snap: BaselProblemSnap): void {
   if (mode === 'area') drawArea(p, snap.params, snap.revealProgress);
   else if (mode === 'compare') drawCompare(p, snap.params, snap.revealProgress);
   else if (mode === 'euler') drawEuler(p, snap.params, snap.revealProgress);
-  else if (mode === 'pseries') drawPSeries(p, snap.params, snap.revealProgress);
+  else if (mode === 'pseries') drawPSeries(p, snap.params, snap.revealProgress, snap.locale);
   else if (mode === 'param') drawParam(p, snap.params, snap.revealProgress);
-  else drawPartial(p, snap.params, snap.revealProgress);
+  else drawPartial(p, snap.params, snap.revealProgress, snap.locale);
 
   p.pop();
 }
 
-function drawPartial(p: p5, params: ParamValues, revealProgress: number): void {
+function drawPartial(p: p5, params: ParamValues, revealProgress: number, locale?: 'en'): void {
   const bounds = chartBounds();
   const series = buildPartialSeries(params, revealProgress);
   drawAxes(p, bounds);
@@ -60,7 +61,7 @@ function drawPartial(p: p5, params: ParamValues, revealProgress: number): void {
     drawLimitLine(p, y, PRIMARY, Math.abs((params.p ?? 2) - 2) < 1e-6 ? 'π²/6' : 'limit');
     const last = series.points.at(-1);
     if (last && Math.abs((params.p ?? 2) - 2) < 1e-6) {
-      drawGapLine(p, last.x, last.y, y);
+      drawGapLine(p, last.x, last.y, y, locale);
     }
   }
   drawGlowPolyline(p, [{ x: bounds.x, y: bounds.y + bounds.height }, ...series.points], PRIMARY);
@@ -133,7 +134,7 @@ function drawEuler(p: p5, params: ParamValues, revealProgress: number): void {
   drawText(p, 'coefficient of x²  →  Σ 1/n² = π²/6', centerX, BASEL_VIEW.height * 0.74, 14, PRIMARY, 220, p.CENTER);
 }
 
-function drawPSeries(p: p5, params: ParamValues, revealProgress: number): void {
+function drawPSeries(p: p5, params: ParamValues, revealProgress: number, locale?: 'en'): void {
   const bounds = chartBounds();
   const pValue = params.p ?? 2;
   const limit = estimateLimit(pValue, normalizeN(params.N));
@@ -145,7 +146,7 @@ function drawPSeries(p: p5, params: ParamValues, revealProgress: number): void {
     p.pop();
     drawText(p, 'DIVERGES  (p ≤ 1)', BASEL_VIEW.width / 2, BASEL_VIEW.height / 2, 18, { r: 255, g: 110, b: 110 }, 160, p.CENTER);
   }
-  drawPartial(p, params, revealProgress);
+  drawPartial(p, params, revealProgress, locale);
 }
 
 function drawParam(p: p5, params: ParamValues, revealProgress: number): void {
@@ -250,13 +251,22 @@ function drawTermStems(
   p.pop();
 }
 
-function drawGapLine(p: p5, x: number, sumY: number, limitY: number): void {
+function drawGapLine(p: p5, x: number, sumY: number, limitY: number, locale?: 'en'): void {
   p.push();
   p.stroke(255, 255, 255, 46);
   p.strokeWeight(1);
   p.line(x, sumY, x, limitY);
   p.pop();
-  drawText(p, '剩餘差距', x - 8, (sumY + limitY) / 2, 9, GUIDE, 82, p.RIGHT);
+  drawText(
+    p,
+    locale === 'en' ? 'Remaining gap' : '剩餘差距',
+    x - 8,
+    (sumY + limitY) / 2,
+    9,
+    GUIDE,
+    82,
+    p.RIGHT,
+  );
 }
 
 function drawBaselGauge(p: p5, sum: number, y: number): void {

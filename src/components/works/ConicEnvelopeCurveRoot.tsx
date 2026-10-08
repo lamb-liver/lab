@@ -8,10 +8,27 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function ConicEnvelopeCurveRoot({ controlsMountId }: Props) {
+const EN_PARAM_LABELS: Record<string, string> = {
+  lineDensity: 'Line density',
+  deformationRatio: 'Deformation ratio',
+  timeSpeed: 'Time speed ω',
+};
+
+export default function ConicEnvelopeCurveRoot({ controlsMountId, locale }: Props) {
   const module = conicEnvelopeModule;
+  const en = locale === 'en';
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_PARAM_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -37,7 +54,7 @@ export default function ConicEnvelopeCurveRoot({ controlsMountId }: Props) {
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={targetParams}
         onChange={(key, value) => {
           setTargetParams((prev) => ({ ...prev, [key]: value }));
@@ -51,7 +68,11 @@ export default function ConicEnvelopeCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="二次曲線包絡線動畫"
+        aria-label={
+          en
+            ? 'Conic envelope: lines on the axes weave a parabolic outline in four quadrants'
+            : '二次曲線包絡線動畫'
+        }
       />
       {controls}
     </>

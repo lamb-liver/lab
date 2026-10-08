@@ -15,6 +15,7 @@ type Options = {
   showHoles: boolean;
   showLocal: boolean;
   advanced: boolean;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -29,6 +30,7 @@ export function useRationalVerticalHorizontalAsymptotesP5({
   showHoles,
   showLocal,
   advanced,
+  locale,
 }: Options) {
   const presetRef = useRef(preset);
   const paramsRef = useRef(params);
@@ -36,6 +38,7 @@ export function useRationalVerticalHorizontalAsymptotesP5({
   const showHolesRef = useRef(showHoles);
   const showLocalRef = useRef(showLocal);
   const advancedRef = useRef(advanced);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     presetRef.current = preset;
@@ -61,6 +64,10 @@ export function useRationalVerticalHorizontalAsymptotesP5({
     advancedRef.current = advanced;
   }, [advanced]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     renderRationalVerticalHorizontalAsymptotesScene(p, {
       size: p.width,
@@ -70,6 +77,7 @@ export function useRationalVerticalHorizontalAsymptotesP5({
       showHoles: showHolesRef.current,
       showLocal: showLocalRef.current,
       advanced: advancedRef.current,
+      locale: localeRef.current,
     });
   }, []);
   const extendSketch = useCallback((p: p5) => {
@@ -80,7 +88,7 @@ export function useRationalVerticalHorizontalAsymptotesP5({
     [draw, extendSketch],
     measureSquareCanvas,
     extendSketch,
-    { loop: false, redrawKey: `${preset.id}|${JSON.stringify(params)}|${showAsymptotes}|${showHoles}|${showLocal}|${advanced}` },
+    { loop: false, redrawKey: `${preset.id}|${JSON.stringify(params)}|${showAsymptotes}|${showHoles}|${showLocal}|${advanced}|${locale ?? ''}` },
   );
 
   return { canvasHostRef };

@@ -9,6 +9,7 @@ type EulerFormulaRotationSnap = {
   smoothPhase: number;
   time: number;
   trackValues: number[];
+  locale?: 'en';
 };
 
 const TRACK_SAMPLES = 420;

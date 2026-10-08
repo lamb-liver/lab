@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { chladniFiguresModule } from '../../curve/modules/chladni-figures';
+import type { CurveMetadata } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useChladniP5 } from '../curve/useChladniP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
@@ -8,9 +9,21 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function ChladniFiguresCurveRoot({ controlsMountId }: Props) {
+const EN_LABELS: Record<string, string> = {
+  modeM: 'Mode m',
+  modeN: 'Mode n',
+  vibrationSpeed: 'Vibration speed ω',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return { ...metadata, title: 'Chladni figures' };
+}
+
+export default function ChladniFiguresCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const module = chladniFiguresModule;
 
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
@@ -28,6 +41,7 @@ export default function ChladniFiguresCurveRoot({ controlsMountId }: Props) {
     targetParams,
     onRevealPctChange,
     onSmoothModesChange,
+    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {
@@ -38,11 +52,21 @@ export default function ChladniFiguresCurveRoot({ controlsMountId }: Props) {
       modeN: smoothN,
     },
   });
+  const shown = en ? englishMetadata(metadata) : metadata;
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={targetParams}
         onChange={(key, value) => {
           setTargetParams((prev) => ({ ...prev, [key]: value }));
@@ -56,7 +80,7 @@ export default function ChladniFiguresCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="克拉尼圖形動畫"
+        aria-label={en ? 'Chladni figures' : '克拉尼圖形動畫'}
       />
       {controls}
     </>

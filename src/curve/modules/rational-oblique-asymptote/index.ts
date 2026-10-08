@@ -61,6 +61,8 @@ export {
   createRationalObliquePlotRect,
   fmt,
   modeById,
+  obliqueModeText,
+  obliqueParamLabel,
   modeIdFromIndex,
   modeIndexFromId,
   paramsFromValues,

@@ -13,6 +13,7 @@ type StandingWaveSnap = {
   spatialFrequency: number;
   time: number;
   revealProgress: number;
+  locale?: 'en';
 };
 
 const ENVELOPE_STYLE = { r: 212, g: 184, b: 122, a: 16 };

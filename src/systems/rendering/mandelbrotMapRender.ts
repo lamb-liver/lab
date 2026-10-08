@@ -64,7 +64,12 @@ function paintMap(
   }
 }
 
-export function renderMandelbrotMap(p: p5, params: Params, dragging: boolean) {
+export function renderMandelbrotMap(
+  p: p5,
+  params: Params,
+  dragging: boolean,
+  locale?: 'en',
+) {
   // p5 sizes the pixel buffer with the raw density. Rounding it (1.5 → 2) writes the wrong rows.
   if (p.pixelDensity() !== 1) p.pixelDensity(1);
   p.background(BG[0], BG[1], BG[2]);
@@ -108,5 +113,5 @@ export function renderMandelbrotMap(p: p5, params: Params, dragging: boolean) {
   p.fill(ACCENT[0], ACCENT[1], ACCENT[2]);
   p.textAlign(p.RIGHT, p.TOP);
   p.textSize(13);
-  p.text('這個 c', inset.left + inset.w, inset.top + inset.h + 6);
+  p.text(locale === 'en' ? 'This c' : '這個 c', inset.left + inset.w, inset.top + inset.h + 6);
 }

@@ -20,6 +20,7 @@ type NaturalLogEGeometrySnap = {
   height: number;
   params: ParamValues;
   reveal: number;
+  locale?: 'en';
 };
 
 const GOLD = { r: 212, g: 184, b: 122 };
@@ -45,9 +46,9 @@ export function renderNaturalLogEGeometryScene(
   p.scale(scale);
 
   if (data.mode === 'area') {
-    drawAreaPlot(p, data, snap.reveal);
+    drawAreaPlot(p, data, snap.reveal, snap.locale);
   } else {
-    drawInversePlot(p, data, snap.reveal);
+    drawInversePlot(p, data, snap.reveal, snap.locale);
   }
 
   p.pop();
@@ -63,7 +64,7 @@ function withPlotClip(p: p5, drawFn: () => void): void {
   canvas2d(p).restore();
 }
 
-function drawAreaPlot(p: p5, data: NaturalLogState, reveal: number): void {
+function drawAreaPlot(p: p5, data: NaturalLogState, reveal: number, locale?: 'en'): void {
   drawAreaFrame(p);
   drawAreaGrid(p);
 
@@ -76,7 +77,7 @@ function drawAreaPlot(p: p5, data: NaturalLogState, reveal: number): void {
   });
 
   drawVerticalMarkers(p, data);
-  drawAreaCaption(p, data);
+  drawAreaCaption(p, data, locale);
 }
 
 function drawAreaFrame(p: p5): void {
@@ -198,10 +199,16 @@ function drawVerticalMarkers(p: p5, data: NaturalLogState): void {
   p.textAlign(p.LEFT, p.BASELINE);
 }
 
-function drawAreaCaption(p: p5, data: NaturalLogState): void {
+function drawAreaCaption(p: p5, data: NaturalLogState, locale?: 'en'): void {
   const plot = NAT_LOG_PLOT;
   const label =
-    data.t >= 1 ? '面積：ln t = ∫₁ᵗ 1/x dx' : '反向面積：ln t < 0';
+    locale === 'en'
+      ? data.t >= 1
+        ? 'Area: ln t = ∫₁ᵗ 1/x dx'
+        : 'Signed area: ln t < 0'
+      : data.t >= 1
+        ? '面積：ln t = ∫₁ᵗ 1/x dx'
+        : '反向面積：ln t < 0';
 
   p.noStroke();
   p.fill(GOLD.r, GOLD.g, GOLD.b, 155);
@@ -213,7 +220,7 @@ function drawAreaCaption(p: p5, data: NaturalLogState): void {
   p.textStyle(p.NORMAL);
 }
 
-function drawInversePlot(p: p5, data: NaturalLogState, reveal: number): void {
+function drawInversePlot(p: p5, data: NaturalLogState, reveal: number, locale?: 'en'): void {
   drawInverseFrame(p);
   drawInverseGrid(p);
 
@@ -224,7 +231,7 @@ function drawInversePlot(p: p5, data: NaturalLogState, reveal: number): void {
     drawInversePoint(p, data);
   });
 
-  drawInverseCaption(p);
+  drawInverseCaption(p, locale);
 }
 
 function drawInverseFrame(p: p5): void {
@@ -321,14 +328,20 @@ function drawInversePoint(p: p5, data: NaturalLogState): void {
   p.text(`(${x.toFixed(2)}, ${y.toFixed(2)})`, px + 10, py - 10);
 }
 
-function drawInverseCaption(p: p5): void {
+function drawInverseCaption(p: p5, locale?: 'en'): void {
   const plot = NAT_LOG_PLOT;
   p.noStroke();
   p.fill(GOLD.r, GOLD.g, GOLD.b, 155);
   p.textSize(11);
   p.textStyle(p.BOLD);
   p.textAlign(p.CENTER, p.TOP);
-  p.text('反函數：y = ln x 與 y = eˣ 對稱於 y = x', plot.x + plot.w * 0.5, plot.y + plot.h + 34);
+  p.text(
+    locale === 'en'
+      ? 'Inverse: y = ln x and y = e^x, symmetric across y = x'
+      : '反函數：y = ln x 與 y = eˣ 對稱於 y = x',
+    plot.x + plot.w * 0.5,
+    plot.y + plot.h + 34,
+  );
   p.textAlign(p.LEFT, p.BASELINE);
   p.textStyle(p.NORMAL);
 }

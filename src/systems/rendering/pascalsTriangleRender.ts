@@ -12,6 +12,8 @@ type PascalsTriangleSnap = {
   selectedCell: { n: number; k: number } | null;
   highlightSet: Set<string>;
   revealProgress: number;
+  /** English page passes 'en'. This scene draws no words. */
+  locale?: 'en';
 };
 
 const PRIMARY = { r: 212, g: 184, b: 122 };

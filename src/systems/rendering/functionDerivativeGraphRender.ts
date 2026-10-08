@@ -8,6 +8,7 @@ import {
   fmtAxis,
   nearestZeroInfo,
   screenToX,
+  localizeDerivativePhrase,
   slopeStateText,
   visibleZeros,
   xToScreen,
@@ -24,6 +25,13 @@ type FunctionDerivativeGraphSnap = {
   showZeros: boolean;
   showMonotonic: boolean;
   activeDrag: boolean;
+  locale?: 'en';
+};
+
+const DERIVATIVE_NOTE_EN: Record<string, string> = {
+  quad: 'Flat at x=0, down then up',
+  cubic: 'Two flat tangents: max and min',
+  sin: 'Slope cycles; zeros at peaks',
 };
 
 type Color = readonly [number, number, number];
@@ -297,11 +305,16 @@ function drawSceneHud(p: p5, snap: FunctionDerivativeGraphSnap): void {
   p.textSize(12);
   p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 230);
-  p.text(`${status} · 拖動垂直檢查線 x₀`, 18, 24);
+  const shown = localizeDerivativePhrase(status, snap.locale);
+  const drag = snap.locale === 'en' ? 'drag x₀' : '拖動垂直檢查線 x₀';
+  p.text(`${shown} · ${drag}`, 18, 24);
 
   p.textAlign(p.RIGHT, p.TOP);
   p.fill(...PALETTE.muted, 210);
-  p.text(snap.preset.note, snap.size - 18, 18);
+  const note = snap.locale === 'en'
+    ? DERIVATIVE_NOTE_EN[snap.preset.id] ?? snap.preset.note
+    : snap.preset.note;
+  p.text(note, snap.size - 18, 18);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 

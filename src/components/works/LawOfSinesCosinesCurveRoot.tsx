@@ -13,6 +13,7 @@ import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
 function paramsForMetadata(params: LawOfSinesCosinesParams): ParamValues {
@@ -24,7 +25,7 @@ function paramsForMetadata(params: LawOfSinesCosinesParams): ParamValues {
   } as unknown as ParamValues;
 }
 
-export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
+export default function LawOfSinesCosinesCurveRoot({ controlsMountId, locale }: Props) {
   const module = lawOfSinesCosinesModule;
   const [params, setParams] = useState<LawOfSinesCosinesParams>({
     ...DEFAULT_LAW_OF_SINES_COSINES_PARAMS,
@@ -39,6 +40,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
   const { canvasHostRef } = useLawOfSinesCosinesP5({
     params,
     onTriangleChange,
+    locale,
   });
 
   const metadataParams = paramsForMetadata(params);
@@ -46,13 +48,20 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
     revealPct: 100,
     smoothParams: metadataParams,
   });
+  const shown =
+    locale === 'en'
+      ? {
+          ...metadata,
+          title: params.mode === 'cosine' ? 'Law of cosines' : 'Law of sines',
+        }
+      : metadata;
 
   const setMode = (mode: LawMode) => {
     setParams((prev) => ({ ...prev, mode }));
   };
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div className="curve-work-mode-toggle">
         <button
           type="button"
@@ -60,7 +69,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.mode === 'sine'}
           onClick={() => setMode('sine')}
         >
-          正弦定理
+          {locale === 'en' ? 'Law of sines' : '正弦定理'}
         </button>
         <button
           type="button"
@@ -68,7 +77,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.mode === 'cosine'}
           onClick={() => setMode('cosine')}
         >
-          餘弦定理
+          {locale === 'en' ? 'Law of cosines' : '餘弦定理'}
         </button>
       </div>
 
@@ -79,7 +88,13 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.advanced}
           onClick={() => setParams((prev) => ({ ...prev, advanced: !prev.advanced }))}
         >
-          {params.advanced ? '輔助線：開' : '輔助線：關'}
+          {locale === 'en'
+            ? params.advanced
+              ? 'Guides: on'
+              : 'Guides: off'
+            : params.advanced
+              ? '輔助線：開'
+              : '輔助線：關'}
         </button>
         <button
           type="button"
@@ -92,7 +107,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
             })
           }
         >
-          重設三角形
+          {locale === 'en' ? 'Reset triangle' : '重設三角形'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -103,7 +118,11 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="正弦定理與餘弦定理互動"
+        aria-label={
+          locale === 'en'
+            ? 'Law of sines and law of cosines: sides, angles, and the circumradius'
+            : '正弦定理與餘弦定理互動'
+        }
       />
       {controls}
     </>

@@ -3,7 +3,7 @@ import type p5 from 'p5';
 import { createInitialState, stepAnimation } from '../../curve/animation';
 import { createCurveCache } from '../../curve/cache';
 import { BASE_POINT_STEP } from '../../curve/constants';
-import type { AnimationState, CurveModule, ParamKey, ParamValues } from '../../curve/types';
+import type { AnimationState, CurveMetadata, CurveModule, ParamKey, ParamValues } from '../../curve/types';
 import { renderFrame } from '../../systems/rendering/frame';
 import { lissajousRenderPreset } from '../../systems/rendering/presets';
 import { useSmoothParamNotifier } from './useSmoothParamNotifier';
@@ -17,6 +17,8 @@ type Props = {
   module: CurveModule;
   controlsMountId: string;
   canvasAriaLabel: string;
+  presentMetadata?: (metadata: CurveMetadata) => CurveMetadata;
+  paramLabels?: Record<string, string>;
 };
 
 function paramsSnapshot(p: ParamValues): string {
@@ -27,6 +29,8 @@ export default function CurveWorkRoot({
   module,
   controlsMountId,
   canvasAriaLabel,
+  presentMetadata,
+  paramLabels,
 }: Props) {
   const sampleStep = module.sampleStep ?? BASE_POINT_STEP;
   const animConfig = module.animation ?? { lerp: 0.08, revealSpeed: 0.0024 };
@@ -109,10 +113,20 @@ export default function CurveWorkRoot({
     revealPct,
     smoothParams,
   });
+  const shown = presentMetadata ? presentMetadata(metadata) : metadata;
+  const controlsModule = paramLabels
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: paramLabels[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
-      <ParamControls module={module} values={targetParams} onChange={setParam} />
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
+      <ParamControls module={controlsModule} values={targetParams} onChange={setParam} />
     </WorkControlsPortal>
   );
 

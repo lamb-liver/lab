@@ -5,14 +5,22 @@ import {
   type DotProductGeometryParams,
   type DotProductMode,
 } from '../../curve/modules/dot-product-geometry';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, ParamValues } from '../../curve/types';
 import { useDotProductGeometryP5 } from '../curve/useDotProductGeometryP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
+
+function englishMetadata(metadata: CurveMetadata, mode: DotProductMode): CurveMetadata {
+  return {
+    ...metadata,
+    title: mode === 'work' ? 'Work as a dot product' : 'Dot product',
+  };
+}
 
 function paramsForMetadata(params: DotProductGeometryParams): ParamValues {
   return {
@@ -24,7 +32,7 @@ function paramsForMetadata(params: DotProductGeometryParams): ParamValues {
   };
 }
 
-export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) {
+export default function DotProductGeometryCurveRoot({ controlsMountId, locale }: Props) {
   const module = dotProductGeometryModule;
   const [params, setParams] = useState<DotProductGeometryParams>(
     DEFAULT_DOT_PRODUCT_GEOMETRY_PARAMS,
@@ -48,13 +56,14 @@ export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) 
     revealPct: 100,
     smoothParams: metadataParams,
   });
+  const shown = locale === 'en' ? englishMetadata(metadata, params.mode) : metadata;
 
   const setMode = (mode: DotProductMode) => {
     setParams((prev) => ({ ...prev, mode }));
   };
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div className="curve-work-mode-toggle">
         <button
           type="button"
@@ -62,7 +71,7 @@ export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) 
           aria-pressed={params.mode === 'dot'}
           onClick={() => setMode('dot')}
         >
-          內積 u · v
+          {locale === 'en' ? 'Dot product u · v' : '內積 u · v'}
         </button>
         <button
           type="button"
@@ -70,7 +79,7 @@ export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) 
           aria-pressed={params.mode === 'work'}
           onClick={() => setMode('work')}
         >
-          功 W = F · d
+          {locale === 'en' ? 'Work W = F · d' : '功 W = F · d'}
         </button>
       </div>
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
@@ -80,7 +89,7 @@ export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) 
           aria-pressed={showAngle}
           onClick={() => setShowAngle((prev) => !prev)}
         >
-          夾角 θ
+          {locale === 'en' ? 'Angle θ' : '夾角 θ'}
         </button>
         <button
           type="button"
@@ -88,7 +97,7 @@ export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) 
           aria-pressed={showProjection}
           onClick={() => setShowProjection((prev) => !prev)}
         >
-          投影 proj
+          {locale === 'en' ? 'Projection' : '投影 proj'}
         </button>
         <button
           type="button"
@@ -100,7 +109,7 @@ export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) 
             setShowProjection(true);
           }}
         >
-          重設
+          {locale === 'en' ? 'Reset' : '重設'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -111,7 +120,9 @@ export default function DotProductGeometryCurveRoot({ controlsMountId }: Props) 
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="內積的幾何意義互動"
+        aria-label={
+          locale === 'en' ? 'Dot product: angle, projection, and work' : '內積的幾何意義互動'
+        }
       />
       {controls}
     </>

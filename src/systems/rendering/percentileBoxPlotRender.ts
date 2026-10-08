@@ -18,7 +18,12 @@ type PercentileBoxPlotSnap = {
   selectedIndex: number;
   showPercentiles: boolean;
   showSortedRanks: boolean;
+  locale?: 'en';
 };
+
+function pick(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 const BG = [10, 10, 10] as const;
 const ACCENT = [212, 184, 122] as const;
@@ -40,15 +45,15 @@ export function renderPercentileBoxPlotScene(p: p5, snap: PercentileBoxPlotSnap)
 function drawPlot(p: p5, snap: PercentileBoxPlotSnap) {
   const summary = boxSummary(snap.values, snap.fenceK);
 
-  drawAxis(p, BOXPLOT_PLOT);
+  drawAxis(p, BOXPLOT_PLOT, snap.locale);
   if (snap.showPercentiles) drawPercentileGuides(p, BOXPLOT_PLOT, summary);
   drawBoxplot(p, BOXPLOT_PLOT, summary);
   drawValueDots(p, BOXPLOT_PLOT, snap, summary);
-  if (snap.showSortedRanks) drawSortedRanks(p, BOXPLOT_PLOT, snap.values);
-  drawBottomLabel(p, BOXPLOT_PLOT);
+  if (snap.showSortedRanks) drawSortedRanks(p, BOXPLOT_PLOT, snap.values, snap.locale);
+  drawBottomLabel(p, BOXPLOT_PLOT, snap.locale);
 }
 
-function drawAxis(p: p5, plot: PlotRect) {
+function drawAxis(p: p5, plot: PlotRect, locale?: 'en') {
   const axisY = plot.y + plot.h * 0.73;
 
   p.stroke(255, 255, 255, 32);
@@ -73,7 +78,7 @@ function drawAxis(p: p5, plot: PlotRect) {
   p.fill(255, 255, 255, 58);
   p.textSize(11);
   p.textAlign(p.RIGHT, p.TOP);
-  p.text('數值 x', plot.x + plot.w, axisY + 32);
+  p.text(pick(locale, '數值 x', 'value x'), plot.x + plot.w, axisY + 32);
 }
 
 function drawPercentileGuides(p: p5, plot: PlotRect, summary: BoxplotSummary) {
@@ -156,7 +161,7 @@ function drawValueDots(
   });
 }
 
-function drawSortedRanks(p: p5, plot: PlotRect, values: number[]) {
+function drawSortedRanks(p: p5, plot: PlotRect, values: number[], locale?: 'en') {
   const sorted = sortedValuesWithIndex(values);
   const y = plot.y + plot.h * 0.9;
 
@@ -173,7 +178,7 @@ function drawSortedRanks(p: p5, plot: PlotRect, values: number[]) {
   p.fill(255, 255, 255, 58);
   p.textSize(11);
   p.textAlign(p.LEFT, p.TOP);
-  p.text('排序順位', plot.x, y + 30);
+  p.text(pick(locale, '排序順位', 'rank'), plot.x, y + 30);
 }
 
 function drawQuartileLabel(p: p5, x: number, y: number, label: string) {
@@ -195,6 +200,15 @@ function drawSmallMarker(p: p5, x: number, y: number, label: string) {
   p.line(x - 5, y + 4, x + 5, y + 4);
 }
 
-function drawBottomLabel(p: p5, plot: PlotRect) {
-  drawPlotBottomLabel(p, plot, '拖動資料點改變排序；盒身是中間 50%，紅點為超出鬚線門檻的離群值', 26);
+function drawBottomLabel(p: p5, plot: PlotRect, locale?: 'en') {
+  drawPlotBottomLabel(
+    p,
+    plot,
+    pick(
+      locale,
+      '拖動資料點改變排序；盒身是中間 50%，紅點為超出鬚線門檻的離群值',
+      'Drag a point. Box: middle 50%. Red: past the fences.',
+    ),
+    26,
+  );
 }

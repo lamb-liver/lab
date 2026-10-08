@@ -20,6 +20,7 @@ type Options = {
   showError: boolean;
   showTerms: boolean;
   onAChange: (a: number) => void;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -34,6 +35,7 @@ export function useTaylorPolynomialApproximationP5({
   showError,
   showTerms,
   onAChange,
+  locale,
 }: Options) {
   const presetRef = useRef(preset);
   const aRef = useRef(a);
@@ -41,6 +43,7 @@ export function useTaylorPolynomialApproximationP5({
   const showErrorRef = useRef(showError);
   const showTermsRef = useRef(showTerms);
   const onAChangeRef = useRef(onAChange);
+  const localeRef = useRef(locale);
   const draggingRef = useRef(false);
 
   useEffect(() => {
@@ -68,6 +71,10 @@ export function useTaylorPolynomialApproximationP5({
     onAChangeRef.current = onAChange;
   }, [onAChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     renderTaylorPolynomialApproximationScene(p, {
       size: p.width,
@@ -77,6 +84,7 @@ export function useTaylorPolynomialApproximationP5({
       showError: showErrorRef.current,
       showTerms: showTermsRef.current,
       activeDrag: draggingRef.current,
+      locale: localeRef.current,
     });
   }, []);
 
@@ -118,7 +126,7 @@ export function useTaylorPolynomialApproximationP5({
     p.mouseWheel = () => !isTaylorPointerInPlot(p.width, p.mouseX, p.mouseY);
   }, []);
 
-  const redrawKey = `${preset.id}|${a}|${n}|${showError ? 1 : 0}|${showTerms ? 1 : 0}`;
+  const redrawKey = `${preset.id}|${a}|${n}|${showError ? 1 : 0}|${showTerms ? 1 : 0}|${locale ?? 'zh'}`;
   const canvasHostRef = useRectP5CanvasHost(
     draw,
     [draw, extendSketch],

@@ -18,6 +18,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: TrigAngleIdentitiesParams;
   onAnglesChange: (patch: Partial<Pick<TrigAngleIdentitiesParams, 'alpha' | 'beta'>>) => void;
+  locale?: 'en';
 };
 
 const INITIAL_SMOOTH = {
@@ -32,10 +33,11 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
+export function useTrigAngleIdentitiesP5({ params, onAnglesChange, locale }: Options) {
   const paramsRef = useRef(params);
   const smoothRef = useRef({ ...INITIAL_SMOOTH });
   const onAnglesChangeRef = useRef(onAnglesChange);
+  const localeRef = useRef(locale);
   const activeDragRef = useRef<AngleDragKey | null>(null);
 
   useEffect(() => {
@@ -45,6 +47,10 @@ export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
   useEffect(() => {
     onAnglesChangeRef.current = onAnglesChange;
   }, [onAnglesChange]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const params = paramsRef.current;
@@ -60,6 +66,7 @@ export function useTrigAngleIdentitiesP5({ params, onAnglesChange }: Options) {
       height: p.height,
       params,
       smooth,
+      locale: localeRef.current,
     });
 
     return { keepLooping: !isSmoothSettled(smooth, params) };

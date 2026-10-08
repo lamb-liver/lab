@@ -2,6 +2,7 @@ import { canvas2d } from './canvas2d';
 import type p5 from 'p5';
 import {
   RATIONAL_ASYMPTOTE_CONFIG,
+  asymptotePresetText,
   buildCurveSegments,
   buildRationalAsymptoteModel,
   createRationalAsymptotePlotRect,
@@ -21,6 +22,7 @@ type RationalVerticalHorizontalAsymptotesSnap = {
   showHoles: boolean;
   showLocal: boolean;
   advanced: boolean;
+  locale?: 'en';
 };
 
 type Color = readonly [number, number, number];
@@ -44,14 +46,14 @@ export function renderRationalVerticalHorizontalAsymptotesScene(
 ): void {
   p.background(...PALETTE.bg);
   const graph = createRationalAsymptotePlotRect(snap.size);
-  const model = buildRationalAsymptoteModel(snap.preset, snap.params);
+  const model = buildRationalAsymptoteModel(snap.preset, snap.params, snap.locale);
 
   drawPlotFrame(p, graph);
   if (snap.showAsymptotes) drawAsymptotes(p, graph, model, snap.advanced);
   drawRationalCurve(p, graph, model);
-  drawZeros(p, graph, model.zeros);
-  if (snap.showHoles) drawHoles(p, graph, model.holes);
-  if (snap.advanced && snap.showLocal) drawLocalWindow(p, graph, model);
+  drawZeros(p, graph, model.zeros, snap.locale);
+  if (snap.showHoles) drawHoles(p, graph, model.holes, snap.locale);
+  if (snap.advanced && snap.showLocal) drawLocalWindow(p, graph, model, snap.locale);
   drawSceneHud(p, snap, model);
 }
 
@@ -186,6 +188,7 @@ function drawZeros(
   p: p5,
   g: ReturnType<typeof createRationalAsymptotePlotRect>,
   zeros: number[],
+  locale?: 'en',
 ): void {
   for (const z of zeros) {
     if (z < RATIONAL_ASYMPTOTE_CONFIG.xMin || z > RATIONAL_ASYMPTOTE_CONFIG.xMax) continue;
@@ -196,7 +199,14 @@ function drawZeros(
     p.noStroke();
     p.fill(...PALETTE.green, 242);
     p.circle(sx, sy, 8);
-    drawLabelScreen(p, clamp(sx + 7, g.x + 8, g.x + g.w - 70), sy - 8, `零點 ${fmt(z)}`, PALETTE.green, 235);
+    drawLabelScreen(
+      p,
+      clamp(sx + 7, g.x + 8, g.x + g.w - 70),
+      sy - 8,
+      locale === 'en' ? `Zero ${fmt(z)}` : `零點 ${fmt(z)}`,
+      PALETTE.green,
+      235,
+    );
   }
 }
 
@@ -204,6 +214,7 @@ function drawHoles(
   p: p5,
   g: ReturnType<typeof createRationalAsymptotePlotRect>,
   holes: Array<{ x: number; y: number }>,
+  locale?: 'en',
 ): void {
   for (const hole of holes) {
     if (hole.x < RATIONAL_ASYMPTOTE_CONFIG.xMin || hole.x > RATIONAL_ASYMPTOTE_CONFIG.xMax) continue;
@@ -214,7 +225,14 @@ function drawHoles(
     p.strokeWeight(2.2);
     p.fill(...PALETTE.bg, 242);
     p.circle(sx, sy, 12);
-    drawLabelScreen(p, clamp(sx + 8, g.x + 8, g.x + g.w - 72), sy - 8, `洞 x=${fmt(hole.x)}`, PALETTE.gold, 242);
+    drawLabelScreen(
+      p,
+      clamp(sx + 8, g.x + 8, g.x + g.w - 72),
+      sy - 8,
+      locale === 'en' ? `Hole x=${fmt(hole.x)}` : `洞 x=${fmt(hole.x)}`,
+      PALETTE.gold,
+      242,
+    );
   }
 }
 
@@ -222,6 +240,7 @@ function drawLocalWindow(
   p: p5,
   g: ReturnType<typeof createRationalAsymptotePlotRect>,
   model: ReturnType<typeof buildRationalAsymptoteModel>,
+  locale?: 'en',
 ): void {
   if (!model.verticals.length) return;
 
@@ -268,7 +287,7 @@ function drawLocalWindow(
   p.noStroke();
   p.fill(...PALETTE.muted, 220);
   p.textSize(11);
-  p.text('局部窗口', local.x + 10, local.y + local.h - 6);
+  p.text(locale === 'en' ? 'Local window' : '局部窗口', local.x + 10, local.y + local.h - 6);
 }
 
 function drawSceneHud(
@@ -280,10 +299,11 @@ function drawSceneHud(
   p.textSize(12);
   p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 220);
-  p.text(`${snap.preset.modeName} · ${model.horizontal.label}`, 18, 26);
+  const copy = asymptotePresetText(snap.preset, snap.locale);
+  p.text(`${copy.modeName} · ${model.horizontal.label}`, 18, 26);
 
   p.textAlign(p.RIGHT, p.TOP);
-  p.text(model.warning || snap.preset.note, snap.size - 18, 18);
+  p.text(model.warning || copy.note, snap.size - 18, 18);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 

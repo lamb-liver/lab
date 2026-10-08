@@ -58,6 +58,8 @@ export {
   RATIONAL_ASYMPTOTE_CONFIG,
   RATIONAL_ASYMPTOTE_PARAM_META,
   RATIONAL_ASYMPTOTE_PRESETS,
+  asymptoteParamLabel,
+  asymptotePresetText,
   buildCurveSegments,
   buildRationalAsymptoteModel,
   buildRationalAsymptoteThumbnail,

@@ -19,6 +19,7 @@ type LogisticCurveSnap = {
   reveal: number;
   showDyDt: boolean;
   showExpCompare: boolean;
+  locale?: 'en';
 };
 
 const GOLD = { r: 212, g: 184, b: 122 };
@@ -45,11 +46,11 @@ export function renderLogisticCurveScene(p: p5, snap: LogisticCurveSnap): void {
   p.scale(scale);
 
   withChartClip(p, () => {
-    drawPhaseBands(p, snap.smooth);
+    drawPhaseBands(p, snap.smooth, snap.locale);
     drawGrid(p, snap.smooth);
 
     if (snap.showExpCompare) {
-      drawExponentialComparison(p, snap.smooth);
+      drawExponentialComparison(p, snap.smooth, snap.locale);
     }
 
     drawGhostLogistic(p, snap.smooth);
@@ -60,7 +61,7 @@ export function renderLogisticCurveScene(p: p5, snap: LogisticCurveSnap): void {
     }
   });
 
-  drawInflection(p, snap.smooth);
+  drawInflection(p, snap.smooth, snap.locale);
   drawCurveFrontPoint(p, snap.smooth, snap.reveal);
   drawAxisLabels(p, snap.smooth);
 
@@ -101,13 +102,16 @@ function drawGrid(p: p5, params: LogisticParams): void {
   p.line(c.x, c.y, c.x, c.y + c.h);
 }
 
-function drawPhaseBands(p: p5, params: LogisticParams): void {
+function drawPhaseBands(p: p5, params: LogisticParams, locale?: 'en'): void {
   const t20 = safeTAtFraction(0.2, params);
   const t80 = safeTAtFraction(0.8, params);
+  const slow = locale === 'en' ? 'Slow' : '緩增';
+  const rapid = locale === 'en' ? 'Rapid' : '急增';
+  const saturated = locale === 'en' ? 'Saturated' : '飽和';
 
-  drawBand(p, T_MIN, t20, '緩增', 5, 0);
-  drawBand(p, t20, t80, '急增', 8, 1);
-  drawBand(p, t80, T_MAX, '飽和', 5, 2);
+  drawBand(p, T_MIN, t20, slow, 5, 0);
+  drawBand(p, t20, t80, rapid, 8, 1);
+  drawBand(p, t80, T_MAX, saturated, 5, 2);
 
   drawPhaseBoundary(p, t20);
   drawPhaseBoundary(p, t80);
@@ -237,7 +241,7 @@ function drawDerivativeCurve(p: p5, params: LogisticParams): void {
   p.text('dy/dt', c.x + c.w - 42, baseY - scaleH - 8);
 }
 
-function drawExponentialComparison(p: p5, params: LogisticParams): void {
+function drawExponentialComparison(p: p5, params: LogisticParams, locale?: 'en'): void {
   const c = LOGISTIC_CHART;
   const C = params.L / params.a;
   const yCap = params.L * 0.68;
@@ -245,7 +249,7 @@ function drawExponentialComparison(p: p5, params: LogisticParams): void {
   const tEnd = clamp(tCap, T_MIN, T_MAX);
 
   if (!Number.isFinite(tCap) || tEnd <= T_MIN + 0.05 || params.a < 1) {
-    drawExpOutOfRangeHint(p);
+    drawExpOutOfRangeHint(p, locale);
     return;
   }
 
@@ -268,15 +272,15 @@ function drawExponentialComparison(p: p5, params: LogisticParams): void {
   p.text('Ce^kt', c.x + 22, c.y + 36);
 }
 
-function drawExpOutOfRangeHint(p: p5): void {
+function drawExpOutOfRangeHint(p: p5, locale?: 'en'): void {
   const c = LOGISTIC_CHART;
   p.noStroke();
   p.fill(TEXT.r, TEXT.g, TEXT.b, 38);
   p.textSize(11);
-  p.text('Ce^kt 超出可比區間', c.x + 22, c.y + 36);
+  p.text(locale === 'en' ? 'Ce^kt out of range' : 'Ce^kt 超出可比區間', c.x + 22, c.y + 36);
 }
 
-function drawInflection(p: p5, params: LogisticParams): void {
+function drawInflection(p: p5, params: LogisticParams, locale?: 'en'): void {
   const tStar = Math.log(params.a) / params.k;
   const yStar = params.L / 2;
   if (!Number.isFinite(tStar)) return;
@@ -302,9 +306,9 @@ function drawInflection(p: p5, params: LogisticParams): void {
 
   p.fill(TEXT.r, TEXT.g, TEXT.b, 86);
   p.textSize(11);
-  const labelX = clamp(x + 10, c.x + 8, c.x + c.w - 92);
+  const labelX = clamp(x + 10, c.x + 8, c.x + c.w - (locale === 'en' ? 128 : 92));
   const labelY = clamp(y - 10, c.y + 18, c.y + c.h - 12);
-  p.text('拐點  y = L/2', labelX, labelY);
+  p.text(locale === 'en' ? 'Inflection y = L/2' : '拐點  y = L/2', labelX, labelY);
   p.pop();
 }
 

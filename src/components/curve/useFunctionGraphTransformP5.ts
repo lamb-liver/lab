@@ -17,6 +17,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: FunctionGraphTransformParams;
   onParamsChange: (patch: Partial<FunctionGraphTransformParams>) => void;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -24,11 +25,12 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useFunctionGraphTransformP5({ params, onParamsChange }: Options) {
+export function useFunctionGraphTransformP5({ params, onParamsChange, locale }: Options) {
   const paramsRef = useRef(params);
   const smoothRef = useRef<ViewSmoothState>({ viewHalfY: 5 });
   const draggingFeatureRef = useRef(false);
   const onParamsChangeRef = useRef(onParamsChange);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     paramsRef.current = params;
@@ -38,11 +40,16 @@ export function useFunctionGraphTransformP5({ params, onParamsChange }: Options)
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     const targetViewHalfY = renderFunctionGraphTransformScene(p, {
       size: p.width,
       params: paramsRef.current,
       smooth: smoothRef.current,
+      locale: localeRef.current,
     });
     smoothRef.current = stepViewHalfYSmoothing(
       smoothRef.current,

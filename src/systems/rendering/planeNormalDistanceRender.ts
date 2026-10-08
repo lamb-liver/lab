@@ -24,6 +24,7 @@ type Snap = {
   height: number;
   params: PlaneNormalDistanceParams;
   rotating: boolean;
+  locale?: 'en';
 };
 
 const BG: Rgb = [10, 10, 10];
@@ -79,7 +80,8 @@ export function renderPlaneNormalDistanceScene(p: p5, snap: Snap): void {
   p.circle(pointScreen.x, pointScreen.y, 12);
   p.pop();
 
-  drawLabel(p, footScreen, '垂足', PLANE, 190);
+  const en = snap.locale === 'en';
+  drawLabel(p, footScreen, en ? 'Foot' : '垂足', PLANE, 190);
   drawLabel(p, pointScreen, 'P₁', GOLD);
   drawLabel(
     p,
@@ -89,11 +91,21 @@ export function renderPlaneNormalDistanceScene(p: p5, snap: Snap): void {
   );
 
   // 一般式會隨尺度改變，距離不會
-  drawReadout(p, width, [
-    formatGeneralForm(metrics.coefficients, metrics.constant),
-    `距離 ${metrics.distance.toFixed(3)}　帶號 ${metrics.signedDistance.toFixed(3)}`,
-    '同乘非零常數只改變係數，不改變平面與距離',
-  ]);
+  drawReadout(
+    p,
+    width,
+    en
+      ? [
+          formatGeneralForm(metrics.coefficients, metrics.constant),
+          `Distance ${metrics.distance.toFixed(3)}  signed ${metrics.signedDistance.toFixed(3)}`,
+          'A nonzero scale changes only the coefficients, not the plane or the distance',
+        ]
+      : [
+          formatGeneralForm(metrics.coefficients, metrics.constant),
+          `距離 ${metrics.distance.toFixed(3)}　帶號 ${metrics.signedDistance.toFixed(3)}`,
+          '同乘非零常數只改變係數，不改變平面與距離',
+        ],
+  );
 
-  if (snap.rotating) drawRotatingHint(p, width, height);
+  if (snap.rotating) drawRotatingHint(p, width, height, snap.locale);
 }

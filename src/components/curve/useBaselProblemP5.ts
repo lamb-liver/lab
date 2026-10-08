@@ -11,6 +11,7 @@ type Options = {
   playing: boolean;
   replayNonce: number;
   onRevealPctChange: (pct: number) => void;
+  locale?: 'en';
 };
 
 export function useBaselProblemP5({
@@ -18,6 +19,7 @@ export function useBaselProblemP5({
   playing,
   replayNonce,
   onRevealPctChange,
+  locale,
 }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
   const playingRef = useRef(playing);
@@ -25,6 +27,7 @@ export function useBaselProblemP5({
   const lastKeyRef = useRef(paramsKey(targetParams));
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -37,6 +40,10 @@ export function useBaselProblemP5({
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
   }, [onRevealPctChange]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   useEffect(() => {
     revealRef.current = 0;
@@ -65,6 +72,7 @@ export function useBaselProblemP5({
       height: p.height,
       params,
       revealProgress: revealRef.current,
+      locale: localeRef.current,
     });
   }, []);
 

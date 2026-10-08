@@ -61,6 +61,54 @@ export const RATIONAL_ASYMPTOTE_PARAM_META = {
   c: { label: '斜率 c', min: -2.2, max: 2.2, step: 0.01 },
 } satisfies Record<RationalAsymptoteParamKey, { label: string; min: number; max: number; step: number }>;
 
+const ASYMPTOTE_PRESET_EN: Record<
+  RationalAsymptotePresetId,
+  { label: string; modeName: string; note: string }
+> = {
+  factor: { label: 'Factors', modeName: 'Factor form', note: 'R(x)=A(x-r)/(x-a)' },
+  hole: {
+    label: 'Hole',
+    modeName: 'Removable discontinuity',
+    note: 'A cancelled common factor leaves a hole',
+  },
+  proper: { label: 'm<n', modeName: 'Lower numerator degree', note: 'Approaches y=0 far away' },
+  equal: {
+    label: 'm=n',
+    modeName: 'Equal degrees',
+    note: 'Approaches the leading-coefficient ratio',
+  },
+  higher: { label: 'm>n', modeName: 'Higher numerator degree', note: 'No horizontal asymptote' },
+};
+
+const ASYMPTOTE_PARAM_EN: Record<RationalAsymptoteParamKey, string> = {
+  A: 'Scale A',
+  r: 'Zero r',
+  a: 'Asymptote a',
+  h: 'Hole h / second root',
+  b: 'Height b',
+  c: 'Slope c',
+};
+
+/** Display only. Omitted locale keeps the Chinese text. */
+export function asymptotePresetText(preset: RationalAsymptotePreset, locale?: 'en') {
+  if (locale !== 'en') return { label: preset.label, modeName: preset.modeName, note: preset.note };
+  return ASYMPTOTE_PRESET_EN[preset.id];
+}
+
+/** Display only. Omitted locale keeps the Chinese text. */
+export function asymptoteParamLabel(key: RationalAsymptoteParamKey, locale?: 'en') {
+  if (locale !== 'en') return RATIONAL_ASYMPTOTE_PARAM_META[key].label;
+  return ASYMPTOTE_PARAM_EN[key];
+}
+
+function t(zh: string, en: string, locale?: 'en') {
+  return locale === 'en' ? en : zh;
+}
+
+function joinXs(xs: number[], locale?: 'en') {
+  return xs.map((value) => `x=${fmt(value)}`).join(locale === 'en' ? ', ' : '，');
+}
+
 export const RATIONAL_ASYMPTOTE_PRESETS: RationalAsymptotePreset[] = [
   {
     id: 'factor',
@@ -152,12 +200,13 @@ export function paramsFromValues(values: Record<string, number>): { presetId: Ra
 export function buildRationalAsymptoteModel(
   preset: RationalAsymptotePreset,
   params: RationalAsymptoteParams,
+  locale?: 'en',
 ): RationalAsymptoteModel {
-  if (preset.id === 'hole') return buildHoleModel(params);
-  if (preset.id === 'proper') return buildProperModel(params);
-  if (preset.id === 'equal') return buildEqualDegreeModel(params);
-  if (preset.id === 'higher') return buildHigherDegreeModel(params);
-  return buildFactorModel(params);
+  if (preset.id === 'hole') return buildHoleModel(params, locale);
+  if (preset.id === 'proper') return buildProperModel(params, locale);
+  if (preset.id === 'equal') return buildEqualDegreeModel(params, locale);
+  if (preset.id === 'higher') return buildHigherDegreeModel(params, locale);
+  return buildFactorModel(params, locale);
 }
 
 export function createRationalAsymptotePlotRect(size: number): GraphRect {
@@ -263,7 +312,7 @@ export function fmt(n: number): string {
   return next.toFixed(2);
 }
 
-function buildFactorModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
+function buildFactorModel(p: RationalAsymptoteParams, locale?: 'en'): RationalAsymptoteModel {
   const A = safeNonzero(p.A, 0.12);
   const { r, a } = p;
   const removable = nearlyEqual(r, a);
@@ -272,31 +321,37 @@ function buildFactorModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
   const zeros = removable ? [] : [r];
 
   return {
-    family: '因式參數',
+    family: t('因式參數', 'Factor form', locale),
     expression: `R(x)=${fmt(A)}(x-${fmt(r)})/(x-${fmt(a)})`,
     degreeText: 'm=n',
     horizontal: { exists: true, value: A, label: `y=${fmt(A)}` },
     verticals,
     holes,
     zeros,
-    warning: removable ? 'r≈a：約分邊界，顯示為洞' : '',
+    warning: removable ? t('r≈a：約分邊界，顯示為洞', 'r≈a: cancellation boundary, shown as a hole', locale) : '',
     f: (x) => (A * (x - r)) / (x - a),
     stats: [
-      `零點：${removable ? '無' : `x=${fmt(r)}`}`,
-      `垂直漸近線：${removable ? '無' : `x=${fmt(a)}`}`,
-      `水平漸近線：y=${fmt(A)}`,
-      removable ? `洞：x=${fmt(a)}` : '洞：無',
+      t(`零點：${removable ? '無' : `x=${fmt(r)}`}`, `Zero: ${removable ? 'none' : `x=${fmt(r)}`}`, locale),
+      t(
+        `垂直漸近線：${removable ? '無' : `x=${fmt(a)}`}`,
+        `Vertical asymptote: ${removable ? 'none' : `x=${fmt(a)}`}`,
+        locale,
+      ),
+      t(`水平漸近線：y=${fmt(A)}`, `Horizontal asymptote: y=${fmt(A)}`, locale),
+      removable ? t(`洞：x=${fmt(a)}`, `Hole: x=${fmt(a)}`, locale) : t('洞：無', 'Hole: none', locale),
     ],
     formulas: [
       `R(x)=${fmt(A)}(x-${fmt(r)})/(x-${fmt(a)})`,
-      'deg P = deg Q ⇒ 水平漸近線',
+      t('deg P = deg Q ⇒ 水平漸近線', 'deg P = deg Q ⇒ horizontal asymptote', locale),
       `lim R(x) = ${fmt(A)}`,
-      removable ? '分子分母同根 ⇒ 洞' : '分母為 0 且分子非 0 ⇒ 垂直漸近線',
+      removable
+        ? t('分子分母同根 ⇒ 洞', 'Shared root ⇒ hole', locale)
+        : t('分母為 0 且分子非 0 ⇒ 垂直漸近線', 'Denominator 0 and numerator not 0 ⇒ vertical asymptote', locale),
     ],
   };
 }
 
-function buildHoleModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
+function buildHoleModel(p: RationalAsymptoteParams, locale?: 'en'): RationalAsymptoteModel {
   const A = safeNonzero(p.A, 0.12);
   const { r, a } = p;
   const h = p.h;
@@ -305,31 +360,41 @@ function buildHoleModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
   const zeros = nearAny(r, [a, h]) ? [] : [r];
 
   return {
-    family: '可去不連續',
+    family: t('可去不連續', 'Removable discontinuity', locale),
     expression: `R(x)=${fmt(A)}(x-${fmt(r)})(x-${fmt(h)})/[(x-${fmt(a)})(x-${fmt(h)})]`,
-    degreeText: '約簡後 m=n',
+    degreeText: t('約簡後 m=n', 'After cancellation m=n', locale),
     horizontal: { exists: true, value: A, label: `y=${fmt(A)}` },
     verticals: [a],
     holes,
     zeros,
-    warning: holeCollides ? 'h 與 a 太接近：暫停洞標記' : '',
+    warning: holeCollides ? t('h 與 a 太接近：暫停洞標記', 'h and a are too close: hole mark paused', locale) : '',
     f: (x) => (A * (x - r)) / (x - a),
     stats: [
-      `零點：${zeros.length ? `x=${fmt(zeros[0]!)}` : '無'}`,
-      `洞：${holeCollides ? '暫停顯示' : `x=${fmt(h)}`}`,
-      `垂直漸近線：x=${fmt(a)}`,
-      `水平漸近線：y=${fmt(A)}`,
+      t(`零點：${zeros.length ? `x=${fmt(zeros[0]!)}` : '無'}`, `Zero: ${zeros.length ? `x=${fmt(zeros[0]!)}` : 'none'}`, locale),
+      t(
+        `洞：${holeCollides ? '暫停顯示' : `x=${fmt(h)}`}`,
+        `Hole: ${holeCollides ? 'mark paused' : `x=${fmt(h)}`}`,
+        locale,
+      ),
+      t(`垂直漸近線：x=${fmt(a)}`, `Vertical asymptote: x=${fmt(a)}`, locale),
+      t(`水平漸近線：y=${fmt(A)}`, `Horizontal asymptote: y=${fmt(A)}`, locale),
     ],
     formulas: [
-      `約簡後：${fmt(A)}(x-${fmt(r)})/(x-${fmt(a)})`,
-      `被約去因式：x-${fmt(h)}`,
-      `遠處高度：y=${fmt(A)}`,
-      holeCollides ? 'h≈a 時洞與漸近線語意衝突' : '共同因式位置留下洞',
+      t(
+        `約簡後：${fmt(A)}(x-${fmt(r)})/(x-${fmt(a)})`,
+        `After cancellation: ${fmt(A)}(x-${fmt(r)})/(x-${fmt(a)})`,
+        locale,
+      ),
+      t(`被約去因式：x-${fmt(h)}`, `Cancelled factor: x-${fmt(h)}`, locale),
+      t(`遠處高度：y=${fmt(A)}`, `Far height: y=${fmt(A)}`, locale),
+      holeCollides
+        ? t('h≈a 時洞與漸近線語意衝突', 'h≈a: the hole and the asymptote conflict', locale)
+        : t('共同因式位置留下洞', 'The common factor leaves a hole', locale),
     ],
   };
 }
 
-function buildProperModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
+function buildProperModel(p: RationalAsymptoteParams, locale?: 'en'): RationalAsymptoteModel {
   const A = safeNonzero(p.A, 0.12);
   const a = p.a;
   let h = p.h;
@@ -337,7 +402,7 @@ function buildProperModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
   const verticals = [a, h].sort((x, y) => x - y);
 
   return {
-    family: '分子次數較低',
+    family: t('分子次數較低', 'Lower numerator degree', locale),
     expression: `R(x)=${fmt(A)}/[(x-${fmt(a)})(x-${fmt(h)})]`,
     degreeText: 'm<n',
     horizontal: { exists: true, value: 0, label: 'y=0' },
@@ -347,28 +412,28 @@ function buildProperModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
     warning: '',
     f: (x) => A / ((x - a) * (x - h)),
     stats: [
-      '零點：無',
-      `垂直漸近線：${verticals.map((v) => `x=${fmt(v)}`).join('，')}`,
-      '水平漸近線：y=0',
-      '次數：m<n',
+      t('零點：無', 'Zero: none', locale),
+      t(`垂直漸近線：${joinXs(verticals, locale)}`, `Vertical asymptote: ${joinXs(verticals, locale)}`, locale),
+      t('水平漸近線：y=0', 'Horizontal asymptote: y=0', locale),
+      t('次數：m<n', 'Degrees: m<n', locale),
     ],
     formulas: [
       `R(x)=${fmt(A)}/[(x-${fmt(a)})(x-${fmt(h)})]`,
       'deg P < deg Q',
       'lim R(x)=0',
-      '遠處貼近 x 軸',
+      t('遠處貼近 x 軸', 'Far away it hugs the x-axis', locale),
     ],
   };
 }
 
-function buildEqualDegreeModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
+function buildEqualDegreeModel(p: RationalAsymptoteParams, locale?: 'en'): RationalAsymptoteModel {
   const A = safeNonzero(p.A, 0.12);
   const { a, b } = p;
   const zero = Math.abs(b) < 1e-8 ? null : a - A / b;
   const zeros = zero !== null && Number.isFinite(zero) && !nearlyEqual(zero, a) ? [zero] : [];
 
   return {
-    family: '同次數',
+    family: t('同次數', 'Equal degrees', locale),
     expression: `R(x)=${fmt(b)}+${fmt(A)}/(x-${fmt(a)})`,
     degreeText: 'm=n',
     horizontal: { exists: true, value: b, label: `y=${fmt(b)}` },
@@ -378,47 +443,59 @@ function buildEqualDegreeModel(p: RationalAsymptoteParams): RationalAsymptoteMod
     warning: '',
     f: (x) => b + A / (x - a),
     stats: [
-      `零點：${zeros.length ? `x=${fmt(zeros[0]!)}` : '無或在視窗外'}`,
-      `垂直漸近線：x=${fmt(a)}`,
-      `水平漸近線：y=${fmt(b)}`,
-      '次數：m=n',
+      t(
+        `零點：${zeros.length ? `x=${fmt(zeros[0]!)}` : '無或在視窗外'}`,
+        `Zero: ${zeros.length ? `x=${fmt(zeros[0]!)}` : 'none or outside the window'}`,
+        locale,
+      ),
+      t(`垂直漸近線：x=${fmt(a)}`, `Vertical asymptote: x=${fmt(a)}`, locale),
+      t(`水平漸近線：y=${fmt(b)}`, `Horizontal asymptote: y=${fmt(b)}`, locale),
+      t('次數：m=n', 'Degrees: m=n', locale),
     ],
     formulas: [
       `R(x)=${fmt(b)}+${fmt(A)}/(x-${fmt(a)})`,
       'deg P = deg Q',
       `lim R(x) = ${fmt(b)}`,
-      '首項係數比給水平高度',
+      t('首項係數比給水平高度', 'The leading-coefficient ratio sets the horizontal height', locale),
     ],
   };
 }
 
-function buildHigherDegreeModel(p: RationalAsymptoteParams): RationalAsymptoteModel {
+function buildHigherDegreeModel(p: RationalAsymptoteParams, locale?: 'en'): RationalAsymptoteModel {
   const { a, b } = p;
   const c = safeNonzero(p.c, 0.12);
   const zeros = quadraticRoots(c, b - 2 * c * a, c * a * a - a * b + 1).filter((z) => !nearlyEqual(z, a));
 
   return {
-    family: '分子次數較高',
+    family: t('分子次數較高', 'Higher numerator degree', locale),
     expression: `R(x)=${fmt(c)}(x-${fmt(a)})+${fmt(b)}+1/(x-${fmt(a)})`,
     degreeText: 'm>n',
-    horizontal: { exists: false, value: null, label: '無水平漸近線' },
+    horizontal: { exists: false, value: null, label: t('無水平漸近線', 'No horizontal asymptote', locale) },
     oblique: { m: c, b: b - c * a, label: `y=${fmt(c)}x+${fmt(b - c * a)}` },
     verticals: [a],
     holes: [],
     zeros,
-    warning: 'm>n：本頁只標示無水平漸近線',
+    warning: t(
+      'm>n：本頁只標示無水平漸近線',
+      'm>n: this page only marks that there is no horizontal asymptote',
+      locale,
+    ),
     f: (x) => c * (x - a) + b + 1 / (x - a),
     stats: [
-      `零點：${zeros.length ? zeros.map((z) => `x=${fmt(z)}`).join('，') : '無或在視窗外'}`,
-      `垂直漸近線：x=${fmt(a)}`,
-      '水平漸近線：無',
-      '次數：m>n',
+      t(
+        `零點：${zeros.length ? joinXs(zeros, locale) : '無或在視窗外'}`,
+        `Zero: ${zeros.length ? joinXs(zeros, locale) : 'none or outside the window'}`,
+        locale,
+      ),
+      t(`垂直漸近線：x=${fmt(a)}`, `Vertical asymptote: x=${fmt(a)}`, locale),
+      t('水平漸近線：無', 'Horizontal asymptote: none', locale),
+      t('次數：m>n', 'Degrees: m>n', locale),
     ],
     formulas: [
       `R(x)=${fmt(c)}(x-${fmt(a)})+${fmt(b)}+1/(x-${fmt(a)})`,
       'deg P > deg Q',
-      '水平漸近線不存在',
-      '若差 1，可另讀斜漸近線',
+      t('水平漸近線不存在', 'No horizontal asymptote', locale),
+      t('若差 1，可另讀斜漸近線', 'If the gap is 1, read an oblique asymptote', locale),
     ],
   };
 }

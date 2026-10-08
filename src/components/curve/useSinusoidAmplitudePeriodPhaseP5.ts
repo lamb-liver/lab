@@ -7,17 +7,23 @@ import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
 
 type Options = {
   params: SinusoidAmplitudePeriodPhaseParams;
+  locale?: 'en';
 };
 
-export function useSinusoidAmplitudePeriodPhaseP5({ params }: Options) {
+export function useSinusoidAmplitudePeriodPhaseP5({ params, locale }: Options) {
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     paramsRef.current = params;
   }, [params]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
-    renderSinusoidAmplitudePeriodPhaseScene(p, paramsRef.current);
+    renderSinusoidAmplitudePeriodPhaseScene(p, paramsRef.current, localeRef.current);
   }, []);
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureSquare, undefined, {

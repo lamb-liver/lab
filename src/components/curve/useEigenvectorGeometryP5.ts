@@ -20,6 +20,7 @@ type Options = {
   params: Record<string, number>;
   presetNote?: string;
   onParamsChange: (patch: Record<string, number>) => void;
+  locale?: 'en';
 };
 
 const HIT_RADIUS = 24;
@@ -37,10 +38,12 @@ export function useEigenvectorGeometryP5({
   params,
   presetNote,
   onParamsChange,
+  locale,
 }: Options) {
   const paramsRef = useRef(params);
   const presetNoteRef = useRef(presetNote);
   const onParamsChangeRef = useRef(onParamsChange);
+  const localeRef = useRef(locale);
   const draggingURef = useRef(false);
 
   useEffect(() => {
@@ -55,6 +58,10 @@ export function useEigenvectorGeometryP5({
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     const current = paramsRef.current;
     renderEigenvectorGeometryScene(p, {
@@ -64,6 +71,7 @@ export function useEigenvectorGeometryP5({
       u: vectorFromParams(current),
       activeDrag: draggingURef.current,
       presetNote: presetNoteRef.current,
+      locale: localeRef.current,
     });
   }, []);
   const extendSketch = useCallback((p: p5, host?: HTMLElement) => {

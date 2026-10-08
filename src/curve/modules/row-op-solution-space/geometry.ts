@@ -235,20 +235,28 @@ export function formatRow(row: Row): string {
   return `${parts.join(' ') || '0'} = ${trim(row.d)}`;
 }
 
-export function presetLabel(preset: number): string {
-  return PRESETS.find((item) => item.id === presetId(preset))?.label ?? '唯一解';
+export function presetLabel(preset: number, locale?: 'en'): string {
+  const id = presetId(preset);
+  if (locale === 'en') {
+    if (id === 1) return 'One line';
+    if (id === 2) return 'No solution';
+    return 'Unique solution';
+  }
+  return PRESETS.find((item) => item.id === id)?.label ?? '唯一解';
 }
 
-export function solutionLabel(solution: Solution): string {
-  if (solution.kind === 'empty') return '無解';
-  if (solution.kind === 'plane') return '不只一條直線';
+export function solutionLabel(solution: Solution, locale?: 'en'): string {
+  const en = locale === 'en';
+  if (solution.kind === 'empty') return en ? 'No solution' : '無解';
+  if (solution.kind === 'plane') return en ? 'More than one line' : '不只一條直線';
   if (solution.kind === 'point') {
     return `(${trim(solution.point.x)}, ${trim(solution.point.y)}, ${trim(solution.point.z)})`;
   }
   if (Math.abs(solution.direction.x) < 1e-6 && Math.abs(solution.direction.y) < 1e-6) {
     return `x = ${trim(solution.point.x)}, y = ${trim(solution.point.y)}`;
   }
-  return `過 (${trim(solution.point.x)}, ${trim(solution.point.y)}, ${trim(solution.point.z)})`;
+  const at = `(${trim(solution.point.x)}, ${trim(solution.point.y)}, ${trim(solution.point.z)})`;
+  return en ? `through ${at}` : `過 ${at}`;
 }
 
 function toCurvePoint(point: Vec3, index: number): CurvePoint {

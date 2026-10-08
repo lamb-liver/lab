@@ -19,6 +19,7 @@ type Options = {
   showZeros: boolean;
   showMonotonic: boolean;
   onX0Change: (x0: number) => void;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -32,12 +33,14 @@ export function useFunctionDerivativeGraphP5({
   showZeros,
   showMonotonic,
   onX0Change,
+  locale,
 }: Options) {
   const presetRef = useRef(preset);
   const x0Ref = useRef(x0);
   const showZerosRef = useRef(showZeros);
   const showMonotonicRef = useRef(showMonotonic);
   const onX0ChangeRef = useRef(onX0Change);
+  const localeRef = useRef(locale);
   const draggingRef = useRef(false);
 
   useEffect(() => {
@@ -61,6 +64,10 @@ export function useFunctionDerivativeGraphP5({
     onX0ChangeRef.current = onX0Change;
   }, [onX0Change]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     renderFunctionDerivativeGraphScene(p, {
       size: p.width,
@@ -69,6 +76,7 @@ export function useFunctionDerivativeGraphP5({
       showZeros: showZerosRef.current,
       showMonotonic: showMonotonicRef.current,
       activeDrag: draggingRef.current,
+      locale: localeRef.current,
     });
   }, []);
   const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
@@ -122,7 +130,7 @@ export function useFunctionDerivativeGraphP5({
     [draw, extendSketch],
     measureSquareCanvas,
     extendSketch,
-    { loop: false, redrawKey: `${preset.id}|${x0}|${showZeros}|${showMonotonic}` },
+    { loop: false, redrawKey: `${preset.id}|${x0}|${showZeros}|${showMonotonic}|${locale ?? 'zh'}` },
   );
 
   return { canvasHostRef };
