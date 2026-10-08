@@ -54,6 +54,8 @@ const ogLocaleAlternates = [
 const navLocale = htmlLang === 'en' ? 'en' : undefined;
 const zhAlternate = alternates.find((alt) => alt.hreflang === 'zh-Hant');
 const zhPath = zhAlternate ? new URL(zhAlternate.href).pathname : undefined;
+const enAlternate = navLocale ? undefined : alternates.find((alt) => alt.hreflang === 'en');
+const enPath = enAlternate ? new URL(enAlternate.href).pathname : undefined;
 const fullTitle = title === '羊·實驗' ? title : `${title} · 羊·實驗`;
 const site = Astro.site ?? Astro.url;
 const canonicalURL = new URL(Astro.url.pathname || '/', site).href;
@@ -160,7 +162,7 @@ const jsonLd = [
   </head>
   <body>
     <a href="#main-content" class="skip-link">{skipLabel}</a>
-    <Nav locale={navLocale} zhPath={zhPath} />
+    <Nav locale={navLocale} zhPath={zhPath} enPath={enPath} />
     <main id="main-content">
       <slot />
     </main>

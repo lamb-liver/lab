@@ -627,6 +627,36 @@ test.describe('SEO metadata and UX shell', () => {
     );
   });
 
+  test('Chinese nav links to the English page and English nav lists every section', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/works/rose-curve/');
+    await expect(page.locator('.site-nav__link[hreflang="en"]')).toHaveText('English');
+    await expect(page.locator('.site-nav__link[hreflang="en"]')).toHaveAttribute(
+      'href',
+      '/en/works/rose-curve/',
+    );
+    await page.goto('/about');
+    await expect(page.locator('.site-nav__link[hreflang="en"]')).toHaveAttribute('href', '/en/about/');
+
+    await page.goto('/en/');
+    await expect(page.locator('.site-nav__link[hreflang="en"]')).toHaveCount(0);
+    await expect(page.locator('.site-nav__link[href="/en/concept"]')).toHaveText('Concepts');
+    await expect(page.locator('.site-nav__link[href="/en/about"]')).toHaveText('About');
+    const footer = page.locator('.site-footer__nav');
+    await expect(footer.getByRole('link', { name: 'Curated paths' })).toHaveAttribute(
+      'href',
+      '/en/path',
+    );
+
+    await page.goto('/en/about/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('heading', { level: 1, name: 'About' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Copy' })).toBeVisible();
+    await expect(page.locator('a[hreflang="zh-Hant"]').first()).toHaveAttribute('href', '/about/');
+  });
+
   test('mobile nav exposes links only after opening the controlled menu', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/works');
