@@ -60,6 +60,14 @@ export function updateListFilterCount(
 
   const unit = root.getAttribute('data-filter-count-unit') || '篇';
 
+  if (root.getAttribute('data-filter-count-locale') === 'en') {
+    el.textContent =
+      visibleCount === totalCount
+        ? `${totalCount} ${unit}`
+        : `Showing ${visibleCount} of ${totalCount} ${unit}`;
+    return;
+  }
+
   if (visibleCount === totalCount) {
     el.textContent = `共 ${totalCount} ${unit}`;
   } else {

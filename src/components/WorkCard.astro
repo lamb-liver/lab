@@ -2,18 +2,20 @@
 import '../styles/components/card.css';
 import CardThumbFallback from './CardThumbFallback.astro';
 import { getCurveThumbnailSvg } from '../lib/curveThumbnail';
-import type { ContentAudience } from '../content.config';
 
 interface Props {
   slug: string;
   title: string;
   description: string;
   tags: string[];
-  audience: ContentAudience;
+  /** zh 為 ContentAudience；英文頁用英文 md 的字串 */
+  audience: string;
   featured?: boolean;
+  locale?: 'en';
 }
 
-const { slug, title, description, tags, audience, featured = false } = Astro.props;
+const { slug, title, description, tags, audience, featured = false, locale } = Astro.props;
+const en = locale === 'en';
 const hasThumb = !!getCurveThumbnailSvg(slug);
 const thumbSrc = `/thumbs/works/${slug}.svg`;
 ---
@@ -25,8 +27,8 @@ const thumbSrc = `/thumbs/works/${slug}.svg`;
   data-content-audience={audience}
   data-search-slug={slug}
 >
-  <a href={`/works/${slug}`} class="card__link-wrap">
-    <span class="card__kind card__kind--work">作品</span>
+  <a href={en ? `/en/works/${slug}/` : `/works/${slug}`} class="card__link-wrap">
+    <span class="card__kind card__kind--work">{en ? 'Work' : '作品'}</span>
     <div class="card__thumb" aria-hidden="true">
       {
         hasThumb ? (
@@ -45,7 +47,7 @@ const thumbSrc = `/thumbs/works/${slug}.svg`;
     <div class="card__body">
       <div class="card__title-row">
         <h3 class="card__title">{title}</h3>
-        {featured ? <span class="card__featured-label">精選</span> : null}
+        {featured ? <span class="card__featured-label">{en ? 'Featured' : '精選'}</span> : null}
       </div>
       <div class="card__tags">
         {tags.map((tag) => <span class="card__tag">{tag}</span>)}

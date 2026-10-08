@@ -37,6 +37,11 @@ const EN_QUESTION_TYPE: Record<string, string> = {
   非選: 'Written',
 };
 
+/** 篩選按鈕等只顯示考科名稱的地方；AMC 考科名稱本來就是英文 */
+export function examSubjectLabel(subject: string, locale?: 'en'): string {
+  return locale === 'en' ? (EN_SUBJECT[subject] ?? subject) : subject;
+}
+
 /** 例：`112 學測數A・多選11`、`2023 AMC 12B・第21題` */
 export function examSourceLabel(data: ExamSourceFields, locale?: 'en'): string {
   if (locale === 'en') {

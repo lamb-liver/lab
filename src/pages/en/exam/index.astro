@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ListSearchFilterScript from '../../../components/ListSearchFilterScript.astro';
+import FilterBar from '../../../components/FilterBar.astro';
+import ExamCard from '../../../components/ExamCard.astro';
+import { getCollection } from 'astro:content';
+import { collectExamSubjects, getPublishedAsc } from '../../../content/utils';
+import { serializeSearchIndex } from '../../../lib/listFilter';
+import { siteSeoEn } from '../../../lib/seoCopy';
+import { examSourceLabel, examSubjectLabel } from '../../../lib/examSource';
+import { enExamSlugs, indexAlternates } from '../../../lib/translatedSlugs';
+import '../../../styles/components/list-search.css';
+
+const all = (await getCollection('examEn')).filter((entry) => enExamSlugs.has(entry.id));
+const exams = import.meta.env.DEV
+  ? [...all].sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id))
+  : getPublishedAsc(all);
+const subjectOptions = collectExamSubjects(exams);
+const subjectLabels = Object.fromEntries(
+  subjectOptions.map((subject) => [subject, examSubjectLabel(subject, 'en')]),
+);
+const searchIndex = exams.map((entry) => ({
+  slug: entry.id,
+  title: entry.data.title,
+  description: `${examSourceLabel(entry.data, 'en')} ${entry.data.description} ${entry.data.topics.join(' ')}`,
+}));
+const site = Astro.site ?? Astro.url;
+---
+
+<BaseLayout
+  title={siteSeoEn.exam.title}
+  description={siteSeoEn.exam.description}
+  ogType="website"
+  htmlLang="en"
+  ogLocale="en_US"
+  skipLabel="Skip to main content"
+  alternates={indexAlternates(site, '/exam/')}
+>
+  <div
+    class="container section-scope--exam"
+    data-list-filter
+    data-filter-param="subject"
+    data-search-param="q"
+    data-search-index-id="exam-search-index"
+    data-filter-count-unit="problems"
+    data-filter-count-locale="en"
+  >
+    <header class="page-header">
+      <span class="section-badge section-badge--exam">Past exams</span>
+      <h1>Exam visualizations</h1>
+      <p class="page-lead">
+        Start from one past exam problem. First see which step of reasoning trips up most
+        students, then take that step apart with an interactive figure.
+      </p>
+    </header>
+
+    <section class="list-controls" aria-label="Exam list tools">
+      <div class="list-controls__top">
+        <div class="list-search">
+          <label class="list-search__label" for="exam-search-input">Search problems</label>
+          <input
+            id="exam-search-input"
+            class="list-search__input"
+            type="search"
+            name="q"
+            placeholder="Search titles, ideas, or years…"
+            autocomplete="off"
+            spellcheck="false"
+            data-list-search-input
+          />
+        </div>
+
+        <p class="list-filter-count" data-filter-count aria-live="polite">
+          {exams.length} problems
+        </p>
+      </div>
+
+      <FilterBar
+        options={subjectOptions}
+        labels={subjectLabels}
+        ariaLabel="Filter problems by exam"
+        allLabel="All"
+      />
+    </section>
+
+    <script
+      type="application/json"
+      id="exam-search-index"
+      set:html={serializeSearchIndex(searchIndex)}
+    />
+
+    <div class="card-grid" data-card-grid>
+      {
+        exams.map((entry) => (
+          <ExamCard
+            slug={entry.id}
+            title={entry.data.title}
+            description={entry.data.description}
+            subject={entry.data.subject}
+            year={entry.data.year}
+            questionType={entry.data.questionType}
+            questionNo={entry.data.questionNo}
+            topics={entry.data.topics}
+            coverImage={entry.data.coverImage}
+            draft={entry.data.draft}
+            locale="en"
+          />
+        ))
+      }
+    </div>
+
+    <p class="filter-empty" data-filter-empty hidden>
+      No matching problems
+      <button type="button" class="filter-empty__clear" data-filter-clear>Clear filters</button>
+    </p>
+  </div>
+
+  <ListSearchFilterScript />
+</BaseLayout>
