@@ -49,7 +49,7 @@ $$
 - [Lissajous curve](/en/works/lissajous-curve/)
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
 - [Geometry of complex arithmetic](/en/works/complex-arithmetic-geometry/)
-- [Superposition of trigonometric functions and wave interference](/explore/trig-wave-interference/)
+- [Superposition of trigonometric functions and wave interference](/en/explore/trig-wave-interference/)
 
 ## Further reading
 

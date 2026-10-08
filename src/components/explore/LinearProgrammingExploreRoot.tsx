@@ -4,6 +4,7 @@ import {
   DEFAULT_LINEAR_PROGRAMMING_PARAMS,
   computeLinearProgrammingMetrics,
   modeTitle,
+  modeTitleEn,
   modeVerdict,
   type LinearProgrammingParams,
   type ReadingMode,
@@ -13,10 +14,10 @@ import { renderLinearProgrammingExploreScene } from '../../systems/rendering/lin
 import { useRectP5CanvasHost, type CanvasSize } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/linear-programming-explore.css';
 
-const MODES: Array<{ value: ReadingMode; label: string }> = [
-  { value: 'constraints', label: '約束讀法' },
-  { value: 'objective', label: '目標讀法' },
-  { value: 'candidates', label: '候選讀法' },
+const MODES: Array<{ value: ReadingMode; label: string; en: string }> = [
+  { value: 'constraints', label: '約束讀法', en: 'Constraints' },
+  { value: 'objective', label: '目標讀法', en: 'Objective' },
+  { value: 'candidates', label: '候選讀法', en: 'Candidates' },
 ];
 
 type SliderKey = 'offsetA' | 'offsetB' | 'angle';
@@ -24,14 +25,15 @@ type SliderKey = 'offsetA' | 'offsetB' | 'angle';
 const SLIDERS: Array<{
   key: SliderKey;
   label: string;
+  en: string;
   min: number;
   max: number;
   step: number;
   format: (value: number) => string;
 }> = [
-  { key: 'offsetA', label: '約束 A 位移', min: -2, max: 10, step: 0.05, format: (v) => v.toFixed(2) },
-  { key: 'offsetB', label: '約束 B 位移', min: -2, max: 10, step: 0.05, format: (v) => v.toFixed(2) },
-  { key: 'angle', label: '目標方向 θ', min: 0, max: 360, step: 1, format: (v) => `${v.toFixed(0)}°` },
+  { key: 'offsetA', label: '約束 A 位移', en: 'Constraint A offset', min: -2, max: 10, step: 0.05, format: (v) => v.toFixed(2) },
+  { key: 'offsetB', label: '約束 B 位移', en: 'Constraint B offset', min: -2, max: 10, step: 0.05, format: (v) => v.toFixed(2) },
+  { key: 'angle', label: '目標方向 θ', en: 'Objective direction θ', min: 0, max: 360, step: 1, format: (v) => `${v.toFixed(0)}°` },
 ];
 
 /**
@@ -43,7 +45,10 @@ function measureExploreCanvas(host: HTMLElement): CanvasSize {
   return { width, height: Math.max(320, Math.round(width * 0.86)) };
 }
 
-export default function LinearProgrammingExploreRoot() {
+type Props = { locale?: 'en' };
+
+export default function LinearProgrammingExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [params, setParams] = useState<LinearProgrammingParams>(
     DEFAULT_LINEAR_PROGRAMMING_PARAMS,
   );
@@ -63,8 +68,9 @@ export default function LinearProgrammingExploreRoot() {
       width: p.width,
       height: p.height,
       params: paramsRef.current,
+      locale,
     });
-  }, []);
+  }, [locale]);
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureExploreCanvas, undefined, {
     loop: false,
@@ -74,6 +80,29 @@ export default function LinearProgrammingExploreRoot() {
   const metrics = useMemo(() => computeLinearProgrammingMetrics(params), [params]);
 
   const readings: Array<[string, string]> = useMemo(() => {
+    if (en) {
+      if (params.mode === 'constraints') {
+        return [
+          ['Corner points', String(metrics.vertices.length)],
+          ['Redundant constraints', metrics.redundant.length > 0 ? String(metrics.redundant.length) : 'none'],
+          ['State', metrics.empty ? 'empty' : metrics.bounded ? 'bounded' : 'unbounded'],
+        ];
+      }
+      if (params.mode === 'objective') {
+        return [
+          ['Normal n', formatPoint({ x: metrics.objective.p, y: metrics.objective.q })],
+          ['Optimal value', metrics.best === null ? 'none' : metrics.best.toFixed(3)],
+          ['Find', params.sense === 'max' ? 'maximum' : 'minimum'],
+        ];
+      }
+      return metrics.ranking.slice(0, 4).map(
+        (index, rank) =>
+          [`Rank ${rank + 1}`, `${formatPoint(metrics.vertices[index], 1)}  z = ${metrics.values[index].toFixed(2)}`] as [
+            string,
+            string,
+          ],
+      );
+    }
     if (params.mode === 'constraints') {
       return [
         ['角點數', String(metrics.vertices.length)],
@@ -95,25 +124,29 @@ export default function LinearProgrammingExploreRoot() {
           string,
         ],
     );
-  }, [metrics, params.mode, params.sense]);
+  }, [en, metrics, params.mode, params.sense]);
 
   return (
     <div className="linear-programming-explore">
       <div className="linear-programming-explore__stage">
         <div className="linear-programming-explore__visual">
-          <p className="linear-programming-explore__visual-title">線性規劃</p>
-          <p className="linear-programming-explore__visual-sub">{modeTitle(params.mode)}</p>
+          <p className="linear-programming-explore__visual-title">{en ? 'Linear programming' : '線性規劃'}</p>
+          <p className="linear-programming-explore__visual-sub">{en ? modeTitleEn(params.mode) : modeTitle(params.mode)}</p>
           <div
             ref={canvasHostRef}
             className="linear-programming-explore__canvas"
             role="img"
-            aria-label="線性規劃互動視覺化：可切換約束、目標與候選三種讀法"
+            aria-label={
+              en
+                ? 'Linear programming, interactive: switch among the constraint, objective, and candidate readings'
+                : '線性規劃互動視覺化：可切換約束、目標與候選三種讀法'
+            }
           />
         </div>
 
         <aside className="linear-programming-explore__sidebar">
           <div className="linear-programming-explore__block">
-            <p className="linear-programming-explore__block-title">讀法</p>
+            <p className="linear-programming-explore__block-title">{en ? 'Reading' : '讀法'}</p>
             <div className="linear-programming-explore__modes">
               {MODES.map((item) => (
                 <button
@@ -124,25 +157,27 @@ export default function LinearProgrammingExploreRoot() {
                   aria-pressed={params.mode === item.value}
                   onClick={() => patchParams({ mode: item.value })}
                 >
-                  {item.label}
+                  {en ? item.en : item.label}
                 </button>
               ))}
             </div>
           </div>
 
           <div className="linear-programming-explore__block">
-            <p className="linear-programming-explore__block-title">這個讀法怎麼說</p>
+            <p className="linear-programming-explore__block-title">
+              {en ? 'What this reading says' : '這個讀法怎麼說'}
+            </p>
             <p className="linear-programming-explore__verdict">
-              {modeVerdict(metrics, params.mode)}
+              {modeVerdict(metrics, params.mode, locale)}
             </p>
           </div>
 
           <div className="linear-programming-explore__block">
-            <p className="linear-programming-explore__block-title">場景</p>
+            <p className="linear-programming-explore__block-title">{en ? 'Scene' : '場景'}</p>
             {SLIDERS.map((slider) => (
               <div className="control-field" key={slider.key}>
                 <label htmlFor={`linear-programming-${slider.key}`}>
-                  <span>{slider.label}</span>
+                  <span>{en ? slider.en : slider.label}</span>
                   <span className="control-field__value">{slider.format(params[slider.key])}</span>
                 </label>
                 <div className="range-wrap">
@@ -170,13 +205,19 @@ export default function LinearProgrammingExploreRoot() {
                 aria-pressed={params.sense === 'max'}
                 onClick={() => patchParams({ sense: params.sense === 'max' ? 'min' : 'max' })}
               >
-                {params.sense === 'max' ? '求最大值' : '求最小值'}
+                {params.sense === 'max'
+                  ? en
+                    ? 'Maximize'
+                    : '求最大值'
+                  : en
+                    ? 'Minimize'
+                    : '求最小值'}
               </button>
             </div>
           </div>
 
           <div className="linear-programming-explore__block">
-            <p className="linear-programming-explore__block-title">讀數</p>
+            <p className="linear-programming-explore__block-title">{en ? 'Readings' : '讀數'}</p>
             {readings.map(([label, value]) => (
               <p className="linear-programming-explore__reading" key={label}>
                 <span>{label}</span>

@@ -99,6 +99,12 @@ export function computeLinearProgrammingMetrics(
   };
 }
 
+export function modeTitleEn(mode: ReadingMode): string {
+  if (mode === 'constraints') return 'Which points are allowed';
+  if (mode === 'objective') return 'Which way is better';
+  return 'Where the optimum lies';
+}
+
 export function modeTitle(mode: ReadingMode): string {
   if (mode === 'constraints') return '哪些點可用';
   if (mode === 'objective') return '往哪個方向變好';
@@ -111,7 +117,12 @@ export function modeTitle(mode: ReadingMode): string {
  * 措辭刻意不同、指向的位置刻意相同——這一頁要讓讀者看到的是
  * 三個描述講的是同一個點，而不是三種方法。
  */
-export function modeVerdict(metrics: LinearProgrammingMetrics, mode: ReadingMode): string {
+export function modeVerdict(
+  metrics: LinearProgrammingMetrics,
+  mode: ReadingMode,
+  locale?: 'en',
+): string {
+  if (locale === 'en') return modeVerdictEn(metrics, mode);
   if (metrics.empty) return '可行域為空，沒有解';
   if (metrics.unbounded) return '目標沿無界方向持續變好，最優值不存在';
   if (metrics.optimal.length === 0) return '沒有角點可比';
@@ -124,4 +135,21 @@ export function modeVerdict(metrics: LinearProgrammingMetrics, mode: ReadingMode
   if (mode === 'constraints') return `可行域的角點中，${where} 是被選中的那個`;
   if (mode === 'objective') return `等值線掃到 ${where} 時離開可行域`;
   return winners.length > 1 ? `候選表中 ${where} 並列第一` : `候選表中 ${where} 排第一`;
+}
+
+function modeVerdictEn(metrics: LinearProgrammingMetrics, mode: ReadingMode): string {
+  if (metrics.empty) return 'The feasible region is empty: no solution';
+  if (metrics.unbounded) {
+    return 'The objective keeps improving in an unbounded direction: no optimal value';
+  }
+  if (metrics.optimal.length === 0) return 'No corner points to compare';
+
+  const winners = metrics.optimal.map((index) => metrics.vertices[index]);
+  const where = winners
+    .map((point) => `(${point.x.toFixed(1)}, ${point.y.toFixed(1)})`)
+    .join(', ');
+
+  if (mode === 'constraints') return `Among the corner points of the feasible region, ${where} is the one chosen`;
+  if (mode === 'objective') return `The level line leaves the feasible region at ${where}`;
+  return winners.length > 1 ? `${where} tie for first in the table` : `${where} is first in the table`;
 }

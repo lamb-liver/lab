@@ -41,7 +41,7 @@ $$
 
 - [Rose curve](/en/works/rose-curve/)
 - [Lissajous curve](/en/works/lissajous-curve/)
-- [Fourier series](/explore/fourier-series/)
+- [Fourier series](/en/explore/fourier-series/)
 
 ## Further reading
 

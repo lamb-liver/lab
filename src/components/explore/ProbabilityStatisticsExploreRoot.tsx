@@ -4,6 +4,11 @@ import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/probability-statistics-explore.css';
 
 type Mode = 'conditional' | 'clt' | 'monty';
+type Loc = 'en' | undefined;
+
+function tr(loc: Loc, zh: string, en: string): string {
+  return loc === 'en' ? en : zh;
+}
 type MontyPhase = 'choose' | 'revealed' | 'result';
 
 type ConditionalState = {
@@ -225,11 +230,11 @@ function drawGlowRect(
   p.rect(x, y, w, h, radius);
 }
 
-function drawConditionalScene(p: p5, conditional: ConditionalState) {
+function drawConditionalScene(p: p5, conditional: ConditionalState, loc?: Loc) {
   const stage = drawFrame(
     p,
-    '條件機率',
-    '已知 B 發生後，只看 B 這一塊樣本空間',
+    tr(loc, '條件機率', 'Conditional probability'),
+    tr(loc, '已知 B 發生後，只看 B 這一塊樣本空間', 'Once B is known to happen, look only at the B part of the sample space'),
   );
   const s = normalizeConditional(conditional);
   const pAgivenB = safeDiv(s.pAB, s.pB);
@@ -253,7 +258,7 @@ function drawConditionalScene(p: p5, conditional: ConditionalState) {
   };
 
   drawSampleSpace(p, main, s);
-  drawConditionedSpace(p, conditioned, pAgivenB);
+  drawConditionedSpace(p, conditioned, pAgivenB, loc);
   drawBayesBalance(
     p,
     conditioned.x,
@@ -261,14 +266,15 @@ function drawConditionalScene(p: p5, conditional: ConditionalState) {
     conditioned.w,
     s,
     compact,
+    loc,
   );
 
   p.noStroke();
   p.fill(160);
   p.textSize(12);
   p.textAlign(p.LEFT, p.BASELINE);
-  p.text('全集 Ω', main.x, main.y - 14);
-  p.text('縮小後的樣本空間 B', conditioned.x, conditioned.y - 14);
+  p.text(tr(loc, '全集 Ω', 'Whole space Ω'), main.x, main.y - 14);
+  p.text(tr(loc, '縮小後的樣本空間 B', 'Reduced sample space B'), conditioned.x, conditioned.y - 14);
 }
 
 function drawSampleSpace(p: p5, r: Rect, s: ConditionalState) {
@@ -320,7 +326,7 @@ function drawSampleSpace(p: p5, r: Rect, s: ConditionalState) {
   }
 }
 
-function drawConditionedSpace(p: p5, r: Rect, ratio: number) {
+function drawConditionedSpace(p: p5, r: Rect, ratio: number, loc?: Loc) {
   const wA = r.w * ratio;
 
   p.noStroke();
@@ -354,7 +360,7 @@ function drawConditionedSpace(p: p5, r: Rect, ratio: number) {
   p.textStyle(p.NORMAL);
   p.textSize(12);
   p.textAlign(p.LEFT, p.BASELINE);
-  p.text('B 被視為新的 100%', r.x, r.y + r.h + 22);
+  p.text(tr(loc, 'B 被視為新的 100%', 'B is treated as the new 100%'), r.x, r.y + r.h + 22);
 }
 
 function drawBayesBalance(
@@ -364,6 +370,7 @@ function drawBayesBalance(
   w: number,
   s: ConditionalState,
   compact = false,
+  loc?: Loc,
 ) {
   const p1 = safeDiv(s.pAB, s.pA) * s.pA;
   const p2 = safeDiv(s.pAB, s.pB) * s.pB;
@@ -374,7 +381,13 @@ function drawBayesBalance(
   p.textStyle(p.NORMAL);
   p.textSize(11);
   p.textAlign(p.LEFT, p.BASELINE);
-  p.text(compact ? '同一個交集 A∩B' : '兩種條件機率最後都回到同一個交集 A∩B', x, y - 12);
+  p.text(
+    compact
+      ? tr(loc, '同一個交集 A∩B', 'The same intersection A∩B')
+      : tr(loc, '兩種條件機率最後都回到同一個交集 A∩B', 'Both conditional probabilities lead back to the same intersection A∩B'),
+    x,
+    y - 12,
+  );
 
   drawBayesBar(p, x, y + 4, w, `P(B|A)·P(A) = ${fmtPct(p1)}`, p1 / maxV);
   drawBayesBar(p, x, y + 30, w, `P(A|B)·P(B) = ${fmtPct(p2)}`, p2 / maxV);
@@ -398,11 +411,11 @@ function drawBayesBar(p: p5, x: number, y: number, w: number, label: string, rat
   p.rect(barX, y, barW * clamp(ratio, 0, 1), 16, 8);
 }
 
-function drawCltScene(p: p5, clt: CltState) {
+function drawCltScene(p: p5, clt: CltState, loc?: Loc) {
   const stage = drawFrame(
     p,
-    '中央極限定理',
-    '樣本一次一次落下，累積成分佈形狀',
+    tr(loc, '中央極限定理', 'Central limit theorem'),
+    tr(loc, '樣本一次一次落下，累積成分佈形狀', 'Samples fall one at a time and build up the shape of the distribution'),
   );
   const plot = {
     x: stage.x + (p.width >= 640 ? 48 : 24),
@@ -411,17 +424,25 @@ function drawCltScene(p: p5, clt: CltState) {
     h: stage.h - 146,
   };
 
-  drawCltPlot(p, plot, clt);
-  drawCltCaption(p, plot, clt);
+  drawCltPlot(p, plot, clt, loc);
+  drawCltCaption(p, plot, clt, loc);
 
   if (clt.total >= clt.maxParticles) {
-    drawStageBanner(p, plot, '已達粒子上限，可按「清除」重新觀察');
+    drawStageBanner(
+      p,
+      plot,
+      tr(loc, '已達粒子上限，可按「清除」重新觀察', 'Particle limit reached. Press Clear to start again'),
+    );
   } else if (!clt.running && clt.total > 0) {
-    drawStageBanner(p, plot, '已暫停，可按右側「繼續」恢復生成');
+    drawStageBanner(
+      p,
+      plot,
+      tr(loc, '已暫停，可按右側「繼續」恢復生成', 'Paused. Press Resume on the right to continue'),
+    );
   }
 }
 
-function drawCltPlot(p: p5, plot: Rect, clt: CltState) {
+function drawCltPlot(p: p5, plot: Rect, clt: CltState, loc?: Loc) {
   const bins = clt.n + 1;
   const binW = plot.w / bins;
   const baseY = plot.y + plot.h - 28;
@@ -480,7 +501,7 @@ function drawCltPlot(p: p5, plot: Rect, clt: CltState) {
 
   p.fill(130);
   p.textAlign(p.LEFT, p.BASELINE);
-  p.text('成功次數 k', plot.x, baseY + 46);
+  p.text(tr(loc, '成功次數 k', 'Number of successes k'), plot.x, baseY + 46);
 }
 
 function drawNormalGuide(
@@ -509,15 +530,15 @@ function drawNormalGuide(
   p.strokeWeight(1);
 }
 
-function drawCltCaption(p: p5, plot: Rect, clt: CltState) {
+function drawCltCaption(p: p5, plot: Rect, clt: CltState, loc?: Loc) {
   const msg =
     clt.total >= clt.maxParticles
-      ? '已達粒子上限'
+      ? tr(loc, '已達粒子上限', 'Particle limit reached')
       : clt.running
-        ? '粒子持續生成中'
+        ? tr(loc, '粒子持續生成中', 'Generating particles')
         : clt.total > 0
-          ? '已暫停'
-          : '等待生成';
+          ? tr(loc, '已暫停', 'Paused')
+          : tr(loc, '等待生成', 'Waiting');
 
   p.noStroke();
   p.fill(155);
@@ -621,16 +642,16 @@ function montyDoorRects(p: p5) {
   }));
 }
 
-function drawMontyScene(p: p5, monty: MontyState) {
+function drawMontyScene(p: p5, monty: MontyState, loc?: Loc) {
   const stage = drawFrame(
     p,
-    '蒙提霍爾模擬',
-    '主持人打開羊門後，剩下那扇門承接了資訊',
+    tr(loc, '蒙提霍爾模擬', 'Monty Hall simulation'),
+    tr(loc, '主持人打開羊門後，剩下那扇門承接了資訊', 'After the host opens a goat door, the remaining door carries the information'),
   );
   const doorArea = montyDoorArea(p);
 
   for (const rect of montyDoorRects(p)) {
-    drawDoor(p, rect, monty);
+    drawDoor(p, rect, monty, loc);
   }
 
   p.noStroke();
@@ -649,10 +670,11 @@ function drawMontyScene(p: p5, monty: MontyState) {
     stage.w - Math.max(56, stage.w * 0.2),
     rateH,
     monty,
+    loc,
   );
 }
 
-function drawDoor(p: p5, rect: Rect & { index: number }, monty: MontyState) {
+function drawDoor(p: p5, rect: Rect & { index: number }, monty: MontyState, loc?: Loc) {
   const selected = monty.playerChoice === rect.index;
   const opened = monty.openedDoor === rect.index;
   const final = monty.finalChoice === rect.index;
@@ -691,9 +713,9 @@ function drawDoor(p: p5, rect: Rect & { index: number }, monty: MontyState) {
   if (opened || revealAll) {
     if (hasCar) p.fill(...GOLD);
     else p.fill(165);
-    p.textSize(30);
+    p.textSize(loc === 'en' ? 18 : 30);
     p.textAlign(p.CENTER, p.CENTER);
-    p.text(hasCar ? '車' : '羊', rect.x + rect.w / 2, rect.y + rect.h / 2 + 10);
+    p.text(hasCar ? tr(loc, '車', 'Car') : tr(loc, '羊', 'Goat'), rect.x + rect.w / 2, rect.y + rect.h / 2 + 10);
   } else {
     p.fill(...WHITE, 22);
     p.circle(rect.x + rect.w - 28, rect.y + rect.h / 2, 8);
@@ -743,13 +765,21 @@ function drawDoorProbabilityHint(
   p.text(label, x + w / 2, y + 12);
 }
 
-function drawMontyRateBars(p: p5, x: number, y: number, w: number, h: number, monty: MontyState) {
+function drawMontyRateBars(
+  p: p5,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  monty: MontyState,
+  loc?: Loc,
+) {
   const trials = Math.max(1, monty.trials);
   const barH = clamp(h * 0.3, 16, 24);
   const gap = Math.max(18, h - barH * 2);
 
-  drawRateBar(p, x, y, w, barH, '不換門', monty.stayWins / trials);
-  drawRateBar(p, x, y + barH + gap, w, barH, '換門', monty.switchWins / trials);
+  drawRateBar(p, x, y, w, barH, tr(loc, '不換門', 'Stay'), monty.stayWins / trials);
+  drawRateBar(p, x, y + barH + gap, w, barH, tr(loc, '換門', 'Switch'), monty.switchWins / trials);
 }
 
 function drawRateBar(p: p5, x: number, y: number, w: number, h: number, label: string, rate: number) {
@@ -836,11 +866,15 @@ function RangeField({ label, value, min, max, step, display, onChange }: RangeFi
   );
 }
 
-export default function ProbabilityStatisticsExploreRoot() {
+type Props = { locale?: 'en' };
+
+export default function ProbabilityStatisticsExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
+  const chooseDoorStatus = tr(locale, '請先選一扇門', 'Pick a door first');
   const [mode, setMode] = useState<Mode>('conditional');
   const [conditional, setConditional] = useState(DEFAULT_CONDITIONAL);
   const [cltView, setCltView] = useState(() => createCltState());
-  const [monty, setMonty] = useState(() => makeMontyState());
+  const [monty, setMonty] = useState(() => makeMontyState({ status: chooseDoorStatus }));
   const [montyNotice, setMontyNotice] = useState('');
 
   const modeRef = useRef(mode);
@@ -899,7 +933,7 @@ export default function ProbabilityStatisticsExploreRoot() {
       );
       const finalChoice = shouldSwitch ? closed[0] : current.playerChoice;
       const result = finalChoice === current.carDoor;
-      const action = shouldSwitch ? '換門' : '不換門';
+      const action = shouldSwitch ? tr(locale, '換門', 'Switch') : tr(locale, '不換門', 'Stay');
       const recorded = recordMontyTrial(current, current.carDoor, current.playerChoice);
 
       return {
@@ -907,12 +941,14 @@ export default function ProbabilityStatisticsExploreRoot() {
         finalChoice,
         result,
         phase: 'result',
-        status: `${action}：${result ? '猜中車' : '猜到羊'}。`,
+        status: en
+          ? `${action}: ${result ? 'you got the car' : 'you got a goat'}.`
+          : `${action}：${result ? '猜中車' : '猜到羊'}。`,
         invalidDoor: null,
       };
     });
     setMontyNotice('');
-  }, []);
+  }, [en, locale]);
 
   const startMontyRound = useCallback(() => {
     setMonty((current) =>
@@ -920,10 +956,11 @@ export default function ProbabilityStatisticsExploreRoot() {
         trials: current.trials,
         stayWins: current.stayWins,
         switchWins: current.switchWins,
+        status: chooseDoorStatus,
       }),
     );
     setMontyNotice('');
-  }, []);
+  }, [chooseDoorStatus]);
 
   const simulateMontyBatch = useCallback((count: number) => {
     setMonty((current) => {
@@ -939,15 +976,16 @@ export default function ProbabilityStatisticsExploreRoot() {
         trials: next.trials,
         stayWins: next.stayWins,
         switchWins: next.switchWins,
+        status: chooseDoorStatus,
       });
     });
     setMontyNotice('');
-  }, []);
+  }, [chooseDoorStatus]);
 
   const resetMontyStats = useCallback(() => {
-    setMonty(makeMontyState());
+    setMonty(makeMontyState({ status: chooseDoorStatus }));
     setMontyNotice('');
-  }, []);
+  }, [chooseDoorStatus]);
 
   useEffect(() => {
     handleMontyDoorClickRef.current = (index: number, now: number) => {
@@ -960,7 +998,9 @@ export default function ProbabilityStatisticsExploreRoot() {
           playerChoice: index,
           openedDoor,
           phase: 'revealed',
-          status: `主持人打開 ${openedDoor + 1} 號羊門：點原門是不換，點另一扇是換門`,
+          status: en
+            ? `The host opens door ${openedDoor + 1}, a goat. Tap your door to stay, the other one to switch`
+            : `主持人打開 ${openedDoor + 1} 號羊門：點原門是不換，點另一扇是換門`,
           invalidDoor: null,
         });
         setMontyNotice('');
@@ -972,17 +1012,21 @@ export default function ProbabilityStatisticsExploreRoot() {
       if (index === current.openedDoor) {
         setMonty({
           ...current,
-          status: '已打開的羊門不能再選，請點原門或另一扇未打開的門。',
+          status: tr(
+            locale,
+            '已打開的羊門不能再選，請點原門或另一扇未打開的門。',
+            'The open goat door cannot be chosen. Tap your door or the other closed door.',
+          ),
           invalidDoor: index,
           invalidUntil: now + 850,
         });
-        setMontyNotice('已打開的門不會觸發換門決策。');
+        setMontyNotice(tr(locale, '已打開的門不會觸發換門決策。', 'An open door does not count as a stay-or-switch choice.'));
         return;
       }
 
       chooseMontyStrategy(index !== current.playerChoice);
     };
-  }, [chooseMontyStrategy]);
+  }, [chooseMontyStrategy, en, locale]);
 
   const draw = useCallback((p: p5) => {
     p.textFont('"Noto Sans TC CJK", sans-serif');
@@ -1001,13 +1045,13 @@ export default function ProbabilityStatisticsExploreRoot() {
     }
 
     if (modeRef.current === 'conditional') {
-      drawConditionalScene(p, conditionalRef.current);
+      drawConditionalScene(p, conditionalRef.current, locale);
     } else if (modeRef.current === 'clt') {
-      drawCltScene(p, cltRef.current);
+      drawCltScene(p, cltRef.current, locale);
     } else {
-      drawMontyScene(p, montyRef.current);
+      drawMontyScene(p, montyRef.current, locale);
     }
-  }, [syncCltView]);
+  }, [syncCltView, locale]);
 
   const extendSketch = useCallback((p: p5) => {
     p.mousePressed = () => {
@@ -1039,20 +1083,20 @@ export default function ProbabilityStatisticsExploreRoot() {
     const mean = cltView.total > 0 ? weightedMean(cltView.counts) : 0;
     const sd = cltView.total > 0 ? weightedSD(cltView.counts, mean) : 0;
     return [
-      ['樣本總數', `${cltView.total}`],
-      ['平均 k̄', fmtNum(mean, 2)],
-      ['標準差 σ', fmtNum(sd, 2)],
+      [tr(locale, '樣本總數', 'Total samples'), `${cltView.total}`],
+      [tr(locale, '平均 k̄', 'Mean k̄'), fmtNum(mean, 2)],
+      [tr(locale, '標準差 σ', 'Standard deviation σ'), fmtNum(sd, 2)],
     ] as const;
-  }, [cltView]);
+  }, [cltView, locale]);
 
   const montyStats = useMemo(() => {
     const trials = Math.max(1, monty.trials);
     return [
-      ['累積局數', `${monty.trials}`],
-      ['不換門', fmtPct(monty.stayWins / trials)],
-      ['換門', fmtPct(monty.switchWins / trials)],
+      [tr(locale, '累積局數', 'Rounds played'), `${monty.trials}`],
+      [tr(locale, '不換門', 'Stay'), fmtPct(monty.stayWins / trials)],
+      [tr(locale, '換門', 'Switch'), fmtPct(monty.switchWins / trials)],
     ] as const;
-  }, [monty]);
+  }, [monty, locale]);
 
   const range = abRange(conditional);
   const normalizedConditional = normalizeConditional(conditional);
@@ -1065,22 +1109,26 @@ export default function ProbabilityStatisticsExploreRoot() {
             ref={canvasHostRef}
             className="probability-statistics-explore__canvas"
             role="img"
-            aria-label="古典機率與條件機率互動視覺化"
+            aria-label={
+              en
+                ? 'Classical and conditional probability, interactive'
+                : '古典機率與條件機率互動視覺化'
+            }
           />
         </div>
 
         <aside className="probability-statistics-explore__sidebar">
           <div className="probability-statistics-explore__block">
-            <p className="probability-statistics-explore__block-title">模式</p>
+            <p className="probability-statistics-explore__block-title">{en ? 'Mode' : '模式'}</p>
             <div className="probability-statistics-explore__modes">
               <ModeButton active={mode === 'conditional'} onClick={() => setMode('conditional')}>
-                條件機率
+                {en ? 'Conditional probability' : '條件機率'}
               </ModeButton>
               <ModeButton active={mode === 'clt'} onClick={() => setMode('clt')}>
-                中央極限定理
+                {en ? 'Central limit theorem' : '中央極限定理'}
               </ModeButton>
               <ModeButton active={mode === 'monty'} onClick={() => setMode('monty')}>
-                蒙提霍爾
+                {en ? 'Monty Hall' : '蒙提霍爾'}
               </ModeButton>
             </div>
           </div>
@@ -1088,9 +1136,9 @@ export default function ProbabilityStatisticsExploreRoot() {
           {mode === 'conditional' ? (
             <>
               <div className="probability-statistics-explore__block">
-                <p className="probability-statistics-explore__block-title">參數</p>
+                <p className="probability-statistics-explore__block-title">{en ? 'Parameters' : '參數'}</p>
                 <RangeField
-                  label="事件 A"
+                  label={en ? 'Event A' : '事件 A'}
                   min={0.05}
                   max={0.95}
                   step={0.01}
@@ -1099,7 +1147,7 @@ export default function ProbabilityStatisticsExploreRoot() {
                   onChange={(pA) => setConditional((prev) => normalizeConditional({ ...prev, pA }))}
                 />
                 <RangeField
-                  label="事件 B"
+                  label={en ? 'Event B' : '事件 B'}
                   min={0.05}
                   max={0.95}
                   step={0.01}
@@ -1108,7 +1156,7 @@ export default function ProbabilityStatisticsExploreRoot() {
                   onChange={(pB) => setConditional((prev) => normalizeConditional({ ...prev, pB }))}
                 />
                 <RangeField
-                  label="交集"
+                  label={en ? 'Intersection' : '交集'}
                   min={range.minAB}
                   max={range.maxAB}
                   step={0.01}
@@ -1118,10 +1166,10 @@ export default function ProbabilityStatisticsExploreRoot() {
                 />
               </div>
 
-              <StatsBlock title="統計" rows={conditionalStats} />
+              <StatsBlock title={en ? 'Readings' : '統計'} rows={conditionalStats} />
 
               <div className="probability-statistics-explore__block">
-                <p className="probability-statistics-explore__block-title">公式</p>
+                <p className="probability-statistics-explore__block-title">{en ? 'Formula' : '公式'}</p>
                 <p className="probability-statistics-explore__stat">P(A|B)=P(A∩B)/P(B)</p>
                 <p className="probability-statistics-explore__stat">
                   P(A∩B) ∈ [{fmtPct(range.minAB)}, {fmtPct(range.maxAB)}]
@@ -1133,9 +1181,9 @@ export default function ProbabilityStatisticsExploreRoot() {
           {mode === 'clt' ? (
             <>
               <div className="probability-statistics-explore__block">
-                <p className="probability-statistics-explore__block-title">參數</p>
+                <p className="probability-statistics-explore__block-title">{en ? 'Parameters' : '參數'}</p>
                 <RangeField
-                  label="樣本數"
+                  label={en ? 'Sample size' : '樣本數'}
                   min={2}
                   max={40}
                   step={1}
@@ -1144,7 +1192,7 @@ export default function ProbabilityStatisticsExploreRoot() {
                   onChange={(n) => resetClt(n)}
                 />
                 <RangeField
-                  label="速度"
+                  label={en ? 'Speed' : '速度'}
                   min={1}
                   max={20}
                   step={1}
@@ -1154,21 +1202,23 @@ export default function ProbabilityStatisticsExploreRoot() {
                 />
                 <div className="probability-statistics-explore__actions">
                   <button type="button" onClick={toggleClt}>
-                    {cltView.running ? '暫停' : '繼續'}
+                    {cltView.running ? (en ? 'Pause' : '暫停') : en ? 'Resume' : '繼續'}
                   </button>
                   <button type="button" onClick={() => resetClt(cltView.n)}>
-                    清除
+                    {en ? 'Clear' : '清除'}
                   </button>
                 </div>
               </div>
 
-              <StatsBlock title="統計" rows={cltStats} />
+              <StatsBlock title={en ? 'Readings' : '統計'} rows={cltStats} />
 
               <div className="probability-statistics-explore__block">
-                <p className="probability-statistics-explore__block-title">公式</p>
+                <p className="probability-statistics-explore__block-title">{en ? 'Formula' : '公式'}</p>
                 <p className="probability-statistics-explore__stat">X ~ Bin(n, 0.5)</p>
                 <p className="probability-statistics-explore__stat">
-                  n ≥ 8 且樣本夠多時顯示常態 guide
+                  {en
+                    ? 'With n ≥ 8 and enough samples, the normal guide appears'
+                    : 'n ≥ 8 且樣本夠多時顯示常態 guide'}
                 </p>
               </div>
             </>
@@ -1177,31 +1227,33 @@ export default function ProbabilityStatisticsExploreRoot() {
           {mode === 'monty' ? (
             <>
               <div className="probability-statistics-explore__block">
-                <p className="probability-statistics-explore__block-title">操作</p>
+                <p className="probability-statistics-explore__block-title">{en ? 'Actions' : '操作'}</p>
                 {monty.phase === 'choose' ? (
-                  <p className="probability-statistics-explore__hint">在左側選一扇門。</p>
+                  <p className="probability-statistics-explore__hint">
+                    {en ? 'Pick a door in the figure.' : '在左側選一扇門。'}
+                  </p>
                 ) : null}
                 {monty.phase === 'revealed' ? (
                   <div className="probability-statistics-explore__actions">
                     <button type="button" onClick={() => chooseMontyStrategy(false)}>
-                      不換門
+                      {en ? 'Stay' : '不換門'}
                     </button>
                     <button type="button" onClick={() => chooseMontyStrategy(true)}>
-                      換門
+                      {en ? 'Switch' : '換門'}
                     </button>
                   </div>
                 ) : null}
                 {monty.phase === 'result' ? (
                   <button type="button" onClick={startMontyRound}>
-                    下一局
+                    {en ? 'Next round' : '下一局'}
                   </button>
                 ) : null}
                 <div className="probability-statistics-explore__actions">
                   <button type="button" onClick={() => simulateMontyBatch(100)}>
-                    統計 +100
+                    {en ? 'Simulate +100' : '統計 +100'}
                   </button>
                   <button type="button" onClick={resetMontyStats}>
-                    重設統計
+                    {en ? 'Reset stats' : '重設統計'}
                   </button>
                 </div>
                 {montyNotice ? (
@@ -1211,14 +1263,16 @@ export default function ProbabilityStatisticsExploreRoot() {
                 ) : null}
               </div>
 
-              <StatsBlock title="統計" rows={montyStats} />
+              <StatsBlock title={en ? 'Readings' : '統計'} rows={montyStats} />
 
               <div className="probability-statistics-explore__block">
-                <p className="probability-statistics-explore__block-title">觀察</p>
-                <p className="probability-statistics-explore__stat">不換門 → 約 1/3</p>
-                <p className="probability-statistics-explore__stat">換門 → 約 2/3</p>
+                <p className="probability-statistics-explore__block-title">{en ? 'What to notice' : '觀察'}</p>
+                <p className="probability-statistics-explore__stat">{en ? 'Stay → about 1/3' : '不換門 → 約 1/3'}</p>
+                <p className="probability-statistics-explore__stat">{en ? 'Switch → about 2/3' : '換門 → 約 2/3'}</p>
                 <p className="probability-statistics-explore__stat">
-                  統計 +100：純統計，不逐局播放
+                  {en
+                    ? 'Simulate +100: statistics only, rounds are not played one by one'
+                    : '統計 +100：純統計，不逐局播放'}
                 </p>
               </div>
             </>

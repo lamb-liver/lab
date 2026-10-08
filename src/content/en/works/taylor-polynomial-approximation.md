@@ -52,7 +52,7 @@ Farther from the center, the higher-degree terms matter more. A finite $T_n$ is 
 ## Related
 
 - [Tangent approximation](/en/works/tangent-approximation/)
-- [Fourier series](/explore/fourier-series/)
+- [Fourier series](/en/explore/fourier-series/)
 - [Limits and Riemann sums](/en/explore/limits-riemann-sum/)
 - [Sequences and series](/en/explore/sequences-and-series/)
 
