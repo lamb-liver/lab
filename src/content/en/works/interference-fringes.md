@@ -40,7 +40,7 @@ $$
 ## Related
 
 - [Superposition of trigonometric functions and wave interference](/en/explore/trig-wave-interference/)
-- [Standing wave](/en/works/standing-wave/)
+- [Stationary wave](/en/works/standing-wave/)
 - [Chladni figures](/en/works/chladni-figures/)
 
 ## Further reading

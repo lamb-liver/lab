@@ -31,13 +31,13 @@ Suggested order: first use Guide to see how phase becomes visible structure → 
 
 ## What to notice
 
-- The same phase difference becomes reinforcement or cancellation in displacement, a shift of nodes in a standing wave, and a shift of fringes for two sources.
+- The same phase difference becomes reinforcement or cancellation in displacement, a shift of nodes in a stationary wave, and a shift of fringes for two sources.
 - Nodes, fringes, and nodal lines are all "places where the amplitude is close to zero". In a different medium, the geometry of that reading changes with it.
 - What nearby frequencies add is an envelope. The phase relation still decides how the waves add; the frequency difference just makes the reinforcement itself drift slowly over time.
 
 ## Related
 
-- [Standing wave](/en/works/standing-wave/)
+- [Stationary wave](/en/works/standing-wave/)
 - [Interference fringes](/en/works/interference-fringes/)
 - [Chladni figures](/en/works/chladni-figures/)
 
