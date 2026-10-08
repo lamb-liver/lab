@@ -794,6 +794,21 @@ test.describe('SEO metadata and UX shell', () => {
     await expect(more.locator('a[href="/en/concept"]')).toHaveText('Concept index →');
   });
 
+  test('circle inversion radius slider keeps the figure alive (zh and en)', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(String(error)));
+    for (const url of ['/works/circle-inversion/', '/en/works/circle-inversion/']) {
+      await page.goto(url);
+      const slider = page.locator('#circle-inversion-radius');
+      const before = await slider.inputValue();
+      await slider.focus();
+      for (let i = 0; i < 4; i++) await page.keyboard.press('ArrowRight');
+      await expect(slider).toBeVisible();
+      expect(await slider.inputValue()).not.toBe(before);
+    }
+    expect(errors).toEqual([]);
+  });
+
   test('crawlers are never redirected by the saved language', async ({ browser }) => {
     const base = test.info().project.use.baseURL as string;
     const context = await browser.newContext({
