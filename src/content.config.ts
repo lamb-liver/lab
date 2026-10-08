@@ -93,4 +93,61 @@ const exam = defineCollection({
   }),
 });
 
-export const collections = { works, explore, exam };
+const worksEn = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/en/works' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    tags: z.array(z.string()),
+    concepts: z.array(conceptEnum).default([]),
+    audience: z.string(),
+    prerequisites: z.array(z.string()).default([]),
+    date: z.coerce.date(),
+    order: z.number().int().nonnegative(),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+const exploreEn = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/en/explore' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    category: z.string(),
+    concepts: z.array(conceptEnum).default([]),
+    audience: z.string(),
+    prerequisites: z.array(z.string()).default([]),
+    date: z.coerce.date(),
+    order: z.number().int().nonnegative(),
+    coverImage: z.string().optional(),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+const examEn = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/en/exam' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    subject: z.enum(examSubjects),
+    year: z.number().int(),
+    questionType: z.enum(examQuestionTypes),
+    questionNo: z.string(),
+    unit: z.string(),
+    topics: z.array(z.string()),
+    concepts: z.array(conceptEnum).default([]),
+    sourceUrl: z.string().url().optional(),
+    analysisUrl: z.string().url().optional(),
+    relatedExplore: z.array(z.string()).default([]),
+    relatedWorks: z.array(z.string()).default([]),
+    date: z.coerce.date(),
+    order: z.number().int().nonnegative(),
+    coverImage: z.string().optional(),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { works, explore, exam, worksEn, exploreEn, examEn };

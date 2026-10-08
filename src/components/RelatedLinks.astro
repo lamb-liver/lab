@@ -6,15 +6,19 @@ interface Props {
   items: RelatedRef[];
   heading?: string;
   ariaLabel?: string;
+  locale?: 'en';
 }
 
-const { items, heading = '延伸', ariaLabel = '延伸閱讀' } = Astro.props;
+const en = Astro.props.locale === 'en';
+const {
+  items,
+  heading = en ? 'Related' : '延伸',
+  ariaLabel = en ? 'Further reading' : '延伸閱讀',
+} = Astro.props;
 
-const kindPrefix: Record<RelatedRef['kind'], string> = {
-  work: '作品：',
-  explore: '主題導覽：',
-  exam: '試題：',
-};
+const kindPrefix: Record<RelatedRef['kind'], string> = en
+  ? { work: 'Work: ', explore: 'Explore: ', exam: 'Exam: ' }
+  : { work: '作品：', explore: '主題導覽：', exam: '試題：' };
 ---
 
 {

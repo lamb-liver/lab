@@ -20,6 +20,10 @@ interface Props {
   noindex?: boolean;
   /** Preload LXGW WenKai TC when the page uses concept / educational prose */
   preloadConceptFont?: boolean;
+  htmlLang?: string;
+  ogLocale?: string;
+  skipLabel?: string;
+  alternates?: Array<{ hreflang: string; href: string }>;
 }
 
 const {
@@ -31,7 +35,22 @@ const {
   structuredData = [],
   noindex = false,
   preloadConceptFont = false,
+  htmlLang = 'zh-Hant',
+  ogLocale = 'zh_TW',
+  skipLabel = '跳至主要內容',
+  alternates = [],
 } = Astro.props;
+const ogLocaleForHreflang: Record<string, string> = {
+  en: 'en_US',
+  'zh-Hant': 'zh_TW',
+};
+const ogLocaleAlternates = [
+  ...new Set(
+    alternates
+      .map((alt) => ogLocaleForHreflang[alt.hreflang])
+      .filter((value): value is string => Boolean(value) && value !== ogLocale),
+  ),
+];
 const fullTitle = title === '羊·實驗' ? title : `${title} · 羊·實驗`;
 const site = Astro.site ?? Astro.url;
 const canonicalURL = new URL(Astro.url.pathname || '/', site).href;
@@ -66,7 +85,7 @@ const jsonLd = [
 ---
 
 <!doctype html>
-<html lang="zh-Hant">
+<html lang={htmlLang}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/lab-favicon-eb-garamond.svg" />
@@ -100,12 +119,22 @@ const jsonLd = [
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
     <link rel="canonical" href={canonicalURL} />
+    {
+      alternates.map((alt) => (
+        <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+      ))
+    }
     <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={resolvedOgDescription} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content="羊·實驗" />
-    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:locale" content={ogLocale} />
+    {
+      ogLocaleAlternates.map((value) => (
+        <meta property="og:locale:alternate" content={value} />
+      ))
+    }
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:alt" content={resolvedOgImageAlt} />
     {
@@ -127,7 +156,7 @@ const jsonLd = [
     <Umami />
   </head>
   <body>
-    <a href="#main-content" class="skip-link">跳至主要內容</a>
+    <a href="#main-content" class="skip-link">{skipLabel}</a>
     <Nav />
     <main id="main-content">
       <slot />
