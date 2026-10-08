@@ -48,9 +48,9 @@ Suggested order: Arithmetic or Geometric, then partial sums, then raise $r$ to s
 - [Taylor polynomial approximation](/en/works/taylor-polynomial-approximation/)
 - [Arithmetic and geometric sequences](/en/works/arithmetic-geometric-sequences/)
 - [Fibonacci spiral](/en/works/fibonacci-spiral/)
-- [Sierpinski triangle](/works/sierpinski-triangle/)
+- [Sierpinski triangle](/en/works/sierpinski-triangle/)
 - [Basel problem](/en/works/basel-problem/)
-- [Logistic map bifurcation diagram](/works/logistic-bifurcation/)
+- [Logistic map bifurcation diagram](/en/works/logistic-bifurcation/)
 
 ## Further reading
 

@@ -6,7 +6,7 @@ import {
   MODE_ORBIT,
   logisticBifurcationModule,
 } from '../../curve/modules/logistic-bifurcation';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, CurveModule, ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useLogisticBifurcationP5 } from '../curve/useLogisticBifurcationP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
@@ -15,16 +15,50 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
 const modes = [
-  { value: MODE_BIFURCATION, label: '分岔' },
-  { value: MODE_ORBIT, label: '軌道' },
-  { value: MODE_COBWEB, label: '蛛網' },
-  { value: MODE_COMPARE, label: '對照' },
+  { value: MODE_BIFURCATION, label: '分岔', en: 'Bifurcation' },
+  { value: MODE_ORBIT, label: '軌道', en: 'Orbit' },
+  { value: MODE_COBWEB, label: '蛛網', en: 'Cobweb' },
+  { value: MODE_COMPARE, label: '對照', en: 'Compare' },
 ];
 
-export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props) {
+const EN_PARAM_LABELS: Record<string, string> = {
+  r: 'Parameter r',
+  x0: 'Initial value x₀',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Logistic map bifurcation diagram',
+    stats: metadata.stats.map((stat) => {
+      if (stat.key === 'mode') {
+        const match = modes.find((item) => item.label === stat.value);
+        return { ...stat, label: 'Mode', value: match?.en ?? stat.value };
+      }
+      if (stat.key === 'period') {
+        return { ...stat, label: 'Period', value: stat.value === '混沌' ? 'Chaotic' : stat.value };
+      }
+      return stat;
+    }),
+  };
+}
+
+function englishControls(module: CurveModule): CurveModule {
+  return {
+    ...module,
+    paramSchema: module.paramSchema.map((def) => ({
+      ...def,
+      label: EN_PARAM_LABELS[def.key] ?? def.label,
+    })),
+  };
+}
+
+export default function LogisticBifurcationCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const module = logisticBifurcationModule;
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [playing, setPlaying] = useState(true);
@@ -36,7 +70,8 @@ export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props)
     replayNonce,
   });
 
-  const metadata = module.getMetadata(targetParams);
+  const rawMetadata = module.getMetadata(targetParams);
+  const metadata = en ? englishMetadata(rawMetadata) : rawMetadata;
 
   const patchParams = (patch: ParamValues) => {
     setTargetParams((prev) => ({ ...prev, ...patch }));
@@ -46,7 +81,7 @@ export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props)
 
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
-      <div className="curve-work-mode-toggle" aria-label="單峰映射視圖">
+      <div className="curve-work-mode-toggle" aria-label={en ? 'Logistic map view' : '單峰映射視圖'}>
         {modes.map((option) => (
           <button
             key={option.value}
@@ -55,18 +90,18 @@ export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props)
             aria-pressed={mode === option.value}
             onClick={() => patchParams({ mode: option.value })}
           >
-            {option.label}
+            {en ? option.en : option.label}
           </button>
         ))}
       </div>
 
       <ParamControls
-        module={module}
+        module={en ? englishControls(module) : module}
         values={targetParams}
         onChange={(key, value) => patchParams({ [key]: value })}
       />
 
-      <div className="curve-work-mode-toggle" aria-label="顯示選項">
+      <div className="curve-work-mode-toggle" aria-label={en ? 'Display options' : '顯示選項'}>
         <button
           type="button"
           className="curve-work-mode-button"
@@ -85,14 +120,14 @@ export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props)
         </button>
       </div>
 
-      <div className="curve-work-mode-toggle" aria-label="播放控制">
+      <div className="curve-work-mode-toggle" aria-label={en ? 'Playback' : '播放控制'}>
         <button
           type="button"
           className="curve-work-mode-button"
           aria-pressed={!playing}
           onClick={() => setPlaying((prev) => !prev)}
         >
-          {playing ? '暫停' : '播放'}
+          {playing ? (en ? 'Pause' : '暫停') : en ? 'Play' : '播放'}
         </button>
         <button
           type="button"
@@ -103,7 +138,7 @@ export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props)
             setReplayNonce((prev) => prev + 1);
           }}
         >
-          重播
+          {en ? 'Replay' : '重播'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -114,7 +149,7 @@ export default function LogisticBifurcationCurveRoot({ controlsMountId }: Props)
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="單峰映射分岔圖"
+        aria-label={en ? 'Logistic map bifurcation diagram' : '單峰映射分岔圖'}
       />
       {controls}
     </>

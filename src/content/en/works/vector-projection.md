@@ -41,7 +41,7 @@ In the basis reading, $\mathbf{e}_1$ is the unit vector along the line and $\mat
 
 - [Dot product](/en/works/dot-product-geometry/)
 - [Vector addition and scalar multiplication](/en/works/vector-addition-scalar/)
-- [Basic patterns of a vector field](/works/vector-field-patterns/)
+- [Basic patterns of a vector field](/en/works/vector-field-patterns/)
 
 ## Further reading
 

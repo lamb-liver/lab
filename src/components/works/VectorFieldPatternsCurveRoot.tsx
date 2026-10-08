@@ -10,7 +10,9 @@ import {
 import {
   buildStreamlines,
   getFieldConfig,
+  getSeedCount,
 } from '../../curve/modules/vector-field-patterns/geometry';
+import type { CurveMetadata } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useVectorFieldPatternsP5 } from '../curve/useVectorFieldPatternsP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
@@ -18,6 +20,7 @@ import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
 const PATTERN_LABELS: Record<VectorFieldPattern, string> = {
@@ -28,7 +31,46 @@ const PATTERN_LABELS: Record<VectorFieldPattern, string> = {
   uniform: '均勻流',
 };
 
-export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props) {
+const EN_PATTERN_LABELS: Record<VectorFieldPattern, string> = {
+  source: 'Source',
+  sink: 'Sink',
+  vortex: 'Vortex',
+  saddle: 'Saddle',
+  uniform: 'Uniform flow',
+};
+
+function englishMetadata(metadata: CurveMetadata, params: VectorFieldPatternParams): CurveMetadata {
+  const seeds = getSeedCount(getFieldConfig(params.pattern), Math.round(params.density));
+  return {
+    ...metadata,
+    title: 'Basic patterns of a vector field',
+    stats: metadata.stats.map((stat) => {
+      if (stat.key === 'pattern') {
+        return { ...stat, label: 'Pattern', value: EN_PATTERN_LABELS[params.pattern] };
+      }
+      if (stat.key === 'eigen') return { ...stat, label: 'Eigenvalues' };
+      if (stat.key === 'arrows') {
+        const density = Math.round(params.density);
+        return {
+          ...stat,
+          label: 'Arrows',
+          value: `${density} × ${density}, ${params.normalized ? 'normalized' : 'scaled by |F|'}`,
+        };
+      }
+      if (stat.key === 'streamlines') {
+        return {
+          ...stat,
+          label: 'Streamlines',
+          value: `${params.showStreamlines ? 'shown' : 'hidden'}, ${seeds} lines`,
+        };
+      }
+      return stat;
+    }),
+  };
+}
+
+export default function VectorFieldPatternsCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const module = vectorFieldPatternsModule;
   const [params, setParams] = useState<VectorFieldPatternParams>(
     DEFAULT_VECTOR_FIELD_PATTERN_PARAMS,
@@ -38,10 +80,11 @@ export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props)
     return buildStreamlines(getFieldConfig(params.pattern), params.density);
   }, [params.pattern, params.density, params.showStreamlines]);
 
-  const { canvasHostRef } = useVectorFieldPatternsP5({ params, streamlines });
+  const { canvasHostRef } = useVectorFieldPatternsP5({ params, streamlines, locale });
 
   const metadataParams = vectorFieldPatternParamsForMetadata(params);
-  const metadata = module.getMetadata(metadataParams);
+  const rawMetadata = module.getMetadata(metadataParams);
+  const metadata = en ? englishMetadata(rawMetadata, params) : rawMetadata;
 
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
@@ -54,12 +97,21 @@ export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props)
             aria-pressed={params.pattern === pattern}
             onClick={() => setParams((prev) => ({ ...prev, pattern }))}
           >
-            {PATTERN_LABELS[pattern]}
+            {en ? EN_PATTERN_LABELS[pattern] : PATTERN_LABELS[pattern]}
           </button>
         ))}
       </div>
       <ParamControls
-        module={module}
+        module={
+          en
+            ? {
+                ...module,
+                paramSchema: module.paramSchema.map((def) =>
+                  def.key === 'density' ? { ...def, label: 'Density n' } : def,
+                ),
+              }
+            : module
+        }
         values={metadataParams}
         onChange={(key, value) => {
           if (key !== 'density') return;
@@ -75,7 +127,7 @@ export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props)
             setParams((prev) => ({ ...prev, normalized: !prev.normalized }))
           }
         >
-          歸一化箭頭
+          {en ? 'Normalize arrows' : '歸一化箭頭'}
         </button>
         <button
           type="button"
@@ -88,7 +140,7 @@ export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props)
             }))
           }
         >
-          流線疊加
+          {en ? 'Overlay streamlines' : '流線疊加'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -99,7 +151,7 @@ export default function VectorFieldPatternsCurveRoot({ controlsMountId }: Props)
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="向量場的基本圖樣互動"
+        aria-label={en ? 'Basic patterns of a vector field' : '向量場的基本圖樣互動'}
       />
       {controls}
     </>

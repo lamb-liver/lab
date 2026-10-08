@@ -43,9 +43,9 @@ Suggested order: Free transform, then Special transform, then Composition.
 
 - [Eigenvectors and stretch factors](/en/works/eigenvector-geometry/)
 - [Linear transform grid](/en/works/linear-transform-grid/)
-- [Affine transform pattern](/works/affine-transform-pattern/)
-- [Rotation and scaling, composed](/works/rotation-scale-composition/)
-- [Iterated affine fractal](/works/affine-ifs-fractal/)
+- [Affine transform pattern](/en/works/affine-transform-pattern/)
+- [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
+- [Iterated affine fractal](/en/works/affine-ifs-fractal/)
 
 ## Further reading
 

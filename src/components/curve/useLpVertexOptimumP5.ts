@@ -14,6 +14,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: LpVertexOptimumParams;
   onParamsChange: (patch: Partial<LpVertexOptimumParams>) => void;
+  locale?: 'en';
 };
 
 const HIT_PX = 22;
@@ -23,7 +24,7 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useLpVertexOptimumP5({ params, onParamsChange }: Options) {
+export function useLpVertexOptimumP5({ params, onParamsChange, locale }: Options) {
   const paramsRef = useRef(params);
   const onParamsChangeRef = useRef(onParamsChange);
 
@@ -40,8 +41,9 @@ export function useLpVertexOptimumP5({ params, onParamsChange }: Options) {
       width: p.width,
       height: p.height,
       params: paramsRef.current,
+      locale,
     });
-  }, []);
+  }, [locale]);
 
   const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     /** 點圖上的頂點就跳到候選表的那一列，兩邊指的是同一件事 */

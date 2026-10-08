@@ -37,8 +37,8 @@ $$
 ## Related
 
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
-- [Sierpinski triangle](/works/sierpinski-triangle/)
-- [Logistic map bifurcation diagram](/works/logistic-bifurcation/)
+- [Sierpinski triangle](/en/works/sierpinski-triangle/)
+- [Logistic map bifurcation diagram](/en/works/logistic-bifurcation/)
 
 ## Further reading
 

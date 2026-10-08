@@ -27,10 +27,16 @@ type Snapshot = {
   width: number;
   height: number;
   params: LpFeasibleHalfPlanesParams;
+  locale?: 'en';
 };
+
+const EN_STATUS: Record<string, string> = { 有界: 'bounded', 無界: 'unbounded', 無解: 'infeasible' };
+
+const enConstraintLabel = (label: string) => label.replace('約束 ', 'Constraint ');
 
 export function renderLpFeasibleHalfPlanesScene(p: p5, snap: Snapshot): void {
   const { width, height, params } = snap;
+  const en = snap.locale === 'en';
   const metrics = computeHalfPlanesMetrics(params);
   const layout = createLpLayout(width, height, AXIS_HALF);
   const selectedIndex = ADJUSTABLE_OFFSET + params.selected;
@@ -84,10 +90,21 @@ export function renderLpFeasibleHalfPlanesScene(p: p5, snap: Snapshot): void {
       x: segment[0].x + (segment[1].x - segment[0].x) * t,
       y: segment[0].y + (segment[1].y - segment[0].y) * t,
     };
-    drawSceneLabel(p, layout, at, `${con.label}（冗餘）`, LP_MUTED, 190);
+    const label = en ? `${enConstraintLabel(con.label)} (redundant)` : `${con.label}（冗餘）`;
+    drawSceneLabel(p, layout, at, label, LP_MUTED, 190);
   }
 
-  const lines = [
+  const lines = en
+    ? [
+        `Feasible region: ${EN_STATUS[metrics.status] ?? metrics.status}`,
+        metrics.region.bounded && !metrics.region.empty
+          ? `${metrics.region.vertices.length} corner points, area ${metrics.area.toFixed(2)}`
+          : 'Corner points alone cannot describe the region',
+        metrics.redundant.length > 0
+          ? `Redundant: ${metrics.redundant.map((i) => enConstraintLabel(metrics.constraints[i].label)).join(', ')}`
+          : 'No redundant constraints',
+      ]
+    : [
     `可行域：${metrics.status}`,
     metrics.region.bounded && !metrics.region.empty
       ? `角點 ${metrics.region.vertices.length} 個，面積 ${metrics.area.toFixed(2)}`
@@ -95,10 +112,10 @@ export function renderLpFeasibleHalfPlanesScene(p: p5, snap: Snapshot): void {
     metrics.redundant.length > 0
       ? `冗餘約束：${metrics.redundant.map((i) => metrics.constraints[i].label).join('、')}`
       : '沒有冗餘約束',
-  ];
+      ];
   if (metrics.region.vertices.length > 0 && metrics.region.bounded) {
     lines.push(
-      `角點 ${metrics.region.vertices.map((v) => formatPoint(v.point, 1)).join(' ')}`,
+      `${en ? 'Corners' : '角點'} ${metrics.region.vertices.map((v) => formatPoint(v.point, 1)).join(' ')}`,
     );
   }
 

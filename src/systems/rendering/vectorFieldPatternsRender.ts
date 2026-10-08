@@ -17,6 +17,7 @@ type VectorFieldPatternsSnap = {
   height: number;
   params: VectorFieldPatternParams;
   streamlines: Vec2[][];
+  locale?: 'en';
 };
 
 const BG: [number, number, number] = [10, 10, 10];
@@ -191,9 +192,9 @@ export function renderVectorFieldPatternsScene(
   drawPlotLabels(p, origin, layout.plotMin, layout.plotMax);
 
   if (field.singularity) {
-    drawLabel(p, '奇點', { x: origin.x + 12, y: origin.y - 10 }, snap.width, snap.height, 96);
+    drawLabel(p, snap.locale === 'en' ? 'Singular point' : '奇點', { x: origin.x + 12, y: origin.y - 10 }, snap.width, snap.height, 96);
     drawLabel(p, field.eigen, { x: origin.x + 12, y: origin.y + 8 }, snap.width, snap.height, 76);
   } else {
-    drawLabel(p, '無奇點', { x: origin.x + 12, y: origin.y - 8 }, snap.width, snap.height, 76);
+    drawLabel(p, snap.locale === 'en' ? 'No singular point' : '無奇點', { x: origin.x + 12, y: origin.y - 8 }, snap.width, snap.height, 76);
   }
 }

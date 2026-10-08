@@ -44,8 +44,8 @@ After $|z_n|>2$, the orbit must diverge. Any point that has not passed this thre
 
 - [Julia set](/en/works/julia-set/)
 - [Iteration dynamics: from convergence to fractals](/explore/iteration-dynamics/)
-- [Sierpinski triangle](/works/sierpinski-triangle/)
-- [Logistic map bifurcation diagram](/works/logistic-bifurcation/)
+- [Sierpinski triangle](/en/works/sierpinski-triangle/)
+- [Logistic map bifurcation diagram](/en/works/logistic-bifurcation/)
 
 ## Further reading
 

@@ -44,7 +44,7 @@ Here $a>0$. This figure uses $b>0$, and the angle between the tangent and a ray 
 ## Related
 
 - [Fibonacci spiral](/en/works/fibonacci-spiral/)
-- [Rotation and scaling, composed](/works/rotation-scale-composition/)
+- [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
 
 ## Further reading
 

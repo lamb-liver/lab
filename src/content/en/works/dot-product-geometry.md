@@ -46,7 +46,7 @@ The gold arrow is the vector projection of $\mathbf{u}$ onto the line of $\mathb
 
 - [Vector addition and scalar multiplication](/en/works/vector-addition-scalar/)
 - [Vector projection](/en/works/vector-projection/)
-- [Basic patterns of a vector field](/works/vector-field-patterns/)
+- [Basic patterns of a vector field](/en/works/vector-field-patterns/)
 
 ## Further reading
 

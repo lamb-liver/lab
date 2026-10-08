@@ -9,6 +9,7 @@ import { useRectP5CanvasHost, type CanvasSize } from './useRectP5CanvasHost';
 type Options = {
   params: VectorFieldPatternParams;
   streamlines: Vec2[][];
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -16,7 +17,7 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useVectorFieldPatternsP5({ params, streamlines }: Options) {
+export function useVectorFieldPatternsP5({ params, streamlines, locale }: Options) {
   const paramsRef = useRef(params);
   const streamlinesRef = useRef(streamlines);
 
@@ -34,8 +35,9 @@ export function useVectorFieldPatternsP5({ params, streamlines }: Options) {
       height: p.height,
       params: paramsRef.current,
       streamlines: streamlinesRef.current,
+      locale,
     });
-  }, []);
+  }, [locale]);
 
   const redrawKey = `${params.pattern}|${params.density}|${params.normalized ? 1 : 0}|${
     params.showStreamlines ? 1 : 0

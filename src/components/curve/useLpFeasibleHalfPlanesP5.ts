@@ -16,6 +16,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: LpFeasibleHalfPlanesParams;
   onParamsChange: (patch: Partial<LpFeasibleHalfPlanesParams>) => void;
+  locale?: 'en';
 };
 
 /** 抓取約束線的容差，單位為畫面像素 */
@@ -26,7 +27,7 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useLpFeasibleHalfPlanesP5({ params, onParamsChange }: Options) {
+export function useLpFeasibleHalfPlanesP5({ params, onParamsChange, locale }: Options) {
   const paramsRef = useRef(params);
   const onParamsChangeRef = useRef(onParamsChange);
   const draggingRef = useRef<number | null>(null);
@@ -44,8 +45,9 @@ export function useLpFeasibleHalfPlanesP5({ params, onParamsChange }: Options) {
       width: p.width,
       height: p.height,
       params: paramsRef.current,
+      locale,
     });
-  }, []);
+  }, [locale]);
 
   const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     /**

@@ -44,7 +44,7 @@ The inflection is at $y=L/2$, when $t=\dfrac{\ln a}{k}$. The bands on the figure
 ## Related
 
 - [Exponential growth and decay](/en/works/exponential-growth-decay/)
-- [Logistic map bifurcation diagram](/works/logistic-bifurcation/)
+- [Logistic map bifurcation diagram](/en/works/logistic-bifurcation/)
 
 ## Further reading
 
