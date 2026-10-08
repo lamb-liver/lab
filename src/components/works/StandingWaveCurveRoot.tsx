@@ -19,7 +19,7 @@ const EN_LABELS: Record<string, string> = {
 };
 
 function englishMetadata(metadata: CurveMetadata): CurveMetadata {
-  return { ...metadata, title: 'Standing wave' };
+  return { ...metadata, title: 'Stationary wave' };
 }
 
 export default function StandingWaveCurveRoot({ controlsMountId, locale }: Props) {
@@ -75,7 +75,7 @@ export default function StandingWaveCurveRoot({ controlsMountId, locale }: Props
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label={en ? 'Standing wave' : '駐波圖動畫'}
+        aria-label={en ? 'Stationary wave' : '駐波圖動畫'}
       />
       {controls}
     </>
