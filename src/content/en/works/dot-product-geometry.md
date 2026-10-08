@@ -1,5 +1,5 @@
 ---
-title: Dot product
+title: Geometric significance of the dot product
 description: The dot product, or inner product, reads the angle between two vectors, a right angle, and the work of a force.
 tags:
   - Linear algebra
@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The dot product, also called the inner product, is
 

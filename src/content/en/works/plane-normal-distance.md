@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The plane with normal vector $\mathbf{n}=(a,b,c)\neq\mathbf{0}$ through $P_0(x_0,y_0,z_0)$:
 
@@ -45,10 +45,10 @@ Multiplying $(a,b,c,h)$ by a nonzero constant does not change the plane. It only
 
 ## Related
 
-- [Space vector and three plane projections](/en/works/space-vector-three-plane-projection/)
+- [Spatial vector and three plane projections](/en/works/space-vector-three-plane-projection/)
 - [Where a line meets a plane](/en/works/line-plane-intersection/)
-- [Dot product](/en/works/dot-product-geometry/)
-- [Space vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
+- [Geometric significance of the dot product](/en/works/dot-product-geometry/)
+- [Spatial vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
 
 ## Further reading
 

@@ -17,7 +17,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The Mandelbrot set collects the parameter $c$, not a point on an orbit. Start from $z_0=0$ and repeat $z\mapsto z^2+c$. The values of $c$ that do not escape to infinity make up the Mandelbrot set. Fix that same $c$ and scan different starting points instead. The boundary between the ones that do not escape and the ones that do is the Julia set.
 

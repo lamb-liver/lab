@@ -168,7 +168,7 @@ export default function SpaceVectorsPlanesLinesExploreRoot({ locale }: Props) {
       <div className="space-vectors-explore__stage">
         <div className="space-vectors-explore__visual">
           <p className="space-vectors-explore__visual-title">
-            {en ? 'Space vectors, planes, and lines' : '空間向量與平面直線'}
+            {en ? 'Spatial vectors, planes, and lines' : '空間向量與平面直線'}
           </p>
           <p className="space-vectors-explore__visual-sub">{modeTitle(params.mode, locale)}</p>
           <div
@@ -177,7 +177,7 @@ export default function SpaceVectorsPlanesLinesExploreRoot({ locale }: Props) {
             role="img"
             aria-label={
               en
-                ? 'Space vectors, planes, and lines: drag to rotate the view'
+                ? 'Spatial vectors, planes, and lines: drag to rotate the view'
                 : '空間向量與平面直線互動視覺化：拖動畫面可旋轉視角'
             }
           />

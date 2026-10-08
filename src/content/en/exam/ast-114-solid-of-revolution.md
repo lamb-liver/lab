@@ -1,11 +1,11 @@
 ---
-title: Same area, same volume of revolution?
-description: "114 AST Math A, Written 17: compare a family of functions with the same area, and find the maximum volume of the solid of revolution by the disk method."
+title: Same area, same volume for the solid of revolution?
+description: "114 AST Mathematics I, Non-multiple-choice 17: compare a family of functions with the same area, and find the maximum volume of the solid of revolution by the disk method."
 subject: 分科數甲
 year: 114
 questionType: 非選
 questionNo: '17'
-unit: Senior-high year 3 elective Math A · Applications of integration
+unit: Grade 12 elective Mathematics I · Applications of integration
 topics:
   - Definite integrals
   - Disk method

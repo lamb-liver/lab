@@ -14,7 +14,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The unit circle. The point $P=(p,0)$ lies outside it, and $p$ runs from $1.35$ to $2.4$. The horizontal line passes through the center and meets the circle at $A=(1,0)$ and $B=(-1,0)$. It is a secant. The theorem does not need a diameter; the line passes through the center only to fix those two intersections.
 

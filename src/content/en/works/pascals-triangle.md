@@ -2,7 +2,7 @@
 title: "Pascal's triangle"
 description: A triangular array of binomial coefficients, showing the recurrence, the symmetry, and combinatorial identities.
 tags:
-  - Combinatorics
+  - Combinatorial mathematics
 concepts:
   - binomial-theorem
 audience: Intuitive exploration
@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Row $n$, entry $k$ of Pascal's triangle is the binomial coefficient $\binom{n}{k}$. Row 0 is the single 1 at the top, and entry $k$ runs from 0 to $n$. Each entry is the sum of the two entries above it. The same numbers are the coefficients in the binomial theorem, and the row is symmetric.
 
@@ -47,7 +47,7 @@ The dots on the canvas are these values modulo a prime. A filled dot is a nonzer
 ## Related
 
 - [Path counting](/en/works/combinatorial-path-counting/)
-- [Geometry of the binomial expansion](/en/works/binomial-expansion-geometry/)
+- [Geometric significance of the binomial expansion](/en/works/binomial-expansion-geometry/)
 - [Catalan numbers](/en/works/catalan-numbers/)
 
 ## Further reading

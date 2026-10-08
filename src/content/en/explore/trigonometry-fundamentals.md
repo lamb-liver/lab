@@ -26,7 +26,7 @@ The same functions then play three roles: coordinates on the unit circle, side-a
 ## Interaction
 
 - **Circle to definition**: drag **Angle θ** and watch $P(\theta)$ move with $\sin\theta$, $\cos\theta$, and $\tan\theta$. When $\cos\theta=0$, tangent is undefined
-- **Angle to triangle**: drag vertices A, B, and C. The side lengths, the angles, and the circumradius line up with the law of sines and the law of cosines. **Reset triangle** restores the starting triangle
+- **Angle to triangle**: drag vertices A, B, and C. The side lengths, the angles, and the circumradius line up with the sine law and the cosine law. **Reset triangle** restores the starting triangle
 - **Rotation to formula**: drag **Angle α** and **Angle β** and watch the sum angle $\alpha+\beta$ against the angle-addition formulas for $\sin(\alpha+\beta)$ and $\cos(\alpha+\beta)$
 - **Advanced guide: on**: show the extra guides. In the rotation view the formula list adds $2\sin\alpha\cos\beta=\sin(\alpha+\beta)+\sin(\alpha-\beta)$
 
@@ -41,7 +41,7 @@ Suggested order: Circle to definition, then Angle to triangle, then Rotation to 
 ## Related
 
 - [Unit circle and trigonometric definitions](/en/works/unit-circle-trig-definition/)
-- [Law of sines and law of cosines](/en/works/law-of-sines-cosines/)
+- [Sine law and cosine law](/en/works/law-of-sines-cosines/)
 - [Trigonometric identities and angle sums](/en/works/trig-angle-identities/)
 
 ## Further reading

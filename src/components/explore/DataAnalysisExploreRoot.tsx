@@ -71,7 +71,7 @@ const RED = [231, 111, 81] as const;
 function modeOptions(locale?: 'en'): Array<{ key: Mode; label: string }> {
   const en = locale === 'en';
   return [
-    { key: 'scatter', label: en ? 'Scatter and regression' : '散布與迴歸' },
+    { key: 'scatter', label: en ? 'Scatter diagram and regression' : '散布與迴歸' },
     { key: 'outlier', label: en ? 'Outlier influence' : '離群值影響' },
     { key: 'boxplot', label: en ? 'Percentile box' : '百分位盒鬚' },
   ];

@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Each line joins an intercept on the horizontal axis to an intercept on the vertical axis, and the same line is copied into all four quadrants. The figure draws those lines, not a separate outline. The parabolic boundary is the envelope you read off the lines.
 

@@ -17,7 +17,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The degree-$n$ Taylor polynomial of a function $f$ at $x=a$:
 

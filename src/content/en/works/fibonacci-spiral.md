@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The Fibonacci sequence $F_n$ satisfies $F_n=F_{n-1}+F_{n-2}$. Squares of side $F_n$, arranged in a spiral, with a quarter-circle in each square, give the classical construction that approaches a logarithmic spiral.
 

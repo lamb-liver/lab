@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 A standing wave is what two waves of equal amplitude and frequency produce when they travel in opposite directions. This figure draws the equivalent closed form, so the nodes and antinodes are easy to compare:
 

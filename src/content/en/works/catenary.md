@@ -15,7 +15,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The puller moves along the x-axis and tows an object with a rope of length **L**. The path is a tractrix:
 

@@ -44,7 +44,7 @@ Suggested order: Complex arithmetic, then Euler's formula, then De Moivre's form
 
 ## Related
 
-- [Geometry of complex arithmetic](/en/works/complex-arithmetic-geometry/)
+- [Geometric significance of complex arithmetic](/en/works/complex-arithmetic-geometry/)
 - [Polar form of a complex number](/en/works/complex-polar-form/)
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
 - [Julia set](/en/works/julia-set/)

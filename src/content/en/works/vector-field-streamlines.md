@@ -16,7 +16,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Given a vector field $\mathbf{F}(x,y)=(F_x,F_y)$, a streamline is a solution of this ordinary differential equation:
 

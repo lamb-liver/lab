@@ -1,11 +1,11 @@
 ---
 title: Equal distances and a square on the unit circle
-description: "111 AST Math A, Fill-in 11: read the complex absolute value as a distance, and find the complex number in quadrant I from the perpendicular bisector of a chord of the unit circle."
+description: "111 AST Mathematics I, Fill-in 11: read the complex absolute value as a distance, and find the complex number in quadrant I from the perpendicular bisector of a chord of the unit circle."
 subject: 分科數甲
 year: 111
 questionType: 選填
 questionNo: '11'
-unit: Senior-high year 3 elective Math A · The complex plane
+unit: Grade 12 elective Mathematics I · The complex plane
 topics:
   - The complex plane
   - Complex absolute value

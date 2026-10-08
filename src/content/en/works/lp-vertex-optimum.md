@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Given the vertices $\{V_j=(x_j,y_j)\}$ of a convex feasible polygon and the objective $z=px+qy$, the vertex method computes, one vertex at a time,
 

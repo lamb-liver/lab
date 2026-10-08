@@ -1,8 +1,8 @@
 ---
-title: Geometry of the binomial expansion
+title: Geometric significance of the binomial expansion
 description: Cutting a square or a cube into blocks shows the expansion of (a+b)^n and where its coefficients come from.
 tags:
-  - Combinatorics
+  - Combinatorial mathematics
 audience: High-school concept
 concepts:
   - binomial-theorem
@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 $(a+b)^2=a^2+2ab+b^2$ is a square of side $a+b$ cut into four blocks. $(a+b)^3$ is a cube of side $a+b$ cut into eight blocks and drawn as an oblique projection, not an unfolded net. In the expansion, $\binom{n}{k}$ counts the ways to choose $k$ factors equal to $b$ and leave the rest equal to $a$. The picture shows $n=2$ and $n=3$ only.
 

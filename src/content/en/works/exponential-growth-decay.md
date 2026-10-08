@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The exponential $y=Ce^{kt}$ grows without bound when $k>0$, and decays toward $0$ when $k<0$. The doubling time $T_+=\ln 2/k$ and the half-life $T_{1/2}=\ln 2/|k|$ turn the rate $k$ into a time you can see on the axis. The same relation is the slope.
 

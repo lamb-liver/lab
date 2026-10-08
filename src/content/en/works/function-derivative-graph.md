@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 If $f$ is differentiable, the derivative $f'$ records the instantaneous slope of $f$ at each point:
 

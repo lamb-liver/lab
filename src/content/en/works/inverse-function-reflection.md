@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 If $f$ has an inverse $f^{-1}$, then
 

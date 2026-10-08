@@ -1,11 +1,11 @@
 ---
 title: Center of symmetry of a cubic
-description: 114 GSAT Math A fill-in 13 uses polynomial division and the quotient's axis of symmetry to locate the cubic's center of symmetry.
+description: 114 GSAT Mathematics A, Fill-in 13 uses polynomial division and the quotient's axis of symmetry to locate the cubic's center of symmetry.
 subject: 學測數A
 year: 114
 questionType: 選填
 questionNo: '13'
-unit: Required senior-high math, polynomial functions
+unit: Grade 10 required mathematics · Polynomial functions
 topics:
   - Polynomial division
   - Remainder theorem
@@ -30,7 +30,7 @@ draft: false
 
 A cubic polynomial $f(x)$ with real coefficients is divided by $x+6$. The quotient is written $q(x)$, and the remainder is 3. It is given that $q(x)$ attains a maximum of 8 at $x=-6$. The question asks for the center of symmetry of the graph $y=f(x)$.
 
-The full paper is the [CEEC GSAT Math A 114 paper](https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf).
+The full paper is the [CEEC GSAT Mathematics A 114 paper](https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf).
 
 ## Where it goes wrong
 

@@ -2,7 +2,7 @@
 title: Catalan numbers
 description: Catalan numbers count matched parentheses, lattice paths that do not cross the diagonal, and triangulations of a convex polygon.
 tags:
-  - Combinatorics
+  - Combinatorial mathematics
 concepts:
   - permutation-combination
 audience: High-school concept
@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The Catalan number $C_n=\dfrac{1}{n+1}\binom{2n}{n}$ counts several structures: the valid matchings of $n$ pairs of parentheses, the lattice paths from $(0,0)$ to $(n,n)$ that do not cross the diagonal, the triangulations of a convex $(n+2)$-gon, and others. The figure switches among views of the same $C_n$.
 
@@ -42,7 +42,7 @@ $$
 
 - [Pascal's triangle](/en/works/pascals-triangle/)
 - [Path counting](/en/works/combinatorial-path-counting/)
-- [Geometry of the binomial expansion](/en/works/binomial-expansion-geometry/)
+- [Geometric significance of the binomial expansion](/en/works/binomial-expansion-geometry/)
 
 ## Further reading
 

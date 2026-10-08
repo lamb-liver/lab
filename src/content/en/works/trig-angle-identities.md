@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The angles $\alpha$ and $\beta$ are two directions on the unit circle. A sum-to-product identity rewrites a sum or a difference as a product in the midpoint angle $m=\dfrac{\alpha+\beta}{2}$ and the offset $d=\dfrac{\alpha-\beta}{2}$. For example,
 
@@ -52,7 +52,7 @@ The angle-addition formula $\sin(\alpha+\beta)$ and the double-angle formula $\s
 ## Related
 
 - [Unit circle and trigonometric definitions](/en/works/unit-circle-trig-definition/)
-- [Law of sines and law of cosines](/en/works/law-of-sines-cosines/)
+- [Sine law and cosine law](/en/works/law-of-sines-cosines/)
 - [Geometric definitions and trigonometric identities](/en/explore/trigonometry-fundamentals/)
 
 ## Further reading

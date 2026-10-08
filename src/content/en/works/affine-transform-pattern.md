@@ -1,5 +1,5 @@
 ---
-title: Affine transform pattern
+title: Affine transformation pattern
 description: Affine maps that combine translation, rotation, and scaling, iterated on a pattern.
 audience: Intuitive exploration
 tags:
@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 An affine map adds a translation to the linear part, so a shape can move and copy itself:
 
@@ -47,7 +47,7 @@ $$
 
 ## Related
 
-- [Linear transform grid](/en/works/linear-transform-grid/)
+- [Linear transformation grid](/en/works/linear-transform-grid/)
 - [Iterated affine fractal](/en/works/affine-ifs-fractal/)
 - [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
 

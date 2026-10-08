@@ -40,7 +40,7 @@ function englishMetadata(metadata: CurveMetadata, plane: ProjectionPlane): Curve
     ...metadata,
     title:
       plane === 'all'
-        ? 'Space vector and three plane projections'
+        ? 'Spatial vector and three plane projections'
         : `${plane} plane projection`,
     stats: metadata.stats.map((stat) => {
       if (stat.key === 'xy' || stat.key === 'xz' || stat.key === 'yz') {
@@ -163,7 +163,7 @@ export default function SpaceVectorThreePlaneProjectionCurveRoot({
         className="curve-work-canvas-host work-canvas"
         aria-label={
           locale === 'en'
-            ? 'Space vector and three plane projections: drag to rotate the view'
+            ? 'Spatial vector and three plane projections: drag to rotate the view'
             : '空間向量與三平面投影互動：拖動畫面可旋轉視角'
         }
       />

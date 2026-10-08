@@ -9,7 +9,7 @@ type Props = {
 };
 
 function englishMetadata(metadata: CurveMetadata): CurveMetadata {
-  return { ...metadata, title: 'Linear transform grid' };
+  return { ...metadata, title: 'Linear transformation grid' };
 }
 
 export default function LinearTransformGridCurveRoot({ controlsMountId, locale }: Props) {
@@ -19,7 +19,7 @@ export default function LinearTransformGridCurveRoot({ controlsMountId, locale }
       module={linearTransformGridModule}
       useCanvas={useLinearTransformGridP5}
       controlsMountId={controlsMountId}
-      canvasAriaLabel={en ? 'Linear transform grid' : '線性變換網格動畫'}
+      canvasAriaLabel={en ? 'Linear transformation grid' : '線性變換網格動畫'}
       locale={locale}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={

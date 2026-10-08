@@ -24,17 +24,20 @@ export function isAmcSubject(subject: string): boolean {
   return (amcExamSubjects as readonly string[]).includes(subject);
 }
 
+// 官方英文名：學科能力測驗 GSAT、分科測驗 AST（大考中心英文網站）；
+// 數學A／B、數學甲 = Mathematics A／B、Mathematics I（教育部 108 數學領綱英文版）
 const EN_SUBJECT: Record<string, string> = {
-  '學測數A': 'GSAT Math A',
-  '學測數B': 'GSAT Math B',
-  '分科數甲': 'AST Math A',
+  '學測數A': 'GSAT Mathematics A',
+  '學測數B': 'GSAT Mathematics B',
+  '分科數甲': 'AST Mathematics I',
 };
 
 const EN_QUESTION_TYPE: Record<string, string> = {
   單選: 'Multiple choice',
   多選: 'Multiple select',
   選填: 'Fill-in',
-  非選: 'Written',
+  // 大考中心英文網站稱非選擇題為 non-multiple-choice questions；單選／多選／選填無官方英文
+  非選: 'Non-multiple-choice',
 };
 
 /** 篩選按鈕等只顯示考科名稱的地方；AMC 考科名稱本來就是英文 */
@@ -46,7 +49,7 @@ export function examSubjectLabel(subject: string, locale?: 'en'): string {
 export function examSourceLabel(data: ExamSourceFields, locale?: 'en'): string {
   if (locale === 'en') {
     const subject = EN_SUBJECT[data.subject] ?? data.subject;
-    if (isAmcSubject(data.subject)) return `${data.year} ${subject}, Problem ${data.questionNo}`;
+    if (isAmcSubject(data.subject)) return `${data.year} ${subject}, Problem #${data.questionNo}`;
     const type = EN_QUESTION_TYPE[data.questionType] ?? data.questionType;
     return `${data.year} ${subject}, ${type} ${data.questionNo}`;
   }
@@ -75,7 +78,8 @@ export function examSourceLinkLabels(
 export function examCreditLine(data: ExamSourceFields, locale?: 'en'): string | null {
   if (!isAmcSubject(data.subject)) return null;
   if (locale === 'en') {
-    return `Source: ${data.year} ${data.subject}, Problem #${data.questionNo} © MAA`;
+    // MAA 官方解答本：All problems should be credited to the MAA AMC（例 "2017 AMC 12 B, Problem #21"）
+    return `Source: MAA AMC, ${data.year} ${data.subject}, Problem #${data.questionNo}. © ${data.year} Mathematical Association of America`;
   }
   return `題目出處：${data.year} ${data.subject}, Problem #${data.questionNo} © MAA`;
 }

@@ -15,7 +15,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The right endpoint moves along this curve:
 

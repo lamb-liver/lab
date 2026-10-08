@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 On a circle of radius $r$, the arc subtended by a central angle $\theta$ in radians has length
 

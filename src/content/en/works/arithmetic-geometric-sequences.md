@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 An arithmetic sequence $a_n=a_1+(n-1)d$ is a row of bars whose heights lie on one slanted line. A geometric sequence $a_n=a_1 r^{n-1}$ is a row of rectangles of equal height, with each width scaled to that term. The number beside the picture is the closed form of $S_n$.
 
@@ -45,7 +45,7 @@ $$
 
 - [Fibonacci spiral](/en/works/fibonacci-spiral/)
 - [Basel problem](/en/works/basel-problem/)
-- [Geometry of the binomial expansion](/en/works/binomial-expansion-geometry/)
+- [Geometric significance of the binomial expansion](/en/works/binomial-expansion-geometry/)
 
 ## Further reading
 

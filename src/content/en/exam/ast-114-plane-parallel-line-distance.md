@@ -1,11 +1,11 @@
 ---
 title: Distance between parallel traces of a plane on the coordinate planes
-description: "114 AST Math A, Fill-in 10: a plane meets two coordinate planes in parallel lines; find the shortest distance between them."
+description: "114 AST Mathematics I, Fill-in 10: a plane meets two coordinate planes in parallel lines; find the shortest distance between them."
 subject: 分科數甲
 year: 114
 questionType: 選填
 questionNo: '10'
-unit: Senior-high year 2, Math A · Planes and lines in space
+unit: Grade 11 Mathematics I · Planes and lines in space
 topics:
   - Traces of a plane on the coordinate planes
   - Distance between parallel lines

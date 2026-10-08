@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Vectors $\mathbf{u},\mathbf{v}\in\mathbb{R}^2$ add by the parallelogram rule. The same sum is the third side of the triangle that goes along $\mathbf{u}$ and then along $\mathbf{v}$. Scalar multiplication $c\mathbf{v}$ changes the length of $\mathbf{v}$. When $c<0$ it also reverses the direction, and when $c=0$ the scaled arrow is a point. These two operations are what a linear combination $a\mathbf{u}+b\mathbf{v}$ is built from.
 
@@ -35,9 +35,9 @@ The dashed sides of the parallelogram run from the tip of $\mathbf{u}$ to $\math
 
 ## Related
 
-- [Dot product](/en/works/dot-product-geometry/)
+- [Geometric significance of the dot product](/en/works/dot-product-geometry/)
 - [Vector projection](/en/works/vector-projection/)
-- [Linear transform grid](/en/works/linear-transform-grid/)
+- [Linear transformation grid](/en/works/linear-transform-grid/)
 
 ## Further reading
 

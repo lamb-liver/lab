@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The nodal lines are where the amplitude on the square is zero, for the mode the controls select:
 

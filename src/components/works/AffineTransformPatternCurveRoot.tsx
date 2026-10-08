@@ -15,7 +15,7 @@ const EN_LABELS: Record<string, string> = {
 };
 
 function englishMetadata(metadata: CurveMetadata): CurveMetadata {
-  return { ...metadata, title: 'Affine transform pattern' };
+  return { ...metadata, title: 'Affine transformation pattern' };
 }
 
 export default function AffineTransformPatternCurveRoot({ controlsMountId, locale }: Props) {
@@ -25,7 +25,7 @@ export default function AffineTransformPatternCurveRoot({ controlsMountId, local
       module={affineTransformPatternModule}
       useCanvas={useAffineTransformPatternP5}
       controlsMountId={controlsMountId}
-      canvasAriaLabel={en ? 'Affine transform pattern' : '仿射變換圖樣動畫'}
+      canvasAriaLabel={en ? 'Affine transformation pattern' : '仿射變換圖樣動畫'}
       locale={locale}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={en ? EN_LABELS : undefined}

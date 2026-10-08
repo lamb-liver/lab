@@ -15,7 +15,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The level curve of a function $f(x,y)$ of two variables is the set of points where $f(x,y)=c$. The gradient $\nabla f$ is the vector of partial derivatives. It points where $f$ increases fastest, and it is orthogonal to the level curve through that point.
 

@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 A needle of length $\ell$ falls at random onto parallel lines spaced $d$ apart, with $\ell\le d$. The probability that the needle crosses a line is $2\ell/(\pi d)$. After many throws, the rate of crossings estimates $\pi$.
 

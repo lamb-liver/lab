@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Two sources stand a distance $d$ apart. The path difference from a point to the two sources decides, in the formula, whether the waves meet in phase or out of phase. The figure draws the in-phase curves, the bright fringes $\Delta r = n\lambda$. For $n \neq 0$ those curves are hyperbolas:
 

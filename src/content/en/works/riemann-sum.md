@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 On the interval $[0,1]$, take $n$ rectangles of equal width. The height is the left endpoint $f(x_i)$:
 

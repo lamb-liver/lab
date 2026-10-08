@@ -5,7 +5,7 @@ subject: 分科數甲
 year: 111
 questionType: 多選
 questionNo: '7'
-unit: Senior-high year 3 elective Math A · Conic sections
+unit: Grade 12 elective Mathematics I · Conic sections
 topics:
   - Parabola definition
   - Focus and directrix
@@ -28,7 +28,7 @@ draft: false
 
 ## Problem
 
-The chord through two points $A$ and $B$ on a parabola passes through the focus $F$. Drop perpendiculars from $A$, $F$, and $B$ to the directrix, meeting it at $A'$, $F'$, and $B'$. Among five trigonometric ratios, find the ones equal to $\dfrac{A'F'}{A'A}$. The figure and the options are on the [original 111 AST Math A paper](https://www.ceec.edu.tw/files/file_pool/1/0m223505137960339935/01-111%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7%E5%AE%9A%E7%A8%BF.pdf).
+The chord through two points $A$ and $B$ on a parabola passes through the focus $F$. Drop perpendiculars from $A$, $F$, and $B$ to the directrix, meeting it at $A'$, $F'$, and $B'$. Among five trigonometric ratios, find the ones equal to $\dfrac{A'F'}{A'A}$. The figure and the options are on the [original 111 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0m223505137960339935/01-111%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7%E5%AE%9A%E7%A8%BF.pdf).
 
 ## Where it goes wrong
 

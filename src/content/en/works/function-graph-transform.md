@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Start from a basic function $f$. The general transformation is
 
@@ -42,7 +42,7 @@ The figure draws the faint base curve and the transformed curve together, so the
 
 - [Function graphs and solution sets](/en/explore/function-equations/)
 - [Completing the square](/en/works/quadratic-completing-square/)
-- [Affine transform pattern](/en/works/affine-transform-pattern/)
+- [Affine transformation pattern](/en/works/affine-transform-pattern/)
 
 ## Further reading
 

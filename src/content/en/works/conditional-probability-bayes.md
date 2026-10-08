@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 $P(A\mid B)$ is how likely $A$ is once $B$ has already happened. Bayes' theorem ties that probability to $P(B\mid A)$, the probability of the result given the cause. It is the core of how diagnosis, screening, and machine learning update a belief.
 

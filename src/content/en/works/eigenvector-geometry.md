@@ -17,7 +17,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Let $A$ be a $2\times 2$ matrix. A nonzero vector $\mathbf v\ne\mathbf 0$ that satisfies
 
@@ -48,9 +48,9 @@ If $\lambda>0$, it stretches in the same direction and its length becomes $|\lam
 
 ## Related
 
-- [Linear transform grid](/en/works/linear-transform-grid/)
+- [Linear transformation grid](/en/works/linear-transform-grid/)
 - [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
-- [Matrix and linear transform](/en/explore/matrix-linear-transform/)
+- [Matrix and linear transformation](/en/explore/matrix-linear-transform/)
 
 ## Further reading
 

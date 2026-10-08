@@ -16,7 +16,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Write $z$ in polar form as $z=re^{i\theta}$. A power and a root then change only two things: the power of the modulus, and the multiple of the argument.
 
@@ -47,7 +47,7 @@ They lie on one circle, and neighboring arguments differ by $2\pi/n$. The root w
 ## Related
 
 - [Polar form of a complex number](/en/works/complex-polar-form/)
-- [Geometry of complex arithmetic](/en/works/complex-arithmetic-geometry/)
+- [Geometric significance of complex arithmetic](/en/works/complex-arithmetic-geometry/)
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
 - [Complex numbers and Euler's formula](/en/explore/complex-euler-formula/)
 

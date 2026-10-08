@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 A single point $P(x,y)$ is sent through one of four affine maps, chosen at random with set probabilities. After many iterations the points gather into a fern-shaped attractor:
 
@@ -42,7 +42,7 @@ $$
 
 ## Related
 
-- [Affine transform pattern](/en/works/affine-transform-pattern/)
+- [Affine transformation pattern](/en/works/affine-transform-pattern/)
 - [Sierpinski triangle](/en/works/sierpinski-triangle/)
 
 ## Further reading

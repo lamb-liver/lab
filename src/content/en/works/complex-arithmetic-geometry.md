@@ -1,5 +1,5 @@
 ---
-title: Geometry of complex arithmetic
+title: Geometric significance of complex arithmetic
 description: On the complex plane, addition combines vectors, and multiplication scales by the moduli and rotates by the sum of the arguments.
 tags:
   - Geometry
@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Adding complex numbers translates and combines vectors in the plane. Multiplying them adds the arguments and multiplies the moduli. The moving arrows show the algebra and the geometry at the same time.
 

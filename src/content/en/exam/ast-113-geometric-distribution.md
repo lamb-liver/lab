@@ -5,7 +5,7 @@ subject: 分科數甲
 year: 113
 questionType: 多選
 questionNo: '4'
-unit: Senior-high year 3 elective Math A · Probability and random variables
+unit: Grade 12 elective Mathematics I · Probability and random variables
 topics:
   - Geometric distribution
   - Expected value
@@ -31,7 +31,7 @@ draft: false
 
 ## Problem
 
-Each draw wins with fixed probability $0.1$, and each draw spends one token. The question asks for the mean number of draws until the first win, the chance of at least one win from a finite number of tokens, and the least number of tokens that pushes that chance strictly above nine-tenths. The full question and the options are on the [original 113 AST Math A paper](https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf).
+Each draw wins with fixed probability $0.1$, and each draw spends one token. The question asks for the mean number of draws until the first win, the chance of at least one win from a finite number of tokens, and the least number of tokens that pushes that chance strictly above nine-tenths. The full question and the options are on the [original 113 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf).
 
 ## Where it goes wrong
 

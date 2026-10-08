@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The natural logarithm can be defined by $\displaystyle \ln t=\int_1^t \frac{1}{x}\,dx$. When $t>1$, this is the positive area bounded by the hyperbola $y=1/x$, the $x$-axis, $x=1$, and $x=t$. When $0<t<1$, it is a signed area. The number $e$ satisfies $\ln e=1$. It is the unique positive number that makes this integral equal to $1$. $\ln$ and $e^x$ are inverses of each other.
 
