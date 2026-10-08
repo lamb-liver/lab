@@ -56,7 +56,7 @@ In all three starting systems the first two equations are $x=1$ and $y=1$, so th
 
 ## Related
 
-- [The same row operations, as a linear combination](/exam/ast-113-augmented-matrix-row-operations/)
+- [The same row operations, as a linear combination](/en/exam/ast-113-augmented-matrix-row-operations/)
 - [Where a line meets a plane](/en/works/line-plane-intersection/)
 - [Linear transform grid](/en/works/linear-transform-grid/)
 

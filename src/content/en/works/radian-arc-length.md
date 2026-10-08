@@ -42,7 +42,7 @@ $$
 ## Related
 
 - [Unit circle and trigonometric definitions](/en/works/unit-circle-trig-definition/)
-- [Trigonometric graphs and radians](/explore/trig-function-graphs/)
+- [Trigonometric graphs and radians](/en/explore/trig-function-graphs/)
 
 ## Further reading
 

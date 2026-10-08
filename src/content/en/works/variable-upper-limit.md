@@ -49,7 +49,7 @@ Adding a constant to an antiderivative does not change the difference of the two
 - [Riemann sum](/en/works/riemann-sum/)
 - [Tangent approximation](/en/works/tangent-approximation/)
 - [Geometric definition of the natural logarithm](/en/works/natural-log-e-geometry/)
-- [Limits and Riemann sums](/explore/limits-riemann-sum/)
+- [Limits and Riemann sums](/en/explore/limits-riemann-sum/)
 
 ## Further reading
 

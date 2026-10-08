@@ -49,7 +49,7 @@ decides whether the graph meets the $x$-axis in two points, touches it at one po
 
 ## Related
 
-- [Function graphs and solution sets](/explore/function-equations/)
+- [Function graphs and solution sets](/en/explore/function-equations/)
 - [Function graph transformations](/en/works/function-graph-transform/)
 - [Polynomial roots and multiplicity](/en/works/polynomial-roots-multiplicity/)
 - [Tangent approximation](/en/works/tangent-approximation/)

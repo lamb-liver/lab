@@ -46,7 +46,7 @@ The interquartile range is $\mathrm{IQR}=Q_3-Q_1$. Whiskers stop at the outermos
 
 - [Scatter, correlation, and the regression line](/en/works/scatter-correlation-regression/)
 - [An outlier's effect on the regression line](/en/works/regression-outlier-influence/)
-- [Data analysis](/explore/data-analysis/)
+- [Data analysis](/en/explore/data-analysis/)
 
 ## Further reading
 

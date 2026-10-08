@@ -47,7 +47,7 @@ When the $x_i$ are not all equal, the least-squares line $\hat y=a+bx$ is the li
 
 - [An outlier's effect on the regression line](/en/works/regression-outlier-influence/)
 - [Percentiles and a box plot](/en/works/percentile-box-plot/)
-- [Data analysis](/explore/data-analysis/)
+- [Data analysis](/en/explore/data-analysis/)
 
 ## Further reading
 

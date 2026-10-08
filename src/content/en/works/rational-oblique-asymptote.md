@@ -68,7 +68,7 @@ approaches $y=x$ far away, and after cancellation $x=0$ is a vertical asymptote.
 
 - [Vertical and horizontal asymptotes](/en/works/rational-vertical-horizontal-asymptotes/)
 - [Polynomial zeros and multiplicity](/en/works/polynomial-roots-multiplicity/)
-- [Rational functions and asymptotes](/explore/rational-functions-asymptotes/)
+- [Rational functions and asymptotes](/en/explore/rational-functions-asymptotes/)
 
 ## Further reading
 

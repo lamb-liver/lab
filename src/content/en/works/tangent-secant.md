@@ -36,7 +36,7 @@ $|PT|^2$ and $|PA|\cdot|PB|$ are both computed from unrounded lengths measured a
 ## Related
 
 - [Two secants](/en/works/two-secants/)
-- [Secants and tangents](/explore/secants-and-tangents/)
+- [Secants and tangents](/en/explore/secants-and-tangents/)
 
 ## Further reading
 

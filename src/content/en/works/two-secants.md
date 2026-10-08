@@ -36,7 +36,7 @@ $P$ stays outside the circle, and the lengths are unsigned. This page does not u
 ## Related
 
 - [Tangent and a secant](/en/works/tangent-secant/)
-- [Secants and tangents](/explore/secants-and-tangents/)
+- [Secants and tangents](/en/explore/secants-and-tangents/)
 
 ## Further reading
 

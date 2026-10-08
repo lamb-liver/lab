@@ -45,7 +45,7 @@ $$
 ## Related
 
 - [Tangent approximation](/en/works/tangent-approximation/)
-- [Limits and Riemann sums](/explore/limits-riemann-sum/)
+- [Limits and Riemann sums](/en/explore/limits-riemann-sum/)
 
 ## Further reading
 

@@ -42,7 +42,7 @@ In general, $re^{i\theta}$ is the complex number of modulus $r$ and argument $\t
 ## Related
 
 - [Polar form of a complex number](/en/works/complex-polar-form/)
-- [Complex numbers and Euler's formula](/explore/complex-euler-formula/)
+- [Complex numbers and Euler's formula](/en/explore/complex-euler-formula/)
 - [Julia set](/en/works/julia-set/)
 
 ## Further reading

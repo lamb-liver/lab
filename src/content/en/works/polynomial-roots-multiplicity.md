@@ -40,7 +40,7 @@ The equation $f(x)=0$ asks where the zeros are. The inequality $f(x)>0$ asks whi
 
 ## Related
 
-- [Function graphs and solution sets](/explore/function-equations/)
+- [Function graphs and solution sets](/en/explore/function-equations/)
 - [Completing the square](/en/works/quadratic-completing-square/)
 - [Function graph transformations](/en/works/function-graph-transform/)
 

@@ -45,7 +45,7 @@ On this figure $|\mathbf{a}|$ is fixed at $3$. The length $|\mathbf{b}|$ runs fr
 - [Space vector and three plane projections](/en/works/space-vector-three-plane-projection/)
 - [Plane normal and distance from a point](/en/works/plane-normal-distance/)
 - [Vector projection](/en/works/vector-projection/)
-- [Space vectors, planes, and lines](/explore/space-vectors-planes-lines/)
+- [Space vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
 
 ## Further reading
 

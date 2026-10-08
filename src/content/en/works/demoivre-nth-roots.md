@@ -49,7 +49,7 @@ They lie on one circle, and neighboring arguments differ by $2\pi/n$. The root w
 - [Polar form of a complex number](/en/works/complex-polar-form/)
 - [Geometry of complex arithmetic](/en/works/complex-arithmetic-geometry/)
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
-- [Complex numbers and Euler's formula](/explore/complex-euler-formula/)
+- [Complex numbers and Euler's formula](/en/explore/complex-euler-formula/)
 
 ## Further reading
 

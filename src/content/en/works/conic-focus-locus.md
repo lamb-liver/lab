@@ -39,7 +39,7 @@ $$
 
 - [Conic envelope](/en/works/conic-envelope/)
 - [Parabolic reflection](/en/works/parabolic-reflection/)
-- [Conics by eccentricity](/explore/conic-dynamic-geometry/)
+- [Conics by eccentricity](/en/explore/conic-dynamic-geometry/)
 
 ## Further reading
 

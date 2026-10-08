@@ -39,7 +39,7 @@ $$
 
 - [Polar form of a complex number](/en/works/complex-polar-form/)
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
-- [Complex numbers and Euler's formula](/explore/complex-euler-formula/)
+- [Complex numbers and Euler's formula](/en/explore/complex-euler-formula/)
 
 ## Further reading
 

@@ -46,7 +46,7 @@ When $C=90^\circ$, this reduces to the Pythagorean theorem $c^2=a^2+b^2$.
 
 - [Unit circle and trigonometric definitions](/en/works/unit-circle-trig-definition/)
 - [Trigonometric identities and angle sums](/en/works/trig-angle-identities/)
-- [Geometric definitions and trigonometric identities](/explore/trigonometry-fundamentals/)
+- [Geometric definitions and trigonometric identities](/en/explore/trigonometry-fundamentals/)
 
 ## Further reading
 

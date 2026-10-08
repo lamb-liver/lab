@@ -40,7 +40,7 @@ The figure draws the faint base curve and the transformed curve together, so the
 
 ## Related
 
-- [Function graphs and solution sets](/explore/function-equations/)
+- [Function graphs and solution sets](/en/explore/function-equations/)
 - [Completing the square](/en/works/quadratic-completing-square/)
 - [Affine transform pattern](/works/affine-transform-pattern/)
 

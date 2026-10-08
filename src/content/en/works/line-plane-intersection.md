@@ -52,7 +52,7 @@ If $\mathbf{n}\cdot\mathbf{d}=0$, the line is parallel to the plane, or the whol
 
 - [Space vector and three plane projections](/en/works/space-vector-three-plane-projection/)
 - [Plane normal and distance from a point](/en/works/plane-normal-distance/)
-- [Space vectors, planes, and lines](/explore/space-vectors-planes-lines/)
+- [Space vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
 
 ## Further reading
 
