@@ -31,7 +31,7 @@ draft: false
 
 Let $A$ and $B$ be the rotations about the origin by $90°$ clockwise and counterclockwise, and let $C$ and $D$ be the reflections in the lines $x=y$ and $x=-y$. Pick the correct statements about images of points, negatives of matrices, inverses, and compositions.
 
-The full question and options are on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0n045358375872115148/03-112%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf).
+The full question and options are on the [CEEC 112 GSAT Mathematics A paper](https://www.ceec.edu.tw/files/file_pool/1/0n045358375872115148/03-112%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 

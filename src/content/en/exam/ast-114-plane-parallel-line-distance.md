@@ -32,7 +32,7 @@ draft: false
 
 A plane in space meets $x=0$ in the line $L_1$ and $z=0$ in the line $L_2$. It is given that $L_1\parallel L_2$, that $L_1$ passes through $(0,2,-11)$, and that $L_2$ passes through $(8,21,0)$. Find the distance between the two lines, in simplest radical form.
 
-The full question is on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0P192554390266335672/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf).
+The full question is on the [CEEC 114 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0P192554390266335672/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 

@@ -30,7 +30,7 @@ draft: false
 
 A cubic polynomial $f(x)$ with real coefficients is divided by $x+6$. The quotient is written $q(x)$, and the remainder is 3. It is given that $q(x)$ attains a maximum of 8 at $x=-6$. The question asks for the center of symmetry of the graph $y=f(x)$.
 
-The full paper is the [CEEC GSAT Mathematics A 114 paper](https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf).
+The full paper is the [CEEC 114 GSAT Mathematics A paper](https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf).
 
 ## Where it goes wrong
 

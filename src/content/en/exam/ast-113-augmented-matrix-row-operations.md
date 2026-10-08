@@ -1,6 +1,6 @@
 ---
 title: The same row operations, as a linear combination
-description: The same row operations preserve a linear combination of the constant columns, which gives the solution of the new system.
+description: "113 AST Mathematics I, Fill-in 9: the same row operations preserve a linear combination of the constant columns, which gives the solution of the new system."
 subject: 分科數甲
 year: 113
 questionType: 選填
@@ -29,7 +29,7 @@ draft: false
 
 ## Problem
 
-Two systems of linear equations share the coefficients $a,b,c,d$ and differ only in the constant column. The problem states both augmented matrices after one and the same sequence of row operations, and asks for the solution when that column is changed to the column with entries $0$ and $1$. The full numbers and the answer format are on the [original 113 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf).
+Two systems of linear equations share the coefficients $a,b,c,d$ and differ only in the constant column. The problem states both augmented matrices after one and the same sequence of row operations, and asks for the solution when that column is changed to the column with entries $0$ and $1$. The full numbers and the answer format are on the [CEEC 113 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf).
 
 ## Where it goes wrong
 

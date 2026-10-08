@@ -1,6 +1,6 @@
 ---
 title: Equilateral triangle on three concentric circles
-description: 2025 AMC 12B, Problem #25 turns the radius-2 circle 60° about a vertex so that it is internally tangent to the outer circle, and the squared side is 7.
+description: "2025 AMC 12B, Problem #25 turns the radius-2 circle 60° about a vertex so that it is internally tangent to the outer circle, and the squared side is 7."
 subject: AMC 12B
 year: 2025
 questionType: 單選

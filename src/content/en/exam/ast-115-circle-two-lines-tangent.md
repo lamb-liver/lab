@@ -35,7 +35,7 @@ $$
 L_1:y=\frac43 x,\qquad L_2:y=-\frac34 x.
 $$
 
-Let $d_1$ and $d_2$ be the shortest distances from points of the circle to $L_1$ and $L_2$. If $d_1$ is three times $d_2$, find the slope of a line through the origin that is tangent to the circle, in simplest radical form. The full question is on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0Q194554571830884494/01-115%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf).
+Let $d_1$ and $d_2$ be the shortest distances from points of the circle to $L_1$ and $L_2$. If $d_1$ is three times $d_2$, find the slope of a line through the origin that is tangent to the circle, in simplest radical form. The full question is on the [CEEC 115 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0Q194554571830884494/01-115%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 

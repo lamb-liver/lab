@@ -771,6 +771,29 @@ test.describe('SEO metadata and UX shell', () => {
     await expectAllInternalLinks('zh');
   });
 
+  test('English detail pages list related exam problems in English', async ({ page }) => {
+    await page.goto('/en/works/cross-product-geometry/');
+    const related = page.getByRole('region', { name: 'Related exam problems' });
+    await expect(related.getByRole('heading', { name: 'Related exam problems' })).toBeVisible();
+    await expect(related.locator('a[href="/en/exam/gsat-112-skew-line-distance"]')).toContainText(
+      'Exam: Skew lines',
+    );
+    await expect(related).toContainText('112 GSAT Mathematics A, Fill-in 17');
+    await page.goto('/en/explore/vectors/');
+    await expect(
+      page.getByRole('region', { name: 'Related exam problems' }).locator('a[href^="/en/exam/"]'),
+    ).not.toHaveCount(0);
+  });
+
+  test('English home links the curated paths and the concept index', async ({ page }) => {
+    await page.goto('/en/');
+    const more = page.locator('.home-more-links');
+    await expect(more.locator('a[href="/en/path/trig-to-fourier"]')).toContainText(
+      'From trigonometric functions to Fourier',
+    );
+    await expect(more.locator('a[href="/en/concept"]')).toHaveText('Concept index →');
+  });
+
   test('crawlers are never redirected by the saved language', async ({ browser }) => {
     const base = test.info().project.use.baseURL as string;
     const context = await browser.newContext({

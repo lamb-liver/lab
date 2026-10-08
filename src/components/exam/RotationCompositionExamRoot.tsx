@@ -151,9 +151,9 @@ export default function RotationCompositionExamRoot({ locale }: Props) {
               {en ? 'The four basic transformations' : '四個基本變換'}
             </p>
             <p className="exam-interactive-explore__note">
-              {en ? 'A: 90° clockwise　B: 90° counterclockwise' : 'A：順時針 90°　B：逆時針 90°'}
+              {en ? 'A: 90° clockwise · B: 90° counterclockwise' : 'A：順時針 90°　B：逆時針 90°'}
               <br />
-              {en ? 'C: reflect in x=y　D: reflect in x=−y' : 'C：對 x=y 鏡射　D：對 x=−y 鏡射'}
+              {en ? 'C: reflect in x=y · D: reflect in x=−y' : 'C：對 x=y 鏡射　D：對 x=−y 鏡射'}
             </p>
           </div>
         </aside>

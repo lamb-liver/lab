@@ -30,7 +30,7 @@ draft: false
 
 ## Problem
 
-In coordinate space, two lines $L_1$ and $L_2$ do not meet, and a third line $L_3$ meets both of them at right angles. Points $P$ and $Q$ lie on $L_1$ and $L_2$, and each is at distance $3$ from $L_3$. Find the distance between $P$ and $Q$. The full line equations are on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0n045358375872115148/03-112%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf).
+In coordinate space, two lines $L_1$ and $L_2$ do not meet, and a third line $L_3$ meets both of them at right angles. Points $P$ and $Q$ lie on $L_1$ and $L_2$, and each is at distance $3$ from $L_3$. Find the distance between $P$ and $Q$. The full line equations are on the [CEEC 112 GSAT Mathematics A paper](https://www.ceec.edu.tw/files/file_pool/1/0n045358375872115148/03-112%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 
