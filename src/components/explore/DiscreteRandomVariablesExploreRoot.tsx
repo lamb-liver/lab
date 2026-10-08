@@ -71,22 +71,81 @@ const BG = [10, 10, 10] as const;
 const ACCENT = [212, 184, 122] as const;
 const WHITE = [255, 255, 255] as const;
 
-const MODES: Array<{ id: DiscreteMode; label: string }> = [
-  { id: 'position', label: '位置' },
-  { id: 'spread', label: '展寬' },
-  { id: 'tail', label: '尾端' },
-];
+const TEXT = {
+  zh: {
+    toolbarAria: '離散隨機變數模式',
+    canvasAria: '離散隨機變數互動視覺化',
+    modes: [
+      { id: 'position' as const, label: '位置' },
+      { id: 'spread' as const, label: '展寬' },
+      { id: 'tail' as const, label: '尾端' },
+    ],
+    spreads: [
+      { id: 'compact' as const, label: '集中' },
+      { id: 'uniform' as const, label: '均勻' },
+      { id: 'bimodal' as const, label: '雙峰' },
+    ],
+    tails: [
+      { id: 'binomial' as const, label: '二項' },
+      { id: 'geometric' as const, label: '幾何' },
+    ],
+    parameters: '參數',
+    position: '位置 xᵢ',
+    probability: '機率 pᵢ',
+    dragHint: '在主圖拖動長條高度',
+    resetMass: '重設質量',
+    center: '中心 μ',
+    shape: '形狀 S',
+    trials: '試驗數 n',
+    success: '成功率 p',
+    threshold: '門檻 k',
+    statistics: '統計',
+    formula: '公式',
+    legendPosition: '拖動長條：質量重分配，總和維持 1',
+    legendSpread: '同一中心：比較質量離 μ 的距離',
+    legendBinomial: (n: number) => `固定上界：X = 0, 1, ..., ${n}`,
+    legendGeometric: (label: string) => `${label} 是尾巴收納桶；統計仍讀無限幾何分佈`,
+  },
+  en: {
+    toolbarAria: 'Discrete random variable mode',
+    canvasAria: 'Discrete random variables',
+    modes: [
+      { id: 'position' as const, label: 'Position' },
+      { id: 'spread' as const, label: 'Spread' },
+      { id: 'tail' as const, label: 'Tail' },
+    ],
+    spreads: [
+      { id: 'compact' as const, label: 'Concentrated' },
+      { id: 'uniform' as const, label: 'Uniform' },
+      { id: 'bimodal' as const, label: 'Bimodal' },
+    ],
+    tails: [
+      { id: 'binomial' as const, label: 'Binomial' },
+      { id: 'geometric' as const, label: 'Geometric' },
+    ],
+    parameters: 'Parameters',
+    position: 'Position xᵢ',
+    probability: 'Probability pᵢ',
+    dragHint: 'Drag a bar on the chart',
+    resetMass: 'Reset mass',
+    center: 'Center μ',
+    shape: 'Shape S',
+    trials: 'Trials n',
+    success: 'Success p',
+    threshold: 'Threshold k',
+    statistics: 'Statistics',
+    formula: 'Formula',
+    legendPosition: 'Drag a bar: mass shifts, total stays 1',
+    legendSpread: 'Same center: distance from μ',
+    legendBinomial: (n: number) => `Fixed upper bound: X = 0, 1, ..., ${n}`,
+    legendGeometric: (label: string) =>
+      `${label}: tail bucket; stats use the infinite geometric distribution`,
+  },
+};
 
-const SPREAD_SHAPES: Array<{ id: SpreadShape; label: string }> = [
-  { id: 'compact', label: '集中' },
-  { id: 'uniform', label: '均勻' },
-  { id: 'bimodal', label: '雙峰' },
-];
+type Copy = (typeof TEXT)['zh'] | (typeof TEXT)['en'];
 
-const TAIL_MODELS: Array<{ id: TailModel; label: string }> = [
-  { id: 'binomial', label: '二項' },
-  { id: 'geometric', label: '幾何' },
-];
+type Props = { locale?: 'en' };
 
 function createRuntimeState(): RuntimeState {
   return {
@@ -115,7 +174,10 @@ function isCanvasPointer(p: p5, host: HTMLElement, event?: Event): boolean {
   return p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
 }
 
-export default function DiscreteRandomVariablesExploreRoot() {
+export default function DiscreteRandomVariablesExploreRoot({ locale }: Props) {
+  const copy = locale === 'en' ? TEXT.en : TEXT.zh;
+  const localeRef = useRef(locale);
+  localeRef.current = locale;
   const stateRef = useRef<RuntimeState>(createRuntimeState());
   const uiRef = useRef<UiHits>(createUiHits());
   const lastChartRef = useRef<ChartSnapshot | null>(null);
@@ -140,9 +202,10 @@ export default function DiscreteRandomVariablesExploreRoot() {
     const layout = getLayout(p.width, p.height);
     const frameModel = buildModel(state);
 
+    const active = localeRef.current === 'en' ? TEXT.en : TEXT.zh;
     drawStage(p, layout);
-    drawChart(p, layout.visual, frameModel, state, ui, lastChartRef);
-    drawSidebar(p, layout.sidebar, frameModel, state, ui);
+    drawChart(p, layout.visual, frameModel, state, ui, lastChartRef, active);
+    drawSidebar(p, layout.sidebar, frameModel, state, ui, active);
   }, []);
 
   const extendSketch = useMemo<ExtendSketch>(() => {
@@ -212,7 +275,7 @@ export default function DiscreteRandomVariablesExploreRoot() {
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, extendSketch, {
     loop: false,
-    redrawKey,
+    redrawKey: `${redrawKey}|${locale ?? 'zh'}`,
   });
   const currentMode = stateRef.current.mode;
 
@@ -220,8 +283,8 @@ export default function DiscreteRandomVariablesExploreRoot() {
     <div className="discrete-random-variables-explore">
       <div className="discrete-random-variables-explore__stage">
         <div className="discrete-random-variables-explore__visual">
-          <div className="discrete-random-variables-explore__toolbar" aria-label="離散隨機變數模式">
-            {MODES.map((mode) => (
+          <div className="discrete-random-variables-explore__toolbar" aria-label={copy.toolbarAria}>
+            {copy.modes.map((mode) => (
               <button
                 key={mode.id}
                 type="button"
@@ -237,7 +300,7 @@ export default function DiscreteRandomVariablesExploreRoot() {
             ref={canvasHostRef}
             className="discrete-random-variables-explore__canvas"
             role="img"
-            aria-label="離散隨機變數互動視覺化"
+            aria-label={copy.canvasAria}
           />
         </div>
       </div>
@@ -322,6 +385,7 @@ function drawChart(
   state: RuntimeState,
   ui: UiHits,
   lastChartRef: MutableRefObject<ChartSnapshot | null>,
+  copy: Copy,
 ) {
   const { rows, stats, yMax } = model;
   const m = {
@@ -344,7 +408,7 @@ function drawChart(
   drawBars(p, plot, rows, model, state, ui);
   drawMeanLine(p, plot, rows, stats);
   drawAxes(p, plot, rows, yMax);
-  drawBottomLegend(p, area, rows, state);
+  drawBottomLegend(p, area, rows, state, copy);
 }
 
 function drawGrid(p: p5, plot: Rect) {
@@ -514,18 +578,29 @@ function drawAxes(p: p5, plot: Rect, rows: DistributionRow[], yMax: number) {
   p.text('0', plot.x - 8, plot.y + plot.h);
 }
 
-function drawBottomLegend(p: p5, area: Rect, rows: DistributionRow[], state: RuntimeState) {
+function drawBottomLegend(
+  p: p5,
+  area: Rect,
+  rows: DistributionRow[],
+  state: RuntimeState,
+  copy: Copy,
+) {
   const y = area.y + area.h - 20;
-  let label = '';
+  let label = copy.legendPosition;
 
-  if (state.mode === 'position') label = '拖動長條：質量重分配，總和維持 1';
-  else if (state.mode === 'spread') label = '同一中心：比較質量離 μ 的距離';
-  else if (state.tailModel === 'binomial') label = `固定上界：X = 0, 1, ..., ${Math.round(state.n)}`;
-  else label = `${rows[rows.length - 1].label} 是尾巴收納桶；統計仍讀無限幾何分佈`;
+  if (state.mode === 'spread') label = copy.legendSpread;
+  else if (state.mode === 'tail' && state.tailModel === 'binomial') label = copy.legendBinomial(Math.round(state.n));
+  else if (state.mode === 'tail') label = copy.legendGeometric(rows[rows.length - 1].label);
 
   fillWhite(p, 95);
   p.noStroke();
-  p.textSize(12);
+  let size = 12;
+  p.textSize(size);
+  const maxW = area.w - 8;
+  while (size > 8 && p.textWidth(label) > maxW) {
+    size -= 1;
+    p.textSize(size);
+  }
   p.textAlign(p.CENTER, p.CENTER);
   p.text(label, area.x + area.w / 2, y);
 }
@@ -536,14 +611,15 @@ function drawSidebar(
   model: DistributionModel,
   state: RuntimeState,
   ui: UiHits,
+  copy: Copy,
 ) {
   let y = area.y + 8;
 
-  y = drawParamSection(p, area, y, model, state, ui);
+  y = drawParamSection(p, area, y, model, state, ui, copy);
   y += 18;
-  y = drawStatsSection(p, area, y, model, state);
+  y = drawStatsSection(p, area, y, model, state, copy);
   y += 18;
-  drawFormulaSection(p, area, y, state);
+  drawFormulaSection(p, area, y, state, copy);
 }
 
 function drawParamSection(
@@ -553,27 +629,28 @@ function drawParamSection(
   model: DistributionModel,
   state: RuntimeState,
   ui: UiHits,
+  copy: Copy,
 ) {
   fillWhite(p, 150);
   p.noStroke();
   p.textSize(12);
   p.textAlign(p.LEFT, p.TOP);
-  p.text('參數', area.x, y);
+  p.text(copy.parameters, area.x, y);
   y += 22;
 
   if (state.mode === 'position') {
     const selected = state.selectedIndex;
     const prob = state.positionPmf[selected];
 
-    drawReadout(p, area.x, y, area.w, '位置 xᵢ', String(selected));
+    drawReadout(p, area.x, y, area.w, copy.position, String(selected));
     y += 28;
-    drawReadout(p, area.x, y, area.w, '機率 pᵢ', formatProb(prob));
+    drawReadout(p, area.x, y, area.w, copy.probability, formatProb(prob));
     y += 28;
     y += 4;
-    drawSmallHint(p, area.x, y, '在主圖拖動長條高度');
+    drawSmallHint(p, area.x, y, copy.dragHint);
     y += 24;
 
-    return drawSmallButton(p, area.x, y, area.w, '重設質量', 'reset', 'position', ui);
+    return drawSmallButton(p, area.x, y, area.w, copy.resetMass, 'reset', 'position', ui);
   }
 
   if (state.mode === 'spread') {
@@ -582,7 +659,7 @@ function drawParamSection(
       area.x,
       y,
       area.w,
-      SPREAD_SHAPES.map((shape) => ({
+      copy.spreads.map((shape) => ({
         label: shape.label,
         active: state.spreadShape === shape.id,
         kind: 'spread' as const,
@@ -592,9 +669,9 @@ function drawParamSection(
     );
 
     y += 14;
-    drawReadout(p, area.x, y, area.w, '中心 μ', formatNum(model.stats.mean, 2));
+    drawReadout(p, area.x, y, area.w, copy.center, formatNum(model.stats.mean, 2));
     y += 28;
-    drawReadout(p, area.x, y, area.w, '形狀 S', currentSpreadLabel(state));
+    drawReadout(p, area.x, y, area.w, copy.shape, currentSpreadLabel(state, copy));
     y += 28;
 
     return y;
@@ -605,7 +682,7 @@ function drawParamSection(
     area.x,
     y,
     area.w,
-    TAIL_MODELS.map((tailModel) => ({
+    copy.tails.map((tailModel) => ({
       label: tailModel.label,
       active: state.tailModel === tailModel.id,
       kind: 'tailModel' as const,
@@ -621,7 +698,7 @@ function drawParamSection(
 
     y = drawSlider(p, area.x, y, area.w, {
       key: 'n',
-      label: '試驗數 n',
+      label: copy.trials,
       min: 4,
       max: 20,
       step: 1,
@@ -630,7 +707,7 @@ function drawParamSection(
     }, ui);
     y = drawSlider(p, area.x, y, area.w, {
       key: 'p',
-      label: '成功率 p',
+      label: copy.success,
       min: 0.05,
       max: 0.95,
       step: 0.01,
@@ -639,7 +716,7 @@ function drawParamSection(
     }, ui);
     y = drawSlider(p, area.x, y, area.w, {
       key: 'k',
-      label: '門檻 k',
+      label: copy.threshold,
       min: 0,
       max: n,
       step: 1,
@@ -655,7 +732,7 @@ function drawParamSection(
 
   y = drawSlider(p, area.x, y, area.w, {
     key: 'p',
-    label: '成功率 p',
+    label: copy.success,
     min: 0.05,
     max: 0.9,
     step: 0.01,
@@ -664,7 +741,7 @@ function drawParamSection(
   }, ui);
   y = drawSlider(p, area.x, y, area.w, {
     key: 'k',
-    label: '門檻 k',
+    label: copy.threshold,
     min: 1,
     max: maxK,
     step: 1,
@@ -681,6 +758,7 @@ function drawStatsSection(
   y: number,
   model: DistributionModel,
   state: RuntimeState,
+  copy: Copy,
 ) {
   const { stats } = model;
 
@@ -688,7 +766,7 @@ function drawStatsSection(
   p.noStroke();
   p.textSize(12);
   p.textAlign(p.LEFT, p.TOP);
-  p.text('統計', area.x, y);
+  p.text(copy.statistics, area.x, y);
   y += 22;
 
   const rows =
@@ -714,12 +792,12 @@ function drawStatsSection(
   return y;
 }
 
-function drawFormulaSection(p: p5, area: Rect, y: number, state: RuntimeState) {
+function drawFormulaSection(p: p5, area: Rect, y: number, state: RuntimeState, copy: Copy) {
   fillWhite(p, 150);
   p.noStroke();
   p.textSize(12);
   p.textAlign(p.LEFT, p.TOP);
-  p.text('公式', area.x, y);
+  p.text(copy.formula, area.x, y);
   y += 22;
 
   const formulas = getFormulaLines(state);
@@ -961,8 +1039,8 @@ function xToScreen(value: number, plot: Rect, rows: DistributionRow[]): number {
   return plot.x + slot / 2 + t * (plot.w - slot);
 }
 
-function currentSpreadLabel(state: RuntimeState): string {
-  return SPREAD_SHAPES.find((shape) => shape.id === state.spreadShape)?.label ?? '集中';
+function currentSpreadLabel(state: RuntimeState, copy: Copy): string {
+  return copy.spreads.find((shape) => shape.id === state.spreadShape)?.label ?? copy.spreads[0].label;
 }
 
 function hit(px: number, py: number, box: Rect): boolean {

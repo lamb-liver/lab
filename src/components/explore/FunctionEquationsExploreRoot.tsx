@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
-import { BASIS_OPTIONS, DEFAULT_PARAMS, MODE_OPTIONS } from '../../explore/function-equations/constants';
+import { BASIS_OPTIONS, DEFAULT_PARAMS } from '../../explore/function-equations/constants';
 import {
   buildStatsLines,
   computeSceneLayout,
@@ -25,14 +25,71 @@ const INITIAL_SMOOTH: FunctionEquationsSmooth = {
   viewHalfY: 5,
 };
 
-export default function FunctionEquationsExploreRoot() {
+const TEXT = {
+  zh: {
+    aria: '函數圖形與方程解集主題導覽互動視覺化',
+    lead: '方程看交點，不等式看上下區間',
+    modeAria: '模式',
+    modes: [
+      { id: 'transform' as const, label: '圖形變換', caption: '從曲線形狀讀 f(x)=0 與 f(x)>0' },
+      { id: 'quadratic' as const, label: '二次方程', caption: '判別式、頂點與 x 軸交點同步變化' },
+      { id: 'polynomial' as const, label: '多項式不等式', caption: '重數決定穿過或碰觸，數線讀出符號區間' },
+    ],
+    basis: '基底 f(x)',
+    verticalScale: '垂直倍率 a',
+    horizontalScale: '水平倍率 b',
+    horizontalShift: '水平位移 h',
+    verticalShift: '垂直位移 k',
+    coeffA: '係數 a',
+    coeffB: '係數 b',
+    coeffC: '係數 c',
+    dragRoots: '也可在圖上拖動 r₁、r₂、r₃ 控制點',
+    guideOn: '進階 guide：開',
+    guideOff: '進階 guide：關',
+    stats: '統計',
+  },
+  en: {
+    aria: 'Function graphs and solution sets',
+    lead: 'Equations read intersections; inequalities read intervals above and below',
+    modeAria: 'Mode',
+    modes: [
+      { id: 'transform' as const, label: 'Graph transform', caption: 'Read f(x)=0 and f(x)>0 from the shape of the curve' },
+      { id: 'quadratic' as const, label: 'Quadratic equation', caption: 'The discriminant, the vertex, and the x-intercepts move together' },
+      { id: 'polynomial' as const, label: 'Polynomial inequality', caption: 'Multiplicity chooses a crossing or a touch; the number line reads the sign' },
+    ],
+    basis: 'Basis f(x)',
+    verticalScale: 'Vertical scale a',
+    horizontalScale: 'Horizontal scale b',
+    horizontalShift: 'Horizontal shift h',
+    verticalShift: 'Vertical shift k',
+    coeffA: 'Coefficient a',
+    coeffB: 'Coefficient b',
+    coeffC: 'Coefficient c',
+    dragRoots: 'You can also drag r₁, r₂, and r₃ on the figure',
+    guideOn: 'Advanced guide: on',
+    guideOff: 'Advanced guide: off',
+    stats: 'Statistics',
+  },
+};
+
+type Props = {
+  locale?: 'en';
+};
+
+export default function FunctionEquationsExploreRoot({ locale }: Props) {
+  const text = locale === 'en' ? TEXT.en : TEXT.zh;
   const [params, setParamsState] = useState<FunctionEquationsParams>(DEFAULT_PARAMS);
 
   const paramsRef = useRef(params);
   const smoothRef = useRef<FunctionEquationsSmooth>({ ...INITIAL_SMOOTH });
   const draggingRootRef = useRef<number | null>(null);
+  const localeRef = useRef(locale);
 
   paramsRef.current = params;
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const setParams = useCallback((updater: (prev: FunctionEquationsParams) => FunctionEquationsParams) => {
     setParamsState((prev) => {
@@ -42,13 +99,14 @@ export default function FunctionEquationsExploreRoot() {
     });
   }, []);
 
-  const activeMode = MODE_OPTIONS.find((item) => item.id === params.mode) ?? MODE_OPTIONS[0];
-  const stats = useMemo(() => buildStatsLines(params), [params]);
+  const activeMode = text.modes.find((item) => item.id === params.mode) ?? text.modes[0];
+  const stats = useMemo(() => buildStatsLines(params, locale), [params, locale]);
 
   const draw = useCallback((p: p5) => {
     const targetViewHalfY = renderFunctionEquationsExploreScene(p, {
       params: paramsRef.current,
       smooth: smoothRef.current,
+      locale: localeRef.current,
     });
     smoothRef.current = stepViewHalfYSmoothing(smoothRef.current, targetViewHalfY, p.deltaTime);
   }, []);
@@ -165,15 +223,15 @@ export default function FunctionEquationsExploreRoot() {
             ref={canvasHostRef}
             className="fn-eq-explore__canvas"
             role="img"
-            aria-label="函數圖形與方程解集主題導覽互動視覺化"
+            aria-label={text.aria}
           />
         </div>
 
         <aside className="fn-eq-explore__sidebar">
-          <p className="fn-eq-explore__sidebar-lead">方程看交點，不等式看上下區間</p>
+          <p className="fn-eq-explore__sidebar-lead">{text.lead}</p>
 
-          <div className="fn-eq-explore__mode-tabs" aria-label="模式">
-            {MODE_OPTIONS.map((option) => (
+          <div className="fn-eq-explore__mode-tabs" aria-label={text.modeAria}>
+            {text.modes.map((option) => (
               <button
                 key={option.id}
                 type="button"
@@ -189,7 +247,7 @@ export default function FunctionEquationsExploreRoot() {
 
           {params.mode === 'transform' && (
             <div className="fn-eq-explore__control-block">
-              <p className="fn-eq-explore__group-label">基底 f(x)</p>
+              <p className="fn-eq-explore__group-label">{text.basis}</p>
               <div className="fn-eq-explore__basis-grid">
                 {BASIS_OPTIONS.map((basis) => (
                   <button
@@ -207,7 +265,7 @@ export default function FunctionEquationsExploreRoot() {
 
               <RangeField
                 id="transform-a"
-                label="垂直倍率 a"
+                label={text.verticalScale}
                 min={-2.5}
                 max={2.5}
                 step={0.05}
@@ -216,7 +274,7 @@ export default function FunctionEquationsExploreRoot() {
               />
               <RangeField
                 id="transform-b"
-                label="水平倍率 b"
+                label={text.horizontalScale}
                 min={-2.5}
                 max={2.5}
                 step={0.05}
@@ -225,7 +283,7 @@ export default function FunctionEquationsExploreRoot() {
               />
               <RangeField
                 id="transform-h"
-                label="水平位移 h"
+                label={text.horizontalShift}
                 min={-3}
                 max={3}
                 step={0.05}
@@ -234,7 +292,7 @@ export default function FunctionEquationsExploreRoot() {
               />
               <RangeField
                 id="transform-k"
-                label="垂直位移 k"
+                label={text.verticalShift}
                 min={-3}
                 max={3}
                 step={0.05}
@@ -248,7 +306,7 @@ export default function FunctionEquationsExploreRoot() {
             <div className="fn-eq-explore__control-block">
               <RangeField
                 id="quadratic-a"
-                label="係數 a"
+                label={text.coeffA}
                 min={-2}
                 max={2}
                 step={0.05}
@@ -257,7 +315,7 @@ export default function FunctionEquationsExploreRoot() {
               />
               <RangeField
                 id="quadratic-b"
-                label="係數 b"
+                label={text.coeffB}
                 min={-5}
                 max={5}
                 step={0.05}
@@ -266,7 +324,7 @@ export default function FunctionEquationsExploreRoot() {
               />
               <RangeField
                 id="quadratic-c"
-                label="係數 c"
+                label={text.coeffC}
                 min={-5}
                 max={5}
                 step={0.05}
@@ -282,7 +340,7 @@ export default function FunctionEquationsExploreRoot() {
                 <div key={`root-${index}`} className="fn-eq-explore__root-row">
                   <RangeField
                     id={`polynomial-r${index + 1}`}
-                    label={`零點 r${index + 1}`}
+                    label={locale === 'en' ? `Root r${index + 1}` : `零點 r${index + 1}`}
                     min={-4.5}
                     max={4.5}
                     step={0.05}
@@ -290,7 +348,9 @@ export default function FunctionEquationsExploreRoot() {
                     onChange={(value) => setPolynomialRoot(index, value)}
                   />
                   <div className="fn-eq-explore__mult-row">
-                    <span className="fn-eq-explore__mult-label">重數 m{index + 1}</span>
+                    <span className="fn-eq-explore__mult-label">
+                      {locale === 'en' ? `Multiplicity m${index + 1}` : `重數 m${index + 1}`}
+                    </span>
                     <div className="fn-eq-explore__mult-btns">
                       <button
                         type="button"
@@ -314,7 +374,7 @@ export default function FunctionEquationsExploreRoot() {
                   </div>
                 </div>
               ))}
-              <p className="fn-eq-explore__note">也可在圖上拖動 r₁、r₂、r₃ 控制點</p>
+              <p className="fn-eq-explore__note">{text.dragRoots}</p>
             </div>
           )}
 
@@ -325,11 +385,11 @@ export default function FunctionEquationsExploreRoot() {
             onClick={() => setParams((prev) => ({ ...prev, advanced: !prev.advanced }))}
             aria-pressed={params.advanced}
           >
-            {params.advanced ? '進階 guide：開' : '進階 guide：關'}
+            {params.advanced ? text.guideOn : text.guideOff}
           </button>
 
           <div className="fn-eq-explore__control-block fn-eq-explore__stats">
-            <p className="fn-eq-explore__group-label">統計</p>
+            <p className="fn-eq-explore__group-label">{text.stats}</p>
             {stats.map((line) => (
               <p key={line} className="fn-eq-explore__stat-line">
                 {line}

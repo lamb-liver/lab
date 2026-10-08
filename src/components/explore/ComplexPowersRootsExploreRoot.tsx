@@ -15,7 +15,6 @@ import {
   modeVerdict,
   multiplyViewportRadius,
   readings,
-  type PowersRootsMode,
   type PowersRootsParams,
 } from '../../explore/complex-powers-roots/geometry';
 import { renderComplexPowersRootsExploreScene } from '../../systems/rendering/complexPowersRootsExploreRender';
@@ -23,11 +22,40 @@ import { useRectP5CanvasHost, type CanvasSize } from '../curve/useRectP5CanvasHo
 import { wireTouchToMouse } from '../curve/touchToMouse';
 import '../../styles/components/explore/complex-powers-roots-explore.css';
 
-const MODES: Array<{ value: PowersRootsMode; label: string }> = [
-  { value: 'multiply', label: '乘法' },
-  { value: 'power', label: '乘冪' },
-  { value: 'roots', label: '方根' },
-];
+const TEXT = {
+  zh: {
+    modes: [
+      { value: 'multiply' as const, label: '乘法' },
+      { value: 'power' as const, label: '乘冪' },
+      { value: 'roots' as const, label: '方根' },
+    ],
+    title: '乘冪與方根',
+    aria: '乘冪與方根互動：可切換乘法、乘冪與方根',
+    reading: '讀法',
+    verdictTitle: '這個讀法怎麼說',
+    scene: '場景',
+    order: '次數 n',
+    readout: '讀數',
+  },
+  en: {
+    modes: [
+      { value: 'multiply' as const, label: 'Multiplication' },
+      { value: 'power' as const, label: 'Power' },
+      { value: 'roots' as const, label: 'Roots' },
+    ],
+    title: 'Powers and roots',
+    aria: 'Powers and roots: switch among multiplication, powers, and roots',
+    reading: 'Reading',
+    verdictTitle: 'What this reading says',
+    scene: 'Scene',
+    order: 'Order n',
+    readout: 'Readout',
+  },
+} as const;
+
+type Props = {
+  locale?: 'en';
+};
 
 const POINT_HIT_PX = 22;
 
@@ -36,15 +64,21 @@ function measureExploreCanvas(host: HTMLElement): CanvasSize {
   return { width, height: Math.max(320, Math.round(width * 0.86)) };
 }
 
-export default function ComplexPowersRootsExploreRoot() {
+export default function ComplexPowersRootsExploreRoot({ locale }: Props) {
+  const text = locale === 'en' ? TEXT.en : TEXT.zh;
   const [params, setParams] = useState<PowersRootsParams>(DEFAULT_POWERS_ROOTS_PARAMS);
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
   const draggingRef = useRef<'z1' | 'z2' | null>(null);
   const dragLayoutRadiusRef = useRef<number | null>(null);
 
   useEffect(() => {
     paramsRef.current = params;
   }, [params]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const patchParams = useCallback((patch: Partial<PowersRootsParams>) => {
     setParams((prev) => ({ ...prev, ...patch }));
@@ -57,6 +91,7 @@ export default function ComplexPowersRootsExploreRoot() {
       params: paramsRef.current,
       dragging: draggingRef.current,
       layoutRadius: dragLayoutRadiusRef.current ?? undefined,
+      locale: localeRef.current,
     });
   }, []);
 
@@ -128,27 +163,27 @@ export default function ComplexPowersRootsExploreRoot() {
     extendSketch,
   );
 
-  const rows = useMemo(() => readings(params), [params]);
+  const rows = useMemo(() => readings(params, locale), [params, locale]);
 
   return (
     <div className="complex-powers-roots-explore">
       <div className="complex-powers-roots-explore__stage">
         <div className="complex-powers-roots-explore__visual">
-          <p className="complex-powers-roots-explore__visual-title">乘冪與方根</p>
-          <p className="complex-powers-roots-explore__visual-sub">{modeTitle(params.mode)}</p>
+          <p className="complex-powers-roots-explore__visual-title">{text.title}</p>
+          <p className="complex-powers-roots-explore__visual-sub">{modeTitle(params.mode, locale)}</p>
           <div
             ref={canvasHostRef}
             className="complex-powers-roots-explore__canvas"
             role="img"
-            aria-label="乘冪與方根互動：可切換乘法、乘冪與方根"
+            aria-label={text.aria}
           />
         </div>
 
         <aside className="complex-powers-roots-explore__sidebar">
           <div className="complex-powers-roots-explore__block">
-            <p className="complex-powers-roots-explore__block-title">讀法</p>
+            <p className="complex-powers-roots-explore__block-title">{text.reading}</p>
             <div className="complex-powers-roots-explore__modes">
-              {MODES.map((item) => (
+              {text.modes.map((item) => (
                 <button
                   key={item.value}
                   type="button"
@@ -164,16 +199,16 @@ export default function ComplexPowersRootsExploreRoot() {
           </div>
 
           <div className="complex-powers-roots-explore__block">
-            <p className="complex-powers-roots-explore__block-title">這個讀法怎麼說</p>
-            <p className="complex-powers-roots-explore__verdict">{modeVerdict(params)}</p>
+            <p className="complex-powers-roots-explore__block-title">{text.verdictTitle}</p>
+            <p className="complex-powers-roots-explore__verdict">{modeVerdict(params, locale)}</p>
           </div>
 
           {params.mode !== 'multiply' && (
             <div className="complex-powers-roots-explore__block">
-              <p className="complex-powers-roots-explore__block-title">場景</p>
+              <p className="complex-powers-roots-explore__block-title">{text.scene}</p>
               <div className="control-field">
                 <label htmlFor="powers-roots-n">
-                  <span>次數 n</span>
+                  <span>{text.order}</span>
                   <span className="control-field__value">{params.n}</span>
                 </label>
                 <div className="range-wrap">
@@ -193,7 +228,7 @@ export default function ComplexPowersRootsExploreRoot() {
           )}
 
           <div className="complex-powers-roots-explore__block">
-            <p className="complex-powers-roots-explore__block-title">讀數</p>
+            <p className="complex-powers-roots-explore__block-title">{text.readout}</p>
             {rows.map(([label, value]) => (
               <p className="complex-powers-roots-explore__reading" key={label}>
                 <span>{label}</span>

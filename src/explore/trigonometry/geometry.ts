@@ -1,4 +1,10 @@
-import { DEFAULT_TRIANGLE, MAX_VISUAL_DELTA_MS, SMOOTH_RATE_PER_SEC, TAU } from './constants';
+import {
+  DEFAULT_TRIANGLE,
+  MAX_VISUAL_DELTA_MS,
+  MODE_OPTIONS,
+  SMOOTH_RATE_PER_SEC,
+  TAU,
+} from './constants';
 import {
   clamp,
   circumcircleFromTriangle,
@@ -147,13 +153,32 @@ function angleOnSignedArc(point: number, start: number, end: number) {
   return offset <= 0 && offset >= span;
 }
 
-export function getVisualCaption(mode: TrigMode): string {
-  if (mode === 'circle') return '單位圓：座標先給出 sin、cos，tan 由比值讀出。';
-  if (mode === 'triangle') return '三角形：邊長、角度與外接圓半徑互相轉換。';
-  return '角度合成：旋轉先後作用，對應加法定理。';
+const EN_MODES: Record<TrigMode, { label: string; caption: string }> = {
+  circle: {
+    label: 'Circle to definition',
+    caption: 'Unit circle: the coordinates give sin and cos; tan is their ratio.',
+  },
+  triangle: {
+    label: 'Angle to triangle',
+    caption: 'Triangle: side lengths, angles, and the circumradius convert into one another.',
+  },
+  identity: {
+    label: 'Rotation to formula',
+    caption: 'Angle addition: one rotation, then another, matching the angle-addition formulas.',
+  },
+};
+
+export function modePresentation(mode: TrigMode, locale?: 'en') {
+  if (locale === 'en') return EN_MODES[mode];
+  const item = MODE_OPTIONS.find((option) => option.id === mode) ?? MODE_OPTIONS[0]!;
+  return { label: item.label, caption: item.caption };
 }
 
-export function buildCircleStats(theta: number) {
+export function getVisualCaption(mode: TrigMode, locale?: 'en'): string {
+  return modePresentation(mode, locale).caption;
+}
+
+export function buildCircleStats(theta: number, locale?: 'en') {
   const t = normalizeAngle(theta);
   const s = Math.sin(t);
   const c = Math.cos(t);
@@ -163,7 +188,7 @@ export function buildCircleStats(theta: number) {
     stats: [
       `sin θ = ${fmt(s)}`,
       `cos θ = ${fmt(c)}`,
-      `tan θ = ${tan === null ? '未定義' : fmt(tan)}`,
+      `tan θ = ${tan === null ? (locale === 'en' ? 'undefined' : '未定義') : fmt(tan)}`,
       `sin²θ + cos²θ = ${fmt(s * s + c * c)}`,
     ],
     formulas: ['P(θ) = (cosθ, sinθ)', 'tanθ = sinθ / cosθ'],

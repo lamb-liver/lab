@@ -318,12 +318,16 @@ export function renderConicDynamicGeometryScene(
   p.pop();
 }
 
-export function buildSidebarState(snap: ConicDynamicGeometrySnap): {
+export function buildSidebarState(
+  snap: ConicDynamicGeometrySnap,
+  locale?: 'en',
+): {
   modeLabel: string;
   valueLabel: string;
   noteLabel: string;
   formulaLabel: string;
 } {
+  const en = locale === 'en';
   if (snap.mode === 'eccentricity') {
     const paths = buildEccentricityPaths(snap.smoothE);
     const metricPath = chooseEccentricityMetricPath(
@@ -336,26 +340,30 @@ export function buildSidebarState(snap: ConicDynamicGeometrySnap): {
 
     let note = `PF / Pd ≈ ${ratio}`;
     if (snap.smoothE < 0.045) {
-      note = '圓只作為 e → 0 的極限顯示，不顯示準線比值。';
+      note = en
+        ? 'The circle is shown only as the limit e → 0. The directrix ratio is not shown.'
+        : '圓只作為 e → 0 的極限顯示，不顯示準線比值。';
     }
 
     return {
-      modeLabel: '模式：離心率',
+      modeLabel: en ? 'Mode: Eccentricity' : '模式：離心率',
       valueLabel: `e = ${snap.smoothE.toFixed(2)} · ${getEccentricityKind(
         snap.smoothE,
+        locale,
       )}`,
       noteLabel: note,
-      formulaLabel:
-        '[focus-directrix]\nPF / Pd = e\n\ne < 1 橢圓\ne = 1 拋物線\ne > 1 雙曲線',
+      formulaLabel: en
+        ? '[focus-directrix]\nPF / Pd = e\n\ne < 1 Ellipse\ne = 1 Parabola\ne > 1 Hyperbola'
+        : '[focus-directrix]\nPF / Pd = e\n\ne < 1 橢圓\ne = 1 拋物線\ne > 1 雙曲線',
     };
   }
 
-  const scene = buildFocusScene(snap.focusCurve);
+  const scene = buildFocusScene(snap.focusCurve, locale);
   const { point } = getFocusMovingPoint(scene, snap.pointClock);
   const valueText = getFocusRelationValue(scene, point);
 
   return {
-    modeLabel: '模式：焦點軌跡',
+    modeLabel: en ? 'Mode: Focus locus' : '模式：焦點軌跡',
     valueLabel: scene.title,
     noteLabel: `${valueText}\n${scene.constantText}`,
     formulaLabel: `[${scene.title}]\n${scene.formula}`,

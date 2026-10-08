@@ -282,7 +282,7 @@ function drawGraphFrame(p: p5, layout: TrigFunctionGraphLayout) {
   p.line(graphX(0, layout), graph.y, graphX(0, layout), graph.y + graph.h);
 }
 
-function drawRadianModeGraph(p: p5, layout: TrigFunctionGraphLayout) {
+function drawRadianModeGraph(p: p5, layout: TrigFunctionGraphLayout, locale?: 'en') {
   const { graph } = layout;
   if (graph.w < 120 || graph.h < 110) return;
 
@@ -295,7 +295,11 @@ function drawRadianModeGraph(p: p5, layout: TrigFunctionGraphLayout) {
   p.fill(220, 220, 220, 55);
   p.textSize(12);
   p.textAlign(p.CENTER, p.CENTER);
-  p.text('下一步：把弧長 θ 展開為 x 軸', graph.x + graph.w / 2, graph.y + graph.h / 2);
+  p.text(
+    locale === 'en' ? 'Next: unfold arc length θ onto the x-axis' : '下一步：把弧長 θ 展開為 x 軸',
+    graph.x + graph.w / 2,
+    graph.y + graph.h / 2,
+  );
 }
 
 function drawFunctionPath(
@@ -488,9 +492,14 @@ function drawTransformGraphGuides(
   drawPeriodBracket(p, layout, params);
 }
 
-function drawGraph(p: p5, layout: TrigFunctionGraphLayout, params: TrigFunctionGraphParams) {
+function drawGraph(
+  p: p5,
+  layout: TrigFunctionGraphLayout,
+  params: TrigFunctionGraphParams,
+  locale?: 'en',
+) {
   if (params.mode === 'radian') {
-    drawRadianModeGraph(p, layout);
+    drawRadianModeGraph(p, layout, locale);
     return;
   }
 
@@ -553,13 +562,20 @@ function drawBottomLabel(
   p: p5,
   layout: TrigFunctionGraphLayout,
   params: TrigFunctionGraphParams,
+  locale?: 'en',
 ) {
   const { visual } = layout;
-  const label = params.mode === 'radian'
-    ? '弧度：θ = s / r；單位圓上 r = 1，所以 θ = s'
-    : params.mode === 'unfold'
-      ? '展開：P(θ) = (cos θ, sin θ)，縱座標形成 y = sin x'
-      : '參數：由 A、T、φ、k 把 sin θ 變成正弦型函數';
+  const label = locale === 'en'
+    ? params.mode === 'radian'
+      ? 'Radians: θ = s / r. On the unit circle r = 1, so θ = s'
+      : params.mode === 'unfold'
+        ? 'Unfold: P(θ) = (cos θ, sin θ). The y-coordinate becomes y = sin x'
+        : 'Parameters: A, T, φ, and k turn sin θ into a sinusoid'
+    : params.mode === 'radian'
+      ? '弧度：θ = s / r；單位圓上 r = 1，所以 θ = s'
+      : params.mode === 'unfold'
+        ? '展開：P(θ) = (cos θ, sin θ)，縱座標形成 y = sin x'
+        : '參數：由 A、T、φ、k 把 sin θ 變成正弦型函數';
 
   p.noStroke();
   p.fill(220, 220, 220, 120);
@@ -595,6 +611,7 @@ function drawMobileStats(
 export function renderTrigFunctionGraphsExploreScene(
   p: p5,
   params: TrigFunctionGraphParams,
+  locale?: 'en',
 ) {
   const layout = computeTrigFunctionGraphLayout(p.width, p.height, params.mode);
 
@@ -607,9 +624,9 @@ export function renderTrigFunctionGraphsExploreScene(
     drawUnitCircle(p, layout, params);
   }
 
-  drawGraph(p, layout, params);
+  drawGraph(p, layout, params, locale);
   if (params.mode === 'unfold') drawUnfoldGuide(p, layout, params);
   if (params.mode === 'transform') drawTransformGuide(p, layout, params);
-  drawBottomLabel(p, layout, params);
+  drawBottomLabel(p, layout, params, locale);
   drawMobileStats(p, layout, params);
 }

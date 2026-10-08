@@ -13,7 +13,10 @@ function measureCanvas(host: HTMLElement): CanvasSize {
   return { width, height: width < 520 ? 430 : Math.max(340, Math.round(width * 0.62)) };
 }
 
-export default function Isosceles120ConstructionExamRoot() {
+type Props = { locale?: 'en' };
+
+export default function Isosceles120ConstructionExamRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [apexAngle, setApexAngle] = useState(ORIGINAL_APEX_ANGLE);
   const construction = buildIsoscelesConstruction(apexAngle);
   const isOriginalQuestion = construction.apexAngle === ORIGINAL_APEX_ANGLE;
@@ -24,9 +27,10 @@ export default function Isosceles120ConstructionExamRoot() {
         width: p.width,
         height: p.height,
         construction,
+        locale,
       });
     },
-    [construction],
+    [construction, locale],
   );
   const canvasHostRef = useRectP5CanvasHost(draw, [], measureCanvas, undefined, {
     loop: false,
@@ -37,31 +41,43 @@ export default function Isosceles120ConstructionExamRoot() {
     <div className="exam-interactive-explore">
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
-          <p className="exam-interactive-explore__visual-title">外部等腰三角形作圖</p>
+          <p className="exam-interactive-explore__visual-title">
+            {en ? 'Isosceles triangles built outward' : '外部等腰三角形作圖'}
+          </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>先想一想</strong>
-            120° 是頂角，兩個底角各是多少？
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
+            {en
+              ? '120° is the vertex angle. What is each base angle?'
+              : '120° 是頂角，兩個底角各是多少？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            底角共同決定 ∠MAN，再用餘弦定理求 MN²
+            {en
+              ? 'The base angles together fix ∠MAN; the law of cosines then gives MN²'
+              : '底角共同決定 ∠MAN，再用餘弦定理求 MN²'}
           </p>
           <div
             ref={canvasHostRef}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label={`兩個外部等腰三角形的頂角為 ${construction.apexAngle} 度，底角為 ${construction.baseAngle} 度`}
+            aria-label={
+              en
+                ? `Two outward isosceles triangles with vertex angle ${construction.apexAngle} degrees and base angles ${construction.baseAngle} degrees`
+                : `兩個外部等腰三角形的頂角為 ${construction.apexAngle} 度，底角為 ${construction.baseAngle} 度`
+            }
           />
         </div>
 
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">等腰三角形頂角</p>
+            <p className="exam-interactive-explore__block-title">
+              {en ? 'Vertex angle' : '等腰三角形頂角'}
+            </p>
             <label className="exam-interactive-explore__range">
               <span>φ</span>
               <output>{construction.apexAngle}°</output>
               <input
                 type="range"
-                aria-label="等腰三角形頂角"
+                aria-label={en ? 'Vertex angle of the isosceles triangles' : '等腰三角形頂角'}
                 min="60"
                 max="150"
                 step="1"
@@ -70,13 +86,15 @@ export default function Isosceles120ConstructionExamRoot() {
               />
             </label>
             <p className="exam-interactive-explore__result" aria-live="polite">
-              底角 = {construction.baseAngle.toFixed(1)}°
+              {en ? 'Base angles' : '底角'} = {construction.baseAngle.toFixed(1)}°
             </p>
             <p className="exam-interactive-explore__note">(180°−φ)÷2</p>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">目前結果</p>
+            <p className="exam-interactive-explore__block-title">
+              {en ? 'Current value' : '目前結果'}
+            </p>
             <p className="exam-interactive-explore__result" aria-live="polite">
               {isOriginalQuestion
                 ? 'MN² = 13/3'
@@ -84,8 +102,12 @@ export default function Isosceles120ConstructionExamRoot() {
             </p>
             <p className="exam-interactive-explore__note">
               {isOriginalQuestion
-                ? 'AM=√21/3、AN=1、∠MAN=∠BAC+60°。'
-                : `∠MAN≈${construction.angleMAN.toFixed(1)}°；回到 120° 可對照原題精確值。`}
+                ? en
+                  ? 'AM = √21/3, AN = 1, and ∠MAN = ∠BAC + 60°.'
+                  : 'AM=√21/3、AN=1、∠MAN=∠BAC+60°。'
+                : en
+                  ? `∠MAN ≈ ${construction.angleMAN.toFixed(1)}°. Return to 120° for the exact value.`
+                  : `∠MAN≈${construction.angleMAN.toFixed(1)}°；回到 120° 可對照原題精確值。`}
             </p>
           </div>
 
@@ -94,7 +116,7 @@ export default function Isosceles120ConstructionExamRoot() {
             className="exam-interactive-explore__mode-button"
             onClick={() => setApexAngle(ORIGINAL_APEX_ANGLE)}
           >
-            回到原題 φ=120°
+            {en ? 'Back to the original, φ=120°' : '回到原題 φ=120°'}
           </button>
         </aside>
       </div>

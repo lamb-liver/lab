@@ -32,7 +32,10 @@ function isCanvasPointer(p: p5, host: HTMLElement, event?: Event): boolean {
   return p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height;
 }
 
-export default function ParallelogramDirectionAreaExamRoot() {
+type Props = { locale?: 'en' };
+
+export default function ParallelogramDirectionAreaExamRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [mode, setMode] = useState<SideScales['mode']>('sum');
   const [sign, setSign] = useState<Sign>(1);
   const modeRef = useRef(mode);
@@ -58,8 +61,9 @@ export default function ParallelogramDirectionAreaExamRoot() {
       height: p.height,
       mode: modeRef.current,
       sign: signRef.current,
+      locale,
     });
-  }, []);
+  }, [locale]);
 
   const extendSketch = useMemo<ExtendSketch>(() => {
     return (p, host) => {
@@ -98,26 +102,38 @@ export default function ParallelogramDirectionAreaExamRoot() {
     <div className="exam-interactive-explore">
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
-          <p className="exam-interactive-explore__visual-title">邊向軌道上的平行四邊形</p>
+          <p className="exam-interactive-explore__visual-title">
+            {en ? 'A parallelogram on direction rails' : '邊向軌道上的平行四邊形'}
+          </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>先想一想</strong>
-            已知中心到一個頂點的向量，為什麼不必先解出四個頂點也能算面積？
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
+            {en
+              ? 'You know the vector from the center to one vertex. Why can the area be found without solving for all four vertices?'
+              : '已知中心到一個頂點的向量，為什麼不必先解出四個頂點也能算面積？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            藍、紫虛線是兩族邊向軌道；金色是落在軌道上的平行四邊形。拖相鄰頂點可在四組解間切換。
+            {en
+              ? 'Blue and purple dashes are the two families of direction rails. Gold is the parallelogram on those rails. Drag an adjacent vertex to switch among the four solutions.'
+              : '藍、紫虛線是兩族邊向軌道；金色是落在軌道上的平行四邊形。拖相鄰頂點可在四組解間切換。'}
           </p>
           <div
             ref={canvasHostRef}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label="平行四邊形邊平行兩給定方向，中心 Q 與頂點 P；拖曳相鄰頂點可切換四組解並顯示面積"
+            aria-label={
+              en
+                ? 'Parallelogram with sides parallel to two given directions, center Q and vertex P. Drag an adjacent vertex to switch among four solutions and show the area.'
+                : '平行四邊形邊平行兩給定方向，中心 Q 與頂點 P；拖曳相鄰頂點可切換四組解並顯示面積'
+            }
             style={{ cursor: 'grab', touchAction: 'none' }}
           />
         </div>
 
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">對角組合</p>
+            <p className="exam-interactive-explore__block-title">
+              {en ? 'Diagonal pairing' : '對角組合'}
+            </p>
             <div className="exam-interactive-explore__modes">
               <button
                 type="button"
@@ -126,7 +142,7 @@ export default function ParallelogramDirectionAreaExamRoot() {
                 aria-pressed={mode === 'sum'}
                 onClick={() => setMode('sum')}
               >
-                半對角 = ½(u+v)
+                {en ? 'Half-diagonal = ½(u+v)' : '半對角 = ½(u+v)'}
               </button>
               <button
                 type="button"
@@ -135,7 +151,7 @@ export default function ParallelogramDirectionAreaExamRoot() {
                 aria-pressed={mode === 'diff'}
                 onClick={() => setMode('diff')}
               >
-                半對角 = ½(u−v)
+                {en ? 'Half-diagonal = ½(u−v)' : '半對角 = ½(u−v)'}
               </button>
             </div>
             <div className="exam-interactive-explore__modes">
@@ -146,7 +162,7 @@ export default function ParallelogramDirectionAreaExamRoot() {
                 aria-pressed={sign === 1}
                 onClick={() => setSign(1)}
               >
-                PQ 同向
+                {en ? 'PQ same direction' : 'PQ 同向'}
               </button>
               <button
                 type="button"
@@ -155,19 +171,22 @@ export default function ParallelogramDirectionAreaExamRoot() {
                 aria-pressed={sign === -1}
                 onClick={() => setSign(-1)}
               >
-                PQ 反向
+                {en ? 'PQ reversed' : 'PQ 反向'}
               </button>
             </div>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">面積</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Area' : '面積'}</p>
             <p className="exam-interactive-explore__result" aria-live="polite">
-              |u×v|={area.toFixed(0)}（官方 {OFFICIAL_AREA}）
+              {en
+                ? `|u×v| = ${area.toFixed(0)} (official answer ${OFFICIAL_AREA})`
+                : `|u×v|=${area.toFixed(0)}（官方 ${OFFICIAL_AREA}）`}
             </p>
             <p className="exam-interactive-explore__note">
-              α、β 會變，但 |αβ| 固定為 12；乘上方向外積 17 就得到 204。約束下只有四組解，拖曳是 snap
-              不是連續變形。
+              {en
+                ? 'α and β change, but |αβ| stays 12. Times the direction cross product 17, that is 204. Only four solutions fit, so the drag snaps instead of deforming the shape.'
+                : 'α、β 會變，但 |αβ| 固定為 12；乘上方向外積 17 就得到 204。約束下只有四組解，拖曳是 snap 不是連續變形。'}
             </p>
           </div>
         </aside>

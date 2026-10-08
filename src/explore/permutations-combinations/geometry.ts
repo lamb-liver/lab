@@ -20,8 +20,8 @@ type ModeStatsInput = {
   recurrence: RecurrenceParams;
 };
 
-function fmt(value: number): string {
-  return new Intl.NumberFormat('zh-TW').format(value);
+function fmt(value: number, locale?: 'en'): string {
+  return new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'zh-TW').format(value);
 }
 
 function clampInt(value: number, min: number, max: number): number {
@@ -37,17 +37,19 @@ function safeChoose(n: number, k: number): number {
   return choose(safeN, safeK);
 }
 
-function coefficientLabel(n: number, k: number): string {
+function coefficientLabel(n: number, k: number, locale?: 'en'): string {
   const safeN = Math.max(0, Math.round(n));
   const safeK = clampInt(k, 0, safeN);
-  return `C(${safeN}, ${safeK}) = ${fmt(safeChoose(safeN, safeK))}`;
+  return `C(${safeN}, ${safeK}) = ${fmt(safeChoose(safeN, safeK), locale)}`;
 }
 
-function pathCombinationLabel(m: number, n: number): string {
+function pathCombinationLabel(m: number, n: number, locale?: 'en'): string {
   const safeM = Math.max(0, Math.round(m));
   const safeN = Math.max(0, Math.round(n));
   const total = safeM + safeN;
-  return `路徑總數 C(${total}, ${safeM}) = ${fmt(safeChoose(total, safeM))}`;
+  const count = fmt(safeChoose(total, safeM), locale);
+  if (locale === 'en') return `Path count C(${total}, ${safeM}) = ${count}`;
+  return `路徑總數 C(${total}, ${safeM}) = ${count}`;
 }
 
 export function recurrenceParts(n: number, k: number): {
@@ -64,20 +66,20 @@ export function recurrenceParts(n: number, k: number): {
   };
 }
 
-export function recurrenceFormulaLabel(n: number, k: number): string {
+export function recurrenceFormulaLabel(n: number, k: number, locale?: 'en'): string {
   const safeN = Math.max(0, Math.round(n));
   const safeK = clampInt(k, 0, safeN);
   const parts = recurrenceParts(safeN, safeK);
 
-  if (safeN === 0) return `C(0, 0) = ${fmt(parts.total)}`;
+  if (safeN === 0) return `C(0, 0) = ${fmt(parts.total, locale)}`;
   if (safeK === 0) {
-    return `C(${safeN}, 0) = C(${safeN - 1}, 0) = ${fmt(parts.total)}`;
+    return `C(${safeN}, 0) = C(${safeN - 1}, 0) = ${fmt(parts.total, locale)}`;
   }
   if (safeK === safeN) {
-    return `C(${safeN}, ${safeN}) = C(${safeN - 1}, ${safeN - 1}) = ${fmt(parts.total)}`;
+    return `C(${safeN}, ${safeN}) = C(${safeN - 1}, ${safeN - 1}) = ${fmt(parts.total, locale)}`;
   }
 
-  return `C(${safeN}, ${safeK}) = C(${safeN - 1}, ${safeK - 1}) + C(${safeN - 1}, ${safeK}) = ${fmt(parts.left)} + ${fmt(parts.right)}`;
+  return `C(${safeN}, ${safeK}) = C(${safeN - 1}, ${safeK - 1}) + C(${safeN - 1}, ${safeK}) = ${fmt(parts.left, locale)} + ${fmt(parts.right, locale)}`;
 }
 
 export function catalanContrast(n: number): CatalanContrast {
@@ -91,9 +93,16 @@ export function catalanContrast(n: number): CatalanContrast {
   };
 }
 
-export function buildCombinationStats(input: ModeStatsInput): string[] {
+export function buildCombinationStats(input: ModeStatsInput, locale?: 'en'): string[] {
   if (input.mode === 'pascal') {
-    const label = coefficientLabel(input.pascal.n, input.pascal.k);
+    const label = coefficientLabel(input.pascal.n, input.pascal.k, locale);
+    if (locale === 'en') {
+      return [
+        'View: coefficient table',
+        `${label}, a binomial coefficient`,
+        'The same number also counts a choice of positions.',
+      ];
+    }
     return [
       '目前表徵：係數表',
       `${label}，也是二項式係數`,
@@ -102,6 +111,13 @@ export function buildCombinationStats(input: ModeStatsInput): string[] {
   }
 
   if (input.mode === 'path') {
+    if (locale === 'en') {
+      return [
+        'View: path model',
+        pathCombinationLabel(input.path.m, input.path.n, locale),
+        `The same number is also in row ${input.path.m + input.path.n} of Pascal's triangle.`,
+      ];
+    }
     return [
       '目前表徵：路徑模型',
       pathCombinationLabel(input.path.m, input.path.n),
@@ -110,6 +126,15 @@ export function buildCombinationStats(input: ModeStatsInput): string[] {
   }
 
   const parts = recurrenceParts(input.recurrence.n, input.recurrence.k);
+  if (locale === 'en') {
+    return [
+      'View: recurrence',
+      recurrenceFormulaLabel(input.recurrence.n, input.recurrence.k, locale),
+      parts.left === 0 || parts.right === 0
+        ? 'A boundary cell has only one parent.'
+        : 'This number is the two cells of the previous row added together.',
+    ];
+  }
   return [
     '目前表徵：遞迴依賴',
     recurrenceFormulaLabel(input.recurrence.n, input.recurrence.k),

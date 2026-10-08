@@ -30,30 +30,46 @@ import {
 import type {
   Complex,
   ComplexEulerParams,
+  OpKey,
   PlotRect,
 } from '../../curve/modules/complex-euler-formula/types';
 
 type ComplexEulerSnap = {
   width: number;
   height: number;
+  locale?: 'en';
 } & ComplexEulerParams;
 
 const GOLD: [number, number, number] = [212, 184, 122];
 const BLUE: [number, number, number] = [130, 185, 230];
 const GREEN: [number, number, number] = [130, 215, 160];
 
-function drawVisualTitle(p: p5, plot: PlotRect): void {
+function operationHint(op: OpKey, locale?: 'en'): string {
+  if (locale !== 'en') return getOperationHint(op);
+  if (op === 'add') return 'Addition: place the arrow of z₂ after z₁';
+  if (op === 'sub') return 'Subtraction: z₁ − z₂ points from z₂ to z₁';
+  if (op === 'div') return 'Division: divide the moduli and subtract the arguments';
+  return 'Multiplication: multiply the moduli and add the arguments';
+}
+
+function drawVisualTitle(p: p5, plot: PlotRect, locale?: 'en'): void {
   p.push();
   p.noStroke();
   p.fill(...GOLD);
   p.textSize(14);
   p.textStyle(p.BOLD);
-  p.text('複數 · Euler 公式', plot.x, 56);
+  p.text(locale === 'en' ? 'Complex numbers and Euler' : '複數 · Euler 公式', plot.x, 56);
 
   p.fill(155);
   p.textSize(12);
   p.textStyle(p.NORMAL);
-  p.text('複數乘法是旋轉加縮放；eⁱᶿ 是單位圓上的旋轉', plot.x, 76);
+  p.text(
+    locale === 'en'
+      ? 'A product rotates and scales; eⁱᶿ turns on the unit circle'
+      : '複數乘法是旋轉加縮放；eⁱᶿ 是單位圓上的旋轉',
+    plot.x,
+    76,
+  );
   p.pop();
 }
 
@@ -364,7 +380,7 @@ function drawOperationScene(p: p5, snap: ComplexEulerSnap, plot: PlotRect): void
     drawSubGuideLabel(p, snap.z1, snap.z2, plot);
   }
 
-  drawVisualHint(p, plot, getOperationHint(snap.opKey));
+  drawVisualHint(p, plot, operationHint(snap.opKey, snap.locale));
 }
 
 function drawWave(
@@ -498,7 +514,9 @@ function drawEulerScene(p: p5, snap: ComplexEulerSnap, plot: PlotRect): void {
   drawVisualHint(
     p,
     plot,
-    'eⁱᶿ = cosθ + isinθ；水平投影是 cosθ，垂直投影是 sinθ',
+    snap.locale === 'en'
+      ? 'eⁱᶿ = cosθ + isinθ; horizontal projection is cosθ, vertical is sinθ'
+      : 'eⁱᶿ = cosθ + isinθ；水平投影是 cosθ，垂直投影是 sinθ',
   );
 }
 
@@ -575,7 +593,7 @@ export function renderComplexEulerFormulaScene(
   p.background(10, 10, 10);
 
   const plot = computePlotRect(snap.width, snap.height);
-  drawVisualTitle(p, plot);
+  drawVisualTitle(p, plot, snap.locale);
 
   if (snap.mode === 'operation') {
     drawOperationScene(p, snap, plot);
@@ -593,7 +611,9 @@ export type ComplexEulerSidebarState = {
 
 export function buildComplexEulerSidebarState(
   params: ComplexEulerParams,
+  locale?: 'en',
 ): ComplexEulerSidebarState {
+  const en = locale === 'en';
   if (params.mode === 'operation') {
     const result = computeOperation(params.z1, params.z2, params.opKey);
     const r1 = magC(params.z1);
@@ -601,25 +621,41 @@ export function buildComplexEulerSidebarState(
     const resultR = magC(result);
     const polar = (z: Complex) => `${formatNum(magC(z))}∠${formatAngle(argC(z))}`;
 
-    const lines = [
-      `z₁：${polar(params.z1)}`,
-      `z₂：${polar(params.z2)}`,
-      `結果：${polar(result)}`,
-    ];
+    const lines = en
+      ? [
+          `z₁: ${polar(params.z1)}`,
+          `z₂: ${polar(params.z2)}`,
+          `result: ${polar(result)}`,
+        ]
+      : [
+          `z₁：${polar(params.z1)}`,
+          `z₂：${polar(params.z2)}`,
+          `結果：${polar(result)}`,
+        ];
 
     if (params.opKey === 'mul') {
-      lines.push(`極式：|z|=${formatNum(r1 * r2)}，arg=θ₁+θ₂`);
+      lines.push(
+        en
+          ? `polar: |z|=${formatNum(r1 * r2)}, arg=θ₁+θ₂`
+          : `極式：|z|=${formatNum(r1 * r2)}，arg=θ₁+θ₂`,
+      );
     } else if (params.opKey === 'div') {
       lines.push(
-        `極式：|z|=${formatNum(r1 / Math.max(r2, 0.0001))}，arg=θ₁−θ₂`,
+        en
+          ? `polar: |z|=${formatNum(r1 / Math.max(r2, 0.0001))}, arg=θ₁−θ₂`
+          : `極式：|z|=${formatNum(r1 / Math.max(r2, 0.0001))}，arg=θ₁−θ₂`,
       );
     } else {
-      lines.push(`直角式：${formatComplex(result)}，|z|=${formatNum(resultR)}`);
+      lines.push(
+        en
+          ? `rectangular: ${formatComplex(result)}, |z|=${formatNum(resultR)}`
+          : `直角式：${formatComplex(result)}，|z|=${formatNum(resultR)}`,
+      );
     }
 
     return {
       statsLines: lines,
-      hintLine: '乘法的本質是旋轉與縮放',
+      hintLine: en ? 'Multiplication is a rotation and a scaling' : '乘法的本質是旋轉與縮放',
     };
   }
 
@@ -628,16 +664,25 @@ export function buildComplexEulerSidebarState(
     const s = Math.sin(params.theta);
 
     return {
-      statsLines: [
-        `eⁱᶿ：${formatComplex({ re: c, im: s })}`,
-        `cosθ：${formatNum(c)}`,
-        `sinθ：${formatNum(s)}`,
-        '|eⁱᶿ|：1',
-      ],
+      statsLines: en
+        ? [
+            `eⁱᶿ: ${formatComplex({ re: c, im: s })}`,
+            `cosθ: ${formatNum(c)}`,
+            `sinθ: ${formatNum(s)}`,
+            '|eⁱᶿ| = 1',
+          ]
+        : [
+            `eⁱᶿ：${formatComplex({ re: c, im: s })}`,
+            `cosθ：${formatNum(c)}`,
+            `sinθ：${formatNum(s)}`,
+            '|eⁱᶿ|：1',
+          ],
       hintLine:
         Math.abs(params.theta - Math.PI) < 0.035
           ? 'eⁱπ + 1 = 0'
-          : 'eⁱᶿ 在單位圓上旋轉',
+          : en
+            ? 'eⁱᶿ rotates on the unit circle'
+            : 'eⁱᶿ 在單位圓上旋轉',
     };
   }
 
@@ -645,12 +690,19 @@ export function buildComplexEulerSidebarState(
   const z = { re: Math.cos(outAngle), im: Math.sin(outAngle) };
 
   return {
-    statsLines: [
-      '公式：(cosθ+isinθ)ⁿ',
-      `nθ：${formatAngle(outAngle)}`,
-      `結果：${formatComplex(z)}`,
-      '|z|：1',
-    ],
-    hintLine: 'n 次方對應 n 倍角',
+    statsLines: en
+      ? [
+          'formula: (cosθ+isinθ)ⁿ',
+          `nθ: ${formatAngle(outAngle)}`,
+          `result: ${formatComplex(z)}`,
+          '|z| = 1',
+        ]
+      : [
+          '公式：(cosθ+isinθ)ⁿ',
+          `nθ：${formatAngle(outAngle)}`,
+          `結果：${formatComplex(z)}`,
+          '|z|：1',
+        ],
+    hintLine: en ? 'The nth power is n times the angle' : 'n 次方對應 n 倍角',
   };
 }

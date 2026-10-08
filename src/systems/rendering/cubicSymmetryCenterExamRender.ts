@@ -19,6 +19,7 @@ type CubicSymmetryCenterExamSnap = {
   width: number;
   height: number;
   distance: number;
+  locale?: 'en';
 };
 
 const GOLD = [212, 184, 122] as const;
@@ -149,7 +150,8 @@ export function renderCubicSymmetryCenterExamScene(
   const [quotientPlot, cubicPlot] = plotsFor(snap.width, snap.height);
   const sample = symmetrySample(snap.distance);
 
-  drawFrame(p, quotientPlot, '商式 q(x)：左右等高');
+  const en = snap.locale === 'en';
+  drawFrame(p, quotientPlot, en ? 'Quotient q(x): level on both sides' : '商式 q(x)：左右等高');
   drawCurve(p, quotientPlot, quotientValue, WHITE, 1.8, 135);
   p.stroke(...GOLD, 110);
   p.strokeWeight(1.2);
@@ -163,7 +165,7 @@ export function renderCubicSymmetryCenterExamScene(
   drawPoint(p, quotientPlot, sample.right.x, sample.quotientY, GOLD);
   drawPoint(p, quotientPlot, DIVISOR_ROOT, 8, BLUE, '(-6, 8)');
 
-  drawFrame(p, cubicPlot, '原式 f(x)：兩點中點固定');
+  drawFrame(p, cubicPlot, en ? 'Cubic f(x): midpoint stays fixed' : '原式 f(x)：兩點中點固定');
   drawCurve(p, cubicPlot, cubicValue, GOLD, 7, 18);
   drawCurve(p, cubicPlot, cubicValue, GOLD, 2.4, 235);
   withDash(p, [5, 6], () => {

@@ -82,6 +82,23 @@ const GUIDE_ROLE_OPTIONS: Array<{ id: VectorGuideRole; label: string }> = [
   { id: 'coordinate', label: '座標' },
 ];
 
+const EN_MODE_OPTIONS: Array<{ id: Mode; label: string; sidebarTitle: string }> = [
+  { id: 'guide', label: 'Guide', sidebarTitle: 'Position, direction, and coordinates' },
+  { id: 'dot', label: 'Direction / projection', sidebarTitle: 'Component along a direction' },
+  { id: 'span', label: 'Coordinates / basis', sidebarTitle: 'Coordinates and a basis' },
+  { id: 'normal', label: 'Normal / line', sidebarTitle: 'A normal and its line' },
+];
+
+const EN_GUIDE_ROLE_OPTIONS: Array<{ id: VectorGuideRole; label: string }> = [
+  { id: 'position', label: 'Position' },
+  { id: 'direction', label: 'Direction' },
+  { id: 'coordinate', label: 'Coordinates' },
+];
+
+function tr(locale: 'en' | undefined, zh: string, en: string) {
+  return locale === 'en' ? en : zh;
+}
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
@@ -597,8 +614,15 @@ function drawGuidePositionPanel(
   params: Params,
   handles: DragHandle[],
   active: boolean,
+  locale?: 'en',
 ) {
-  drawGuidePanelFrame(p, rect, '位置', 'p 是平面上的點', active);
+  drawGuidePanelFrame(
+    p,
+    rect,
+    tr(locale, '位置', 'Position'),
+    tr(locale, 'p 是平面上的點', 'p is a point in the plane'),
+    active,
+  );
   const plot = insetRect(rect, 14, 52, 14, 16);
   const scale = 4;
   drawVectorGrid(p, plot, scale, true);
@@ -616,8 +640,15 @@ function drawGuideDirectionPanel(
   params: Params,
   handles: DragHandle[],
   active: boolean,
+  locale?: 'en',
 ) {
-  drawGuidePanelFrame(p, rect, '方向', 'u 沿 p 方向的投影', active);
+  drawGuidePanelFrame(
+    p,
+    rect,
+    tr(locale, '方向', 'Direction'),
+    tr(locale, 'u 沿 p 方向的投影', 'projection of u along p'),
+    active,
+  );
   const plot = insetRect(rect, 14, 52, 14, 16);
   const scale = 4;
   drawVectorGrid(p, plot, scale, true);
@@ -653,8 +684,15 @@ function drawGuideCoordinatePanel(
   params: Params,
   handles: DragHandle[],
   active: boolean,
+  locale?: 'en',
 ) {
-  drawGuidePanelFrame(p, rect, '座標', '固定斜交基底讀 p', active);
+  drawGuidePanelFrame(
+    p,
+    rect,
+    tr(locale, '座標', 'Coordinates'),
+    tr(locale, '固定斜交基底讀 p', 'read p in a fixed oblique basis'),
+    active,
+  );
   const plot = insetRect(rect, 14, 52, 14, 16);
   const scale = 4;
   drawVectorGrid(p, plot, scale, true);
@@ -687,25 +725,72 @@ function drawGuideCoordinatePanel(
   drawPointLabel(p, pEnd.x + 8, pEnd.y - 18, 'p');
 }
 
-function drawGuideMode(p: p5, params: Params, handles: DragHandle[]) {
+function guideCopy(params: Params, locale?: 'en') {
+  if (locale !== 'en') return getVectorGuideState(params);
+
+  const projection = projectOnto(params.guideP, params.guideU);
+  const basis = solveBasisCoordinates(params.guideP, GUIDE_BASIS.e1, GUIDE_BASIS.e2);
+
+  if (params.guideRole === 'position') {
+    return {
+      role: params.guideRole,
+      summary: 'Position: the tip of the same arrow is the point p in the plane.',
+      stats: [
+        `position p = (${fmt(params.guideP.x)}, ${fmt(params.guideP.y)})`,
+        `length |p| = ${fmt(Math.hypot(params.guideP.x, params.guideP.y))}`,
+        'Read the arrow as the position from the origin to its tip.',
+      ],
+    };
+  }
+
+  if (params.guideRole === 'direction') {
+    return {
+      role: params.guideRole,
+      summary:
+        'Direction: p is the direction you measure along, and u splits into the projection along p and a perpendicular remainder.',
+      stats: [
+        `direction p = (${fmt(params.guideP.x)}, ${fmt(params.guideP.y)})`,
+        projection.viable
+          ? `proj_p u = (${fmt(projection.vector.x)}, ${fmt(projection.vector.y)})`
+          : 'proj_p u is undefined',
+        'u is here so you can see its projection along p.',
+      ],
+    };
+  }
+
+  return {
+    role: params.guideRole,
+    summary: 'Coordinates: the same position p can be read as coefficients s and t of an oblique basis.',
+    stats: [
+      basis.viable
+        ? `coordinates p = ${fmt(basis.s)} e1 + ${fmt(basis.t)} e2`
+        : 'coordinates are undefined',
+      `e1 = (${fmt(GUIDE_BASIS.e1.x)}, ${fmt(GUIDE_BASIS.e1.y)})`,
+      `e2 = (${fmt(GUIDE_BASIS.e2.x)}, ${fmt(GUIDE_BASIS.e2.y)})`,
+    ],
+  };
+}
+
+function drawGuideMode(p: p5, params: Params, handles: DragHandle[], locale?: 'en') {
   const compact = p.width < 560;
   const stage = drawFrame(p, 'VECTOR GUIDE', 'one vector, three readings');
   const rects = guidePanelRects(stage, compact);
-  const guideState = getVectorGuideState(params);
+  const guideState = guideCopy(params, locale);
 
-  drawGuidePositionPanel(p, rects.position, params, handles, params.guideRole === 'position');
-  drawGuideDirectionPanel(p, rects.direction, params, handles, params.guideRole === 'direction');
+  drawGuidePositionPanel(p, rects.position, params, handles, params.guideRole === 'position', locale);
+  drawGuideDirectionPanel(p, rects.direction, params, handles, params.guideRole === 'direction', locale);
   drawGuideCoordinatePanel(
     p,
     rects.coordinate,
     params,
     handles,
     params.guideRole === 'coordinate',
+    locale,
   );
   drawBottomNote(p, stage, guideState.summary);
 }
 
-function drawDotMode(p: p5, params: Params, handles: DragHandle[]) {
+function drawDotMode(p: p5, params: Params, handles: DragHandle[], locale?: 'en') {
   const compact = p.width < 560;
   const stage = drawFrame(
     p,
@@ -750,7 +835,15 @@ function drawDotMode(p: p5, params: Params, handles: DragHandle[]) {
     drawPointLabel(p, foot.x + 6, foot.y + 8, `cos = ${fmt(Math.cos(theta), 3)}`);
     drawAngleArc(p, plot, ua, ub, scale, 0.35);
     drawPlotLabel(p, plot, 'a-hat dot b-hat = cos(theta)');
-    drawBottomNote(p, stage, '單位向量時，方向分量只剩 cos(theta)，也就是投影長度');
+    drawBottomNote(
+      p,
+      stage,
+      tr(
+        locale,
+        '單位向量時，方向分量只剩 cos(theta)，也就是投影長度',
+        'For unit vectors the component is only cos(theta), the length of the projection',
+      ),
+    );
     return;
   }
 
@@ -778,10 +871,18 @@ function drawDotMode(p: p5, params: Params, handles: DragHandle[]) {
     drawPlotLabel(p, plot, dot > 0 ? 'a dot b > 0' : 'a dot b < 0');
   }
 
-  drawBottomNote(p, stage, '拖動兩個向量端點；投影把其中一支向量讀成指定方向的分量');
+  drawBottomNote(
+    p,
+    stage,
+    tr(
+      locale,
+      '拖動兩個向量端點；投影把其中一支向量讀成指定方向的分量',
+      'Drag both tips. The projection reads one vector as its component along the chosen direction',
+    ),
+  );
 }
 
-function drawSpanMode(p: p5, params: Params, handles: DragHandle[]) {
+function drawSpanMode(p: p5, params: Params, handles: DragHandle[], locale?: 'en') {
   const compact = p.width < 560;
   const stage = drawFrame(p, 'VECTOR GEOMETRY', 'basis coordinates and span');
   const plot = plotRect(stage, compact);
@@ -814,10 +915,18 @@ function drawSpanMode(p: p5, params: Params, handles: DragHandle[]) {
 
   const det = cross2(params.a, params.b);
   drawPlotLabel(p, plot, Math.abs(det) < 0.08 ? 'span: line' : 'span: plane');
-  drawBottomNote(p, stage, '拖動基底向量 a、b；調整 s、t 觀察同一平面中的座標讀數');
+  drawBottomNote(
+    p,
+    stage,
+    tr(
+      locale,
+      '拖動基底向量 a、b；調整 s、t 觀察同一平面中的座標讀數',
+      'Drag the basis vectors a and b, and change s and t to read coordinates in the same plane',
+    ),
+  );
 }
 
-function drawNormalMode(p: p5, params: Params, handles: DragHandle[]) {
+function drawNormalMode(p: p5, params: Params, handles: DragHandle[], locale?: 'en') {
   const compact = p.width < 560;
   const stage = drawFrame(p, 'VECTOR GEOMETRY', 'normal direction and line');
   const plot = plotRect(stage, compact);
@@ -833,12 +942,20 @@ function drawNormalMode(p: p5, params: Params, handles: DragHandle[]) {
   drawVectorHandle(p, handles, 'n', nEnd, plot, scale);
   drawPointLabel(p, nEnd.x + 8, nEnd.y - 8, 'n');
   drawPlotLabel(p, plot, `${fmt(params.n.x)}x + ${fmt(params.n.y)}y = ${fmt(params.c)}`);
-  drawBottomNote(p, stage, '拖動法向量 n；直線永遠垂直於 n，方程式為 n dot x = c');
+  drawBottomNote(
+    p,
+    stage,
+    tr(
+      locale,
+      '拖動法向量 n；直線永遠垂直於 n，方程式為 n dot x = c',
+      'Drag the normal n. The line stays perpendicular to n, and its equation is n dot x = c',
+    ),
+  );
 }
 
-function buildStats(params: Params) {
+function buildStats(params: Params, locale?: 'en') {
   if (params.mode === 'guide') {
-    return getVectorGuideState(params).stats;
+    return guideCopy(params, locale).stats;
   }
 
   if (params.mode === 'dot') {
@@ -848,15 +965,15 @@ function buildStats(params: Params) {
       const cosTheta = Math.cos(signedAngleBetween(params.u, params.v));
       const relation =
         Math.abs(cosTheta) < 0.04
-          ? '單位向量垂直'
+          ? tr(locale, '單位向量垂直', 'the unit vectors are perpendicular')
           : cosTheta > 0
-            ? '銳角：cos(theta) > 0'
-            : '鈍角：cos(theta) < 0';
+            ? tr(locale, '銳角：cos(theta) > 0', 'acute: cos(theta) > 0')
+            : tr(locale, '鈍角：cos(theta) < 0', 'obtuse: cos(theta) < 0');
 
       return [
         `a-hat · b-hat = ${fmt(cosTheta, 3)}`,
         `theta = ${fmt(angle, 1)} deg`,
-        `投影長度 = ${fmt(cosTheta, 3)}`,
+        `${tr(locale, '投影長度', 'projection length')} = ${fmt(cosTheta, 3)}`,
         relation,
       ];
     }
@@ -864,12 +981,16 @@ function buildStats(params: Params) {
     const dot = dot2(params.u, params.v);
     const projection = mag2(params.u) < 1e-9 ? 0 : dot / mag2(params.u);
     const relation =
-      Math.abs(dot) < 0.04 ? 'a 垂直於 b' : dot > 0 ? '銳角：內積 > 0' : '鈍角：內積 < 0';
+      Math.abs(dot) < 0.04
+        ? tr(locale, 'a 垂直於 b', 'a is perpendicular to b')
+        : dot > 0
+          ? tr(locale, '銳角：內積 > 0', 'acute: dot product > 0')
+          : tr(locale, '鈍角：內積 < 0', 'obtuse: dot product < 0');
 
     return [
       `a · b = ${fmt(dot, 3)}`,
       `theta = ${fmt(angle, 1)} deg`,
-      `投影長度 = ${fmt(projection, 3)}`,
+      `${tr(locale, '投影長度', 'projection length')} = ${fmt(projection, 3)}`,
       relation,
     ];
   }
@@ -882,25 +1003,31 @@ function buildStats(params: Params) {
       'v = s a + t b',
       `v = (${fmt(result.x)}, ${fmt(result.y)})`,
       `det[a b] = ${fmt(det, 3)}`,
-      Math.abs(det) < 0.08 ? '張成：一條直線' : '張成：整個平面',
+      Math.abs(det) < 0.08
+        ? tr(locale, '張成：一條直線', 'span: a line')
+        : tr(locale, '張成：整個平面', 'span: the whole plane'),
     ];
   }
 
   return [
     `n = (${fmt(params.n.x)}, ${fmt(params.n.y)})`,
     `${fmt(params.n.x)}x + ${fmt(params.n.y)}y = ${fmt(params.c)}`,
-    `方向向量 d = (${fmt(-params.n.y)}, ${fmt(params.n.x)})`,
-    'n 垂直於直線',
+    `${tr(locale, '方向向量', 'direction')} d = (${fmt(-params.n.y)}, ${fmt(params.n.x)})`,
+    tr(locale, 'n 垂直於直線', 'n is perpendicular to the line'),
   ];
 }
 
-export default function VectorsExploreRoot() {
+type Props = { locale?: 'en' };
+
+export default function VectorsExploreRoot({ locale }: Props) {
   const [params, setParamsState] = useState<Params>(DEFAULT_PARAMS);
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
   const handlesRef = useRef<DragHandle[]>([]);
   const draggingRef = useRef<DragHandle | null>(null);
 
   paramsRef.current = params;
+  localeRef.current = locale;
 
   const setParams = useCallback((updater: (prev: Params) => Params) => {
     setParamsState((prev) => {
@@ -915,10 +1042,11 @@ export default function VectorsExploreRoot() {
     const handles: DragHandle[] = [];
     const current = paramsRef.current;
 
-    if (current.mode === 'guide') drawGuideMode(p, current, handles);
-    if (current.mode === 'dot') drawDotMode(p, current, handles);
-    if (current.mode === 'span') drawSpanMode(p, current, handles);
-    if (current.mode === 'normal') drawNormalMode(p, current, handles);
+    const lang = localeRef.current;
+    if (current.mode === 'guide') drawGuideMode(p, current, handles, lang);
+    if (current.mode === 'dot') drawDotMode(p, current, handles, lang);
+    if (current.mode === 'span') drawSpanMode(p, current, handles, lang);
+    if (current.mode === 'normal') drawNormalMode(p, current, handles, lang);
 
     handlesRef.current = handles;
   }, []);
@@ -992,9 +1120,11 @@ export default function VectorsExploreRoot() {
     { loop: false, redrawKey: params },
   );
 
-  const stats = useMemo(() => buildStats(params), [params]);
-  const guideState = useMemo(() => getVectorGuideState(params), [params]);
-  const activeMode = MODE_OPTIONS.find((mode) => mode.id === params.mode) ?? MODE_OPTIONS[0];
+  const stats = useMemo(() => buildStats(params, locale), [params, locale]);
+  const guideState = useMemo(() => guideCopy(params, locale), [params, locale]);
+  const modes = locale === 'en' ? EN_MODE_OPTIONS : MODE_OPTIONS;
+  const roles = locale === 'en' ? EN_GUIDE_ROLE_OPTIONS : GUIDE_ROLE_OPTIONS;
+  const activeMode = modes.find((mode) => mode.id === params.mode) ?? modes[0];
 
   return (
     <div className="vectors-explore">
@@ -1006,15 +1136,15 @@ export default function VectorsExploreRoot() {
             ref={canvasHostRef}
             className="vectors-explore__canvas"
             role="img"
-            aria-label="平面向量幾何互動圖"
+            aria-label={locale === 'en' ? 'Plane vectors' : '平面向量幾何互動圖'}
           />
         </div>
 
         <aside className="vectors-explore__sidebar">
           <div className="vectors-explore__block">
-            <p className="vectors-explore__block-title">切換</p>
-            <div className="vectors-explore__mode-list" role="tablist" aria-label="向量模式">
-              {MODE_OPTIONS.map((mode) => (
+            <p className="vectors-explore__block-title">{locale === 'en' ? 'Mode' : '切換'}</p>
+            <div className="vectors-explore__mode-list" role="tablist" aria-label={locale === 'en' ? 'Vector mode' : '向量模式'}>
+              {modes.map((mode) => (
                 <button
                   key={mode.id}
                   type="button"
@@ -1039,7 +1169,7 @@ export default function VectorsExploreRoot() {
 
           {params.mode === 'dot' && (
             <div className="vectors-explore__block">
-              <p className="vectors-explore__block-title">方向 / 投影</p>
+              <p className="vectors-explore__block-title">{locale === 'en' ? 'Direction / projection' : '方向 / 投影'}</p>
               <label className="vectors-explore__check">
                 <input
                   type="checkbox"
@@ -1048,23 +1178,25 @@ export default function VectorsExploreRoot() {
                     setParams((prev) => ({ ...prev, unitCircle: event.target.checked }))
                   }
                 />
-                <span>單位圓視角</span>
+                <span>{locale === 'en' ? 'Unit circle' : '單位圓視角'}</span>
               </label>
               <p className="vectors-explore__muted">
-                拖動向量端點，觀察投影線段、角度與內積正負的關係。
+                {locale === 'en'
+                  ? 'Drag the tips and watch the projection, the angle, and the sign of the dot product.'
+                  : '拖動向量端點，觀察投影線段、角度與內積正負的關係。'}
               </p>
             </div>
           )}
 
           {params.mode === 'guide' && (
             <div className="vectors-explore__block">
-              <p className="vectors-explore__block-title">讀圖焦點</p>
+              <p className="vectors-explore__block-title">{locale === 'en' ? 'Reading' : '讀圖焦點'}</p>
               <div
                 className="vectors-explore__role-list"
                 role="tablist"
-                aria-label="讀圖焦點"
+                aria-label={locale === 'en' ? 'Reading' : '讀圖焦點'}
               >
-                {GUIDE_ROLE_OPTIONS.map((role) => (
+                {roles.map((role) => (
                   <button
                     key={role.id}
                     type="button"
@@ -1091,11 +1223,11 @@ export default function VectorsExploreRoot() {
 
           {params.mode === 'span' && (
             <div className="vectors-explore__block">
-              <p className="vectors-explore__block-title">座標係數</p>
+              <p className="vectors-explore__block-title">{locale === 'en' ? 'Coefficients' : '座標係數'}</p>
               {(['s', 't'] as const).map((key) => (
                 <div key={key} className="control-field">
                   <label htmlFor={`vectors-${key}`}>
-                    係數 {key}
+                    {locale === 'en' ? `Coefficient ${key}` : `係數 ${key}`}
                     <span className="vectors-explore__val">{fmt(params[key])}</span>
                   </label>
                   <div className="range-wrap">
@@ -1122,10 +1254,10 @@ export default function VectorsExploreRoot() {
 
           {params.mode === 'normal' && (
             <div className="vectors-explore__block">
-              <p className="vectors-explore__block-title">法向 / 直線</p>
+              <p className="vectors-explore__block-title">{locale === 'en' ? 'Normal / line' : '法向 / 直線'}</p>
               <div className="control-field">
                 <label htmlFor="vectors-c">
-                  常數 c
+                  {locale === 'en' ? 'Constant c' : '常數 c'}
                   <span className="vectors-explore__val">{fmt(params.c)}</span>
                 </label>
                 <div className="range-wrap">
@@ -1147,13 +1279,15 @@ export default function VectorsExploreRoot() {
                 </div>
               </div>
               <p className="vectors-explore__muted">
-                拖動法向量 n；直線隨 c 平移，方向始終與 n 垂直。
+                {locale === 'en'
+                  ? 'Drag the normal n. The line slides with c and stays perpendicular to n.'
+                  : '拖動法向量 n；直線隨 c 平移，方向始終與 n 垂直。'}
               </p>
             </div>
           )}
 
           <div className="vectors-explore__block vectors-explore__stats">
-            <p className="vectors-explore__block-title">統計</p>
+            <p className="vectors-explore__block-title">{locale === 'en' ? 'Stats' : '統計'}</p>
             {stats.map((line) => (
               <p key={line} className="vectors-explore__accent">
                 {line}

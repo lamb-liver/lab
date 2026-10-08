@@ -15,7 +15,10 @@ function measureCanvas(host: HTMLElement): CanvasSize {
   return { width, height: Math.max(330, Math.round(width * 0.64)) };
 }
 
-export default function SolidOfRevolutionExamRoot() {
+type Props = { locale?: 'en' };
+
+export default function SolidOfRevolutionExamRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [a, setA] = useState(1);
   const [slices, setSlices] = useState(10);
   const [replayKey, setReplayKey] = useState(0);
@@ -43,9 +46,10 @@ export default function SolidOfRevolutionExamRoot() {
       a: aRef.current,
       slices: slicesRef.current,
       sweep: progressRef.current,
+      locale,
     });
     return { keepLooping: progressRef.current < 1 };
-  }, []);
+  }, [locale]);
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, undefined, {
     restartOn: [a, slices, replayKey],
@@ -58,31 +62,43 @@ export default function SolidOfRevolutionExamRoot() {
     <div className="exam-interactive-explore">
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
-          <p className="exam-interactive-explore__visual-title">圓盤掃成旋轉體</p>
+          <p className="exam-interactive-explore__visual-title">
+            {en ? 'Disks sweeping out a solid' : '圓盤掃成旋轉體'}
+          </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>先想一想</strong>
-            每條曲線圍出的面積都等於 2，繞 x 軸後的體積也會都相等嗎？
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
+            {en
+              ? 'Every one of these curves encloses area 2. After a rotation about the x-axis, are the volumes equal too?'
+              : '每條曲線圍出的面積都等於 2，繞 x 軸後的體積也會都相等嗎？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            金色截線代表圓盤；增加 n 會讓中點和靠近積分值
+            {en
+              ? 'Gold section curves are the disks. Raising n pulls the midpoint sum toward the integral.'
+              : '金色截線代表圓盤；增加 n 會讓中點和靠近積分值'}
           </p>
           <div
             ref={canvasHostRef}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label={`函數 3ax 平方加 1 減 a 繞 x 軸形成的旋轉體，a=${a.toFixed(1)}，切成 ${slices} 片`}
+            aria-label={
+              en
+                ? `Solid formed by rotating 3a x squared plus 1 minus a about the x-axis, a=${a.toFixed(1)}, cut into ${slices} slices`
+                : `函數 3ax 平方加 1 減 a 繞 x 軸形成的旋轉體，a=${a.toFixed(1)}，切成 ${slices} 片`
+            }
           />
         </div>
 
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">改變函數</p>
+            <p className="exam-interactive-explore__block-title">
+              {en ? 'Change the function' : '改變函數'}
+            </p>
             <label className="exam-interactive-explore__range">
-              <span>參數 a</span>
+              <span>{en ? 'Parameter a' : '參數 a'}</span>
               <output>{a.toFixed(1)}</output>
               <input
                 type="range"
-                aria-label="函數參數 a"
+                aria-label={en ? 'Function parameter a' : '函數參數 a'}
                 min="-0.5"
                 max="1"
                 step="0.1"
@@ -94,18 +110,22 @@ export default function SolidOfRevolutionExamRoot() {
               V={exactLabel}≈{exact.toFixed(3)}
             </p>
             <p className="exam-interactive-explore__note">
-              V=2π+(8/5)πa²；面積固定，不代表半徑平方的積分固定。
+              {en
+                ? 'V = 2π + (8/5)πa². A fixed area does not fix the integral of the squared radius.'
+                : 'V=2π+(8/5)πa²；面積固定，不代表半徑平方的積分固定。'}
             </p>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">圓盤近似</p>
+            <p className="exam-interactive-explore__block-title">
+              {en ? 'Disk approximation' : '圓盤近似'}
+            </p>
             <label className="exam-interactive-explore__range">
-              <span>切片數 n</span>
+              <span>{en ? 'Number of slices n' : '切片數 n'}</span>
               <output>{slices}</output>
               <input
                 type="range"
-                aria-label="圓盤切片數 n"
+                aria-label={en ? 'Number of disks n' : '圓盤切片數 n'}
                 min="4"
                 max="32"
                 step="1"
@@ -114,7 +134,9 @@ export default function SolidOfRevolutionExamRoot() {
               />
             </label>
             <p className="exam-interactive-explore__note">
-              中點和 {approximate.toFixed(3)}；誤差 {Math.abs(approximate - exact).toFixed(3)}
+              {en
+                ? `Midpoint sum ${approximate.toFixed(3)}; error ${Math.abs(approximate - exact).toFixed(3)}`
+                : `中點和 ${approximate.toFixed(3)}；誤差 ${Math.abs(approximate - exact).toFixed(3)}`}
             </p>
           </div>
 
@@ -123,7 +145,7 @@ export default function SolidOfRevolutionExamRoot() {
             className="exam-interactive-explore__mode-button"
             onClick={() => setReplayKey((current) => current + 1)}
           >
-            重播旋轉掃掠
+            {en ? 'Replay the sweep' : '重播旋轉掃掠'}
           </button>
         </aside>
       </div>

@@ -77,6 +77,10 @@ function fmt(value: number, digits = 2) {
   return value.toFixed(digits).replace(/\.?0+$/, '');
 }
 
+function tr(locale: 'en' | undefined, zh: string, en: string) {
+  return locale === 'en' ? en : zh;
+}
+
 function exponentialCanvasHeight(width: number, mode: Mode = 'inverse') {
   return (
     mode === 'e' && width < 520
@@ -364,11 +368,13 @@ function drawMiniPanelTitle(p: p5, rect: Rect, label: string) {
   p.textStyle(p.NORMAL);
 }
 
-function drawInverseMode(p: p5, params: Params) {
+function drawInverseMode(p: p5, params: Params, locale?: 'en') {
   const stage = drawFrame(
     p,
-    '指數與對數',
-    params.axisMode === 'linear' ? '互為反函數，沿 y = x 對稱' : 'log y 座標把倍增關係變成直線',
+    tr(locale, '指數與對數', 'Exponential and logarithm'),
+    params.axisMode === 'linear'
+      ? tr(locale, '互為反函數，沿 y = x 對稱', 'Inverses, symmetric across y = x')
+      : tr(locale, 'log y 座標把倍增關係變成直線', 'log y: doubling becomes a line'),
   );
   const compact = p.width < 520;
   const plot = insetRect(stage, compact ? 30 : 54, 74, compact ? 22 : 36, 54);
@@ -402,7 +408,11 @@ function drawInverseMode(p: p5, params: Params) {
 
     drawPlotLabel(p, plot, 'y = b · aˣ', 18, 34, 230);
     drawPlotLabel(p, plot, 'y = logₐ(x / b)', 18, 54, 180);
-    drawBottomNote(p, stage, '線性座標：指數與對數沿 y = x 互為鏡像');
+    drawBottomNote(
+      p,
+      stage,
+      tr(locale, '線性座標：指數與對數沿 y = x 互為鏡像', 'Linear: mirror across y = x'),
+    );
     return;
   }
 
@@ -427,9 +437,13 @@ function drawInverseMode(p: p5, params: Params) {
     color: BLUE,
   });
 
-  drawPlotLabel(p, plot, 'log y 座標', 18, 34, 230);
-  drawPlotLabel(p, plot, `斜率 ln a = ${fmt(Math.log(params.a), 3)}`, 18, 54, 165);
-  drawBottomNote(p, stage, 'log y 座標：把倍增關係改寫成直線斜率');
+  drawPlotLabel(p, plot, tr(locale, 'log y 座標', 'log y coordinates'), 18, 34, 230);
+  drawPlotLabel(p, plot, `${tr(locale, '斜率', 'Slope')} ln a = ${fmt(Math.log(params.a), 3)}`, 18, 54, 165);
+  drawBottomNote(
+    p,
+    stage,
+    tr(locale, 'log y 座標：把倍增關係改寫成直線斜率', 'log y: doubling is a fixed slope'),
+  );
 }
 
 function drawLogStraightEmphasis(
@@ -475,8 +489,12 @@ function drawLogStraightEmphasis(
   });
 }
 
-function drawEMode(p: p5, params: Params) {
-  const stage = drawFrame(p, 'e 的誕生', '同一個 e：複利極限與 ln(e)=1 的面積端點');
+function drawEMode(p: p5, params: Params, locale?: 'en') {
+  const stage = drawFrame(
+    p,
+    tr(locale, 'e 的誕生', 'Birth of e'),
+    tr(locale, '同一個 e：複利極限與 ln(e)=1 的面積端點', 'Same e: compound limit and ln(e) = 1'),
+  );
   const narrow = p.width < 720;
   const sidePad = narrow ? 28 : 46;
   const gap = narrow ? 18 : 38;
@@ -502,15 +520,19 @@ function drawEMode(p: p5, params: Params) {
         h: Math.max(160, panelH),
       };
 
-  const leftAnchor = drawCompoundPanel(p, left, params.n, !narrow && panelH >= 300);
-  const rightAnchor = drawHyperbolaPanel(p, right, params.areaX);
+  const leftAnchor = drawCompoundPanel(p, left, params.n, !narrow && panelH >= 300, locale);
+  const rightAnchor = drawHyperbolaPanel(p, right, params.areaX, locale);
 
   if (!narrow) drawEConnection(p, leftAnchor, rightAnchor);
-  drawBottomNote(p, stage, 'e 連結複利極限與自然對數的單位面積');
+  drawBottomNote(
+    p,
+    stage,
+    tr(locale, 'e 連結複利極限與自然對數的單位面積', 'e joins the compound limit and the unit area'),
+  );
 }
 
-function drawCompoundPanel(p: p5, rect: Rect, n: number, showBlocks: boolean) {
-  drawMiniPanelTitle(p, rect, '連續複利極限');
+function drawCompoundPanel(p: p5, rect: Rect, n: number, showBlocks: boolean, locale?: 'en') {
+  drawMiniPanelTitle(p, rect, tr(locale, '連續複利極限', 'Continuous compounding'));
 
   const plot = {
     x: rect.x,
@@ -554,7 +576,7 @@ function drawCompoundPanel(p: p5, rect: Rect, n: number, showBlocks: boolean) {
   p.textSize(11);
   p.textAlign(p.LEFT, p.TOP);
   p.text(`n = ${n}`, rect.x, plot.y + plot.h + 14);
-  p.text(`終值 ${fmt(current, 5)}`, rect.x, plot.y + plot.h + 31);
+  p.text(`${tr(locale, '終值', 'Value')} ${fmt(current, 5)}`, rect.x, plot.y + plot.h + 31);
 
   if (showBlocks) {
     drawCompoundBlocks(p, {
@@ -563,7 +585,7 @@ function drawCompoundPanel(p: p5, rect: Rect, n: number, showBlocks: boolean) {
       w: rect.w,
       n,
       maxBarH: 24,
-    });
+    }, locale);
   }
 
   return {
@@ -575,6 +597,7 @@ function drawCompoundPanel(p: p5, rect: Rect, n: number, showBlocks: boolean) {
 function drawCompoundBlocks(
   p: p5,
   cfg: { x: number; y: number; w: number; n: number; maxBarH: number },
+  locale?: 'en',
 ) {
   const count = Math.min(24, Math.max(4, Math.round(cfg.n / 10)));
   const gap = 3;
@@ -594,11 +617,11 @@ function drawCompoundBlocks(
   p.noStroke();
   p.fill(...MUTED, 190);
   p.textSize(10.5);
-  p.text('切分越細，越接近 e', cfg.x, baselineY + 10);
+  p.text(tr(locale, '切分越細，越接近 e', 'Finer steps, closer to e'), cfg.x, baselineY + 10);
 }
 
-function drawHyperbolaPanel(p: p5, rect: Rect, areaX: number) {
-  drawMiniPanelTitle(p, rect, 'ln(x) 的面積');
+function drawHyperbolaPanel(p: p5, rect: Rect, areaX: number, locale?: 'en') {
+  drawMiniPanelTitle(p, rect, tr(locale, 'ln(x) 的面積', 'Area of ln(x)'));
 
   const plot = {
     x: rect.x,
@@ -639,8 +662,8 @@ function drawHyperbolaPanel(p: p5, rect: Rect, areaX: number) {
   p.fill(...TEXT, 205);
   p.textSize(11);
   p.textAlign(p.LEFT, p.TOP);
-  p.text(`面積 = ln(${fmt(areaX)})`, rect.x, plot.y + plot.h + 14);
-  p.text('e 點：ln(e) = 1', rect.x, plot.y + plot.h + 31);
+  p.text(`${tr(locale, '面積', 'Area')} = ln(${fmt(areaX)})`, rect.x, plot.y + plot.h + 14);
+  p.text(tr(locale, 'e 點：ln(e) = 1', 'Point e: ln(e) = 1'), rect.x, plot.y + plot.h + 31);
 
   return {
     x: ePoint.x,
@@ -700,8 +723,12 @@ function drawEConnection(p: p5, a: Point, b: Point) {
   p.text('e', (a.x + b.x) / 2, (a.y + b.y) / 2 - 4);
 }
 
-function drawCompareMode(p: p5, params: Params) {
-  const stage = drawFrame(p, '換底與比較', '所有對數函數都通過 (1, 0)，底數只改變尺度');
+function drawCompareMode(p: p5, params: Params, locale?: 'en') {
+  const stage = drawFrame(
+    p,
+    tr(locale, '換底與比較', 'Change of base'),
+    tr(locale, '所有對數函數都通過 (1, 0)，底數只改變尺度', 'All pass through (1, 0); the base rescales'),
+  );
   const compact = p.width < 520;
   const plot = insetRect(stage, compact ? 32 : 56, 74, compact ? 24 : 38, 58);
 
@@ -743,25 +770,38 @@ function drawCompareMode(p: p5, params: Params) {
   p.textAlign(p.LEFT, p.TOP);
   p.text('(1, 0)', cross.x + 10, cross.y + 8);
 
-  drawPlotLabel(p, plot, `目前：y = log₍${fmt(params.compareA)}₎x`, 18, 34, 230);
-  drawPlotLabel(p, plot, params.compareA < 1 ? '底數小於 1：遞減' : '底數大於 1：遞增', 18, 54, 160);
-  drawBottomNote(p, stage, '所有對數函數都通過 (1, 0)，因為 logₐ1 = 0');
+  drawPlotLabel(p, plot, `${tr(locale, '目前', 'Current')}: y = log₍${fmt(params.compareA)}₎x`, 18, 34, 230);
+  drawPlotLabel(
+    p,
+    plot,
+    params.compareA < 1
+      ? tr(locale, '底數小於 1：遞減', 'Base < 1: decreasing')
+      : tr(locale, '底數大於 1：遞增', 'Base > 1: increasing'),
+    18,
+    54,
+    160,
+  );
+  drawBottomNote(
+    p,
+    stage,
+    tr(locale, '所有對數函數都通過 (1, 0)，因為 logₐ1 = 0', 'All pass through (1, 0), since logₐ1 = 0'),
+  );
 }
 
-function renderScene(p: p5, params: Params) {
+function renderScene(p: p5, params: Params, locale?: 'en') {
   if (params.mode === 'inverse') {
-    drawInverseMode(p, params);
+    drawInverseMode(p, params, locale);
   } else if (params.mode === 'e') {
-    drawEMode(p, params);
+    drawEMode(p, params, locale);
   } else {
-    drawCompareMode(p, params);
+    drawCompareMode(p, params, locale);
   }
 }
 
-function modeTitle(mode: Mode) {
-  if (mode === 'inverse') return '反函數與座標';
-  if (mode === 'e') return '連續複利與 ln';
-  return '對數函數族';
+function modeTitle(mode: Mode, locale?: 'en') {
+  if (mode === 'inverse') return tr(locale, '反函數與座標', 'Inverses and coordinates');
+  if (mode === 'e') return tr(locale, '連續複利與 ln', 'Continuous compounding and ln');
+  return tr(locale, '對數函數族', 'A family of logarithms');
 }
 
 type ModeButtonProps = {
@@ -816,10 +856,10 @@ type StatsBlockProps = {
   rows: readonly (readonly [string, string])[];
 };
 
-function StatsBlock({ rows }: StatsBlockProps) {
+function StatsBlock({ rows, title }: StatsBlockProps & { title: string }) {
   return (
     <div className="exponential-logarithm-explore__block">
-      <p className="exponential-logarithm-explore__block-title">統計</p>
+      <p className="exponential-logarithm-explore__block-title">{title}</p>
       {rows.map(([label, value]) => (
         <p className="exponential-logarithm-explore__stat" key={label}>
           {label}
@@ -830,11 +870,17 @@ function StatsBlock({ rows }: StatsBlockProps) {
   );
 }
 
-export default function ExponentialLogarithmExploreRoot() {
+type Props = {
+  locale?: 'en';
+};
+
+export default function ExponentialLogarithmExploreRoot({ locale }: Props) {
   const [params, setParams] = useState<Params>(DEFAULT_PARAMS);
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
 
   paramsRef.current = params;
+  localeRef.current = locale;
 
   const patchParams = useCallback((patch: Partial<Params>) => {
     setParams((prev) => ({ ...prev, ...patch }));
@@ -846,7 +892,7 @@ export default function ExponentialLogarithmExploreRoot() {
   );
   const draw = useCallback((p: p5) => {
     p.textFont('"Noto Sans TC CJK", sans-serif');
-    renderScene(p, paramsRef.current);
+    renderScene(p, paramsRef.current, localeRef.current);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, undefined, {
     loop: false,
@@ -856,13 +902,13 @@ export default function ExponentialLogarithmExploreRoot() {
   const stats = useMemo(() => {
     if (params.mode === 'inverse') {
       return [
-        ['指數', `y = ${fmt(params.b)} · ${fmt(params.a)}ˣ`],
-        ['對數', `log₍${fmt(params.a)}₎(x / ${fmt(params.b)})`],
+        [tr(locale, '指數', 'Exponential'), `y = ${fmt(params.b)} · ${fmt(params.a)}ˣ`],
+        [tr(locale, '對數', 'Logarithm'), `log₍${fmt(params.a)}₎(x / ${fmt(params.b)})`],
         [
-          params.axisMode === 'linear' ? '對稱軸' : '斜率',
+          params.axisMode === 'linear' ? tr(locale, '對稱軸', 'Axis of symmetry') : tr(locale, '斜率', 'Slope'),
           params.axisMode === 'linear' ? 'y = x' : `ln a = ${fmt(Math.log(params.a), 3)}`,
         ],
-        ['共同點', 'logₐ1 = 0'],
+        [tr(locale, '共同點', 'Common point'), 'logₐ1 = 0'],
       ] as const;
     }
 
@@ -871,18 +917,23 @@ export default function ExponentialLogarithmExploreRoot() {
       return [
         ['(1 + 1/n)ⁿ', fmt(compound, 5)],
         ['e', fmt(Math.E, 5)],
-        ['誤差', fmt(Math.abs(Math.E - compound), 5)],
+        [tr(locale, '誤差', 'Error'), fmt(Math.abs(Math.E - compound), 5)],
         [`ln(${fmt(params.areaX)})`, fmt(Math.log(params.areaX), 4)],
       ] as const;
     }
 
     return [
-      ['目前函數', `y = log₍${fmt(params.compareA)}₎x`],
-      ['底數行為', params.compareA < 1 ? 'a < 1：遞減' : 'a > 1：遞增'],
-      ['共同點', '(1, 0)'],
-      ['換底', 'logₐx = ln x / ln a'],
+      [tr(locale, '目前函數', 'Current function'), `y = log₍${fmt(params.compareA)}₎x`],
+      [
+        tr(locale, '底數行為', 'Base'),
+        params.compareA < 1
+          ? tr(locale, 'a < 1：遞減', 'a < 1: decreasing')
+          : tr(locale, 'a > 1：遞增', 'a > 1: increasing'),
+      ],
+      [tr(locale, '共同點', 'Common point'), '(1, 0)'],
+      [tr(locale, '換底', 'Change of base'), 'logₐx = ln x / ln a'],
     ] as const;
-  }, [params]);
+  }, [params, locale]);
 
   return (
     <div className="exponential-logarithm-explore">
@@ -892,28 +943,28 @@ export default function ExponentialLogarithmExploreRoot() {
             ref={canvasHostRef}
             className="exponential-logarithm-explore__canvas"
             role="img"
-            aria-label="指數與對數互動視覺化"
+            aria-label={tr(locale, '指數與對數互動視覺化', 'Exponential and logarithm')}
           />
         </div>
 
         <aside className="exponential-logarithm-explore__sidebar">
           <div className="exponential-logarithm-explore__block">
-            <p className="exponential-logarithm-explore__block-title">模式</p>
+            <p className="exponential-logarithm-explore__block-title">{tr(locale, '模式', 'Mode')}</p>
             <div className="exponential-logarithm-explore__modes">
               <ModeButton active={params.mode === 'inverse'} onClick={() => patchParams({ mode: 'inverse' })}>
-                指數與對數
+                {tr(locale, '指數與對數', 'Exponential and logarithm')}
               </ModeButton>
               <ModeButton active={params.mode === 'e'} onClick={() => patchParams({ mode: 'e' })}>
-                e 的誕生
+                {tr(locale, 'e 的誕生', 'Birth of e')}
               </ModeButton>
               <ModeButton active={params.mode === 'compare'} onClick={() => patchParams({ mode: 'compare' })}>
-                換底與比較
+                {tr(locale, '換底與比較', 'Change of base')}
               </ModeButton>
             </div>
           </div>
 
           <div className="exponential-logarithm-explore__block">
-            <p className="exponential-logarithm-explore__block-title">{modeTitle(params.mode)}</p>
+            <p className="exponential-logarithm-explore__block-title">{modeTitle(params.mode, locale)}</p>
 
             {params.mode === 'inverse' ? (
               <>
@@ -922,10 +973,10 @@ export default function ExponentialLogarithmExploreRoot() {
                   className="exponential-logarithm-explore__toggle"
                   onClick={() => patchParams({ axisMode: params.axisMode === 'linear' ? 'logY' : 'linear' })}
                 >
-                  {params.axisMode === 'linear' ? '線性座標' : 'log y 座標'}
+                  {params.axisMode === 'linear' ? tr(locale, '線性座標', 'Linear coordinates') : tr(locale, 'log y 座標', 'log y coordinates')}
                 </button>
                 <RangeField
-                  label="底數 a"
+                  label={tr(locale, '底數 a', 'Base a')}
                   min={0.2}
                   max={5}
                   step={0.01}
@@ -934,7 +985,7 @@ export default function ExponentialLogarithmExploreRoot() {
                   onChange={(a) => setParams((prev) => ({ ...prev, a: avoidOne(a, prev.a) }))}
                 />
                 <RangeField
-                  label="係數 b"
+                  label={tr(locale, '係數 b', 'Coefficient b')}
                   min={0.3}
                   max={3}
                   step={0.01}
@@ -948,7 +999,7 @@ export default function ExponentialLogarithmExploreRoot() {
             {params.mode === 'e' ? (
               <>
                 <RangeField
-                  label="分割數 n"
+                  label={tr(locale, '分割數 n', 'Partitions n')}
                   min={1}
                   max={240}
                   step={1}
@@ -957,7 +1008,7 @@ export default function ExponentialLogarithmExploreRoot() {
                   onChange={(n) => patchParams({ n: Math.max(1, Math.round(n)) })}
                 />
                 <RangeField
-                  label="面積端點 x"
+                  label={tr(locale, '面積端點 x', 'Area endpoint x')}
                   min={1.05}
                   max={4}
                   step={0.01}
@@ -970,7 +1021,7 @@ export default function ExponentialLogarithmExploreRoot() {
 
             {params.mode === 'compare' ? (
               <RangeField
-                label="底數 a"
+                label={tr(locale, '底數 a', 'Base a')}
                 min={0.1}
                 max={10}
                 step={0.01}
@@ -983,7 +1034,7 @@ export default function ExponentialLogarithmExploreRoot() {
             ) : null}
           </div>
 
-          <StatsBlock rows={stats} />
+          <StatsBlock title={tr(locale, '統計', 'Statistics')} rows={stats} />
         </aside>
       </div>
     </div>

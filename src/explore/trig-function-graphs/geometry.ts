@@ -238,7 +238,29 @@ export function formatRad(v: number) {
   return fmt(v, 2);
 }
 
-export function buildTrigFunctionGraphStats(params: TrigFunctionGraphParams) {
+const EN_MODES: Record<TrigFunctionGraphMode, { label: string; caption: string }> = {
+  radian: {
+    label: 'Radians',
+    caption: 'An angle is read first as a ratio of arc length. On the unit circle, r = 1.',
+  },
+  unfold: {
+    label: 'Unfold',
+    caption: 'Unfold the y-coordinate on the circle along the x-axis into y = sin x.',
+  },
+  transform: {
+    label: 'Parameters',
+    caption: 'Amplitude, period, phase, and the center line turn the base sine wave into a family.',
+  },
+};
+
+export function modePresentation(mode: TrigFunctionGraphMode, locale?: 'en') {
+  const zh = MODE_OPTIONS.find((item) => item.id === mode) ?? MODE_OPTIONS[0]!;
+  if (locale !== 'en') return { label: zh.label, caption: zh.caption };
+  return EN_MODES[mode];
+}
+
+export function buildTrigFunctionGraphStats(params: TrigFunctionGraphParams, locale?: 'en') {
+  const en = locale === 'en';
   if (params.mode === 'transform') {
     return [
       `|A| = ${fmt(Math.abs(params.amplitude))}`,
@@ -253,12 +275,21 @@ export function buildTrigFunctionGraphStats(params: TrigFunctionGraphParams) {
     `θ = ${formatRad(params.theta)} = ${formatDeg(params.theta)}`,
     `sin θ = ${fmt(Math.sin(params.theta))}`,
     `cos θ = ${fmt(Math.cos(params.theta))}`,
-    params.mode === 'radian' ? 'r = 1，所以 s = θ' : '週期 = 2π',
+    params.mode === 'radian'
+      ? en
+        ? 'r = 1, so s = θ'
+        : 'r = 1，所以 s = θ'
+      : en
+        ? 'period = 2π'
+        : '週期 = 2π',
   ];
 }
 
-export function buildTrigFunctionGraphFormulas(mode: TrigFunctionGraphMode) {
+export function buildTrigFunctionGraphFormulas(mode: TrigFunctionGraphMode, locale?: 'en') {
   if (mode === 'radian') return ['θ = s / r', 'r = 1 ⇒ θ = s'];
   if (mode === 'unfold') return ['P(θ) = (cos θ, sin θ)', 'y = sin x'];
-  return ['y = A sin((2π/T)(x − φ)) + k', '振幅 |A|，中線 y = k'];
+  return [
+    'y = A sin((2π/T)(x − φ)) + k',
+    locale === 'en' ? 'amplitude |A|, center line y = k' : '振幅 |A|，中線 y = k',
+  ];
 }

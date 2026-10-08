@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
 import {
   buildDependencyCone,
@@ -77,12 +77,68 @@ const DEFAULT_PARAMS: Params = {
 };
 const CATALAN_N4 = catalanContrast(4);
 
+const TEXT = {
+  zh: {
+    aria: '排列組合視覺化',
+    parameters: '參數',
+    mode: '模式',
+    modes: [
+      { value: 'pascal' as const, label: '係數表' },
+      { value: 'path' as const, label: '路徑模型' },
+      { value: 'recurrence' as const, label: '遞迴依賴' },
+    ],
+    rows: '列數',
+    modulus: '模數',
+    show: '顯示',
+    views: [
+      { value: 'single' as const, label: '單一路徑' },
+      { value: 'overlay' as const, label: '所有路徑疊加' },
+      { value: 'count' as const, label: '節點計數場' },
+    ],
+    rightSteps: '向右步數',
+    upSteps: '向上步數',
+    targetRow: '目標列 n',
+    observation: '觀察',
+    hint: '同一個 C(n,k) 會同時出現在係數、格點路徑與遞迴依賴中。',
+    catalanTitle: '卡特蘭對照',
+    catalanHint: '卡特蘭數不是新的 C(n,k)：它從 C(2n,n) 的平衡路徑中排除越過限制線的路徑。',
+    cone: '依賴錐只保留會流入目標格的加總關係',
+  },
+  en: {
+    aria: 'Permutations and combinations',
+    parameters: 'Parameters',
+    mode: 'Mode',
+    modes: [
+      { value: 'pascal' as const, label: 'Coefficient table' },
+      { value: 'path' as const, label: 'Path model' },
+      { value: 'recurrence' as const, label: 'Recurrence' },
+    ],
+    rows: 'Rows n',
+    modulus: 'Modulus',
+    show: 'Show',
+    views: [
+      { value: 'single' as const, label: 'One path' },
+      { value: 'overlay' as const, label: 'Overlaid paths' },
+      { value: 'count' as const, label: 'Node counts' },
+    ],
+    rightSteps: 'Right steps',
+    upSteps: 'Up steps',
+    targetRow: 'Target row n',
+    observation: 'Observation',
+    hint: 'The same C(n, k) shows up as a coefficient, a lattice-path count, and a cell in the recurrence.',
+    catalanTitle: 'Catalan contrast',
+    catalanHint:
+      'A Catalan number is not a new C(n, k). It drops the balanced paths in C(2n, n) that cross the barrier.',
+    cone: 'Only sums that flow into the target cell',
+  },
+} as const;
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
-function fmt(value: number) {
-  return new Intl.NumberFormat('zh-TW').format(value);
+function fmt(value: number, locale?: 'en') {
+  return new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'zh-TW').format(value);
 }
 
 function measurePermutationsCanvas(host: HTMLElement) {
@@ -91,7 +147,8 @@ function measurePermutationsCanvas(host: HTMLElement) {
   return { width, height };
 }
 
-function renderRecurrenceScene(p: p5, params: Params['recurrence']) {
+function renderRecurrenceScene(p: p5, params: Params['recurrence'], locale?: 'en') {
+  const text = locale === 'en' ? TEXT.en : TEXT.zh;
   p.background(10, 10, 10);
 
   const rect: Rect = {
@@ -163,23 +220,20 @@ function renderRecurrenceScene(p: p5, params: Params['recurrence']) {
   p.textFont('"Noto Sans TC CJK", monospace');
   p.textSize(13);
   p.textAlign(p.LEFT, p.TOP);
-  p.text(`C(${safeN}, ${safeK}) = ${fmt(parts.total)}`, rect.x + 14, rect.y + 14);
+  p.text(`C(${safeN}, ${safeK}) = ${fmt(parts.total, locale)}`, rect.x + 14, rect.y + 14);
 
   p.fill(...MUTED, 180);
   p.textSize(11);
-  p.text(recurrenceFormulaLabel(safeN, safeK), rect.x + 14, rect.y + 34);
+  p.text(recurrenceFormulaLabel(safeN, safeK, locale), rect.x + 14, rect.y + 34);
 
   if (!compact) {
     p.fill(...BLUE, 150);
     p.textAlign(p.RIGHT, p.BOTTOM);
-    p.text('依賴錐只保留會流入目標格的加總關係', rect.x + rect.w - 12, rect.y + rect.h - 12);
+    p.text(text.cone, rect.x + rect.w - 12, rect.y + rect.h - 12);
   }
 }
 
-function renderScene(
-  p: p5,
-  params: Params,
-) {
+function renderScene(p: p5, params: Params, locale?: 'en') {
   if (params.mode === 'pascal') {
     const row = Math.min(params.pascal.rows, Math.max(0, params.pascal.rows - 2));
     const selectedCell = {
@@ -196,6 +250,7 @@ function renderScene(
       selectedCell,
       highlightSet: buildDependencyCone(selectedCell.n, selectedCell.k),
       revealProgress: 1,
+      locale,
     });
     return;
   }
@@ -215,21 +270,32 @@ function renderScene(
       allPaths,
       currentPathPoints: pathToPoints(layout, currentPath),
       pathProgress: currentPath.length + 1,
+      locale,
     });
     return;
   }
 
-  renderRecurrenceScene(p, params.recurrence);
+  renderRecurrenceScene(p, params.recurrence, locale);
 }
 
-export default function PermutationsCombinationsExploreRoot() {
+type Props = {
+  locale?: 'en';
+};
+
+export default function PermutationsCombinationsExploreRoot({ locale }: Props) {
+  const text = locale === 'en' ? TEXT.en : TEXT.zh;
   const [params, setParams] = useState<Params>(DEFAULT_PARAMS);
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
 
   paramsRef.current = params;
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
-    renderScene(p, paramsRef.current);
+    renderScene(p, paramsRef.current, localeRef.current);
   }, []);
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measurePermutationsCanvas, undefined, {
     loop: false,
@@ -240,17 +306,20 @@ export default function PermutationsCombinationsExploreRoot() {
   const selectedK = clamp(params.pascal.selectedK, 0, selectedRow);
 
   const stats = useMemo(() => {
-    return buildCombinationStats({
-      mode: params.mode,
-      pascal: {
-        n: selectedRow,
-        k: selectedK,
-        prime: params.pascal.prime,
+    return buildCombinationStats(
+      {
+        mode: params.mode,
+        pascal: {
+          n: selectedRow,
+          k: selectedK,
+          prime: params.pascal.prime,
+        },
+        path: params.path,
+        recurrence: params.recurrence,
       },
-      path: params.path,
-      recurrence: params.recurrence,
-    });
-  }, [params, selectedK, selectedRow]);
+      locale,
+    );
+  }, [locale, params, selectedK, selectedRow]);
 
   const setMode = useCallback((mode: Mode) => {
     setParams((prev) => ({ ...prev, mode }));
@@ -264,24 +333,26 @@ export default function PermutationsCombinationsExploreRoot() {
             ref={canvasHostRef}
             className="permutations-combinations-explore__canvas"
             role="img"
-            aria-label="排列組合視覺化"
+            aria-label={text.aria}
           />
         </div>
 
         <aside className="permutations-combinations-explore__sidebar">
           <div className="permutations-combinations-explore__block">
-            <p className="permutations-combinations-explore__block-title">參數</p>
+            <p className="permutations-combinations-explore__block-title">{text.parameters}</p>
 
             <label className="permutations-combinations-explore__field">
-              <span className="permutations-combinations-explore__field-label">模式</span>
+              <span className="permutations-combinations-explore__field-label">{text.mode}</span>
               <select
                 className="permutations-combinations-explore__select"
                 value={params.mode}
                 onChange={(e) => setMode(e.target.value as Mode)}
               >
-                <option value="pascal">係數表</option>
-                <option value="path">路徑模型</option>
-                <option value="recurrence">遞迴依賴</option>
+                {text.modes.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
               </select>
             </label>
 
@@ -289,7 +360,7 @@ export default function PermutationsCombinationsExploreRoot() {
               <>
                 <RangeControl
                   id="permutations-pascal-rows"
-                  label="列數"
+                  label={text.rows}
                   min={8}
                   max={32}
                   step={1}
@@ -307,7 +378,7 @@ export default function PermutationsCombinationsExploreRoot() {
                   }
                 />
                 <label className="permutations-combinations-explore__field">
-                  <span className="permutations-combinations-explore__field-label">模數</span>
+                  <span className="permutations-combinations-explore__field-label">{text.modulus}</span>
                   <select
                     className="permutations-combinations-explore__select"
                     value={params.pascal.prime}
@@ -329,12 +400,14 @@ export default function PermutationsCombinationsExploreRoot() {
                 </label>
                 <RangeControl
                   id="permutations-pascal-k"
-                  label={`觀察 k（第 ${selectedRow} 列）`}
+                  label={locale === 'en' ? 'k to watch' : `觀察 k（第 ${selectedRow} 列）`}
                   min={0}
                   max={selectedRow}
                   step={1}
                   value={selectedK}
-                  display={String(selectedK)}
+                  display={
+                    locale === 'en' ? `${selectedK} · row ${selectedRow}` : String(selectedK)
+                  }
                   onValue={(selectedKValue) =>
                     setParams((prev) => ({
                       ...prev,
@@ -348,7 +421,7 @@ export default function PermutationsCombinationsExploreRoot() {
             {params.mode === 'path' ? (
               <>
                 <label className="permutations-combinations-explore__field">
-                  <span className="permutations-combinations-explore__field-label">顯示</span>
+                  <span className="permutations-combinations-explore__field-label">{text.show}</span>
                   <select
                     className="permutations-combinations-explore__select"
                     value={params.path.view}
@@ -359,14 +432,16 @@ export default function PermutationsCombinationsExploreRoot() {
                       }))
                     }
                   >
-                    <option value="single">單一路徑</option>
-                    <option value="overlay">所有路徑疊加</option>
-                    <option value="count">節點計數場</option>
+                    {text.views.map((item) => (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
                   </select>
                 </label>
                 <RangeControl
                   id="permutations-path-m"
-                  label="向右步數"
+                  label={text.rightSteps}
                   min={2}
                   max={8}
                   step={1}
@@ -381,7 +456,7 @@ export default function PermutationsCombinationsExploreRoot() {
                 />
                 <RangeControl
                   id="permutations-path-n"
-                  label="向上步數"
+                  label={text.upSteps}
                   min={2}
                   max={8}
                   step={1}
@@ -401,7 +476,7 @@ export default function PermutationsCombinationsExploreRoot() {
               <>
                 <RangeControl
                   id="permutations-recurrence-n"
-                  label="目標列 n"
+                  label={text.targetRow}
                   min={3}
                   max={10}
                   step={1}
@@ -420,7 +495,7 @@ export default function PermutationsCombinationsExploreRoot() {
                 />
                 <RangeControl
                   id="permutations-recurrence-k"
-                  label={`目標格 k（第 ${params.recurrence.n} 列）`}
+                  label={locale === 'en' ? 'Target cell k' : `目標格 k（第 ${params.recurrence.n} 列）`}
                   min={0}
                   max={params.recurrence.n}
                   step={1}
@@ -438,24 +513,22 @@ export default function PermutationsCombinationsExploreRoot() {
           </div>
 
           <div className="permutations-combinations-explore__block">
-            <p className="permutations-combinations-explore__block-title">觀察</p>
+            <p className="permutations-combinations-explore__block-title">{text.observation}</p>
             {stats.map((line) => (
               <p key={line} className="permutations-combinations-explore__stat">
                 {line}
               </p>
             ))}
-            <p className="permutations-combinations-explore__hint">
-              同一個 C(n,k) 會同時出現在係數、格點路徑與遞迴依賴中。
-            </p>
+            <p className="permutations-combinations-explore__hint">{text.hint}</p>
           </div>
 
           <div className="permutations-combinations-explore__block">
-            <p className="permutations-combinations-explore__block-title">卡特蘭對照</p>
-            <p className="permutations-combinations-explore__hint">
-              卡特蘭數不是新的 C(n,k)：它從 C(2n,n) 的平衡路徑中排除越過限制線的路徑。
-            </p>
+            <p className="permutations-combinations-explore__block-title">{text.catalanTitle}</p>
+            <p className="permutations-combinations-explore__hint">{text.catalanHint}</p>
             <p className="permutations-combinations-explore__stat">
-              n = 4：全部 {fmt(CATALAN_N4.totalBalanced)}，合法 {fmt(CATALAN_N4.legal)}，排除 {fmt(CATALAN_N4.restrictedOut)}
+              {locale === 'en'
+                ? `n = 4: all ${fmt(CATALAN_N4.totalBalanced, locale)}, legal ${fmt(CATALAN_N4.legal, locale)}, excluded ${fmt(CATALAN_N4.restrictedOut, locale)}`
+                : `n = 4：全部 ${fmt(CATALAN_N4.totalBalanced)}，合法 ${fmt(CATALAN_N4.legal)}，排除 ${fmt(CATALAN_N4.restrictedOut)}`}
             </p>
           </div>
         </aside>

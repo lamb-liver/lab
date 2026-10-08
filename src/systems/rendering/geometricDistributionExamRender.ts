@@ -11,7 +11,12 @@ type GeometricDistributionExamSnap = {
   samples: readonly number[];
   count: number;
   p: number;
+  locale?: 'en';
 };
+
+function pick(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 type Rect = {
   x: number;
@@ -45,15 +50,19 @@ export function renderGeometricDistributionExamScene(
   };
   const summary = summarizeGeometricSamples(snap.samples, snap.count, MAX_TRIAL);
 
-  drawHistogram(p, histogram, summary.bins, summary.count, snap.p);
-  drawConvergence(p, convergence, snap.samples, summary.count, 1 / snap.p);
+  drawHistogram(p, histogram, summary.bins, summary.count, snap.p, snap.locale);
+  drawConvergence(p, convergence, snap.samples, summary.count, 1 / snap.p, snap.locale);
 
   p.noStroke();
   p.fill(...ACCENT, 205);
   p.textSize(12);
   p.textAlign(p.LEFT, p.TOP);
   p.text(
-    `模擬次數=${summary.count.toLocaleString()}　樣本平均=${summary.mean.toFixed(2)}`,
+    pick(
+      snap.locale,
+      `模擬次數=${summary.count.toLocaleString()}　樣本平均=${summary.mean.toFixed(2)}`,
+      `runs=${summary.count.toLocaleString()}  mean=${summary.mean.toFixed(2)}`,
+    ),
     histogram.x,
     16,
   );
@@ -65,6 +74,7 @@ function drawHistogram(
   bins: readonly number[],
   count: number,
   successProbability: number,
+  locale?: 'en',
 ): void {
   const slot = rect.w / bins.length;
   const maxProbability = Math.max(0.12, successProbability * 1.2);
@@ -117,7 +127,11 @@ function drawHistogram(
     p.text(trial === 24 ? '≥24' : String(trial), x, rect.y + rect.h + 8);
   }
   p.textAlign(p.LEFT, p.BOTTOM);
-  p.text('第一次中獎所需次數 X（最右格為合計）', rect.x, rect.y - 7);
+  p.text(
+    pick(locale, '第一次中獎所需次數 X（最右格為合計）', 'Trials until the first win, X (≥24 pooled)'),
+    rect.x,
+    rect.y - 7,
+  );
 }
 
 function drawConvergence(
@@ -126,6 +140,7 @@ function drawConvergence(
   samples: readonly number[],
   count: number,
   expected: number,
+  locale?: 'en',
 ): void {
   p.noFill();
   p.stroke(...WHITE, 22);
@@ -162,5 +177,5 @@ function drawConvergence(
   p.fill(...WHITE, 100);
   p.textSize(11);
   p.textAlign(p.LEFT, p.BOTTOM);
-  p.text('樣本平均 → E(X)=10', rect.x, rect.y - 7);
+  p.text(pick(locale, '樣本平均 → E(X)=10', 'Sample mean → E(X)=10'), rect.x, rect.y - 7);
 }

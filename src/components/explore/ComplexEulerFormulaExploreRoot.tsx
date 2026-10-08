@@ -34,17 +34,21 @@ const DEFAULT_PARAMS: ComplexEulerParams = {
 
 type DragTarget = 'z1' | 'z2' | null;
 
-export default function ComplexEulerFormulaExploreRoot() {
+type Props = { locale?: 'en' };
+
+export default function ComplexEulerFormulaExploreRoot({ locale }: Props) {
   const [params, setParams] = useState<ComplexEulerParams>(DEFAULT_PARAMS);
 
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
   const draggingRef = useRef<DragTarget>(null);
+  localeRef.current = locale;
 
   useEffect(() => {
     paramsRef.current = params;
   }, [params]);
 
-  const sidebar = useMemo(() => buildComplexEulerSidebarState(params), [params]);
+  const sidebar = useMemo(() => buildComplexEulerSidebarState(params, locale), [params, locale]);
 
   const handleMousePressed = useCallback((p: p5) => {
     const current = paramsRef.current;
@@ -90,6 +94,7 @@ export default function ComplexEulerFormulaExploreRoot() {
       width: p.width,
       height: p.height,
       ...current,
+      locale: localeRef.current,
     });
   }, []);
 
@@ -116,16 +121,16 @@ export default function ComplexEulerFormulaExploreRoot() {
             ref={canvasHostRef}
             className="complex-euler-explore__canvas"
             role="img"
-            aria-label="複數與尤拉公式"
+            aria-label={locale === 'en' ? "Complex numbers and Euler's formula" : '複數與尤拉公式'}
           />
         </div>
 
         <aside className="complex-euler-explore__sidebar">
           <div className="complex-euler-explore__block">
-            <p className="complex-euler-explore__block-title">參數</p>
+            <p className="complex-euler-explore__block-title">{locale === 'en' ? 'Parameters' : '參數'}</p>
 
             <label className="complex-euler-explore__field">
-              <span className="complex-euler-explore__field-label">模式</span>
+              <span className="complex-euler-explore__field-label">{locale === 'en' ? 'Mode' : '模式'}</span>
               <select
                 className="complex-euler-explore__select"
                 value={params.mode}
@@ -136,15 +141,15 @@ export default function ComplexEulerFormulaExploreRoot() {
                   }))
                 }
               >
-                <option value="operation">複數運算</option>
-                <option value="euler">尤拉公式</option>
-                <option value="demoivre">棣美弗定理</option>
+                <option value="operation">{locale === 'en' ? 'Complex arithmetic' : '複數運算'}</option>
+                <option value="euler">{locale === 'en' ? "Euler's formula" : '尤拉公式'}</option>
+                <option value="demoivre">{locale === 'en' ? "De Moivre's formula" : '棣美弗定理'}</option>
               </select>
             </label>
 
             {params.mode === 'operation' && (
               <label className="complex-euler-explore__field">
-                <span className="complex-euler-explore__field-label">運算</span>
+                <span className="complex-euler-explore__field-label">{locale === 'en' ? 'Operation' : '運算'}</span>
                 <select
                   className="complex-euler-explore__select"
                   value={params.opKey}
@@ -155,10 +160,10 @@ export default function ComplexEulerFormulaExploreRoot() {
                     }))
                   }
                 >
-                  <option value="add">加法 z₁ + z₂</option>
-                  <option value="sub">減法 z₁ − z₂</option>
-                  <option value="mul">乘法 z₁ × z₂</option>
-                  <option value="div">除法 z₁ ÷ z₂</option>
+                  <option value="add">{locale === 'en' ? 'Addition z₁ + z₂' : '加法 z₁ + z₂'}</option>
+                  <option value="sub">{locale === 'en' ? 'Subtraction z₁ − z₂' : '減法 z₁ − z₂'}</option>
+                  <option value="mul">{locale === 'en' ? 'Multiplication z₁ × z₂' : '乘法 z₁ × z₂'}</option>
+                  <option value="div">{locale === 'en' ? 'Division z₁ ÷ z₂' : '除法 z₁ ÷ z₂'}</option>
                 </select>
               </label>
             )}
@@ -166,7 +171,7 @@ export default function ComplexEulerFormulaExploreRoot() {
             {params.mode === 'euler' && (
               <div className="control-field">
                 <label htmlFor="complex-theta">
-                  角度 θ
+                  {locale === 'en' ? 'Angle θ' : '角度 θ'}
                   <span className="complex-euler-explore__val">
                     {formatAngle(params.theta)}
                   </span>
@@ -198,7 +203,7 @@ export default function ComplexEulerFormulaExploreRoot() {
               <>
                 <div className="control-field">
                   <label htmlFor="complex-n">
-                    次方 n
+                    {locale === 'en' ? 'Power n' : '次方 n'}
                     <span className="complex-euler-explore__val">{params.n}</span>
                   </label>
                   <div className="range-wrap">
@@ -221,7 +226,7 @@ export default function ComplexEulerFormulaExploreRoot() {
                 </div>
                 <div className="control-field">
                   <label htmlFor="complex-de-theta">
-                    角度 θ
+                    {locale === 'en' ? 'Angle θ' : '角度 θ'}
                     <span className="complex-euler-explore__val">
                       {formatAngle(params.deTheta)}
                     </span>
@@ -251,12 +256,14 @@ export default function ComplexEulerFormulaExploreRoot() {
             )}
 
             {params.mode === 'operation' && (
-              <p className="complex-euler-explore__hint">拖動 z₁、z₂ 向量端點</p>
+              <p className="complex-euler-explore__hint">
+                {locale === 'en' ? 'Drag the tips of z₁ and z₂' : '拖動 z₁、z₂ 向量端點'}
+              </p>
             )}
           </div>
 
           <div className="complex-euler-explore__block">
-            <p className="complex-euler-explore__block-title">統計</p>
+            <p className="complex-euler-explore__block-title">{locale === 'en' ? 'Stats' : '統計'}</p>
             {sidebar.statsLines.map((line) => (
               <p key={line} className="complex-euler-explore__stat">
                 {line}

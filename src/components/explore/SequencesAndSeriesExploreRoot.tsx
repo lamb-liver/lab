@@ -362,7 +362,12 @@ function renderScene(p: p5, params: Params) {
   if (params.mode === 'logistic') renderLogistic(p, params.logistic);
 }
 
-function modeLabel(mode: Mode) {
+function modeLabel(mode: Mode, locale?: 'en') {
+  if (locale === 'en') {
+    if (mode === 'sequence') return 'Sequence plot';
+    if (mode === 'series') return 'Partial sums';
+    return 'Logistic iteration';
+  }
   if (mode === 'sequence') return '數列';
   if (mode === 'series') return '級數';
   return 'Logistic';
@@ -380,7 +385,11 @@ function seriesFormula(params: Params['series']) {
   return 'S_n = Σ 1/k^2';
 }
 
-export default function SequencesAndSeriesExploreRoot() {
+type Props = {
+  locale?: 'en';
+};
+
+export default function SequencesAndSeriesExploreRoot({ locale }: Props) {
   const [params, setParams] = useState<Params>(DEFAULT_PARAMS);
   const paramsRef = useRef(params);
 
@@ -421,12 +430,19 @@ export default function SequencesAndSeriesExploreRoot() {
   );
 
   const stats = useMemo(() => {
+    const en = locale === 'en';
     if (params.mode === 'sequence') {
       const values = sequenceValues(params.sequence);
       return [
-        `目前模式：${modeLabel(params.mode)}`,
-        `公式：${sequenceFormula(params.sequence)}`,
-        `末項 a_${params.sequence.n} = ${fmt(values.at(-1) ?? 0, 4)}`,
+        en
+          ? `Mode: ${modeLabel(params.mode, locale)}`
+          : `目前模式：${modeLabel(params.mode)}`,
+        en
+          ? `Formula: ${sequenceFormula(params.sequence)}`
+          : `公式：${sequenceFormula(params.sequence)}`,
+        en
+          ? `Last term a_${params.sequence.n} = ${fmt(values.at(-1) ?? 0, 4)}`
+          : `末項 a_${params.sequence.n} = ${fmt(values.at(-1) ?? 0, 4)}`,
       ];
     }
 
@@ -439,21 +455,35 @@ export default function SequencesAndSeriesExploreRoot() {
           : params.series.type === 'basel'
             ? Math.PI ** 2 / 6
             : null;
-      return [
-        `目前模式：${modeLabel(params.mode)}`,
-        `公式：${seriesFormula(params.series)}`,
+      const sumLine =
         limit === null
-          ? `部分和 S_${params.series.n} = ${fmt(current, 4)}`
-          : `S_${params.series.n} = ${fmt(current, 4)}，極限 ${fmt(limit, 4)}`,
+          ? en
+            ? `Partial sum S_${params.series.n} = ${fmt(current, 4)}`
+            : `部分和 S_${params.series.n} = ${fmt(current, 4)}`
+          : en
+            ? `S_${params.series.n} = ${fmt(current, 4)}, limit ${fmt(limit, 4)}`
+            : `S_${params.series.n} = ${fmt(current, 4)}，極限 ${fmt(limit, 4)}`;
+      return [
+        en
+          ? `Mode: ${modeLabel(params.mode, locale)}`
+          : `目前模式：${modeLabel(params.mode)}`,
+        en
+          ? `Formula: ${seriesFormula(params.series)}`
+          : `公式：${seriesFormula(params.series)}`,
+        sumLine,
       ];
     }
 
     return [
-      `目前模式：${modeLabel(params.mode)}`,
+      en
+        ? `Mode: ${modeLabel(params.mode, locale)}`
+        : `目前模式：${modeLabel(params.mode)}`,
       `x_(n+1) = r x_n(1 - x_n)`,
-      `r = ${fmt(params.logistic.r, 3)}，x0 = ${fmt(params.logistic.x0, 3)}`,
+      en
+        ? `r = ${fmt(params.logistic.r, 3)}, x0 = ${fmt(params.logistic.x0, 3)}`
+        : `r = ${fmt(params.logistic.r, 3)}，x0 = ${fmt(params.logistic.x0, 3)}`,
     ];
-  }, [params]);
+  }, [params, locale]);
 
   return (
     <div className="sequences-series-explore">
@@ -463,16 +493,20 @@ export default function SequencesAndSeriesExploreRoot() {
             ref={canvasHostRef}
             className="sequences-series-explore__canvas"
             role="img"
-            aria-label="數列與級數視覺化"
+            aria-label={locale === 'en' ? 'Sequences and series' : '數列與級數視覺化'}
           />
         </div>
 
         <aside className="sequences-series-explore__sidebar">
           <div className="sequences-series-explore__block">
-            <p className="sequences-series-explore__block-title">參數</p>
+            <p className="sequences-series-explore__block-title">
+              {locale === 'en' ? 'Parameters' : '參數'}
+            </p>
 
             <label className="sequences-series-explore__field">
-              <span className="sequences-series-explore__field-label">模式</span>
+              <span className="sequences-series-explore__field-label">
+                {locale === 'en' ? 'Mode' : '模式'}
+              </span>
               <select
                 className="sequences-series-explore__select"
                 value={params.mode}
@@ -480,16 +514,18 @@ export default function SequencesAndSeriesExploreRoot() {
                   setParams((prev) => ({ ...prev, mode: e.target.value as Mode }))
                 }
               >
-                <option value="sequence">數列圖像</option>
-                <option value="series">級數累加</option>
-                <option value="logistic">單峰疊代</option>
+                <option value="sequence">{locale === 'en' ? 'Sequence plot' : '數列圖像'}</option>
+                <option value="series">{locale === 'en' ? 'Partial sums' : '級數累加'}</option>
+                <option value="logistic">{locale === 'en' ? 'Logistic iteration' : '單峰疊代'}</option>
               </select>
             </label>
 
             {params.mode === 'sequence' ? (
               <>
                 <label className="sequences-series-explore__field">
-                  <span className="sequences-series-explore__field-label">類型</span>
+                  <span className="sequences-series-explore__field-label">
+                    {locale === 'en' ? 'Type' : '類型'}
+                  </span>
                   <select
                     className="sequences-series-explore__select"
                     value={params.sequence.type}
@@ -503,15 +539,15 @@ export default function SequencesAndSeriesExploreRoot() {
                       }))
                     }
                   >
-                    <option value="arith">等差</option>
-                    <option value="geom">等比</option>
-                    <option value="recurrence">遞迴</option>
+                    <option value="arith">{locale === 'en' ? 'Arithmetic' : '等差'}</option>
+                    <option value="geom">{locale === 'en' ? 'Geometric' : '等比'}</option>
+                    <option value="recurrence">{locale === 'en' ? 'Recurrence' : '遞迴'}</option>
                   </select>
                 </label>
 
                 <RangeControl
                   id="seq-n"
-                  label="項數 n"
+                  label={locale === 'en' ? 'Number of terms n' : '項數 n'}
                   min={4}
                   max={80}
                   step={1}
@@ -526,7 +562,7 @@ export default function SequencesAndSeriesExploreRoot() {
                 />
                 <RangeControl
                   id="seq-a1"
-                  label="首項 a1"
+                  label={locale === 'en' ? 'First term a1' : '首項 a1'}
                   min={-4}
                   max={4}
                   step={0.1}
@@ -542,7 +578,7 @@ export default function SequencesAndSeriesExploreRoot() {
                 {params.sequence.type === 'arith' ? (
                   <RangeControl
                     id="seq-d"
-                    label="公差 d"
+                    label={locale === 'en' ? 'Common difference d' : '公差 d'}
                     min={-1.5}
                     max={1.5}
                     step={0.05}
@@ -559,7 +595,7 @@ export default function SequencesAndSeriesExploreRoot() {
                 {params.sequence.type === 'geom' ? (
                   <RangeControl
                     id="seq-q"
-                    label="公比 q"
+                    label={locale === 'en' ? 'Common ratio q' : '公比 q'}
                     min={-1.2}
                     max={1.4}
                     step={0.01}
@@ -577,7 +613,7 @@ export default function SequencesAndSeriesExploreRoot() {
                   <>
                     <RangeControl
                       id="seq-lambda"
-                      label="遞迴係數 λ"
+                      label={locale === 'en' ? 'Recurrence coefficient λ' : '遞迴係數 λ'}
                       min={-1.2}
                       max={1.2}
                       step={0.01}
@@ -592,7 +628,7 @@ export default function SequencesAndSeriesExploreRoot() {
                     />
                     <RangeControl
                       id="seq-c"
-                      label="常數 c"
+                      label={locale === 'en' ? 'Constant c' : '常數 c'}
                       min={-2}
                       max={2}
                       step={0.05}
@@ -613,7 +649,9 @@ export default function SequencesAndSeriesExploreRoot() {
             {params.mode === 'series' ? (
               <>
                 <label className="sequences-series-explore__field">
-                  <span className="sequences-series-explore__field-label">類型</span>
+                  <span className="sequences-series-explore__field-label">
+                    {locale === 'en' ? 'Type' : '類型'}
+                  </span>
                   <select
                     className="sequences-series-explore__select"
                     value={params.series.type}
@@ -624,14 +662,14 @@ export default function SequencesAndSeriesExploreRoot() {
                       }))
                     }
                   >
-                    <option value="geometric">等比級數</option>
-                    <option value="harmonic">調和級數</option>
-                    <option value="basel">巴塞爾級數</option>
+                    <option value="geometric">{locale === 'en' ? 'Geometric series' : '等比級數'}</option>
+                    <option value="harmonic">{locale === 'en' ? 'Harmonic series' : '調和級數'}</option>
+                    <option value="basel">{locale === 'en' ? 'Basel series' : '巴塞爾級數'}</option>
                   </select>
                 </label>
                 <RangeControl
                   id="series-n"
-                  label="部分和 n"
+                  label={locale === 'en' ? 'Partial sum n' : '部分和 n'}
                   min={4}
                   max={220}
                   step={1}
@@ -647,7 +685,7 @@ export default function SequencesAndSeriesExploreRoot() {
                 {params.series.type === 'geometric' ? (
                   <RangeControl
                     id="series-q"
-                    label="公比 q"
+                    label={locale === 'en' ? 'Common ratio q' : '公比 q'}
                     min={-0.95}
                     max={0.95}
                     step={0.01}
@@ -668,7 +706,7 @@ export default function SequencesAndSeriesExploreRoot() {
               <>
                 <RangeControl
                   id="logistic-r"
-                  label="成長率 r"
+                  label={locale === 'en' ? 'Growth rate r' : '成長率 r'}
                   min={2.6}
                   max={4}
                   step={0.001}
@@ -683,7 +721,7 @@ export default function SequencesAndSeriesExploreRoot() {
                 />
                 <RangeControl
                   id="logistic-x0"
-                  label="初值 x0"
+                  label={locale === 'en' ? 'Initial value x0' : '初值 x0'}
                   min={0.01}
                   max={0.99}
                   step={0.01}
@@ -698,7 +736,7 @@ export default function SequencesAndSeriesExploreRoot() {
                 />
                 <RangeControl
                   id="logistic-iter"
-                  label="疊代數"
+                  label={locale === 'en' ? 'Iterations' : '疊代數'}
                   min={20}
                   max={220}
                   step={1}
@@ -716,14 +754,18 @@ export default function SequencesAndSeriesExploreRoot() {
           </div>
 
           <div className="sequences-series-explore__block">
-            <p className="sequences-series-explore__block-title">觀察</p>
+            <p className="sequences-series-explore__block-title">
+              {locale === 'en' ? 'Readings' : '觀察'}
+            </p>
             {stats.map((line) => (
               <p key={line} className="sequences-series-explore__stat">
                 {line}
               </p>
             ))}
             <p className="sequences-series-explore__hint">
-              分岔圖可直接拖曳紅線調整 r。
+              {locale === 'en'
+                ? 'Drag the red line on the bifurcation diagram to change r.'
+                : '分岔圖可直接拖曳紅線調整 r。'}
             </p>
           </div>
         </aside>

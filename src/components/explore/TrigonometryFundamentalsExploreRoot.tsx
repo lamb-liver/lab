@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
 import {
   DEFAULT_PARAMS,
@@ -12,6 +12,7 @@ import {
   buildTriangleStats,
   degLabel,
   measureTrigonometryCanvas,
+  modePresentation,
   pickVisualDrag,
   plotRect,
   resetTriangle,
@@ -34,17 +35,27 @@ const INITIAL_SMOOTH: TrigSmoothState = {
   advancedMix: 0,
 };
 
-export default function TrigonometryFundamentalsExploreRoot() {
+type Props = {
+  locale?: 'en';
+};
+
+export default function TrigonometryFundamentalsExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [params, setParamsState] = useState<TrigExploreParams>({
     ...DEFAULT_PARAMS,
     triangle: resetTriangle(),
   });
 
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
   const smoothRef = useRef<TrigSmoothState>({ ...INITIAL_SMOOTH });
   const draggingRef = useRef<VisualDragKind | null>(null);
 
   paramsRef.current = params;
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const setParams = useCallback((updater: (prev: TrigExploreParams) => TrigExploreParams) => {
     setParamsState((prev) => {
@@ -54,20 +65,24 @@ export default function TrigonometryFundamentalsExploreRoot() {
     });
   }, []);
 
-  const activeMode = MODE_OPTIONS.find((item) => item.id === params.mode) ?? MODE_OPTIONS[0];
+  const activeCopy = modePresentation(params.mode, locale);
 
   const sidebar = useMemo(() => {
-    if (params.mode === 'circle') return buildCircleStats(params.theta);
+    if (params.mode === 'circle') return buildCircleStats(params.theta, locale);
     if (params.mode === 'triangle') return buildTriangleStats(params.triangle);
     return buildIdentityStats(params.alpha, params.beta);
-  }, [params]);
+  }, [params, locale]);
 
   const draw = useCallback((p: p5) => {
     smoothRef.current = stepSmoothing(smoothRef.current, paramsRef.current, p.deltaTime);
-    renderTrigonometryExploreScene(p, {
-      params: paramsRef.current,
-      smooth: smoothRef.current,
-    });
+    renderTrigonometryExploreScene(
+      p,
+      {
+        params: paramsRef.current,
+        smooth: smoothRef.current,
+      },
+      localeRef.current,
+    );
   }, []);
 
   const extendSketch = useCallback(
@@ -139,17 +154,21 @@ export default function TrigonometryFundamentalsExploreRoot() {
       <div className="trig-explore__stage">
         <div className="trig-explore__visual">
           <p className="trig-explore__visual-title">TRIGONOMETRY</p>
-          <p className="trig-explore__visual-sub">{activeMode.label}</p>
+          <p className="trig-explore__visual-sub">{activeCopy.label}</p>
           <div
             ref={canvasHostRef}
             className="trig-explore__canvas"
             role="img"
-            aria-label="三角函數的幾何定義與恆等式主題導覽互動視覺化"
+            aria-label={
+              en
+                ? 'Geometric definitions and trigonometric identities'
+                : '三角函數的幾何定義與恆等式主題導覽互動視覺化'
+            }
           />
         </div>
 
         <aside className="trig-explore__sidebar">
-          <div className="trig-explore__mode-tabs" aria-label="模式">
+          <div className="trig-explore__mode-tabs" aria-label={en ? 'Mode' : '模式'}>
             {MODE_OPTIONS.map((option) => (
               <button
                 key={option.id}
@@ -159,7 +178,7 @@ export default function TrigonometryFundamentalsExploreRoot() {
                 onClick={() => setParams((prev) => ({ ...prev, mode: option.id }))}
                 aria-pressed={params.mode === option.id}
               >
-                {option.label}
+                {modePresentation(option.id, locale).label}
               </button>
             ))}
           </div>
@@ -171,19 +190,25 @@ export default function TrigonometryFundamentalsExploreRoot() {
             onClick={() => setParams((prev) => ({ ...prev, advanced: !prev.advanced }))}
             aria-pressed={params.advanced}
           >
-            {params.advanced ? '進階 guide：開' : '進階 guide：關'}
+            {en
+              ? params.advanced
+                ? 'Advanced guide: on'
+                : 'Advanced guide: off'
+              : params.advanced
+                ? '進階 guide：開'
+                : '進階 guide：關'}
           </button>
 
           <p className="trig-explore__state" aria-live="polite" role="status">
-            {activeMode.caption}
+            {activeCopy.caption}
           </p>
 
           {params.mode === 'circle' && (
             <div className="trig-explore__control-block">
-              <p className="trig-explore__group-label">參數</p>
+              <p className="trig-explore__group-label">{en ? 'Parameters' : '參數'}</p>
               <div className="control-field">
                 <label htmlFor="trig-theta">
-                  角度 θ
+                  {en ? 'Angle θ' : '角度 θ'}
                   <span className="trig-explore__val">{degLabel(params.theta)}</span>
                 </label>
                 <div className="range-wrap">
@@ -209,24 +234,26 @@ export default function TrigonometryFundamentalsExploreRoot() {
 
           {params.mode === 'triangle' && (
             <div className="trig-explore__control-block">
-              <p className="trig-explore__group-label">參數</p>
-              <p className="trig-explore__note">拖動 A、B、C 三個頂點</p>
+              <p className="trig-explore__group-label">{en ? 'Parameters' : '參數'}</p>
+              <p className="trig-explore__note">
+                {en ? 'Drag vertices A, B, and C' : '拖動 A、B、C 三個頂點'}
+              </p>
               <button
                 type="button"
                 className="trig-explore__reset-btn"
                 onClick={() => setParams((prev) => ({ ...prev, triangle: resetTriangle() }))}
               >
-                重設三角形
+                {en ? 'Reset triangle' : '重設三角形'}
               </button>
             </div>
           )}
 
           {params.mode === 'identity' && (
             <div className="trig-explore__control-block">
-              <p className="trig-explore__group-label">參數</p>
+              <p className="trig-explore__group-label">{en ? 'Parameters' : '參數'}</p>
               <div className="control-field">
                 <label htmlFor="trig-alpha">
-                  角度 α
+                  {en ? 'Angle α' : '角度 α'}
                   <span className="trig-explore__val">{degLabel(params.alpha)}</span>
                 </label>
                 <div className="range-wrap">
@@ -249,7 +276,7 @@ export default function TrigonometryFundamentalsExploreRoot() {
               </div>
               <div className="control-field">
                 <label htmlFor="trig-beta">
-                  角度 β
+                  {en ? 'Angle β' : '角度 β'}
                   <span className="trig-explore__val">{signedDegLabel(params.beta)}</span>
                 </label>
                 <div className="range-wrap">
@@ -274,7 +301,7 @@ export default function TrigonometryFundamentalsExploreRoot() {
           )}
 
           <div className="trig-explore__control-block trig-explore__stats">
-            <p className="trig-explore__group-label">統計</p>
+            <p className="trig-explore__group-label">{en ? 'Statistics' : '統計'}</p>
             {sidebar.stats.map((line) => (
               <p key={line} className="trig-explore__stat-line">
                 {line}
@@ -283,7 +310,7 @@ export default function TrigonometryFundamentalsExploreRoot() {
           </div>
 
           <div className="trig-explore__control-block">
-            <p className="trig-explore__group-label">公式</p>
+            <p className="trig-explore__group-label">{en ? 'Formula' : '公式'}</p>
             {sidebar.formulas.map((line) => (
               <p key={line} className="trig-explore__formula-line">
                 {line}

@@ -12,6 +12,8 @@ import {
   fmt,
   measureRationalExploreCanvas,
   presetById,
+  rationalParamLabel,
+  rationalPresetText,
   roundParam,
 } from '../../explore/rational-functions-asymptotes/geometry';
 import type {
@@ -23,7 +25,11 @@ import { renderRationalFunctionsAsymptotesExploreScene } from '../../systems/ren
 import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/rational-functions-asymptotes-explore.css';
 
-export default function RationalFunctionsAsymptotesExploreRoot() {
+type Props = {
+  locale?: 'en';
+};
+
+export default function RationalFunctionsAsymptotesExploreRoot({ locale }: Props) {
   const [presetId, setPresetId] = useState<RationalPresetId>('factor');
   const [params, setParams] = useState<RationalParams>(() => ({ ...presetById('factor').params }));
   const [showAsymptotes, setShowAsymptotes] = useState(true);
@@ -34,26 +40,35 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
   const paramsRef = useRef(params);
   const showAsymptotesRef = useRef(showAsymptotes);
   const showHolesRef = useRef(showHoles);
+  const localeRef = useRef(locale);
 
   presetIdRef.current = presetId;
   paramsRef.current = params;
   showAsymptotesRef.current = showAsymptotes;
   showHolesRef.current = showHoles;
+  localeRef.current = locale;
 
   const activePreset = useMemo(() => presetById(presetId), [presetId]);
-  const model = useMemo(() => buildRationalModel(activePreset, params), [activePreset, params]);
-  const statusLines = useMemo(() => buildStatusLines(model), [model]);
-  const formulaLines = useMemo(() => buildFormulaLines(model), [model]);
-  const advancedLines = useMemo(() => buildAdvancedLines(model), [model]);
+  const model = useMemo(
+    () => buildRationalModel(activePreset, params, locale),
+    [activePreset, params, locale],
+  );
+  const statusLines = useMemo(() => buildStatusLines(model, locale), [model, locale]);
+  const formulaLines = useMemo(() => buildFormulaLines(model, locale), [model, locale]);
+  const advancedLines = useMemo(() => buildAdvancedLines(model, locale), [model, locale]);
+  const presetCopy = rationalPresetText(activePreset, locale);
+  const en = locale === 'en';
 
   const draw = useCallback((p: p5) => {
     p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC", sans-serif');
     const preset = presetById(presetIdRef.current);
+    const activeLocale = localeRef.current;
     renderRationalFunctionsAsymptotesExploreScene(p, {
       preset,
-      model: buildRationalModel(preset, paramsRef.current),
+      model: buildRationalModel(preset, paramsRef.current, activeLocale),
       showAsymptotes: showAsymptotesRef.current,
       showHoles: showHolesRef.current,
+      locale: activeLocale,
     });
   }, []);
   const canvasHostRef = useRectP5CanvasHost(
@@ -61,7 +76,7 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
     [draw],
     measureRationalExploreCanvas,
     undefined,
-    { loop: false, redrawKey: `${presetId}|${JSON.stringify(params)}|${showAsymptotes}|${showHoles}` },
+    { loop: false, redrawKey: `${presetId}|${JSON.stringify(params)}|${showAsymptotes}|${showHoles}|${locale ?? ''}` },
   );
 
   const setPreset = (id: RationalPresetId) => {
@@ -79,21 +94,23 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
       <div className="rational-explore__stage">
         <div className="rational-explore__visual">
           <p className="rational-explore__visual-title">RATIONAL FUNCTIONS</p>
-          <p className="rational-explore__visual-sub">{activePreset.note}</p>
+          <p className="rational-explore__visual-sub">{presetCopy.note}</p>
           <div
             ref={canvasHostRef}
             className="rational-explore__canvas"
             role="img"
-            aria-label="有理函數與漸近線主題導覽互動視覺化"
+            aria-label={en ? 'Rational functions and asymptotes' : '有理函數與漸近線主題導覽互動視覺化'}
           />
         </div>
 
         <aside className="rational-explore__sidebar">
           <p className="rational-explore__sidebar-lead">
-            從零點、洞、垂直線與遠處骨架讀出有理函數的圖形結構。
+            {en
+              ? 'Read the graph from the zeros, the holes, the vertical lines, and the far skeleton.'
+              : '從零點、洞、垂直線與遠處骨架讀出有理函數的圖形結構。'}
           </p>
 
-          <div className="rational-explore__mode-grid" aria-label="模式">
+          <div className="rational-explore__mode-grid" aria-label={en ? 'Mode' : '模式'}>
             {RATIONAL_PRESETS.map((preset) => (
               <button
                 key={preset.id}
@@ -103,20 +120,20 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
                 aria-pressed={presetId === preset.id}
                 onClick={() => setPreset(preset.id)}
               >
-                {preset.label}
+                {rationalPresetText(preset, locale).label}
               </button>
             ))}
           </div>
 
           <div className="rational-explore__block">
-            <p className="rational-explore__group-label">參數</p>
+            <p className="rational-explore__group-label">{en ? 'Parameters' : '參數'}</p>
             {activePreset.sliders.map((key) => {
               const meta = RATIONAL_PARAM_META[key];
               return (
                 <RangeField
                   key={key}
                   id={`rational-${key}`}
-                  label={meta.label}
+                  label={rationalParamLabel(key, locale)}
                   min={meta.min}
                   max={meta.max}
                   step={0.01}
@@ -128,7 +145,7 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
           </div>
 
           <div className="rational-explore__block">
-            <p className="rational-explore__group-label">顯示</p>
+            <p className="rational-explore__group-label">{en ? 'Display' : '顯示'}</p>
             <button
               type="button"
               className="rational-explore__toggle-btn"
@@ -136,7 +153,9 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
               aria-pressed={showAsymptotes}
               onClick={() => setShowAsymptotes((prev) => !prev)}
             >
-              漸近線：{showAsymptotes ? '顯示' : '隱藏'}
+              {en
+                ? `Asymptotes: ${showAsymptotes ? 'shown' : 'hidden'}`
+                : `漸近線：${showAsymptotes ? '顯示' : '隱藏'}`}
             </button>
             <button
               type="button"
@@ -145,7 +164,9 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
               aria-pressed={showHoles}
               onClick={() => setShowHoles((prev) => !prev)}
             >
-              洞標記：{showHoles ? '顯示' : '隱藏'}
+              {en
+                ? `Hole marks: ${showHoles ? 'shown' : 'hidden'}`
+                : `洞標記：${showHoles ? '顯示' : '隱藏'}`}
             </button>
             <button
               type="button"
@@ -154,13 +175,15 @@ export default function RationalFunctionsAsymptotesExploreRoot() {
               aria-pressed={advanced}
               onClick={() => setAdvanced((prev) => !prev)}
             >
-              進階模式：{advanced ? '開' : '關'}
+              {en
+                ? `Advanced: ${advanced ? 'on' : 'off'}`
+                : `進階模式：${advanced ? '開' : '關'}`}
             </button>
           </div>
 
-          <InfoBlock title="狀態讀數" lines={statusLines} />
-          <InfoBlock title="短式子" lines={formulaLines} accent />
-          {advanced ? <InfoBlock title="約分與拆式" lines={advancedLines} /> : null}
+          <InfoBlock title={en ? 'Status' : '狀態讀數'} lines={statusLines} />
+          <InfoBlock title={en ? 'Short formulas' : '短式子'} lines={formulaLines} accent />
+          {advanced ? <InfoBlock title={en ? 'Cancellation and splitting' : '約分與拆式'} lines={advancedLines} /> : null}
         </aside>
       </div>
     </div>

@@ -1,16 +1,67 @@
 import {
   RATIONAL_COLLISION_TOL,
+  RATIONAL_PARAM_META,
   RATIONAL_PRESETS,
   RATIONAL_X_MAX,
   RATIONAL_X_MIN,
 } from './constants';
 import type {
   RationalModel,
+  RationalParamKey,
   RationalParams,
   RationalPreset,
   RationalPresetId,
   Rect,
 } from './types';
+
+const PRESET_EN: Record<RationalPresetId, { label: string; note: string }> = {
+  factor: {
+    label: 'Factors',
+    note: 'The zero, the vertical asymptote, and the horizontal asymptote are all visible',
+  },
+  hole: {
+    label: 'Hole',
+    note: 'After a shared root is cancelled, the main graph keeps one hole',
+  },
+  reciprocal: {
+    label: 'Horizontal',
+    note: 'A remainder of lower degree, approaching a horizontal line far away',
+  },
+  oblique: {
+    label: 'Oblique asymptote',
+    note: 'The linear quotient S(x)=mx+b is the far skeleton',
+  },
+};
+
+const PARAM_EN: Record<RationalParamKey, string> = {
+  A: 'Scale A',
+  r: 'Zero r',
+  a: 'Asymptote a',
+  h: 'Hole h',
+  b: 'Shift b',
+  m: 'Slope m',
+  c: 'Remainder c',
+};
+
+/** Display only. Omitted locale keeps the Chinese text. */
+export function rationalPresetText(preset: RationalPreset, locale?: 'en') {
+  if (locale !== 'en') return { label: preset.label, note: preset.note };
+  return PRESET_EN[preset.id];
+}
+
+/** Display only. Omitted locale keeps the Chinese text. */
+export function rationalParamLabel(key: RationalParamKey, locale?: 'en') {
+  if (locale !== 'en') return RATIONAL_PARAM_META[key].label;
+  return PARAM_EN[key];
+}
+
+function t(zh: string, en: string, locale?: 'en') {
+  return locale === 'en' ? en : zh;
+}
+
+function joinXs(xs: string[], locale?: 'en') {
+  return xs.join(locale === 'en' ? ', ' : '，');
+}
 
 export function presetById(id: RationalPresetId): RationalPreset {
   return RATIONAL_PRESETS.find((preset) => preset.id === id) ?? RATIONAL_PRESETS[0]!;
@@ -19,12 +70,13 @@ export function presetById(id: RationalPresetId): RationalPreset {
 export function buildRationalModel(
   preset: RationalPreset,
   params: RationalParams,
+  locale?: 'en',
 ): RationalModel {
-  if (preset.id === 'factor') return buildFactorModel(params, false);
-  if (preset.id === 'hole') return buildFactorModel(params, true);
-  if (preset.id === 'reciprocal') return buildReciprocalModel(params);
-  if (preset.id === 'oblique') return buildObliqueModel(params);
-  return buildFactorModel(params, false);
+  if (preset.id === 'factor') return buildFactorModel(params, false, locale);
+  if (preset.id === 'hole') return buildFactorModel(params, true, locale);
+  if (preset.id === 'reciprocal') return buildReciprocalModel(params, locale);
+  if (preset.id === 'oblique') return buildObliqueModel(params, locale);
+  return buildFactorModel(params, false, locale);
 }
 
 export function measureRationalExploreCanvas(host: HTMLElement): { width: number; height: number } {
@@ -62,38 +114,46 @@ function clampY(y: number, preset: RationalPreset): number {
   return clamp(y, preset.yMin, preset.yMax);
 }
 
-export function buildStatusLines(model: RationalModel): string[] {
-  const zeros = model.zeros.length ? model.zeros.map((z) => `x=${fmt(z)}`).join('，') : '無或在視窗外';
+export function buildStatusLines(model: RationalModel, locale?: 'en'): string[] {
+  const zeros = model.zeros.length
+    ? joinXs(model.zeros.map((z) => `x=${fmt(z)}`), locale)
+    : t('無或在視窗外', 'none or outside the window', locale);
   const holes = model.warning
-    ? '暫停顯示（h≈a）'
+    ? t('暫停顯示（h≈a）', 'mark paused (h≈a)', locale)
     : model.holes.length
-      ? model.holes.map((h) => `x=${fmt(h.x)}`).join('，')
-      : '無';
-  const verticals = model.verticals.length ? model.verticals.map((v) => `x=${fmt(v)}`).join('，') : '無';
+      ? joinXs(model.holes.map((h) => `x=${fmt(h.x)}`), locale)
+      : t('無', 'none', locale);
+  const verticals = model.verticals.length
+    ? joinXs(model.verticals.map((v) => `x=${fmt(v)}`), locale)
+    : t('無', 'none', locale);
 
   return [
-    `模式：${model.family}`,
-    `零點：${zeros}`,
-    `洞：${holes}`,
-    `垂直漸近線：${verticals}`,
+    t(`模式：${model.family}`, `Mode: ${model.family}`, locale),
+    t(`零點：${zeros}`, `Zero: ${zeros}`, locale),
+    t(`洞：${holes}`, `Hole: ${holes}`, locale),
+    t(`垂直漸近線：${verticals}`, `Vertical asymptote: ${verticals}`, locale),
   ];
 }
 
-export function buildFormulaLines(model: RationalModel): string[] {
+export function buildFormulaLines(model: RationalModel, locale?: 'en'): string[] {
+  const holeList = joinXs(model.holes.map((h) => `x=${fmt(h.x)}`), locale);
   return [
     model.simplified,
-    `遠處骨架：${model.far.label}`,
-    model.warning || (model.holes.length ? `可去不連續：${model.holes.map((h) => `x=${fmt(h.x)}`).join('，')}` : '可去不連續：無'),
-    '先約分，再判斷零點與漸近線',
+    t(`遠處骨架：${model.far.label}`, `Far skeleton: ${model.far.label}`, locale),
+    model.warning
+      || (model.holes.length
+        ? t(`可去不連續：${holeList}`, `Removable discontinuity: ${holeList}`, locale)
+        : t('可去不連續：無', 'Removable discontinuity: none', locale)),
+    t('先約分，再判斷零點與漸近線', 'Cancel first, then read zeros and asymptotes', locale),
   ];
 }
 
-export function buildAdvancedLines(model: RationalModel): string[] {
+export function buildAdvancedLines(model: RationalModel, locale?: 'en'): string[] {
   return [
     model.title,
     model.split,
-    model.warning || '垂直漸近線：約簡後分母為 0',
-    '洞：被約去的共同因式位置',
+    model.warning || t('垂直漸近線：約簡後分母為 0', 'Vertical asymptote: denominator is 0 after cancellation', locale),
+    t('洞：被約去的共同因式位置', 'Hole: where a common factor was cancelled', locale),
   ];
 }
 
@@ -112,7 +172,7 @@ export function clamp(v: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(hi, v));
 }
 
-function buildFactorModel(params: RationalParams, hasHole: boolean): RationalModel {
+function buildFactorModel(params: RationalParams, hasHole: boolean, locale?: 'en'): RationalModel {
   const A = safeNonzero(params.A, 0.12);
   const r = params.r;
   const a = params.a;
@@ -120,7 +180,9 @@ function buildFactorModel(params: RationalParams, hasHole: boolean): RationalMod
   const verticals = [a];
   const holes = [];
   const holeCollidesWithAsymptote = hasHole && nearlyEqual(h, a);
-  const warning = holeCollidesWithAsymptote ? 'h 與 a 太接近：暫停洞標記' : '';
+  const warning = holeCollidesWithAsymptote
+    ? t('h 與 a 太接近：暫停洞標記', 'h and a are too close: hole mark paused', locale)
+    : '';
 
   if (hasHole && !holeCollidesWithAsymptote) {
     holes.push({ x: h, y: evalFactor(A, r, a, h) });
@@ -131,10 +193,14 @@ function buildFactorModel(params: RationalParams, hasHole: boolean): RationalMod
   if (!nearAny(r, hiddenXs)) zeros.push(r);
 
   const title = hasHole ? 'R(x)=A(x-r)(x-h)/[(x-a)(x-h)]' : 'R(x)=A(x-r)/(x-a)';
-  const simplified = `約簡後：R(x)=${fmt(A)}(x-${fmt(r)})/(x-${fmt(a)})`;
+  const simplified = t(
+    `約簡後：R(x)=${fmt(A)}(x-${fmt(r)})/(x-${fmt(a)})`,
+    `After cancellation: R(x)=${fmt(A)}(x-${fmt(r)})/(x-${fmt(a)})`,
+    locale,
+  );
 
   return {
-    family: hasHole ? '洞' : '因式',
+    family: hasHole ? t('洞', 'Hole', locale) : t('因式', 'Factors', locale),
     title,
     simplified,
     far: { type: 'horizontal', label: `y=${fmt(A)}`, value: A },
@@ -147,7 +213,7 @@ function buildFactorModel(params: RationalParams, hasHole: boolean): RationalMod
   };
 }
 
-function buildReciprocalModel(params: RationalParams): RationalModel {
+function buildReciprocalModel(params: RationalParams, locale?: 'en'): RationalModel {
   const A = safeNonzero(params.A, 0.12);
   const a = params.a;
   const b = params.b;
@@ -158,7 +224,7 @@ function buildReciprocalModel(params: RationalParams): RationalModel {
   }
 
   return {
-    family: '水平',
+    family: t('水平', 'Horizontal', locale),
     title: 'R(x)=b+A/(x-a)',
     simplified: `R(x)=${fmt(b)} + ${fmt(A)}/(x-${fmt(a)})`,
     far: { type: 'horizontal', label: `y=${fmt(b)}`, value: b },
@@ -171,7 +237,7 @@ function buildReciprocalModel(params: RationalParams): RationalModel {
   };
 }
 
-function buildObliqueModel(params: RationalParams): RationalModel {
+function buildObliqueModel(params: RationalParams, locale?: 'en'): RationalModel {
   const m = params.m;
   const b = params.b;
   const c = safeNonzero(params.c, 0.12);
@@ -180,7 +246,7 @@ function buildObliqueModel(params: RationalParams): RationalModel {
   const zeros = quadraticRoots(m, b - m * a, c - a * b).filter((z) => !nearlyEqual(z, a));
 
   return {
-    family: '斜漸近線',
+    family: t('斜漸近線', 'Oblique asymptote', locale),
     title: 'R(x)=mx+b+c/(x-a)',
     simplified: `R(x)=(${fmt(m)})x+${fmt(b)}+${fmt(c)}/(x-${fmt(a)})`,
     far: { type: 'oblique', label: `y=${fmt(m)}x+${fmt(b)}`, m, b },

@@ -19,6 +19,7 @@ type Snap = {
   a: number;
   slices: number;
   sweep: number;
+  locale?: 'en';
 };
 
 const BG: Rgb = [10, 10, 10];
@@ -95,8 +96,12 @@ export function renderSolidOfRevolutionExamScene(p: p5, snap: Snap): void {
     snap.width,
     [
       `f(x)=3(${snap.a.toFixed(1)})x²+1−(${snap.a.toFixed(1)})`,
-      `圓盤中點和（n=${snap.slices}）≈ ${midpointDiskVolume(snap.a, snap.slices).toFixed(3)}`,
-      `精確體積 V ≈ ${exactVolume(snap.a).toFixed(3)}`,
+      snap.locale === 'en'
+        ? `Midpoint disk sum (n=${snap.slices}) ≈ ${midpointDiskVolume(snap.a, snap.slices).toFixed(3)}`
+        : `圓盤中點和（n=${snap.slices}）≈ ${midpointDiskVolume(snap.a, snap.slices).toFixed(3)}`,
+      snap.locale === 'en'
+        ? `Exact volume V ≈ ${exactVolume(snap.a).toFixed(3)}`
+        : `精確體積 V ≈ ${exactVolume(snap.a).toFixed(3)}`,
     ],
     { highlightIndex: 2, highlightColor: GOLD },
   );
