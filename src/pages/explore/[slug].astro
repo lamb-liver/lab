@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getZhOgImagePath } from '../../lib/zhOgPaths';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import ExploreInteractiveStage from '../../components/explore/ExploreInteractiveStage';
@@ -40,7 +41,7 @@ const relatedItems =
   buildExamBackrefs(await getCollection('exam'), {
     includeDraft: import.meta.env.DEV,
   }).explore.get(entry.id) ?? [];
-const ogImage = entry.data.coverImage;
+const ogImage = entry.data.coverImage ? getZhOgImagePath('explore', entry.id) : undefined;
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL('/', site).href;
 const exploreUrl = new URL('/explore', site).href;

@@ -84,7 +84,8 @@ const resolvedOgImageAlt =
 const inferredOgImageSize =
   usesDefaultOgImage ||
   resolvedOgImagePath.startsWith('/og/works/') ||
-  resolvedOgImagePath.startsWith('/og/en/')
+  resolvedOgImagePath.startsWith('/og/en/') ||
+  resolvedOgImagePath.startsWith('/og/zh/')
     ? { width: 1200, height: 630 }
     : null;
 const siteRootURL = new URL('/', site).href;

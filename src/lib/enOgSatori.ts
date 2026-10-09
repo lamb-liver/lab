@@ -13,6 +13,11 @@ export type EnOgCardContent = {
   /** 作品卡的公式；exam／explore 卡不放 */
   formula?: string;
   imageDataUrl: string;
+  /**
+   * 標題字級；不給時依英文字數計算。中文卡（zhOgImage.ts）依中文字寬另算後傳入，
+   * 並以 \n 指定斷行位置
+   */
+  titleFontSize?: number;
 };
 
 export const EN_OG_SANS = 'Noto Sans, Noto Sans TC, Noto Sans Mono, Noto Sans Math';
@@ -31,7 +36,7 @@ export function enTitleFontSize(title: string): number {
 }
 
 export function buildEnOgElement(content: EnOgCardContent): ReactNode {
-  const { title, kicker, formula, imageDataUrl } = content;
+  const { title, kicker, formula, imageDataUrl, titleFontSize } = content;
 
   const rootStyle: CSSProperties = {
     display: 'flex',
@@ -62,10 +67,12 @@ export function buildEnOgElement(content: EnOgCardContent): ReactNode {
     marginBottom: 20,
   };
   const titleStyle: CSSProperties = {
-    fontSize: enTitleFontSize(title),
+    fontSize: titleFontSize ?? enTitleFontSize(title),
     fontWeight: 400,
     lineHeight: 1.15,
     marginBottom: formula ? 24 : 0,
+    // 標題帶 \n 時照指定位置斷行（中文卡）；英文卡沒有 \n，維持自動換行
+    ...(title.includes('\n') ? { whiteSpace: 'pre-line' as const } : {}),
   };
   const formulaStyle: CSSProperties = {
     fontSize: ogFormulaFontSize(formula ?? ''),

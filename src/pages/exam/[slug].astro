@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getZhOgImagePath } from '../../lib/zhOgPaths';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
 import ExamInteractiveStage from '../../components/exam/ExamInteractiveStage';
@@ -33,7 +34,7 @@ const interactive = isExamInteractive(entry.id);
 const sourceLabel = examSourceLabel(entry.data);
 const sourceLinkLabels = examSourceLinkLabels(entry.data.subject);
 const creditLine = examCreditLine(entry.data);
-const ogImage = entry.data.coverImage;
+const ogImage = entry.data.coverImage ? getZhOgImagePath('exam', entry.id) : undefined;
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL('/', site).href;
 const examUrl = new URL('/exam', site).href;

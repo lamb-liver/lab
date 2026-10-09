@@ -15,9 +15,12 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = resolve(repoRoot, 'public/og/works');
 // English (/en/**) cards: public/og/en/{works,exam,explore}/<slug>.png
 const enOutDir = resolve(repoRoot, 'public/og/en');
+// 中文試題／主題卡：public/og/zh/{exam,explore}/<slug>.png
+const zhOutDir = resolve(repoRoot, 'public/og/zh');
 const vitestBin = resolve(repoRoot, 'node_modules/vitest/vitest.mjs');
 const runnerTest = resolve(repoRoot, 'scripts/generate-work-og.vitest.ts');
 const enRunnerTest = resolve(repoRoot, 'scripts/generate-en-og.vitest.ts');
+const zhRunnerTest = resolve(repoRoot, 'scripts/generate-zh-og.vitest.ts');
 
 mkdirSync(outDir, { recursive: true });
 
@@ -26,6 +29,8 @@ for (const name of readdirSync(outDir)) {
 }
 rmSync(enOutDir, { recursive: true, force: true });
 mkdirSync(enOutDir, { recursive: true });
+rmSync(zhOutDir, { recursive: true, force: true });
+mkdirSync(zhOutDir, { recursive: true });
 
 const result = spawnSync(
   process.execPath,
@@ -37,10 +42,11 @@ const result = spawnSync(
     resolve(repoRoot, 'vitest.work-og.config.ts'),
     runnerTest,
     enRunnerTest,
+    zhRunnerTest,
   ],
   {
     cwd: repoRoot,
-    env: { ...process.env, WORK_OG_OUT_DIR: outDir, EN_OG_OUT_DIR: enOutDir },
+    env: { ...process.env, WORK_OG_OUT_DIR: outDir, EN_OG_OUT_DIR: enOutDir, ZH_OG_OUT_DIR: zhOutDir },
     stdio: 'inherit',
   },
 );

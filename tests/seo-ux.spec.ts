@@ -383,7 +383,7 @@ test.describe('SEO metadata and UX shell', () => {
     );
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       'content',
-      'https://lab.lambliver.dev/explore/fourier-series-epicycles-cover.png',
+      'https://lab.lambliver.dev/og/zh/explore/fourier-series.png',
     );
     await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
       'content',
@@ -630,17 +630,36 @@ test.describe('SEO metadata and UX shell', () => {
       expect(response.headers()['content-type']).toContain('image/png');
     }
 
-    // 中文頁不變
+    // 中文首頁仍用預設圖
     await page.goto('/');
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       'content',
       `${site}${DEFAULT_OG_IMAGE}`,
     );
-    await page.goto('/explore/vectors/');
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
-      'content',
-      `${site}/images/explore-covers/vectors.png`,
-    );
+  });
+
+  test('Chinese exam and explore pages expose titled OG cards', async ({ page, request }) => {
+    const site = 'https://lab.lambliver.dev';
+    const cases: Array<[string, string, string]> = [
+      [
+        '/exam/ast-114-solid-of-revolution/',
+        '/og/zh/exam/ast-114-solid-of-revolution.png',
+        '面積相同，旋轉體體積相同嗎',
+      ],
+      ['/explore/vectors/', '/og/zh/explore/vectors.png', '平面向量'],
+    ];
+    for (const [path, image, alt] of cases) {
+      await page.goto(path);
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${site}${image}`);
+      await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', `${site}${image}`);
+      await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute('content', alt);
+      await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute('content', '1200');
+      await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute('content', '630');
+      await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'zh_TW');
+      const response = await request.get(image);
+      expect(response.ok(), image).toBe(true);
+      expect(response.headers()['content-type']).toContain('image/png');
+    }
   });
 
   test('English pages use English nav, breadcrumb, and footer with a link back to Chinese', async ({
