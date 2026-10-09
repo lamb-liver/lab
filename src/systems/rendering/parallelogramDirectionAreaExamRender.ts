@@ -1,15 +1,14 @@
 import type p5 from 'p5';
 import {
-  ALL_SOLUTIONS,
   DIR_PARALLEL,
   DIR_PERP,
   PQ,
-  adjacentVertices,
-  sideVectors,
+  arrowTips,
+  ghostTips,
   solveSideScales,
+  vertexP,
   verticesFromCenter,
   type SideScales,
-  type SolutionKey,
 } from '../../exam/ast-114-parallelogram-direction-area/geometry';
 import { withDash, type PlotRectLike } from './p5PlotHelpers';
 
@@ -39,8 +38,8 @@ export function parallelogramExamPlot(width: number, height: number): Parallelog
     y: 28,
     w: width - 76,
     h: height - 66,
-    xMin: -24,
-    xMax: 24,
+    xMin: -32,
+    xMax: 20,
     yMin: -18,
     yMax: 18,
   };
@@ -89,17 +88,11 @@ function drawRailFamily(
   });
 }
 
-function sameSolution(a: SolutionKey, b: SolutionKey): boolean {
-  return a.mode === b.mode && a.sign === b.sign;
-}
-
 export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): void {
   p.background(10, 10, 10);
   p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
   const plot = parallelogramExamPlot(snap.width, snap.height);
-  const active: SolutionKey = { mode: snap.mode, sign: snap.sign };
-
   p.noFill();
   p.stroke(...WHITE, 18);
   p.rect(plot.x, plot.y, plot.w, plot.h, 8);
@@ -110,21 +103,20 @@ export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): vo
   drawRailFamily(p, plot, DIR_PARALLEL, BLUE);
   drawRailFamily(p, plot, DIR_PERP, PURPLE);
 
-  // Ghost adjacent handles for the other three solutions (drag targets).
-  for (const key of ALL_SOLUTIONS) {
-    if (sameSolution(key, active)) continue;
-    const ghostScales = solveSideScales(key.mode, key.sign);
-    for (const vertex of adjacentVertices({ x: 0, y: 0 }, ghostScales)) {
-      p.noStroke();
-      p.fill(...WHITE, 55);
-      p.circle(sx(vertex.x, plot), sy(vertex.y, plot), 9);
-    }
+  const q = { x: 0, y: 0 };
+  const scales = solveSideScales(snap.mode, snap.sign);
+  const verts = verticesFromCenter(q, scales, snap.sign);
+  const pWorld = vertexP(q);
+  const { uTip, vTip } = arrowTips(q, scales);
+
+  // Ghost handles: the opposite-sign tips of αu₀ and βv₀ (drag targets).
+  for (const tip of ghostTips(q, scales)) {
+    p.noStroke();
+    p.fill(...WHITE, 55);
+    p.circle(sx(tip.x, plot), sy(tip.y, plot), 9);
   }
 
-  const scales = solveSideScales(snap.mode, snap.sign);
-  const verts = verticesFromCenter({ x: 0, y: 0 }, scales);
-  const { u, v } = sideVectors(scales);
-
+  // The parallelogram itself is the same for all four sign choices.
   p.noFill();
   p.stroke(...GOLD, 230);
   p.strokeWeight(2.6);
@@ -132,16 +124,13 @@ export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): vo
   for (const pt of verts) p.vertex(sx(pt.x, plot), sy(pt.y, plot));
   p.endShape(p.CLOSE);
 
-  const origin = { x: sx(0, plot), y: sy(0, plot) };
-  const pScreen = { x: sx(verts[0].x, plot), y: sy(verts[0].y, plot) };
-  p.stroke(...WHITE, 160);
-  p.strokeWeight(1.6);
-  p.line(origin.x, origin.y, pScreen.x, pScreen.y);
+  const origin = { x: sx(q.x, plot), y: sy(q.y, plot) };
+  const pScreen = { x: sx(pWorld.x, plot), y: sy(pWorld.y, plot) };
 
-  p.stroke(...BLUE, 200);
-  p.line(pScreen.x, pScreen.y, sx(verts[0].x - u.x, plot), sy(verts[0].y - u.y, plot));
-  p.stroke(...PURPLE, 200);
-  p.line(pScreen.x, pScreen.y, sx(verts[0].x - v.x, plot), sy(verts[0].y - v.y, plot));
+  // PQ: from P to the centre Q.
+  drawArrow(p, pScreen, origin, WHITE, 170);
+  drawArrow(p, pScreen, { x: sx(uTip.x, plot), y: sy(uTip.y, plot) }, BLUE, 220);
+  drawArrow(p, pScreen, { x: sx(vTip.x, plot), y: sy(vTip.y, plot) }, PURPLE, 220);
 
   p.noStroke();
   p.fill(...GOLD, 240);
@@ -149,29 +138,52 @@ export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): vo
   p.fill(...WHITE, 230);
   p.circle(origin.x, origin.y, 7);
 
-  // Active adjacent vertices as drag handles.
-  for (const vertex of adjacentVertices({ x: 0, y: 0 }, scales)) {
+  // Active arrow tips as drag handles.
+  for (const tip of [uTip, vTip]) {
     p.stroke(...GOLD, 220);
     p.strokeWeight(2);
     p.fill(10, 10, 10, 220);
-    p.circle(sx(vertex.x, plot), sy(vertex.y, plot), 12);
+    p.circle(sx(tip.x, plot), sy(tip.y, plot), 12);
   }
 
   p.noStroke();
   p.textSize(11);
   p.fill(...GOLD, 230);
-  p.text('P', pScreen.x + 8, pScreen.y - 8);
+  p.text('P', pScreen.x - 16, pScreen.y - 8);
   p.fill(...WHITE, 200);
   p.text('Q', origin.x + 8, origin.y - 8);
+  p.fill(...BLUE, 230);
+  p.text('u=αu₀', sx(uTip.x, plot) + 9, sy(uTip.y, plot) + 4);
+  p.fill(...PURPLE, 230);
+  p.text('v=βv₀', sx(vTip.x, plot) + 9, sy(vTip.y, plot) + 4);
   p.fill(...WHITE, 120);
   p.textSize(10.5);
-  p.text(`PQ=(${PQ.x},${PQ.y})`, plot.x + 10, plot.y + 16);
-  p.text('∥ 5x−y=0', plot.x + 10, plot.y + 32);
-  p.text('⊥ 3x−2y=0', plot.x + 10, plot.y + 48);
+  p.textAlign(p.RIGHT, p.BASELINE);
+  const right = plot.x + plot.w - 10;
+  p.text(`PQ=(${PQ.x},${PQ.y})`, right, plot.y + 16);
+  p.text('∥ 5x−y=0', right, plot.y + 32);
+  p.text('⊥ 3x−2y=0', right, plot.y + 48);
+  p.textAlign(p.LEFT, p.BASELINE);
   p.fill(...WHITE, 90);
   p.text(
-    snap.locale === 'en' ? 'Drag an adjacent vertex → 4 solutions' : '拖相鄰頂點 → 四組解',
+    snap.locale === 'en' ? 'Drag an arrow tip → flip the sign of α or β' : '拖箭頭尖端 → 翻轉 α 或 β 的正負',
     plot.x + 10,
     plot.y + plot.h - 10,
   );
+}
+
+function drawArrow(
+  p: p5,
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  color: readonly [number, number, number],
+  alpha: number,
+): void {
+  p.stroke(color[0], color[1], color[2], alpha);
+  p.strokeWeight(1.8);
+  p.line(from.x, from.y, to.x, to.y);
+  const ang = Math.atan2(to.y - from.y, to.x - from.x);
+  const head = 8;
+  p.line(to.x, to.y, to.x - head * Math.cos(ang - 0.4), to.y - head * Math.sin(ang - 0.4));
+  p.line(to.x, to.y, to.x - head * Math.cos(ang + 0.4), to.y - head * Math.sin(ang + 0.4));
 }

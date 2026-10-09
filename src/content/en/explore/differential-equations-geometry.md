@@ -42,7 +42,7 @@ Suggested order: look at the slope field first → change the initial value and 
 
 - [Tractrix](/en/works/catenary/)
 - [Vector field streamlines](/en/works/vector-field-streamlines/)
-- [Phase portrait](/en/works/complex-phase-portrait/)
+- [Phasor diagram](/en/works/complex-phase-portrait/)
 - [Equiangular spiral](/en/works/equiangular-spiral/)
 
 ## Further reading

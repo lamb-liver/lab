@@ -32,7 +32,7 @@ export type SpaceVectorsParams = {
   mode: ReadingMode;
 };
 
-/** v 與平面的三種關係 */
+/** 過原點沿 v 的直線與平面的三種關係：落在面內、平行、相交（apart = n̂·v ≠ 0） */
 export type RelationState = 'inPlane' | 'parallel' | 'apart';
 
 export type SpaceVectorsMetrics = {
@@ -121,7 +121,7 @@ export function footOnPlane(metrics: SpaceVectorsMetrics): Vec3 {
 export function stateLabel(state: RelationState): string {
   if (state === 'inPlane') return 'v 落在平面內';
   if (state === 'parallel') return 'v 平行於平面';
-  return 'v 與平面有距離';
+  return 'v 所在直線與平面相交';
 }
 
 // 共用的向量數學集中在 projection3d，這裡再匯出讓呼叫端不必知道它搬過家

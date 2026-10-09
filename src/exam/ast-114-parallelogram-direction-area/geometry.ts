@@ -68,52 +68,84 @@ export function parallelogramArea(scales: SideScales): number {
   return Math.abs(cross2(u, v));
 }
 
-export function verticesFromCenter(q: Point2, scales: SideScales): Point2[] {
+/**
+ * 題目給 PQ = Q − P，所以 P = Q − PQ，對頂點 P' = Q + PQ。
+ * 四組 (mode, sign) 只是 2PQ = ±(αu₀ ± βv₀) 的符號讀法：
+ * 從 P 出發的兩條邊是 sign·u 與 sign·(±v)，加起來恆為 2PQ，
+ * 所以四組解畫出的是同一個平行四邊形（面積都是 204）。
+ */
+export function vertexP(q: Point2): Point2 {
+  return sub2(q, PQ);
+}
+
+export function edgesFromP(scales: SideScales, sign: 1 | -1): { e1: Vec2; e2: Vec2 } {
   const { u, v } = sideVectors(scales);
-  const halfDiag =
-    scales.mode === 'sum' ? scale2(add2(u, v), 0.5) : scale2(sub2(u, v), 0.5);
-  const p = add2(q, halfDiag);
-  // Adjacent vertices from P: P−u and P−v; opposite: Q − (P−Q)
-  const a = sub2(p, u);
-  const b = sub2(p, v);
-  const opposite = sub2(q, halfDiag);
-  return [p, a, opposite, b];
+  const e1 = scale2(u, sign);
+  const e2 = scale2(scales.mode === 'sum' ? v : scale2(v, -1), sign);
+  return { e1, e2 };
 }
 
-/** 與 P 相鄰的兩頂點（可拖來切換四組解）。 */
-export function adjacentVertices(q: Point2, scales: SideScales): Point2[] {
-  const verts = verticesFromCenter(q, scales);
-  return [verts[1], verts[3]];
+/** 頂點依序：P、P+e1、P'（=Q+PQ）、P+e2。 */
+export function verticesFromCenter(q: Point2, scales: SideScales, sign: 1 | -1): Point2[] {
+  const p = vertexP(q);
+  const { e1, e2 } = edgesFromP(scales, sign);
+  return [p, add2(p, e1), add2(q, PQ), add2(p, e2)];
 }
 
-/**
- * Snap 目標：P 與兩相鄰頂點。含 P 才能區分同形的 PQ 同向／反向。
- */
-export function solutionSnapTargets(q: Point2, scales: SideScales): Point2[] {
-  const verts = verticesFromCenter(q, scales);
-  return [verts[0], verts[1], verts[3]];
+/** 從 P 畫出的帶號邊向量 u=αu₀、v=βv₀ 的箭頭尖端。 */
+export function arrowTips(q: Point2, scales: SideScales): { uTip: Point2; vTip: Point2 } {
+  const p = vertexP(q);
+  const { u, v } = sideVectors(scales);
+  return { uTip: add2(p, u), vTip: add2(p, v) };
 }
 
-/**
- * 依世界座標點，選出 snap 目標最近的一組 (mode, sign) 解。
- * PQ 固定 + 方向鎖死後只有四組解，故拖曳只能 snap，不能連續變形。
- */
-export function nearestSolution(point: Point2, q: Point2 = { x: 0, y: 0 }): SolutionKey {
-  let best: SolutionKey = ALL_SOLUTIONS[0];
-  let bestDist = Number.POSITIVE_INFINITY;
+function keyFromSigns(alphaSign: 1 | -1, betaSign: 1 | -1): SolutionKey {
   for (const key of ALL_SOLUTIONS) {
-    const scales = solveSideScales(key.mode, key.sign);
-    for (const vertex of solutionSnapTargets(q, scales)) {
-      const dx = vertex.x - point.x;
-      const dy = vertex.y - point.y;
-      const dist = dx * dx + dy * dy;
-      if (dist < bestDist) {
-        bestDist = dist;
-        best = key;
-      }
+    const s = solveSideScales(key.mode, key.sign);
+    if (Math.sign(s.alpha) === alphaSign && Math.sign(s.beta) === betaSign) return key;
+  }
+  return ALL_SOLUTIONS[0];
+}
+
+/**
+ * 拖曳 snap：找最近的箭頭尖端候選（±αu₀、±βv₀ 四個點），
+ * 只翻轉被拖的那個係數的正負號，另一個沿用目前的解。
+ */
+export function nearestSolution(
+  point: Point2,
+  current: SolutionKey = ALL_SOLUTIONS[0],
+  q: Point2 = { x: 0, y: 0 },
+): SolutionKey {
+  const base = solveSideScales('sum', 1);
+  const p = vertexP(q);
+  const a = Math.abs(base.alpha);
+  const b = Math.abs(base.beta);
+  const cur = solveSideScales(current.mode, current.sign);
+  const curA = (Math.sign(cur.alpha) || 1) as 1 | -1;
+  const curB = (Math.sign(cur.beta) || 1) as 1 | -1;
+  const candidates: Array<{ pt: Point2; which: 'alpha' | 'beta'; s: 1 | -1 }> = [
+    { pt: add2(p, scale2(DIR_PARALLEL, a)), which: 'alpha', s: 1 },
+    { pt: add2(p, scale2(DIR_PARALLEL, -a)), which: 'alpha', s: -1 },
+    { pt: add2(p, scale2(DIR_PERP, b)), which: 'beta', s: 1 },
+    { pt: add2(p, scale2(DIR_PERP, -b)), which: 'beta', s: -1 },
+  ];
+  let best = candidates[0];
+  let bestDist = Number.POSITIVE_INFINITY;
+  for (const c of candidates) {
+    const d = (c.pt.x - point.x) ** 2 + (c.pt.y - point.y) ** 2;
+    if (d < bestDist) {
+      bestDist = d;
+      best = c;
     }
   }
-  return best;
+  return best.which === 'alpha' ? keyFromSigns(best.s, curB) : keyFromSigns(curA, best.s);
+}
+
+/** 其他符號組合的箭頭尖端（畫成可拖的淡色把手）。 */
+export function ghostTips(q: Point2, scales: SideScales): Point2[] {
+  const p = vertexP(q);
+  const { u, v } = sideVectors(scales);
+  return [sub2(p, u), sub2(p, v)];
 }
 
 export const OFFICIAL_AREA = 204;

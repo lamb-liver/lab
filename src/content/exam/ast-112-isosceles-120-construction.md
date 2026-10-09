@@ -29,8 +29,9 @@ draft: false
 
 ## 題意
 
-一個直角三角形的三邊長分別為 $\sqrt7$、$\sqrt3$、$2$。在其中兩邊外側各作一個
-頂角為 $120^\circ$ 的等腰三角形，要求兩個新頂點距離的平方。完整圖形與作答格式見
+直角 $\triangle ABC$ 的三邊長為 $AB=\sqrt7$、$AC=\sqrt3$、$BC=2$。分別以 $AB$ 與 $AC$
+為底邊，在 $\triangle ABC$ 的外部作頂角為 $120^\circ$ 的等腰三角形 $\triangle MAB$ 與
+$\triangle NAC$，求 $MN^2$。題目原文與作答格式見
 [大考中心 112 分科測驗數學甲試卷](https://www.ceec.edu.tw/files/file_pool/1/0n214409428400270207/01-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf)。
 
 ## 為什麼會錯

@@ -14,7 +14,7 @@ concepts:
   - linear-systems
   - matrix
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf
-analysisUrl: https://www.ceec.edu.tw/xcepaper/cont?qunit=0O241581647352902046&sid=0O260306744213652490&xsmsid=0J066588036013658199
+analysisUrl: https://www.ceec.edu.tw/xcepaper/cont?xsmsid=0J066588036013658199&qunit=0M105476092230875839&sid=0O260306744213652490
 relatedExplore:
   - matrix-linear-transform
 relatedWorks:
@@ -33,7 +33,7 @@ Two systems of linear equations share the coefficients $a,b,c,d$ and differ only
 
 ## Where it goes wrong
 
-The [official item analysis](https://www.ceec.edu.tw/xcepaper/cont?qunit=0O241581647352902046&sid=0O260306744213652490&xsmsid=0J066588036013658199) records a score rate of $42\%$ and a discrimination of $0.68$. The usual stall is to treat the row operations as a string of mechanical steps and miss that one and the same sequence keeps the multiples and the sums of the constant columns. Solving for $a,b,c,d$ also works, but it means solving two extra systems.
+The [official item analysis](https://www.ceec.edu.tw/xcepaper/cont?xsmsid=0J066588036013658199&qunit=0M105476092230875839&sid=0O260306744213652490) records a score rate of $42\%$ and a discrimination of $0.68$. The usual stall is to treat the row operations as a string of mechanical steps and miss that one and the same sequence keeps the multiples and the sums of the constant columns. Solving for $a,b,c,d$ also works, but it means solving two extra systems.
 
 ## Idea
 

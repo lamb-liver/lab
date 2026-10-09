@@ -63,7 +63,7 @@ $$
 \sin\angle A'AF=\frac{A'F'}{AF}=\frac{A'F'}{A'A}.
 $$
 
-在 $F'B'B$ 的直角投影中，選項 ⑤ 則給出
+在直角三角形 $F'B'B$（$B'$ 為直角）中，因 $FF'\parallel BB'$，內錯角 $\angle FF'B=\angle F'BB'$，選項 ⑤ 則給出
 
 $$
 \tan\angle FF'B=\frac{F'B'}{B'B}=\frac{c}{d}=\frac{a}{b}.

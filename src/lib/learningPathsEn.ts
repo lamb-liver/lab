@@ -14,7 +14,7 @@ export const learningPathCopyEn: Record<string, LearningPathCopyEn> = {
   'trig-to-fourier': {
     title: 'From trigonometric functions to Fourier',
     description:
-      'Start from trigonometric functions on the unit circle and watch single sine waves add up to any periodic signal. The path begins with high-school trigonometry and ends at Fourier series, a university topic.',
+      'Start from trigonometric functions on the unit circle and watch single sine waves add up to a wide range of periodic signals. The path begins with high-school trigonometry and ends at Fourier series, a university topic.',
     notes: [
       'Define sin and cos on the unit circle: the geometric starting point for the whole path.',
       'Radians give periodicity a natural scale.',
@@ -23,7 +23,7 @@ export const learningPathCopyEn: Record<string, LearningPathCopyEn> = {
       'Exam problem: combine a sin x + b cos x into one sine wave, the first real step into superposition.',
       'Adding two waves becomes interference, from one dimension to two.',
       'A steady special case of superposition: the stationary wave.',
-      'The end point: any periodic function is a superposition of infinitely many sine waves.',
+      'The end point: a well-behaved (for example, piecewise smooth) periodic function is a constant plus infinitely many sine waves; at a jump the series converges to the average of the two one-sided limits.',
     ],
   },
   'vectors-to-space': {

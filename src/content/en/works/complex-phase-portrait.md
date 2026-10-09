@@ -1,5 +1,5 @@
 ---
-title: Phase portrait
+title: Phasor diagram
 description: Two rotating phasors join head to tail, and their sum traces how harmonic waves superpose as amplitude, frequency ratio, and phase difference change.
 tags:
   - Geometry
@@ -17,7 +17,7 @@ draft: false
 
 ## Parametric equations
 
-A phase portrait writes the superposition of waves as rotating vectors on the complex plane. Each harmonic wave is a vector centered at the origin, turning counterclockwise at constant angular speed. When two waves meet, the combined displacement is their vector sum, with the two vectors joined head to tail.
+A phasor diagram writes the superposition of waves as rotating vectors on the complex plane. Each harmonic wave is a vector centered at the origin, turning counterclockwise at constant angular speed. When two waves meet, the combined displacement is their vector sum, with the two vectors joined head to tail.
 
 $$
 \vec{R}(t) = \vec{P}_A(t) + \vec{P}_B(t)

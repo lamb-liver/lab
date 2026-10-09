@@ -25,7 +25,7 @@ $$
 T_n(x)=\sum_{k=0}^{n}\frac{f^{(k)}(a)}{k!}(x-a)^k
 $$
 
-Near $x=a$, $T_n$ matches $f$ in value and in the first $n$ derivatives. This page uses $\sin x$, $\cos x$, and $e^x$. The classical expansions ($a=0$):
+At $x=a$, $T_n$ and $f$ have the same value and the same first $n$ derivatives. This page uses $\sin x$, $\cos x$, and $e^x$. The classical expansions ($a=0$):
 
 $$
 \sin x = x-\frac{x^3}{3!}+\frac{x^5}{5!}-\cdots,\quad
@@ -46,7 +46,7 @@ Farther from the center, the higher-degree terms matter more. A finite $T_n$ is 
 ## What to notice
 
 - The Taylor polynomial is most accurate near $x=a$. Farther from the center, the error at a finite degree usually grows.
-- For $\sin x$ and $\cos x$, odd and even powers separate only when $a=0$. After the center leaves $0$, the other kind of term mixes in. Every derivative of $e^x$ is $e^x$, so the coefficients decrease in the most regular way.
+- For $\sin x$ and $\cos x$, odd and even powers of $x-a$ separate when $a$ is a multiple of $\pi/2$ (only even or only odd powers appear). At other centers both kinds appear. Every derivative of $e^x$ is $e^x$, so the coefficients decrease in the most regular way.
 - Raising $n$ improves the local fit, but it does not guarantee that the approximation gets steadily more accurate across the whole window, because a high-degree term can dominate far from the center.
 
 ## Related
