@@ -28,7 +28,12 @@ type WaveSuperpositionSnap = {
   guide: GuideParams;
   superposition: SuperpositionParams;
   beat: BeatParams;
+  locale?: 'en';
 };
+
+function tr(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 function marginX(width: number): number {
   return width * (30 / 680);
@@ -138,8 +143,9 @@ function drawGuideDisplacement(
   rowH: number,
   phase: number,
   label: string,
+  title = '位移疊加',
 ): void {
-  drawPanelFrame(p, py, rowH, '位移疊加', label);
+  drawPanelFrame(p, py, rowH, title, label);
   const t = 0;
   const base = (nx: number) => Math.sin(2 * Math.PI * (nx * 2 - t));
   const shifted = (nx: number) => Math.sin(2 * Math.PI * (nx * 2 - t) + phase * Math.PI);
@@ -157,8 +163,9 @@ function drawGuideStanding(
   phase: number,
   time: number,
   label: string,
+  title = '駐波節點',
 ): void {
-  drawPanelFrame(p, py, rowH, '駐波節點', label);
+  drawPanelFrame(p, py, rowH, title, label);
 
   const mid = py + rowH * 0.58;
   const ampPx = rowH * 0.35;
@@ -188,8 +195,9 @@ function drawGuideFringes(
   rowH: number,
   phase: number,
   label: string,
+  title = '雙源條紋',
 ): void {
-  drawPanelFrame(p, py, rowH, '雙源條紋', label);
+  drawPanelFrame(p, py, rowH, title, label);
 
   const mx = marginX(p.width);
   const x0 = mx;
@@ -224,12 +232,13 @@ function drawGuideFringes(
 
 function drawGuide(p: p5, snap: WaveSuperpositionSnap): void {
   const { phase } = snap.guide;
-  const state = getGuideState(snap.guide);
+  const { locale } = snap;
+  const state = getGuideState(snap.guide, locale);
   const rowH = p.height / 3;
 
-  drawGuideDisplacement(p, 0, rowH, phase, state.displacementLabel);
-  drawGuideStanding(p, rowH, rowH, phase, snap.time, state.standingLabel);
-  drawGuideFringes(p, rowH * 2, rowH, phase, state.fringeLabel);
+  drawGuideDisplacement(p, 0, rowH, phase, state.displacementLabel, tr(locale, '位移疊加', 'Displacement'));
+  drawGuideStanding(p, rowH, rowH, phase, snap.time, state.standingLabel, tr(locale, '駐波節點', 'Standing-wave nodes'));
+  drawGuideFringes(p, rowH * 2, rowH, phase, state.fringeLabel, tr(locale, '雙源條紋', 'Two-source fringes'));
 }
 
 function drawSuperposition(p: p5, snap: WaveSuperpositionSnap): void {
@@ -241,9 +250,10 @@ function drawSuperposition(p: p5, snap: WaveSuperpositionSnap): void {
   p.line(0, rowH, p.width, rowH);
   p.line(0, rowH * 2, p.width, rowH * 2);
 
-  drawPanel(p, 0, rowH, '波 A', BLUE, (nx) => waveA(nx, t, params));
-  drawPanel(p, rowH, rowH, '波 B', GREEN, (nx) => waveB(nx, t, params));
-  drawPanel(p, rowH * 2, rowH, '合成波', ACCENT, (nx) => waveSum(nx, t, params));
+  const { locale } = snap;
+  drawPanel(p, 0, rowH, tr(locale, '波 A', 'Wave A'), BLUE, (nx) => waveA(nx, t, params));
+  drawPanel(p, rowH, rowH, tr(locale, '波 B', 'Wave B'), GREEN, (nx) => waveB(nx, t, params));
+  drawPanel(p, rowH * 2, rowH, tr(locale, '合成波', 'Sum'), ACCENT, (nx) => waveSum(nx, t, params));
 }
 
 function drawBeat(p: p5, snap: WaveSuperpositionSnap): void {
@@ -278,9 +288,9 @@ function drawBeat(p: p5, snap: WaveSuperpositionSnap): void {
   p.fill(ACCENT[0], ACCENT[1], ACCENT[2], 180);
   p.textSize(11);
   p.textAlign(p.LEFT, p.TOP);
-  p.text('合成波', 10, 8);
+  p.text(tr(snap.locale, '合成波', 'Sum'), 10, 8);
   p.fill(ACCENT[0], ACCENT[1], ACCENT[2], 90);
-  p.text('- - 包絡線', 10, 22);
+  p.text(tr(snap.locale, '- - 包絡線', '- - Envelope'), 10, 22);
 }
 
 export function renderWaveSuperpositionScene(p: p5, snap: WaveSuperpositionSnap): void {

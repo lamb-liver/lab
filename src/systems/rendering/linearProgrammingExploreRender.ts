@@ -34,6 +34,7 @@ type Snapshot = {
   width: number;
   height: number;
   params: LinearProgrammingParams;
+  locale?: 'en';
 };
 
 /** 目標視角要畫出的掃描線：從最劣的角點掃到最優的角點 */
@@ -41,6 +42,8 @@ const SWEEP_COUNT = 5;
 
 export function renderLinearProgrammingExploreScene(p: p5, snap: Snapshot): void {
   const { width, height, params } = snap;
+  const en = snap.locale === 'en';
+  const gap = en ? '  ' : '　';
   const metrics = computeLinearProgrammingMetrics(params);
   const layout = createLpLayout(width, height, AXIS_HALF);
   const { p: coefP, q: coefQ } = metrics.objective;
@@ -121,7 +124,7 @@ export function renderLinearProgrammingExploreScene(p: p5, snap: Snapshot): void
         p,
         layout,
         vertex,
-        `${rank + 1}. ${formatPoint(vertex, 1)}　z = ${metrics.values[index].toFixed(2)}`,
+        `${rank + 1}. ${formatPoint(vertex, 1)}${gap}z = ${metrics.values[index].toFixed(2)}`,
         optimal ? LP_ACCENT : LP_OBJECTIVE,
         optimal ? 235 : 150,
       );
@@ -130,26 +133,40 @@ export function renderLinearProgrammingExploreScene(p: p5, snap: Snapshot): void
         p,
         layout,
         vertex,
-        `${formatPoint(vertex, 1)}　z = ${metrics.values[index].toFixed(2)}`,
+        `${formatPoint(vertex, 1)}${gap}z = ${metrics.values[index].toFixed(2)}`,
         LP_ACCENT,
       );
     }
   }
 
-  const senseLabel = params.sense === 'max' ? '最大值' : '最小值';
+  const senseLabel = en
+    ? params.sense === 'max'
+      ? 'Maximum'
+      : 'Minimum'
+    : params.sense === 'max'
+      ? '最大值'
+      : '最小值';
   drawReadout(
     p,
     width,
     [
       formatObjective(coefP, coefQ, 2),
       metrics.empty
-        ? '可行域為空'
+        ? en
+          ? 'The feasible region is empty'
+          : '可行域為空'
         : metrics.unbounded
-          ? `${senseLabel}不存在`
+          ? en
+            ? `${senseLabel} does not exist`
+            : `${senseLabel}不存在`
           : `${senseLabel} z = ${metrics.best!.toFixed(3)}`,
       metrics.redundant.length > 0
-        ? `冗餘約束 ${metrics.redundant.length} 條（虛線）`
-        : `角點 ${metrics.vertices.length} 個`,
+        ? en
+          ? `${metrics.redundant.length} redundant constraints (dashed)`
+          : `冗餘約束 ${metrics.redundant.length} 條（虛線）`
+        : en
+          ? `${metrics.vertices.length} corner points`
+          : `角點 ${metrics.vertices.length} 個`,
     ],
     { highlightIndex: 1, highlightColor: LP_ACCENT },
   );

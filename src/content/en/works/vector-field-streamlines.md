@@ -57,7 +57,7 @@ $\varepsilon$ avoids division by zero at the origin. The direction is perpendicu
 ## Related
 
 - [Basic patterns of a vector field](/en/works/vector-field-patterns/)
-- [Differential equations, seen geometrically](/explore/differential-equations-geometry/)
+- [Differential equations, seen geometrically](/en/explore/differential-equations-geometry/)
 
 ## Further reading
 

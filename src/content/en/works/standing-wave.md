@@ -38,7 +38,7 @@ $$
 
 ## Related
 
-- [Superposition of trigonometric functions and wave interference](/explore/trig-wave-interference/)
+- [Superposition of trigonometric functions and wave interference](/en/explore/trig-wave-interference/)
 - [Interference fringes](/en/works/interference-fringes/)
 - [Chladni figures](/en/works/chladni-figures/)
 

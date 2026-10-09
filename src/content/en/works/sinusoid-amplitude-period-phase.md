@@ -48,7 +48,7 @@ The base sine wave $y=\sin x$ is the case $A=1$, $T=2\pi$, $\phi=0$, $k=0$.
 
 - [Radians and arc length](/en/works/radian-arc-length/)
 - [Function graph transformations](/en/works/function-graph-transform/)
-- [Superposition of trigonometric functions and wave interference](/explore/trig-wave-interference/)
+- [Superposition of trigonometric functions and wave interference](/en/explore/trig-wave-interference/)
 - [Trigonometric graphs and radians](/en/explore/trig-function-graphs/)
 
 ## Further reading

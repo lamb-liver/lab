@@ -42,7 +42,7 @@ If the feasible region is bounded and an optimal value exists, the largest (or s
 
 - [Constraint half-planes and the feasible region](/en/works/lp-feasible-half-planes/)
 - [Level curves of the objective](/en/works/lp-objective-level-curves/)
-- [Linear programming](/explore/linear-programming/)
+- [Linear programming](/en/explore/linear-programming/)
 
 ## Further reading
 

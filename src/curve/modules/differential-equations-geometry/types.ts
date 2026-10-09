@@ -12,6 +12,7 @@ export type EquationDef = {
   f: (x: number, y: number) => number;
   exact: (x: number, x0: number, y0: number) => number;
   note: string;
+  noteEn: string;
 };
 
 export type DiffEqParams = {

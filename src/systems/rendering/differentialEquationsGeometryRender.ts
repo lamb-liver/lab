@@ -32,7 +32,12 @@ type DiffEqGeometrySnap = {
   eqKey: EqKey;
   stepH: number;
   initialPoints: Point2[];
+  locale?: 'en';
 };
+
+function tr(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 const GOLD: [number, number, number] = [212, 184, 122];
 const BLUE: [number, number, number] = [130, 185, 230];
@@ -46,18 +51,22 @@ function withPlotClip(p: p5, plot: PlotRect, draw: () => void): void {
   p.pop();
 }
 
-function drawVisualTitle(p: p5, plot: PlotRect): void {
+function drawVisualTitle(p: p5, plot: PlotRect, locale?: 'en'): void {
   p.push();
   p.noStroke();
   p.fill(...GOLD);
   p.textSize(14);
   p.textStyle(p.BOLD);
-  p.text('微分方程', plot.x, 56);
+  p.text(tr(locale, '微分方程', 'Differential equations'), plot.x, 56);
 
   p.fill(155);
   p.textSize(12);
   p.textStyle(p.NORMAL);
-  p.text('斜率場顯示方向；解曲線順著方向前進', plot.x, 76);
+  p.text(
+    tr(locale, '斜率場顯示方向；解曲線順著方向前進', 'The slope field shows direction; solution curves follow it'),
+    plot.x,
+    76,
+  );
   p.pop();
 }
 
@@ -246,7 +255,11 @@ function drawSlopeFieldScene(
   drawVisualHint(
     p,
     plot,
-    '點擊平面新增初始條件；每條曲線都順著方向場前進',
+    tr(
+      snap.locale,
+      '點擊平面新增初始條件；每條曲線都順著方向場前進',
+      'Click the plane to add an initial condition; each curve follows the direction field',
+    ),
   );
 }
 
@@ -273,7 +286,7 @@ function drawEulerScene(p: p5, snap: DiffEqGeometrySnap, plot: PlotRect): void {
   drawVisualHint(
     p,
     plot,
-    `Euler：yₙ₊₁ = yₙ + h f(xₙ,yₙ)    |E| = ${formatNum(err)}`,
+    `Euler${snap.locale === 'en' ? ': ' : '：'}yₙ₊₁ = yₙ + h f(xₙ,yₙ)    |E| = ${formatNum(err)}`,
   );
 }
 
@@ -284,7 +297,7 @@ export function renderDifferentialEquationsGeometryScene(
   p.background(10, 10, 10);
 
   const plot = computePlotRect(snap.width, snap.height);
-  drawVisualTitle(p, plot);
+  drawVisualTitle(p, plot, snap.locale);
 
   if (snap.mode === 'field') {
     drawSlopeFieldScene(p, snap, plot);
@@ -300,8 +313,21 @@ export type DiffEqSidebarState = {
 
 export function buildDiffEqSidebarState(
   params: DiffEqParams,
+  locale?: 'en',
 ): DiffEqSidebarState {
   const eq = getEquation(params.eqKey);
+  const en = locale === 'en';
+
+  if (params.mode === 'field' && en) {
+    return {
+      statsLines: [
+        `Equation: ${eq.label}`,
+        `Curves: ${params.initialPoints.length}`,
+        'Direction field: dy/dx=f(x,y)',
+      ],
+      hintLine: `Click the plane to add an initial point · ${eq.noteEn}`,
+    };
+  }
 
   if (params.mode === 'field') {
     return {
@@ -319,6 +345,18 @@ export function buildDiffEqSidebarState(
   const last = euler[euler.length - 1]!;
   const trueY = eq.exact(last.x, x0, y0);
   const err = Math.abs(last.y - trueY);
+
+  if (en) {
+    return {
+      statsLines: [
+        `Equation: ${eq.label}`,
+        `Start: (${x0}, ${y0})`,
+        `Steps N: ${euler.length - 1}`,
+        `End |E|: ${formatNum(err)}`,
+      ],
+      hintLine: 'The smaller h is, the closer the polyline gets to the true solution',
+    };
+  }
 
   return {
     statsLines: [

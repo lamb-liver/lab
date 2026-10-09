@@ -42,7 +42,7 @@ $$
 
 - [Rose curve](/en/works/rose-curve/)
 - [Harmonograph](/en/works/harmonograph-curve/)
-- [Superposition of trigonometric functions and wave interference](/explore/trig-wave-interference/)
+- [Superposition of trigonometric functions and wave interference](/en/explore/trig-wave-interference/)
 
 ## Further reading
 

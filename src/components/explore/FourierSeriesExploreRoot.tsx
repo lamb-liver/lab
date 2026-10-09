@@ -44,7 +44,16 @@ const MODE_LABELS: Record<FourierMode, string> = {
   '2D': '接近方形的週期軌道',
 };
 
-export default function FourierSeriesExploreRoot() {
+const EN_MODE_LABELS: Record<FourierMode, string> = {
+  '1D': '1D square wave synthesis',
+  '2D': 'Near-square periodic orbit',
+};
+
+type Props = { locale?: 'en' };
+
+export default function FourierSeriesExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
+  const modeLabels = en ? EN_MODE_LABELS : MODE_LABELS;
   const [N, setN] = useState(2);
   const [mode, setMode] = useState<FourierMode>('1D');
   const [revealPct, setRevealPct] = useState(0);
@@ -119,13 +128,13 @@ export default function FourierSeriesExploreRoot() {
         ref={canvasHostRef}
         className="fourier-explore__canvas"
         role="img"
-        aria-label="傅立葉級數互動視覺化"
+        aria-label={en ? 'Fourier series, interactive' : '傅立葉級數互動視覺化'}
       />
       <div className="fourier-explore__controls">
         <div className="fourier-explore__toolbar">
           <div className="control-field fourier-explore__n">
             <label htmlFor="fourier-n">
-              疊加項數 N
+              {en ? 'Number of terms N' : '疊加項數 N'}
               <span className="fourier-explore__n-value">{N}</span>
             </label>
             <div className="range-wrap">
@@ -147,9 +156,15 @@ export default function FourierSeriesExploreRoot() {
             className="fourier-explore__mode-btn"
             onClick={toggleMode}
             aria-pressed={mode === '2D'}
-            aria-label={`目前模式：${MODE_LABELS[mode]}，點擊切換`}
+            aria-label={
+              en
+                ? `Current mode: ${modeLabels[mode]}. Click to switch`
+                : `目前模式：${modeLabels[mode]}，點擊切換`
+            }
           >
-            {mode === '1D' ? '一維方波' : '二維軌道'} ↔ 切換
+            {en
+              ? `${mode === '1D' ? '1D square wave' : '2D orbit'} ↔ Switch`
+              : `${mode === '1D' ? '一維方波' : '二維軌道'} ↔ 切換`}
           </button>
 
           <span className="fourier-explore__reveal" aria-live="polite" role="status">
@@ -158,11 +173,14 @@ export default function FourierSeriesExploreRoot() {
         </div>
 
         <div className="fourier-explore__meta">
-          <p className="fourier-explore__title">傅立葉級數視覺化</p>
+          <p className="fourier-explore__title">{en ? 'Fourier series' : '傅立葉級數視覺化'}</p>
           <p className="fourier-explore__formula">
             f(x) = a₀/2 + Σ(aₙ·cos(nx) + bₙ·sin(nx))
           </p>
-          <p className="fourier-explore__mode">模式：{MODE_LABELS[mode]}</p>
+          <p className="fourier-explore__mode">
+            {en ? 'Mode: ' : '模式：'}
+            {modeLabels[mode]}
+          </p>
         </div>
       </div>
     </div>
