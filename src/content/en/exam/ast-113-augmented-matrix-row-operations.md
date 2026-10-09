@@ -40,20 +40,19 @@ The [official item analysis](https://www.ceec.edu.tw/xcepaper/cont?qunit=0O24158
 Write the constant columns of the two known systems as
 
 $$
-\mathbf{b}_1=\begin{bmatrix}2\\1\end{bmatrix},\qquad
-\mathbf{b}_2=\begin{bmatrix}-1\\-1\end{bmatrix}.
+\mathbf b_1=(2,1),\qquad \mathbf b_2=(-1,-1).
 $$
 
 The target column is already
 
 $$
-\begin{bmatrix}0\\1\end{bmatrix}=-\mathbf{b}_1-2\mathbf{b}_2.
+(0,1)=-\mathbf b_1-2\mathbf b_2.
 $$
 
-After the same row operations, those constant columns are $\begin{bmatrix}3\\2\end{bmatrix}$ and $\begin{bmatrix}2\\-1\end{bmatrix}$. The same multiples and the same sum still hold, so the target column becomes
+After the same row operations, those constant columns are $(3,2)$ and $(2,-1)$. The same multiples and the same sum still hold, so the target column becomes
 
 $$
--\begin{bmatrix}3\\2\end{bmatrix}-2\begin{bmatrix}2\\-1\end{bmatrix}=\begin{bmatrix}-7\\0\end{bmatrix}.
+-(3,2)-2(2,-1)=(-7,0).
 $$
 
 The reduced augmented matrix is then the system

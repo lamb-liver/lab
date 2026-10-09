@@ -14,13 +14,17 @@ draft: false
 
 ## Parametric equations
 
-A logarithmic scale puts $\log_{10} y$ on the vertical axis, so each factor of ten in $y$ is the same vertical step. Earthquake magnitude, decibels, and pH compress a wide range this way. The figure always shows the same curves twice: a linear axis on the left, and a log axis on the right.
+A logarithmic scale puts $\log_{10} y$ (or $\ln y$) on the vertical axis, so each factor of ten in $y$ is the same vertical step. Earthquake magnitude, decibels, and pH compress a wide range this way. The figure always shows the same curves twice: a linear axis on the left, and a log axis on the right.
 
 $$
-y=10^{ax}\quad\Leftrightarrow\quad \log_{10} y = ax
+y=10^{x}\quad\Leftrightarrow\quad \log_{10} y = x
 $$
 
-That exponential is curved on the linear axis and a straight line of slope $a$ on the log axis.
+An exponential $y=Ce^{kt}$ is a straight line on the $\ln y$ axis:
+
+$$
+\ln y = \ln C + kt
+$$
 
 ## Interaction
 
