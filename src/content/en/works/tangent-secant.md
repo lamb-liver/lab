@@ -14,7 +14,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The unit circle. The point $P=(p,0)$ lies outside it. One secant leaves $P$ toward the upper left. $A$ is the nearer intersection and $B$ the farther one, so $|PA|$ is the external part and $|PB|$ is the whole secant. The angle is at least $8^\circ$ and at most $\arcsin(0.92/p)$. The factor $0.92$ is the same margin as on the two-secants page: the intersections separate before they would meet at a point of tangency.
 

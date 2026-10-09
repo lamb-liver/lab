@@ -23,7 +23,7 @@ type Props = {
 function englishMetadata(metadata: CurveMetadata): CurveMetadata {
   return {
     ...metadata,
-    title: 'Finding the optimum at a vertex',
+    title: 'Finding the optimal solution at a vertex',
     formula: metadata.formula.replace('，最優在角點取得', ', optimum at a corner point'),
     stats: metadata.stats.map((stat) => {
       const value = String(stat.value);
@@ -209,7 +209,7 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId, locale }: Pr
         className="curve-work-canvas-host work-canvas"
         aria-label={
           en
-            ? 'Finding the optimum at a vertex. Tap a vertex to switch the table row.'
+            ? 'Finding the optimal solution at a vertex. Tap a vertex to switch the table row.'
             : '頂點法求最優解互動：點選頂點可切換候選表的列'
         }
       />

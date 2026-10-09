@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 A logarithmic scale puts $\log_{10} y$ on the vertical axis, so each factor of ten in $y$ is the same vertical step. Earthquake magnitude, decibels, and pH compress a wide range this way. The figure always shows the same curves twice: a linear axis on the left, and a log axis on the right.
 

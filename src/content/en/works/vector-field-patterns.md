@@ -15,7 +15,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Near a singular point, a plane vector field $\mathbf{F}(x,y)=(P,Q)$ shows a few typical patterns: source (spreading out), sink (closing in), vortex (rotating), and saddle (one way in, one way out). Recognizing them helps with gradient fields, an intuition for curl, and phase portraits of differential equations.
 
@@ -41,7 +41,7 @@ For a source or a sink, the two real eigenvalues have the same sign. For a saddl
 
 - [Vector field streamlines](/en/works/vector-field-streamlines/)
 - [Vector projection](/en/works/vector-projection/)
-- [Dot product](/en/works/dot-product-geometry/)
+- [Geometric significance of the dot product](/en/works/dot-product-geometry/)
 
 ## Further reading
 

@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The logistic curve, in continuous time, is growth under a limited resource. Early on it is close to exponential growth. It bends in the middle. It levels off at the carrying capacity $L$. This is the smooth S-shaped solution, not the bifurcation diagram of the discrete map $x_{n+1}=rx_n(1-x_n)$.
 

@@ -1,5 +1,5 @@
 ---
-title: Scatter, correlation, and the regression line
+title: Scatter diagram, correlation, and the regression line
 description: Drag points in a two-dimensional cloud and watch the direction, the correlation r, and the least-squares line change together.
 tags:
   - Probability and statistics
@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Given points $\{(x_i,y_i)\}$. This page reads the cloud as a whole: the mean point, how linear the cloud is, and one straight line for the main trend. The mean point is
 

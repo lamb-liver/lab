@@ -28,7 +28,7 @@ const EN_PARAM_LABELS: Record<string, string> = {
 function englishMetadata(metadata: CurveMetadata): CurveMetadata {
   return {
     ...metadata,
-    title: 'Geometry of the binomial expansion',
+    title: 'Geometric significance of the binomial expansion',
     stats: metadata.stats.map((stat) => ({
       ...stat,
       label: stat.key === 'mode' ? 'Mode' : stat.label,
@@ -89,7 +89,7 @@ export default function BinomialExpansionGeometryCurveRoot({ controlsMountId, lo
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label={en ? 'Geometry of the binomial expansion' : '二項式展開幾何互動視覺化'}
+        aria-label={en ? 'Geometric significance of the binomial expansion' : '二項式展開幾何互動視覺化'}
       />
       {controls}
     </>

@@ -1,5 +1,5 @@
 ---
-title: Standing wave
+title: Stationary wave
 description: Two opposite traveling waves of equal amplitude and frequency add to y = 2A sin(kx) cos(ωt), whose nodes and antinodes stay fixed.
 audience: Intuitive exploration
 tags:
@@ -12,9 +12,9 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
-A standing wave is what two waves of equal amplitude and frequency produce when they travel in opposite directions. This figure draws the equivalent closed form, so the nodes and antinodes are easy to compare:
+A stationary wave is what two waves of equal amplitude and frequency produce when they travel in opposite directions. This figure draws the equivalent closed form, so the nodes and antinodes are easy to compare:
 
 $$
 y = 2A\sin(kx)\cos(\omega t)
@@ -28,7 +28,7 @@ $$
 
 - **Amplitude A**: a larger value raises the crests, and the upper and lower envelopes open with it
 - **Spatial frequency k**: change how many nodes and antinodes there are. Switching k grows the wave in again from the left end
-- **Time speed ω**: set how fast the standing wave oscillates
+- **Time speed ω**: set how fast the stationary wave oscillates
 
 ## What to notice
 

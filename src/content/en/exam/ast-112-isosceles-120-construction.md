@@ -1,15 +1,15 @@
 ---
-title: A 120° isosceles construction and the law of cosines
-description: "112 AST Math A, Fill-in 9: read the vertex angle and the base angles, then use an angle-sum formula and the law of cosines for the squared distance between the new vertices."
+title: A 120° isosceles construction and the cosine law
+description: "112 AST Mathematics I, Fill-in 9: read the vertex angle and the base angles, then use an angle-sum formula and the cosine law for the squared distance between the new vertices."
 subject: 分科數甲
 year: 112
 questionType: 選填
 questionNo: '9'
-unit: Senior-high years 1-2, Math A · Trigonometric ratios and functions
+unit: Grades 10-11, Mathematics A · Trigonometric ratios and trigonometric functions
 topics:
   - Isosceles triangles
   - Angle-sum formulas
-  - Law of cosines
+  - Cosine law
 concepts:
   - law-of-sines-cosines
   - trig-identities
@@ -70,7 +70,7 @@ $$
 \end{aligned}
 $$
 
-The law of cosines in $\triangle AMN$ then gives
+The cosine law in $\triangle AMN$ then gives
 
 $$
 \begin{aligned}
@@ -85,4 +85,4 @@ $$
 
 - Drag **φ**. The two base angles stay equal to $(180^\circ-\varphi)/2$.
 - Press **Back to the original, φ=120°** and check that both base angles are $30^\circ$.
-- Compare $\angle MAN$ on the figure with the exact value in the sidebar. Both outer base angles belong in the included angle used by the law of cosines.
+- Compare $\angle MAN$ on the figure with the exact value in the sidebar. Both outer base angles belong in the included angle used by the cosine law.

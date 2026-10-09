@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 An equiangular spiral (a logarithmic spiral) can be written:
 

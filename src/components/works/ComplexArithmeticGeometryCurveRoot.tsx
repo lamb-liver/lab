@@ -18,7 +18,7 @@ const EN_LABELS: Record<string, string> = {
 function englishMetadata(metadata: CurveMetadata): CurveMetadata {
   return {
     ...metadata,
-    title: 'Geometry of complex arithmetic',
+    title: 'Geometric significance of complex arithmetic',
   };
 }
 
@@ -29,7 +29,7 @@ export default function ComplexArithmeticGeometryCurveRoot({ controlsMountId, lo
       module={complexArithmeticGeometryModule}
       useCanvas={useComplexArithmeticGeometryP5}
       controlsMountId={controlsMountId}
-      canvasAriaLabel={en ? 'Geometry of complex arithmetic' : '複數四則運算幾何動畫'}
+      canvasAriaLabel={en ? 'Geometric significance of complex arithmetic' : '複數四則運算幾何動畫'}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={en ? EN_LABELS : undefined}
     />

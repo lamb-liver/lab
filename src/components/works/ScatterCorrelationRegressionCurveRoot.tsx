@@ -67,7 +67,7 @@ export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId,
 
   const state = stateRef.current;
   const metadata = getScatterCorrelationMetadata(state.params, state.points);
-  const shown = en ? { ...metadata, title: 'Scatter, correlation, and the regression line' } : metadata;
+  const shown = en ? { ...metadata, title: 'Scatter diagram, correlation, and the regression line' } : metadata;
   const text = (zh: string, english: string) => (en ? english : zh);
 
   const controls = (
@@ -131,7 +131,7 @@ export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId,
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label={en ? 'Scatter, correlation, and the regression line' : '散布圖相關與迴歸線互動視覺化'}
+        aria-label={en ? 'Scatter diagram, correlation, and the regression line' : '散布圖相關與迴歸線互動視覺化'}
       />
       {controls}
     </>

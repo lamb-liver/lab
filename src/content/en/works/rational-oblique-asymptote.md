@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Degrees and the division below are for the rational function after common factors are cancelled. When $\deg P=\deg Q+1$, polynomial division
 

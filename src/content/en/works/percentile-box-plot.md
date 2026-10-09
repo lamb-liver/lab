@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 This page reads the order of a one-dimensional sample. It does not draw a point cloud or a regression line. Sort the $n$ values
 
@@ -44,7 +44,7 @@ The interquartile range is $\mathrm{IQR}=Q_3-Q_1$. Whiskers stop at the outermos
 
 ## Related
 
-- [Scatter, correlation, and the regression line](/en/works/scatter-correlation-regression/)
+- [Scatter diagram, correlation, and the regression line](/en/works/scatter-correlation-regression/)
 - [An outlier's effect on the regression line](/en/works/regression-outlier-influence/)
 - [Data analysis](/en/explore/data-analysis/)
 

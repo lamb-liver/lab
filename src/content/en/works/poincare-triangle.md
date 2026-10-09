@@ -14,7 +14,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The outer circle is the unit circle. The three vertices are the same distance from the center and $120^\circ$ apart. The side joining two of them is not the chord. It is an arc of the circle through those two points that is orthogonal to the unit circle. The arc stops at the two vertices and does not reach the unit circle. The angle on the disk is the angle between the two arcs at a vertex.
 

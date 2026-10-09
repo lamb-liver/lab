@@ -16,7 +16,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The Basel problem asks for $\displaystyle\sum_{n=1}^{\infty}\frac{1}{n^2}$. Euler proved that the sum is $\dfrac{\pi^2}{6}$. An infinite product for $\sin x$, or a split into areas, is one way to tie that series to the square of $\pi$.
 

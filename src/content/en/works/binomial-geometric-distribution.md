@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The binomial distribution $\mathrm{B}(n,p)$: $n$ independent trials, success probability $p$ on each trial, and $X$ the number of successes, so $X\in\{0,1,\ldots,n\}$.
 

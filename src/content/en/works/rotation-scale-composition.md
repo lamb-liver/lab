@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Each step multiplies the shape by the rotation-scaling matrix $M = s \cdot R(\theta)$:
 
@@ -43,8 +43,8 @@ $$
 
 ## Related
 
-- [Linear transform grid](/en/works/linear-transform-grid/)
-- [Affine transform pattern](/en/works/affine-transform-pattern/)
+- [Linear transformation grid](/en/works/linear-transform-grid/)
+- [Affine transformation pattern](/en/works/affine-transform-pattern/)
 - [Equiangular spiral](/en/works/equiangular-spiral/)
 
 ## Further reading

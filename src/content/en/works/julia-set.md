@@ -14,7 +14,7 @@ featured: true
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 For a fixed complex constant $c$, substitute each starting point $z_0$ into $f(z)=z^2+c$ again and again. Some of those orbits stay bounded forever. Others escape to infinity. The Julia set $J_c$ is the boundary between these two kinds of starting points. If $|z_n|>2$, the orbit must diverge. How fast it diverges is drawn as color bands, and the interior that does not diverge stays black. Changing $c$ can take the boundary from one connected branching shape to a cloud of separate points (Cantor dust).
 

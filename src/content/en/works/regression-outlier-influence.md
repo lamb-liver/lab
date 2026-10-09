@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The main cloud stays fixed. Only the highlighted point $(x_o,y_o)$ moves. Let $b_0$ be the least-squares slope of the main cloud, and $b$ the least-squares slope after that point is added. This page watches the one point. It does not rebuild the cloud.
 
@@ -38,7 +38,7 @@ The leverage drawn here is the horizontal distance $|x_o-\bar x_0|$ from the mai
 
 ## Related
 
-- [Scatter, correlation, and the regression line](/en/works/scatter-correlation-regression/)
+- [Scatter diagram, correlation, and the regression line](/en/works/scatter-correlation-regression/)
 - [Percentiles and a box plot](/en/works/percentile-box-plot/)
 - [Data analysis](/en/explore/data-analysis/)
 

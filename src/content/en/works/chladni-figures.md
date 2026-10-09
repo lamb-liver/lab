@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The nodal lines are where the amplitude on the square is zero, for the mode the controls select:
 
@@ -40,7 +40,7 @@ $$
 ## Related
 
 - [Superposition of trigonometric functions and wave interference](/en/explore/trig-wave-interference/)
-- [Standing wave](/en/works/standing-wave/)
+- [Stationary wave](/en/works/standing-wave/)
 - [Interference fringes](/en/works/interference-fringes/)
 
 ## Further reading

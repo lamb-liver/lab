@@ -16,7 +16,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The logistic map $x_{n+1}=rx_n(1-x_n)$ models a population with limited resources. As $r$ grows, the orbit goes from a fixed point through period 2, 4, 8, … and then into chaos. The bifurcation diagram puts $r$ on the horizontal axis and the long-run orbit values on the vertical axis, and it shows Feigenbaum universality.
 

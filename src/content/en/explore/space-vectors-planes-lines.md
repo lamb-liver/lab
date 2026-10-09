@@ -1,5 +1,5 @@
 ---
-title: Space vectors, planes, and lines
+title: Spatial vectors, planes, and lines
 description: Fix one vector and one plane, and answer in order where it is, which way the plane faces, and how the two are related.
 category: Geometry
 concepts:
@@ -39,8 +39,8 @@ Suggested order: Position, then Direction, then Relation.
 
 ## Related
 
-- [Cross product](/en/works/cross-product-geometry/)
-- [Space vector and three plane projections](/en/works/space-vector-three-plane-projection/)
+- [Geometric significance of the cross product](/en/works/cross-product-geometry/)
+- [Spatial vector and three plane projections](/en/works/space-vector-three-plane-projection/)
 - [Where a line meets a plane](/en/works/line-plane-intersection/)
 - [Plane normal and distance from a point](/en/works/plane-normal-distance/)
 

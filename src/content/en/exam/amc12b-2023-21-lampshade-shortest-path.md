@@ -1,6 +1,6 @@
 ---
 title: Shortest path on a lampshade
-description: 2023 AMC 12B #21 unfolds the shade into a half-annulus, where the straight line leaves the paper and the shortest path is a tangent plus an inner arc.
+description: 2023 AMC 12B, Problem #21 unfolds the shade into a half-annulus, where the straight line leaves the paper and the shortest path is a tangent plus an inner arc.
 subject: AMC 12B
 year: 2023
 questionType: 單選
@@ -48,7 +48,7 @@ $$
 
 a half-annulus of inner radius 6 and outer radius 12. The bug is on the outer rim and the honey on the inner rim, and the angle between them on the net is $\pi/2$.
 
-The straight-line length, from the law of cosines, is $\sqrt{12^2+6^2}=6\sqrt5$. Its nearest distance to the apex is $\dfrac{12\cdot 6}{6\sqrt5}=\dfrac{12}{\sqrt5}<6$, so it leaves the paper.
+The straight-line length, from the cosine law, is $\sqrt{12^2+6^2}=6\sqrt5$. Its nearest distance to the apex is $\dfrac{12\cdot 6}{6\sqrt5}=\dfrac{12}{\sqrt5}<6$, so it leaves the paper.
 
 A legal shortest path goes in a straight line from the bug to the point where the line is tangent to the inner rim, then along the inner arc to the honey. The tangent length is $\sqrt{12^2-6^2}=6\sqrt3$. The angle $a$ between that point and the bug satisfies $\cos a=\frac{6}{12}$, so $a=\frac{\pi}{3}$. The remaining arc is $\frac{\pi}{2}-\frac{\pi}{3}=\frac{\pi}{6}$, and its length is $6\cdot\frac{\pi}{6}=\pi$.
 

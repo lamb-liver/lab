@@ -57,7 +57,7 @@ Suggested order: Coefficient table, then Path model, then Recurrence. The Catala
 
 - [Pascal's triangle](/en/works/pascals-triangle/)
 - [Path counting](/en/works/combinatorial-path-counting/)
-- [Geometry of the binomial expansion](/en/works/binomial-expansion-geometry/)
+- [Geometric significance of the binomial expansion](/en/works/binomial-expansion-geometry/)
 - [Catalan numbers](/en/works/catalan-numbers/)
 
 ## Further reading

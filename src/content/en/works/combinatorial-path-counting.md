@@ -2,7 +2,7 @@
 title: Path counting
 description: With only right and up steps, the number of paths from the origin to (m, n) is C(m+n, m).
 tags:
-  - Combinatorics
+  - Combinatorial mathematics
 audience: High-school concept
 concepts:
   - permutation-combination
@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 On an $m\times n$ grid, every step goes right or up. The shortest paths run from the lower left, $(0,0)$, to the upper right, $(m,n)$. There are $\binom{m+n}{m}$ of them.
 
@@ -46,7 +46,7 @@ A neighbor that would fall outside the grid counts as 0, so the left edge and th
 ## Related
 
 - [Pascal's triangle](/en/works/pascals-triangle/)
-- [Geometry of the binomial expansion](/en/works/binomial-expansion-geometry/)
+- [Geometric significance of the binomial expansion](/en/works/binomial-expansion-geometry/)
 - [Catalan numbers](/en/works/catalan-numbers/)
 
 ## Further reading

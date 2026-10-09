@@ -14,7 +14,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Take the circle centered at the origin with radius $R$ as the circle of inversion. A point $P$ other than the origin goes to $P'$ on the ray $OP$ so that the two distances multiply to $R^2$. The origin has no image. Inverting twice returns the original point. A point on the circle of inversion stays where it is.
 

@@ -15,7 +15,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 A phase portrait writes the superposition of waves as rotating vectors on the complex plane. Each harmonic wave is a vector centered at the origin, turning counterclockwise at constant angular speed. When two waves meet, the combined displacement is their vector sum, with the two vectors joined head to tail.
 
@@ -48,7 +48,7 @@ $$
 
 - [Lissajous curve](/en/works/lissajous-curve/)
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
-- [Geometry of complex arithmetic](/en/works/complex-arithmetic-geometry/)
+- [Geometric significance of complex arithmetic](/en/works/complex-arithmetic-geometry/)
 - [Superposition of trigonometric functions and wave interference](/en/explore/trig-wave-interference/)
 
 ## Further reading

@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 A point $P$ travels on an ellipse. A segment is drawn from $P$ to each focus $F_1$ and $F_2$. The sum of those two distances is the constant $2a$; the figure does not print that number.
 

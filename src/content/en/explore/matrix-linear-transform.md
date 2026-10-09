@@ -1,5 +1,5 @@
 ---
-title: Matrix and linear transform
+title: Matrix and linear transformation
 description: One 2×2 matrix carries the plane by its two column vectors, and the same matrix is read again as signed area and as the order of composition.
 category: Algebra
 concepts:
@@ -23,7 +23,7 @@ $$
 \begin{bmatrix} ax+by \\ cx+dy \end{bmatrix}
 $$
 
-A matrix sends every vector in the plane to a new place. Where the basis $\hat{\imath},\hat{\jmath}$ goes decides the whole linear transform.
+A matrix sends every vector in the plane to a new place. Where the basis $\hat{\imath},\hat{\jmath}$ goes decides the whole linear transformation.
 
 ## Interaction
 
@@ -42,8 +42,8 @@ Suggested order: Free transform, then Special transform, then Composition.
 ## Related
 
 - [Eigenvectors and stretch factors](/en/works/eigenvector-geometry/)
-- [Linear transform grid](/en/works/linear-transform-grid/)
-- [Affine transform pattern](/en/works/affine-transform-pattern/)
+- [Linear transformation grid](/en/works/linear-transform-grid/)
+- [Affine transformation pattern](/en/works/affine-transform-pattern/)
 - [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
 - [Iterated affine fractal](/en/works/affine-ifs-fractal/)
 

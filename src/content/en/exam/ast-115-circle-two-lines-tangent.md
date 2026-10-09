@@ -1,11 +1,11 @@
 ---
 title: Center on the x-axis, a distance ratio, and tangent slopes
-description: "115 AST Math A, Fill-in 10: a circle with center on the x-axis is fixed by a ratio of distances to two perpendicular lines, then the slopes of the tangents through the origin are found."
+description: "115 AST Mathematics I, Fill-in 10: a circle with center on the x-axis is fixed by a ratio of distances to two perpendicular lines, then the slopes of the tangents through the origin are found."
 subject: 分科數甲
 year: 115
 questionType: 選填
 questionNo: '10'
-unit: Senior-high year 2, Math A · Circles and lines
+unit: Grade 11 Mathematics I · Circles and lines
 topics:
   - Distance from a point to a line
   - A circle and a line

@@ -1,6 +1,6 @@
 ---
 title: Row operations and the solution space
-description: Three planes stand for a linear system, and adding a multiple of the first row to the third turns that plane while the common solution stays put.
+description: Three planes stand for a system of linear equations, and adding a multiple of the first row to the third turns that plane while the common solution stays put.
 tags:
   - Linear algebra
 concepts:
@@ -15,7 +15,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 One row is one equation, and one plane. The three rows
 
@@ -58,7 +58,7 @@ In all three starting systems the first two equations are $x=1$ and $y=1$, so th
 
 - [The same row operations, as a linear combination](/en/exam/ast-113-augmented-matrix-row-operations/)
 - [Where a line meets a plane](/en/works/line-plane-intersection/)
-- [Linear transform grid](/en/works/linear-transform-grid/)
+- [Linear transformation grid](/en/works/linear-transform-grid/)
 
 ## Further reading
 

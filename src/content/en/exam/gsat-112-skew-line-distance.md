@@ -1,11 +1,11 @@
 ---
 title: Skew lines, the common perpendicular, and distance in space
-description: "112 GSAT Math A, Fill-in 17: use direction vectors and the common perpendicular to combine three mutually perpendicular lengths into a distance in space."
+description: "112 GSAT Mathematics A, Fill-in 17: use direction vectors and the common perpendicular to combine three mutually perpendicular lengths into a distance in space."
 subject: 學測數A
 year: 112
 questionType: 選填
 questionNo: '17'
-unit: Senior-high year 2, Math A · Space vectors
+unit: Grade 11 Mathematics A · Spatial vectors
 topics:
   - Lines in space
   - Cross product

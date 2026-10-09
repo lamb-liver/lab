@@ -1,11 +1,11 @@
 ---
 title: Parallelogram area with the edge directions fixed
-description: "114 AST Math A, Fill-in 11: the sides stay on two fixed directions, and the area is read from the vector between the center and one vertex."
+description: "114 AST Mathematics I, Fill-in 11: the sides stay on two fixed directions, and the area is read from the vector between the center and one vertex."
 subject: 分科數甲
 year: 114
 questionType: 選填
 questionNo: '11'
-unit: Senior-high year 2, Math A · Plane vectors
+unit: Grade 11 Mathematics I · Plane vectors
 topics:
   - Parallelograms
   - Cross product

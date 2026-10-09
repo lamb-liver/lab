@@ -52,7 +52,7 @@ export default function Isosceles120ConstructionExamRoot({ locale }: Props) {
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
-              ? 'The base angles together fix ∠MAN; the law of cosines then gives MN²'
+              ? 'The base angles together fix ∠MAN; the cosine law then gives MN²'
               : '底角共同決定 ∠MAN，再用餘弦定理求 MN²'}
           </p>
           <div

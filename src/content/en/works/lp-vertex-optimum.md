@@ -1,6 +1,6 @@
 ---
-title: Finding the optimum at a vertex
-description: Visit each vertex of the feasible region, compute z=px+qy, and read from the candidate table where the optimum lies.
+title: Finding the optimal solution at a vertex
+description: Visit each vertex of the feasible region, compute z=px+qy, and read from the candidate table where the optimal solution lies.
 audience: High-school concept
 tags:
   - Optimization
@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Given the vertices $\{V_j=(x_j,y_j)\}$ of a convex feasible polygon and the objective $z=px+qy$, the vertex method computes, one vertex at a time,
 

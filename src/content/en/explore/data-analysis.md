@@ -25,12 +25,12 @@ This page does not derive each statistic. It sets three readings side by side: o
 
 ## Interaction
 
-- **Scatter and regression**: drag the points, or set **Point count n**, **Trend b**, and **Noise σ**, and read the cloud's direction and its mean
+- **Scatter diagram and regression**: drag the points, or set **Point count n**, **Trend b**, and **Noise σ**, and read the cloud's direction and its mean
 - **Outlier influence**: move only the highlighted point and see whether it rewrites the main trend. **Outlier xₒ** and **Outlier yₒ** follow that point
 - **Percentile box**: switch to one-dimensional values. **Sample size n** rebuilds the list, and the median, the quartiles, and the tail outliers cut it
 - **Reset data** rebuilds the current mode. **Show guides** and **Hide guides** toggle the guide lines. **Add data** and **Delete selected** change the cloud or the list; they are absent in **Outlier influence**. **Delete selected** removes the selected point only while more than three points remain in the cloud, or more than five in the list
 
-Suggested order: Scatter and regression, then Outlier influence, then Percentile box.
+Suggested order: Scatter diagram and regression, then Outlier influence, then Percentile box.
 
 ## What to notice
 
@@ -40,7 +40,7 @@ Suggested order: Scatter and regression, then Outlier influence, then Percentile
 
 ## Related
 
-- [Scatter, correlation, and the regression line](/en/works/scatter-correlation-regression/)
+- [Scatter diagram, correlation, and the regression line](/en/works/scatter-correlation-regression/)
 - [An outlier's effect on the regression line](/en/works/regression-outlier-influence/)
 - [Percentiles and a box plot](/en/works/percentile-box-plot/)
 

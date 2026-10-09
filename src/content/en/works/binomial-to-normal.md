@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The binomial distribution $\mathrm{B}(n,p)$ is the probability of the number of successes $X$ in $n$ independent trials. When $n$ is large and $p$ is not extreme, $X$ can be approximated by the normal distribution with mean $np$ and variance $np(1-p)$. The standardized $Z$ is then approximately standard normal.
 

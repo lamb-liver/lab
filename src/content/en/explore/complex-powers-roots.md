@@ -44,7 +44,7 @@ Suggested order: multiplication, then a power, then roots.
 ## Related
 
 - [De Moivre's formula and nth roots](/en/works/demoivre-nth-roots/)
-- [Geometry of complex arithmetic](/en/works/complex-arithmetic-geometry/)
+- [Geometric significance of complex arithmetic](/en/works/complex-arithmetic-geometry/)
 - [Polar form of a complex number](/en/works/complex-polar-form/)
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
 - [Complex numbers and Euler's formula](/en/explore/complex-euler-formula/)

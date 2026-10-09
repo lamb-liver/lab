@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 A quadratic ($a\neq 0$) can be written in general form
 

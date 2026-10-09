@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Any vector $\mathbf{a}$ can be split, relative to a nonzero vector $\mathbf{b}$, into a parallel part $\mathbf{a}_{\parallel}$ and a perpendicular part $\mathbf{a}_{\perp}$, with $\mathbf{a}=\mathbf{a}_{\parallel}+\mathbf{a}_{\perp}$ and $\mathbf{a}_{\perp}\cdot\mathbf{b}=0$. The projection is what the dot product measures geometrically. It is also the least-squares best approximation of $\mathbf{a}$ along $\mathbf{b}$: $|\mathbf{a}_{\perp}|$ is the shortest distance from the tip of $\mathbf{a}$ to the line through $\mathbf{b}$.
 
@@ -39,7 +39,7 @@ In the basis reading, $\mathbf{e}_1$ is the unit vector along the line and $\mat
 
 ## Related
 
-- [Dot product](/en/works/dot-product-geometry/)
+- [Geometric significance of the dot product](/en/works/dot-product-geometry/)
 - [Vector addition and scalar multiplication](/en/works/vector-addition-scalar/)
 - [Basic patterns of a vector field](/en/works/vector-field-patterns/)
 

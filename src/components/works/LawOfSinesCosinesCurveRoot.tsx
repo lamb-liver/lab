@@ -52,7 +52,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId, locale }: 
     locale === 'en'
       ? {
           ...metadata,
-          title: params.mode === 'cosine' ? 'Law of cosines' : 'Law of sines',
+          title: params.mode === 'cosine' ? 'Cosine law' : 'Sine law',
         }
       : metadata;
 
@@ -69,7 +69,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId, locale }: 
           aria-pressed={params.mode === 'sine'}
           onClick={() => setMode('sine')}
         >
-          {locale === 'en' ? 'Law of sines' : '正弦定理'}
+          {locale === 'en' ? 'Sine law' : '正弦定理'}
         </button>
         <button
           type="button"
@@ -77,7 +77,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId, locale }: 
           aria-pressed={params.mode === 'cosine'}
           onClick={() => setMode('cosine')}
         >
-          {locale === 'en' ? 'Law of cosines' : '餘弦定理'}
+          {locale === 'en' ? 'Cosine law' : '餘弦定理'}
         </button>
       </div>
 
@@ -120,7 +120,7 @@ export default function LawOfSinesCosinesCurveRoot({ controlsMountId, locale }: 
         className="curve-work-canvas-host work-canvas"
         aria-label={
           locale === 'en'
-            ? 'Law of sines and law of cosines: sides, angles, and the circumradius'
+            ? 'Sine law and cosine law: sides, angles, and the circumradius'
             : '正弦定理與餘弦定理互動'
         }
       />

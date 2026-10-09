@@ -1,11 +1,11 @@
 ---
 title: Rotation and reflection matrices
-description: "112 GSAT Math A, Multiple select 11: compare images, inverses, and compositions of rotation and reflection matrices."
+description: "112 GSAT Mathematics A, Multiple select 11: compare images, inverses, and compositions of rotation and reflection matrices."
 subject: 學測數A
 year: 112
 questionType: 多選
 questionNo: '11'
-unit: Senior-high year 3 elective Math A · Matrices and linear transformations
+unit: Grade 12 elective Mathematics A · Matrices and linear transformations
 topics:
   - Rotation matrices
   - Reflection matrices

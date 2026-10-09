@@ -72,8 +72,8 @@ const COPY = {
     formula: '公式',
   },
   en: {
-    aria: 'A matrix as a linear transform',
-    visualFree: 'Matrix linear transform',
+    aria: 'A matrix as a linear transformation',
+    visualFree: 'Matrix linear transformation',
     visualSpecial: 'From geometry to a matrix',
     visualCompose: 'Matrix composition',
     switch: 'Switch',

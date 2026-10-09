@@ -1,5 +1,5 @@
 ---
-title: Space vector and three plane projections
+title: Spatial vector and three plane projections
 description: Drag the components and watch the projections on the xy, xz, and yz planes describe one vector in space.
 tags:
   - Linear algebra
@@ -12,9 +12,9 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
-A space vector
+A spatial vector
 
 $$
 \mathbf{v}=(v_x,v_y,v_z)
@@ -48,7 +48,7 @@ The three projections are the shadows of $\mathbf{v}$ on the $xy$, $xz$, and $yz
 - [Where a line meets a plane](/en/works/line-plane-intersection/)
 - [Plane normal and distance from a point](/en/works/plane-normal-distance/)
 - [Vector projection](/en/works/vector-projection/)
-- [Space vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
+- [Spatial vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
 
 ## Further reading
 

@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Euler's formula $e^{i\theta}=\cos\theta+i\sin\theta$ says that multiplying by $e^{i\theta}$ is a counterclockwise rotation by $\theta$. In the figure, the tip of the rotating vector stays in step with the sine wave of its imaginary part on the right, tying the exponential to the trigonometric functions.
 

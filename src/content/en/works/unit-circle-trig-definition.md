@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The angle $\theta$ corresponds to the point on the unit circle
 
@@ -40,7 +40,7 @@ The tangent is $\tan\theta=\sin\theta/\cos\theta$ when $\cos\theta\neq 0$. Becau
 
 ## Related
 
-- [Law of sines and law of cosines](/en/works/law-of-sines-cosines/)
+- [Sine law and cosine law](/en/works/law-of-sines-cosines/)
 - [Trigonometric identities and angle sums](/en/works/trig-angle-identities/)
 - [Geometric definitions and trigonometric identities](/en/explore/trigonometry-fundamentals/)
 

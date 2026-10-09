@@ -12,7 +12,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 The parabola $y^2 = 4px$ opens to the right. The focus is $F = (p, 0)$. Rays leave $F$, meet the curve, and continue horizontally to the right, parallel to the axis.
 

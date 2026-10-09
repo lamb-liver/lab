@@ -1,5 +1,5 @@
 ---
-title: Linear transform grid
+title: Linear transformation grid
 description: A 2×2 matrix acts on the plane grid, and the figure shows shear together with vertical scaling.
 tags:
   - Linear algebra
@@ -13,9 +13,9 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
-A linear transform sends a point $P(x,y)$ in the plane to $P'(x',y')$:
+A linear transformation sends a point $P(x,y)$ in the plane to $P'(x',y')$:
 
 $$
 \begin{bmatrix} x' \\ y' \end{bmatrix}
@@ -39,14 +39,14 @@ Here $b$ tilts the vertical lines sideways, and $d$ stretches or compresses the 
 
 ## What to notice
 
-- Under this linear transform the origin stays fixed, and a line still maps to a line.
+- Under this linear transformation the origin stays fixed, and a line still maps to a line.
 - Shear changes angles and does not change parallelism.
 - Shear and vertical scaling together turn the square grid into a parallelogram, and the origin stays fixed.
 
 ## Related
 
-- [Matrix and linear transform](/en/explore/matrix-linear-transform/)
-- [Affine transform pattern](/en/works/affine-transform-pattern/)
+- [Matrix and linear transformation](/en/explore/matrix-linear-transform/)
+- [Affine transformation pattern](/en/works/affine-transform-pattern/)
 - [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
 
 ## Further reading

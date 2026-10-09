@@ -1,6 +1,6 @@
 ---
-title: Cross product
-description: Change the angle, length, and tilt of two space vectors and read the parallelogram area, the normal n, and the angle together.
+title: Geometric significance of the cross product
+description: Change the angle, length, and tilt of two spatial vectors and read the parallelogram area, the normal n, and the angle together.
 tags:
   - Linear algebra
 concepts:
@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 For $\mathbf{a},\mathbf{b}\in\mathbb{R}^3$, the cross product $\mathbf{a}\times\mathbf{b}$ gives both an area and a normal:
 
@@ -42,10 +42,10 @@ On this figure $|\mathbf{a}|$ is fixed at $3$. The length $|\mathbf{b}|$ runs fr
 
 ## Related
 
-- [Space vector and three plane projections](/en/works/space-vector-three-plane-projection/)
+- [Spatial vector and three plane projections](/en/works/space-vector-three-plane-projection/)
 - [Plane normal and distance from a point](/en/works/plane-normal-distance/)
 - [Vector projection](/en/works/vector-projection/)
-- [Space vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
+- [Spatial vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
 
 ## Further reading
 

@@ -13,7 +13,7 @@ featured: false
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 Any nonzero complex number can be written $z=re^{i\theta}$, where $r=|z|$ and $\theta=\mathrm{Arg}(z)$. Polar form separates scaling from rotation. That separation is the key to complex multiplication and to Euler's formula.
 
@@ -39,7 +39,7 @@ $$
 
 ## Related
 
-- [Geometry of complex arithmetic](/en/works/complex-arithmetic-geometry/)
+- [Geometric significance of complex arithmetic](/en/works/complex-arithmetic-geometry/)
 - [Euler's formula, rotating](/en/works/euler-formula-rotation/)
 
 ## Further reading

@@ -1,11 +1,11 @@
 ---
 title: Combining sine and cosine
-description: "112 GSAT Math A, Multiple select 12: combine sine and cosine into a single wave, then read off the phase, the axes of symmetry, and the translation."
+description: "112 GSAT Mathematics A, Multiple select 12: combine sine and cosine into a single wave, then read off the phase, the axes of symmetry, and the translation."
 subject: 學測數A
 year: 112
 questionType: 多選
 questionNo: '12'
-unit: Senior-high year 2, Math A · Graphs of trigonometric functions
+unit: Grade 11 Mathematics A · Graphs of trigonometric functions
 topics:
   - Combining trigonometric functions
   - Phase shift

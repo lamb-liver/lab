@@ -12,7 +12,7 @@ featured: true
 draft: false
 ---
 
-## Figure
+## Parametric equations
 
 This spirograph curve is a hypotrochoid, the path of a small circle rolling inside a fixed circle:
 

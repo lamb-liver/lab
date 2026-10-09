@@ -47,8 +47,8 @@ function englishCosineStatus(angle: number) {
 }
 
 function englishCaption(mode: LawOfSinesCosinesParams['mode'], angleC: number) {
-  if (mode === 'sine') return 'Law of sines: three equal ratios, each equal to 2R.';
-  return `Law of cosines: C is ${englishAngleKind(angleC)}; c² corrects a²+b².`;
+  if (mode === 'sine') return 'Sine law: three equal ratios, each equal to 2R.';
+  return `Cosine law: C is ${englishAngleKind(angleC)}; c² corrects a²+b².`;
 }
 
 function mid(a: number, b: number) {
