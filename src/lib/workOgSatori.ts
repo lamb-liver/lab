@@ -6,6 +6,10 @@ export type WorkOgCardContent = {
   thumbnailDataUrl: string;
 };
 
+/** 公式文字的字型順序：等寬拉丁 → 符號備援 → 中文 → 全形標點（字型檔見 workOgFonts.ts） */
+const FORMULA_FONT_FAMILY =
+  'JetBrains Mono, Noto Sans Mono, Noto Sans Math, Noto Sans TC, Noto Sans TC Punct, Noto Sans TC Punct2';
+
 const BG = '#0d0d0d';
 const TEXT = '#e8e8e8';
 const MUTED = '#888888';
@@ -63,7 +67,7 @@ export function buildWorkOgElement(content: WorkOgCardContent): ReactNode {
     fontSize: formulaFontSize(formula),
     lineHeight: 1.35,
     color: FORMULA,
-    fontFamily: 'JetBrains Mono, Noto Sans TC',
+    fontFamily: FORMULA_FONT_FAMILY,
     maxWidth: 560,
   };
 

@@ -97,11 +97,22 @@ export async function renderWorkOgPng(slug: string, titleOverride?: string): Pro
   const content = resolveWorkOgContent(slug, titleOverride);
   const thumbnailDataUrl = await renderThumbnailDataUrl(slug);
 
+  // satori 在所有字型都找不到某字元時才會呼叫 loadAdditionalAsset；
+  // 這裡把它當成缺字檢查，有缺字就讓 build 失敗，不產生豆腐字的圖。
+  const missing: string[] = [];
   const svg = await satori(buildWorkOgElement({ ...content, thumbnailDataUrl }), {
     width: WORK_OG_WIDTH,
     height: WORK_OG_HEIGHT,
     fonts: getWorkOgFonts(),
+    loadAdditionalAsset: async (_code, segment) => {
+      missing.push(segment);
+      return [];
+    },
   });
+  if (missing.length) {
+    const chars = [...new Set(missing.join(''))].join(' ');
+    throw new Error(`work OG ${slug}: missing glyphs in OG fonts: ${chars}`);
+  }
 
   return sharp(Buffer.from(svg)).png().toBuffer();
 }

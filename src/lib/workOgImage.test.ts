@@ -49,6 +49,10 @@ describe('work OG image generation', () => {
     ).toThrow(/external url\(\)/);
   });
 
+  it('fails instead of drawing tofu when no OG font has a glyph', async () => {
+    await expect(renderWorkOgPng('julia-set', '茱莉亞集合 Ж')).rejects.toThrow(/missing glyphs.*Ж/);
+  });
+
   // Renders every registered slug through satori + sharp; needs more than the
   // default 5s timeout on cold CI runners.
   it('renders all registered work slugs as 1200x630 PNGs', { timeout: 120_000 }, async () => {
