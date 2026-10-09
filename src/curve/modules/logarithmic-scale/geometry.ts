@@ -41,6 +41,7 @@ export type LogCurveDef = {
 };
 
 export type LogarithmicState = {
+  a: number;
   p: number;
   m: number;
   compareMode: boolean;
@@ -71,6 +72,7 @@ function linearFn(x: number, m: number): number {
 }
 
 export function deriveLogarithmicState(params: ParamValues): LogarithmicState {
+  const a = params.a ?? 0.65;
   const p = params.p ?? 2.4;
   const m = params.m ?? 3;
   const compareMode = (params.compareMode ?? 0) !== 0;
@@ -84,8 +86,7 @@ export function deriveLogarithmicState(params: ParamValues): LogarithmicState {
     curves.push({
       id: 'exp',
       label: '指數',
-      // 與內文一致：y = 10^x，log₁₀ y = x
-      fn: (x) => Math.pow(10, x),
+      fn: (x) => Math.pow(10, a * x),
       weight: 1.8,
       alpha: 235,
     });
@@ -112,6 +113,7 @@ export function deriveLogarithmicState(params: ParamValues): LogarithmicState {
   }
 
   return {
+    a,
     p,
     m,
     compareMode,
@@ -164,6 +166,7 @@ export function buildLogCurvePoints(
 
 export function buildLogarithmicThumbnail(): ThumbnailSpec {
   const data = deriveLogarithmicState({
+    a: 0.65,
     p: 2.4,
     m: 3,
     compareMode: 0,

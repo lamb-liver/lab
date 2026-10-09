@@ -5,6 +5,7 @@ import { logarithmicScaleModule } from './index';
 describe('deriveLogarithmicState', () => {
   it('shows only exponential curve by default', () => {
     const data = deriveLogarithmicState({
+      a: 0.65,
       p: 2.4,
       m: 3,
       compareMode: 0,
@@ -18,6 +19,7 @@ describe('deriveLogarithmicState', () => {
 
   it('includes linear curve when compare mode is on', () => {
     const data = deriveLogarithmicState({
+      a: 0.65,
       p: 2.4,
       m: 3,
       compareMode: 1,
@@ -29,16 +31,14 @@ describe('deriveLogarithmicState', () => {
     expect(data.curves[1]!.fn(1)).toBe(1 + 250 * 3 * 1);
   });
 
-  it('plots y = 10^x and reads out log₁₀ y = x (no slope a)', () => {
-    const data = deriveLogarithmicState({ compareMode: 0, showExp: 1 });
-    const exp = data.curves[0]!;
-    expect(exp.fn(0)).toBe(1);
-    expect(exp.fn(2)).toBeCloseTo(100, 10);
-    expect(exp.fn(data.xMax)).toBeCloseTo(data.yMax, 6);
-    expect(logarithmicScaleModule.paramSchema.map((f) => f.key)).toEqual(['p', 'm']);
+  it('keeps the slope a slider and reads out y = 10^(ax), log₁₀ y = ax', () => {
+    const data = deriveLogarithmicState({ a: 0.5, compareMode: 0, showExp: 1 });
+    expect(data.curves[0]!.fn(2)).toBeCloseTo(10, 10);
+    expect(logarithmicScaleModule.paramSchema.map((f) => f.key)).toEqual(['a', 'p', 'm']);
     const meta = logarithmicScaleModule.getMetadata(logarithmicScaleModule.defaultParams);
-    expect(meta.formula).toBe('y = 10^x · log₁₀ y = x');
-    expect(meta.stats.find((s) => s.key === 'formula')?.value).toBe('log₁₀ y = x');
-    expect(meta.stats.some((s) => s.key === 'a')).toBe(false);
+    expect(meta.formula).toBe('y = 10^(ax) · log₁₀ y = ax');
+    expect(meta.stats.find((s) => s.key === 'formula')?.value).toBe('log₁₀ y = ax');
+    expect(meta.stats.find((s) => s.key === 'a')?.value).toBe('0.65');
   });
 });
+

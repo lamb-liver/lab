@@ -7,6 +7,7 @@ import {
 } from './geometry';
 
 const paramSchema: ParamSchema = [
+  { key: 'a', label: '指數斜率 a', min: 0.2, max: 1, step: 0.01, default: 0.65 },
   { key: 'p', label: '冪次 p', min: 1, max: 5, step: 0.05, default: 2.4 },
   { key: 'm', label: '線性倍率 m', min: 0.5, max: 8, step: 0.05, default: 3 },
 ];
@@ -27,7 +28,8 @@ export const logarithmicScaleModule: CurveModule = {
   getMetadata: (params, runtime): CurveMetadata => {
     const data = deriveLogarithmicState(params);
     const stats = [
-      { key: 'formula', label: '關係式', value: 'log₁₀ y = x' },
+      { key: 'a', label: '指數斜率 a', value: data.a.toFixed(2) },
+      { key: 'formula', label: '關係式', value: 'log₁₀ y = ax' },
     ];
 
     if (data.compareMode && data.showLinear) {
@@ -42,7 +44,7 @@ export const logarithmicScaleModule: CurveModule = {
 
     return {
       title: '對數尺度',
-      formula: 'y = 10^x · log₁₀ y = x',
+      formula: 'y = 10^(ax) · log₁₀ y = ax',
       stats,
     };
   },
