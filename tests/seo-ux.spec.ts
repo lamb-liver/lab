@@ -194,6 +194,33 @@ test.describe('SEO metadata and UX shell', () => {
     );
   });
 
+  test('English curated paths keep the step order and link to English pages', async ({ page }) => {
+    await page.goto('/en/path/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.getByRole('heading', { level: 1, name: 'Curated paths' })).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: /From trigonometric functions to Fourier/ }),
+    ).toHaveAttribute('href', '/en/path/trig-to-fourier');
+    await expect(page.locator('link[rel="alternate"][hreflang="zh-Hant"]')).toHaveAttribute(
+      'href',
+      /\/path\/$/,
+    );
+
+    await page.goto('/en/path/vectors-to-space/');
+    const steps = page.locator('.path-step__title');
+    await expect(steps).toHaveCount(7);
+    await expect(steps.nth(0)).toHaveAttribute('href', '/en/works/vector-addition-scalar/');
+    await expect(steps.nth(3)).toHaveAttribute('href', '/en/explore/space-vectors-planes-lines/');
+    await expect(steps.nth(6)).toHaveAttribute(
+      'href',
+      '/en/exam/gsat-112-skew-line-distance/',
+    );
+    await expect(page.locator('a[hreflang="zh-Hant"]').first()).toHaveAttribute(
+      'href',
+      '/path/vectors-to-space/',
+    );
+  });
+
   test('about page uses the shared layout SEO metadata', async ({ page }) => {
     await page.goto('/about');
 
