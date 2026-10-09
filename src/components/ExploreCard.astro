@@ -1,19 +1,30 @@
 ---
 import '../styles/components/card.css';
 import CardThumbFallback from './CardThumbFallback.astro';
-import type { ContentAudience, ExploreCategory } from '../content.config';
 
 interface Props {
   slug: string;
   title: string;
   description: string;
-  category: ExploreCategory;
-  audience: ContentAudience;
+  /** zh 為 ExploreCategory／ContentAudience；英文頁用英文 md 的字串 */
+  category: string;
+  audience: string;
   coverImage?: string;
   featured?: boolean;
+  locale?: 'en';
 }
 
-const { slug, title, description, category, audience, coverImage, featured = false } = Astro.props;
+const {
+  slug,
+  title,
+  description,
+  category,
+  audience,
+  coverImage,
+  featured = false,
+  locale,
+} = Astro.props;
+const en = locale === 'en';
 ---
 
 <article
@@ -23,8 +34,8 @@ const { slug, title, description, category, audience, coverImage, featured = fal
   data-content-audience={audience}
   data-search-slug={slug}
 >
-  <a href={`/explore/${slug}`} class="card__link-wrap">
-    <span class="card__kind card__kind--explore">互動視覺化</span>
+  <a href={en ? `/en/explore/${slug}/` : `/explore/${slug}`} class="card__link-wrap">
+    <span class="card__kind card__kind--explore">{en ? 'Interactive' : '互動視覺化'}</span>
     <div class="card__thumb" aria-hidden="true">
       {
         coverImage ? (
@@ -43,7 +54,7 @@ const { slug, title, description, category, audience, coverImage, featured = fal
     <div class="card__body">
       <div class="card__title-row">
         <h3 class="card__title">{title}</h3>
-        {featured ? <span class="card__featured-label">精選</span> : null}
+        {featured ? <span class="card__featured-label">{en ? 'Featured' : '精選'}</span> : null}
       </div>
       <div class="card__tags">
         <span class="card__tag">{category}</span>

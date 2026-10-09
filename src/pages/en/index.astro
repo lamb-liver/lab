@@ -1,23 +1,24 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroCanvasShell from '../components/HeroCanvasShell.astro';
-import WorkCard from '../components/WorkCard.astro';
-import ExploreCard from '../components/ExploreCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroCanvasShell from '../../components/HeroCanvasShell.astro';
+import WorkCard from '../../components/WorkCard.astro';
+import ExploreCard from '../../components/ExploreCard.astro';
 import { getCollection } from 'astro:content';
-import { exploreInteractiveSlugs } from '../explore/interactiveRegistry';
+import { exploreInteractiveSlugs } from '../../explore/interactiveRegistry';
 import {
   excludeEntryIds,
   getFeaturedInteractive,
   getPublishedInteractive,
-} from '../content/utils';
-import { workInteractiveSlugs } from '../works/interactiveRegistry';
-import { siteSeo } from '../lib/seoCopy';
-import { learningPaths } from '../lib/learningPaths';
-import { indexAlternates } from '../lib/translatedSlugs';
-import '../styles/pages/home.css';
+} from '../../content/utils';
+import { workInteractiveSlugs } from '../../works/interactiveRegistry';
+import { siteSeoEn } from '../../lib/seoCopy';
+import { enExploreSlugs, enWorkSlugs, indexAlternates } from '../../lib/translatedSlugs';
+import '../../styles/pages/home.css';
 
-const works = await getCollection('works');
-const explore = await getCollection('explore');
+const works = (await getCollection('worksEn')).filter((entry) => enWorkSlugs.has(entry.id));
+const explore = (await getCollection('exploreEn')).filter((entry) =>
+  enExploreSlugs.has(entry.id),
+);
 
 const featuredWorks = getFeaturedInteractive(works, workInteractiveSlugs, 2);
 const featuredExplore = getFeaturedInteractive(explore, exploreInteractiveSlugs, 1);
@@ -34,39 +35,45 @@ const latestExplore = excludeEntryIds(
   getPublishedInteractive(explore, exploreInteractiveSlugs, 6),
   featuredIds,
 ).slice(0, 3);
+const site = Astro.site ?? Astro.url;
 ---
 
 <BaseLayout
-  title={siteSeo.home.title}
-  description={siteSeo.home.description}
-  alternates={indexAlternates(Astro.site ?? Astro.url, '/')}
+  title={siteSeoEn.home.title}
+  description={siteSeoEn.home.description}
+  htmlLang="en"
+  ogLocale="en_US"
+  skipLabel="Skip to main content"
+  alternates={indexAlternates(site, '/')}
 >
   <section class="hero-section">
     <HeroCanvasShell />
     <div class="hero-content">
       <h1>羊·實驗</h1>
-      <p>數學與演算法的實驗</p>
+      <p>Experiments in mathematics and algorithms</p>
     </div>
   </section>
 
   <section class="section home-nav-section">
     <div class="container">
       <div class="home-nav-grid">
-        <a href="/works" class="home-nav-card home-nav-card--work">
-          <span class="section-badge section-badge--work">深度作品</span>
-          <h2 class="home-nav-card__title">作品集</h2>
+        <a href="/en/works/" class="home-nav-card home-nav-card--work">
+          <span class="section-badge section-badge--work">In-depth works</span>
+          <h2 class="home-nav-card__title">Works</h2>
           <p class="home-nav-card__desc">
-            每篇聚焦一個數學對象：公式、可調參數互動，以及完整視覺解釋。
+            Each one focuses on a single mathematical object: the formula, an interactive figure
+            with adjustable parameters, and a full visual explanation.
           </p>
-          <span class="home-nav-card__cta">進入作品集 →</span>
+          <span class="home-nav-card__cta">Browse works →</span>
         </a>
-        <a href="/explore" class="home-nav-card home-nav-card--explore">
-          <span class="section-badge section-badge--explore">互動視覺化</span>
-          <h2 class="home-nav-card__title">主題導覽</h2>
+        <a href="/en/explore/" class="home-nav-card home-nav-card--explore">
+          <span class="section-badge section-badge--explore">Interactive</span>
+          <h2 class="home-nav-card__title">Explore</h2>
           <p class="home-nav-card__desc">
-            從一個大概念出發，串起多個互動實驗與觀察重點。
+            Start from one big idea and follow several interactive experiments and what to notice
+            in each.
           </p>
-          <span class="home-nav-card__cta">進入主題導覽 →</span>
+          <span class="home-nav-card__cta">Browse topics →</span>
         </a>
       </div>
     </div>
@@ -78,8 +85,10 @@ const latestExplore = excludeEntryIds(
         <div class="container">
           <div class="home-section-header">
             <div class="home-section-heading">
-              <h2 class="section-title">精選</h2>
-              <p class="home-section-desc">策展推薦：視覺衝擊力與互動完整度優先。</p>
+              <h2 class="section-title">Featured</h2>
+              <p class="home-section-desc">
+                Curated picks, chosen for visual impact and a complete interactive figure.
+              </p>
             </div>
           </div>
 
@@ -92,6 +101,7 @@ const latestExplore = excludeEntryIds(
                 tags={entry.data.tags}
                 audience={entry.data.audience}
                 featured
+                locale="en"
               />
             ))}
             {featuredExplore.map((entry) => (
@@ -103,6 +113,7 @@ const latestExplore = excludeEntryIds(
                 audience={entry.data.audience}
                 coverImage={entry.data.coverImage}
                 featured
+                locale="en"
               />
             ))}
           </div>
@@ -115,9 +126,9 @@ const latestExplore = excludeEntryIds(
     <div class="container">
       <div class="home-section-header">
         <div class="home-section-heading">
-          <h2 class="section-title">最新作品</h2>
+          <h2 class="section-title">Latest works</h2>
         </div>
-        <a href="/works" class="home-section-link">查看全部 →</a>
+        <a href="/en/works/" class="home-section-link">View all →</a>
       </div>
       <div class="card-grid">
         {
@@ -128,6 +139,7 @@ const latestExplore = excludeEntryIds(
               description={entry.data.description}
               tags={entry.data.tags}
               audience={entry.data.audience}
+              locale="en"
             />
           ))
         }
@@ -139,33 +151,32 @@ const latestExplore = excludeEntryIds(
     <div class="container">
       <div class="home-section-header">
         <div class="home-section-heading">
-          <h2 class="section-title">最新主題</h2>
+          <h2 class="section-title">Latest topics</h2>
           <p class="home-section-desc">
-            依主題進入數學概念，用互動視覺化建立核心圖像。
+            Enter a mathematical idea by topic and build its core picture with interactive
+            visualizations.
           </p>
         </div>
-        <a href="/explore" class="home-section-link">查看全部 →</a>
+        <a href="/en/explore/" class="home-section-link">View all →</a>
       </div>
       <div class="home-topic-list">
         {
           latestExplore.map((entry) => (
             <a
               class="home-topic-item"
-              href={`/explore/${entry.id}`}
+              href={`/en/explore/${entry.id}/`}
               data-content-audience={entry.data.audience}
             >
               <div class="home-topic-item__meta">
-                <span class="section-badge section-badge--explore">互動視覺化</span>
+                <span class="section-badge section-badge--explore">Interactive</span>
                 <span class="home-topic-item__category">{entry.data.category}</span>
                 <span class="home-topic-item__category" data-audience-label>
                   {entry.data.audience}
                 </span>
               </div>
-              <h3 class="home-topic-item__title">
-                {entry.data.title}
-              </h3>
+              <h3 class="home-topic-item__title">{entry.data.title}</h3>
               <p class="home-topic-item__desc">{entry.data.description}</p>
-              <span class="home-topic-item__link">進入主題 →</span>
+              <span class="home-topic-item__link">Open topic →</span>
             </a>
           ))
         }
@@ -177,17 +188,11 @@ const latestExplore = excludeEntryIds(
     <div class="container">
       <div class="home-section-header">
         <div class="home-section-heading">
-          <h2 class="section-title">更多入口</h2>
+          <h2 class="section-title">More</h2>
         </div>
       </div>
       <div class="home-more-links">
-        {
-          learningPaths.map((path) => (
-            <a href={`/path/${path.slug}`}>{path.title} →</a>
-          ))
-        }
-        <a href="/concept">概念索引 →</a>
-        <a href="/exam">試題視覺化 →</a>
+        <a href="/en/exam/">Exam visualizations →</a>
       </div>
     </div>
   </section>

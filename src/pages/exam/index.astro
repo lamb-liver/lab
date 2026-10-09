@@ -7,6 +7,7 @@ import { getCollection } from 'astro:content';
 import { collectExamSubjects, getPublishedAsc } from '../../content/utils';
 import { serializeSearchIndex } from '../../lib/listFilter';
 import { siteSeo } from '../../lib/seoCopy';
+import { indexAlternates } from '../../lib/translatedSlugs';
 import { examSourceLabel } from '../../lib/examSource';
 import '../../styles/components/list-search.css';
 
@@ -22,7 +23,12 @@ const searchIndex = exams.map((entry) => ({
 }));
 ---
 
-<BaseLayout title={siteSeo.exam.title} description={siteSeo.exam.description} ogType="website">
+<BaseLayout
+  title={siteSeo.exam.title}
+  description={siteSeo.exam.description}
+  ogType="website"
+  alternates={indexAlternates(Astro.site ?? Astro.url, '/exam/')}
+>
   <div
     class="container section-scope--exam"
     data-list-filter

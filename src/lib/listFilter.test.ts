@@ -9,13 +9,18 @@ import {
 
 function mockCountRoot(options: {
   unit?: string;
+  locale?: string;
   countText?: string;
 } = {}): { root: HTMLElement; countEl: { textContent: string } } {
   const countEl = { textContent: options.countText ?? '' };
   const root = {
     querySelector: (sel: string) => (sel === '[data-filter-count]' ? countEl : null),
     getAttribute: (name: string) =>
-      name === 'data-filter-count-unit' ? (options.unit ?? null) : null,
+      name === 'data-filter-count-unit'
+        ? (options.unit ?? null)
+        : name === 'data-filter-count-locale'
+          ? (options.locale ?? null)
+          : null,
   } as unknown as HTMLElement;
   return { root, countEl };
 }
@@ -46,6 +51,14 @@ describe('listFilter', () => {
       const { root, countEl } = mockCountRoot();
       updateListFilterCount(root, 3, 10);
       expect(countEl.textContent).toBe('顯示 3 / 10 篇');
+    });
+
+    it('uses English copy when data-filter-count-locale is en', () => {
+      const { root, countEl } = mockCountRoot({ unit: 'topics', locale: 'en' });
+      updateListFilterCount(root, 12, 12);
+      expect(countEl.textContent).toBe('12 topics');
+      updateListFilterCount(root, 3, 12);
+      expect(countEl.textContent).toBe('Showing 3 of 12 topics');
     });
 
     it('defaults unit to 篇 when data-filter-count-unit is absent', () => {

@@ -9,6 +9,17 @@ export const enWorkSlugs = slugsIn(import.meta.glob('../content/en/works/*.{md,m
 export const enExploreSlugs = slugsIn(import.meta.glob('../content/en/explore/*.{md,mdx}'));
 export const enExamSlugs = slugsIn(import.meta.glob('../content/en/exam/*.{md,mdx}'));
 
+/** hreflang set for a section index (home, list pages). `path` is the zh path, e.g. `/works/`. */
+export function indexAlternates(site: URL, path: string): Array<{ hreflang: string; href: string }> {
+  const zh = new URL(path, site).href;
+  const en = new URL(`/en${path}`, site).href;
+  return [
+    { hreflang: 'zh-Hant', href: zh },
+    { hreflang: 'en', href: en },
+    { hreflang: 'x-default', href: zh },
+  ];
+}
+
 /** hreflang set for one translated page. Absent when this slug has no English page yet. */
 export function translationAlternates(
   site: URL,

@@ -4,10 +4,13 @@ import '../styles/components/filter.css';
 interface Props {
   options: string[];
   ariaLabel: string;
+  /** 按鈕文字；沒給時直接顯示篩選值 */
+  labels?: Record<string, string>;
+  allLabel?: string;
 }
 
-const { options, ariaLabel } = Astro.props;
-const items = ['全部', ...options];
+const { options, ariaLabel, labels = {}, allLabel = '全部' } = Astro.props;
+const items = [allLabel, ...options];
 ---
 
 <div class="filter-scroll" data-filter-scroll>
@@ -17,10 +20,10 @@ const items = ['全部', ...options];
         <button
           type="button"
           class:list={['filter-btn', { 'is-active': i === 0 }]}
-          data-filter-value={item === '全部' ? '*' : item}
+          data-filter-value={i === 0 ? '*' : item}
           aria-pressed={i === 0 ? 'true' : 'false'}
         >
-          {item}
+          {i === 0 ? item : (labels[item] ?? item)}
         </button>
       ))
     }
