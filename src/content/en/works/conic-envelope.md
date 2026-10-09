@@ -40,7 +40,7 @@ $$
 
 - The envelope of this family is a parabolic outline in each quadrant.
 - Changing the intercept ratio deforms that outline smoothly rather than jumping.
-- At each moment the envelope is tangent to one line of the family. You see that from the lines themselves; no extra curve is drawn.
+- At each moment one line of the family touches the envelope at a single point. You see that from the lines themselves; no extra curve is drawn.
 
 ## Related
 

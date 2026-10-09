@@ -28,14 +28,14 @@ $$
 ## Interaction
 
 - **Mode m**: choose that integer. The nodal lines change, and the points scatter, then gather on the new zeros.
-- **Mode n**: choose the other integer. It does the same along the other side of the square.
+- **Mode n**: choose the other integer. Together, m and n set the nodal pattern in both directions; neither belongs to one side alone.
 - **Vibration speed ω**: speed up or slow down the oscillation that pushes the points. It does not move the places where the mode's amplitude is zero.
 
 ## What to notice
 
 - The points rest where the selected mode's amplitude is zero and are pushed away from the antinodes.
 - Swapping $(m, n)$ with $(n, m)$ flips the sign of the amplitude and leaves the nodal lines in place.
-- The picture is the nodal set of this mode on the square, and if $m = n$ the amplitude is zero everywhere, so there is no nodal curve.
+- The picture is the nodal set of this idealized square mode with fixed edges (a real free-edge plate has more complicated modes), and if $m = n$ the amplitude is zero everywhere, so there is no nodal curve.
 
 ## Related
 

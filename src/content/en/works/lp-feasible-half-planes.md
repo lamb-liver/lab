@@ -26,7 +26,7 @@ $$
 \mathcal F=\{(x,y)\mid a_ix+b_iy\le c_i,\ i=1,\ldots,m\}
 $$
 
-If the intersection is bounded, $\mathcal F$ is a convex polygon. If it is unbounded, it is a convex polygonal region that extends in some directions. The boundary is made of segments, rays, or lines where a constraint holds with equality.
+If the intersection is bounded and nonempty, $\mathcal F$ is a convex polygon (possibly degenerate: a segment or a single point). If it is unbounded, it is a convex polygonal region that extends in some directions. The boundary is made of segments, rays, or lines where a constraint holds with equality.
 
 ## Interaction
 

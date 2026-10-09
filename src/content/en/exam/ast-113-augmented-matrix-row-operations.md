@@ -33,7 +33,7 @@ Two systems of linear equations share the coefficients $a,b,c,d$ and differ only
 
 ## Where it goes wrong
 
-The [official item analysis](https://www.ceec.edu.tw/xcepaper/cont?xsmsid=0J066588036013658199&qunit=0M105476092230875839&sid=0O260306744213652490) records a score rate of $42\%$ and a discrimination of $0.68$. The usual stall is to treat the row operations as a string of mechanical steps and miss that one and the same sequence keeps the multiples and the sums of the constant columns. Solving for $a,b,c,d$ also works, but it means solving two extra systems.
+The [official item analysis](https://www.ceec.edu.tw/xcepaper/cont?xsmsid=0J066588036013658199&qunit=0M105476092230875839&sid=0O260306744213652490) records a correct rate of $42\%$ and a discrimination of $0.68$. The usual stall is to treat the row operations as a string of mechanical steps and miss that one and the same sequence keeps the multiples and the sums of the constant columns. Solving for $a,b,c,d$ also works, but it means solving two extra systems.
 
 ## Idea
 

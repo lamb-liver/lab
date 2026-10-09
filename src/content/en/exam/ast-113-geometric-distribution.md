@@ -31,7 +31,7 @@ draft: false
 
 ## Problem
 
-Each draw wins with fixed probability $0.1$, and each draw spends one token. The question asks for the mean number of draws until the first win, the chance of at least one win from a finite number of tokens, and the least number of tokens that pushes that chance strictly above nine-tenths. The full question and the options are on the [CEEC 113 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf).
+Each draw wins with fixed probability $0.1$, and each draw spends one token. The question asks for the mean number of draws until the first win, the chance of at least one win from a finite number of tokens, whether ten straight misses are less likely than a win on the first draw, and the least number of tokens that pushes that chance strictly above nine-tenths. The full question and the options are on the [CEEC 113 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf).
 
 ## Where it goes wrong
 
@@ -57,7 +57,7 @@ $$
 P(\text{at least one win})=1-P(\text{no wins})=1-0.9^n.
 $$
 
-Two draws give $1-0.9^2=0.19$, not $0.2$. A chance strictly above $0.9$ needs $0.9^n<0.1$, and the least such integer is $n=22$. Every finite $n$ still has $0.9^n>0$, so the chance only approaches $1$ and is never guaranteed to equal $1$.
+Two draws give $1-0.9^2=0.19$, not $0.2$. Ten straight misses have probability $0.9^{10}\approx0.349$, which is larger than the $0.1$ chance of winning on the first draw. A chance strictly above $0.9$ needs $0.9^n<0.1$, and the least such integer is $n=22$. Every finite $n$ still has $0.9^n>0$, so the chance only approaches $1$ and is never guaranteed to equal $1$.
 
 ## What the figure shows
 

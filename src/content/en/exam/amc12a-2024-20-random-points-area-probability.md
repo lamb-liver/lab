@@ -53,7 +53,7 @@ $$
 1-\int_{1/2}^{1}\left(1-\frac{1}{2x}\right)dx=\frac12+\frac{\ln2}{2}\approx0.8466.
 $$
 
-(The integral of $\frac1x$ and the natural logarithm $\ln$ are beyond the high-school course. They are used here only to name the exact value.)
+(The integral of $\frac1x$ and the natural logarithm $\ln$ are beyond Taiwan's high-school curriculum. They are used here only to name the exact value.)
 
 An integral is not required. The complement contains the triangle with vertices $\left(\frac12,1\right)$, $(1,1)$, and $\left(1,\frac12\right)$. The curve bends upward, so the chord lies above the curve, and the complement has area greater than $\frac18$. The complement is also contained in the square of side $\frac12$, so its area is less than $\frac14$. The probability therefore lies between $\frac34$ and $\frac78$, which is choice (D).
 

@@ -23,7 +23,7 @@ $$
 \nabla f=\left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}\right)
 $$
 
-本頁用三個典型例子：圓等位線 $f=x^2+y^2$（梯度沿半徑向外）、鞍面 $f=x^2-y^2$、直角雙曲 $f=xy$。線性目標 $z=px+qy$ 的平行等值線見[目標函數等值線](/works/lp-objective-level-curves)。
+本頁用三個典型例子：圓等位線 $f=x^2+y^2$（梯度沿半徑向外）、鞍面 $f=x^2-y^2$、等位線為直角雙曲線的 $f=xy$。線性目標 $z=px+qy$ 的平行等值線見[目標函數等值線](/works/lp-objective-level-curves)。
 
 ## 互動說明
 

@@ -34,7 +34,7 @@ $$
 E(X)=\frac{1-p}{p},\quad \mathrm{Var}(X)=\frac{1-p}{p^2}
 $$
 
-This page uses the count of failures before the first success, so the geometric distribution starts at $0$. If $X$ is instead the number of trials until the first success, the values are $\{1,2,\ldots\}$ and $E(X)=1/p$.
+This page uses the count of failures before the first success, so the geometric distribution starts at $0$. If $X$ is instead the number of trials until the first success, the values are $\{1,2,\ldots\}$ and $E(X)=1/p$. Taiwan's 108 curriculum and the [113 AST geometric distribution item](/en/exam/ast-113-geometric-distribution/) use that second version.
 
 ## Interaction
 

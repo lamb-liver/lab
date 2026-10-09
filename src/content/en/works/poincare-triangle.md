@@ -1,6 +1,6 @@
 ---
 title: A triangle on the disk
-description: On the unit disk, an equilateral triangle with sides orthogonal to the boundary has a smaller angle sum nearer the edge.
+description: On the unit disk, an equilateral triangle whose sides are arcs orthogonal to the boundary has a smaller angle sum nearer the edge.
 tags:
   - Geometry
 concepts:

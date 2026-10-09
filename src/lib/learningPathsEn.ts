@@ -35,7 +35,7 @@ export const learningPathCopyEn: Record<string, LearningPathCopyEn> = {
       'Dot product = projection × length, which brings in angles and projection.',
       'Projection and decomposition deepen the geometry of the dot product.',
       'Up to three dimensions: vectors, planes, and lines in space.',
-      'Cross product: the vector product that exists only in three dimensions.',
+      'Cross product: the vector product of three-dimensional space.',
       'Normal vectors and the distance from a point to a plane, toward measuring distance in space.',
       'An exam problem to finish: use the whole path on a distance in space.',
     ],

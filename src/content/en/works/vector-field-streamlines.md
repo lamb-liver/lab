@@ -40,7 +40,7 @@ F_x = \frac{-y}{x^2+y^2+\varepsilon} + 0.25\sin(2y + 0.8t),\quad
 F_y = \frac{x}{x^2+y^2+\varepsilon} + 0.25\cos(2x + 0.8t)
 $$
 
-$\varepsilon$ avoids division by zero at the origin. The direction is perpendicular to the radius, so the whole field rotates.
+$\varepsilon$ avoids division by zero at the origin. The main vortex term is perpendicular to the radius, so the field rotates overall; the small $0.25$ sine and cosine terms tilt it slightly.
 
 ## Interaction
 
@@ -52,7 +52,7 @@ $\varepsilon$ avoids division by zero at the origin. The direction is perpendicu
 
 - A streamline is tangent to the vector field. It can be read as a geometric solution of the differential equation.
 - Near the center of the vortex, streamlines circle densely.
-- In one field, streamlines from different starting points never cross (except at singular points).
+- At a fixed moment, streamlines of the field from different starting points never cross (except at singular points); the field here changes with $t$.
 
 ## Related
 

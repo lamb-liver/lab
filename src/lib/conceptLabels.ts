@@ -39,7 +39,7 @@ export const conceptLabelsEn = {
   'differential-equation': 'Differential equations',
   'sequences-series': 'Sequences and series',
   'classical-probability': 'Classical probability',
-  'conditional-probability': 'Conditional probability and Bayes theorem',
+  'conditional-probability': "Conditional probability and Bayes' theorem",
   'probability-distribution': 'Probability distributions',
   'expected-value': 'Expected value',
   'descriptive-statistics': 'Descriptive statistics',
