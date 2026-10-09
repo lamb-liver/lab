@@ -33,7 +33,7 @@ Right triangle $\triangle ABC$ has $AB=\sqrt7$, $AC=\sqrt3$, and $BC=2$. On base
 
 ## Where it goes wrong
 
-The CEEC [item statistics](https://www.ceec.edu.tw/files/file_pool/1/0N248425984561318981/1-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E5%90%84%E7%A7%91PD%E5%80%BC%28%E6%95%B8%E5%AD%B8%E7%94%B2%29.pdf) give this item a score rate of $29\%$ and a discrimination of $0.59$. The first trap is to treat $120^\circ$ as a base angle. It is the vertex angle, so each base angle is $30^\circ$. The second trap is to leave out the two outer base angles and write $\angle MAN$ as the angle at $A$ in the original right triangle.
+The CEEC [item statistics](https://www.ceec.edu.tw/files/file_pool/1/0N248425984561318981/1-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E5%90%84%E7%A7%91PD%E5%80%BC%28%E6%95%B8%E5%AD%B8%E7%94%B2%29.pdf) give this item a correct rate of $29\%$ and a discrimination of $0.59$. The first trap is to treat $120^\circ$ as a base angle. It is the vertex angle, so each base angle is $30^\circ$. The second trap is to leave out the two outer base angles and write $\angle MAN$ as the angle at $A$ in the original right triangle.
 
 ## Idea
 

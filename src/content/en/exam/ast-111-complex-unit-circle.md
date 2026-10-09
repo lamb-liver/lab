@@ -43,7 +43,7 @@ The [official item analysis](https://www.ceec.edu.tw/xcepaper/cont?qperoid=0M280
 
 Since $|z|=|z^3|=1$, the origin is also equally far from $z$ and $z^3$. So both the origin and $w$ lie on the perpendicular bisector of the chord $zz^3$.
 
-Let the argument of $z$ be $\theta$. By De Moivre's theorem, $z^3$ has argument $3\theta$. The midpoint of the chord points in direction $2\theta$, the direction of $z^2$. Because $z$ is in quadrant I and $w$ is in quadrant II, the direction cannot flip to the opposite side, so
+Let the argument of $z$ be $\theta$. By De Moivre's theorem, $z^3$ has argument $3\theta$. The midpoint of the chord points in direction $2\theta$, the direction of $z^2$. Because $z$ is in quadrant I, $z^2$ has argument $2\theta\in(0,\pi)$ and lies in the upper half-plane, and so does $w$. So the direction cannot flip to the opposite side, and since $|w|=1=|z^2|$,
 
 $$
 z^2=w=\frac{-3+4i}{5}.

@@ -31,7 +31,7 @@ $$
 \mathbf v' = A\mathbf v = \lambda\mathbf v
 $$
 
-If $\lambda>0$, it stretches in the same direction and its length becomes $|\lambda|$ times as long. If $\lambda<0$, it stretches in the opposite direction. If $\lambda=0$, that direction is crushed to the origin. When the eigenvalues are complex, the plane has no such line through the origin.
+If $\lambda>0$, it keeps its direction and its length is scaled by $\lambda$ (stretched if $\lambda>1$, shrunk if $0<\lambda<1$). If $\lambda<0$, it reverses and is scaled by $|\lambda|$. If $\lambda=0$, that direction is crushed to the origin. When the eigenvalues are complex, the plane has no such line through the origin.
 
 ## Interaction
 
@@ -42,7 +42,7 @@ If $\lambda>0$, it stretches in the same direction and its length becomes $|\lam
 
 ## What to notice
 
-- An eigenvector is a direction that still lies on the same line through the origin after the transform. If $\lambda>0$ it stretches the same way, if $\lambda<0$ it reverses, and if $\lambda=0$ it is crushed to the origin.
+- An eigenvector is a direction that still lies on the same line through the origin after the transform. If $\lambda>0$ it is scaled in the same direction, if $\lambda<0$ it reverses, and if $\lambda=0$ it is crushed to the origin.
 - Two different real eigenvalues usually give two eigen directions. A repeated eigenvalue may give only one, or every direction may be an eigen direction.
 - A pure rotation by an angle that is not a multiple of $\pi$ has no nonzero vector of unchanged direction in the real plane. That matches a rotation moving every direction.
 

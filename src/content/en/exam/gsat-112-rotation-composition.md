@@ -35,7 +35,7 @@ The full question and options are on the [CEEC 112 GSAT Mathematics A paper](htt
 
 ## Where it goes wrong
 
-The solution notes rate this item medium-easy; it tests the properties of rotation and reflection matrices. The hard part is not heavy computation. It is getting three things right at once: the signs for clockwise and counterclockwise, the direction of each mirror line, and the rule that the transformation applied first is written on the right of a product. Memorizing only the shape of the matrices often leads to mistaking $C^{-1}$ for the other reflection, or to assuming every pair of transformations commutes.
+Hanlin's solution notes (a publisher's analysis, not CEEC) rate this item medium-easy; it tests the properties of rotation and reflection matrices. The hard part is not heavy computation. It is getting three things right at once: the signs for clockwise and counterclockwise, the direction of each mirror line, and the rule that the transformation applied first is written on the right of a product. Memorizing only the shape of the matrices often leads to mistaking $C^{-1}$ for the other reflection, or to assuming every pair of transformations commutes.
 
 ## Idea
 

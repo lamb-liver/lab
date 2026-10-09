@@ -53,7 +53,7 @@ export const learningPaths: LearningPath[] = [
       { collection: 'works', slug: 'dot-product-geometry', note: '內積＝投影×長度，帶出角度與投影。' },
       { collection: 'works', slug: 'vector-projection', note: '投影與分解，深化內積的幾何。' },
       { collection: 'explore', slug: 'space-vectors-planes-lines', note: '升到三維：空間中的向量、平面與直線。' },
-      { collection: 'works', slug: 'cross-product-geometry', note: '外積：三維特有的向量積。' },
+      { collection: 'works', slug: 'cross-product-geometry', note: '外積：三維空間的向量積。' },
       { collection: 'works', slug: 'plane-normal-distance', note: '法向量與點面距離，通往空間度量。' },
       { collection: 'exam', slug: 'gsat-112-skew-line-distance', note: '考題收束：把整段用在空間中的距離。' },
     ],

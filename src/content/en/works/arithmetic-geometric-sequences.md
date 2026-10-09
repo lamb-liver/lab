@@ -38,7 +38,7 @@ $$
 ## What to notice
 
 - In the arithmetic view, the bar heights lie on one slanted line, and an outline of the same terms in reverse sits on that same row.
-- In the geometric view, every rectangle has the same height and a width scaled to that term. As the terms appear, the total area approaches the closed sum.
+- In the geometric view, every rectangle has the same height and a width scaled to that term. As the terms appear, the total area adds up to the closed form $S_n$.
 - When $n$ increases, the picture builds the sum term by term, and the formula value is the one shown with the controls.
 
 ## Related

@@ -23,7 +23,7 @@ $$
 \nabla f=\left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}\right)
 $$
 
-This page uses three standard examples: circular level curves $f=x^2+y^2$ (the gradient points outward along the radius), the saddle $f=x^2-y^2$, and the rectangular hyperbola $f=xy$. For the parallel level lines of the linear objective $z=px+qy$, see [Level curves of the objective](/en/works/lp-objective-level-curves/).
+This page uses three standard examples: circular level curves $f=x^2+y^2$ (the gradient points outward along the radius), the saddle $f=x^2-y^2$, and $f=xy$, whose level curves are rectangular hyperbolas. For the parallel level lines of the linear objective $z=px+qy$, see [Level curves of the objective](/en/works/lp-objective-level-curves/).
 
 ## Interaction
 

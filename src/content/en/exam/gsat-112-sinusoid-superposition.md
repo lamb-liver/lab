@@ -54,7 +54,7 @@ $$
 x=\frac{\pi}{6}+k\pi,\qquad k\in\mathbb Z.
 $$
 
-Of two neighboring axes, one passes through a maximum and the next through a minimum, so the function values on them are not the same. The equation $f(x)=\sqrt3$ also has more than one solution in $[0,2\pi)$; for example, both $x=0$ and $x=\pi/3$ work.
+Of two neighboring axes, one passes through a maximum and the next through a minimum, so the function values on them are not the same. The equation $f(x)=\sqrt3$ also has more than one solution in $[0,2\pi)$; for example, both $x=0$ and $x=\pi/3$ work. The two solutions of $f(x)=\frac12$ in $[0,2\pi)$ are symmetric about the axis $x=\frac{7\pi}{6}$, so their sum is $\frac{7\pi}{3}>2\pi$.
 
 On the other hand,
 

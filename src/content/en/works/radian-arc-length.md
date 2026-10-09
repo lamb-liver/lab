@@ -37,7 +37,7 @@ $$
 
 - The radian measure ties the size of an angle to arc length. On the unit circle, reading the radian measure is reading the arc length.
 - Double the radius and the arc length doubles. The angle itself, in radians, does not change with the size of the circle.
-- A negative angle traces the arc the other way, and the absolute value of the angle is still $|\theta|$.
+- A negative angle traces the arc the other way, and the arc length is still $r|\theta|$.
 
 ## Related
 

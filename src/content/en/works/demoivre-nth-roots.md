@@ -30,7 +30,7 @@ $$
 \sqrt[n]{w}=r^{1/n}\exp\left(i\frac{\theta+2\pi k}{n}\right),\quad k=0,1,\ldots,n-1
 $$
 
-They lie on one circle, and neighboring arguments differ by $2\pi/n$. The root with $k=0$ uses the principal argument. When $w=0$ the only root is the origin, and the argument is undefined.
+They lie on one circle, and neighboring arguments differ by $2\pi/n$. If $\theta$ is the principal argument of $w$, the root with $k=0$ is the principal root. When $w=0$ the only root is the origin, and the argument is undefined.
 
 ## Interaction
 

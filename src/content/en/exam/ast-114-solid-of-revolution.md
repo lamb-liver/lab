@@ -37,7 +37,7 @@ stays at least $0$ on $[-1,1]$, and the area between the graph and the $x$-axis 
 
 ## Where it goes wrong
 
-The easy mistake is to say that equal areas give equal volumes. Area adds the height $f(x)$. A disk adds the square of the radius, $\pi f(x)^2$. Shift the same area farther from the axis of rotation and the volume grows. The [Official solutions](https://www.ceec.edu.tw/files/file_pool/1/0p212559924382457587/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf) split the work into three required steps: write the disk integral, compute the volume in terms of $a$, and find the maximum on the given interval.
+The easy mistake is to say that equal areas give equal volumes. Area adds the height $f(x)$. A disk adds the square of the radius, $\pi f(x)^2$. With the area fixed, the more unevenly $f$ spreads its height, the larger $\int f^2$ and the volume (it is smallest when $f$ is constant, at $a=0$). The CEEC [scoring guidelines](https://www.ceec.edu.tw/files/file_pool/1/0p212559924382457587/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf) split the work into three required steps: write the disk integral, compute the volume in terms of $a$, and find the maximum on the given interval.
 
 ## Idea
 
