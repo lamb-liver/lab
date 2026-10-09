@@ -33,10 +33,12 @@ type Snapshot = {
   width: number;
   height: number;
   params: LpVertexOptimumParams;
+  locale?: 'en';
 };
 
 export function renderLpVertexOptimumScene(p: p5, snap: Snapshot): void {
   const { width, height, params } = snap;
+  const en = snap.locale === 'en';
   const metrics = computeVertexOptimumMetrics(params);
   const layout = createLpLayout(width, height, AXIS_HALF);
   const { p: coefP, q: coefQ } = objectiveOf(params);
@@ -87,24 +89,40 @@ export function renderLpVertexOptimumScene(p: p5, snap: Snapshot): void {
       p,
       layout,
       candidate.point,
-      `${formatPoint(candidate.point, 1)}　z = ${candidate.value.toFixed(2)}`,
+      `${formatPoint(candidate.point, 1)}${en ? '  ' : '　'}z = ${candidate.value.toFixed(2)}`,
       visiting ? LP_GUIDE : color,
       visiting || candidate.optimal ? 235 : 130,
     );
   }
 
-  const senseLabel = params.sense === 'max' ? '最大值' : '最小值';
+  const senseLabel = en
+    ? params.sense === 'max'
+      ? 'Maximum'
+      : 'Minimum'
+    : params.sense === 'max'
+      ? '最大值'
+      : '最小值';
   const lines = [
     formatObjective(coefP, coefQ, 2),
     metrics.best === null
-      ? `${senseLabel}不存在`
+      ? en
+        ? `${senseLabel} does not exist`
+        : `${senseLabel}不存在`
       : `${senseLabel} z = ${metrics.best.toFixed(3)}`,
     metrics.tiedCount > 1
-      ? `並列最優 ${metrics.tiedCount} 個頂點：整段邊都是最優`
-      : `候選頂點 ${metrics.candidates.length} 個`,
+      ? en
+        ? `${metrics.tiedCount} vertices tie: the whole edge is optimal`
+        : `並列最優 ${metrics.tiedCount} 個頂點：整段邊都是最優`
+      : en
+        ? `${metrics.candidates.length} candidate vertices`
+        : `候選頂點 ${metrics.candidates.length} 個`,
   ];
   if (metrics.visitingIndex !== null) {
-    lines.push(`正在檢查第 ${metrics.visitingIndex + 1} 列`);
+    lines.push(
+      en
+        ? `Checking row ${metrics.visitingIndex + 1}`
+        : `正在檢查第 ${metrics.visitingIndex + 1} 列`,
+    );
   }
 
   drawReadout(p, width, lines, { highlightIndex: 1, highlightColor: LP_ACCENT });

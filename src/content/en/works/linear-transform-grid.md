@@ -46,8 +46,8 @@ Here $b$ tilts the vertical lines sideways, and $d$ stretches or compresses the 
 ## Related
 
 - [Matrix and linear transform](/en/explore/matrix-linear-transform/)
-- [Affine transform pattern](/works/affine-transform-pattern/)
-- [Rotation and scaling, composed](/works/rotation-scale-composition/)
+- [Affine transform pattern](/en/works/affine-transform-pattern/)
+- [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
 
 ## Further reading
 

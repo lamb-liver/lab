@@ -16,6 +16,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: LpObjectiveLevelCurvesParams;
   onParamsChange: (patch: Partial<LpObjectiveLevelCurvesParams>) => void;
+  locale?: 'en';
 };
 
 type DragTarget = 'testPoint' | 'level';
@@ -31,7 +32,7 @@ function clampToScene(value: number): number {
   return Math.max(SCENE_MIN, Math.min(AXIS_HALF, value));
 }
 
-export function useLpObjectiveLevelCurvesP5({ params, onParamsChange }: Options) {
+export function useLpObjectiveLevelCurvesP5({ params, onParamsChange, locale }: Options) {
   const paramsRef = useRef(params);
   const onParamsChangeRef = useRef(onParamsChange);
   const dragRef = useRef<DragTarget | null>(null);
@@ -50,8 +51,9 @@ export function useLpObjectiveLevelCurvesP5({ params, onParamsChange }: Options)
       height: p.height,
       params: paramsRef.current,
       draggingTestPoint: dragRef.current === 'testPoint',
+      locale,
     });
-  }, []);
+  }, [locale]);
 
   const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     /**

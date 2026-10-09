@@ -49,7 +49,7 @@ If $\lambda>0$, it stretches in the same direction and its length becomes $|\lam
 ## Related
 
 - [Linear transform grid](/en/works/linear-transform-grid/)
-- [Rotation and scaling, composed](/works/rotation-scale-composition/)
+- [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
 - [Matrix and linear transform](/en/explore/matrix-linear-transform/)
 
 ## Further reading

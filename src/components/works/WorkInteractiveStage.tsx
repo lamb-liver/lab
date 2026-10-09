@@ -2,7 +2,7 @@ import { lazy, Suspense, type ComponentType } from 'react';
 import type { WorkInteractiveSlug } from '../../works/interactiveRegistry';
 import { isWorkInteractive, workControlsMountId } from '../../works/interactiveRegistry';
 
-type RootProps = { controlsMountId: string };
+type RootProps = { controlsMountId: string; locale?: 'en' };
 
 // Each root is code-split per slug so a work page only downloads its own root chunk.
 
@@ -90,8 +90,6 @@ const rootBySlug = {
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.
 export const workStageRootSlugs = Object.keys(rootBySlug).sort() as WorkInteractiveSlug[];
 
-type LocaleRootProps = RootProps & { locale?: 'en' };
-
 type Props = {
   slug: string;
   locale?: 'en';
@@ -100,8 +98,7 @@ type Props = {
 export default function WorkInteractiveStage({ slug, locale }: Props) {
   if (!isWorkInteractive(slug)) return null;
 
-  // ponytail: roots that ignore locale still go through this cast. Drop it when every root takes locale.
-  const Root = rootBySlug[slug] as ComponentType<LocaleRootProps>;
+  const Root: ComponentType<RootProps> = rootBySlug[slug];
   return (
     <Suspense
       fallback={
