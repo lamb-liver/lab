@@ -83,6 +83,36 @@ export const RATIONAL_OBLIQUE_PARAM_META = {
   d: { label: '第二零點 d', min: -3.2, max: 3.2, step: 0.01 },
 } satisfies Record<RationalObliqueParamKey, { label: string; min: number; max: number; step: number }>;
 
+const OBLIQUE_MODE_EN: Record<RationalObliqueModeId, { label: string; name: string; note: string }> = {
+  oblique: { label: 'Oblique', name: 'Oblique asymptote', note: 'deg P = deg Q + 1' },
+  horizontal: { label: 'Horizontal', name: 'Horizontal asymptote', note: 'deg P = deg Q' },
+  proper: { label: 'Toward 0', name: 'Lower numerator degree', note: 'deg P < deg Q' },
+};
+
+const OBLIQUE_PARAM_EN: Record<RationalObliqueParamKey, string> = {
+  m: 'Slope m',
+  b: 'Intercept b',
+  A: 'Remainder strength A',
+  c: 'Denominator zero c',
+  d: 'Second zero d',
+};
+
+/** Display only. Omitted locale keeps the Chinese text. */
+export function obliqueModeText(mode: RationalObliqueMode, locale?: 'en') {
+  if (locale !== 'en') return { label: mode.label, name: mode.name, note: mode.note };
+  return OBLIQUE_MODE_EN[mode.id];
+}
+
+/** Display only. Omitted locale keeps the Chinese text. */
+export function obliqueParamLabel(key: RationalObliqueParamKey, locale?: 'en') {
+  if (locale !== 'en') return RATIONAL_OBLIQUE_PARAM_META[key].label;
+  return OBLIQUE_PARAM_EN[key];
+}
+
+function t(zh: string, en: string, locale?: 'en') {
+  return locale === 'en' ? en : zh;
+}
+
 export const rationalObliqueDefaultParams: RationalObliqueParams = {
   m: 0.85,
   b: 0.25,
@@ -130,10 +160,11 @@ export function paramsFromValues(values: Record<string, number>): { modeId: Rati
 export function buildRationalObliqueModel(
   mode: RationalObliqueMode,
   params: RationalObliqueParams,
+  locale?: 'en',
 ): RationalObliqueModel {
-  if (mode.id === 'horizontal') return buildHorizontalModel(params);
-  if (mode.id === 'proper') return buildProperModel(params);
-  return buildObliqueModel(params);
+  if (mode.id === 'horizontal') return buildHorizontalModel(params, locale);
+  if (mode.id === 'proper') return buildProperModel(params, locale);
+  return buildObliqueModel(params, locale);
 }
 
 export function createRationalObliquePlotRect(size: number): GraphRect {
@@ -273,7 +304,7 @@ export function fmt(n: number): string {
   return next.toFixed(2);
 }
 
-function buildObliqueModel(p: RationalObliqueParams): RationalObliqueModel {
+function buildObliqueModel(p: RationalObliqueParams, locale?: 'en'): RationalObliqueModel {
   const m = safeNonzero(p.m, 0.06);
   const b = p.b;
   const A = safeNonzero(p.A, 0.1);
@@ -281,7 +312,7 @@ function buildObliqueModel(p: RationalObliqueParams): RationalObliqueModel {
   const zeros = quadraticRoots(m, b - m * c, A - b * c).filter((z) => !nearlyEqual(z, c));
 
   return {
-    family: '斜漸近線',
+    family: t('斜漸近線', 'Oblique asymptote', locale),
     degreeText: 'deg P = deg Q + 1',
     expression: `R(x)=${fmt(m)}x+${fmt(b)}+${fmt(A)}/(x-${fmt(c)})`,
     split: `S(x)=${fmt(m)}x+${fmt(b)}`,
@@ -297,20 +328,20 @@ function buildObliqueModel(p: RationalObliqueParams): RationalObliqueModel {
     e: (x) => A / (x - c),
     stats: [
       `S(x)：${fmt(m)}x+${fmt(b)}`,
-      `垂直漸近線：x=${fmt(c)}`,
-      `餘式項：${fmt(A)}/(x-${fmt(c)})`,
-      '狀態：斜漸近線',
+      t(`垂直漸近線：x=${fmt(c)}`, `Vertical asymptote: x=${fmt(c)}`, locale),
+      t(`餘式項：${fmt(A)}/(x-${fmt(c)})`, `Remainder: ${fmt(A)}/(x-${fmt(c)})`, locale),
+      t('狀態：斜漸近線', 'State: oblique asymptote', locale),
     ],
     formulas: [
       'R(x)=S(x)+E(x)',
       `S(x)=${fmt(m)}x+${fmt(b)}`,
       `E(x)=${fmt(A)}/(x-${fmt(c)})`,
-      'E(x)→0 ⇒ R(x) 貼近 S(x)',
+      t('E(x)→0 ⇒ R(x) 貼近 S(x)', 'E(x)→0 ⇒ R(x) approaches S(x)', locale),
     ],
   };
 }
 
-function buildHorizontalModel(p: RationalObliqueParams): RationalObliqueModel {
+function buildHorizontalModel(p: RationalObliqueParams, locale?: 'en'): RationalObliqueModel {
   const b = p.b;
   const A = safeNonzero(p.A, 0.1);
   const c = p.c;
@@ -318,7 +349,7 @@ function buildHorizontalModel(p: RationalObliqueParams): RationalObliqueModel {
   const zeros = zero !== null && Number.isFinite(zero) && !nearlyEqual(zero, c) ? [zero] : [];
 
   return {
-    family: '水平漸近線',
+    family: t('水平漸近線', 'Horizontal asymptote', locale),
     degreeText: 'deg P = deg Q',
     expression: `R(x)=${fmt(b)}+${fmt(A)}/(x-${fmt(c)})`,
     split: `S(x)=${fmt(b)}`,
@@ -328,33 +359,39 @@ function buildHorizontalModel(p: RationalObliqueParams): RationalObliqueModel {
     verticals: [c],
     zeros,
     guide: { type: 'horizontal', value: b, label: `y=${fmt(b)}` },
-    warning: 'deg P = deg Q：遠處讀水平線',
+    warning: t('deg P = deg Q：遠處讀水平線', 'deg P = deg Q: read a horizontal line far away', locale),
     f: (x) => b + A / (x - c),
     s: () => b,
     e: (x) => A / (x - c),
     stats: [
-      `水平漸近線：y=${fmt(b)}`,
-      `垂直漸近線：x=${fmt(c)}`,
-      `餘式項：${fmt(A)}/(x-${fmt(c)})`,
-      '狀態：水平漸近線',
+      t(`水平漸近線：y=${fmt(b)}`, `Horizontal asymptote: y=${fmt(b)}`, locale),
+      t(`垂直漸近線：x=${fmt(c)}`, `Vertical asymptote: x=${fmt(c)}`, locale),
+      t(`餘式項：${fmt(A)}/(x-${fmt(c)})`, `Remainder: ${fmt(A)}/(x-${fmt(c)})`, locale),
+      t('狀態：水平漸近線', 'State: horizontal asymptote', locale),
     ],
-    formulas: ['R(x)=b+E(x)', `b=${fmt(b)}`, `E(x)=${fmt(A)}/(x-${fmt(c)})`, 'E(x)→0 ⇒ R(x) 貼近 y=b'],
+    formulas: [
+      'R(x)=b+E(x)',
+      `b=${fmt(b)}`,
+      `E(x)=${fmt(A)}/(x-${fmt(c)})`,
+      t('E(x)→0 ⇒ R(x) 貼近 y=b', 'E(x)→0 ⇒ R(x) approaches y=b', locale),
+    ],
   };
 }
 
-function buildProperModel(p: RationalObliqueParams): RationalObliqueModel {
+function buildProperModel(p: RationalObliqueParams, locale?: 'en'): RationalObliqueModel {
   const A = safeNonzero(p.A, 0.1);
   const c = p.c;
   let d = p.d;
-  let warning = 'deg P < deg Q：遠處趨近 0';
+  let warning = t('deg P < deg Q：遠處趨近 0', 'deg P < deg Q: approaches 0 far away', locale);
   if (nearlyEqual(c, d)) {
     d = c + RATIONAL_OBLIQUE_CONFIG.collisionTol * 2.2;
-    warning = 'c≈d：第二零點自動錯開';
+    warning = t('c≈d：第二零點自動錯開', 'c≈d: the second zero is shifted apart', locale);
   }
   const verticals = [c, d].sort((x, y) => x - y);
+  const verticalText = verticals.map((v) => `x=${fmt(v)}`).join(locale === 'en' ? ', ' : '，');
 
   return {
-    family: '分子次數較低',
+    family: t('分子次數較低', 'Lower numerator degree', locale),
     degreeText: 'deg P < deg Q',
     expression: `R(x)=${fmt(A)}/[(x-${fmt(c)})(x-${fmt(d)})]`,
     split: 'S(x)=0',
@@ -369,16 +406,16 @@ function buildProperModel(p: RationalObliqueParams): RationalObliqueModel {
     s: () => 0,
     e: (x) => A / ((x - c) * (x - d)),
     stats: [
-      '水平漸近線：y=0',
-      `垂直漸近線：${verticals.map((v) => `x=${fmt(v)}`).join('，')}`,
-      '餘式項：E(x)=R(x)',
-      '狀態：非斜漸近線',
+      t('水平漸近線：y=0', 'Horizontal asymptote: y=0', locale),
+      t(`垂直漸近線：${verticalText}`, `Vertical asymptote: ${verticalText}`, locale),
+      t('餘式項：E(x)=R(x)', 'Remainder: E(x)=R(x)', locale),
+      t('狀態：非斜漸近線', 'State: not an oblique asymptote', locale),
     ],
     formulas: [
       `R(x)=${fmt(A)}/[(x-${fmt(c)})(x-${fmt(d)})]`,
       'deg P < deg Q',
       'lim R(x)=0',
-      '此模式用來對照斜漸近線',
+      t('此模式用來對照斜漸近線', 'This mode contrasts with an oblique asymptote', locale),
     ],
   };
 }

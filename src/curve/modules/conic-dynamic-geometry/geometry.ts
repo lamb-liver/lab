@@ -202,11 +202,15 @@ export function chooseEccentricityMetricPath(
   return paths[0]!.points;
 }
 
-export function getEccentricityKind(e: number): string {
-  if (e < 0.045) return '圓（極限）';
-  if (e < 0.985) return '橢圓';
-  if (e <= 1.015) return '拋物線';
-  return '雙曲線';
+function kindLabel(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
+
+export function getEccentricityKind(e: number, locale?: 'en'): string {
+  if (e < 0.045) return kindLabel(locale, '圓（極限）', 'Circle (limit)');
+  if (e < 0.985) return kindLabel(locale, '橢圓', 'Ellipse');
+  if (e <= 1.015) return kindLabel(locale, '拋物線', 'Parabola');
+  return kindLabel(locale, '雙曲線', 'Hyperbola');
 }
 
 export function getDirectrixRatio(e: number, p: PathPoint | null): string {
@@ -221,13 +225,13 @@ export function getDirectrixRatio(e: number, p: PathPoint | null): string {
   return (pf / pd).toFixed(3);
 }
 
-export function buildFocusScene(type: FocusCurveType): FocusScene {
-  if (type === 'ellipse') return buildEllipseFocusScene();
-  if (type === 'parabola') return buildParabolaFocusScene();
-  return buildHyperbolaFocusScene();
+export function buildFocusScene(type: FocusCurveType, locale?: 'en'): FocusScene {
+  if (type === 'ellipse') return buildEllipseFocusScene(locale);
+  if (type === 'parabola') return buildParabolaFocusScene(locale);
+  return buildHyperbolaFocusScene(locale);
 }
 
-function buildEllipseFocusScene(): FocusScene {
+function buildEllipseFocusScene(locale?: 'en'): FocusScene {
   const a = 165;
   const b = 105;
   const c = Math.sqrt(a * a - b * b);
@@ -245,7 +249,7 @@ function buildEllipseFocusScene(): FocusScene {
 
   return {
     type: 'ellipse',
-    title: '橢圓',
+    title: kindLabel(locale, '橢圓', 'Ellipse'),
     formula: 'PF₁ + PF₂ = constant',
     constantText: `constant ≈ ${(2 * a).toFixed(1)}`,
     foci: [
@@ -256,7 +260,7 @@ function buildEllipseFocusScene(): FocusScene {
   };
 }
 
-function buildParabolaFocusScene(): FocusScene {
+function buildParabolaFocusScene(locale?: 'en'): FocusScene {
   const p = 75;
   const pts: PathPoint[] = [];
   const count = 620;
@@ -271,16 +275,16 @@ function buildParabolaFocusScene(): FocusScene {
 
   return {
     type: 'parabola',
-    title: '拋物線',
+    title: kindLabel(locale, '拋物線', 'Parabola'),
     formula: 'PF = Pd',
-    constantText: '焦點距離等於準線距離',
+    constantText: kindLabel(locale, '焦點距離等於準線距離', 'Distance to the focus equals distance to the directrix'),
     focus: { x: p, y: 0 },
     directrixX: -p,
     paths: [{ type: 'parabola-focus', closed: false, points: pts }],
   };
 }
 
-function buildHyperbolaFocusScene(): FocusScene {
+function buildHyperbolaFocusScene(locale?: 'en'): FocusScene {
   const a = 88;
   const b = 80;
   const c = Math.sqrt(a * a + b * b);
@@ -302,7 +306,7 @@ function buildHyperbolaFocusScene(): FocusScene {
 
   return {
     type: 'hyperbola',
-    title: '雙曲線',
+    title: kindLabel(locale, '雙曲線', 'Hyperbola'),
     formula: '|PF₁ - PF₂| = constant',
     constantText: `constant ≈ ${(2 * a).toFixed(1)}`,
     foci: [

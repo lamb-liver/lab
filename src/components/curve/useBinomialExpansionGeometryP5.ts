@@ -7,16 +7,23 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
   targetParams: ParamValues;
+  locale?: 'en';
 };
 
 export function useBinomialExpansionGeometryP5({
   targetParams,
+  locale,
 }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
@@ -29,6 +36,7 @@ export function useBinomialExpansionGeometryP5({
       a,
       b,
       mode,
+      locale: localeRef.current,
     });
   }, []);
 

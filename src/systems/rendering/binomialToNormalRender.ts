@@ -16,6 +16,7 @@ type BinormalSnap = {
   trialSequence: number[];
   trialIndex: number;
   successCount: number;
+  locale?: 'en';
 };
 
 const GOLD = { r: 212, g: 184, b: 122 };
@@ -32,7 +33,7 @@ export function renderBinomialToNormalScene(p: p5, snap: BinormalSnap): void {
   p.scale(scale);
 
   if (snap.mode === 'x') drawX(p, data, snap.reveal);
-  else if (snap.mode === 'z') drawZ(p, data, snap.reveal);
+  else if (snap.mode === 'z') drawZ(p, data, snap.reveal, snap.locale);
   else drawSim(p, data, snap);
   p.pop();
 }
@@ -62,12 +63,12 @@ function drawX(p: p5, data: ReturnType<typeof deriveBinormalData>, reveal: numbe
   p.endShape();
 }
 
-function drawZ(p: p5, data: ReturnType<typeof deriveBinormalData>, reveal: number): void {
+function drawZ(p: p5, data: ReturnType<typeof deriveBinormalData>, reveal: number, locale?: 'en'): void {
   const chart = { x: 80, y: 700, w: 680, h: 360 };
   const zMin = -4;
   const zMax = 4;
   const maxDensity = normalPDF(0, 0, 1) * 1.15;
-  drawFrame(p, chart, '標準化視圖');
+  drawFrame(p, chart, locale === 'en' ? 'Standardized view' : '標準化視圖');
   for (let k = 0; k <= data.n; k += 1) {
     const z = data.sigma > 0 ? (k - data.mu) / data.sigma : 0;
     if (z < zMin || z > zMax) continue;

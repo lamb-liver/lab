@@ -13,6 +13,7 @@ type BinomialGeometricSnap = {
   width: number;
   height: number;
   params: ParamValues;
+  locale?: 'en';
 };
 
 type PlotRect = {
@@ -45,11 +46,11 @@ export function renderBinomialGeometricDistributionScene(
   p.push();
   p.translate(ox, oy);
   p.scale(scale);
-  drawChart(p, data);
+  drawChart(p, data, snap.locale);
   p.pop();
 }
 
-function drawChart(p: p5, data: DistributionData): void {
+function drawChart(p: p5, data: DistributionData, locale?: 'en'): void {
   const plot = { x: 88, y: 132, w: 724, h: 560 };
 
   drawPanel(p, plot);
@@ -58,7 +59,7 @@ function drawChart(p: p5, data: DistributionData): void {
   drawBars(p, plot, data);
   drawMeanLine(p, plot, data);
   drawAxes(p, plot, data);
-  drawBottomLabel(p, plot, data);
+  drawBottomLabel(p, plot, data, locale);
   drawHud(p, data);
 }
 
@@ -185,11 +186,16 @@ function drawAxes(p: p5, plot: PlotRect, data: DistributionData): void {
   });
 }
 
-function drawBottomLabel(p: p5, plot: PlotRect, data: DistributionData): void {
+function drawBottomLabel(p: p5, plot: PlotRect, data: DistributionData, locale?: 'en'): void {
+  const tail = data.rows[data.rows.length - 1].label;
   const label =
     data.dist === 'binomial'
-      ? '固定 n 次試驗：X 計數成功次數'
-      : `第一次成功前的失敗次數；${data.rows[data.rows.length - 1].label} 為右尾收納桶`;
+      ? locale === 'en'
+        ? 'Fixed n trials: X counts successes'
+        : '固定 n 次試驗：X 計數成功次數'
+      : locale === 'en'
+        ? `Failures before the first success; ${tail} is the right-tail bucket`
+        : `第一次成功前的失敗次數；${tail} 為右尾收納桶`;
 
   p.noStroke();
   p.fill(...WHITE, 95);

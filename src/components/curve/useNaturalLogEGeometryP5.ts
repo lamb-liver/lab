@@ -9,6 +9,7 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 type Options = {
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
+  locale?: 'en';
 };
 
 function paramsKey(params: ParamValues): string {
@@ -18,12 +19,14 @@ function paramsKey(params: ParamValues): string {
 export function useNaturalLogEGeometryP5({
   targetParams,
   onRevealPctChange,
+  locale,
 }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(1);
   const lastKeyRef = useRef(paramsKey(targetParams));
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -32,6 +35,10 @@ export function useNaturalLogEGeometryP5({
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
   }, [onRevealPctChange]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
@@ -57,6 +64,7 @@ export function useNaturalLogEGeometryP5({
       height: p.height,
       params,
       reveal: revealRef.current,
+      locale: localeRef.current,
     });
   }, []);
 

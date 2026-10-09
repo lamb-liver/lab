@@ -19,6 +19,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: QuadraticCompletingSquareParams;
   onParamsChange: (patch: Partial<QuadraticCompletingSquareParams>) => void;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -26,12 +27,13 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useQuadraticCompletingSquareP5({ params, onParamsChange }: Options) {
+export function useQuadraticCompletingSquareP5({ params, onParamsChange, locale }: Options) {
   const paramsRef = useRef(params);
   const sceneCacheRef = useRef<QuadraticSceneCache>(buildQuadraticSceneCache(params));
   const smoothRef = useRef<ViewSmoothState>({ viewHalfY: 5 });
   const draggingVertexRef = useRef(false);
   const onParamsChangeRef = useRef(onParamsChange);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     if (draggingVertexRef.current) return;
@@ -43,12 +45,17 @@ export function useQuadraticCompletingSquareP5({ params, onParamsChange }: Optio
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     const targetViewHalfY = renderQuadraticCompletingSquareScene(p, {
       size: p.width,
       params: paramsRef.current,
       scene: sceneCacheRef.current,
       smooth: smoothRef.current,
+      locale: localeRef.current,
     });
     smoothRef.current = stepViewHalfYSmoothing(
       smoothRef.current,

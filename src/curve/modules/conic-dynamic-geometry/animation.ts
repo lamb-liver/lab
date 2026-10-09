@@ -49,6 +49,7 @@ export function stepConicDynamicAnimation(
   state: ConicDynamicAnimState,
   nextTarget: ConicDynamicParams,
   deltaMs: number,
+  locale?: 'en',
 ): ConicDynamicAnimState {
   let {
     smoothE,
@@ -88,9 +89,9 @@ export function stepConicDynamicAnimation(
     const paths = buildEccentricityPaths(smoothE);
     const metricPath = chooseEccentricityMetricPath(paths, smoothE, pointClock);
     activeMetricPoints = metricPath;
-    subtitle = getEccentricityKind(smoothE);
+    subtitle = getEccentricityKind(smoothE, locale);
   } else {
-    const scene = buildFocusScene(targetParams.focusCurve);
+    const scene = buildFocusScene(targetParams.focusCurve, locale);
     const { metricPath } = getFocusMovingPoint(scene, pointClock);
 
     activeMetricPoints = metricPath;

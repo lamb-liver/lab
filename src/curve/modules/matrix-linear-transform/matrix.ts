@@ -115,7 +115,27 @@ export function getSpecialTitle(type: SpecialType): string {
   return 'reflection';
 }
 
-export function getSpecialNote(type: SpecialType): string {
+/** Select text. Chinese page keeps 旋轉／縮放／剪切／反射; English matches those options. */
+export function getSpecialControlTitle(type: SpecialType, locale?: 'en'): string {
+  if (locale === 'en') {
+    if (type === 'rotation') return 'Rotation';
+    if (type === 'scale') return 'Scale';
+    if (type === 'shear') return 'Shear';
+    return 'Reflection';
+  }
+  if (type === 'rotation') return '旋轉';
+  if (type === 'scale') return '縮放';
+  if (type === 'shear') return '剪切';
+  return '反射';
+}
+
+export function getSpecialNote(type: SpecialType, locale?: 'en'): string {
+  if (locale === 'en') {
+    if (type === 'rotation') return 'The entries of a rotation matrix come from cos θ and sin θ.';
+    if (type === 'scale') return 'Uniform scaling multiplies the area by s².';
+    if (type === 'shear') return 'Shear tilts the grid, and det stays 1.';
+    return 'Reflection reverses orientation, so det < 0.';
+  }
   if (type === 'rotation') return '旋轉矩陣的元素來自 cosθ 與 sinθ。';
   if (type === 'scale') return '等比例縮放會把面積放大為 s² 倍。';
   if (type === 'shear') return '剪切會傾斜網格，但 det 維持 1。';

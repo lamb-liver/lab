@@ -24,6 +24,7 @@ type Options = {
   defaultParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   smoothSync?: SmoothParamSync[];
+  locale?: 'en';
 };
 
 export function useMorphCurveP5({

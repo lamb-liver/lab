@@ -76,7 +76,12 @@ function drawCircleGuide(p: p5, circle: CircleLayout) {
   p.circle(circle.cx, circle.cy, circle.r * 2);
 }
 
-function drawRadiusGhost(p: p5, circle: CircleLayout, params: RadianArcLengthParams) {
+function drawRadiusGhost(
+  p: p5,
+  circle: CircleLayout,
+  params: RadianArcLengthParams,
+  locale?: 'en',
+) {
   if (radiusFromMode(params.radiusMode) !== 1) return;
 
   p.noFill();
@@ -88,7 +93,7 @@ function drawRadiusGhost(p: p5, circle: CircleLayout, params: RadianArcLengthPar
   p.fill(GUIDE[0], GUIDE[1], GUIDE[2], 45);
   p.textSize(11);
   p.textAlign(p.CENTER, p.TOP);
-  p.text('r = 2 對照', circle.cx, circle.cy + circle.maxR + 12);
+  p.text(locale === 'en' ? 'r = 2 comparison' : 'r = 2 對照', circle.cx, circle.cy + circle.maxR + 12);
 }
 
 function drawSpecialAngles(p: p5, circle: CircleLayout, params: RadianArcLengthParams) {
@@ -116,11 +121,16 @@ function drawSpecialAngles(p: p5, circle: CircleLayout, params: RadianArcLengthP
   }
 }
 
-function drawGeometry(p: p5, circle: CircleLayout, params: RadianArcLengthParams) {
+function drawGeometry(
+  p: p5,
+  circle: CircleLayout,
+  params: RadianArcLengthParams,
+  locale?: 'en',
+) {
   const point = pointOnCircle(params.theta, circle);
   const labelTheta = equivalentAngle(params.theta);
 
-  drawRadiusGhost(p, circle, params);
+  drawRadiusGhost(p, circle, params, locale);
   drawCircleGuide(p, circle);
   drawSpecialAngles(p, circle, params);
   withGlowArc(p, circle, params.theta, 215, 4);
@@ -175,7 +185,7 @@ function drawGeometry(p: p5, circle: CircleLayout, params: RadianArcLengthParams
   p.text('P(θ)', point.x + 10, point.y - 8);
 }
 
-function drawReadout(p: p5, params: RadianArcLengthParams) {
+function drawReadout(p: p5, params: RadianArcLengthParams, locale?: 'en') {
   const x = Math.max(24, p.width * 0.08);
   const y = Math.max(24, p.height * 0.1);
   const radius = radiusFromMode(params.radiusMode);
@@ -197,17 +207,19 @@ function drawReadout(p: p5, params: RadianArcLengthParams) {
 
   if (radius === 1) {
     p.fill(GUIDE[0], GUIDE[1], GUIDE[2], 88);
-    p.text('單位圓：s = θ', x + 16, y + 84);
+    p.text(locale === 'en' ? 'Unit circle: s = θ' : '單位圓：s = θ', x + 16, y + 84);
   }
 }
 
-function drawBottomNote(p: p5) {
+function drawBottomNote(p: p5, locale?: 'en') {
   p.noStroke();
   p.fill(GUIDE[0], GUIDE[1], GUIDE[2], 118);
   p.textSize(12);
   p.textAlign(p.LEFT, p.BOTTOM);
   p.text(
-    '弧度把角度與弧長綁在一起；半徑加倍，同一 θ 對應的弧長也加倍。',
+    locale === 'en'
+      ? 'A radian ties angle to arc length; double the radius and the same θ doubles the arc.'
+      : '弧度把角度與弧長綁在一起；半徑加倍，同一 θ 對應的弧長也加倍。',
     28,
     p.height - 20,
     p.width - 56,
@@ -215,13 +227,17 @@ function drawBottomNote(p: p5) {
   );
 }
 
-export function renderRadianArcLengthScene(p: p5, params: RadianArcLengthParams) {
+export function renderRadianArcLengthScene(
+  p: p5,
+  params: RadianArcLengthParams,
+  locale?: 'en',
+) {
   const circle = circleLayout(p.width, p.height, params.radiusMode);
 
   p.background(BG[0], BG[1], BG[2]);
   p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
-  drawGeometry(p, circle, params);
-  drawReadout(p, params);
-  drawBottomNote(p);
+  drawGeometry(p, circle, params, locale);
+  drawReadout(p, params, locale);
+  drawBottomNote(p, locale);
 }

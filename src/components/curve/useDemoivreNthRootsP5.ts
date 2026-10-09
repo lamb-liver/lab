@@ -16,6 +16,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: DemoivreNthRootsParams;
   onParamsChange: (patch: Partial<DemoivreNthRootsParams>) => void;
+  locale?: 'en';
 };
 
 const POINT_HIT_PX = 22;
@@ -25,9 +26,10 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useDemoivreNthRootsP5({ params, onParamsChange }: Options) {
+export function useDemoivreNthRootsP5({ params, onParamsChange, locale }: Options) {
   const paramsRef = useRef(params);
   const onParamsChangeRef = useRef(onParamsChange);
+  const localeRef = useRef(locale);
   const dragRef = useRef(false);
   const dragLayoutRadiusRef = useRef<number | null>(null);
 
@@ -39,6 +41,10 @@ export function useDemoivreNthRootsP5({ params, onParamsChange }: Options) {
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     const metrics = computeDemoivreMetrics(paramsRef.current);
     renderDemoivreNthRootsScene(p, {
@@ -47,6 +53,7 @@ export function useDemoivreNthRootsP5({ params, onParamsChange }: Options) {
       params: paramsRef.current,
       dragging: dragRef.current,
       layoutRadius: dragLayoutRadiusRef.current ?? metrics.viewportRadius,
+      locale: localeRef.current,
     });
   }, []);
 

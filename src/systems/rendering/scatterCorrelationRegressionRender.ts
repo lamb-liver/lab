@@ -22,7 +22,12 @@ type ScatterCorrelationSnap = {
   selectedIndex: number;
   showMeanAxes: boolean;
   showResiduals: boolean;
+  locale?: 'en';
 };
+
+function pick(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 const BG = [10, 10, 10] as const;
 const ACCENT = [212, 184, 122] as const;
@@ -57,7 +62,9 @@ function drawPlot(p: p5, snap: ScatterCorrelationSnap) {
   drawBottomLabel(
     p,
     SCATTER_PLOT,
-    snap.showResiduals ? '殘差垂線段：yᵢ - ŷᵢ' : '拖動點雲；雙擊空白新增，雙擊選取點刪除',
+    snap.showResiduals
+      ? pick(snap.locale, '殘差垂線段：yᵢ - ŷᵢ', 'Residual segments: yᵢ − ŷᵢ')
+      : pick(snap.locale, '拖動點雲；雙擊空白新增，雙擊選取點刪除', 'Drag the cloud. Double-click empty space to add, a point to delete.'),
   );
 }
 

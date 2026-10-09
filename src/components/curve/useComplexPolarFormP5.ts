@@ -13,15 +13,18 @@ type Options = {
   defaultParams: ParamValues;
   targetParams: ParamValues;
   onSmoothParamsChange: (params: ParamValues) => void;
+  locale?: 'en';
 };
 
 export function useComplexPolarFormP5({
   defaultParams,
   targetParams,
   onSmoothParamsChange,
+  locale,
 }: Options) {
   const animRef = useRef(createComplexPolarFormAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const localeRef = useRef(locale);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
     onChange: onSmoothParamsChange,
@@ -31,6 +34,10 @@ export function useComplexPolarFormP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepComplexPolarFormAnimation(
@@ -49,6 +56,7 @@ export function useComplexPolarFormP5({
       height: p.height,
       smoothR: anim.smoothR,
       smoothTheta: anim.smoothTheta,
+      locale: localeRef.current,
     });
   }, []);
 

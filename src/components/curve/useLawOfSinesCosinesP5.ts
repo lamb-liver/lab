@@ -18,6 +18,7 @@ type DragVertex = 'A' | 'B' | 'C';
 type Options = {
   params: LawOfSinesCosinesParams;
   onTriangleChange: (triangle: TriangleVerts) => void;
+  locale?: 'en';
 };
 
 const HIT_RADIUS = 30;
@@ -27,9 +28,10 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useLawOfSinesCosinesP5({ params, onTriangleChange }: Options) {
+export function useLawOfSinesCosinesP5({ params, onTriangleChange, locale }: Options) {
   const paramsRef = useRef(params);
   const onTriangleChangeRef = useRef(onTriangleChange);
+  const localeRef = useRef(locale);
   const activeVertexRef = useRef<DragVertex | null>(null);
 
   useEffect(() => {
@@ -40,12 +42,17 @@ export function useLawOfSinesCosinesP5({ params, onTriangleChange }: Options) {
     onTriangleChangeRef.current = onTriangleChange;
   }, [onTriangleChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     renderLawOfSinesCosinesScene(p, {
       width: p.width,
       height: p.height,
       params: paramsRef.current,
       activeVertex: activeVertexRef.current,
+      locale: localeRef.current,
     });
   }, []);
   const extendSketch = useCallback((p: p5, host?: HTMLElement) => {

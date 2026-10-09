@@ -25,6 +25,13 @@ type TaylorPolynomialApproximationSnap = {
   showError: boolean;
   showTerms: boolean;
   activeDrag: boolean;
+  locale?: 'en';
+};
+
+const TAYLOR_NOTE_EN: Record<string, string> = {
+  sin: 'Odd powers; closest at the center',
+  cos: 'Even powers; a shift adds odd ones',
+  exp: 'Derivatives stay e^x',
 };
 
 type Color = readonly [number, number, number];
@@ -70,7 +77,7 @@ export function renderTaylorPolynomialApproximationScene(
   p.background(...PALETTE.bg);
 
   const plot = createTaylorPlotRect(snap.size);
-  drawPlotFrame(p, plot, snap.preset);
+  drawPlotFrame(p, plot, snap.preset, snap.locale);
   if (snap.showError) drawErrorBand(p, plot, snap);
   drawFunctionGhost(p, plot, snap.preset);
   if (snap.showTerms) drawTermDecomposition(p, plot, snap);
@@ -84,6 +91,7 @@ function drawPlotFrame(
   p: p5,
   g: ReturnType<typeof createTaylorPlotRect>,
   preset: TaylorPreset,
+  locale?: 'en',
 ): void {
   p.noFill();
   p.stroke(...PALETTE.faint, 90);
@@ -121,7 +129,7 @@ function drawPlotFrame(
   p.fill(...PALETTE.text, 224);
   p.textSize(12.5);
   p.textStyle(p.BOLD);
-  p.text('原函數 ghost 與 T_n(x)', g.x + 12, g.y + 20);
+  p.text(locale === 'en' ? 'Faint f(x) and T_n(x)' : '原函數 ghost 與 T_n(x)', g.x + 12, g.y + 20);
   p.textStyle(p.NORMAL);
 
   p.fill(...PALETTE.muted, 190);
@@ -218,9 +226,13 @@ function drawTermDecomposition(
   }
 
   const note =
-    snap.n > TAYLOR_MAX_TERM_CURVES
-      ? `項次分解：顯示 0-${TAYLOR_MAX_TERM_CURVES} 階`
-      : `項次分解：0-${snap.n} 階`;
+    snap.locale === 'en'
+      ? snap.n > TAYLOR_MAX_TERM_CURVES
+        ? `Terms: degrees 0-${TAYLOR_MAX_TERM_CURVES} shown`
+        : `Terms: degrees 0-${snap.n}`
+      : snap.n > TAYLOR_MAX_TERM_CURVES
+        ? `項次分解：顯示 0-${TAYLOR_MAX_TERM_CURVES} 階`
+        : `項次分解：0-${snap.n} 階`;
   drawLabelScreen(p, g.x + 12, g.y + g.h - 14, note, PALETTE.blue, 11.5);
 }
 
@@ -276,11 +288,15 @@ function drawSceneHud(p: p5, snap: TaylorPolynomialApproximationSnap): void {
   p.textSize(12);
   p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 230);
-  p.text(`${snap.preset.formula} · n=${snap.n} · 拖動展開中心 a`, 18, 24);
+  const drag = snap.locale === 'en' ? 'drag a' : '拖動展開中心 a';
+  p.text(`${snap.preset.formula} · n=${snap.n} · ${drag}`, 18, 24);
 
   p.textAlign(p.RIGHT, p.TOP);
   p.fill(...PALETTE.muted, 210);
-  p.text(snap.preset.note, snap.size - 18, 18);
+  const note = snap.locale === 'en'
+    ? TAYLOR_NOTE_EN[snap.preset.id] ?? snap.preset.note
+    : snap.preset.note;
+  p.text(note, snap.size - 18, 18);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 

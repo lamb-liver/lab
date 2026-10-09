@@ -10,14 +10,17 @@ type Options = {
   targetParams: ParamValues;
   runNonce: number;
   resetNonce: number;
+  locale?: 'en';
 };
 
 export function useBinomialToNormalP5({
   targetParams,
   runNonce,
   resetNonce,
+  locale,
 }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
+  const localeRef = useRef(locale);
   const revealRef = useRef(0);
   const lastKeyRef = useRef(JSON.stringify(targetParams));
   const trialRef = useRef<{ sequence: number[]; index: number; clock: number; success: number }>({
@@ -30,6 +33,9 @@ export function useBinomialToNormalP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
   useEffect(() => {
     const data = deriveBinormalData(targetParamsRef.current);
     const sequence: number[] = [];
@@ -70,6 +76,7 @@ export function useBinomialToNormalP5({
       trialSequence: trialRef.current.sequence,
       trialIndex: trialRef.current.index,
       successCount: trialRef.current.success,
+      locale: localeRef.current,
     });
 
   }, []);

@@ -4,7 +4,7 @@ import {
   lissajousModule,
   REVEAL_SPEED,
 } from '../../curve/modules/lissajous';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, ParamValues } from '../../curve/types';
 import DeltaPhaseControl from '../curve/DeltaPhaseControl';
 import ParamControls from '../curve/ParamControls';
 import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
@@ -14,9 +14,20 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function LissajousCurveRoot({ controlsMountId }: Props) {
+const EN_LABELS: Record<string, string> = {
+  a: 'Frequency a',
+  b: 'Frequency b',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return { ...metadata, title: 'Lissajous curve' };
+}
+
+export default function LissajousCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const module = lissajousModule;
   const sampleStep = module.sampleStep ?? 0.003;
 
@@ -45,17 +56,28 @@ export default function LissajousCurveRoot({ controlsMountId }: Props) {
     defaultParams: module.defaultParams,
     onRevealPctChange,
     smoothSync,
+    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {
     revealPct,
     smoothParams: { ...targetParams, delta: smoothDelta },
   });
+  const shown = en ? englishMetadata(metadata) : metadata;
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={targetParams}
         onChange={(key, value) => {
           if (key === 'a' || key === 'b') {
@@ -68,6 +90,7 @@ export default function LissajousCurveRoot({ controlsMountId }: Props) {
         targetDelta={targetParams.delta}
         displayDelta={smoothDelta}
         onTargetChange={(delta) => setTargetParams(patchTargetParams({ delta }))}
+        locale={locale}
       />
     </WorkControlsPortal>
   );
@@ -77,7 +100,7 @@ export default function LissajousCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="利薩茹曲線動畫"
+        aria-label={en ? 'Lissajous curve' : '利薩茹曲線動畫'}
       />
       {controls}
     </>

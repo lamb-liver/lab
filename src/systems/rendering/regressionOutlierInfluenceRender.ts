@@ -24,7 +24,12 @@ type RegressionOutlierInfluenceSnap = {
   showLeverage: boolean;
   showResidual: boolean;
   showMean: boolean;
+  locale?: 'en';
 };
+
+function pick(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 const BG = [10, 10, 10] as const;
 const ACCENT = [212, 184, 122] as const;
@@ -59,7 +64,7 @@ function drawPlot(p: p5, snap: RegressionOutlierInfluenceSnap) {
   drawBasePoints(p, SCATTER_PLOT);
   if (baseFit && snap.showResidual) drawBaselineResidual(p, SCATTER_PLOT, snap.outlier, baseFit);
   drawOutlierPoint(p, SCATTER_PLOT, snap.outlier, stats.deltaB, snap.dragging);
-  drawBottomLabel(p, SCATTER_PLOT, snap.showResidual);
+  drawBottomLabel(p, SCATTER_PLOT, snap.showResidual, snap.locale);
 }
 
 function drawBasePoints(p: p5, plot: PlotRect) {
@@ -201,10 +206,12 @@ function drawBaseMean(p: p5, plot: PlotRect, baseFit: RegressionFit) {
   p.line(point.x, point.y - 6, point.x, point.y + 6);
 }
 
-function drawBottomLabel(p: p5, plot: PlotRect, showResidual: boolean) {
+function drawBottomLabel(p: p5, plot: PlotRect, showResidual: boolean, locale?: 'en') {
   drawPlotBottomLabel(
     p,
     plot,
-    showResidual ? '紅線：高亮點對基準線的殘差' : '灰線：主體基準線　金線：加入高亮點後的新線',
+    showResidual
+      ? pick(locale, '紅線：高亮點對基準線的殘差', 'Red: residual from the base line')
+      : pick(locale, '灰線：主體基準線　金線：加入高亮點後的新線', 'Gray: base line. Gold: line with the highlighted point.'),
   );
 }

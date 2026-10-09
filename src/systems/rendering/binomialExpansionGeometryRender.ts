@@ -11,6 +11,8 @@ type BinomialSnap = {
   a: number;
   b: number;
   mode: BinomialMode;
+  /** English page passes 'en'. Labels on the blocks are monomials, not words. */
+  locale?: 'en';
 };
 
 const ACCENT = { r: 212, g: 184, b: 122 };

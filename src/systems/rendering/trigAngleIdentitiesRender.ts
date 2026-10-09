@@ -28,6 +28,7 @@ type TrigAngleIdentitiesRenderSnap = {
   height: number;
   params: TrigAngleIdentitiesParams;
   smooth: TrigAngleIdentitiesSmoothState;
+  locale?: 'en';
 };
 
 function withDash(p: p5, pattern: number[], fn: () => void) {
@@ -157,6 +158,7 @@ function drawChordAndMean(
   W: { x: number; y: number },
   snap: CompositionSnap,
   mixValue: number,
+  locale?: 'en',
 ) {
   withDash(p, [4, 6], () => {
     p.stroke(255, 255, 255, 20 * mixValue);
@@ -168,11 +170,11 @@ function drawChordAndMean(
   if (snap.formula.type === 'sum') {
     glowLine(p, geo.cx, geo.cy, V.x, V.y, 0.46);
     drawPointGlow(p, V.x, V.y, 4.5, 0.58);
-    drawTinyLabel(p, '平均方向', V.x + 8, V.y - 8);
+    drawTinyLabel(p, locale === 'en' ? 'Mean direction' : '平均方向', V.x + 8, V.y - 8);
   } else {
     glowLine(p, geo.cx, geo.cy, W.x, W.y, 0.46);
     drawPointGlow(p, W.x, W.y, 4.5, 0.58);
-    drawTinyLabel(p, '半差向量', W.x + 8, W.y - 8);
+    drawTinyLabel(p, locale === 'en' ? 'Half-difference vector' : '半差向量', W.x + 8, W.y - 8);
   }
 }
 
@@ -275,6 +277,7 @@ function drawCompositionScene(
   snap: CompositionSnap,
   params: TrigAngleIdentitiesParams,
   guideMix: number,
+  locale?: 'en',
 ) {
   const A = polarPoint(geo.cx, geo.cy, geo.r, snap.alphaNorm);
   const B = polarPoint(geo.cx, geo.cy, geo.r, snap.betaNorm);
@@ -289,7 +292,7 @@ function drawCompositionScene(
 
   drawAxesAndCircle(p, geo);
   drawAngleGuides(p, geo, snap, guideMix);
-  drawChordAndMean(p, geo, A, B, M, V, W, snap, guideMix);
+  drawChordAndMean(p, geo, A, B, M, V, W, snap, guideMix, locale);
   drawVectorsAndPoints(p, geo, A, B, M, params.showGuides);
   drawFormulaMeasurement(p, geo, snap);
   drawSmallFormulaHint(p, geo, snap, params.reverseRead);
@@ -309,13 +312,13 @@ export function renderTrigAngleIdentitiesScene(p: p5, snap: TrigAngleIdentitiesR
   p.strokeWeight(1);
   p.rect(geo.x - 8, geo.y - 8, geo.w + 16, geo.h + 16, 14);
 
-  drawCompositionScene(p, geo, composition, snap.params, snap.smooth.guideMix);
+  drawCompositionScene(p, geo, composition, snap.params, snap.smooth.guideMix, snap.locale);
 
   p.noStroke();
   p.fill(MUTED[0], MUTED[1], MUTED[2], 210);
   p.textSize(12);
   p.textAlign(p.CENTER, p.BASELINE);
-  p.text(getVisualCaption(snap.params.reverseRead), geo.x + geo.w / 2, geo.y + geo.h - 10);
+  p.text(getVisualCaption(snap.params.reverseRead, snap.locale), geo.x + geo.w / 2, geo.y + geo.h - 10);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 

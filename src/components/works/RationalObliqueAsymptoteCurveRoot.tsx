@@ -3,7 +3,10 @@ import {
   RATIONAL_OBLIQUE_MODES,
   RATIONAL_OBLIQUE_PARAM_META,
   buildRationalObliqueModel,
+  fmt,
   modeById,
+  obliqueModeText,
+  obliqueParamLabel,
   rationalObliqueAsymptoteModule,
   rationalObliqueDefaultParams,
   valuesFromParams,
@@ -11,29 +14,34 @@ import {
   type RationalObliqueParamKey,
   type RationalObliqueParams,
 } from '../../curve/modules/rational-oblique-asymptote';
+import type { CurveMetadata } from '../../curve/types';
 import { useRationalObliqueAsymptoteP5 } from '../curve/useRationalObliqueAsymptoteP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: Props) {
+export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId, locale }: Props) {
   const [modeId, setModeId] = useState<RationalObliqueModeId>('oblique');
   const [params, setParams] = useState<RationalObliqueParams>(rationalObliqueDefaultParams);
   const [showAsymptotes, setShowAsymptotes] = useState(true);
   const [advanced, setAdvanced] = useState(false);
   const [showRemainder, setShowRemainder] = useState(false);
 
+  const en = locale === 'en';
   const mode = modeById(modeId);
-  const model = buildRationalObliqueModel(mode, params);
+  const modeCopy = obliqueModeText(mode, locale);
+  const model = buildRationalObliqueModel(mode, params, locale);
   const { canvasHostRef } = useRationalObliqueAsymptoteP5({
     mode,
     params,
     showAsymptotes,
     showRemainder,
     advanced,
+    locale,
   });
 
   const metadataParams = valuesFromParams(modeId, params);
@@ -41,6 +49,26 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
     revealPct: 100,
     smoothParams: metadataParams,
   });
+  const shown: CurveMetadata = en
+    ? {
+        title: 'Oblique asymptotes and polynomial division',
+        formula: model.expression,
+        stats: [
+          { key: 'mode', label: 'State', value: model.family },
+          {
+            key: 'guide',
+            label: model.guide.type === 'oblique' ? 'Oblique asymptote' : 'Horizontal asymptote',
+            value: model.guide.label,
+          },
+          {
+            key: 'vertical',
+            label: 'Vertical asymptote',
+            value: model.verticals.map((value) => `x=${fmt(value)}`).join(', ') || '—',
+          },
+          { key: 'remainder', label: 'Remainder', value: model.remainder },
+        ],
+      }
+    : metadata;
 
   const setParam = (key: RationalObliqueParamKey, value: number) => {
     setParams((prev) => ({ ...prev, [key]: value }));
@@ -49,20 +77,20 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
   const controls = (
     <WorkControlsPortal
       controlsMountId={controlsMountId}
-      metadata={metadata}
+      metadata={shown}
       footer={
         advanced ? (
           <div className="curve-work-controls__stats">
             <div>
-              <dt>次數</dt>
+              <dt>{en ? 'Degree' : '次數'}</dt>
               <dd>{model.degreeText}</dd>
             </div>
             <div>
-              <dt>拆式</dt>
+              <dt>{en ? 'Split' : '拆式'}</dt>
               <dd>{model.split}</dd>
             </div>
             <div>
-              <dt>餘式</dt>
+              <dt>{en ? 'Remainder' : '餘式'}</dt>
               <dd>{model.remainder}</dd>
             </div>
           </div>
@@ -79,7 +107,7 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
               aria-pressed={modeId === item.id}
               onClick={() => setModeId(item.id)}
             >
-              {item.label}
+              {obliqueModeText(item, locale).label}
             </button>
           ))}
         </div>
@@ -90,7 +118,7 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
         return (
           <div key={key} className="control-field">
             <label htmlFor={`rational-oblique-asymptote-${key}`}>
-              {meta.label}
+              {obliqueParamLabel(key, locale)}
               <span className="control-field__value">{params[key].toFixed(2)}</span>
             </label>
             <div className="range-wrap">
@@ -116,7 +144,7 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
           aria-pressed={showAsymptotes}
           onClick={() => setShowAsymptotes((prev) => !prev)}
         >
-          漸近線
+          {en ? 'Asymptotes' : '漸近線'}
         </button>
         <button
           type="button"
@@ -124,7 +152,7 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
           aria-pressed={advanced}
           onClick={() => setAdvanced((prev) => !prev)}
         >
-          進階模式
+          {en ? 'Advanced' : '進階模式'}
         </button>
       </div>
 
@@ -136,7 +164,7 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
             aria-pressed={showRemainder}
             onClick={() => setShowRemainder((prev) => !prev)}
           >
-            餘式 E
+            {en ? 'Remainder E' : '餘式 E'}
           </button>
           <button
             type="button"
@@ -148,12 +176,12 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
               setShowRemainder(false);
             }}
           >
-            重設
+            {en ? 'Reset' : '重設'}
           </button>
         </div>
       ) : null}
 
-      <p className="curve-work-controls__formula">{mode.note}</p>
+      <p className="curve-work-controls__formula">{modeCopy.note}</p>
     </WorkControlsPortal>
   );
 
@@ -162,7 +190,7 @@ export default function RationalObliqueAsymptoteCurveRoot({ controlsMountId }: P
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="斜漸近線與多項式除法互動"
+        aria-label={en ? 'Oblique asymptotes and polynomial division' : '斜漸近線與多項式除法互動'}
       />
       {controls}
     </>

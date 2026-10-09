@@ -48,11 +48,18 @@ export function percent(value: number): string {
   return `${(value * 100).toFixed(1)}%`;
 }
 
-export function deriveData(params: ParamValues) {
+const EN_EVENTS: Record<number, { A: string; B: string }> = {
+  [SCENARIO_MEDICAL]: { A: 'Disease', B: 'Positive' },
+  [SCENARIO_CARD]: { A: 'Heart', B: 'Red' },
+  [SCENARIO_SPAM]: { A: 'Spam', B: 'Marked' },
+};
+
+export function deriveData(params: ParamValues, locale?: 'en') {
   const pA = (params.pA ?? 1) / 100;
   const pBgA = (params.pBgA ?? 95) / 100;
   const pBgNotA = (params.pBgNotA ?? 5) / 100;
   const scenario = scenarios[normalizeScenario(params.scenario)]!;
+  const names = locale === 'en' ? EN_EVENTS[normalizeScenario(params.scenario)]! : scenario;
   const pNotA = 1 - pA;
   const jointAB = pA * pBgA;
   const jointNotAB = pNotA * pBgNotA;
@@ -67,8 +74,8 @@ export function deriveData(params: ParamValues) {
     jointNotAB,
     pB,
     posterior,
-    A: scenario.A,
-    B: scenario.B,
+    A: names.A,
+    B: names.B,
   };
 }
 

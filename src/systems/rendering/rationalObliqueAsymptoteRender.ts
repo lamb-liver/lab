@@ -7,6 +7,7 @@ import {
   clamp,
   createRationalObliquePlotRect,
   fmt,
+  obliqueModeText,
   rightEdgeLabelDataPoint,
   xToScreen,
   yToScreen,
@@ -22,6 +23,7 @@ type RationalObliqueAsymptoteSnap = {
   showAsymptotes: boolean;
   showRemainder: boolean;
   advanced: boolean;
+  locale?: 'en';
 };
 
 type Color = readonly [number, number, number];
@@ -41,7 +43,7 @@ const PALETTE = {
 export function renderRationalObliqueAsymptoteScene(p: p5, snap: RationalObliqueAsymptoteSnap): void {
   p.background(...PALETTE.bg);
   const graph = createRationalObliquePlotRect(snap.size);
-  const model = buildRationalObliqueModel(snap.mode, snap.params);
+  const model = buildRationalObliqueModel(snap.mode, snap.params, snap.locale);
 
   drawPlotFrame(p, graph);
   if (snap.showAsymptotes) drawAsymptotes(p, graph, model);
@@ -49,7 +51,7 @@ export function renderRationalObliqueAsymptoteScene(p: p5, snap: RationalOblique
   drawFunctionCurve(p, graph, model.f, model.verticals, PALETTE.gold, 8.5, 20);
   drawFunctionCurve(p, graph, model.f, model.verticals, PALETTE.gold, 4.2, 46);
   drawFunctionCurve(p, graph, model.f, model.verticals, PALETTE.gold, 2.2, 245);
-  drawZeros(p, graph, model.zeros);
+  drawZeros(p, graph, model.zeros, snap.locale);
   drawSceneHud(p, snap, model);
 }
 
@@ -177,6 +179,7 @@ function drawZeros(
   p: p5,
   g: ReturnType<typeof createRationalObliquePlotRect>,
   zeros: number[],
+  locale?: 'en',
 ): void {
   for (const z of zeros) {
     if (z < RATIONAL_OBLIQUE_CONFIG.xMin || z > RATIONAL_OBLIQUE_CONFIG.xMax) continue;
@@ -187,7 +190,14 @@ function drawZeros(
     p.noStroke();
     p.fill(...PALETTE.green, 242);
     p.circle(sx, sy, 8);
-    drawLabelScreen(p, clamp(sx + 7, g.x + 8, g.x + g.w - 70), sy - 8, `零點 ${fmt(z)}`, PALETTE.green, 235);
+    drawLabelScreen(
+      p,
+      clamp(sx + 7, g.x + 8, g.x + g.w - 70),
+      sy - 8,
+      locale === 'en' ? `Zero ${fmt(z)}` : `零點 ${fmt(z)}`,
+      PALETTE.green,
+      235,
+    );
   }
 }
 
@@ -200,10 +210,11 @@ function drawSceneHud(
   p.textSize(12);
   p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 220);
-  p.text(`${snap.mode.name} · ${model.guide.label}`, 18, 26);
+  const copy = obliqueModeText(snap.mode, snap.locale);
+  p.text(`${copy.name} · ${model.guide.label}`, 18, 26);
 
   p.textAlign(p.RIGHT, p.TOP);
-  p.text(model.warning || snap.mode.note, snap.size - 18, 18);
+  p.text(model.warning || copy.note, snap.size - 18, 18);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 

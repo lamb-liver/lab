@@ -1,15 +1,39 @@
 import { useCallback, useState } from 'react';
 import { logisticCurveModule } from '../../curve/modules/logistic-curve';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useLogisticCurveP5 } from '../curve/useLogisticCurveP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
-type Props = { controlsMountId: string };
+type Props = {
+  controlsMountId: string;
+  locale?: 'en';
+};
 
-export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
+const EN_FIELDS: Record<string, string> = {
+  L: 'Carrying capacity L',
+  k: 'Growth rate k',
+  a: 'Initial offset a',
+};
+
+const EN_STATS: Record<string, string> = {
+  dyMax: 'Max dy/dt',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Logistic curve',
+    stats: metadata.stats.map((stat) => ({
+      ...stat,
+      label: EN_STATS[stat.key] ?? stat.label,
+    })),
+  };
+}
+
+export default function LogisticCurveCurveRoot({ controlsMountId, locale }: Props) {
   const module = logisticCurveModule;
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [smoothParams, setSmoothParams] = useState<ParamValues>(module.defaultParams);
@@ -27,6 +51,7 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
     resetNonce,
     onRevealPctChange,
     onSmoothParamsChange,
+    locale,
   });
 
   const showDyDt = (targetParams.showDyDt ?? 1) !== 0;
@@ -36,21 +61,29 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
     revealPct,
     smoothParams,
   });
+  const shown = locale === 'en' ? englishMetadata(metadata) : metadata;
+  const shownSchema = locale === 'en'
+    ? module.paramSchema.map((field) => ({ ...field, label: EN_FIELDS[field.key] ?? field.label }))
+    : module.paramSchema;
 
   const controls = (
     <WorkControlsPortal
       controlsMountId={controlsMountId}
-      metadata={metadata}
-      metaExtra={<p className="curve-work-controls__formula">連續時間模型，不是離散分岔圖</p>}
+      metadata={shown}
+      metaExtra={
+        <p className="curve-work-controls__formula">
+          {locale === 'en' ? 'Continuous-time model, not the discrete bifurcation diagram' : '連續時間模型，不是離散分岔圖'}
+        </p>
+      }
     >
 
       <ParamControls
-        module={module}
+        module={{ ...module, paramSchema: shownSchema }}
         values={targetParams}
         onChange={(key, value) => setTargetParams((prev) => ({ ...prev, [key]: value }))}
       />
 
-      <div className="curve-work-mode-toggle" aria-label="顯示選項">
+      <div className="curve-work-mode-toggle" aria-label={locale === 'en' ? 'Display' : '顯示選項'}>
         <button
           type="button"
           className="curve-work-mode-button"
@@ -62,7 +95,7 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
             }))
           }
         >
-          顯示 dy/dt
+          {locale === 'en' ? 'Show dy/dt' : '顯示 dy/dt'}
         </button>
         <button
           type="button"
@@ -75,11 +108,11 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
             }))
           }
         >
-          指數對照 Ce^kt
+          {locale === 'en' ? 'Compare Ce^kt' : '指數對照 Ce^kt'}
         </button>
       </div>
 
-      <div className="curve-work-mode-toggle" aria-label="重設">
+      <div className="curve-work-mode-toggle" aria-label={locale === 'en' ? 'Reset' : '重設'}>
         <button
           type="button"
           className="curve-work-mode-button"
@@ -89,7 +122,7 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
             setResetNonce((prev) => prev + 1);
           }}
         >
-          重設參數
+          {locale === 'en' ? 'Reset' : '重設參數'}
         </button>
       </div>
 
@@ -101,7 +134,7 @@ export default function LogisticCurveCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="邏輯斯蒂曲線互動視覺化"
+        aria-label={locale === 'en' ? 'Logistic curve' : '邏輯斯蒂曲線互動視覺化'}
       />
       {controls}
     </>

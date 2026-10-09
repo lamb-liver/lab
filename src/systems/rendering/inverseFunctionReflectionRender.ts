@@ -19,6 +19,7 @@ type InverseFunctionReflectionSnap = {
   params: InverseFunctionReflectionParams;
   scene: InverseSceneCache;
   smooth: ViewSmoothState;
+  locale?: 'en';
 };
 
 const GOLD: [number, number, number] = [212, 184, 122];
@@ -204,11 +205,20 @@ function drawPointGuides(
   p.text('swap', mid.x + 8, mid.y - 8);
 }
 
+function shownCaption(meta: InverseSceneCache['meta'], locale?: 'en') {
+  if (locale !== 'en') return buildCaption(meta);
+  if (!meta.passHlt) {
+    return 'P reflects to P′, but it fails the horizontal line test, so it is not an inverse';
+  }
+  return buildCaption(meta).replaceAll('；', '; ');
+}
+
 function drawHorizontalLineTest(
   p: p5,
   plot: PlotRect,
   viewHalfY: number,
   meta: InverseSceneCache['meta'],
+  locale?: 'en',
 ) {
   const y = meta.p.y;
   const s0 = worldToScreen(plot, viewHalfY, PLOT_X_MIN, y);
@@ -230,7 +240,13 @@ function drawHorizontalLineTest(
   p.noStroke();
   p.fill(...MUTED, 170);
   p.textSize(10);
-  p.text(`水平線交 ${hits.length} 點`, s0.x + 10, s0.y - 8);
+  p.text(
+    locale === 'en'
+      ? `meets ${hits.length} point${hits.length === 1 ? '' : 's'}`
+      : `水平線交 ${hits.length} 點`,
+    s0.x + 10,
+    s0.y - 8,
+  );
 }
 
 function drawMirrorPoints(
@@ -292,13 +308,13 @@ export function renderInverseFunctionReflectionScene(
     }
 
     if (!meta.passHlt) {
-      drawHorizontalLineTest(p, plot, viewHalfY, meta);
+      drawHorizontalLineTest(p, plot, viewHalfY, meta, snap.locale);
     }
 
     drawMirrorPoints(p, plot, viewHalfY, meta);
   });
 
-  drawCaption(p, snap.size, buildCaption(meta));
+  drawCaption(p, snap.size, shownCaption(meta, snap.locale));
 
   return targetViewHalfY;
 }

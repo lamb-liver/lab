@@ -14,6 +14,7 @@ type Options = {
   showAsymptotes: boolean;
   showRemainder: boolean;
   advanced: boolean;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -27,12 +28,14 @@ export function useRationalObliqueAsymptoteP5({
   showAsymptotes,
   showRemainder,
   advanced,
+  locale,
 }: Options) {
   const modeRef = useRef(mode);
   const paramsRef = useRef(params);
   const showAsymptotesRef = useRef(showAsymptotes);
   const showRemainderRef = useRef(showRemainder);
   const advancedRef = useRef(advanced);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     modeRef.current = mode;
@@ -54,6 +57,10 @@ export function useRationalObliqueAsymptoteP5({
     advancedRef.current = advanced;
   }, [advanced]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     renderRationalObliqueAsymptoteScene(p, {
       size: p.width,
@@ -62,6 +69,7 @@ export function useRationalObliqueAsymptoteP5({
       showAsymptotes: showAsymptotesRef.current,
       showRemainder: showRemainderRef.current,
       advanced: advancedRef.current,
+      locale: localeRef.current,
     });
   }, []);
   const extendSketch = useCallback((p: p5) => {
@@ -72,7 +80,7 @@ export function useRationalObliqueAsymptoteP5({
     [draw, extendSketch],
     measureSquareCanvas,
     extendSketch,
-    { loop: false, redrawKey: `${mode}|${JSON.stringify(params)}|${showAsymptotes}|${showRemainder}|${advanced}` },
+    { loop: false, redrawKey: `${mode.id}|${JSON.stringify(params)}|${showAsymptotes}|${showRemainder}|${advanced}|${locale ?? ''}` },
   );
 
   return { canvasHostRef };

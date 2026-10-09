@@ -18,6 +18,7 @@ type BuffonSnap = {
   estimateHistory: Array<number | null>;
   totalThrows: number;
   hitCount: number;
+  locale?: 'en';
 };
 
 const GOLD = { r: 212, g: 184, b: 122 };

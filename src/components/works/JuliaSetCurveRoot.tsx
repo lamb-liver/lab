@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { juliaSetModule } from '../../curve/modules/julia-set';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useJuliaP5 } from '../curve/useJuliaP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
@@ -9,10 +9,51 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
+const EN_PARAM_LABELS: Record<string, string> = {
+  cx: 'Real part Re(c)',
+  cy: 'Imaginary part Im(c)',
+  maxIter: 'Maximum iterations',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Julia set',
+    stats: metadata.stats.map((stat) => ({
+      ...stat,
+      label:
+        stat.key === 'mode'
+          ? 'Mode'
+          : stat.key === 'iter'
+            ? 'Maximum iterations'
+            : stat.key === 'progress'
+              ? 'Progress'
+              : stat.label,
+      value:
+        stat.key === 'mode'
+          ? stat.value === 'drift'
+            ? 'Parameter drift'
+            : 'Manual c'
+          : stat.value,
+    })),
+  };
+}
+
+export default function JuliaSetCurveRoot({ controlsMountId, locale }: Props) {
   const module = juliaSetModule;
+  const en = locale === 'en';
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_PARAM_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [renderPct, setRenderPct] = useState(0);
@@ -44,13 +85,14 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
       cy: smoothParams.cy ?? targetParams.cy,
     },
   });
+  const shown = en ? englishMetadata(metadata) : metadata;
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div
         className="curve-work-mode-toggle"
         role="group"
-        aria-label="朱利亞集合參數漂移"
+        aria-label={en ? 'Julia set parameter drift' : '朱利亞集合參數漂移'}
       >
         <button
           type="button"
@@ -60,7 +102,7 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
             setTargetParams((prev) => ({ ...prev, autoDrift: 0 }))
           }
         >
-          手動 c
+          {en ? 'Manual c' : '手動 c'}
         </button>
         <button
           type="button"
@@ -70,11 +112,11 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
             setTargetParams((prev) => ({ ...prev, autoDrift: 1 }))
           }
         >
-          參數漂移
+          {en ? 'Parameter drift' : '參數漂移'}
         </button>
       </div>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={targetParams}
         onChange={(key, value) => {
           setTargetParams((prev) => ({ ...prev, [key]: value }));
@@ -89,11 +131,11 @@ export default function JuliaSetCurveRoot({ controlsMountId }: Props) {
         <div
           ref={canvasHostRef}
           className="curve-work-canvas-host work-canvas"
-          aria-label="朱利亞集合分形"
+          aria-label={en ? 'Julia set fractal' : '朱利亞集合分形'}
         />
         {renderPct < 100 ? (
           <div className="julia-recalc" role="status">
-            重新計算中… {renderPct}%
+            {en ? `Recalculating... ${renderPct}%` : `重新計算中… ${renderPct}%`}
           </div>
         ) : null}
       </div>

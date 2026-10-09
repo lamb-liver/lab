@@ -4,7 +4,7 @@ import {
   harmonographModule,
   REVEAL_SPEED,
 } from '../../curve/modules/harmonograph';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, ParamValues } from '../../curve/types';
 import DeltaPhaseControl from '../curve/DeltaPhaseControl';
 import ParamControls from '../curve/ParamControls';
 import { useMorphCurveP5 } from '../curve/useMorphCurveP5';
@@ -14,9 +14,20 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function HarmonographCurveRoot({ controlsMountId }: Props) {
+const EN_LABELS: Record<string, string> = {
+  a: 'Frequency a',
+  b: 'Frequency b',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return { ...metadata, title: 'Harmonograph' };
+}
+
+export default function HarmonographCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const module = harmonographModule;
   const sampleStep = module.sampleStep ?? 0.01;
 
@@ -51,6 +62,7 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
     defaultParams: module.defaultParams,
     onRevealPctChange,
     smoothSync,
+    locale,
   });
 
   const commitTarget = useCallback(
@@ -77,11 +89,21 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
       d: smoothD,
     },
   });
+  const shown = en ? englishMetadata(metadata) : metadata;
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={targetParams}
         onChange={(key, value) => {
           if (key === 'a' || key === 'b') {
@@ -94,9 +116,10 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
         targetDelta={targetParams.delta}
         displayDelta={smoothDelta}
         onTargetChange={(delta) => commitTarget({ delta })}
+        locale={locale}
       />
       <div className="control-field">
-        <label htmlFor={`${module.id}-d`}>阻尼 d</label>
+        <label htmlFor={`${module.id}-d`}>{en ? 'Damping d' : '阻尼 d'}</label>
         <div className="range-wrap">
           <input
             id={`${module.id}-d`}
@@ -118,7 +141,7 @@ export default function HarmonographCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="諧振圖動畫"
+        aria-label={en ? 'Harmonograph' : '諧振圖動畫'}
       />
       {controls}
     </>

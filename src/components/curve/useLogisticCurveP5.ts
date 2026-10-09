@@ -15,6 +15,7 @@ type Options = {
   resetNonce: number;
   onRevealPctChange: (pct: number) => void;
   onSmoothParamsChange: (params: ParamValues) => void;
+  locale?: 'en';
 };
 
 export function useLogisticCurveP5({
@@ -22,12 +23,14 @@ export function useLogisticCurveP5({
   resetNonce,
   onRevealPctChange,
   onSmoothParamsChange,
+  locale,
 }: Options) {
   const animRef = useRef(createLogisticCurveAnimState(targetParams));
   const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastResetNonceRef = useRef(resetNonce);
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
+  const localeRef = useRef(locale);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
     onChange: onSmoothParamsChange,
@@ -40,6 +43,10 @@ export function useLogisticCurveP5({
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
   }, [onRevealPctChange]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   useEffect(() => {
     if (resetNonce !== lastResetNonceRef.current) {
@@ -80,6 +87,7 @@ export function useLogisticCurveP5({
       reveal: anim.reveal,
       showDyDt: (params.showDyDt ?? 1) !== 0,
       showExpCompare: (params.showExpCompare ?? 1) !== 0,
+      locale: localeRef.current,
     });
   }, [notifySmoothParams]);
 

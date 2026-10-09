@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { equiangularSpiralModule } from '../../curve/modules/equiangular-spiral';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, ParamValues } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { useEquiangularSpiralP5 } from '../curve/useEquiangularSpiralP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
@@ -9,9 +9,21 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function EquiangularSpiralCurveRoot({ controlsMountId }: Props) {
+const EN_LABELS: Record<string, string> = {
+  growthB: 'Growth coefficient b',
+  rotationSpeed: 'Rotation speed',
+  maxTheta: 'Maximum angle θ',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return { ...metadata, title: 'Equiangular spiral' };
+}
+
+export default function EquiangularSpiralCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const module = equiangularSpiralModule;
 
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
@@ -28,6 +40,7 @@ export default function EquiangularSpiralCurveRoot({ controlsMountId }: Props) {
     targetParams,
     onRevealThetaChange,
     onSmoothParamsChange,
+    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {
@@ -35,11 +48,21 @@ export default function EquiangularSpiralCurveRoot({ controlsMountId }: Props) {
     smoothParams,
     revealTheta,
   });
+  const shown = en ? englishMetadata(metadata) : metadata;
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={targetParams}
         onChange={(key, value) => {
           setTargetParams((prev) => ({ ...prev, [key]: value }));
@@ -53,7 +76,7 @@ export default function EquiangularSpiralCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="等角螺線動畫"
+        aria-label={en ? 'Equiangular spiral' : '等角螺線動畫'}
       />
       {controls}
     </>

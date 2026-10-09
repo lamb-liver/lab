@@ -15,13 +15,31 @@ import {
   useCirclePowerP5,
 } from '../curve/useCirclePowerP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
+import type { CurveMetadata } from '../../curve/types';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function TangentSecantCurveRoot({ controlsMountId }: Props) {
+const EN_STATS: Record<string, string> = {
+  tangent: 'Tangent squared',
+  secant: 'Secant product',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Tangent and a secant',
+    stats: metadata.stats.map((stat) => ({
+      ...stat,
+      label: EN_STATS[stat.key] ?? stat.label,
+    })),
+  };
+}
+
+export default function TangentSecantCurveRoot({ controlsMountId, locale }: Props) {
   const [p, setP] = useState(P_DEFAULT);
   const [thetaDeg, setThetaDeg] = useState(THETA_DEFAULT_DEG);
   const { canvasHostRef } = useCirclePowerP5(
@@ -29,18 +47,23 @@ export default function TangentSecantCurveRoot({ controlsMountId }: Props) {
     measureCirclePowerWorkCanvas,
   );
   const metadata = tangentSecantModule.getMetadata({ p, thetaDeg });
+  const shown = locale === 'en' ? englishMetadata(metadata) : metadata;
 
   return (
     <>
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="切線與割線：切線段平方與斜割線乘積"
+        aria-label={
+          locale === 'en'
+            ? 'Tangent and a secant: the square of the tangent segment and the secant product'
+            : '切線與割線：切線段平方與斜割線乘積'
+        }
       />
-      <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
         <div className="control-field">
           <label htmlFor="tangent-secant-p">
-            <span>位置 p</span>
+            <span>{locale === 'en' ? 'Position p' : '位置 p'}</span>
             <span className="control-field__value">{p.toFixed(2)}</span>
           </label>
           <div className="range-wrap">
@@ -62,7 +85,7 @@ export default function TangentSecantCurveRoot({ controlsMountId }: Props) {
         </div>
         <div className="control-field">
           <label htmlFor="tangent-secant-theta">
-            <span>偏角</span>
+            <span>{locale === 'en' ? 'Angle' : '偏角'}</span>
             <span className="control-field__value">{formatDegrees(thetaDeg)}</span>
           </label>
           <div className="range-wrap">

@@ -204,11 +204,12 @@ export function eigenData(m: Matrix2): EigenData {
   };
 }
 
-export function eigenStatusText(eigen: EigenData): string {
-  if (eigen.kind === 'two') return '兩方向';
-  if (eigen.kind === 'one') return '一方向';
-  if (eigen.kind === 'all') return '每個方向';
-  return '無實方向';
+export function eigenStatusText(eigen: EigenData, locale?: 'en'): string {
+  const en = locale === 'en';
+  if (eigen.kind === 'two') return en ? 'Two directions' : '兩方向';
+  if (eigen.kind === 'one') return en ? 'One direction' : '一方向';
+  if (eigen.kind === 'all') return en ? 'Every direction' : '每個方向';
+  return en ? 'No real direction' : '無實方向';
 }
 
 function normalize(v: Vector2): Vector2 {

@@ -8,18 +8,25 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
   targetParams: ParamValues;
+  locale?: 'en';
 };
 
 export function useConditionalProbabilityBayesP5({
   targetParams,
+  locale,
 }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
+  const localeRef = useRef(locale);
   const revealRef = useRef(0);
   const lastKeyRef = useRef(JSON.stringify(targetParams));
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
@@ -35,6 +42,7 @@ export function useConditionalProbabilityBayesP5({
       params,
       mode: modeFromValue(params.mode),
       reveal: revealRef.current,
+      locale: localeRef.current,
     });
   }, []);
 

@@ -169,6 +169,26 @@ export function zeroTypeText(preset: FunctionDerivativePreset, z: number): strin
   return '需看左右符號';
 }
 
+const DERIVATIVE_PHRASE_EN: Record<string, string> = {
+  水平: 'Horizontal',
+  遞增: 'Increasing',
+  遞減: 'Decreasing',
+  否: 'No',
+  極大值候選: 'Local max',
+  極小值候選: 'Local min',
+  '水平穿越／非極值': 'Crosses horizontally',
+  需看左右符號: 'Check both signs',
+};
+
+/** Display only. Omitted locale keeps the Chinese text. */
+export function localizeDerivativePhrase(text: string, locale?: 'en'): string {
+  if (locale !== 'en') return text;
+  return text
+    .split('，')
+    .map((part) => DERIVATIVE_PHRASE_EN[part] ?? part)
+    .join(', ');
+}
+
 export function slopeStateText(slope: number): string {
   if (Math.abs(slope) < FUNCTION_DERIVATIVE_SLOPE_TOL) return '水平';
   return slope > 0 ? '遞增' : '遞減';
