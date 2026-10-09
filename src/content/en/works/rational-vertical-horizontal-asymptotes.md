@@ -56,7 +56,7 @@ Here the degrees match, so the horizontal asymptote is $y=A$. You move the zero 
 
 - [Oblique asymptotes and polynomial division](/en/works/rational-oblique-asymptote/)
 - [Polynomial zeros and multiplicity](/en/works/polynomial-roots-multiplicity/)
-- [Rational functions and asymptotes](/explore/rational-functions-asymptotes/)
+- [Rational functions and asymptotes](/en/explore/rational-functions-asymptotes/)
 
 ## Further reading
 

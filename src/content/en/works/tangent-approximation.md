@@ -50,7 +50,7 @@ The point of tangency $x_P = 0.5 + 0.1\sin(0.6t)$ drifts a little with time. **Î
 ## Related
 
 - [Riemann sum](/en/works/riemann-sum/)
-- [Limits and Riemann sums](/explore/limits-riemann-sum/)
+- [Limits and Riemann sums](/en/explore/limits-riemann-sum/)
 - [Tractrix](/en/works/catenary/)
 
 ## Further reading

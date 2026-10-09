@@ -48,7 +48,7 @@ Multiplying $(a,b,c,h)$ by a nonzero constant does not change the plane. It only
 - [Space vector and three plane projections](/en/works/space-vector-three-plane-projection/)
 - [Where a line meets a plane](/en/works/line-plane-intersection/)
 - [Dot product](/en/works/dot-product-geometry/)
-- [Space vectors, planes, and lines](/explore/space-vectors-planes-lines/)
+- [Space vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
 
 ## Further reading
 

@@ -39,7 +39,7 @@ On the plane, $y=f(x)$ and $y=f^{-1}(x)$ are symmetric across the line $y=x$. If
 
 ## Related
 
-- [Exponentials and logarithms](/explore/exponential-logarithm/)
+- [Exponentials and logarithms](/en/explore/exponential-logarithm/)
 - [Exponential growth and decay](/en/works/exponential-growth-decay/)
 - [Geometric definition of the natural logarithm](/en/works/natural-log-e-geometry/)
 - [Logarithmic scale](/en/works/logarithmic-scale/)

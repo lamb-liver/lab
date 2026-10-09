@@ -53,8 +53,8 @@ Farther from the center, the higher-degree terms matter more. A finite $T_n$ is 
 
 - [Tangent approximation](/en/works/tangent-approximation/)
 - [Fourier series](/explore/fourier-series/)
-- [Limits and Riemann sums](/explore/limits-riemann-sum/)
-- [Sequences and series](/explore/sequences-and-series/)
+- [Limits and Riemann sums](/en/explore/limits-riemann-sum/)
+- [Sequences and series](/en/explore/sequences-and-series/)
 
 ## Further reading
 

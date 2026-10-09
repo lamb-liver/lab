@@ -48,7 +48,7 @@ The three projections are the shadows of $\mathbf{v}$ on the $xy$, $xz$, and $yz
 - [Where a line meets a plane](/en/works/line-plane-intersection/)
 - [Plane normal and distance from a point](/en/works/plane-normal-distance/)
 - [Vector projection](/en/works/vector-projection/)
-- [Space vectors, planes, and lines](/explore/space-vectors-planes-lines/)
+- [Space vectors, planes, and lines](/en/explore/space-vectors-planes-lines/)
 
 ## Further reading
 

@@ -40,7 +40,7 @@ The leverage drawn here is the horizontal distance $|x_o-\bar x_0|$ from the mai
 
 - [Scatter, correlation, and the regression line](/en/works/scatter-correlation-regression/)
 - [Percentiles and a box plot](/en/works/percentile-box-plot/)
-- [Data analysis](/explore/data-analysis/)
+- [Data analysis](/en/explore/data-analysis/)
 
 ## Further reading
 

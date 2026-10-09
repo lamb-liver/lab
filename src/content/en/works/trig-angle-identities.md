@@ -53,7 +53,7 @@ The angle-addition formula $\sin(\alpha+\beta)$ and the double-angle formula $\s
 
 - [Unit circle and trigonometric definitions](/en/works/unit-circle-trig-definition/)
 - [Law of sines and law of cosines](/en/works/law-of-sines-cosines/)
-- [Geometric definitions and trigonometric identities](/explore/trigonometry-fundamentals/)
+- [Geometric definitions and trigonometric identities](/en/explore/trigonometry-fundamentals/)
 
 ## Further reading
 

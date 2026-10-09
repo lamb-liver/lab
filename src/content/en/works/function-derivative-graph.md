@@ -45,8 +45,8 @@ means the tangent to $f$ at that point is horizontal, so the point is a candidat
 ## Related
 
 - [Tangent approximation](/en/works/tangent-approximation/)
-- [Limits and Riemann sums](/explore/limits-riemann-sum/)
-- [Function graphs and solution sets](/explore/function-equations/)
+- [Limits and Riemann sums](/en/explore/limits-riemann-sum/)
+- [Function graphs and solution sets](/en/explore/function-equations/)
 
 ## Further reading
 

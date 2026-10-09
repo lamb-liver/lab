@@ -39,7 +39,7 @@ $$
 
 - [Conic envelope](/en/works/conic-envelope/)
 - [Focus locus](/en/works/conic-focus-locus/)
-- [Conics by eccentricity](/explore/conic-dynamic-geometry/)
+- [Conics by eccentricity](/en/explore/conic-dynamic-geometry/)
 
 ## Further reading
 
