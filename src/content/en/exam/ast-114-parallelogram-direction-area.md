@@ -29,7 +29,7 @@ draft: false
 
 ## Problem
 
-On the coordinate plane, one pair of sides of a parallelogram is parallel to $5x-y=0$, and the other pair lies on lines perpendicular to $3x-2y=0$. The diagonals meet at $Q$, and one vertex $P$ satisfies $\overrightarrow{PQ}=(10,-1)$. Find the area. The full question is on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0P192554390266335672/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf).
+On the coordinate plane, one pair of sides of a parallelogram is parallel to $5x-y=0$, and the other pair lies on lines perpendicular to $3x-2y=0$. The diagonals meet at $Q$, and one vertex $P$ satisfies $\overrightarrow{PQ}=(10,-1)$. Find the area. The full question is on the [CEEC 114 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0P192554390266335672/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 

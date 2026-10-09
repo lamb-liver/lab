@@ -1,6 +1,6 @@
 ---
 title: A parabola under a restricted translation
-description: Keep the vertex on one line and the graph through one fixed point, then discard the translation that leaves the parabola where it was.
+description: "115 GSAT Mathematics A, Fill-in 16: keep the vertex on one line and the graph through one fixed point, then discard the translation that leaves the parabola where it was."
 subject: 學測數A
 year: 115
 questionType: 選填
@@ -30,7 +30,7 @@ draft: false
 
 ## Problem
 
-The vertex $P$ of a parabola $\Gamma$ lies on the line $\ell:y=1+2x$, and the graph meets the $x$-axis at $A=\left(-\dfrac{1}{2},0\right)$ and $B=\left(\dfrac{1}{2},0\right)$. Translate the whole parabola so that the new vertex $Q$ is still on $\ell$ and the new graph still passes through $B$. Given that $P$ and $Q$ are distinct, find the distance $PQ$. The full question is on the [original 115 GSAT Mathematics A paper](https://www.ceec.edu.tw/files/file_pool/1/0q054344158947111283/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf).
+The vertex $P$ of a parabola $\Gamma$ lies on the line $\ell:y=1+2x$, and the graph meets the $x$-axis at $A=\left(-\dfrac{1}{2},0\right)$ and $B=\left(\dfrac{1}{2},0\right)$. Translate the whole parabola so that the new vertex $Q$ is still on $\ell$ and the new graph still passes through $B$. Given that $P$ and $Q$ are distinct, find the distance $PQ$. The full question is on the [CEEC 115 GSAT Mathematics A paper](https://www.ceec.edu.tw/files/file_pool/1/0q054344158947111283/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 

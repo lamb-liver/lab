@@ -1,6 +1,6 @@
 ---
 title: Area probability for two random points
-description: 2024 AMC 12A, Problem #20 turns the area ratio into the product xy and pins the probability between 3/4 and 7/8 with the unit square.
+description: "2024 AMC 12A, Problem #20 turns the area ratio into the product xy and pins the probability between 3/4 and 7/8 with the unit square."
 subject: AMC 12A
 year: 2024
 questionType: 單選

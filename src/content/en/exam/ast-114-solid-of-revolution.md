@@ -33,7 +33,7 @@ $$
 f(x)=3ax^2+1-a
 $$
 
-stays at least $0$ on $[-1,1]$, and the area between the graph and the $x$-axis is always $2$. The region is rotated about the $x$-axis. The question asks whether the volumes are still all equal and, if not, what the maximum is. The full item is on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0p212559382035851587/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7.pdf).
+stays at least $0$ on $[-1,1]$, and the area between the graph and the $x$-axis is always $2$. The region is rotated about the $x$-axis. The question asks whether the volumes are still all equal and, if not, what the maximum is. The full item is on the [CEEC 114 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0p212559382035851587/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 

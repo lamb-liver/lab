@@ -1,6 +1,6 @@
 ---
 title: Shortest path on a lampshade
-description: 2023 AMC 12B, Problem #21 unfolds the shade into a half-annulus, where the straight line leaves the paper and the shortest path is a tangent plus an inner arc.
+description: "2023 AMC 12B, Problem #21 unfolds the shade into a half-annulus, where the straight line leaves the paper and the shortest path is a tangent plus an inner arc."
 subject: AMC 12B
 year: 2023
 questionType: 單選

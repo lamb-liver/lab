@@ -77,9 +77,11 @@ export default function CircleInversionCurveRoot({ controlsMountId, locale }: Pr
               max={radiusDef.max}
               step={radiusDef.step}
               value={params.radius}
-              onInput={(event) =>
-                setParams((prev) => ({ ...prev, radius: Number(event.currentTarget.value) }))
-              }
+              onInput={(event) => {
+                // 先取值：updater 晚於事件執行，那時 currentTarget 已是 null
+                const radius = Number(event.currentTarget.value);
+                setParams((prev) => ({ ...prev, radius }));
+              }}
             />
           </div>
         </div>

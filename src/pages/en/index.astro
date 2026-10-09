@@ -12,6 +12,7 @@ import {
 } from '../../content/utils';
 import { workInteractiveSlugs } from '../../works/interactiveRegistry';
 import { siteSeoEn } from '../../lib/seoCopy';
+import { learningPathsEn } from '../../lib/learningPathsEn';
 import { enExploreSlugs, enWorkSlugs, indexAlternates } from '../../lib/translatedSlugs';
 import '../../styles/pages/home.css';
 
@@ -192,6 +193,12 @@ const site = Astro.site ?? Astro.url;
         </div>
       </div>
       <div class="home-more-links">
+        {
+          learningPathsEn().map((path) => (
+            <a href={`/en/path/${path.slug}`}>{path.title} →</a>
+          ))
+        }
+        <a href="/en/concept">Concept index →</a>
         <a href="/en/exam/">Exam visualizations →</a>
       </div>
     </div>

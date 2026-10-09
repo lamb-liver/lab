@@ -33,7 +33,7 @@ $$
 w=\frac{-3+4i}{5}.
 $$
 
-The distance from $w$ to $z$ equals the distance from $w$ to $z^3$. Find the real and imaginary parts of $z=a+bi$. The exact values and the answer format are on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0m223505137960339935/01-111%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7%E5%AE%9A%E7%A8%BF.pdf).
+The distance from $w$ to $z$ equals the distance from $w$ to $z^3$. Find the real and imaginary parts of $z=a+bi$. The exact values and the answer format are on the [CEEC 111 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0m223505137960339935/01-111%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7%E5%AE%9A%E7%A8%BF.pdf).
 
 ## Where it goes wrong
 

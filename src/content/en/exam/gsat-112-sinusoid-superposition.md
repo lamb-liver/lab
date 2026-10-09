@@ -30,7 +30,7 @@ draft: false
 
 ## Problem
 
-A linear combination of sine and cosine is given. Using the axes of symmetry of its graph, the solutions of an equation for a particular function value, and its translation relation to another periodic function, pick the correct statements. The full question and options are on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0n045358375872115148/03-112%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf).
+A linear combination of sine and cosine is given. Using the axes of symmetry of its graph, the solutions of an equation for a particular function value, and its translation relation to another periodic function, pick the correct statements. The full question and options are on the [CEEC 112 GSAT Mathematics A paper](https://www.ceec.edu.tw/files/file_pool/1/0n045358375872115148/03-112%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 

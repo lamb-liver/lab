@@ -5,6 +5,8 @@ import Breadcrumb from '../../../components/Breadcrumb.astro';
 import CanvasPlaceholder from '../../../components/CanvasPlaceholder.astro';
 import ExploreInteractiveStage from '../../../components/explore/ExploreInteractiveStage';
 import Giscus from '../../../components/Giscus.astro';
+import RelatedLinks from '../../../components/RelatedLinks.astro';
+import { buildExamBackrefs } from '../../../lib/relatedContent';
 import FitKatexDisplay from '../../../components/FitKatexDisplay.astro';
 import { getCollection, render } from 'astro:content';
 import {
@@ -36,6 +38,11 @@ const { previous: previousExplore, next: nextExplore } = getCollectionPagerNeigh
   entry.id,
 );
 const ogImage = entry.data.coverImage;
+const relatedItems =
+  buildExamBackrefs(await getCollection('examEn'), {
+    includeDraft: import.meta.env.DEV,
+    locale: 'en',
+  }).explore.get(entry.id) ?? [];
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL('/en/', site).href;
 const sectionUrl = new URL('/en/explore/', site).href;
@@ -131,6 +138,13 @@ const structuredData = [
     <article class="prose">
       <Content />
     </article>
+
+    <RelatedLinks
+      items={relatedItems}
+      heading="Related exam problems"
+      ariaLabel="Related exam problems"
+      locale="en"
+    />
 
     {
       previousExplore || nextExplore ? (

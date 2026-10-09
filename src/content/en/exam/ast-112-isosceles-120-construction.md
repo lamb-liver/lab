@@ -29,7 +29,7 @@ draft: false
 
 ## Problem
 
-A right triangle has side lengths $\sqrt7$, $\sqrt3$, and $2$. On the outside of two of its sides, construct isosceles triangles with vertex angle $120^\circ$, and find the square of the distance between the two new vertices. The full figure and the answer format are on the [Original paper](https://www.ceec.edu.tw/files/file_pool/1/0n214409428400270207/01-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf).
+A right triangle has side lengths $\sqrt7$, $\sqrt3$, and $2$. On the outside of two of its sides, construct isosceles triangles with vertex angle $120^\circ$, and find the square of the distance between the two new vertices. The full figure and the answer format are on the [CEEC 112 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0n214409428400270207/01-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf).
 
 ## Where it goes wrong
 
