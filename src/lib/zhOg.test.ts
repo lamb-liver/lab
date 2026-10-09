@@ -26,4 +26,17 @@ describe('Chinese exam/explore OG cards', () => {
     expect(zhTitleLayout('三角函數的疊加與波的干涉').text).toBe('三角函數的\n疊加與波的干涉');
     expect(zhTitleLayout('圓心在 x 軸、兩垂線距離比與切線斜率').text).toBe('圓心在 x 軸、\n兩垂線距離比與切線斜率');
   });
+
+  it('uses the same break rule on work cards, with the larger work sizes', async () => {
+    const { ZH_WORK_TITLE_SIZES } = await import('./zhOgTitle');
+    expect(zhTitleLayout('玫瑰曲線', ZH_WORK_TITLE_SIZES)).toEqual({ text: '玫瑰曲線', fontSize: 72 });
+    expect(zhTitleLayout('謝爾賓斯基三角形', ZH_WORK_TITLE_SIZES)).toEqual({ text: '謝爾賓斯基三角形', fontSize: 64 });
+    expect(zhTitleLayout('正弦型函數的振幅、週期與相位', ZH_WORK_TITLE_SIZES).text).toBe(
+      '正弦型函數的\n振幅、週期與相位',
+    );
+  });
+
+  it('never splits mid-word when a single line still fits', () => {
+    expect(zhTitleLayout('二次函數配方視覺化教學').text).toBe('二次函數配方視覺化教學');
+  });
 });

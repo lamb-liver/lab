@@ -1,5 +1,6 @@
 import { createElement, type CSSProperties, type ReactNode } from 'react';
 import { OG_FORMULA_MAX_WIDTH, ogFormulaFontSize } from './ogFormula';
+import { ZH_WORK_TITLE_SIZES, zhTitleLayout } from './zhOgTitle';
 
 export type WorkOgCardContent = {
   title: string;
@@ -17,14 +18,10 @@ const MUTED = '#888888';
 const FORMULA = '#d4b87a';
 const BORDER = '#2a2a2a';
 
-function titleFontSize(title: string): number {
-  if (title.length > 18) return 52;
-  if (title.length > 12) return 60;
-  return 72;
-}
-
 export function buildWorkOgElement(content: WorkOgCardContent): ReactNode {
-  const { title, formula, thumbnailDataUrl } = content;
+  const { formula, thumbnailDataUrl } = content;
+  // 標題與試題／主題卡同一套斷行規則：放得下排一行，否則在標點或「的」「與」之後斷成兩行
+  const title = zhTitleLayout(content.title, ZH_WORK_TITLE_SIZES);
 
   const rootStyle: CSSProperties = {
     display: 'flex',
@@ -52,10 +49,11 @@ export function buildWorkOgElement(content: WorkOgCardContent): ReactNode {
   };
 
   const titleStyle: CSSProperties = {
-    fontSize: titleFontSize(title),
+    fontSize: title.fontSize,
     fontWeight: 400,
     lineHeight: 1.15,
     marginBottom: 24,
+    whiteSpace: 'pre-line',
   };
 
   const formulaStyle: CSSProperties = {
@@ -98,7 +96,7 @@ export function buildWorkOgElement(content: WorkOgCardContent): ReactNode {
       'div',
       { style: leftStyle },
       createElement('div', { style: brandStyle }, '羊·實驗'),
-      createElement('div', { style: titleStyle }, title),
+      createElement('div', { style: titleStyle }, title.text),
       formula
         ? createElement('div', { style: formulaStyle }, formula)
         : null,

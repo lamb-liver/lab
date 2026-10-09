@@ -5,6 +5,9 @@ import sharp from 'sharp';
 import { getEnOgFonts } from './enOgImage';
 import { buildEnOgElement, type EnOgCardContent } from './enOgSatori';
 import { WORK_OG_HEIGHT, WORK_OG_WIDTH } from './workOgImage';
+import { zhTitleLayout } from './zhOgTitle';
+
+export { zhTitleLayout, zhTitleWidth } from './zhOgTitle';
 
 const require = createRequire(import.meta.url);
 
@@ -36,51 +39,6 @@ export function getZhOgFonts(): OgFont[] {
     })),
   ];
   return cachedFonts;
-}
-
-/** 中文字（含全形標點）算 1 個字寬，其餘算 0.55 個字寬 */
-export function zhTitleWidth(title: string): number {
-  let width = 0;
-  for (const ch of title) width += /[\u2e80-\u9fff\uf900-\ufaff\uff00-\uffef]/.test(ch) ? 1 : 0.55;
-  return width;
-}
-
-/** 標題欄寬 528px，留一點餘裕 */
-const TITLE_MAX_WIDTH = 520;
-const TITLE_SIZES = [64, 56, 52, 48, 44];
-/** 一行要縮到比這更小時，改排兩行 */
-const ONE_LINE_MIN_SIZE = 52;
-/** 兩行標題的斷行點：標點之後，或「的」「與」之後，不在詞中間斷開 */
-const TITLE_BREAK_AFTER = /[，、：；的與]/;
-
-function fitSize(width: number): number | null {
-  return TITLE_SIZES.find((size) => size * width <= TITLE_MAX_WIDTH) ?? null;
-}
-
-/**
- * 中文標題排版：一行以 52px 以上放得下就排一行；否則在標點或「的」「與」之後斷成兩行
- * （選兩行中較長那行最短的斷點），字級取兩行都放得下的最大值。
- */
-export function zhTitleLayout(title: string): { text: string; fontSize: number } {
-  const oneLine = fitSize(zhTitleWidth(title));
-  if (oneLine && oneLine >= ONE_LINE_MIN_SIZE) return { text: title, fontSize: oneLine };
-
-  const chars = [...title];
-  let best: { lines: [string, string]; width: number } | null = null;
-  for (let i = 1; i < chars.length - 1; i += 1) {
-    if (!TITLE_BREAK_AFTER.test(chars[i])) continue;
-    const lines: [string, string] = [chars.slice(0, i + 1).join('').trim(), chars.slice(i + 1).join('').trim()];
-    const width = Math.max(zhTitleWidth(lines[0]), zhTitleWidth(lines[1]));
-    if (!best || width < best.width) best = { lines, width };
-  }
-  if (!best) {
-    const half = Math.ceil(chars.length / 2);
-    const lines: [string, string] = [chars.slice(0, half).join('').trim(), chars.slice(half).join('').trim()];
-    best = { lines, width: Math.max(zhTitleWidth(lines[0]), zhTitleWidth(lines[1])) };
-  }
-  const twoLines = fitSize(best.width) ?? TITLE_SIZES[TITLE_SIZES.length - 1];
-  if (oneLine && oneLine >= twoLines) return { text: title, fontSize: oneLine };
-  return { text: best.lines.join('\n'), fontSize: twoLines };
 }
 
 /**
