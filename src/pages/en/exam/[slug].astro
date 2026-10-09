@@ -34,7 +34,8 @@ const sourceLinkLabels = examSourceLinkLabels(entry.data.subject, 'en');
 const creditLine = examCreditLine(entry.data, 'en');
 const ogImage = entry.data.coverImage;
 const site = Astro.site ?? Astro.url;
-const siteRoot = new URL('/', site).href;
+const siteRoot = new URL('/en/', site).href;
+const sectionUrl = new URL('/en/exam/', site).href;
 const articleUrl = new URL(`/en/exam/${entry.id}`, site).href;
 const imageUrl = ogImage ? new URL(ogImage, site).href : undefined;
 const alternates = translationAlternates(site, 'exam', entry.id);
@@ -43,8 +44,9 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: '羊·實驗', item: siteRoot },
-      { '@type': 'ListItem', position: 2, name: entry.data.title, item: articleUrl },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: 'Exams', item: sectionUrl },
+      { '@type': 'ListItem', position: 3, name: entry.data.title, item: articleUrl },
     ],
   },
   {
@@ -110,12 +112,21 @@ const relatedItems: RelatedRef[] = [
       <Breadcrumb
         label="Breadcrumb"
         items={[
-          { label: '羊·實驗', href: '/' },
+          { label: 'Home', href: '/en/' },
+          { label: 'Exams', href: '/en/exam' },
           { label: entry.data.title },
         ]}
       />
       <div class="detail-top-nav__actions">
-        <a href={`/exam/${entry.id}/`} class="back-link back-link--top" hreflang="zh-Hant">Chinese</a>
+        <a
+          href={`/exam/${entry.id}/`}
+          class="back-link detail-top-nav__lang"
+          hreflang="zh-Hant"
+          lang="zh-Hant"
+        >
+          中文
+        </a>
+        <a href="/en/exam" class="back-link back-link--top">← Back to exams</a>
       </div>
     </div>
 
@@ -170,6 +181,6 @@ const relatedItems: RelatedRef[] = [
     <Giscus locale="en" />
     <FitKatexDisplay />
 
-    <a href={`/exam/${entry.id}/`} class="back-link" hreflang="zh-Hant">Chinese</a>
+    <a href="/en/exam" class="back-link">← Back to exams</a>
   </div>
 </BaseLayout>

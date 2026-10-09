@@ -51,6 +51,9 @@ const ogLocaleAlternates = [
       .filter((value): value is string => Boolean(value) && value !== ogLocale),
   ),
 ];
+const navLocale = htmlLang === 'en' ? 'en' : undefined;
+const zhAlternate = alternates.find((alt) => alt.hreflang === 'zh-Hant');
+const zhPath = zhAlternate ? new URL(zhAlternate.href).pathname : undefined;
 const fullTitle = title === '羊·實驗' ? title : `${title} · 羊·實驗`;
 const site = Astro.site ?? Astro.url;
 const canonicalURL = new URL(Astro.url.pathname || '/', site).href;
@@ -157,10 +160,10 @@ const jsonLd = [
   </head>
   <body>
     <a href="#main-content" class="skip-link">{skipLabel}</a>
-    <Nav />
+    <Nav locale={navLocale} zhPath={zhPath} />
     <main id="main-content">
       <slot />
     </main>
-    <Footer />
+    <Footer locale={navLocale} />
   </body>
 </html>

@@ -538,6 +538,36 @@ test.describe('SEO metadata and UX shell', () => {
     }
   });
 
+  test('English pages use English nav, breadcrumb, and footer with a link back to Chinese', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/en/works/rose-curve/');
+
+    await expect(page.getByRole('button', { name: 'Open menu' })).toBeVisible();
+    const menuButton = page.locator('[data-nav-toggle]');
+    await menuButton.click();
+    await expect(menuButton).toHaveAttribute('aria-label', 'Close menu');
+    const navLinks = page.locator('#site-nav-links');
+    await expect(navLinks.getByRole('link', { name: 'Works' })).toHaveAttribute('href', '/en/works');
+    await expect(navLinks.locator('a[hreflang="zh-Hant"]')).toHaveAttribute(
+      'href',
+      '/works/rose-curve/',
+    );
+    await expect(page.locator('.site-nav__logo')).toHaveAttribute('href', '/en/');
+
+    const crumbs = page.getByRole('navigation', { name: 'Breadcrumb' });
+    await expect(crumbs.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/en/');
+    await expect(crumbs.getByRole('link', { name: 'Works' })).toHaveAttribute('href', '/en/works');
+
+    const footer = page.locator('.site-footer__nav');
+    await expect(footer).toHaveAttribute('aria-label', 'Site navigation');
+    await expect(footer.getByRole('link', { name: 'Explore' })).toHaveAttribute(
+      'href',
+      '/en/explore',
+    );
+  });
+
   test('mobile nav exposes links only after opening the controlled menu', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/works');
