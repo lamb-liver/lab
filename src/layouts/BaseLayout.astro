@@ -8,7 +8,13 @@ import '../styles/layout.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Umami from '../components/Umami.astro';
-import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT, isDefaultOgImage } from '../lib/defaultOg';
+import {
+  DEFAULT_OG_IMAGE,
+  DEFAULT_OG_IMAGE_ALT,
+  DEFAULT_OG_IMAGE_ALT_EN,
+  DEFAULT_OG_IMAGE_EN,
+  isDefaultOgImage,
+} from '../lib/defaultOg';
 
 interface Props {
   title: string;
@@ -68,12 +74,17 @@ const canonicalURL = new URL(Astro.url.pathname || '/', site).href;
 const resolvedOgTitle = fullTitle;
 const resolvedOgDescription = description;
 const usesDefaultOgImage = isDefaultOgImage(ogImage);
-const resolvedOgImagePath = usesDefaultOgImage ? DEFAULT_OG_IMAGE : ogImage!;
+// 英文頁的預設預覽圖用英文卡片，中文頁不變
+const defaultOgImage = navLocale === 'en' ? DEFAULT_OG_IMAGE_EN : DEFAULT_OG_IMAGE;
+const defaultOgImageAlt = navLocale === 'en' ? DEFAULT_OG_IMAGE_ALT_EN : DEFAULT_OG_IMAGE_ALT;
+const resolvedOgImagePath = usesDefaultOgImage ? defaultOgImage : ogImage!;
 const ogImageURL = new URL(resolvedOgImagePath, site).href;
 const resolvedOgImageAlt =
-  ogImageAlt ?? (usesDefaultOgImage ? DEFAULT_OG_IMAGE_ALT : resolvedOgTitle);
+  ogImageAlt ?? (usesDefaultOgImage ? defaultOgImageAlt : resolvedOgTitle);
 const inferredOgImageSize =
-  usesDefaultOgImage || resolvedOgImagePath.startsWith('/og/works/')
+  usesDefaultOgImage ||
+  resolvedOgImagePath.startsWith('/og/works/') ||
+  resolvedOgImagePath.startsWith('/og/en/')
     ? { width: 1200, height: 630 }
     : null;
 const siteRootURL = new URL('/', site).href;

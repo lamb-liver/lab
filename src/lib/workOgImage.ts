@@ -74,7 +74,7 @@ export function resolveWorkOgContent(slug: string, titleOverride?: string): {
   };
 }
 
-async function renderThumbnailDataUrl(slug: string): Promise<string> {
+export async function renderThumbnailDataUrl(slug: string): Promise<string> {
   const svg = getCurveThumbnailSvg(slug);
   if (!svg) {
     throw new Error(`missing thumbnail SVG for ${slug}`);
