@@ -4,6 +4,7 @@ import { workCurveBySlug } from '../curve/registry';
 import { getCurveThumbnailSvg } from './curveThumbnail';
 import { getWorkOgFonts } from './workOgFonts';
 import { buildWorkOgElement } from './workOgSatori';
+import { ogFormulaProblems, toZhOgFormula } from './ogFormula';
 
 export const WORK_OG_WIDTH = 1200;
 export const WORK_OG_HEIGHT = 630;
@@ -94,7 +95,13 @@ export async function renderThumbnailDataUrl(slug: string): Promise<string> {
 }
 
 export async function renderWorkOgPng(slug: string, titleOverride?: string): Promise<Buffer> {
-  const content = resolveWorkOgContent(slug, titleOverride);
+  const resolved = resolveWorkOgContent(slug, titleOverride);
+  // 公式改成卡片用的單行版本（Unicode 上下標、太長只留放得下的部分），與英文卡片共用對照表
+  const content = { ...resolved, formula: toZhOgFormula(slug, resolved.formula) };
+  const problems = ogFormulaProblems(content.formula);
+  if (problems.length) {
+    throw new Error(`work OG ${slug}: formula ${JSON.stringify(content.formula)}: ${problems.join('; ')}`);
+  }
   const thumbnailDataUrl = await renderThumbnailDataUrl(slug);
 
   // satori 在所有字型都找不到某字元時才會呼叫 loadAdditionalAsset；
