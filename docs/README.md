@@ -17,6 +17,8 @@
 | [`review-scan-ledger.md`](review-scan-ledger.md) | 嚴格審查接續用 ledger：已掃描、已修正、已確認保留的範圍 |
 | [`i18n-glossary.md`](i18n-glossary.md) | 英文版用語表與官方來源（CEEC／MOE／MAA／樂詞網） |
 | [`i18n-verification.md`](i18n-verification.md) | 中英文雙語正式站驗收紀錄（2026-10-09，已確認無問題） |
+| [`og.md`](og.md) | 社群預覽圖（OG 卡片）：路徑、版面、字型、build 檢查、決定與 PR 紀錄（2026-10-10，已完成） |
+| [`repo-maintenance.md`](repo-maintenance.md) | PR／分支整理、CI 與部署注意事項（2026-10-10 整理紀錄） |
 
 ## 視覺與互動規格
 
