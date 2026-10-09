@@ -88,11 +88,11 @@ function sliderLabel(key: SliderKey, locale?: 'en'): string {
 
 function presetLabel(id: RelationState, locale?: 'en'): string {
   if (locale === 'en') {
-    if (id === 'apart') return 'At a distance';
+    if (id === 'apart') return 'Line crosses the plane';
     if (id === 'parallel') return 'v parallel to the plane';
     return 'v lies in the plane';
   }
-  if (id === 'apart') return '有距離';
+  if (id === 'apart') return '直線與平面相交';
   if (id === 'parallel') return 'v 平行於平面';
   return 'v 落在面內';
 }
@@ -101,7 +101,7 @@ function relationStateText(state: RelationState, locale?: 'en'): string {
   if (locale !== 'en') return stateLabel(state);
   if (state === 'inPlane') return 'v lies in the plane';
   if (state === 'parallel') return 'v is parallel to the plane';
-  return 'v is at a distance from the plane';
+  return 'the line along v crosses the plane';
 }
 
 type Props = {

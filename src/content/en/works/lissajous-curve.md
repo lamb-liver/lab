@@ -34,7 +34,7 @@ $$
 
 ## What to notice
 
-- When a and b are coprime, the orbit fills the square more readily. A simple ratio stays more symmetric.
+- Only the reduced ratio matters: 2:4 draws the same curve as 1:2. The larger the reduced pair a:b, the more lobes and crossings, and the more of the square the curve covers. A simple ratio stays more symmetric.
 - $\delta$ changes how the figure sits against the axes. It does not change the ratio a:b.
 - With A = B the orbit stays inside a square, which makes different ratios a:b easy to compare.
 

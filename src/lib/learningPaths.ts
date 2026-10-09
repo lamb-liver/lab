@@ -29,7 +29,7 @@ export const learningPaths: LearningPath[] = [
     slug: 'trig-to-fourier',
     title: '從三角函數到傅立葉',
     description:
-      '從單位圓上的三角函數出發，看「一條正弦波」如何疊加成任意週期訊號。高中三角起步，終點延伸到大學的傅立葉級數。',
+      '從單位圓上的三角函數出發，看「一條正弦波」如何疊加成各種週期訊號。高中三角起步，終點延伸到大學的傅立葉級數。',
     concepts: ['trig-functions', 'trig-identities', 'wave-superposition'],
     steps: [
       { collection: 'works', slug: 'unit-circle-trig-definition', note: '從單位圓定義 sin/cos，全段的幾何起點。' },
@@ -39,7 +39,7 @@ export const learningPaths: LearningPath[] = [
       { collection: 'exam', slug: 'gsat-112-sinusoid-superposition', note: '考題：a sin x + b cos x 併成單一正弦，正式進入疊加。' },
       { collection: 'explore', slug: 'trig-wave-interference', note: '把兩波相加推廣成干涉，從一維到二維。' },
       { collection: 'works', slug: 'standing-wave', note: '疊加的定態特例：駐波。' },
-      { collection: 'explore', slug: 'fourier-series', note: '終點：任意週期函數＝無窮正弦波的疊加。' },
+      { collection: 'explore', slug: 'fourier-series', note: '終點：夠平滑（例如分段平滑）的週期函數可寫成常數加上無窮多個正弦波；在跳躍處級數收斂到左右極限的平均。' },
     ],
   },
   {

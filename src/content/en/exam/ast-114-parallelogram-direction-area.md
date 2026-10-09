@@ -5,7 +5,7 @@ subject: 分科數甲
 year: 114
 questionType: 選填
 questionNo: '11'
-unit: Grade 11 Mathematics I · Plane vectors
+unit: Grade 11 Mathematics A · Plane vectors
 topics:
   - Parallelograms
   - Cross product
@@ -13,7 +13,7 @@ topics:
 concepts:
   - vectors
   - dot-cross-product
-sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0P192554390266335672/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf
+sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0p212559382035851587/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7.pdf
 analysisUrl: https://math.ntnu.edu.tw/~li/108/114G.html
 relatedExplore:
   - vectors
@@ -29,7 +29,7 @@ draft: false
 
 ## Problem
 
-On the coordinate plane, one pair of sides of a parallelogram is parallel to $5x-y=0$, and the other pair lies on lines perpendicular to $3x-2y=0$. The diagonals meet at $Q$, and one vertex $P$ satisfies $\overrightarrow{PQ}=(10,-1)$. Find the area. The full question is on the [CEEC 114 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0P192554390266335672/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf).
+On the coordinate plane, one pair of sides of a parallelogram is parallel to $5x-y=0$, and the other pair lies on lines perpendicular to $3x-2y=0$. The diagonals meet at $Q$, and one vertex $P$ satisfies $\overrightarrow{PQ}=(10,-1)$. Find the area. The full question is on the [CEEC 114 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0p212559382035851587/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7.pdf).
 
 ## Where it goes wrong
 
@@ -58,7 +58,7 @@ $$
 ## What the figure shows
 
 - The blue and purple dashed lines are the two families of direction rails. Blue is parallel to $5x-y=0$. Purple is perpendicular to $3x-2y=0$.
-- Drag an adjacent vertex, or empty canvas, to snap among the four solutions. The sidebar does the same: **Half-diagonal = ½(u+v)**, **Half-diagonal = ½(u−v)**, **PQ same direction**, and **PQ reversed**.
-- $Q$ stays at the origin. **PQ same direction** puts $P$ at $(10,-1)$, so the vector from the center to that vertex is $(10,-1)$. **PQ reversed** puts $P$ at the opposite point. The $\pm$ in the formula covers both, and the two half-diagonals are the two ways to pair the side directions.
-- The drag is not continuous. With $\overrightarrow{PQ}$ fixed and both directions locked, only these four solutions fit, and the area is always $204$ ($|\alpha\beta|=12$ times the direction cross product $17$).
+- Drag the tip of the blue arrow $\mathbf u=\alpha\mathbf u_0$ or the purple arrow $\mathbf v=\beta\mathbf v_0$ through $P$ to flip the sign of $\alpha$ or $\beta$. The sidebar picks the same four sign choices: **Half-diagonal = ½(u+v)** or **Half-diagonal = ½(u−v)** is the inner $\pm$, and **PQ same direction** or **PQ reversed** is the outer $\pm$.
+- $Q$ stays at the origin and $P=(-10,1)$, so $\overrightarrow{PQ}=(10,-1)$ as in the paper. All four sign choices describe this same gold parallelogram; only the arrows along the rails flip.
+- The drag is not continuous. With $\overrightarrow{PQ}$ fixed and both directions locked, only these four sign choices fit, and the area is always $204$ ($|\alpha\beta|=12$ times the direction cross product $17$).
 - The sidebar value $|\mathbf{u}\times\mathbf{v}|$ is that area. The four vertices do not have to be solved one by one.

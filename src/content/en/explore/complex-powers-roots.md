@@ -38,7 +38,7 @@ Suggested order: multiplication, then a power, then roots.
 ## What to notice
 
 - All three readings do one thing: add arguments and multiply moduli. The difference is whether you add the other number's argument, or add your own argument $n$ times.
-- A power applies that same rule $n$ times, and the point moves radially from the origin. A root is the reverse: one rotation is split into $n$ equal parts.
+- A power applies that same rule $n$ times, and the points step around a spiral (a circle when $|z|=1$): each power turns by $\arg z$ and scales by $|z|$. A root is the reverse: one rotation is split into $n$ equal parts.
 - Multiplication, a power, and a root can be run back. Take a root and raise it again, and you return to the start. The three pictures read the same argument rule forward and back.
 
 ## Related

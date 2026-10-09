@@ -35,7 +35,7 @@ Each draw wins with fixed probability $0.1$, and each draw spends one token. The
 
 ## Where it goes wrong
 
-The [official item analysis](https://www.ceec.edu.tw/xcepaper/cont?qunit=0O241581647352902046&sid=0O260306744213652490&xsmsid=0J066588036013658199) records a score rate of $56\%$ and a discrimination of $0.42$. A common slip is to write "at least one win in two draws" as $0.1+0.1$, or to turn "the probability approaches $1$" into "some finite number of draws guarantees that it equals $1$". Another trap is missing that "greater than nine-tenths" is a strict inequality.
+The [official item analysis](https://www.ceec.edu.tw/xcepaper/cont?xsmsid=0J066588036013658199&qunit=0M105476092230875839&sid=0O260306744213652490) records a score rate of $56\%$ and a discrimination of $0.42$. A common slip is to write "at least one win in two draws" as $0.1+0.1$, or to turn "the probability approaches $1$" into "some finite number of draws guarantees that it equals $1$". Another trap is missing that "greater than nine-tenths" is a strict inequality.
 
 ## Idea
 

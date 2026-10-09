@@ -13,7 +13,7 @@ topics:
 concepts:
   - vectors
   - dot-cross-product
-sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0P192554390266335672/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf
+sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0p212559382035851587/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7.pdf
 analysisUrl: https://math.ntnu.edu.tw/~li/108/114G.html
 relatedExplore:
   - vectors
@@ -31,7 +31,7 @@ draft: false
 
 坐標平面上的平行四邊形，其中兩邊所在直線與 $5x-y=0$ 平行，另兩邊所在直線與 $3x-2y=0$ 垂直。兩對角線交於 $Q$，且有一頂點 $P$ 滿足 $\overrightarrow{PQ}=(10,-1)$。求面積。
 
-完整題目見[大考中心 114 分科數學甲試卷](https://www.ceec.edu.tw/files/file_pool/1/0P192554390266335672/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E5%8D%B7.pdf)。
+完整題目見[大考中心 114 分科數學甲試卷](https://www.ceec.edu.tw/files/file_pool/1/0p212559382035851587/01-114%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E5%8D%B7.pdf)。
 
 ## 為什麼會錯
 
@@ -60,6 +60,7 @@ $$
 ## 互動怎麼看
 
 - 藍、紫虛線是兩族邊向「軌道」。
-- 在畫布上拖相鄰頂點（或空白處），會在四組解（半對角組合 × $PQ$ 同向／反向）之間 snap；側欄按鈕也可切換。
-- 為什麼不能連續拖？$PQ$ 固定加上兩邊方向鎖死後，可行平行四邊形只有四個離散解，面積恆為 $204$（$|\alpha\beta|=12$ 乘上方向外積 $17$）。
+- 拖藍色箭頭 $\mathbf u=\alpha\mathbf u_0$ 或紫色箭頭 $\mathbf v=\beta\mathbf v_0$ 的尖端越過 $P$，可翻轉 $\alpha$ 或 $\beta$ 的正負；側欄按鈕切換同樣的四組符號（半對角 ½(u+v)／½(u−v) 是內層 $\pm$，$PQ$ 同向／反向是外層 $\pm$）。
+- $Q$ 固定在原點、$P=(-10,1)$，所以 $\overrightarrow{PQ}=(10,-1)$ 與題目一致；四組符號解都是同一個金色平行四邊形，只有沿軌道的箭頭方向翻轉。
+- 為什麼不能連續拖？$PQ$ 固定加上兩邊方向鎖死後，只剩四組離散的符號解，面積恆為 $204$（$|\alpha\beta|=12$ 乘上方向外積 $17$）。
 - 對照側欄的 $|\mathbf u\times\mathbf v|$，確認不必逐一解四頂點。

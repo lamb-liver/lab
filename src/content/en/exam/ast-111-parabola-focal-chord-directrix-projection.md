@@ -57,7 +57,7 @@ $$
 \sin\angle A'AF=\frac{A'F'}{AF}=\frac{A'F'}{A'A}.
 $$
 
-In the right projection $F'B'B$, option ⑤ gives
+In right triangle $F'B'B$ (right angle at $B'$), $\angle FF'B=\angle F'BB'$ because $FF'\parallel BB'$ (alternate angles), so option ⑤ gives
 
 $$
 \tan\angle FF'B=\frac{F'B'}{B'B}=\frac{c}{d}=\frac{a}{b}.

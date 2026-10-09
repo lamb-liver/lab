@@ -26,7 +26,7 @@ First the position of $\mathbf{v}$ is spread into shadows on the three coordinat
 
 - **Position**: drag the components $v_x,v_y,v_z$ and watch one position in space spread into three flat shadows
 - **Direction**: change **Plane tilt** and watch the plane spanned by $\mathbf{a},\mathbf{b}$ pack into a single $\hat{\mathbf{n}}$
-- **Relation**: switch among **At a distance**, **v parallel to the plane**, and **v lies in the plane**, and compare how the reading $\hat{\mathbf{n}}\cdot\mathbf{v}-h$ changes
+- **Relation**: switch among **Line crosses the plane**, **v parallel to the plane**, and **v lies in the plane**, and compare how the readings $\hat{\mathbf{n}}\cdot\mathbf{v}$ and $\hat{\mathbf{n}}\cdot\mathbf{v}-h$ change
 - Drag the figure to rotate the view and check that the three readings are the same scene. **Horizontal view** and **Elevation** do the same rotation
 
 Suggested order: Position, then Direction, then Relation.
@@ -35,7 +35,7 @@ Suggested order: Position, then Direction, then Relation.
 
 - The first two readings answer different questions. One asks where $\mathbf{v}$ is. One asks which way the plane faces. Only together do they decide how the two are related.
 - The facing direction of a plane can be packed into one normal vector. After that, every line-plane judgment needs only that arrow, not the original $\mathbf{a},\mathbf{b}$.
-- Lying in the plane, parallel, and at a distance are not three formulas. They are the same dot-product reading equal to zero, never zero, or some other value.
+- Lying in the plane, parallel, and crossing are not three formulas. They come from one dot product: if $\hat{\mathbf{n}}\cdot\mathbf{v}\neq0$, the line through $O$ along $\mathbf{v}$ crosses the plane; if $\hat{\mathbf{n}}\cdot\mathbf{v}=0$, the line is parallel to the plane at distance $|h|$, and it lies in the plane exactly when $h=0$. The other reading, $\hat{\mathbf{n}}\cdot\mathbf{v}-h$, is the signed distance from the tip of $\mathbf{v}$ to the plane.
 
 ## Related
 

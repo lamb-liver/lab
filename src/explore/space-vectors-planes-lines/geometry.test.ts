@@ -58,7 +58,7 @@ describe('space-vectors-planes-lines explore geometry', () => {
     expect(metrics.signedDistance).toBeCloseTo(0, 9);
   });
 
-  it('其餘情況為有距離，且帶號距離就是 n̂·v − h', () => {
+  it('其餘情況（n̂·v ≠ 0）直線與平面相交，v 端點的帶號距離就是 n̂·v − h', () => {
     const params = withParams({ planeTilt: 90, planeAzimuth: 0, vx: 0, vy: 0, vz: 2, h: 0.5 });
     const metrics = computeSpaceVectorsMetrics(params);
     expect(metrics.state).toBe('apart');

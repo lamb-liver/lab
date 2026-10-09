@@ -25,7 +25,7 @@ If the feasible region is bounded and an optimal value exists, the largest (or s
 ## Interaction
 
 - **Candidates**: list the coordinates, $z_j$, and rank of each vertex. The whole table is recomputed when the constraints or the objective change. Tapping a vertex in the figure also switches to its row
-- **Objective direction θ**: turn the direction of the objective and watch the optimal row change hands. The jump happens when the level line passes through the line joining two vertices
+- **Objective direction θ**: turn the direction of the objective and watch the optimal row change hands. The jump happens when the level lines become parallel to the edge joining two adjacent vertices; at that moment both vertices tie
 - **Maximize** / **Minimize**: choose which end to take. For the same vertices, the minimum row is the last row of the maximum ranking
 - **Quadrilateral region** / **Triangular region**: switch to a feasible region with a different number of corner points, and the number of rows changes with it
 - **Step through**: highlight the vertex being checked, one step at a time. The sweep line moves to that point's $z$ value
@@ -35,7 +35,7 @@ If the feasible region is bounded and an optimal value exists, the largest (or s
 ## What to notice
 
 - If a bounded feasible region has an optimal value, at least one optimal solution is at a vertex. This is why the vertex method works.
-- When the slope of the objective changes, the optimal vertex can jump from one corner point to the next. The jump happens when the level line passes through the line joining two vertices.
+- When the slope of the objective changes, the optimal vertex can jump from one corner point to the next. The jump happens when the level lines become parallel to the edge joining two adjacent vertices; at that moment both vertices tie.
 - An empty feasible region has no solution. In an unbounded one, $z$ may have no upper or lower bound, so first check whether a finite optimal value exists.
 
 ## Related

@@ -49,7 +49,7 @@ export default function ParallelogramDirectionAreaExamRoot({ locale }: Props) {
   const snapToNearest = useCallback((p: p5) => {
     const plot = parallelogramExamPlot(p.width, p.height);
     const world = worldFromScreen(p.mouseX, p.mouseY, plot);
-    const next = nearestSolution(world);
+    const next = nearestSolution(world, { mode: modeRef.current, sign: signRef.current });
     if (next.mode !== modeRef.current) setMode(next.mode);
     if (next.sign !== signRef.current) setSign(next.sign);
   }, []);
@@ -108,13 +108,13 @@ export default function ParallelogramDirectionAreaExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? 'You know the vector from the center to one vertex. Why can the area be found without solving for all four vertices?'
-              : '已知中心到一個頂點的向量，為什麼不必先解出四個頂點也能算面積？'}
+              ? 'You know the vector from one vertex to the center. Why can the area be found without solving for all four vertices?'
+              : '已知一個頂點到中心的向量，為什麼不必先解出四個頂點也能算面積？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
-              ? 'Blue and purple dashes are the two families of direction rails. Gold is the parallelogram on those rails. Drag an adjacent vertex to switch among the four solutions.'
-              : '藍、紫虛線是兩族邊向軌道；金色是落在軌道上的平行四邊形。拖相鄰頂點可在四組解間切換。'}
+              ? 'Blue and purple dashes are the two families of direction rails. Gold is the parallelogram on those rails. Drag an arrow tip to flip the sign of α or β.'
+              : '藍、紫虛線是兩族邊向軌道；金色是落在軌道上的平行四邊形。拖箭頭尖端可翻轉 α 或 β 的正負。'}
           </p>
           <div
             ref={canvasHostRef}
@@ -122,8 +122,8 @@ export default function ParallelogramDirectionAreaExamRoot({ locale }: Props) {
             role="img"
             aria-label={
               en
-                ? 'Parallelogram with sides parallel to two given directions, center Q and vertex P. Drag an adjacent vertex to switch among four solutions and show the area.'
-                : '平行四邊形邊平行兩給定方向，中心 Q 與頂點 P；拖曳相鄰頂點可切換四組解並顯示面積'
+                ? 'Parallelogram with sides parallel to two given directions, center Q and vertex P with PQ=(10,−1). Drag an arrow tip to flip the sign of α or β; the parallelogram and its area stay the same.'
+                : '平行四邊形邊平行兩給定方向，中心 Q 與頂點 P，PQ=(10,−1)；拖曳箭頭尖端可翻轉 α 或 β 的正負，平行四邊形與面積不變'
             }
             style={{ cursor: 'grab', touchAction: 'none' }}
           />
@@ -185,8 +185,8 @@ export default function ParallelogramDirectionAreaExamRoot({ locale }: Props) {
             </p>
             <p className="exam-interactive-explore__note">
               {en
-                ? 'α and β change, but |αβ| stays 12. Times the direction cross product 17, that is 204. Only four solutions fit, so the drag snaps instead of deforming the shape.'
-                : 'α、β 會變，但 |αβ| 固定為 12；乘上方向外積 17 就得到 204。約束下只有四組解，拖曳是 snap 不是連續變形。'}
+                ? 'α and β change sign, but |αβ| stays 12 and the parallelogram stays the same. Times the direction cross product 17, that is 204. Only four sign choices fit, so the drag snaps instead of deforming the shape.'
+                : 'α、β 的正負會變，但 |αβ| 固定為 12、平行四邊形不變；乘上方向外積 17 就得到 204。約束下只有四組符號解，拖曳是 snap 不是連續變形。'}
             </p>
           </div>
         </aside>

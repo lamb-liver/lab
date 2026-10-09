@@ -5,7 +5,7 @@ subject: 學測數A
 year: 112
 questionType: 多選
 questionNo: '11'
-unit: Grade 12 elective Mathematics A · Matrices and linear transformations
+unit: Grade 11 Mathematics A · Matrices and linear transformations
 topics:
   - Rotation matrices
   - Reflection matrices

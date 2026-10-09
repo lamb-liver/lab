@@ -29,11 +29,11 @@ draft: false
 
 ## Problem
 
-A right triangle has side lengths $\sqrt7$, $\sqrt3$, and $2$. On the outside of two of its sides, construct isosceles triangles with vertex angle $120^\circ$, and find the square of the distance between the two new vertices. The full figure and the answer format are on the [CEEC 112 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0n214409428400270207/01-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf).
+Right triangle $\triangle ABC$ has $AB=\sqrt7$, $AC=\sqrt3$, and $BC=2$. On bases $AB$ and $AC$, construct isosceles triangles $\triangle MAB$ and $\triangle NAC$ outside $\triangle ABC$, each with vertex angle $120^\circ$. Find $MN^2$. The original wording and the answer format are on the [CEEC 112 AST Mathematics I paper](https://www.ceec.edu.tw/files/file_pool/1/0n214409428400270207/01-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%80%83%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf).
 
 ## Where it goes wrong
 
-The [Official solutions](https://www.ceec.edu.tw/files/file_pool/1/0N248425984561318981/1-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E5%90%84%E7%A7%91PD%E5%80%BC%28%E6%95%B8%E5%AD%B8%E7%94%B2%29.pdf) give this item a score rate of $29\%$ and a discrimination of $0.59$. The first trap is to treat $120^\circ$ as a base angle. It is the vertex angle, so each base angle is $30^\circ$. The second trap is to leave out the two outer base angles and write $\angle MAN$ as the angle at $A$ in the original right triangle.
+The CEEC [item statistics](https://www.ceec.edu.tw/files/file_pool/1/0N248425984561318981/1-112%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E5%90%84%E7%A7%91PD%E5%80%BC%28%E6%95%B8%E5%AD%B8%E7%94%B2%29.pdf) give this item a score rate of $29\%$ and a discrimination of $0.59$. The first trap is to treat $120^\circ$ as a base angle. It is the vertex angle, so each base angle is $30^\circ$. The second trap is to leave out the two outer base angles and write $\angle MAN$ as the angle at $A$ in the original right triangle.
 
 ## Idea
 
@@ -45,7 +45,7 @@ $$
 \sin\theta=\frac{2}{\sqrt7}.
 $$
 
-The figure places the right angle at $C$, so $AB=\sqrt7$ is the hypotenuse. The new triangles are built outward on $AB$ and on $AC$. A vertex angle of $120^\circ$ makes each base angle $30^\circ$. The side ratios of a $30^\circ$-$60^\circ$-$90^\circ$ triangle give
+Since $AC^2+BC^2=3+4=7=AB^2$, the right angle is at $C$ and $AB=\sqrt7$ is the hypotenuse. The new triangles are built outward on $AB$ and on $AC$. A vertex angle of $120^\circ$ makes each base angle $30^\circ$. The side ratios of a $30^\circ$-$60^\circ$-$90^\circ$ triangle give
 
 $$
 \begin{aligned}

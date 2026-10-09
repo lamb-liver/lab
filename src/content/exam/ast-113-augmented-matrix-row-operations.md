@@ -14,7 +14,7 @@ concepts:
   - linear-systems
   - matrix
 sourceUrl: https://www.ceec.edu.tw/files/file_pool/1/0o221359215605202263/113%E5%88%86%E7%A7%91%E6%B8%AC%E9%A9%97%E6%95%B8%E5%AD%B8%E7%94%B2%E8%A9%A6%E9%A1%8C.pdf
-analysisUrl: https://www.ceec.edu.tw/xcepaper/cont?qunit=0O241581647352902046&sid=0O260306744213652490&xsmsid=0J066588036013658199
+analysisUrl: https://www.ceec.edu.tw/xcepaper/cont?xsmsid=0J066588036013658199&qunit=0M105476092230875839&sid=0O260306744213652490
 relatedExplore:
   - matrix-linear-transform
 relatedWorks:
@@ -35,7 +35,7 @@ draft: false
 
 ## 為什麼會錯
 
-大考中心的[試題特色分析](https://www.ceec.edu.tw/xcepaper/cont?qunit=0O241581647352902046&sid=0O260306744213652490&xsmsid=0J066588036013658199)
+大考中心的[試題特色分析](https://www.ceec.edu.tw/xcepaper/cont?xsmsid=0J066588036013658199&qunit=0M105476092230875839&sid=0O260306744213652490)
 記錄本題得分率為 $42\%$、鑑別度為 $0.68$。容易卡住的地方，是只把列運算看成一串機械計算，
 沒有注意到「同一串」列運算會讓右側常數保留原本的倍數與相加關係。若先反求
 $a,b,c,d$ 也能作答，但會多解兩組聯立方程式。

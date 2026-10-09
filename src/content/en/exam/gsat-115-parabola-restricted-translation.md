@@ -34,7 +34,7 @@ The vertex $P$ of a parabola $\Gamma$ lies on the line $\ell:y=1+2x$, and the gr
 
 ## Where it goes wrong
 
-The [item analysis](https://math.ntnu.edu.tw/~li/108/115A.html) compiles the CEEC report for this question: a correct rate of $31\%$, $63\%$ in the high-scoring group and $7\%$ in the low-scoring group. What is easy to miss is not solving the quadratic. It is the order of the conditions. "Still passes through $B$" gives two positions, and the original position $Q=P$ is one of them. "$P$ and $Q$ are distinct" is what rules that one out.
+The [item analysis](https://math.ntnu.edu.tw/~li/108/115A.html) compiles the CEEC report for this question: a correct rate of $20\%$, $47\%$ in the high-scoring group and $3\%$ in the low-scoring group. What is easy to miss is not solving the quadratic. It is the order of the conditions. "Still passes through $B$" gives two positions, and the original position $Q=P$ is one of them. "$P$ and $Q$ are distinct" is what rules that one out.
 
 ## Idea
 

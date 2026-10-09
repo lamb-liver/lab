@@ -34,7 +34,7 @@ function relationStateText(state: RelationState, locale?: 'en'): string {
   if (locale !== 'en') return stateLabel(state);
   if (state === 'inPlane') return 'v lies in the plane';
   if (state === 'parallel') return 'v is parallel to the plane';
-  return 'v is at a distance from the plane';
+  return 'the line along v crosses the plane';
 }
 
 const BG: Rgb = [10, 10, 10];

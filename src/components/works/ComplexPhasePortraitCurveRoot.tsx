@@ -17,7 +17,7 @@ const EN_LABELS: Record<string, string> = {
 function englishMetadata(metadata: CurveMetadata): CurveMetadata {
   return {
     ...metadata,
-    title: 'Phase portrait',
+    title: 'Phasor diagram',
   };
 }
 
@@ -28,7 +28,7 @@ export default function ComplexPhasePortraitCurveRoot({ controlsMountId, locale 
       module={complexPhasePortraitModule}
       useCanvas={useComplexPhasePortraitP5}
       controlsMountId={controlsMountId}
-      canvasAriaLabel={en ? 'Phase portrait' : '相位圖'}
+      canvasAriaLabel={en ? 'Phasor diagram' : '相位圖'}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={en ? EN_LABELS : undefined}
     />
