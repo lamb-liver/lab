@@ -383,7 +383,7 @@ test.describe('SEO metadata and UX shell', () => {
     );
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       'content',
-      'https://lab.lambliver.dev/explore/fourier-series-epicycles-cover.png',
+      'https://lab.lambliver.dev/og/zh/explore/fourier-series.png',
     );
     await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
       'content',
