@@ -1,4 +1,5 @@
 ---
+import { nearestCounterpartList } from '../lib/translatedSlugs';
 import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/base.css';
@@ -52,10 +53,15 @@ const ogLocaleAlternates = [
   ),
 ];
 const navLocale = htmlLang === 'en' ? 'en' : undefined;
-const zhAlternate = alternates.find((alt) => alt.hreflang === 'zh-Hant');
-const zhPath = zhAlternate ? new URL(zhAlternate.href).pathname : undefined;
-const enAlternate = navLocale ? undefined : alternates.find((alt) => alt.hreflang === 'en');
-const enPath = enAlternate ? new URL(enAlternate.href).pathname : undefined;
+// 語言切換：有對應頁就去對應頁；沒有就去另一語言最近的列表頁，再沒有就去首頁
+const counterpartAlternate = alternates.find(
+  (alt) => alt.hreflang === (navLocale ? 'zh-Hant' : 'en'),
+);
+const langTogglePath = counterpartAlternate
+  ? new URL(counterpartAlternate.href).pathname
+  : nearestCounterpartList(Astro.url.pathname, navLocale);
+// 全站語言偏好：只有真的有對應頁時才自動轉址，避免把人丟到列表頁
+const langRedirectPath = counterpartAlternate ? langTogglePath : null;
 const fullTitle = title === '羊·實驗' ? title : `${title} · 羊·實驗`;
 const site = Astro.site ?? Astro.url;
 const canonicalURL = new URL(Astro.url.pathname || '/', site).href;
@@ -93,6 +99,35 @@ const jsonLd = [
 <html lang={htmlLang}>
   <head>
     <meta charset="utf-8" />
+    <script is:inline define:vars={{ langRedirectPath }}>
+      // 一鍵切換全站語言：使用者按過語言切換後，之後進到另一語言的頁面會直接換成對應頁。
+      // 只在有對應頁時轉址；爬蟲不轉；按切換鈕時會先寫入新偏好，所以手動切換永遠優先。
+      (function () {
+        try {
+          if (!langRedirectPath) return;
+          if (/bot|crawl|spider|slurp|facebookexternalhit|embedly|lighthouse/i.test(navigator.userAgent)) return;
+          var here = document.documentElement.lang === 'en' ? 'en' : 'zh-Hant';
+          var pref = null;
+          try {
+            pref = localStorage.getItem('lab-lang');
+          } catch (e) {}
+          if (!pref) {
+            var m = document.cookie.match(/(?:^|;\s*)lab-lang=([^;]+)/);
+            pref = m ? decodeURIComponent(m[1]) : null;
+          }
+          if ((pref !== 'en' && pref !== 'zh-Hant') || pref === here) return;
+          var subject = new URLSearchParams(location.search).get('subject');
+          var target = langRedirectPath + (subject ? '?subject=' + encodeURIComponent(subject) : '');
+          document.documentElement.style.visibility = 'hidden';
+          window.addEventListener('pageshow', function () {
+            document.documentElement.style.visibility = '';
+          });
+          location.replace(target);
+        } catch (e) {
+          document.documentElement.style.visibility = '';
+        }
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/lab-favicon-eb-garamond.svg" />
     <link
       rel="preload"
@@ -162,7 +197,7 @@ const jsonLd = [
   </head>
   <body>
     <a href="#main-content" class="skip-link">{skipLabel}</a>
-    <Nav locale={navLocale} zhPath={zhPath} enPath={enPath} />
+    <Nav locale={navLocale} langTogglePath={langTogglePath} />
     <main id="main-content">
       <slot />
     </main>
