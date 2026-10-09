@@ -1,6 +1,6 @@
 ---
 title: 面積與右端高度
-description: 右端往外移時，面積增量比上寬度會靠近曲線高度。
+description: h 趨近 0 時，面積增量比上寬度會靠近曲線高度。
 tags:
   - 函數與分析
 concepts:

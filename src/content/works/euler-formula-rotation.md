@@ -1,6 +1,6 @@
 ---
 title: 尤拉公式旋轉動畫
-description: e^(iθ) = cos θ + i sin θ 驅動的單位圓旋轉與複平面軌跡。
+description: e^(iθ) = cos θ + i sin θ 驅動複平面上的旋轉向量，並以虛部畫出正弦波形。
 tags:
   - 幾何
 concepts:
@@ -14,7 +14,7 @@ draft: false
 
 ## 參數方程
 
-尤拉公式 $e^{i\theta}=\cos\theta+i\sin\theta$ 說明「乘以 $e^{i\theta}$」即為逆時針旋轉 $\theta$。動畫中單位圓上的點與實部、虛部投影同步運動，連結指數函數與三角函數。
+尤拉公式 $e^{i\theta}=\cos\theta+i\sin\theta$ 說明「乘以 $e^{i\theta}$」即為逆時針旋轉 $\theta$。動畫中旋轉向量的端點與右側虛部正弦波同步運動，連結指數函數與三角函數。
 
 $$
 e^{i\theta} = \cos\theta + i\sin\theta
