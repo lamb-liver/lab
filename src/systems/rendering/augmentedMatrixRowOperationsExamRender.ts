@@ -7,7 +7,12 @@ type AugmentedMatrixRowOperationsExamSnap = {
   alpha: number;
   beta: number;
   result: RowOperationCombination;
+  locale?: 'en';
 };
+
+function pick(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 const ACCENT = [212, 184, 122] as const;
 const WHITE = [232, 232, 232] as const;
@@ -36,7 +41,7 @@ export function renderAugmentedMatrixRowOperationsExamScene(
   drawPanel(
     p,
     panels[0],
-    '原常數',
+    pick(snap.locale, '原常數', 'Original constants'),
     `α(2, 1)+β(−1, −1)`,
     pairText(snap.result.originalRightSide),
     BLUE,
@@ -44,7 +49,7 @@ export function renderAugmentedMatrixRowOperationsExamScene(
   drawPanel(
     p,
     panels[1],
-    '同一列運算',
+    pick(snap.locale, '同一列運算', 'Same row operations'),
     `[1  −1 │ ${snap.result.reducedRightSide[0]}]`,
     `[0   1 │ ${snap.result.reducedRightSide[1]}]`,
     WHITE,
@@ -52,7 +57,7 @@ export function renderAugmentedMatrixRowOperationsExamScene(
   drawPanel(
     p,
     panels[2],
-    '解',
+    pick(snap.locale, '解', 'Solution'),
     `y=${snap.result.solution[1]}`,
     `x=${snap.result.solution[0]}`,
     ACCENT,
@@ -63,8 +68,8 @@ export function renderAugmentedMatrixRowOperationsExamScene(
   p.textSize(12);
   p.textAlign(p.CENTER, p.CENTER);
   if (vertical) {
-    p.text('相同倍數與相加關係', snap.width / 2, 141);
-    p.text('先讀 y，再求 x', snap.width / 2, 295);
+    p.text(pick(snap.locale, '相同倍數與相加關係', 'Same multiples and sum'), snap.width / 2, 141);
+    p.text(pick(snap.locale, '先讀 y，再求 x', 'Read y, then x'), snap.width / 2, 295);
   } else {
     p.text('→', snap.width * 0.325, snap.height / 2);
     p.text('→', snap.width * 0.69, snap.height / 2);

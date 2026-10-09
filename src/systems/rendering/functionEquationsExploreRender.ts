@@ -29,6 +29,7 @@ import type {
 type FunctionEquationsRenderSnap = {
   params: FunctionEquationsParams;
   smooth: FunctionEquationsSmooth;
+  locale?: 'en';
 };
 
 function withPlotClip(p: p5, plot: PlotRect, draw: () => void) {
@@ -310,7 +311,7 @@ export function renderFunctionEquationsExploreScene(p: p5, snap: FunctionEquatio
   if (params.mode === 'polynomial') drawPolynomialScene(p, layout, viewHalfY, params);
 
   drawSignNumberLine(p, layout, positiveIntervals(params), signLineLabel(params));
-  drawBottomCaption(p, p.width, p.height, bottomCaption(params));
+  drawBottomCaption(p, p.width, p.height, bottomCaption(params, snap.locale));
 
   return targetViewHalfY;
 }

@@ -7,6 +7,7 @@ import {
 } from '../../curve/modules/conic-dynamic-geometry/animation';
 import { CANVAS_ASPECT, E_MAX, E_MIN } from '../../curve/modules/conic-dynamic-geometry/constants';
 import {
+  getEccentricityKind,
   pickPointClockFromWorld,
   screenToWorld,
 } from '../../curve/modules/conic-dynamic-geometry/geometry';
@@ -24,12 +25,55 @@ const CANVAS_MAX_W = 720;
 
 const SIDEBAR_UPDATE_INTERVAL_MS = 120;
 
+const TEXT = {
+  zh: {
+    title: '二次曲線動態幾何',
+    aria: '二次曲線的幾何動態軌跡',
+    switchTitle: '切換',
+    mode: '模式',
+    modeEccentricity: '離心率模式',
+    modeFocus: '焦點軌跡模式',
+    eccentricityTitle: '離心率',
+    showConstruction: '顯示焦點 / 準線',
+    focusTitle: '焦點軌跡',
+    curve: '曲線',
+    ellipse: '橢圓',
+    parabola: '拋物線',
+    hyperbola: '雙曲線',
+    animate: '動點 P 自動移動',
+    status: '狀態',
+    formula: '公式',
+  },
+  en: {
+    title: 'Conics by eccentricity',
+    aria: 'Conics by eccentricity: a near-circle ellipse, a parabola, then one hyperbola branch',
+    switchTitle: 'Switch',
+    mode: 'Mode',
+    modeEccentricity: 'Eccentricity',
+    modeFocus: 'Focus locus',
+    eccentricityTitle: 'Eccentricity',
+    showConstruction: 'Show focus / directrix',
+    focusTitle: 'Focus locus',
+    curve: 'Curve',
+    ellipse: 'Ellipse',
+    parabola: 'Parabola',
+    hyperbola: 'Hyperbola',
+    animate: 'Animate point P',
+    status: 'Status',
+    formula: 'Formula',
+  },
+} as const;
+
 const DEFAULT_PARAMS: ConicDynamicParams = {
   mode: 'eccentricity',
   focusCurve: 'ellipse',
   eccentricity: 0.65,
   showConstruction: true,
   animatePoint: true,
+};
+
+type Props = {
+  locale?: 'en';
 };
 
 function measureConicCanvas(host: HTMLElement): CanvasSize {
@@ -48,17 +92,38 @@ type SidebarState = {
   subtitle: string;
 };
 
-export default function ConicDynamicGeometryExploreRoot() {
+export default function ConicDynamicGeometryExploreRoot({ locale }: Props) {
+  const text = locale === 'en' ? TEXT.en : TEXT.zh;
   const [params, setParams] = useState<ConicDynamicParams>(DEFAULT_PARAMS);
-  const [sidebar, setSidebar] = useState<SidebarState>({
-    modeLabel: '模式：離心率',
-    valueLabel: 'e = 0.65 · 橢圓',
-    noteLabel: '',
-    formulaLabel: 'PF / Pd = e',
-    subtitle: '橢圓',
-  });
+  const [sidebar, setSidebar] = useState<SidebarState>(() =>
+    locale === 'en'
+      ? {
+          ...buildSidebarState(
+            {
+              width: 1,
+              height: 1,
+              mode: DEFAULT_PARAMS.mode,
+              focusCurve: DEFAULT_PARAMS.focusCurve,
+              smoothE: DEFAULT_PARAMS.eccentricity,
+              reveal: 1,
+              pointClock: 0,
+              showConstruction: DEFAULT_PARAMS.showConstruction,
+            },
+            locale,
+          ),
+          subtitle: getEccentricityKind(DEFAULT_PARAMS.eccentricity, locale),
+        }
+      : {
+          modeLabel: '模式：離心率',
+          valueLabel: 'e = 0.65 · 橢圓',
+          noteLabel: '',
+          formulaLabel: 'PF / Pd = e',
+          subtitle: '橢圓',
+        },
+  );
 
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
   const animRef = useRef(createConicDynamicAnimState(DEFAULT_PARAMS));
   const lastSidebarKeyRef = useRef('');
   const lastSidebarUpdateAtRef = useRef(0);
@@ -67,6 +132,10 @@ export default function ConicDynamicGeometryExploreRoot() {
     paramsRef.current = params;
     lastSidebarUpdateAtRef.current = 0;
   }, [params]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const updatePointFromMouse = useCallback((p: p5) => {
     const anim = animRef.current;
@@ -106,6 +175,7 @@ export default function ConicDynamicGeometryExploreRoot() {
       animRef.current,
       paramsRef.current,
       p.deltaTime,
+      localeRef.current,
     );
 
     const anim = animRef.current;
@@ -126,7 +196,7 @@ export default function ConicDynamicGeometryExploreRoot() {
     if (now - lastSidebarUpdateAtRef.current >= SIDEBAR_UPDATE_INTERVAL_MS) {
       lastSidebarUpdateAtRef.current = now;
 
-      const panel = buildSidebarState(snap);
+      const panel = buildSidebarState(snap, localeRef.current);
       const sidebarKey = `${panel.modeLabel}|${panel.valueLabel}|${panel.noteLabel}|${anim.subtitle}`;
       if (sidebarKey !== lastSidebarKeyRef.current) {
         lastSidebarKeyRef.current = sidebarKey;
@@ -174,37 +244,35 @@ export default function ConicDynamicGeometryExploreRoot() {
     <div className="conic-dynamic-explore">
       <div className="conic-dynamic-explore__stage">
         <div className="conic-dynamic-explore__visual">
-          <p className="conic-dynamic-explore__visual-title">
-            二次曲線動態幾何
-          </p>
+          <p className="conic-dynamic-explore__visual-title">{text.title}</p>
           <p className="conic-dynamic-explore__visual-sub">{sidebar.subtitle}</p>
           <div
             ref={canvasHostRef}
             className="conic-dynamic-explore__canvas"
             role="img"
-            aria-label="二次曲線的幾何動態軌跡"
+            aria-label={text.aria}
           />
         </div>
 
         <aside className="conic-dynamic-explore__sidebar">
           <div className="conic-dynamic-explore__block">
-            <p className="conic-dynamic-explore__block-title">切換</p>
+            <p className="conic-dynamic-explore__block-title">{text.switchTitle}</p>
             <label className="conic-dynamic-explore__field">
-              <span className="conic-dynamic-explore__field-label">模式</span>
+              <span className="conic-dynamic-explore__field-label">{text.mode}</span>
               <select
                 className="conic-dynamic-explore__select"
                 value={params.mode}
                 onChange={(e) => setMode(e.target.value as ConicMode)}
               >
-                <option value="eccentricity">離心率模式</option>
-                <option value="focus">焦點軌跡模式</option>
+                <option value="eccentricity">{text.modeEccentricity}</option>
+                <option value="focus">{text.modeFocus}</option>
               </select>
             </label>
           </div>
 
           {params.mode === 'eccentricity' ? (
             <div className="conic-dynamic-explore__block">
-              <p className="conic-dynamic-explore__block-title">離心率</p>
+              <p className="conic-dynamic-explore__block-title">{text.eccentricityTitle}</p>
               <div className="control-field">
                 <label htmlFor="conic-e">
                   e
@@ -243,14 +311,14 @@ export default function ConicDynamicGeometryExploreRoot() {
                     }))
                   }
                 />
-                顯示焦點 / 準線
+                {text.showConstruction}
               </label>
             </div>
           ) : (
             <div className="conic-dynamic-explore__block">
-              <p className="conic-dynamic-explore__block-title">焦點軌跡</p>
+              <p className="conic-dynamic-explore__block-title">{text.focusTitle}</p>
               <label className="conic-dynamic-explore__field">
-                <span className="conic-dynamic-explore__field-label">曲線</span>
+                <span className="conic-dynamic-explore__field-label">{text.curve}</span>
                 <select
                   className="conic-dynamic-explore__select"
                   value={params.focusCurve}
@@ -258,9 +326,9 @@ export default function ConicDynamicGeometryExploreRoot() {
                     setFocusCurve(e.target.value as FocusCurveType)
                   }
                 >
-                  <option value="ellipse">橢圓</option>
-                  <option value="parabola">拋物線</option>
-                  <option value="hyperbola">雙曲線</option>
+                  <option value="ellipse">{text.ellipse}</option>
+                  <option value="parabola">{text.parabola}</option>
+                  <option value="hyperbola">{text.hyperbola}</option>
                 </select>
               </label>
             </div>
@@ -277,11 +345,11 @@ export default function ConicDynamicGeometryExploreRoot() {
                 }))
               }
             />
-            動點 P 自動移動
+            {text.animate}
           </label>
 
           <div className="conic-dynamic-explore__block">
-            <p className="conic-dynamic-explore__block-title">狀態</p>
+            <p className="conic-dynamic-explore__block-title">{text.status}</p>
             <p className="conic-dynamic-explore__muted" aria-live="polite">
               {sidebar.modeLabel}
             </p>
@@ -294,7 +362,7 @@ export default function ConicDynamicGeometryExploreRoot() {
           </div>
 
           <div className="conic-dynamic-explore__block conic-dynamic-explore__formula-block">
-            <p className="conic-dynamic-explore__block-title">公式</p>
+            <p className="conic-dynamic-explore__block-title">{text.formula}</p>
             {formulaLines.map((line) => (
               <p key={line} className="conic-dynamic-explore__formula">
                 {line}

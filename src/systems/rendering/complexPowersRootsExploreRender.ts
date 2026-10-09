@@ -88,6 +88,7 @@ export function renderComplexPowersRootsExploreScene(
     params: PowersRootsParams;
     dragging: 'z1' | 'z2' | null;
     layoutRadius?: number;
+    locale?: 'en';
   },
 ): void {
   if (snap.params.mode !== 'multiply') {
@@ -102,6 +103,7 @@ export function renderComplexPowersRootsExploreScene(
       },
       dragging: snap.dragging === 'z1',
       layoutRadius: snap.layoutRadius,
+      locale: snap.locale,
     });
     return;
   }

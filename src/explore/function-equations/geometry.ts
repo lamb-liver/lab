@@ -294,7 +294,8 @@ export function rootFromScreenX(screenX: number, plot: PlotRect) {
   return snapStep(clamp(x, -4.5, 4.5), 0.05);
 }
 
-export function buildStatsLines(params: FunctionEquationsParams): string[] {
+export function buildStatsLines(params: FunctionEquationsParams, locale?: 'en'): string[] {
+  const en = locale === 'en';
   if (params.mode === 'transform') {
     const p = params.transform;
     const base = BASIS_OPTIONS.find((b) => b.id === p.basis)?.text || 'f(x)';
@@ -302,7 +303,13 @@ export function buildStatsLines(params: FunctionEquationsParams): string[] {
       x,
       y: transformValue(p, x),
     }));
-    return [base, 'g(x)=a f(b(x-h))+k', `零點數 ≈ ${rootsFromSample(curve).length}`, 'g(x)>0：看下方金線'];
+    const zeros = rootsFromSample(curve).length;
+    return [
+      base,
+      'g(x)=a f(b(x-h))+k',
+      en ? `Zeros ≈ ${zeros}` : `零點數 ≈ ${zeros}`,
+      en ? 'g(x)>0: gold line below' : 'g(x)>0：看下方金線',
+    ];
   }
 
   if (params.mode === 'quadratic') {
@@ -310,36 +317,46 @@ export function buildStatsLines(params: FunctionEquationsParams): string[] {
     const d = quadraticDiscriminant(q);
     const roots = quadraticRoots(q);
     const vertex = quadraticVertex(q);
+    const rootCount = en
+      ? `${roots.length} real root${roots.length === 1 ? '' : 's'}`
+      : `實根 ${roots.length} 個`;
     return [
       'f(x)=ax²+bx+c',
-      `Δ=${fmt(d)}，實根 ${roots.length} 個`,
+      en ? `Δ=${fmt(d)}, ${rootCount}` : `Δ=${fmt(d)}，${rootCount}`,
       `V=(${fmt(vertex.x)}, ${fmt(vertex.y)})`,
-      'f(x)>0：看下方金線',
+      en ? 'f(x)>0: gold line below' : 'f(x)>0：看下方金線',
     ];
   }
 
   const deg = params.polynomial.mult.reduce((sum, v) => sum + v, 0);
   return [
     'p(x)=∏(x-rᵢ)^mᵢ',
-    `次數 n=${deg}`,
+    en ? `Degree n=${deg}` : `次數 n=${deg}`,
     `r=(${params.polynomial.roots.map(fmt).join(', ')})`,
     `m=(${params.polynomial.mult.join(', ')})`,
   ];
 }
 
-export function bottomCaption(params: FunctionEquationsParams): string {
+export function bottomCaption(params: FunctionEquationsParams, locale?: 'en'): string {
+  const en = locale === 'en';
   if (params.mode === 'transform') {
-    return 'ghost 為原函數 f(x)，金線為 g(x)=a f(b(x-h))+k';
+    return en
+      ? 'Ghost is f(x); gold is g(x)=a f(b(x-h))+k'
+      : 'ghost 為原函數 f(x)，金線為 g(x)=a f(b(x-h))+k';
   }
 
   if (params.mode === 'quadratic') {
     const q = cleanQuadraticParams(params.quadratic);
     const disc = quadraticDiscriminant(q);
     const vertex = quadraticVertex(q);
-    return `Δ=${fmt(disc)}；V=(${fmt(vertex.x)}, ${fmt(vertex.y)})`;
+    return en
+      ? `Δ=${fmt(disc)}; V=(${fmt(vertex.x)}, ${fmt(vertex.y)})`
+      : `Δ=${fmt(disc)}；V=(${fmt(vertex.x)}, ${fmt(vertex.y)})`;
   }
 
-  return 'm=1 穿過 x 軸；m=2 碰觸後折回';
+  return en
+    ? 'm=1 crosses the x-axis; m=2 touches and turns back'
+    : 'm=1 穿過 x 軸；m=2 碰觸後折回';
 }
 
 export function signLineLabel(params: FunctionEquationsParams) {

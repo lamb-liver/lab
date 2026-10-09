@@ -8,6 +8,7 @@ type Isosceles120ConstructionExamSnap = {
   width: number;
   height: number;
   construction: IsoscelesConstruction;
+  locale?: 'en';
 };
 
 type ScreenPoint = Point;
@@ -46,7 +47,7 @@ export function renderIsosceles120ConstructionExamScene(
   );
   p.fill(...BLUE, 220);
   p.text(
-    `底角 ${snap.construction.baseAngle.toFixed(1)}°`,
+    `${snap.locale === 'en' ? 'base' : '底角'} ${snap.construction.baseAngle.toFixed(1)}°`,
     (points.A.x + points.N.x) / 2 + 25,
     (points.A.y + points.N.y) / 2 - 10,
   );

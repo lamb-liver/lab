@@ -44,6 +44,7 @@ type Snap = {
   bAngle: number;
   progress: number;
   turn: Turn;
+  locale?: 'en';
 };
 
 function circle(p: p5, plot: ConcentricPlot, center: Point2, r: number, color: Color, alpha: number, weight: number): void {
@@ -157,7 +158,7 @@ export function renderConcentricCirclesEquilateralExamScene(p: p5, snap: Snap): 
     p.strokeWeight(1.5);
     p.circle(tangent.x, tangent.y, 20);
     p.pop();
-    dot(p, plot, config.c, GOLD, 'C（切點）', 8);
+    dot(p, plot, config.c, GOLD, snap.locale === 'en' ? 'C (tangent)' : 'C（切點）', 8);
   }
 
   segment(p, plot, a, trialB, PURPLE, 110, 1.1);
@@ -167,22 +168,41 @@ export function renderConcentricCirclesEquilateralExamScene(p: p5, snap: Snap): 
   dot(p, plot, a, GOLD, 'A', 9, true);
 
   // 讀數
+  const en = snap.locale === 'en';
+  const gap = distance(rotatedCenter, ORIGIN).toFixed(3);
+  const turned = (snap.progress * 60).toFixed(0);
   const lines: Array<{ text: string; gold: boolean }> = [
     {
-      text: `轉 ${(snap.progress * 60).toFixed(0)}°：|OO′|=${distance(rotatedCenter, ORIGIN).toFixed(3)}，像圓半徑 2`,
+      text: en
+        ? `Turn ${turned}°: |OO′|=${gap}, image radius 2`
+        : `轉 ${turned}°：|OO′|=${gap}，像圓半徑 2`,
       gold: false,
     },
     {
       text: onBigCircle
-        ? `|OC′|=${trialRadius.toFixed(3)}＝3：B 對到唯一解`
-        : `|OC′|=${trialRadius.toFixed(3)}（要等於 3，C′ 才在大圓上）`,
+        ? en
+          ? `|OC′|=${trialRadius.toFixed(3)} = 3: B is at the unique point`
+          : `|OC′|=${trialRadius.toFixed(3)}＝3：B 對到唯一解`
+        : en
+          ? `|OC′|=${trialRadius.toFixed(3)} (need 3 for C′ on the outer circle)`
+          : `|OC′|=${trialRadius.toFixed(3)}（要等於 3，C′ 才在大圓上）`,
       gold: onBigCircle,
     },
   ];
   if (done) {
     const s2 = uniqueConfiguration(snap.aAngle, snap.turn).sideSquared;
-    lines.push({ text: '|OO′|=1=3−2 ⇒ 像圓內切大圓，只有一個交點 C', gold: false });
-    lines.push({ text: `唯一的正三角形：s²=|AC|²=${s2.toFixed(4)}`, gold: true });
+    lines.push({
+      text: en
+        ? '|OO′|=1=3−2 ⇒ internally tangent, one point C'
+        : '|OO′|=1=3−2 ⇒ 像圓內切大圓，只有一個交點 C',
+      gold: false,
+    });
+    lines.push({
+      text: en
+        ? `Only equilateral triangle: s²=|AC|²=${s2.toFixed(4)}`
+        : `唯一的正三角形：s²=|AC|²=${s2.toFixed(4)}`,
+      gold: true,
+    });
   }
   p.push();
   p.noStroke();

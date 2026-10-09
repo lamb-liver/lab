@@ -9,6 +9,7 @@ type Snap = {
   width: number;
   height: number;
   scene: ParabolaFocalChordScene;
+  locale?: 'en';
 };
 
 type ScreenPoint = Point;
@@ -64,7 +65,7 @@ export function renderParabolaFocalChordDirectrixProjectionExamScene(
   p.text('⑤', points.FProjection.x + 28, points.FProjection.y + 22);
   p.fill(...WHITE, 125);
   p.textAlign(p.LEFT, p.CENTER);
-  p.text('準線', points.AProjection.x + 8, 22);
+  p.text(snap.locale === 'en' ? 'Directrix' : '準線', points.AProjection.x + 8, 22);
 }
 
 function drawParabola(

@@ -29,7 +29,12 @@ type LimitsRiemannSumSnap = {
   tangentT: number;
   localH: number;
   scale: number;
+  locale?: 'en';
 };
+
+function pick(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 const GOLD: [number, number, number] = [212, 184, 122];
 const BLUE: [number, number, number] = [125, 178, 255];
@@ -295,18 +300,22 @@ function drawVisualHint(p: p5, plot: PlotRect, label: string): void {
   p.pop();
 }
 
-function drawVisualTitle(p: p5, plot: PlotRect): void {
+function drawVisualTitle(p: p5, plot: PlotRect, locale?: 'en'): void {
   p.push();
   p.noStroke();
   p.fill(...GOLD);
   p.textSize(14);
   p.textStyle(p.BOLD);
-  p.text('極限 · 面積與斜率', plot.x, 56);
+  p.text(pick(locale, '極限 · 面積與斜率', 'Limits: area and slope'), plot.x, 56);
 
   p.fill(155);
   p.textSize(12);
   p.textStyle(p.NORMAL);
-  p.text('同一個尺度縮小：面積看累積，斜率看局部', plot.x, 76);
+  p.text(
+    pick(locale, '同一個尺度縮小：面積看累積，斜率看局部', 'Refines both: area sums, slope local'),
+    plot.x,
+    76,
+  );
   p.pop();
 }
 
@@ -398,10 +407,18 @@ function drawCompareScene(p: p5, snap: LimitsRiemannSumSnap, plot: PlotRect): vo
   const x = lerp(fn.a, fn.b, fn.comparisonT);
   const plots = computeComparePlots(plot);
 
-  drawSubplotTitle(p, plots.left, '全域累積：Σ f(xᵢ)Δx');
+  drawSubplotTitle(
+    p,
+    plots.left,
+    pick(snap.locale, '全域累積：Σ f(xᵢ)Δx', 'Area sum: Σ f(xᵢ)Δx'),
+  );
   drawRiemannPlot(p, fn, plots.left, n, 'mid');
 
-  drawSubplotTitle(p, plots.right, '局部比值：[f(P+h)-f(P)] / h');
+  drawSubplotTitle(
+    p,
+    plots.right,
+    pick(snap.locale, '局部比值：[f(P+h)-f(P)] / h', 'Local ratio: [f(P+h)-f(P)] / h'),
+  );
   const secant = drawTangentPlot(p, fn, plots.right, fn.comparisonT, h);
 
   const r = computeRiemann(fn, n, 'mid');
@@ -426,7 +443,11 @@ function drawRiemannScene(p: p5, snap: LimitsRiemannSumSnap, plot: PlotRect): vo
   drawVisualHint(
     p,
     plot,
-    `全域累積：Σ f(xᵢ)Δx = ${formatNum(r.area)}    |E_area| = ${formatNum(err)}`,
+    pick(
+      snap.locale,
+      `全域累積：Σ f(xᵢ)Δx = ${formatNum(r.area)}    |E_area| = ${formatNum(err)}`,
+      `Area sum: Σ f(xᵢ)Δx = ${formatNum(r.area)}    |E_area| = ${formatNum(err)}`,
+    ),
   );
 }
 
@@ -441,8 +462,12 @@ function drawTangentScene(p: p5, snap: LimitsRiemannSumSnap, plot: PlotRect): vo
     p,
     plot,
     secant.viable
-      ? `局部比值：m_h = ${formatNum(secant.slope)}    |m_h−f′(P)| = ${formatNum(slopeErr)}`
-      : '局部跨度 h 超出定義域',
+      ? pick(
+          snap.locale,
+          `局部比值：m_h = ${formatNum(secant.slope)}    |m_h−f′(P)| = ${formatNum(slopeErr)}`,
+          `Local ratio: m_h = ${formatNum(secant.slope)}    |m_h−f′(P)| = ${formatNum(slopeErr)}`,
+        )
+      : pick(snap.locale, '局部跨度 h 超出定義域', 'Local span h runs past the domain'),
   );
 }
 
@@ -453,7 +478,7 @@ export function renderLimitsRiemannSumScene(
   p.background(10, 10, 10);
 
   const plot = computePlotRect(snap.width, snap.height);
-  drawVisualTitle(p, plot);
+  drawVisualTitle(p, plot, snap.locale);
 
   if (snap.mode === 'compare') {
     drawCompareScene(p, snap, plot);
@@ -472,6 +497,7 @@ export type LimitsSidebarState = {
 
 export function buildLimitsSidebarState(
   params: LimitsRiemannParams,
+  locale?: 'en',
 ): LimitsSidebarState {
   const fn = getFunctionDef(params.fnKey);
 
@@ -486,15 +512,19 @@ export function buildLimitsSidebarState(
 
     return {
       statsLines: [
-        `函數：${fn.formula}`,
-        `Δx：${formatNum((fn.b - fn.a) / n)}`,
-        `h：${formatNum(secant.h)}`,
-        `|E_area|：${formatNum(areaErr)}`,
-        `|m_h−f′(P)|：${formatNum(slopeErr)}`,
+        pick(locale, `函數：${fn.formula}`, `Function: ${fn.formula}`),
+        pick(locale, `Δx：${formatNum((fn.b - fn.a) / n)}`, `Δx: ${formatNum((fn.b - fn.a) / n)}`),
+        pick(locale, `h：${formatNum(secant.h)}`, `h: ${formatNum(secant.h)}`),
+        pick(locale, `|E_area|：${formatNum(areaErr)}`, `|E_area|: ${formatNum(areaErr)}`),
+        pick(locale, `|m_h−f′(P)|：${formatNum(slopeErr)}`, `|m_h−f′(P)|: ${formatNum(slopeErr)}`),
       ],
       hintLine: secant.viable
-        ? '左圖累積小矩形；右圖放大單一點附近的比值'
-        : 'h 超出定義域',
+        ? pick(
+            locale,
+            '左圖累積小矩形；右圖放大單一點附近的比值',
+            'The left plot adds thin rectangles; the right plot magnifies the ratio near one point',
+          )
+        : pick(locale, 'h 超出定義域', 'h runs past the domain'),
       visualHint: `Δx=${formatNum((fn.b - fn.a) / n)} h=${formatNum(secant.h)}`,
     };
   }
@@ -505,15 +535,15 @@ export function buildLimitsSidebarState(
 
     return {
       statsLines: [
-        `函數：${fn.formula}`,
-        `∫ 精確值：${fn.exactLabel}`,
-        `Σ 面積：${formatNum(r.area)}`,
-        `|E_area|：${formatNum(err)}`,
+        pick(locale, `函數：${fn.formula}`, `Function: ${fn.formula}`),
+        pick(locale, `∫ 精確值：${fn.exactLabel}`, `Exact integral: ${fn.exactLabel}`),
+        pick(locale, `Σ 面積：${formatNum(r.area)}`, `Σ area: ${formatNum(r.area)}`),
+        pick(locale, `|E_area|：${formatNum(err)}`, `|E_area|: ${formatNum(err)}`),
       ],
       hintLine:
         params.method === 'mid'
-          ? '中點法通常收斂較快'
-          : '左右點受函數單調性影響',
+          ? pick(locale, '中點法通常收斂較快', 'The midpoint rule usually converges faster')
+          : pick(locale, '左右點受函數單調性影響', 'Left and right samples are affected by monotonicity'),
       visualHint: `Σ = ${formatNum(r.area)}  |E_area| = ${formatNum(err)}`,
     };
   }
@@ -524,28 +554,32 @@ export function buildLimitsSidebarState(
   const exactSlope = fn.df(px);
   const slopeErr = secant.viable ? Math.abs(secant.slope - exactSlope) : Number.NaN;
 
-  let hint = '斜率為正，函數上升';
+  let hint = pick(locale, '斜率為正，函數上升', 'The slope is positive, so the function is rising');
   if (!secant.viable) {
-    hint = 'h 超出定義域';
+    hint = pick(locale, 'h 超出定義域', 'h runs past the domain');
   } else if (Math.abs(exactSlope) < 0.04) {
-    hint = '斜率接近 0，可能是極值點';
+    hint = pick(locale, '斜率接近 0，可能是極值點', 'The slope is near 0, so this may be an extremum');
   } else if (exactSlope < 0) {
-    hint = '斜率為負，函數下降';
+    hint = pick(locale, '斜率為負，函數下降', 'The slope is negative, so the function is falling');
   }
 
   return {
     statsLines: [
-      `函數：${fn.formula}`,
-      `x：${formatNum(px)}`,
-      `f(x)：${formatNum(py)}`,
-      `h：${formatNum(secant.h)}`,
-      `m_h：${formatNum(secant.slope)}`,
-      `f′(x)：${formatNum(exactSlope)}`,
-      `|m_h−f′(x)|：${formatNum(slopeErr)}`,
+      pick(locale, `函數：${fn.formula}`, `Function: ${fn.formula}`),
+      pick(locale, `x：${formatNum(px)}`, `x: ${formatNum(px)}`),
+      pick(locale, `f(x)：${formatNum(py)}`, `f(x): ${formatNum(py)}`),
+      pick(locale, `h：${formatNum(secant.h)}`, `h: ${formatNum(secant.h)}`),
+      pick(locale, `m_h：${formatNum(secant.slope)}`, `m_h: ${formatNum(secant.slope)}`),
+      pick(locale, `f′(x)：${formatNum(exactSlope)}`, `f′(x): ${formatNum(exactSlope)}`),
+      pick(
+        locale,
+        `|m_h−f′(x)|：${formatNum(slopeErr)}`,
+        `|m_h−f′(x)|: ${formatNum(slopeErr)}`,
+      ),
     ],
     hintLine: hint,
     visualHint: secant.viable
       ? `m_h = ${formatNum(secant.slope)}`
-      : 'h 超出定義域',
+      : pick(locale, 'h 超出定義域', 'h runs past the domain'),
   };
 }

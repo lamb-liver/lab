@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
 import {
   canvasToWorld as canvasToScatterWorld,
@@ -68,11 +68,18 @@ const ACCENT = [212, 184, 122] as const;
 const GUIDE = [255, 255, 255] as const;
 const RED = [231, 111, 81] as const;
 
-const MODE_OPTIONS: Array<{ key: Mode; label: string }> = [
-  { key: 'scatter', label: '散布與迴歸' },
-  { key: 'outlier', label: '離群值影響' },
-  { key: 'boxplot', label: '百分位盒鬚' },
-];
+function modeOptions(locale?: 'en'): Array<{ key: Mode; label: string }> {
+  const en = locale === 'en';
+  return [
+    { key: 'scatter', label: en ? 'Scatter and regression' : '散布與迴歸' },
+    { key: 'outlier', label: en ? 'Outlier influence' : '離群值影響' },
+    { key: 'boxplot', label: en ? 'Percentile box' : '百分位盒鬚' },
+  ];
+}
+
+function pick(locale: 'en' | undefined, zh: string, en: string): string {
+  return locale === 'en' ? en : zh;
+}
 
 function createInitialState(): DataAnalysisState {
   return {
@@ -173,9 +180,17 @@ function deleteSelected(state: DataAnalysisState) {
   }
 }
 
-export default function DataAnalysisExploreRoot() {
+type Props = { locale?: 'en' };
+
+export default function DataAnalysisExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
+  const localeRef = useRef(locale);
   const stateRef = useRef<DataAnalysisState>(createInitialState());
   const [redrawKey, rerender] = useState(0);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const commit = useCallback((update: (state: DataAnalysisState) => void) => {
     update(stateRef.current);
@@ -185,7 +200,7 @@ export default function DataAnalysisExploreRoot() {
   const draw = useCallback((p: p5) => {
     p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
     p.background(...BG);
-    drawMode(p, computePlot(p.width, p.height), stateRef.current);
+    drawMode(p, computePlot(p.width, p.height), stateRef.current, localeRef.current);
   }, []);
 
   const extendSketch = useMemo<ExtendSketch>(() => {
@@ -306,15 +321,15 @@ export default function DataAnalysisExploreRoot() {
             ref={canvasHostRef}
             className="data-analysis-explore__canvas"
             role="img"
-            aria-label="資料分析互動視覺化"
+            aria-label={en ? 'Data analysis' : '資料分析互動視覺化'}
           />
         </div>
 
         <aside className="data-analysis-explore__sidebar">
           <div className="data-analysis-explore__block">
-            <p className="data-analysis-explore__block-title">模式</p>
-            <div className="data-analysis-explore__modes" aria-label="資料分析模式">
-              {MODE_OPTIONS.map((option) => (
+            <p className="data-analysis-explore__block-title">{en ? 'Mode' : '模式'}</p>
+            <div className="data-analysis-explore__modes" aria-label={en ? 'Data analysis mode' : '資料分析模式'}>
+              {modeOptions(locale).map((option) => (
                 <button
                   key={option.key}
                   type="button"
@@ -330,12 +345,12 @@ export default function DataAnalysisExploreRoot() {
           </div>
 
           <div className="data-analysis-explore__block">
-            <p className="data-analysis-explore__block-title">參數</p>
+            <p className="data-analysis-explore__block-title">{en ? 'Parameters' : '參數'}</p>
             {state.mode === 'scatter' ? (
               <>
                 <RangeControl
                   id="data-analysis-scatter-n"
-                  label="點數 n"
+                  label={en ? 'Point count n' : '點數 n'}
                   value={state.scatter.targetN}
                   min={5}
                   max={20}
@@ -350,7 +365,7 @@ export default function DataAnalysisExploreRoot() {
                 />
                 <RangeControl
                   id="data-analysis-scatter-b"
-                  label="趨勢 b"
+                  label={en ? 'Trend b' : '趨勢 b'}
                   value={state.scatter.slope}
                   min={-1.4}
                   max={1.4}
@@ -365,7 +380,7 @@ export default function DataAnalysisExploreRoot() {
                 />
                 <RangeControl
                   id="data-analysis-scatter-noise"
-                  label="雜訊 σ"
+                  label={en ? 'Noise σ' : '雜訊 σ'}
                   value={state.scatter.noise}
                   min={0}
                   max={2.4}
@@ -383,15 +398,15 @@ export default function DataAnalysisExploreRoot() {
 
             {state.mode === 'outlier' ? (
               <>
-                <Stat label="離群 xₒ" value={fmt(state.outlier.point.x, 2)} />
-                <Stat label="離群 yₒ" value={fmt(state.outlier.point.y, 2)} />
+                <Stat label={en ? 'Outlier xₒ' : '離群 xₒ'} value={fmt(state.outlier.point.x, 2)} />
+                <Stat label={en ? 'Outlier yₒ' : '離群 yₒ'} value={fmt(state.outlier.point.y, 2)} />
               </>
             ) : null}
 
             {state.mode === 'boxplot' ? (
               <RangeControl
                 id="data-analysis-boxplot-n"
-                label="資料數 n"
+                label={en ? 'Sample size n' : '資料數 n'}
                 value={state.boxplot.targetN}
                 min={6}
                 max={22}
@@ -410,7 +425,7 @@ export default function DataAnalysisExploreRoot() {
           <div className="data-analysis-explore__block">
             <div className="data-analysis-explore__actions">
               <button type="button" onClick={() => commit(resetCurrentData)}>
-                重設資料
+                {en ? 'Reset data' : '重設資料'}
               </button>
               <button
                 type="button"
@@ -422,36 +437,36 @@ export default function DataAnalysisExploreRoot() {
                   })
                 }
               >
-                {state.showGuides ? '隱藏輔助' : '顯示輔助'}
+                {state.showGuides ? (en ? 'Hide guides' : '隱藏輔助') : (en ? 'Show guides' : '顯示輔助')}
               </button>
               {state.mode !== 'outlier' ? (
                 <>
                   <button type="button" onClick={() => commit(addCurrentData)}>
-                    新增資料
+                    {en ? 'Add data' : '新增資料'}
                   </button>
                   <button type="button" onClick={() => commit(deleteSelected)}>
-                    刪除選取
+                    {en ? 'Delete selected' : '刪除選取'}
                   </button>
                 </>
               ) : null}
             </div>
             <p className="data-analysis-explore__hint">
               {state.mode === 'outlier'
-                ? '拖動紅點觀察迴歸線變化'
-                : '拖動資料點；雙擊圖面可新增'}
+                ? (en ? 'Drag the red point and watch the line.' : '拖動紅點觀察迴歸線變化')
+                : (en ? 'Drag a point. Double-click the plot to add one.' : '拖動資料點；雙擊圖面可新增')}
             </p>
           </div>
 
           <div className="data-analysis-explore__block">
-            <p className="data-analysis-explore__block-title">統計</p>
+            <p className="data-analysis-explore__block-title">{en ? 'Statistics' : '統計'}</p>
             {state.mode === 'scatter' ? (
               <ScatterStats points={state.scatter.points} fit={scatterFit} />
             ) : null}
             {state.mode === 'outlier' && baseFit && outlierFit ? (
-              <OutlierStats point={state.outlier.point} baseFit={baseFit} allFit={outlierFit} />
+              <OutlierStats point={state.outlier.point} baseFit={baseFit} allFit={outlierFit} locale={locale} />
             ) : null}
             {state.mode === 'boxplot' ? (
-              <BoxplotStats count={state.boxplot.values.length} summary={boxSummary} />
+              <BoxplotStats count={state.boxplot.values.length} summary={boxSummary} locale={locale} />
             ) : null}
           </div>
         </aside>
@@ -526,10 +541,12 @@ function OutlierStats({
   point,
   baseFit,
   allFit,
+  locale,
 }: {
   point: DataPoint;
   baseFit: RegressionFit;
   allFit: RegressionFit;
+  locale?: 'en';
 }) {
   return (
     <>
@@ -538,20 +555,30 @@ function OutlierStats({
       <Stat label="b₀" value={fmt(baseFit.b, 3)} />
       <Stat label="b" value={fmt(allFit.b, 3)} />
       <p className="data-analysis-explore__formula">
-        槓桿 ≈ |xₒ - x̄₀| = {fmt(Math.abs(point.x - baseFit.xbar), 2)}
+        {pick(locale, '槓桿', 'Leverage')} ≈ |xₒ - x̄₀| = {fmt(Math.abs(point.x - baseFit.xbar), 2)}
       </p>
     </>
   );
 }
 
-function BoxplotStats({ count, summary }: { count: number; summary: QuartileSummary }) {
+function BoxplotStats({
+  count,
+  summary,
+  locale,
+}: {
+  count: number;
+  summary: QuartileSummary;
+  locale?: 'en';
+}) {
   return (
     <>
       <Stat label="n" value={String(count)} />
       <Stat label="Q₁, Q₂, Q₃" value={`${fmt(summary.q1, 2)}, ${fmt(summary.q2, 2)}, ${fmt(summary.q3, 2)}`} />
       <Stat label="IQR" value={fmt(summary.iqr, 2)} />
-      <Stat label="離群" value={String(summary.outliers.length)} />
-      <p className="data-analysis-explore__formula">鬚：1.5 IQR 內</p>
+      <Stat label={pick(locale, '離群', 'Outliers')} value={String(summary.outliers.length)} />
+      <p className="data-analysis-explore__formula">
+        {pick(locale, '鬚：1.5 IQR 內', 'Whiskers: inside 1.5 IQR')}
+      </p>
     </>
   );
 }
@@ -578,13 +605,13 @@ function computePlot(width: number, height: number): PlotRect {
   };
 }
 
-function drawMode(p: p5, plot: PlotRect, state: DataAnalysisState) {
-  if (state.mode === 'scatter') drawScatterMode(p, plot, state);
-  if (state.mode === 'outlier') drawOutlierMode(p, plot, state);
-  if (state.mode === 'boxplot') drawBoxplotMode(p, plot, state);
+function drawMode(p: p5, plot: PlotRect, state: DataAnalysisState, locale?: 'en') {
+  if (state.mode === 'scatter') drawScatterMode(p, plot, state, locale);
+  if (state.mode === 'outlier') drawOutlierMode(p, plot, state, locale);
+  if (state.mode === 'boxplot') drawBoxplotMode(p, plot, state, locale);
 }
 
-function drawScatterMode(p: p5, plot: PlotRect, state: DataAnalysisState) {
+function drawScatterMode(p: p5, plot: PlotRect, state: DataAnalysisState, locale?: 'en') {
   const fit = regression(state.scatter.points);
   drawUnitPlotFrame(p, plot);
 
@@ -602,10 +629,10 @@ function drawScatterMode(p: p5, plot: PlotRect, state: DataAnalysisState) {
     drawMeanPoint(p, mean.x, mean.y);
   }
 
-  drawBottomLabel(p, plot, '點雲 / 平均點 / 迴歸線');
+  drawBottomLabel(p, plot, pick(locale, '點雲 / 平均點 / 迴歸線', 'Point cloud / mean / regression line'));
 }
 
-function drawOutlierMode(p: p5, plot: PlotRect, state: DataAnalysisState) {
+function drawOutlierMode(p: p5, plot: PlotRect, state: DataAnalysisState, locale?: 'en') {
   const baseFit = regression(state.outlier.base);
   const outlierFit = regression([...state.outlier.base, state.outlier.point]);
   drawUnitPlotFrame(p, plot);
@@ -632,10 +659,10 @@ function drawOutlierMode(p: p5, plot: PlotRect, state: DataAnalysisState) {
     });
   }
 
-  drawBottomLabel(p, plot, '灰線：無離群　金線：加入離群');
+  drawBottomLabel(p, plot, pick(locale, '灰線：無離群　金線：加入離群', 'Gray: no outlier. Gold: with the outlier.'));
 }
 
-function drawBoxplotMode(p: p5, plot: PlotRect, state: DataAnalysisState) {
+function drawBoxplotMode(p: p5, plot: PlotRect, state: DataAnalysisState, locale?: 'en') {
   const q = quartileSummary(state.boxplot.values);
   drawBoxAxis(p, plot);
 
@@ -676,7 +703,7 @@ function drawBoxplotMode(p: p5, plot: PlotRect, state: DataAnalysisState) {
   }
 
   drawBoxplotValues(p, plot, q, state);
-  drawBottomLabel(p, plot, '盒：Q₁-Q₃　線：Q₂　鬚：1.5 IQR 內');
+  drawBottomLabel(p, plot, pick(locale, '盒：Q₁-Q₃　線：Q₂　鬚：1.5 IQR 內', 'Box: Q₁–Q₃. Line: Q₂. Whiskers: inside 1.5 IQR.'));
 }
 
 function drawBoxAxis(p: p5, plot: PlotRect) {

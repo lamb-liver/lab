@@ -37,7 +37,8 @@ function toRad(deg: number): number {
   return (deg * Math.PI) / 180;
 }
 
-export default function ConcentricCirclesEquilateralExamRoot() {
+export default function ConcentricCirclesEquilateralExamRoot({ locale }: { locale?: 'en' }) {
+  const en = locale === 'en';
   const [aAngle, setAAngle] = useState(toRad(200));
   const [bAngle, setBAngle] = useState(toRad(20));
   const [progress, setProgress] = useState(0);
@@ -78,9 +79,10 @@ export default function ConcentricCirclesEquilateralExamRoot() {
         bAngle,
         progress,
         turn,
+        locale,
       });
     },
-    [aAngle, bAngle, progress, turn],
+    [aAngle, bAngle, progress, turn, locale],
   );
 
   const extendSketch = useMemo<ExtendSketch>(() => {
@@ -138,32 +140,42 @@ export default function ConcentricCirclesEquilateralExamRoot() {
     <div className="exam-interactive-explore">
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
-          <p className="exam-interactive-explore__visual-title">轉 60° 找第三個頂點</p>
+          <p className="exam-interactive-explore__visual-title">
+            {en ? 'Turn 60° to find the third vertex' : '轉 60° 找第三個頂點'}
+          </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>先想一想</strong>
-            正三角形的一個頂點，是另一個頂點繞第三個頂點轉 60° 的像。那麼「半徑 2 的圓」轉 60° 後會落在哪裡？
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
+            {en
+              ? 'In an equilateral triangle, one vertex is the image of another under a 60° turn about the third. Where does the radius-2 circle land after a 60° turn?'
+              : '正三角形的一個頂點，是另一個頂點繞第三個頂點轉 60° 的像。那麼「半徑 2 的圓」轉 60° 後會落在哪裡？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            金色虛線圓是半徑 2 的圓繞 A 旋轉的像；拖曳 A（小圓上）或 B（藍色圓上）
+            {en
+              ? 'The gold dashed circle is the image of the radius-2 circle rotated about A; drag A (on the small circle) or B (on the blue circle)'
+              : '金色虛線圓是半徑 2 的圓繞 A 旋轉的像；拖曳 A（小圓上）或 B（藍色圓上）'}
           </p>
           <div
             ref={canvasHostRef}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label={`三個同心圓，A 在半徑 1 的圓上；半徑 2 的圓繞 A 轉 ${Math.round(progress * 60)} 度${done ? '，與半徑 3 的圓內切，正三角形邊長平方為 7' : ''}`}
+            aria-label={
+              en
+                ? `Three concentric circles, A on the radius-1 circle; the radius-2 circle turned ${Math.round(progress * 60)} degrees about A${done ? ', internally tangent to the radius-3 circle; the squared side of the equilateral triangle is 7' : ''}`
+                : `三個同心圓，A 在半徑 1 的圓上；半徑 2 的圓繞 A 轉 ${Math.round(progress * 60)} 度${done ? '，與半徑 3 的圓內切，正三角形邊長平方為 7' : ''}`
+            }
             style={{ cursor: 'grab', touchAction: 'none' }}
           />
         </div>
 
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">旋轉</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Rotation' : '旋轉'}</p>
             <label className="exam-interactive-explore__range">
-              <span>繞 A 旋轉的角度</span>
+              <span>{en ? 'Angle about A' : '繞 A 旋轉的角度'}</span>
               <output>{`${Math.round(progress * 60)}°`}</output>
               <input
                 type="range"
-                aria-label="半徑 2 的圓繞 A 旋轉的角度"
+                aria-label={en ? 'Angle of the radius-2 circle about A' : '半徑 2 的圓繞 A 旋轉的角度'}
                 min="0"
                 max="60"
                 step="1"
@@ -180,7 +192,13 @@ export default function ConcentricCirclesEquilateralExamRoot() {
               onClick={() => setPlaying(true)}
               disabled={playing}
             >
-              {done ? '重新旋轉 60°' : '播放旋轉 60°'}
+              {done
+                ? en
+                  ? 'Replay the 60° turn'
+                  : '重新旋轉 60°'
+                : en
+                  ? 'Play the 60° turn'
+                  : '播放旋轉 60°'}
             </button>
             <div className="exam-interactive-explore__modes">
               <button
@@ -190,7 +208,7 @@ export default function ConcentricCirclesEquilateralExamRoot() {
                 aria-pressed={turn === -1}
                 onClick={() => setTurn(-1)}
               >
-                順時針轉
+                {en ? 'Clockwise' : '順時針轉'}
               </button>
               <button
                 type="button"
@@ -199,19 +217,19 @@ export default function ConcentricCirclesEquilateralExamRoot() {
                 aria-pressed={turn === 1}
                 onClick={() => setTurn(1)}
               >
-                逆時針轉
+                {en ? 'Counterclockwise' : '逆時針轉'}
               </button>
             </div>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">頂點位置</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Vertex positions' : '頂點位置'}</p>
             <label className="exam-interactive-explore__range">
-              <span>A 在半徑 1 的圓上</span>
+              <span>{en ? 'A on the radius-1 circle' : 'A 在半徑 1 的圓上'}</span>
               <output>{`${Math.round(toDeg(aAngle))}°`}</output>
               <input
                 type="range"
-                aria-label="頂點 A 在半徑 1 的圓上的角度"
+                aria-label={en ? 'Angle of vertex A on the radius-1 circle' : '頂點 A 在半徑 1 的圓上的角度'}
                 min="0"
                 max="359"
                 step="1"
@@ -220,11 +238,11 @@ export default function ConcentricCirclesEquilateralExamRoot() {
               />
             </label>
             <label className="exam-interactive-explore__range">
-              <span>試探 B 在半徑 2 的圓上</span>
+              <span>{en ? 'Trial B on the radius-2 circle' : '試探 B 在半徑 2 的圓上'}</span>
               <output>{`${Math.round(toDeg(bAngle))}°`}</output>
               <input
                 type="range"
-                aria-label="試探點 B 在半徑 2 的圓上的角度"
+                aria-label={en ? 'Angle of trial point B on the radius-2 circle' : '試探點 B 在半徑 2 的圓上的角度'}
                 min="0"
                 max="359"
                 step="1"
@@ -241,19 +259,25 @@ export default function ConcentricCirclesEquilateralExamRoot() {
                 setBAngle(solutionBAngle(aAngle, turn));
               }}
             >
-              把 B 對到唯一解
+              {en ? 'Snap B to the unique solution' : '把 B 對到唯一解'}
             </button>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">邊長平方</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Squared side' : '邊長平方'}</p>
             <p className="exam-interactive-explore__result" aria-live="polite">
               {done
-                ? `s²=${config.sideSquared.toFixed(4)}（官方 ${OFFICIAL_SIDE_SQUARED}）`
-                : '先把旋轉角推到 60°'}
+                ? en
+                  ? `s²=${config.sideSquared.toFixed(4)} (official ${OFFICIAL_SIDE_SQUARED})`
+                  : `s²=${config.sideSquared.toFixed(4)}（官方 ${OFFICIAL_SIDE_SQUARED}）`
+                : en
+                  ? 'Turn the angle up to 60° first'
+                  : '先把旋轉角推到 60°'}
             </p>
             <p className="exam-interactive-explore__note">
-              不論 A 在小圓哪裡，|OO′| 都是 1：像圓（半徑 2）恰好內切大圓（半徑 3），切點就是唯一的 C。
+              {en
+                ? 'Wherever A is on the small circle, |OO′| is 1: the image circle (radius 2) is internally tangent to the large circle (radius 3), and the point of tangency is the unique C.'
+                : '不論 A 在小圓哪裡，|OO′| 都是 1：像圓（半徑 2）恰好內切大圓（半徑 3），切點就是唯一的 C。'}
             </p>
           </div>
         </aside>

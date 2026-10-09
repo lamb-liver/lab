@@ -45,7 +45,10 @@ function toDeg(rad: number): number {
   return (rad * 180) / Math.PI;
 }
 
-export default function LampshadeShortestPathExamRoot() {
+type Props = { locale?: 'en' };
+
+export default function LampshadeShortestPathExamRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [view, setView] = useState(DEFAULT_VIEW);
   const [unroll, setUnroll] = useState(0);
   const [contact, setContact] = useState(PATH_SPAN);
@@ -89,8 +92,9 @@ export default function LampshadeShortestPathExamRoot() {
         rotating,
         unroll,
         contact,
+        locale,
       }),
-    [unroll, contact],
+    [unroll, contact, locale],
   );
   const { canvasHostRef: hostRef3d } = useOrbitViewP5({
     params: view,
@@ -102,9 +106,9 @@ export default function LampshadeShortestPathExamRoot() {
 
   const drawNet = useCallback(
     (p: p5) => {
-      renderLampshadeNetScene(p, { width: p.width, height: p.height, contact });
+      renderLampshadeNetScene(p, { width: p.width, height: p.height, contact, locale });
     },
-    [contact],
+    [contact, locale],
   );
 
   const extendNet = useMemo<ExtendSketch>(() => {
@@ -148,43 +152,65 @@ export default function LampshadeShortestPathExamRoot() {
     <div className="exam-interactive-explore">
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
-          <p className="exam-interactive-explore__visual-title">燈罩展開與最短路徑</p>
+          <p className="exam-interactive-explore__visual-title">
+            {en ? 'Unrolling the shade, and the shortest path' : '燈罩展開與最短路徑'}
+          </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>先想一想</strong>
-            把燈罩剪開攤平後，蟲和蜂蜜之間直接連一條直線，那條線還在紙上嗎？
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
+            {en
+              ? 'After the shade is cut open and laid flat, is the straight line from the bug to the honey still on the paper?'
+              : '把燈罩剪開攤平後，蟲和蜂蜜之間直接連一條直線，那條線還在紙上嗎？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            上圖可拖動旋轉視角；下圖是展開後的半圓環，拖動金色把手改變路徑
+            {en
+              ? 'Drag the upper view to rotate it. The lower figure is the half-annulus. Drag the gold handle to change the path.'
+              : '上圖可拖動旋轉視角；下圖是展開後的半圓環，拖動金色把手改變路徑'}
           </p>
           <div
             ref={hostRef3d}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label={`燈罩立體圖，展開 ${Math.round(unroll * 100)}%，路徑${metrics.valid ? '在燈罩上' : '有一段離開燈罩'}；拖動可旋轉視角`}
+            aria-label={
+              en
+                ? `Lampshade, unrolled ${Math.round(unroll * 100)}%. The path ${metrics.valid ? 'stays on the shade' : 'has a piece off the shade'}. Drag to rotate the view.`
+                : `燈罩立體圖，展開 ${Math.round(unroll * 100)}%，路徑${metrics.valid ? '在燈罩上' : '有一段離開燈罩'}；拖動可旋轉視角`
+            }
           />
           <div
             ref={hostRefNet}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label={`展開圖：內半徑 6、外半徑 12 的半圓環，接觸角 ${contactDeg.toFixed(1)} 度，路徑長 ${metrics.length.toFixed(3)}`}
+            aria-label={
+              en
+                ? `Net: a half-annulus of inner radius 6 and outer radius 12, contact angle ${contactDeg.toFixed(1)} degrees, path length ${metrics.length.toFixed(3)}.`
+                : `展開圖：內半徑 6、外半徑 12 的半圓環，接觸角 ${contactDeg.toFixed(1)} 度，路徑長 ${metrics.length.toFixed(3)}`
+            }
             style={{ cursor: 'grab', touchAction: 'none', marginTop: '0.75rem' }}
           />
         </div>
 
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">路徑長</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Path length' : '路徑長'}</p>
             <p className="exam-interactive-explore__result" aria-live="polite">
               {metrics.valid
                 ? `L≈${metrics.length.toFixed(4)}`
-                : `直線 6√5≈${STRAIGHT_LENGTH.toFixed(4)}（不合法）`}
+                : en
+                  ? `Straight line 6√5≈${STRAIGHT_LENGTH.toFixed(4)} (off the paper)`
+                  : `直線 6√5≈${STRAIGHT_LENGTH.toFixed(4)}（不合法）`}
             </p>
             <p className="exam-interactive-explore__note">
               {metrics.valid
                 ? metrics.contact >= TANGENT_CONTACT - 1e-3
-                  ? `直線段與內緣相切，這就是最短路徑 6√3+π≈${OFFICIAL_LENGTH.toFixed(4)}。`
-                  : '還能把接觸點往蜂蜜那側推，路徑會再變短，直到直線與內緣相切。'
-                : `直線離錐頂最近 ${metrics.minRadius.toFixed(3)}，小於內半徑 6：這段走在被切掉的錐頂上。`}
+                  ? en
+                    ? `The straight piece is tangent to the inner rim. This is the shortest path, 6√3+π≈${OFFICIAL_LENGTH.toFixed(4)}.`
+                    : `直線段與內緣相切，這就是最短路徑 6√3+π≈${OFFICIAL_LENGTH.toFixed(4)}。`
+                  : en
+                    ? 'The contact can still move toward the honey. The path gets shorter until the line is tangent to the inner rim.'
+                    : '還能把接觸點往蜂蜜那側推，路徑會再變短，直到直線與內緣相切。'
+                : en
+                  ? `The line comes within ${metrics.minRadius.toFixed(3)} of the apex, inside radius 6. That piece runs on the missing cone tip.`
+                  : `直線離錐頂最近 ${metrics.minRadius.toFixed(3)}，小於內半徑 6：這段走在被切掉的錐頂上。`}
             </p>
             <div className="exam-interactive-explore__modes">
               <button
@@ -194,7 +220,7 @@ export default function LampshadeShortestPathExamRoot() {
                 aria-pressed={contact >= PATH_SPAN - 1e-6}
                 onClick={() => setContact(PATH_SPAN)}
               >
-                直接連直線（6√5）
+                {en ? 'Straight line (6√5)' : '直接連直線（6√5）'}
               </button>
               <button
                 type="button"
@@ -203,19 +229,19 @@ export default function LampshadeShortestPathExamRoot() {
                 aria-pressed={Math.abs(contact - TANGENT_CONTACT) < 1e-6}
                 onClick={() => setContact(TANGENT_CONTACT)}
               >
-                切線＋內緣弧（6√3+π）
+                {en ? 'Tangent + inner arc (6√3+π)' : '切線＋內緣弧（6√3+π）'}
               </button>
             </div>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">接觸點</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Contact' : '接觸點'}</p>
             <label className="exam-interactive-explore__range">
-              <span>接觸角 a（相對蟲的位置）</span>
+              <span>{en ? 'Contact angle a (from the bug)' : '接觸角 a（相對蟲的位置）'}</span>
               <output>{`${contactDeg.toFixed(1)}°`}</output>
               <input
                 type="range"
-                aria-label="路徑碰到內緣的接觸角 a"
+                aria-label={en ? 'Contact angle a where the path meets the inner rim' : '路徑碰到內緣的接觸角 a'}
                 min="0"
                 max="90"
                 step="0.5"
@@ -224,18 +250,20 @@ export default function LampshadeShortestPathExamRoot() {
               />
             </label>
             <p className="exam-interactive-explore__note">
-              a=90° 是直接連直線；a 超過 60°，直線就會切進內半徑 6 以內。
+              {en
+                ? 'a = 90° is the straight line. Past 60°, the line cuts inside radius 6.'
+                : 'a=90° 是直接連直線；a 超過 60°，直線就會切進內半徑 6 以內。'}
             </p>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">展開</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Unroll' : '展開'}</p>
             <label className="exam-interactive-explore__range">
-              <span>展開程度</span>
+              <span>{en ? 'Unroll' : '展開程度'}</span>
               <output>{`${Math.round(unroll * 100)}%`}</output>
               <input
                 type="range"
-                aria-label="燈罩展開程度"
+                aria-label={en ? 'How far the shade is unrolled' : '燈罩展開程度'}
                 min="0"
                 max="100"
                 step="1"
@@ -252,13 +280,18 @@ export default function LampshadeShortestPathExamRoot() {
               onClick={() => setPlaying(true)}
               disabled={playing}
             >
-              {unroll >= 0.999 ? '捲回燈罩' : '播放展開'}
+              {unroll >= 0.999 ? (en ? 'Roll back' : '捲回燈罩') : en ? 'Play unroll' : '播放展開'}
             </button>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">視角</p>
-            <OrbitViewControls idPrefix="amc12b-2023-21" params={view} onParamsChange={patchView} />
+            <p className="exam-interactive-explore__block-title">{en ? 'View' : '視角'}</p>
+            <OrbitViewControls
+              idPrefix="amc12b-2023-21"
+              params={view}
+              onParamsChange={patchView}
+              locale={locale}
+            />
           </div>
         </aside>
       </div>

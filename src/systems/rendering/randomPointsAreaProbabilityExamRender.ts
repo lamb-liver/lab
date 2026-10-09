@@ -104,6 +104,7 @@ type Snap = {
   samples: readonly Sample[];
   count: number;
   squeeze: boolean;
+  locale?: 'en';
 };
 
 function label(p: p5, text: string, x: number, y: number, color: readonly [number, number, number], alpha = 200, size = 12): void {
@@ -127,7 +128,7 @@ function handle(p: p5, at: Pt, color: readonly [number, number, number]): void {
   p.pop();
 }
 
-function drawTriangle(p: p5, layout: RandomPointsLayout, x: number, y: number): void {
+function drawTriangle(p: p5, layout: RandomPointsLayout, x: number, y: number, locale?: 'en'): void {
   const frame = triangleFrame(layout.triangle);
   const small = isSmall(x, y);
   const pp = frame.p(x);
@@ -156,7 +157,9 @@ function drawTriangle(p: p5, layout: RandomPointsLayout, x: number, y: number): 
   label(p, 'Q', qq.x - 20, qq.y - 6, BLUE, 230);
   label(
     p,
-    `面積比 = x·y = ${(x * y).toFixed(3)} ${small ? '< 1/2' : '≥ 1/2'}`,
+    locale === 'en'
+      ? `Area ratio = x·y = ${(x * y).toFixed(3)} ${small ? '< 1/2' : '≥ 1/2'}`
+      : `面積比 = x·y = ${(x * y).toFixed(3)} ${small ? '< 1/2' : '≥ 1/2'}`,
     layout.triangle.x + 4,
     layout.triangle.y + 2,
     tone,
@@ -357,14 +360,16 @@ export function renderRandomPointsAreaProbabilityExamScene(p: p5, snap: Snap): v
   }
   const estimate = n > 0 ? hits / n : null;
 
-  drawTriangle(p, layout, snap.x, snap.y);
+  drawTriangle(p, layout, snap.x, snap.y, snap.locale);
   drawSquare(p, layout, snap);
   drawConvergence(p, layout, snap, estimates);
   drawAnswerBand(p, layout, estimate);
 
   label(
     p,
-    `模擬 ${n.toLocaleString()} 次　估計 ${estimate === null ? '—' : estimate.toFixed(4)}　精確 (1+ln2)/2≈${EXACT_PROBABILITY.toFixed(4)}`,
+    snap.locale === 'en'
+      ? `${n.toLocaleString()} samples  est. ${estimate === null ? '—' : estimate.toFixed(4)}  exact (1+ln2)/2≈${EXACT_PROBABILITY.toFixed(4)}`
+      : `模擬 ${n.toLocaleString()} 次　估計 ${estimate === null ? '—' : estimate.toFixed(4)}　精確 (1+ln2)/2≈${EXACT_PROBABILITY.toFixed(4)}`,
     16,
     22,
     WHITE,

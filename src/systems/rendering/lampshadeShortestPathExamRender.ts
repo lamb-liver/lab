@@ -38,6 +38,7 @@ type Scene3dSnap = {
   rotating: boolean;
   unroll: number;
   contact: number;
+  locale?: 'en';
 };
 
 function surfaceGrid(unroll: number): Vec3[][] {
@@ -183,8 +184,11 @@ export function renderLampshadeShortestPath3dScene(p: p5, snap: Scene3dSnap): vo
     }
   }
 
-  drawDot(p, screen(paperTo3d(BUG, snap.unroll)), GUIDE, '蟲');
-  drawDot(p, screen(paperTo3d(HONEY, snap.unroll)), GOLD, '蜂蜜');
+  const en = snap.locale === 'en';
+  const pct = Math.round(snap.unroll * 100);
+  const lengthText = metrics.length.toFixed(4);
+  drawDot(p, screen(paperTo3d(BUG, snap.unroll)), GUIDE, en ? 'Bug' : '蟲');
+  drawDot(p, screen(paperTo3d(HONEY, snap.unroll)), GOLD, en ? 'Honey' : '蜂蜜');
 
   drawReadout(
     p,
@@ -192,19 +196,31 @@ export function renderLampshadeShortestPath3dScene(p: p5, snap: Scene3dSnap): vo
     // 共用 drawReadout 只在空白處換行，窄畫布改用短句避免中文溢出
     snap.width < 520
       ? [
-          `展開 ${Math.round(snap.unroll * 100)}%（同一張紙，長度不變）`,
-          metrics.valid ? `路徑在燈罩上，長 ${metrics.length.toFixed(4)}` : `紅色虛線落在上緣以上，不能走`,
+          en ? `Unroll ${pct}% (same sheet, length fixed)` : `展開 ${pct}%（同一張紙，長度不變）`,
+          metrics.valid
+            ? en
+              ? `On the shade, length ${lengthText}`
+              : `路徑在燈罩上，長 ${lengthText}`
+            : en
+              ? 'Dashed red sits above the rim'
+              : '紅色虛線落在上緣以上，不能走',
         ]
       : [
-          `展開 ${Math.round(snap.unroll * 100)}%：每個中間狀態都是同一張紙，路徑長不變`,
+          en
+            ? `Unroll ${pct}%: every frame is the same sheet, so the length does not change`
+            : `展開 ${pct}%：每個中間狀態都是同一張紙，路徑長不變`,
           metrics.valid
-            ? `路徑在燈罩上，長 ${metrics.length.toFixed(4)}`
-            : `紅色虛線那段落在燈罩上緣以上（被切掉的錐頂），不能走`,
+            ? en
+              ? `The path stays on the shade, length ${lengthText}`
+              : `路徑在燈罩上，長 ${lengthText}`
+            : en
+              ? 'The dashed red part is above the upper rim (the cut-off tip) and is not a path'
+              : '紅色虛線那段落在燈罩上緣以上（被切掉的錐頂），不能走',
         ],
     { highlightIndex: 1, highlightColor: metrics.valid ? GOLD : RED },
   );
 
-  if (snap.rotating) drawRotatingHint(p, snap.width, snap.height);
+  if (snap.rotating) drawRotatingHint(p, snap.width, snap.height, snap.locale);
 }
 
 /* ------------------------------ 展開圖（2D） ------------------------------ */
@@ -249,6 +265,7 @@ type NetSnap = {
   width: number;
   height: number;
   contact: number;
+  locale?: 'en';
 };
 
 function arcPoints(plot: NetPlot, rho: number, from: number, to: number, steps = 72): Point2[] {
@@ -260,6 +277,7 @@ function arcPoints(plot: NetPlot, rho: number, from: number, to: number, steps =
 export function renderLampshadeNetScene(p: p5, snap: NetSnap): void {
   p.background(BG[0], BG[1], BG[2]);
   p.textFont(CANVAS_FONT);
+  const en = snap.locale === 'en';
   const plot = lampshadeNetPlot(snap.width, snap.height);
 
   // 紙：內半徑 6、外半徑 12 的半圓環
@@ -290,7 +308,13 @@ export function renderLampshadeNetScene(p: p5, snap: NetSnap): void {
   p.textSize(narrowNet ? 10 : 12);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text(
-    narrowNet ? '不在燈罩上' : '半徑 6 以內：不在燈罩上',
+    narrowNet
+      ? en
+        ? 'Off the shade'
+        : '不在燈罩上'
+      : en
+        ? 'Inside radius 6: off the shade'
+        : '半徑 6 以內：不在燈罩上',
     apex.x,
     apex.y - plot.scale * (narrowNet ? 1.2 : 2.2),
   );
@@ -343,19 +367,28 @@ export function renderLampshadeNetScene(p: p5, snap: NetSnap): void {
   p.circle(handle.x, handle.y, 6);
   p.pop();
 
-  drawDot(p, bug, GUIDE, '蟲');
-  drawDot(p, honey, GOLD, '蜂蜜');
-  drawLabel(p, tangent, '切點', GOLD, 170);
+  drawDot(p, bug, GUIDE, en ? 'Bug' : '蟲');
+  drawDot(p, honey, GOLD, en ? 'Honey' : '蜂蜜');
+  drawLabel(p, tangent, en ? 'Tangent' : '切點', GOLD, 170);
 
   const aDeg = (metrics.contact * 180) / Math.PI;
+  const chordText = metrics.chord.toFixed(3);
+  const arcText = metrics.arc.toFixed(3);
+  const lengthText = metrics.length.toFixed(4);
   drawReadout(
     p,
     snap.width,
     [
-      `接觸角 a=${aDeg.toFixed(1)}°　直線段 ${metrics.chord.toFixed(3)} + 內緣弧 ${metrics.arc.toFixed(3)}`,
+      en
+        ? `Contact a=${aDeg.toFixed(1)}°  chord ${chordText} + inner arc ${arcText}`
+        : `接觸角 a=${aDeg.toFixed(1)}°　直線段 ${chordText} + 內緣弧 ${arcText}`,
       metrics.valid
-        ? `合法路徑　L=${metrics.length.toFixed(4)}（最短 6√3+π≈13.5339）`
-        : `直線離錐頂只剩 ${metrics.minRadius.toFixed(3)} < 6，掉出紙外（直連 6√5≈${STRAIGHT_LENGTH.toFixed(4)}）`,
+        ? en
+          ? `On the paper  L=${lengthText} (shortest 6√3+π≈13.5339)`
+          : `合法路徑　L=${lengthText}（最短 6√3+π≈13.5339）`
+        : en
+          ? `Within ${metrics.minRadius.toFixed(3)} < 6 of the apex, off the paper (straight 6√5≈${STRAIGHT_LENGTH.toFixed(4)})`
+          : `直線離錐頂只剩 ${metrics.minRadius.toFixed(3)} < 6，掉出紙外（直連 6√5≈${STRAIGHT_LENGTH.toFixed(4)}）`,
     ],
     { highlightIndex: 1, highlightColor: metrics.valid ? GOLD : RED },
   );

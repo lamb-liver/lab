@@ -11,6 +11,7 @@ import {
   clamp,
   createRationalPlotRect,
   fmt,
+  rationalPresetText,
   xToScreen,
   yToScreen,
   yToScreenClamped,
@@ -26,6 +27,7 @@ type RationalFunctionsAsymptotesSnap = {
   model: RationalModel;
   showAsymptotes: boolean;
   showHoles: boolean;
+  locale?: 'en';
 };
 
 type Color = readonly [number, number, number];
@@ -50,15 +52,15 @@ export function renderRationalFunctionsAsymptotesExploreScene(
   p.background(...PALETTE.bg);
 
   const plot = createRationalPlotRect(p.width, p.height);
-  drawPlotFrame(p, plot, snap.preset);
+  drawPlotFrame(p, plot, snap.preset, snap.locale);
   if (snap.showAsymptotes) drawAsymptotes(p, plot, snap.preset, snap.model);
   drawRationalCurve(p, plot, snap.preset, snap.model);
-  drawZeros(p, plot, snap.preset, snap.model);
-  if (snap.showHoles) drawHoles(p, plot, snap.preset, snap.model);
+  drawZeros(p, plot, snap.preset, snap.model, snap.locale);
+  if (snap.showHoles) drawHoles(p, plot, snap.preset, snap.model, snap.locale);
   drawSceneHud(p, snap);
 }
 
-function drawPlotFrame(p: p5, g: Rect, preset: RationalPreset): void {
+function drawPlotFrame(p: p5, g: Rect, preset: RationalPreset, locale?: 'en'): void {
   p.noFill();
   p.stroke(...PALETTE.faint, 90);
   p.strokeWeight(1);
@@ -95,7 +97,7 @@ function drawPlotFrame(p: p5, g: Rect, preset: RationalPreset): void {
   p.fill(...PALETTE.text, 224);
   p.textSize(12.5);
   p.textStyle(p.BOLD);
-  p.text('R(x) 與圖形骨架', g.x + 12, g.y + 20);
+  p.text(locale === 'en' ? 'R(x) and the graph skeleton' : 'R(x) 與圖形骨架', g.x + 12, g.y + 20);
   p.textStyle(p.NORMAL);
 
   p.fill(...PALETTE.muted, 190);
@@ -207,6 +209,7 @@ function drawZeros(
   g: Rect,
   preset: RationalPreset,
   model: RationalModel,
+  locale?: 'en',
 ): void {
   for (const z of model.zeros) {
     if (z < RATIONAL_X_MIN || z > RATIONAL_X_MAX) continue;
@@ -221,7 +224,7 @@ function drawZeros(
       p,
       clamp(sx + 7, g.x + 8, g.x + g.w - 70),
       sy - 8,
-      `零點 ${fmt(z)}`,
+      locale === 'en' ? `Zero ${fmt(z)}` : `零點 ${fmt(z)}`,
       PALETTE.green,
       11.5,
     );
@@ -233,6 +236,7 @@ function drawHoles(
   g: Rect,
   preset: RationalPreset,
   model: RationalModel,
+  locale?: 'en',
 ): void {
   for (const hole of model.holes) {
     if (hole.x < RATIONAL_X_MIN || hole.x > RATIONAL_X_MAX) continue;
@@ -247,7 +251,7 @@ function drawHoles(
       p,
       clamp(sx + 8, g.x + 8, g.x + g.w - 72),
       sy - 8,
-      `洞 x=${fmt(hole.x)}`,
+      locale === 'en' ? `Hole x=${fmt(hole.x)}` : `洞 x=${fmt(hole.x)}`,
       PALETTE.gold,
       11.5,
     );
@@ -259,11 +263,12 @@ function drawSceneHud(p: p5, snap: RationalFunctionsAsymptotesSnap): void {
   p.textSize(12);
   p.textStyle(p.NORMAL);
   p.fill(...PALETTE.muted, 230);
+  const note = rationalPresetText(snap.preset, snap.locale).note;
   p.text(`${snap.model.family} · ${snap.model.far.label}`, 18, 24);
 
   p.textAlign(p.RIGHT, p.TOP);
   p.fill(...PALETTE.muted, 210);
-  p.text(snap.model.warning || snap.preset.note, p.width - 18, 18);
+  p.text(snap.model.warning || note, p.width - 18, 18);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 

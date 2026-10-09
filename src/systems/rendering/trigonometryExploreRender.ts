@@ -377,7 +377,7 @@ function drawVisualCaption(p: p5, plot: PlotRect, caption: string) {
   p.textAlign(p.LEFT, p.BASELINE);
 }
 
-export function renderTrigonometryExploreScene(p: p5, snap: TrigExploreSnap) {
+export function renderTrigonometryExploreScene(p: p5, snap: TrigExploreSnap, locale?: 'en') {
   p.background(BG[0], BG[1], BG[2]);
   p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans TC CJK", sans-serif');
   p.strokeCap(p.ROUND);
@@ -394,5 +394,5 @@ export function renderTrigonometryExploreScene(p: p5, snap: TrigExploreSnap) {
   if (snap.params.mode === 'triangle') drawTriangleScene(p, plot, snap);
   if (snap.params.mode === 'identity') drawIdentityScene(p, plot, snap);
 
-  drawVisualCaption(p, plot, getVisualCaption(snap.params.mode));
+  drawVisualCaption(p, plot, getVisualCaption(snap.params.mode, locale));
 }
