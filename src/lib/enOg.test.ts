@@ -18,7 +18,8 @@ describe('English OG cards', () => {
 });
 
 describe('OG card formulas', async () => {
-  const { EN_OG_FORMULA, ogFormulaFontSize, ogFormulaProblems, toEnOgFormula } = await import('./ogFormula');
+  const { EN_OG_FORMULA, ogFormulaFontSize, ogFormulaProblems, ogFormulaWidth, toEnOgFormula, toZhOgFormula } =
+    await import('./ogFormula');
 
   it('shows proper sub/superscripts instead of TeX-like syntax', () => {
     expect(toEnOgFormula('julia-set', 'z_{n+1} = z_n^2 + c')).toBe('zₙ₊₁ = zₙ² + c');
@@ -34,5 +35,18 @@ describe('OG card formulas', async () => {
 
   it('turns full-width punctuation into ASCII', () => {
     expect(toEnOgFormula('unknown', 'a，b；c')).toBe('a, b; c');
+  });
+
+  it('gives Chinese cards the same one-line formulas, keeping Chinese wording', () => {
+    expect(toZhOgFormula('julia-set', 'z_{n+1} = z_n^2 + c')).toBe('zₙ₊₁ = zₙ² + c');
+    expect(toZhOgFormula('lp-objective-level-curves', 'z = px + qy，等值線 px + qy = k')).toBe(
+      'z = px + qy，等值線 px + qy = k',
+    );
+  });
+
+  it('measures Chinese characters wider than monospace ones', () => {
+    expect(ogFormulaWidth('x + y')).toBe(5);
+    expect(ogFormulaWidth('內角和')).toBeCloseTo(5, 5);
+    expect(ogFormulaProblems('第3列 := 第3列 + k×第1列')).toEqual([]);
   });
 });

@@ -1,4 +1,5 @@
 import { createElement, type CSSProperties, type ReactNode } from 'react';
+import { OG_FORMULA_MAX_WIDTH, ogFormulaFontSize } from './ogFormula';
 
 export type WorkOgCardContent = {
   title: string;
@@ -20,12 +21,6 @@ function titleFontSize(title: string): number {
   if (title.length > 18) return 52;
   if (title.length > 12) return 60;
   return 72;
-}
-
-function formulaFontSize(formula: string): number {
-  if (formula.length > 72) return 22;
-  if (formula.length > 44) return 28;
-  return 34;
 }
 
 export function buildWorkOgElement(content: WorkOgCardContent): ReactNode {
@@ -64,11 +59,13 @@ export function buildWorkOgElement(content: WorkOgCardContent): ReactNode {
   };
 
   const formulaStyle: CSSProperties = {
-    fontSize: formulaFontSize(formula),
+    // 與英文卡片相同：公式只排一行，不在式子中間換行，字級取放得下的最大值（ogFormula.ts）
+    fontSize: ogFormulaFontSize(formula),
     lineHeight: 1.35,
+    whiteSpace: 'nowrap',
     color: FORMULA,
     fontFamily: FORMULA_FONT_FAMILY,
-    maxWidth: 560,
+    maxWidth: OG_FORMULA_MAX_WIDTH,
   };
 
   const frameOuterStyle: CSSProperties = {
