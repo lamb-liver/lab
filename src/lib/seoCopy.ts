@@ -57,4 +57,9 @@ export const siteSeoEn = {
     description:
       'Past GSAT, AST, and AMC 12 problems, with an interactive figure that takes apart the one step most students get stuck on.',
   },
+  concept: {
+    title: 'Concept index',
+    description:
+      'Works, topic guides, and exam visualizations linked by mathematical concept, so one concept can be seen across different pieces.',
+  },
 } as const;

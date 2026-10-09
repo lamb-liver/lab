@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import { concepts, conceptAreas } from '../../../lib/concepts';
+import { loadConceptIndex } from '../../../lib/conceptCollections';
+import { conceptHasPage } from '../../../lib/conceptIndex';
+import { siteSeoEn } from '../../../lib/seoCopy';
+import { indexAlternates } from '../../../lib/translatedSlugs';
+import { conceptAreaEn, conceptLabelEn } from '../../../lib/conceptLabels';
+import '../../../styles/pages/concept.css';
+
+const index = await loadConceptIndex();
+
+// 依領域分組，只列達門檻（有頁）的概念，附篇數
+const groupsByArea = conceptAreas
+  .map((area) => ({
+    area,
+    items: concepts
+      .filter((c) => c.area === area)
+      .map((c) => ({ ...c, group: index.get(c.slug) }))
+      .filter((c) => c.group && conceptHasPage(c.group))
+      .map((c) => ({ slug: c.slug, label: conceptLabelEn(c.slug), total: c.group!.total })),
+  }))
+  .filter((g) => g.items.length > 0);
+
+const pagedCount = groupsByArea.reduce((n, g) => n + g.items.length, 0);
+---
+
+<BaseLayout
+  title={siteSeoEn.concept.title}
+  description={siteSeoEn.concept.description}
+  ogType="website"
+  htmlLang="en"
+  ogLocale="en_US"
+  skipLabel="Skip to main content"
+  alternates={indexAlternates(Astro.site ?? Astro.url, '/concept/')}
+  preloadConceptFont
+>
+  <div class="container concept-index">
+    <div class="detail-top-nav">
+      <Breadcrumb label="Breadcrumb" items={[{ label: 'Home', href: '/en/' }, { label: 'Concepts' }]} />
+    </div>
+
+    <header class="page-header">
+      <h1>Concept index</h1>
+      <p class="page-lead">
+        Every concept below links its works, topic guides, and exam visualizations. {pagedCount} concepts span more than one section.
+      </p>
+    </header>
+
+    {
+      groupsByArea.map((group) => (
+        <section class="concept-area" aria-label={conceptAreaEn(group.area)}>
+          <h2 class="concept-area__title">{conceptAreaEn(group.area)}</h2>
+          <ul class="concept-area__list">
+            {group.items.map((item) => (
+              <li>
+                <a class="concept-chip" href={`/en/concept/${item.slug}`}>
+                  <span class="concept-chip__label">{item.label}</span>
+                  <span class="concept-chip__count">{item.total}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

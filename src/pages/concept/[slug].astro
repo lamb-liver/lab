@@ -8,6 +8,7 @@ import { conceptBySlug } from '../../lib/concepts';
 import { loadConceptIndex } from '../../lib/conceptCollections';
 import { conceptHasPage, type ConceptGroup } from '../../lib/conceptIndex';
 import { pathsForConcept } from '../../lib/learningPaths';
+import { indexAlternates } from '../../lib/translatedSlugs';
 import '../../styles/components/card.css';
 import '../../styles/pages/concept.css';
 
@@ -46,7 +47,14 @@ const structuredData = [
 ];
 ---
 
-<BaseLayout title={title} description={description} ogType="website" structuredData={structuredData} preloadConceptFont>
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="website"
+  alternates={indexAlternates(site, `/concept/${slug}/`)}
+  structuredData={structuredData}
+  preloadConceptFont
+>
   <div class="container concept-detail">
     <div class="detail-top-nav">
       <Breadcrumb
