@@ -28,6 +28,7 @@ type UnitCircleRenderSnap = {
   height: number;
   params: UnitCircleTrigDefinitionParams;
   smooth: UnitCircleSmoothState;
+  locale?: 'en';
 };
 
 function mid(a: number, b: number) {
@@ -234,6 +235,7 @@ function drawExactValueHint(
   p: p5,
   item: (typeof SPECIAL_ANGLES)[number],
   geo: CircleGeometry,
+  locale?: 'en',
 ) {
   const boxW = 160;
   const boxH = 48;
@@ -252,9 +254,15 @@ function drawExactValueHint(
   p.noStroke();
   p.fill(TEXT[0], TEXT[1], TEXT[2], 185);
   p.textSize(11);
-  p.text(`${item.label}：cos=${item.cos}，sin=${item.sin}`, x + 12, y + 20);
+  p.text(
+    locale === 'en'
+      ? `${item.label}: cos=${item.cos}, sin=${item.sin}`
+      : `${item.label}：cos=${item.cos}，sin=${item.sin}`,
+    x + 12,
+    y + 20,
+  );
   p.fill(MUTED[0], MUTED[1], MUTED[2], 190);
-  p.text('特殊角精確值', x + 12, y + 37);
+  p.text(locale === 'en' ? 'Exact values' : '特殊角精確值', x + 12, y + 37);
 }
 
 function drawUnitCircleScene(p: p5, geo: CircleGeometry, snap: UnitCircleRenderSnap) {
@@ -293,7 +301,7 @@ function drawUnitCircleScene(p: p5, geo: CircleGeometry, snap: UnitCircleRenderS
   if (snap.params.showSpecialAngles) {
     const exact = nearestSpecialAngle(thetaNorm);
     if (exact && exact.distance < (Math.PI / 180) * 2) {
-      drawExactValueHint(p, exact.item, geo);
+      drawExactValueHint(p, exact.item, geo, snap.locale);
     }
   }
 }
@@ -318,7 +326,7 @@ export function renderUnitCircleTrigDefinitionScene(p: p5, snap: UnitCircleRende
   p.fill(MUTED[0], MUTED[1], MUTED[2], 210);
   p.textSize(12);
   p.textAlign(p.CENTER, p.BASELINE);
-  p.text(getVisualCaption(thetaNorm), geo.x + geo.w / 2, geo.y + geo.h - 10);
+  p.text(getVisualCaption(thetaNorm, snap.locale), geo.x + geo.w / 2, geo.y + geo.h - 10);
   p.textAlign(p.LEFT, p.BASELINE);
 }
 

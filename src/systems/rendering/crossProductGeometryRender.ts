@@ -24,6 +24,7 @@ type CrossProductSnap = {
   height: number;
   params: CrossProductGeometryParams;
   rotating: boolean;
+  locale?: 'en';
 };
 
 const BG: Rgb = [10, 10, 10];
@@ -119,17 +120,28 @@ export function renderCrossProductGeometryScene(p: p5, snap: CrossProductSnap): 
     drawLabel(p, nTip, 'n = a × b', GOLD);
   }
 
+  const en = snap.locale === 'en';
   const lines = [
     params.mode === 'righthand'
-      ? '右手定則：四指由 a 轉向 b，拇指指向 n'
-      : '平行四邊形面積 = ‖a × b‖',
+      ? en
+        ? 'Right-hand rule: fingers from a to b, thumb along n'
+        : '右手定則：四指由 a 轉向 b，拇指指向 n'
+      : en
+        ? 'Parallelogram area = ‖a × b‖'
+        : '平行四邊形面積 = ‖a × b‖',
     `‖a × b‖ = ${metrics.area.toFixed(3)}`,
   ];
-  if (metrics.isDegenerate) lines.push('a 與 b 近平行：面積與法向趨近 0');
+  if (metrics.isDegenerate) {
+    lines.push(
+      en
+        ? 'a nearly parallel to b: area and normal near 0'
+        : 'a 與 b 近平行：面積與法向趨近 0',
+    );
+  }
   drawReadout(p, width, lines, {
     highlightIndex: metrics.isDegenerate ? lines.length - 1 : -1,
     highlightColor: WARN,
   });
 
-  if (snap.rotating) drawRotatingHint(p, width, height);
+  if (snap.rotating) drawRotatingHint(p, width, height, snap.locale);
 }

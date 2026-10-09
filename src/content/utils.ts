@@ -1,5 +1,3 @@
-import type { CollectionEntry } from 'astro:content';
-
 export type ContentEntry = {
   id: string;
   data: {
@@ -79,9 +77,12 @@ export const getStaticPathsFromCollection = <E extends ContentEntry>(
     props: { entry },
   }));
 
+const sortLocale = (locale?: 'en'): string => (locale === 'en' ? 'en' : 'zh-TW');
+
 /** 作品集列表篩選：從已發布條目收集唯一 tags（字典序） */
 export const collectWorkTags = (
-  entries: CollectionEntry<'works'>[],
+  entries: ReadonlyArray<{ data: { tags: readonly string[] } }>,
+  locale?: 'en',
 ): string[] => {
   const tags = new Set<string>();
   for (const entry of entries) {
@@ -89,12 +90,12 @@ export const collectWorkTags = (
       tags.add(tag);
     }
   }
-  return [...tags].sort((a, b) => a.localeCompare(b, 'zh-TW'));
+  return [...tags].sort((a, b) => a.localeCompare(b, sortLocale(locale)));
 };
 
 /** 試題視覺化列表篩選：僅顯示目前有內容的考科 */
 export const collectExamSubjects = (
-  entries: CollectionEntry<'exam'>[],
+  entries: ReadonlyArray<{ data: { subject: string } }>,
 ): string[] => {
   const subjects = new Set<string>();
   for (const entry of entries) {
@@ -105,11 +106,12 @@ export const collectExamSubjects = (
 
 /** 視覺化列表篩選：僅顯示目前有內容的 category */
 export const collectExploreCategories = (
-  entries: CollectionEntry<'explore'>[],
+  entries: ReadonlyArray<{ data: { category: string } }>,
+  locale?: 'en',
 ): string[] => {
   const categories = new Set<string>();
   for (const entry of entries) {
     categories.add(entry.data.category);
   }
-  return [...categories].sort((a, b) => a.localeCompare(b, 'zh-TW'));
+  return [...categories].sort((a, b) => a.localeCompare(b, sortLocale(locale)));
 };

@@ -7,6 +7,7 @@ import {
   formatVec3,
   stateLabel,
   type ReadingMode,
+  type RelationState,
   type SpaceVectorsParams,
 } from '../../explore/space-vectors-planes-lines/geometry';
 import { renderSpaceVectorsPlanesLinesScene } from '../../systems/rendering/spaceVectorsPlanesLinesExploreRender';
@@ -15,27 +16,22 @@ import OrbitViewControls from '../curve/OrbitViewControls';
 import { useOrbitViewP5 } from '../curve/useOrbitViewP5';
 import '../../styles/components/explore/space-vectors-explore.css';
 
-const MODES: Array<{ value: ReadingMode; label: string }> = [
-  { value: 'position', label: '位置讀法' },
-  { value: 'direction', label: '方向讀法' },
-  { value: 'relation', label: '關係讀法' },
-];
+const MODES: ReadingMode[] = ['position', 'direction', 'relation'];
 
 type SliderKey = 'vx' | 'vy' | 'vz' | 'planeTilt' | 'h';
 
 const SLIDERS: Array<{
   key: SliderKey;
-  label: string;
   min: number;
   max: number;
   step: number;
   format: (value: number) => string;
 }> = [
-  { key: 'vx', label: '分量 vx', min: -AXIS_LIMIT, max: AXIS_LIMIT, step: 0.05, format: (v) => v.toFixed(2) },
-  { key: 'vy', label: '分量 vy', min: -AXIS_LIMIT, max: AXIS_LIMIT, step: 0.05, format: (v) => v.toFixed(2) },
-  { key: 'vz', label: '分量 vz', min: -AXIS_LIMIT, max: AXIS_LIMIT, step: 0.05, format: (v) => v.toFixed(2) },
-  { key: 'planeTilt', label: '平面傾角', min: 0, max: 90, step: 1, format: (v) => `${v.toFixed(0)}°` },
-  { key: 'h', label: '平面位移 h', min: -2, max: 2, step: 0.05, format: (v) => v.toFixed(2) },
+  { key: 'vx', min: -AXIS_LIMIT, max: AXIS_LIMIT, step: 0.05, format: (v) => v.toFixed(2) },
+  { key: 'vy', min: -AXIS_LIMIT, max: AXIS_LIMIT, step: 0.05, format: (v) => v.toFixed(2) },
+  { key: 'vz', min: -AXIS_LIMIT, max: AXIS_LIMIT, step: 0.05, format: (v) => v.toFixed(2) },
+  { key: 'planeTilt', min: 0, max: 90, step: 1, format: (v) => `${v.toFixed(0)}°` },
+  { key: 'h', min: -2, max: 2, step: 0.05, format: (v) => v.toFixed(2) },
 ];
 
 /**
@@ -51,33 +47,87 @@ function measureExploreCanvas(host: HTMLElement): CanvasSize {
  * n̂·v 要恰好落在 0 才進得了「落在面內」與「平行」，靠拖滑桿碰不到，
  * 所以跟 line-plane-intersection 一樣用預設把三種狀態都變得看得見。
  */
-const RELATION_PRESETS: Array<{ label: string; patch: Partial<SpaceVectorsParams> }> = [
-  { label: '有距離', patch: { planeTilt: 78, vx: 1.9, vy: 1.2, vz: 1.6, h: 0.5 } },
-  { label: 'v 平行於平面', patch: { planeTilt: 90, vx: 1.9, vy: 1.2, vz: 0, h: 0.8 } },
-  { label: 'v 落在面內', patch: { planeTilt: 90, vx: 1.9, vy: 1.2, vz: 0, h: 0 } },
+const RELATION_PRESETS: Array<{ id: RelationState; patch: Partial<SpaceVectorsParams> }> = [
+  { id: 'apart', patch: { planeTilt: 78, vx: 1.9, vy: 1.2, vz: 1.6, h: 0.5 } },
+  { id: 'parallel', patch: { planeTilt: 90, vx: 1.9, vy: 1.2, vz: 0, h: 0.8 } },
+  { id: 'inPlane', patch: { planeTilt: 90, vx: 1.9, vy: 1.2, vz: 0, h: 0 } },
 ];
 
-function modeTitle(mode: ReadingMode): string {
+function modeLabel(mode: ReadingMode, locale?: 'en'): string {
+  if (locale === 'en') {
+    if (mode === 'position') return 'Position';
+    if (mode === 'direction') return 'Direction';
+    return 'Relation';
+  }
+  if (mode === 'position') return '位置讀法';
+  if (mode === 'direction') return '方向讀法';
+  return '關係讀法';
+}
+
+function modeTitle(mode: ReadingMode, locale?: 'en'): string {
+  if (locale === 'en') {
+    if (mode === 'position') return 'Where v is';
+    if (mode === 'direction') return 'Which way the plane faces';
+    return 'How the two are related';
+  }
   if (mode === 'position') return 'v 在哪裡';
   if (mode === 'direction') return '平面朝哪裡';
   return '兩者什麼關係';
 }
 
-export default function SpaceVectorsPlanesLinesExploreRoot() {
+function sliderLabel(key: SliderKey, locale?: 'en'): string {
+  if (locale === 'en') {
+    if (key === 'planeTilt') return 'Plane tilt';
+    if (key === 'h') return 'Plane offset h';
+    return `Component ${key}`;
+  }
+  if (key === 'planeTilt') return '平面傾角';
+  if (key === 'h') return '平面位移 h';
+  return `分量 ${key}`;
+}
+
+function presetLabel(id: RelationState, locale?: 'en'): string {
+  if (locale === 'en') {
+    if (id === 'apart') return 'At a distance';
+    if (id === 'parallel') return 'v parallel to the plane';
+    return 'v lies in the plane';
+  }
+  if (id === 'apart') return '有距離';
+  if (id === 'parallel') return 'v 平行於平面';
+  return 'v 落在面內';
+}
+
+function relationStateText(state: RelationState, locale?: 'en'): string {
+  if (locale !== 'en') return stateLabel(state);
+  if (state === 'inPlane') return 'v lies in the plane';
+  if (state === 'parallel') return 'v is parallel to the plane';
+  return 'v is at a distance from the plane';
+}
+
+type Props = {
+  locale?: 'en';
+};
+
+export default function SpaceVectorsPlanesLinesExploreRoot({ locale }: Props) {
   const [params, setParams] = useState<SpaceVectorsParams>(DEFAULT_SPACE_VECTORS_PARAMS);
+  const en = locale === 'en';
 
   const patchParams = useCallback((patch: Partial<SpaceVectorsParams>) => {
     setParams((prev) => ({ ...prev, ...patch }));
   }, []);
 
-  const render = useCallback((p: p5, current: SpaceVectorsParams, rotating: boolean) => {
-    renderSpaceVectorsPlanesLinesScene(p, {
-      width: p.width,
-      height: p.height,
-      params: current,
-      rotating,
-    });
-  }, []);
+  const render = useCallback(
+    (p: p5, current: SpaceVectorsParams, rotating: boolean) => {
+      renderSpaceVectorsPlanesLinesScene(p, {
+        width: p.width,
+        height: p.height,
+        params: current,
+        rotating,
+        locale,
+      });
+    },
+    [locale],
+  );
 
   const { canvasHostRef } = useOrbitViewP5({
     params,
@@ -94,7 +144,8 @@ export default function SpaceVectorsPlanesLinesExploreRoot() {
       return [
         ['v', formatVec3(metrics.v)],
         ...metrics.shadows.map(
-          (shadow) => [`${shadow.plane} 影子`, formatVec3(shadow.vector)] as [string, string],
+          (shadow) =>
+            [`${shadow.plane} ${en ? 'shadow' : '影子'}`, formatVec3(shadow.vector)] as [string, string],
         ),
       ];
     }
@@ -108,38 +159,44 @@ export default function SpaceVectorsPlanesLinesExploreRoot() {
     return [
       ['n̂·v', metrics.normalComponent.toFixed(3)],
       ['n̂·v − h', metrics.signedDistance.toFixed(3)],
-      ['狀態', stateLabel(metrics.state)],
+      [en ? 'State' : '狀態', relationStateText(metrics.state, locale)],
     ];
-  }, [metrics, params.mode]);
+  }, [en, locale, metrics, params.mode]);
 
   return (
     <div className="space-vectors-explore">
       <div className="space-vectors-explore__stage">
         <div className="space-vectors-explore__visual">
-          <p className="space-vectors-explore__visual-title">空間向量與平面直線</p>
-          <p className="space-vectors-explore__visual-sub">{modeTitle(params.mode)}</p>
+          <p className="space-vectors-explore__visual-title">
+            {en ? 'Spatial vectors, planes, and lines' : '空間向量與平面直線'}
+          </p>
+          <p className="space-vectors-explore__visual-sub">{modeTitle(params.mode, locale)}</p>
           <div
             ref={canvasHostRef}
             className="space-vectors-explore__canvas"
             role="img"
-            aria-label="空間向量與平面直線互動視覺化：拖動畫面可旋轉視角"
+            aria-label={
+              en
+                ? 'Spatial vectors, planes, and lines: drag to rotate the view'
+                : '空間向量與平面直線互動視覺化：拖動畫面可旋轉視角'
+            }
           />
         </div>
 
         <aside className="space-vectors-explore__sidebar">
           <div className="space-vectors-explore__block">
-            <p className="space-vectors-explore__block-title">讀法</p>
+            <p className="space-vectors-explore__block-title">{en ? 'Reading' : '讀法'}</p>
             <div className="space-vectors-explore__modes">
-              {MODES.map((item) => (
+              {MODES.map((mode) => (
                 <button
-                  key={item.value}
+                  key={mode}
                   type="button"
                   className="space-vectors-explore__mode-button"
-                  data-active={params.mode === item.value}
-                  aria-pressed={params.mode === item.value}
-                  onClick={() => patchParams({ mode: item.value })}
+                  data-active={params.mode === mode}
+                  aria-pressed={params.mode === mode}
+                  onClick={() => patchParams({ mode })}
                 >
-                  {item.label}
+                  {modeLabel(mode, locale)}
                 </button>
               ))}
             </div>
@@ -147,16 +204,16 @@ export default function SpaceVectorsPlanesLinesExploreRoot() {
 
           {params.mode === 'relation' ? (
             <div className="space-vectors-explore__block">
-              <p className="space-vectors-explore__block-title">三種狀態</p>
+              <p className="space-vectors-explore__block-title">{en ? 'Three states' : '三種狀態'}</p>
               <div className="space-vectors-explore__modes">
                 {RELATION_PRESETS.map((preset) => (
                   <button
-                    key={preset.label}
+                    key={preset.id}
                     type="button"
                     className="space-vectors-explore__mode-button"
                     onClick={() => patchParams(preset.patch)}
                   >
-                    {preset.label}
+                    {presetLabel(preset.id, locale)}
                   </button>
                 ))}
               </div>
@@ -164,11 +221,11 @@ export default function SpaceVectorsPlanesLinesExploreRoot() {
           ) : null}
 
           <div className="space-vectors-explore__block">
-            <p className="space-vectors-explore__block-title">場景</p>
+            <p className="space-vectors-explore__block-title">{en ? 'Scene' : '場景'}</p>
             {SLIDERS.map((slider) => (
               <div className="control-field" key={slider.key}>
                 <label htmlFor={`space-vectors-${slider.key}`}>
-                  <span>{slider.label}</span>
+                  <span>{sliderLabel(slider.key, locale)}</span>
                   <span className="control-field__value">{slider.format(params[slider.key])}</span>
                 </label>
                 <div className="range-wrap">
@@ -190,12 +247,17 @@ export default function SpaceVectorsPlanesLinesExploreRoot() {
           </div>
 
           <div className="space-vectors-explore__block">
-            <p className="space-vectors-explore__block-title">視角</p>
-            <OrbitViewControls idPrefix="space-vectors" params={params} onParamsChange={patchParams} />
+            <p className="space-vectors-explore__block-title">{en ? 'View' : '視角'}</p>
+            <OrbitViewControls
+              idPrefix="space-vectors"
+              params={params}
+              onParamsChange={patchParams}
+              locale={locale}
+            />
           </div>
 
           <div className="space-vectors-explore__block">
-            <p className="space-vectors-explore__block-title">讀數</p>
+            <p className="space-vectors-explore__block-title">{en ? 'Readings' : '讀數'}</p>
             {readings.map(([label, value]) => (
               <p className="space-vectors-explore__reading" key={label}>
                 <span>{label}</span>

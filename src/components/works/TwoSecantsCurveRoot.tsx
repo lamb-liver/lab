@@ -15,13 +15,31 @@ import {
   useCirclePowerP5,
 } from '../curve/useCirclePowerP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
+import type { CurveMetadata } from '../../curve/types';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function TwoSecantsCurveRoot({ controlsMountId }: Props) {
+const EN_STATS: Record<string, string> = {
+  horizontal: 'Horizontal',
+  slanted: 'Slanted',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Two secants',
+    stats: metadata.stats.map((stat) => ({
+      ...stat,
+      label: EN_STATS[stat.key] ?? stat.label,
+    })),
+  };
+}
+
+export default function TwoSecantsCurveRoot({ controlsMountId, locale }: Props) {
   const [p, setP] = useState(P_DEFAULT);
   const [thetaDeg, setThetaDeg] = useState(THETA_DEFAULT_DEG);
   const { canvasHostRef } = useCirclePowerP5(
@@ -29,18 +47,23 @@ export default function TwoSecantsCurveRoot({ controlsMountId }: Props) {
     measureCirclePowerWorkCanvas,
   );
   const metadata = twoSecantsModule.getMetadata({ p, thetaDeg });
+  const shown = locale === 'en' ? englishMetadata(metadata) : metadata;
 
   return (
     <>
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="兩條割線：水平割線與斜割線的兩段乘積"
+        aria-label={
+          locale === 'en'
+            ? 'Two secants: products along the horizontal secant and the slanted secant'
+            : '兩條割線：水平割線與斜割線的兩段乘積'
+        }
       />
-      <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+      <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
         <div className="control-field">
           <label htmlFor="two-secants-p">
-            <span>位置 p</span>
+            <span>{locale === 'en' ? 'Position p' : '位置 p'}</span>
             <span className="control-field__value">{p.toFixed(2)}</span>
           </label>
           <div className="range-wrap">
@@ -62,7 +85,7 @@ export default function TwoSecantsCurveRoot({ controlsMountId }: Props) {
         </div>
         <div className="control-field">
           <label htmlFor="two-secants-theta">
-            <span>偏角</span>
+            <span>{locale === 'en' ? 'Angle' : '偏角'}</span>
             <span className="control-field__value">{formatDegrees(thetaDeg)}</span>
           </label>
           <div className="range-wrap">

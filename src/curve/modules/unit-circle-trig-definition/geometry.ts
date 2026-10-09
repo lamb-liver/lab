@@ -103,18 +103,19 @@ export function signLabel(v: number) {
   return v > 0 ? '+' : '−';
 }
 
-export function quadrantLabel(thetaNorm: number) {
+export function quadrantLabel(thetaNorm: number, locale?: 'en') {
   const c = Math.cos(thetaNorm);
   const s = Math.sin(thetaNorm);
+  const en = locale === 'en';
 
-  if (Math.abs(s) < EPS && c > 0) return '正 x 軸';
-  if (Math.abs(c) < EPS && s > 0) return '正 y 軸';
-  if (Math.abs(s) < EPS && c < 0) return '負 x 軸';
-  if (Math.abs(c) < EPS && s < 0) return '負 y 軸';
-  if (c > 0 && s > 0) return '第一象限';
-  if (c < 0 && s > 0) return '第二象限';
-  if (c < 0 && s < 0) return '第三象限';
-  return '第四象限';
+  if (Math.abs(s) < EPS && c > 0) return en ? 'positive x-axis' : '正 x 軸';
+  if (Math.abs(c) < EPS && s > 0) return en ? 'positive y-axis' : '正 y 軸';
+  if (Math.abs(s) < EPS && c < 0) return en ? 'negative x-axis' : '負 x 軸';
+  if (Math.abs(c) < EPS && s < 0) return en ? 'negative y-axis' : '負 y 軸';
+  if (c > 0 && s > 0) return en ? 'quadrant I' : '第一象限';
+  if (c < 0 && s > 0) return en ? 'quadrant II' : '第二象限';
+  if (c < 0 && s < 0) return en ? 'quadrant III' : '第三象限';
+  return en ? 'quadrant IV' : '第四象限';
 }
 
 export function asUnitCircleParams(
@@ -200,9 +201,15 @@ export function getTrigValues(thetaNorm: number) {
   return { cosValue, sinValue, tanValue };
 }
 
-export function getVisualCaption(thetaNorm: number) {
+export function getVisualCaption(thetaNorm: number, locale?: 'en') {
   const { cosValue, sinValue, tanValue } = getTrigValues(thetaNorm);
-  const q = quadrantLabel(thetaNorm);
+  const q = quadrantLabel(thetaNorm, locale);
+  if (locale === 'en') {
+    let textValue = `${q}: cos ${signLabel(cosValue)}, sin ${signLabel(sinValue)}`;
+    if (!Number.isFinite(tanValue)) textValue += ', tan undefined';
+    else textValue += `, tan ${signLabel(tanValue)}`;
+    return textValue;
+  }
   let textValue = `${q}：cos ${signLabel(cosValue)}，sin ${signLabel(sinValue)}`;
   if (!Number.isFinite(tanValue)) textValue += '，tan 未定義';
   else textValue += `，tan ${signLabel(tanValue)}`;

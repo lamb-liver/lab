@@ -1,13 +1,36 @@
 ---
 import '../styles/components/nav.css';
 
-const links = [
-  { path: '/works', label: '作品集' },
-  { path: '/explore', label: '主題導覽' },
-  { path: '/exam', label: '試題視覺化' },
-  { path: '/concept', label: '概念' },
-  { path: '/about', label: '關於' },
-];
+interface Props {
+  locale?: 'en';
+  /** 語言切換按鈕的目標：另一語言的對應頁（沒有就是最近的列表頁或首頁） */
+  langTogglePath: string;
+}
+
+const { locale, langTogglePath } = Astro.props;
+const en = locale === 'en';
+const langToggle = en
+  ? { label: '中文', lang: 'zh-Hant', aria: '切換至中文版' }
+  : { label: 'English', lang: 'en', aria: 'Switch to English' };
+
+const links = en
+  ? [
+      { path: '/en/works', label: 'Works' },
+      { path: '/en/explore', label: 'Explore' },
+      { path: '/en/exam', label: 'Exams' },
+      { path: '/en/concept', label: 'Concepts' },
+      { path: '/en/about', label: 'About' },
+    ]
+  : [
+      { path: '/works', label: '作品集' },
+      { path: '/explore', label: '主題導覽' },
+      { path: '/exam', label: '試題視覺化' },
+      { path: '/concept', label: '概念' },
+      { path: '/about', label: '關於' },
+    ];
+const menuLabels = en
+  ? { open: 'Open menu', close: 'Close menu' }
+  : { open: '開啟選單', close: '關閉選單' };
 
 const pathname = Astro.url.pathname;
 
@@ -19,15 +42,17 @@ function isActivePath(path: string, current: string): boolean {
 
 <header class="site-nav">
   <div class="site-nav__inner">
-    <a href="/" class="site-nav__logo">羊·實驗</a>
+    <a href={en ? '/en/' : '/'} class="site-nav__logo">羊·實驗</a>
 
     <button
       class="site-nav__menu-button"
       type="button"
-      aria-label="開啟選單"
+      aria-label={menuLabels.open}
       aria-expanded="false"
       aria-controls="site-nav-links"
       data-nav-toggle
+      data-label-open={menuLabels.open}
+      data-label-close={menuLabels.close}
     >
       <span class="site-nav__hamburger" aria-hidden="true">
         <span />
@@ -39,7 +64,7 @@ function isActivePath(path: string, current: string): boolean {
     <nav
       id="site-nav-links"
       class="site-nav__links"
-      aria-label="主要導覽"
+      aria-label={en ? 'Main navigation' : '主要導覽'}
       data-nav-links
       data-open="false"
     >
@@ -54,10 +79,55 @@ function isActivePath(path: string, current: string): boolean {
         ))
       }
     </nav>
+
+    <a
+      href={langTogglePath}
+      class="site-nav__lang"
+      hreflang={langToggle.lang}
+      lang={langToggle.lang}
+      aria-label={langToggle.aria}
+      data-lang-toggle
+      data-keep-params="subject"
+    >
+      {langToggle.label}
+    </a>
   </div>
 </header>
 
 <script>
+  // 語言切換保留兩種語言共用的篩選參數（試題考科用同一組 enum）；搜尋字與錨點不同語言對不上，不帶
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-toggle]').forEach((link) => {
+    const base = link.getAttribute('href') ?? '/';
+    const keep = (link.dataset.keepParams ?? '').split(',').filter(Boolean);
+    const sync = () => {
+      const current = new URLSearchParams(window.location.search);
+      const next = new URLSearchParams();
+      for (const key of keep) {
+        const value = current.get(key);
+        if (value) next.set(key, value);
+      }
+      const query = next.toString();
+      link.href = query ? `${base}?${query}` : base;
+    };
+    // 按下切換就把語言偏好存成全站設定（localStorage + cookie），之後瀏覽都維持這個語言
+    const remember = () => {
+      const lang = link.getAttribute('lang') === 'en' ? 'en' : 'zh-Hant';
+      try {
+        localStorage.setItem('lab-lang', lang);
+      } catch {
+        /* 私密模式等情況下 localStorage 不可用，靠 cookie */
+      }
+      document.cookie = `lab-lang=${lang}; path=/; max-age=31536000; SameSite=Lax`;
+    };
+    link.addEventListener('pointerdown', sync);
+    link.addEventListener('focus', sync);
+    link.addEventListener('click', () => {
+      sync();
+      remember();
+    });
+    link.addEventListener('auxclick', remember);
+  });
+
   const toggle = document.querySelector('[data-nav-toggle]') as HTMLButtonElement | null;
   const links = document.querySelector('[data-nav-links]') as HTMLElement | null;
 
@@ -65,7 +135,8 @@ function isActivePath(path: string, current: string): boolean {
     if (!links) return;
     links.dataset.open = open ? 'true' : 'false';
     toggle?.setAttribute('aria-expanded', open ? 'true' : 'false');
-    toggle?.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+    const label = open ? toggle?.dataset.labelClose : toggle?.dataset.labelOpen;
+    if (label) toggle?.setAttribute('aria-label', label);
   };
 
   toggle?.addEventListener('click', () => {

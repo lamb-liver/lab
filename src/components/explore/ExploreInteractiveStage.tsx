@@ -4,6 +4,8 @@ import {
   isExploreInteractive,
 } from '../../explore/interactiveRegistry';
 
+type RootProps = { locale?: 'en' };
+
 // Each root is code-split per slug so an explore page only downloads its own root chunk.
 const rootBySlug = {
   'fourier-series': lazy(() => import('./FourierSeriesExploreRoot')),
@@ -29,18 +31,19 @@ const rootBySlug = {
   'iteration-dynamics': lazy(() => import('./IterationDynamicsExploreRoot')),
   'complex-powers-roots': lazy(() => import('./ComplexPowersRootsExploreRoot')),
   'secants-and-tangents': lazy(() => import('./SecantsTangentsExploreRoot')),
-} satisfies Record<ExploreInteractiveSlug, ComponentType>;
+} satisfies Record<ExploreInteractiveSlug, ComponentType<RootProps>>;
 
 export const exploreStageRootSlugs = Object.keys(rootBySlug).sort() as ExploreInteractiveSlug[];
 
 type Props = {
   slug: string;
+  locale?: 'en';
 };
 
-export default function ExploreInteractiveStage({ slug }: Props) {
+export default function ExploreInteractiveStage({ slug, locale }: Props) {
   if (!isExploreInteractive(slug)) return null;
 
-  const Root = rootBySlug[slug];
+  const Root: ComponentType<RootProps> = rootBySlug[slug];
   return (
     <Suspense
       fallback={
@@ -48,13 +51,13 @@ export default function ExploreInteractiveStage({ slug }: Props) {
           className={`interactive-loading interactive-loading--explore${slug === 'fourier-series' ? ' interactive-loading--square' : ''}`}
           role="status"
           aria-live="polite"
-          aria-label="互動內容載入中"
+          aria-label={locale === 'en' ? 'Loading the figure' : '互動內容載入中'}
         >
           <span className="interactive-loading__mark" />
         </div>
       }
     >
-      <Root />
+      <Root locale={locale} />
     </Suspense>
   );
 }

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
 import {
   CHAOS_POINTS_PER_FRAME,
+  CLASSIFY_MAX_PERIOD,
   CHAOS_RATIO_DEFAULT,
   CHAOS_RATIO_MAX,
   CHAOS_RATIO_MIN,
@@ -35,10 +36,10 @@ const CANVAS_MAX = 440;
 
 type IterationMode = 'cobweb' | 'bifurcation' | 'chaos';
 
-const MODE_OPTIONS: Array<{ key: IterationMode; label: string }> = [
-  { key: 'cobweb', label: '蛛網圖' },
-  { key: 'bifurcation', label: '分岔圖' },
-  { key: 'chaos', label: '混沌遊戲' },
+const MODE_OPTIONS: Array<{ key: IterationMode; label: string; en: string }> = [
+  { key: 'cobweb', label: '蛛網圖', en: 'Cobweb' },
+  { key: 'bifurcation', label: '分岔圖', en: 'Bifurcation' },
+  { key: 'chaos', label: '混沌遊戲', en: 'Chaos game' },
 ];
 
 function measureCanvas(host: HTMLElement): number {
@@ -49,7 +50,10 @@ function measureCanvas(host: HTMLElement): number {
   return Math.max(240, size);
 }
 
-export default function IterationDynamicsExploreRoot() {
+type Props = { locale?: 'en' };
+
+export default function IterationDynamicsExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [mode, setMode] = useState<IterationMode>('cobweb');
   const [r, setR] = useState(R_DEFAULT);
   const [x0, setX0] = useState(X0_DEFAULT);
@@ -97,8 +101,24 @@ export default function IterationDynamicsExploreRoot() {
 
   const behavior = useMemo(() => classifyBehavior(r, x0), [r, x0]);
 
+  const behaviorLabel = !en
+    ? behavior.label
+    : behavior.kind === 'fixed'
+      ? 'converges to a fixed point'
+      : behavior.kind === 'periodic'
+        ? `period-${behavior.period} cycle`
+        : `no period up to ${CLASSIFY_MAX_PERIOD} detected`;
+
   let stateText: string;
-  if (mode === 'cobweb') {
+  if (en) {
+    if (mode === 'cobweb') {
+      stateText = `r = ${r.toFixed(2)} | long-run behavior: ${behaviorLabel}`;
+    } else if (mode === 'bifurcation') {
+      stateText = `Drag r to move the marker and see whether it sits on a single branch, a short-period branch, or a dense band (finite-tail reading: ${behaviorLabel})`;
+    } else {
+      stateText = `ratio = ${ratio.toFixed(2)} | move this fraction toward a random vertex; 0.5 → Sierpinski triangle`;
+    }
+  } else if (mode === 'cobweb') {
     stateText = `r = ${r.toFixed(2)}｜長期行為：${behavior.label}`;
   } else if (mode === 'bifurcation') {
     stateText = `拖動 r 移動標記，看它落在單一分支、短週期分支或密集帶（有限尾段判讀：${behavior.label}）`;
@@ -106,10 +126,20 @@ export default function IterationDynamicsExploreRoot() {
     stateText = `ratio = ${ratio.toFixed(2)}｜朝隨機頂點移動此比例；0.5 → 謝爾賓斯基三角形`;
   }
 
-  const visualTitle =
-    mode === 'cobweb' ? '蛛網圖' : mode === 'bifurcation' ? '分岔圖' : '混沌遊戲';
-  const canvasLabel =
-    mode === 'cobweb'
+  const visualTitle = en
+    ? MODE_OPTIONS.find((option) => option.key === mode)!.en
+    : mode === 'cobweb'
+      ? '蛛網圖'
+      : mode === 'bifurcation'
+        ? '分岔圖'
+        : '混沌遊戲';
+  const canvasLabel = en
+    ? mode === 'cobweb'
+      ? 'Cobweb diagram of the logistic map, interactive'
+      : mode === 'bifurcation'
+        ? 'Bifurcation diagram of the logistic map, interactive'
+        : 'Chaos game generating a fractal, interactive'
+    : mode === 'cobweb'
       ? '單峰映射的蛛網圖互動視覺化'
       : mode === 'bifurcation'
         ? '單峰映射的分岔圖互動視覺化'
@@ -129,7 +159,7 @@ export default function IterationDynamicsExploreRoot() {
         </div>
 
         <aside className="iteration-explore__sidebar">
-          <div className="iteration-explore__mode-tabs" aria-label="模式">
+          <div className="iteration-explore__mode-tabs" aria-label={en ? 'Mode' : '模式'}>
             {MODE_OPTIONS.map((option) => (
               <button
                 key={option.key}
@@ -139,7 +169,7 @@ export default function IterationDynamicsExploreRoot() {
                 onClick={() => setMode(option.key)}
                 aria-pressed={mode === option.key}
               >
-                {option.label}
+                {en ? option.en : option.label}
               </button>
             ))}
           </div>
@@ -152,7 +182,7 @@ export default function IterationDynamicsExploreRoot() {
             {mode !== 'chaos' && (
               <div className="control-field">
                 <label htmlFor="iter-r">
-                  成長率 r
+                  {en ? 'Growth rate r' : '成長率 r'}
                   <span className="iteration-explore__val">{r.toFixed(2)}</span>
                 </label>
                 <div className="range-wrap">
@@ -173,7 +203,7 @@ export default function IterationDynamicsExploreRoot() {
             {mode === 'cobweb' && (
               <div className="control-field">
                 <label htmlFor="iter-x0">
-                  起始值 x₀
+                  {en ? 'Initial value x₀' : '起始值 x₀'}
                   <span className="iteration-explore__val">{x0.toFixed(2)}</span>
                 </label>
                 <div className="range-wrap">
@@ -194,7 +224,7 @@ export default function IterationDynamicsExploreRoot() {
             {mode === 'chaos' && (
               <div className="control-field">
                 <label htmlFor="iter-ratio">
-                  跳躍比例 ratio
+                  {en ? 'Jump ratio' : '跳躍比例 ratio'}
                   <span className="iteration-explore__val">{ratio.toFixed(2)}</span>
                 </label>
                 <div className="range-wrap">
@@ -214,7 +244,13 @@ export default function IterationDynamicsExploreRoot() {
           </div>
 
           <p className="iteration-explore__formula">
-            {mode === 'cobweb'
+            {en
+              ? mode === 'cobweb'
+                ? 'xₙ₊₁ = r·xₙ(1 − xₙ) | the staircase bounces between the curve and y=x'
+                : mode === 'bifurcation'
+                  ? 'For each r, drop the transient and plot the long-run values; after period doubling, dense bands and periodic windows appear'
+                  : 'Applying contraction maps at random gathers the points into a self-similar fractal'
+              : mode === 'cobweb'
               ? 'xₙ₊₁ = r·xₙ(1 − xₙ)｜階梯沿曲線與 y=x 反覆彈跳'
               : mode === 'bifurcation'
                 ? '每個 r 丟棄暫態後畫出長期落點；週期倍增後可見密集帶與週期窗口'

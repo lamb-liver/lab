@@ -16,6 +16,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: GradientLevelCurvesParams;
   onParamsChange: (patch: Partial<GradientLevelCurvesParams>) => void;
+  locale?: 'en';
 };
 
 const POINT_HIT_PX = 20;
@@ -25,9 +26,10 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useGradientLevelCurvesP5({ params, onParamsChange }: Options) {
+export function useGradientLevelCurvesP5({ params, onParamsChange, locale }: Options) {
   const paramsRef = useRef(params);
   const onParamsChangeRef = useRef(onParamsChange);
+  const localeRef = useRef(locale);
   const dragRef = useRef(false);
 
   useEffect(() => {
@@ -38,12 +40,17 @@ export function useGradientLevelCurvesP5({ params, onParamsChange }: Options) {
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     renderGradientLevelCurvesScene(p, {
       width: p.width,
       height: p.height,
       params: paramsRef.current,
       dragging: dragRef.current,
+      locale: localeRef.current,
     });
   }, []);
 

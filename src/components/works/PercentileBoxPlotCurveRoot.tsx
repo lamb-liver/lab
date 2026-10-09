@@ -16,7 +16,14 @@ import {
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId: string };
+type Props = { controlsMountId: string; locale?: 'en' };
+
+const EN_LABELS: Record<string, string> = {
+  n: 'Sample size n',
+  spread: 'Spread s',
+  skew: 'Skew γ',
+  fenceK: 'Whisker multiple k',
+};
 
 function createState(params: ParamValues): PercentileBoxPlotWorkState {
   return {
@@ -33,8 +40,18 @@ function resetValues(state: PercentileBoxPlotWorkState) {
   state.selectedIndex = -1;
 }
 
-export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
+export default function PercentileBoxPlotCurveRoot({ controlsMountId, locale }: Props) {
   const module = percentileBoxPlotModule;
+  const en = locale === 'en';
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
   const stateRef = useRef<PercentileBoxPlotWorkState>(createState(module.defaultParams));
   const [redrawKey, rerender] = useState(0);
 
@@ -44,16 +61,18 @@ export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
     rerender((n) => n + 1);
   }, []);
 
-  const { canvasHostRef } = usePercentileBoxPlotP5({ stateRef, onStateChange, redrawKey });
+  const { canvasHostRef } = usePercentileBoxPlotP5({ stateRef, onStateChange, redrawKey, locale });
 
 
   const state = stateRef.current;
   const metadata = getPercentileBoxPlotMetadata(state.params, state.values);
+  const shown = en ? { ...metadata, title: 'Percentiles and a box plot' } : metadata;
+  const text = (zh: string, english: string) => (en ? english : zh);
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={state.params}
         onChange={(key, value) =>
           updateState((next) => {
@@ -63,14 +82,14 @@ export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
         }
       />
 
-      <div className="curve-work-mode-toggle" aria-label="顯示選項">
+      <div className="curve-work-mode-toggle" aria-label={text('顯示選項', 'Display')}>
         <button
           type="button"
           className="curve-work-mode-button"
           aria-pressed={state.showPercentiles}
           onClick={() => updateState((next) => { next.showPercentiles = !next.showPercentiles; })}
         >
-          百分位
+          {text('百分位', 'Percentiles')}
         </button>
         <button
           type="button"
@@ -78,7 +97,7 @@ export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
           aria-pressed={state.showSortedRanks}
           onClick={() => updateState((next) => { next.showSortedRanks = !next.showSortedRanks; })}
         >
-          順位
+          {text('順位', 'Ranks')}
         </button>
         <button
           type="button"
@@ -92,7 +111,7 @@ export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
             }
           })}
         >
-          刪除
+          {text('刪除', 'Delete')}
         </button>
         <button
           type="button"
@@ -100,22 +119,22 @@ export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
           aria-pressed={false}
           onClick={() => updateState(resetValues)}
         >
-          重設
+          {text('重設', 'Reset')}
         </button>
       </div>
 
-      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="資料操作">
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label={text('資料操作', 'Edit the sample')}>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.values = shiftValues(next.values, -0.5); })}>
-          左移
+          {text('左移', 'Shift left')}
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.values = shiftValues(next.values, 0.5); })}>
-          右移
+          {text('右移', 'Shift right')}
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.values = stretchValues(next.values, 0.82); })}>
-          收攏
+          {text('收攏', 'Pull in')}
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.values = stretchValues(next.values, 1.18); })}>
-          拉開
+          {text('拉開', 'Pull apart')}
         </button>
       </div>
     </WorkControlsPortal>
@@ -126,7 +145,7 @@ export default function PercentileBoxPlotCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="百分位數與盒鬚圖互動視覺化"
+        aria-label={en ? 'Percentiles and a box plot' : '百分位數與盒鬚圖互動視覺化'}
       />
       {controls}
     </>

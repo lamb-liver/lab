@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteSeoEn } from '../../lib/seoCopy';
+import { indexAlternates } from '../../lib/translatedSlugs';
+import {
+  CONTACT_EMAIL,
+  FACEBOOK_URL,
+  GITHUB_URL,
+  PERSONAL_SITE_HOST,
+  PERSONAL_SITE_URL,
+  THREADS_HANDLE,
+  THREADS_URL,
+} from '../../lib/siteLinks';
+import '../../styles/pages/about.css';
+---
+
+<BaseLayout
+  title={siteSeoEn.about.title}
+  description={siteSeoEn.about.description}
+  ogType="website"
+  htmlLang="en"
+  ogLocale="en_US"
+  skipLabel="Skip to main content"
+  alternates={indexAlternates(Astro.site ?? Astro.url, '/about/')}
+>
+  <div class="container">
+    <div class="about-page">
+      <header class="page-header">
+        <h1>About</h1>
+      </header>
+
+      <section class="about-section">
+        <p>
+          I studied mathematics and now work as a front-end and Android engineer. This site uses
+          code to turn mathematical shapes and algorithms into interactive experiments you can
+          adjust.
+        </p>
+        <p>
+          Works dig into one object each. Explore links several ways of reading the same concept.
+          Exam visualizations take apart the steps where students get stuck on the GSAT, the AST,
+          and the AMC 12. The content runs from intuitive exploration to high-school and university
+          concepts. This is not a complete course; it is a set of experiment notes that make it easy
+          to come back and compare shapes.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2>Privacy</h2>
+        <p>
+          Page views on public pages are recorded with Umami. The script is proxied to Umami Cloud
+          through a path on this site.
+        </p>
+      </section>
+
+      <section class="about-section about-section--contact">
+        <h2>Contact</h2>
+        <div class="about-contact">
+          <div class="about-contact__row">
+            <p class="about-contact__label">Email</p>
+            <div class="about-contact__value">
+              <a href={`mailto:${CONTACT_EMAIL}`} class="about-contact__link">
+                {CONTACT_EMAIL}
+              </a>
+              <button
+                type="button"
+                class="about-contact__copy"
+                data-copy-email={CONTACT_EMAIL}
+                aria-describedby="about-copy-status"
+              >
+                Copy
+              </button>
+              <span id="about-copy-status" class="about-contact__copy-status" aria-live="polite"
+              ></span>
+            </div>
+          </div>
+          <div class="about-contact__row">
+            <p class="about-contact__label">Other</p>
+            <ul class="about-contact__social">
+              <li>
+                <a
+                  href={PERSONAL_SITE_URL}
+                  class="about-contact__link"
+                  target="_blank"
+                  rel="noopener noreferrer">{PERSONAL_SITE_HOST}</a
+                >
+              </li>
+              <li>
+                <a
+                  href={GITHUB_URL}
+                  class="about-contact__link"
+                  target="_blank"
+                  rel="noopener noreferrer">GitHub</a
+                >
+              </li>
+              <li>
+                <a
+                  href={THREADS_URL}
+                  class="about-contact__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Threads ${THREADS_HANDLE}`}>Threads</a
+                >
+              </li>
+              <li>
+                <a
+                  href={FACEBOOK_URL}
+                  class="about-contact__link"
+                  target="_blank"
+                  rel="noopener noreferrer">Facebook</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      var button = document.querySelector('[data-copy-email]');
+      var status = document.getElementById('about-copy-status');
+      if (!button || !status) return;
+      var statusTimer = 0;
+      var disposed = false;
+
+      function clearStatusTimer() {
+        if (!statusTimer) return;
+        window.clearTimeout(statusTimer);
+        statusTimer = 0;
+      }
+
+      function cleanup() {
+        disposed = true;
+        clearStatusTimer();
+      }
+
+      button.addEventListener('click', function () {
+        if (disposed) return;
+        var email = button.getAttribute('data-copy-email');
+        if (!email) return;
+
+        navigator.clipboard
+          .writeText(email)
+          .then(function () {
+            if (disposed) return;
+            clearStatusTimer();
+            status.textContent = 'Copied';
+            statusTimer = window.setTimeout(function () {
+              if (disposed) return;
+              status.textContent = '';
+              statusTimer = 0;
+            }, 2000);
+          })
+          .catch(function () {
+            if (disposed) return;
+            clearStatusTimer();
+            status.textContent = 'Copy failed. Select the address manually.';
+          });
+      });
+
+      window.addEventListener('pagehide', cleanup, { once: true });
+    })();
+  </script>
+</BaseLayout>

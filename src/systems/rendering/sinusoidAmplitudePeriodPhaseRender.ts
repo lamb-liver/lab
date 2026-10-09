@@ -89,19 +89,26 @@ function withGraphClip(p: p5, graph: Rect, draw: () => void) {
   p.pop();
 }
 
-function drawTitle(p: p5, layout: SceneLayout) {
+function drawTitle(p: p5, layout: SceneLayout, locale?: 'en') {
   const { visual } = layout;
+  const en = locale === 'en';
 
   p.noStroke();
   p.fill(235, 235, 235, 215);
   p.textSize(layout.compact ? 14 : 16);
   p.textAlign(p.LEFT, p.TOP);
-  p.text('正弦型函數的振幅、週期與相位', visual.x, visual.y);
+  p.text(
+    en ? 'Amplitude, period, and phase of a sinusoid' : '正弦型函數的振幅、週期與相位',
+    visual.x,
+    visual.y,
+  );
 
   p.fill(235, 235, 235, 90);
   p.textSize(12);
   p.text(
-    '比較基本正弦波與 y = A sin((2π/T)(x - φ)) + k 的差異。',
+    en
+      ? 'Compare the base sine wave with y = A sin((2π/T)(x − φ)) + k.'
+      : '比較基本正弦波與 y = A sin((2π/T)(x - φ)) + k 的差異。',
     visual.x,
     visual.y + 24,
     visual.w,
@@ -168,6 +175,7 @@ function drawCenterLine(
   p: p5,
   layout: SceneLayout,
   params: SinusoidAmplitudePeriodPhaseParams,
+  locale?: 'en',
 ) {
   const { graph, graphWorld } = layout;
   if (params.verticalShift < graphWorld.ymin || params.verticalShift > graphWorld.ymax) return;
@@ -184,7 +192,7 @@ function drawCenterLine(
   p.fill(ACCENT[0], ACCENT[1], ACCENT[2], 150);
   p.textSize(12);
   p.textAlign(p.LEFT, p.BOTTOM);
-  p.text('中心線 y = k', graph.x + 12, y - 6);
+  p.text(locale === 'en' ? 'Center line y = k' : '中心線 y = k', graph.x + 12, y - 6);
 }
 
 function drawHorizontalGuide(p: p5, layout: SceneLayout, yValue: number, label: string) {
@@ -271,6 +279,7 @@ function drawPeriodBracket(
   p: p5,
   layout: SceneLayout,
   params: SinusoidAmplitudePeriodPhaseParams,
+  locale?: 'en',
 ) {
   const { graph, graphWorld } = layout;
   const start = periodBracketStart(params, graphWorld);
@@ -291,18 +300,19 @@ function drawPeriodBracket(
   p.fill(GHOST[0], GHOST[1], GHOST[2], 115);
   p.textSize(11);
   p.textAlign(p.CENTER, p.BOTTOM);
-  p.text('週期 T', (x0 + x1) / 2, y - 6);
+  p.text(locale === 'en' ? 'Period T' : '週期 T', (x0 + x1) / 2, y - 6);
 }
 
 function drawParameterGuides(
   p: p5,
   layout: SceneLayout,
   params: SinusoidAmplitudePeriodPhaseParams,
+  locale?: 'en',
 ) {
-  drawCenterLine(p, layout, params);
+  drawCenterLine(p, layout, params, locale);
   drawAmplitudeBand(p, layout, params);
   drawPhaseLine(p, layout, params);
-  drawPeriodBracket(p, layout, params);
+  drawPeriodBracket(p, layout, params, locale);
 }
 
 function drawFunctionPath(p: p5, layout: SceneLayout, fn: (x: number) => number) {
@@ -349,6 +359,7 @@ function drawPeakAndTrough(
   p: p5,
   layout: SceneLayout,
   params: SinusoidAmplitudePeriodPhaseParams,
+  locale?: 'en',
 ) {
   if (!hasAmplitude(params)) return;
 
@@ -368,7 +379,11 @@ function drawPeakAndTrough(
     p.fill(ACCENT[0], ACCENT[1], ACCENT[2], 150);
     p.textSize(11);
     p.textAlign(p.LEFT, p.BOTTOM);
-    p.text(`波峰 (${formatRad(peak.x)}, ${fmt(peak.y)})`, px + 10, py - 8);
+    p.text(
+      `${locale === 'en' ? 'Peak' : '波峰'} (${formatRad(peak.x)}, ${fmt(peak.y)})`,
+      px + 10,
+      py - 8,
+    );
   }
 
   if (trough.visible) {
@@ -387,6 +402,7 @@ function drawFormulaCaption(
   p: p5,
   layout: SceneLayout,
   params: SinusoidAmplitudePeriodPhaseParams,
+  locale?: 'en',
 ) {
   const { visual, graph } = layout;
 
@@ -394,13 +410,14 @@ function drawFormulaCaption(
   p.fill(GHOST[0], GHOST[1], GHOST[2], 118);
   p.textSize(12);
   p.textAlign(p.LEFT, p.TOP);
-  p.text(interpretationText(params), visual.x, graph.y + graph.h + 34, visual.w, 44);
+  p.text(interpretationText(params, locale), visual.x, graph.y + graph.h + 34, visual.w, 44);
 }
 
 function drawCompactStats(
   p: p5,
   layout: SceneLayout,
   params: SinusoidAmplitudePeriodPhaseParams,
+  locale?: 'en',
 ) {
   if (!layout.compact) return;
 
@@ -421,30 +438,31 @@ function drawCompactStats(
     boxW - 28,
     20,
   );
-  p.text(formatPeakText(params, layout.graphWorld), visual.x + 14, visual.y + 106);
+  p.text(formatPeakText(params, layout.graphWorld, locale), visual.x + 14, visual.y + 106);
 }
 
 export function renderSinusoidAmplitudePeriodPhaseScene(
   p: p5,
   params: SinusoidAmplitudePeriodPhaseParams,
+  locale?: 'en',
 ) {
   const layout = layoutScene(p.width, p.height);
 
   p.background(BG[0], BG[1], BG[2]);
   p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
 
-  drawTitle(p, layout);
+  drawTitle(p, layout, locale);
   drawGraphFrame(p, layout);
-  if (params.showGuides) drawParameterGuides(p, layout, params);
+  if (params.showGuides) drawParameterGuides(p, layout, params, locale);
 
   withGraphClip(p, layout.graph, () => {
     if (params.showGhost) {
       drawFunctionCurve(p, layout, baseSin, GHOST, 34, 1.2);
     }
     drawFunctionCurve(p, layout, (x) => transformedSin(x, params), ACCENT, 235, 2.2, true);
-    drawPeakAndTrough(p, layout, params);
+    drawPeakAndTrough(p, layout, params, locale);
   });
 
-  drawFormulaCaption(p, layout, params);
-  drawCompactStats(p, layout, params);
+  drawFormulaCaption(p, layout, params, locale);
+  drawCompactStats(p, layout, params, locale);
 }

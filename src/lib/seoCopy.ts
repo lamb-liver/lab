@@ -34,3 +34,42 @@ export const siteSeo = {
     description: '從已知起點走到圖像延伸：可停在高中應用，也可接到大學概念。',
   },
 } as const;
+
+/** English section pages under /en/. Titles double as the visible h1 where noted. */
+export const siteSeoEn = {
+  home: {
+    title: '羊·實驗',
+    description:
+      'Interactive visualizations of mathematical formulas, curves, and algorithms, from intuitive exploration to high-school and university concepts. Works focus on one object each; Explore links experiments across a topic.',
+  },
+  works: {
+    title: 'Works',
+    description:
+      'In-depth works on single mathematical objects: each has the formula, an interactive figure with adjustable parameters, and a full write-up.',
+  },
+  explore: {
+    title: 'Math topics',
+    description:
+      'From geometry and algebra to analysis and statistics, interactive visualizations that build the core picture of each topic.',
+  },
+  exam: {
+    title: 'Exam visualizations',
+    description:
+      'Past GSAT, AST, and AMC 12 problems, with an interactive figure that takes apart the one step most students get stuck on.',
+  },
+  about: {
+    title: 'About',
+    description:
+      'About 羊·實驗: interactive experiments with mathematical shapes and algorithms, built in code, from intuitive exploration to high-school and university concepts.',
+  },
+  path: {
+    title: 'Curated paths',
+    description:
+      'Walk from a familiar starting point to a visual extension: stop at a high-school application, or keep going to a university concept.',
+  },
+  concept: {
+    title: 'Concept index',
+    description:
+      'Works, topic guides, and exam visualizations linked by mathematical concept, so one concept can be seen across different pieces.',
+  },
+} as const;

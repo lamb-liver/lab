@@ -1,6 +1,7 @@
 import type p5 from 'p5';
 import { DET_WARN_THRESHOLD, GRID_SAMPLE_STEP, GRID_STEP, WORLD_EXTENT } from '../../curve/modules/matrix-linear-transform/constants';
 import {
+  getSpecialControlTitle,
   getSpecialFormula,
   getSpecialNote,
   getSpecialTitle,
@@ -22,6 +23,7 @@ type MatrixLinearTransformSnap = {
   specialType: SpecialType;
   composeAngleDeg: number;
   composeShear: number;
+  locale?: 'en';
 };
 
 const ACCENT: [number, number, number] = [212, 184, 122];
@@ -275,43 +277,58 @@ export function buildMatrixSidebarState(
     const AB = multiplyMatrices(A, B);
     const BA = multiplyMatrices(B, A);
     const diff = matrixDifference(AB, BA);
+    const en = snap.locale === 'en';
+    const sameGrid = diff < 5e-4;
 
     return {
-      modeLabel: '模式：變換疊加',
-      matrixLabel: `差異 ≈ ${diff.toFixed(3)}`,
+      modeLabel: en ? 'Mode: Composition' : '模式：變換疊加',
+      matrixLabel: en ? `Difference ≈ ${diff.toFixed(3)}` : `差異 ≈ ${diff.toFixed(3)}`,
       detLabel: `det(AB) = ${matrixDet(AB).toFixed(3)} · det(BA) = ${matrixDet(BA).toFixed(3)}`,
-      noteLabel: '同樣的 A 與 B，順序不同會產生不同網格。',
-      formulaLabel: 'A = 旋轉\nB = 剪切\n\nAB = 先 B 後 A\nBA = 先 A 後 B',
+      noteLabel: sameGrid
+        ? en
+          ? 'This A and B give the same grid either way.'
+          : '這組 A 與 B 對調後仍是同一張網格。'
+        : en
+          ? 'The same A and B in a different order give a different grid.'
+          : '同樣的 A 與 B，順序不同會產生不同網格。',
+      formulaLabel: en
+        ? 'A = rotation\nB = shear\n\nAB = B then A\nBA = A then B'
+        : 'A = 旋轉\nB = 剪切\n\nAB = 先 B 後 A\nBA = 先 A 後 B',
       detWarning: false,
-      subtitle: 'AB ≠ BA',
+      subtitle: sameGrid ? 'AB = BA' : 'AB ≠ BA',
     };
   }
 
   const m = snap.currentMatrix;
   const det = matrixDet(m);
   const warning = Math.abs(det) < DET_WARN_THRESHOLD;
+  const en = snap.locale === 'en';
 
   if (snap.mode === 'free') {
     return {
-      modeLabel: '模式：自由變換',
+      modeLabel: en ? 'Mode: Free transform' : '模式：自由變換',
       matrixLabel: matrixText(m),
       detLabel: `det ≈ ${det.toFixed(3)}`,
       noteLabel: warning
-        ? 'det 接近 0，平面被壓縮成一條線。'
-        : '欄向量就是 î、ĵ 被送去的位置。',
+        ? en
+          ? 'det is near 0, so the plane is flattened to a line.'
+          : 'det 接近 0，平面被壓縮成一條線。'
+        : en
+          ? 'The column vectors are where î and ĵ are sent.'
+          : '欄向量就是 î、ĵ 被送去的位置。',
       formulaLabel: '[a b; c d] · [x; y]\n= [ax + by; cx + dy]',
       detWarning: warning,
-      subtitle: '自由變換',
+      subtitle: en ? 'Free transform' : '自由變換',
     };
   }
 
-  const title = getSpecialTitle(snap.specialType);
+  const title = en ? getSpecialControlTitle(snap.specialType, 'en') : getSpecialTitle(snap.specialType);
 
   return {
-    modeLabel: `模式：特殊變換 · ${title}`,
+    modeLabel: en ? `Mode: Special transform · ${title}` : `模式：特殊變換 · ${title}`,
     matrixLabel: matrixText(m),
     detLabel: `det ≈ ${det.toFixed(3)}`,
-    noteLabel: getSpecialNote(snap.specialType),
+    noteLabel: getSpecialNote(snap.specialType, snap.locale),
     formulaLabel: getSpecialFormula(snap.specialType),
     detWarning: warning,
     subtitle: title,

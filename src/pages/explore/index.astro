@@ -7,6 +7,7 @@ import { getCollection } from 'astro:content';
 import { collectExploreCategories, getPublishedAsc } from '../../content/utils';
 import { serializeSearchIndex } from '../../lib/listFilter';
 import { siteSeo } from '../../lib/seoCopy';
+import { indexAlternates } from '../../lib/translatedSlugs';
 import '../../styles/components/list-search.css';
 
 const explore = getPublishedAsc(await getCollection('explore'));
@@ -18,7 +19,12 @@ const searchIndex = explore.map((entry) => ({
 }));
 ---
 
-<BaseLayout title={siteSeo.explore.title} description={siteSeo.explore.description} ogType="website">
+<BaseLayout
+  title={siteSeo.explore.title}
+  description={siteSeo.explore.description}
+  ogType="website"
+  alternates={indexAlternates(Astro.site ?? Astro.url, '/explore/')}
+>
   <div
     class="container section-scope--explore"
     data-list-filter

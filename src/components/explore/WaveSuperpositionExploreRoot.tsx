@@ -12,6 +12,7 @@ import {
   GUIDE_PARAM_SCHEMA,
   SPEED_SCALE,
   SUPERPOSITION_PARAM_SCHEMA,
+  controlLabel,
 } from '../../explore/wave-superposition/constants';
 import type {
   BeatParams,
@@ -42,7 +43,10 @@ function measureWaveCanvas(host: HTMLElement): { width: number; height: number }
   return { width, height };
 }
 
-export default function WaveSuperpositionExploreRoot() {
+type Props = { locale?: 'en' };
+
+export default function WaveSuperpositionExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [mode, setMode] = useState<WaveMode>('guide');
   const [guide, setGuide] = useState<GuideParams>({ ...DEFAULT_GUIDE });
   const [superposition, setSuperposition] = useState<SuperpositionParams>({
@@ -56,21 +60,22 @@ export default function WaveSuperpositionExploreRoot() {
     guide,
     superposition,
     beat,
+    locale,
   });
 
   useEffect(() => {
-    snapRef.current = { ...snapRef.current, mode, guide, superposition, beat };
-  }, [mode, guide, superposition, beat]);
+    snapRef.current = { ...snapRef.current, mode, guide, superposition, beat, locale };
+  }, [mode, guide, superposition, beat, locale]);
 
-  const guideState = useMemo(() => getGuideState(guide), [guide]);
+  const guideState = useMemo(() => getGuideState(guide, locale), [guide, locale]);
 
   const infoText = useMemo(
     () => {
       if (mode === 'guide') return guideState.summary;
-      if (mode === 'superposition') return describeSuperposition(superposition);
-      return describeBeat(beat);
+      if (mode === 'superposition') return describeSuperposition(superposition, locale);
+      return describeBeat(beat, locale);
     },
-    [beat, guideState.summary, mode, superposition],
+    [beat, guideState.summary, mode, superposition, locale],
   );
 
   const draw = useCallback((p: p5) => {
@@ -88,27 +93,29 @@ export default function WaveSuperpositionExploreRoot() {
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureRect);
 
   const superpositionGroups = ['波 A', '波 B'] as const;
+  const groupLabel = (group: (typeof superpositionGroups)[number]) =>
+    en ? (group === '波 A' ? 'Wave A' : 'Wave B') : group;
   const modeOptions: Array<{ key: WaveMode; label: string }> = [
-    { key: 'guide', label: '導覽' },
-    { key: 'superposition', label: '疊加' },
-    { key: 'beat', label: '拍頻' },
+    { key: 'guide', label: en ? 'Guide' : '導覽' },
+    { key: 'superposition', label: en ? 'Superposition' : '疊加' },
+    { key: 'beat', label: en ? 'Beats' : '拍頻' },
   ];
 
   return (
     <div className="wave-explore">
       <div className="wave-explore__stage">
         <div className="wave-explore__visual">
-          <p className="wave-explore__visual-title">波的疊加</p>
+          <p className="wave-explore__visual-title">{en ? 'Superposition of waves' : '波的疊加'}</p>
           <div
             ref={canvasHostRef}
             className="wave-explore__canvas"
             role="img"
-            aria-label="波疊加與拍頻互動視覺化"
+            aria-label={en ? 'Wave superposition and beats, interactive' : '波疊加與拍頻互動視覺化'}
           />
         </div>
 
         <aside className="wave-explore__sidebar">
-          <div className="wave-explore__mode-tabs" aria-label="模式">
+          <div className="wave-explore__mode-tabs" aria-label={en ? 'Mode' : '模式'}>
             {modeOptions.map((option) => (
               <button
                 key={option.key}
@@ -129,11 +136,11 @@ export default function WaveSuperpositionExploreRoot() {
 
           {mode === 'guide' ? (
             <div className="wave-explore__control-block">
-              <p className="wave-explore__group-label">相位導覽</p>
+              <p className="wave-explore__group-label">{en ? 'Phase guide' : '相位導覽'}</p>
               {GUIDE_PARAM_SCHEMA.map((schema) => (
                 <div key={schema.key} className="control-field">
                   <label htmlFor={`guide-${schema.key}`}>
-                    {schema.label}
+                    {controlLabel(schema, locale)}
                     <span className="wave-explore__val">
                       {guide[schema.key].toFixed(2)}
                     </span>
@@ -163,18 +170,20 @@ export default function WaveSuperpositionExploreRoot() {
                 <p>{guideState.fringeLabel}</p>
               </div>
               <p className="wave-explore__note">
-                克拉尼圖形延伸的是節線概念；其形狀由振動板本徵模態決定。
+                {en
+                  ? 'Chladni figures extend the idea of nodal lines. Their shape comes from the eigenmodes of the vibrating plate.'
+                  : '克拉尼圖形延伸的是節線概念；其形狀由振動板本徵模態決定。'}
               </p>
             </div>
           ) : mode === 'superposition' ? (
             superpositionGroups.map((group) => (
               <div key={group} className="wave-explore__control-block">
-                <p className="wave-explore__group-label">{group}</p>
+                <p className="wave-explore__group-label">{groupLabel(group)}</p>
                 {SUPERPOSITION_PARAM_SCHEMA.filter((s) => s.group === group).map(
                   (schema) => (
                     <div key={schema.key} className="control-field">
                       <label htmlFor={`wave-${schema.key}`}>
-                        {schema.label}
+                        {controlLabel(schema, locale)}
                         <span className="wave-explore__val">
                           {superposition[schema.key].toFixed(2)}
                         </span>
@@ -205,11 +214,11 @@ export default function WaveSuperpositionExploreRoot() {
             ))
           ) : (
             <div className="wave-explore__control-block">
-              <p className="wave-explore__group-label">拍頻控制</p>
+              <p className="wave-explore__group-label">{en ? 'Beat controls' : '拍頻控制'}</p>
               {BEAT_PARAM_SCHEMA.map((schema) => (
                 <div key={schema.key} className="control-field">
                   <label htmlFor={`beat-${schema.key}`}>
-                    {schema.label}
+                    {controlLabel(schema, locale)}
                     <span className="wave-explore__val">
                       {beat[schema.key].toFixed(2)}
                     </span>
@@ -238,7 +247,9 @@ export default function WaveSuperpositionExploreRoot() {
 
           <p className="wave-explore__formula">
             {mode === 'guide'
-              ? 'Δφ 控制相位偏移；克拉尼圖形由本徵模態決定。'
+              ? en
+                ? 'Δφ sets the phase offset. Chladni figures come from eigenmodes.'
+                : 'Δφ 控制相位偏移；克拉尼圖形由本徵模態決定。'
               : 'f(x) = A₁sin(ω₁x + φ₁) + A₂sin(ω₂x + φ₂)'}
           </p>
         </aside>

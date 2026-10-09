@@ -11,17 +11,20 @@ const FIBONACCI_REVEAL_COMPLETE_EPSILON = 0.001;
 type Options = {
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
+  locale?: 'en';
 };
 
 export function useFibonacciSpiralP5({
   targetParams,
   onRevealPctChange,
+  locale,
 }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(0);
   const lastNRef = useRef(Math.round(targetParams.n ?? 10));
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
@@ -30,6 +33,10 @@ export function useFibonacciSpiralP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const restartKey = Math.round(targetParams.n ?? 10);
 
@@ -56,6 +63,7 @@ export function useFibonacciSpiralP5({
       height: p.height,
       params,
       revealProgress: revealRef.current,
+      locale: localeRef.current,
     });
 
     return { keepLooping: revealRef.current < 1 };

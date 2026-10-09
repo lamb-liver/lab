@@ -8,10 +8,27 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function ParabolicReflectionCurveRoot({ controlsMountId }: Props) {
+const EN_PARAM_LABELS: Record<string, string> = {
+  focalLength: 'Focal length p',
+  rayCount: 'Ray count',
+  scanSpeed: 'Scan speed ω',
+};
+
+export default function ParabolicReflectionCurveRoot({ controlsMountId, locale }: Props) {
   const module = parabolicReflectionModule;
+  const en = locale === 'en';
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_PARAM_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const [revealPct, setRevealPct] = useState(0);
@@ -42,7 +59,7 @@ export default function ParabolicReflectionCurveRoot({ controlsMountId }: Props)
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={targetParams}
         onChange={(key, value) => {
           setTargetParams((prev) => ({ ...prev, [key]: value }));
@@ -56,7 +73,11 @@ export default function ParabolicReflectionCurveRoot({ controlsMountId }: Props)
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="拋物線反射動畫"
+        aria-label={
+          en
+            ? 'Parabolic reflection: rays from the focus leave parallel to the axis'
+            : '拋物線反射動畫'
+        }
       />
       {controls}
     </>

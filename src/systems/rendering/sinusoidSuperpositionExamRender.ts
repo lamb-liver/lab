@@ -11,6 +11,7 @@ type SinusoidSuperpositionExamSnap = SinusoidCoefficients & {
   width: number;
   height: number;
   progress: number;
+  locale?: 'en';
 };
 
 type Plot = {
@@ -73,14 +74,14 @@ export function renderSinusoidSuperpositionExamScene(
   const legend = [
     { label: 'a sin x', color: WHITE, alpha: 92 },
     { label: 'b cos x', color: BLUE, alpha: 165 },
-    { label: '合成波', color: ACCENT, alpha: 230 },
-  ] as const;
+    { label: snap.locale === 'en' ? 'Sum' : '合成波', color: ACCENT, alpha: 230 },
+  ];
   p.textSize(12);
   p.textAlign(p.LEFT, p.CENTER);
   legend.forEach((item, index) => {
     const x = plot.x + index * Math.min(112, plot.w / 3);
     p.stroke(item.color[0], item.color[1], item.color[2], item.alpha);
-    p.strokeWeight(item.label === '合成波' ? 2.4 : 1.2);
+    p.strokeWeight(index === 2 ? 2.4 : 1.2);
     p.line(x, 24, x + 18, 24);
     p.noStroke();
     p.fill(item.color[0], item.color[1], item.color[2], Math.max(120, item.alpha));

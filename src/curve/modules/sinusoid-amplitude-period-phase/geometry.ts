@@ -209,23 +209,37 @@ export function formatRad(value: number) {
 export function formatPeakText(
   params: SinusoidAmplitudePeriodPhaseParams,
   world: GraphWorld = SINUSOID_WORLD,
+  locale?: 'en',
 ) {
-  if (!hasAmplitude(params)) return 'A = 0：退化為中心線，無波峰';
+  if (!hasAmplitude(params)) {
+    return locale === 'en' ? 'A = 0: collapses to the center line, no peak' : 'A = 0：退化為中心線，無波峰';
+  }
 
   const peak = peakInfo(params, world);
-  return `波峰 = (${formatRad(peak.x)}, ${fmt(peak.y)})`;
+  const label = locale === 'en' ? 'Peak' : '波峰';
+  return `${label} = (${formatRad(peak.x)}, ${fmt(peak.y)})`;
 }
 
-export function interpretationText(params: SinusoidAmplitudePeriodPhaseParams) {
+export function interpretationText(
+  params: SinusoidAmplitudePeriodPhaseParams,
+  locale?: 'en',
+) {
+  const en = locale === 'en';
   if (!hasAmplitude(params)) {
-    return 'A = 0：函數退化為中心線 y = k，沒有真正的波峰與波谷。';
+    return en
+      ? 'A = 0: the function collapses to the center line y = k, with no real peak or trough.'
+      : 'A = 0：函數退化為中心線 y = k，沒有真正的波峰與波谷。';
   }
 
   if (params.amplitude < 0) {
-    return 'A < 0：圖形相對中心線 y = k 上下翻轉；|A| 控制振幅，T 控制水平重複間距，φ 與 k 控制平移。';
+    return en
+      ? 'A < 0: the graph flips across the center line y = k. |A| sets the amplitude, T the spacing of repeats, φ the phase shift, and k the center line.'
+      : 'A < 0：圖形相對中心線 y = k 上下翻轉；|A| 控制振幅，T 控制水平重複間距，φ 與 k 控制平移。';
   }
 
-  return 'A 控制垂直尺度，T 控制水平尺度，φ 控制水平平移，k 控制中心線高度。';
+  return en
+    ? 'A sets the vertical scale, T the horizontal scale, φ the phase shift, and k the height of the center line.'
+    : 'A 控制垂直尺度，T 控制水平尺度，φ 控制水平平移，k 控制中心線高度。';
 }
 
 function toCurvePoint(x: number, y: number, theta: number, scaleX = 26, scaleY = 34): CurvePoint {

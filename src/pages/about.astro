@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteSeo } from '../lib/seoCopy';
+import { indexAlternates } from '../lib/translatedSlugs';
 import {
   CONTACT_EMAIL,
   FACEBOOK_URL,
@@ -13,7 +14,12 @@ import {
 import '../styles/pages/about.css';
 ---
 
-<BaseLayout title={siteSeo.about.title} description={siteSeo.about.description} ogType="website">
+<BaseLayout
+  title={siteSeo.about.title}
+  description={siteSeo.about.description}
+  ogType="website"
+  alternates={indexAlternates(Astro.site ?? Astro.url, '/about/')}
+>
   <div class="container">
     <div class="about-page">
       <header class="page-header">

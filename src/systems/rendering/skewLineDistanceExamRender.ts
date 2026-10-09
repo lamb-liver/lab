@@ -31,6 +31,7 @@ type Snap = {
   pitch: number;
   offset: number;
   rotating: boolean;
+  locale?: 'en';
 };
 
 const BG: Rgb = [10, 10, 10];
@@ -111,12 +112,14 @@ export function renderSkewLineDistanceExamScene(p: p5, snap: Snap): void {
     p,
     snap.width,
     [
-      '金線 AB 同時垂直 L₁、L₂',
-      '兩直線距離 |AB| = 4√2',
-      `|AP|=|BQ|=${snap.offset.toFixed(1)}，|PQ|≈${distance.toFixed(3)}`,
+      snap.locale === 'en'
+        ? 'The gold line AB is perpendicular to both L₁ and L₂'
+        : '金線 AB 同時垂直 L₁、L₂',
+      snap.locale === 'en' ? 'Distance between the lines |AB| = 4√2' : '兩直線距離 |AB| = 4√2',
+      `|AP|=|BQ|=${snap.offset.toFixed(1)}${snap.locale === 'en' ? ', ' : '，'}|PQ|≈${distance.toFixed(3)}`,
     ],
     { highlightIndex: 1, highlightColor: GOLD },
   );
 
-  if (snap.rotating) drawRotatingHint(p, snap.width, snap.height);
+  if (snap.rotating) drawRotatingHint(p, snap.width, snap.height, snap.locale);
 }

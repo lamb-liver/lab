@@ -17,7 +17,10 @@ function measureCanvas(host: HTMLElement): CanvasSize {
   return { width, height: Math.max(260, Math.round(width * 0.58)) };
 }
 
-export default function RotationCompositionExamRoot() {
+type Props = { locale?: 'en' };
+
+export default function RotationCompositionExamRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [comparisonId, setComparisonId] = useState<ComparisonId>('rotations');
   const [hasInteracted, setHasInteracted] = useState(false);
   const comparisonRef = useRef(getComparison(comparisonId));
@@ -50,10 +53,11 @@ export default function RotationCompositionExamRoot() {
       leftMatrix: current.leftMatrix,
       rightMatrix: current.rightMatrix,
       progress: progressRef.current,
+      locale,
     });
 
     return { keepLooping: progressRef.current < 1 };
-  }, []);
+  }, [locale]);
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, undefined, {
     restartOn: [comparisonId],
@@ -63,25 +67,35 @@ export default function RotationCompositionExamRoot() {
     <div className="exam-interactive-explore">
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
-          <p className="exam-interactive-explore__visual-title">矩陣合成比較</p>
+          <p className="exam-interactive-explore__visual-title">
+            {en ? 'Comparing matrix compositions' : '矩陣合成比較'}
+          </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>先想一想</strong>
-            相同兩個變換調換順序，結果一定相同嗎？
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
+            {en
+              ? 'If you swap the order of the same two transformations, is the result always the same?'
+              : '相同兩個變換調換順序，結果一定相同嗎？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            圖形會依序演出：乘積 XY 先做 Y，再做 X
+            {en
+              ? 'The figure plays the steps in order: the product XY applies Y first, then X'
+              : '圖形會依序演出：乘積 XY 先做 Y，再做 X'}
           </p>
           <div
             ref={canvasHostRef}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label={`${comparison.left} 與 ${comparison.right} 的變換結果比較`}
+            aria-label={
+              en
+                ? `Comparing the results of ${comparison.left} and ${comparison.right}`
+                : `${comparison.left} 與 ${comparison.right} 的變換結果比較`
+            }
           />
         </div>
 
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">選擇比較</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Choose a comparison' : '選擇比較'}</p>
             <div className="exam-interactive-explore__modes">
               {comparisonOptions.map((option) => (
                 <button
@@ -95,7 +109,7 @@ export default function RotationCompositionExamRoot() {
                     setHasInteracted(true);
                   }}
                 >
-                  {option.label}
+                  {en ? option.labelEn : option.label}
                 </button>
               ))}
             </div>
@@ -104,15 +118,15 @@ export default function RotationCompositionExamRoot() {
           {hasInteracted ? (
             <>
               <div className="exam-interactive-explore__block">
-                <p className="exam-interactive-explore__block-title">判斷</p>
+                <p className="exam-interactive-explore__block-title">{en ? 'Verdict' : '判斷'}</p>
                 <p className="exam-interactive-explore__result" aria-live="polite">
                   {comparison.left} {comparison.equal ? '=' : '≠'} {comparison.right}
                 </p>
-                <p className="exam-interactive-explore__note">{comparison.note}</p>
+                <p className="exam-interactive-explore__note">{en ? comparison.noteEn : comparison.note}</p>
               </div>
 
               <div className="exam-interactive-explore__block">
-                <p className="exam-interactive-explore__block-title">矩陣</p>
+                <p className="exam-interactive-explore__block-title">{en ? 'Matrices' : '矩陣'}</p>
                 <p className="exam-interactive-explore__matrix">
                   {comparison.left} = {matrixText(comparison.leftMatrix)}
                 </p>
@@ -123,19 +137,23 @@ export default function RotationCompositionExamRoot() {
             </>
           ) : (
             <div className="exam-interactive-explore__block">
-              <p className="exam-interactive-explore__block-title">先判斷</p>
+              <p className="exam-interactive-explore__block-title">{en ? 'Decide first' : '先判斷'}</p>
               <p className="exam-interactive-explore__note">
-                觀察兩邊的兩段變換，再選一組查看結論。
+                {en
+                  ? 'Watch the two steps on each side, then pick a pair to see the verdict.'
+                  : '觀察兩邊的兩段變換，再選一組查看結論。'}
               </p>
             </div>
           )}
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">四個基本變換</p>
+            <p className="exam-interactive-explore__block-title">
+              {en ? 'The four basic transformations' : '四個基本變換'}
+            </p>
             <p className="exam-interactive-explore__note">
-              A：順時針 90°　B：逆時針 90°
+              {en ? 'A: 90° clockwise · B: 90° counterclockwise' : 'A：順時針 90°　B：逆時針 90°'}
               <br />
-              C：對 x=y 鏡射　D：對 x=−y 鏡射
+              {en ? 'C: reflect in x=y · D: reflect in x=−y' : 'C：對 x=y 鏡射　D：對 x=−y 鏡射'}
             </p>
           </div>
         </aside>

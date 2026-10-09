@@ -29,6 +29,7 @@ type Snap = {
   yaw: number;
   pitch: number;
   rotating: boolean;
+  locale?: 'en';
 };
 
 const BG: Rgb = [10, 10, 10];
@@ -127,12 +128,14 @@ export function renderPlaneParallelLineDistanceExamScene(p: p5, snap: Snap): voi
     p,
     snap.width,
     [
-      'L₁ ⊂ {x=0}，L₂ ⊂ {z=0}，平行 ⇒ 方向 (0,1,0)',
-      '金線是共同垂線段',
+      snap.locale === 'en'
+        ? 'L₁ ⊂ {x=0}, L₂ ⊂ {z=0}, parallel ⇒ direction (0,1,0)'
+        : 'L₁ ⊂ {x=0}，L₂ ⊂ {z=0}，平行 ⇒ 方向 (0,1,0)',
+      snap.locale === 'en' ? 'The gold line is the common perpendicular' : '金線是共同垂線段',
       `|AB|=√185≈${PARALLEL_METRICS.distance.toFixed(3)}`,
     ],
     { highlightIndex: 2, highlightColor: GOLD },
   );
 
-  if (snap.rotating) drawRotatingHint(p, snap.width, snap.height);
+  if (snap.rotating) drawRotatingHint(p, snap.width, snap.height, snap.locale);
 }

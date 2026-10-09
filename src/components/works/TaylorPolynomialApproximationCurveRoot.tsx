@@ -10,15 +10,25 @@ import {
   taylorPolynomialApproximationModule,
   type TaylorPresetId,
 } from '../../curve/modules/taylor-polynomial-approximation';
+import type { CurveMetadata } from '../../curve/types';
 import { useTaylorPolynomialApproximationP5 } from '../curve/useTaylorPolynomialApproximationP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId }: Props) {
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Taylor polynomial approximation',
+    formula: metadata.formula.replaceAll('；', '; '),
+  };
+}
+
+export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId, locale }: Props) {
   const [presetId, setPresetId] = useState<TaylorPresetId>('sin');
   const [a, setA] = useState(0);
   const [n, setN] = useState(3);
@@ -41,6 +51,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
     showError,
     showTerms: advanced && showTerms,
     onAChange,
+    locale,
   });
 
   const metadataParams = valuesFromParams({
@@ -49,6 +60,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
     n: clampN(n),
   });
   const metadata = taylorPolynomialApproximationModule.getMetadata(metadataParams);
+  const shown = locale === 'en' ? englishMetadata(metadata) : metadata;
 
   const setPreset = (next: TaylorPresetId) => {
     const nextPreset = presetById(next);
@@ -57,7 +69,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
   };
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
         {TAYLOR_PRESETS.map((item) => (
           <button
@@ -74,7 +86,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
 
       <div className="control-field">
         <label htmlFor="taylor-polynomial-approximation-n">
-          <span>階數 n</span>
+          <span>{locale === 'en' ? 'Degree n' : '階數 n'}</span>
           <span className="control-field__value">{n}</span>
         </label>
         <div className="range-wrap">
@@ -98,7 +110,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
           aria-pressed={showError}
           onClick={() => setShowError((prev) => !prev)}
         >
-          誤差帶
+          {locale === 'en' ? 'Error band' : '誤差帶'}
         </button>
         <button
           type="button"
@@ -106,7 +118,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
           aria-pressed={advanced}
           onClick={() => setAdvanced((prev) => !prev)}
         >
-          進階模式
+          {locale === 'en' ? 'Advanced' : '進階模式'}
         </button>
       </div>
 
@@ -118,7 +130,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
             aria-pressed={showTerms}
             onClick={() => setShowTerms((prev) => !prev)}
           >
-            項次分解
+            {locale === 'en' ? 'Terms' : '項次分解'}
           </button>
           <button
             type="button"
@@ -133,13 +145,15 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
               setShowTerms(false);
             }}
           >
-            重設
+            {locale === 'en' ? 'Reset' : '重設'}
           </button>
         </div>
       ) : null}
 
       <p className="curve-work-controls__formula">
-        拖動圖中的展開中心 a；{preset.maclaurin}
+        {locale === 'en'
+          ? `Center a: drag it on the figure. ${preset.maclaurin}`
+          : `拖動圖中的展開中心 a；${preset.maclaurin}`}
       </p>
     </WorkControlsPortal>
   );
@@ -149,7 +163,7 @@ export default function TaylorPolynomialApproximationCurveRoot({ controlsMountId
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="泰勒多項式逼近互動"
+        aria-label={locale === 'en' ? 'Taylor polynomial approximation' : '泰勒多項式逼近互動'}
       />
       {controls}
     </>

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getCollection } from 'astro:content';
 import { learningPaths, getLearningPath, type StepCollection } from '../../lib/learningPaths';
+import { indexAlternates } from '../../lib/translatedSlugs';
 import '../../styles/pages/path.css';
 
 export async function getStaticPaths() {
@@ -79,6 +80,7 @@ const structuredData = [
   title={path.title}
   description={path.description}
   ogType="website"
+  alternates={indexAlternates(site, `/path/${slug}/`)}
   structuredData={structuredData}
   preloadConceptFont
 >

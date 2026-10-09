@@ -2,7 +2,7 @@ import { lazy, Suspense, type ComponentType } from 'react';
 import type { WorkInteractiveSlug } from '../../works/interactiveRegistry';
 import { isWorkInteractive, workControlsMountId } from '../../works/interactiveRegistry';
 
-type RootProps = { controlsMountId: string };
+type RootProps = { controlsMountId: string; locale?: 'en' };
 
 // Each root is code-split per slug so a work page only downloads its own root chunk.
 
@@ -92,12 +92,13 @@ export const workStageRootSlugs = Object.keys(rootBySlug).sort() as WorkInteract
 
 type Props = {
   slug: string;
+  locale?: 'en';
 };
 
-export default function WorkInteractiveStage({ slug }: Props) {
+export default function WorkInteractiveStage({ slug, locale }: Props) {
   if (!isWorkInteractive(slug)) return null;
 
-  const Root = rootBySlug[slug];
+  const Root: ComponentType<RootProps> = rootBySlug[slug];
   return (
     <Suspense
       fallback={
@@ -105,13 +106,13 @@ export default function WorkInteractiveStage({ slug }: Props) {
           className="interactive-loading"
           role="status"
           aria-live="polite"
-          aria-label="互動內容載入中"
+          aria-label={locale === 'en' ? 'Loading the figure' : '互動內容載入中'}
         >
           <span className="interactive-loading__mark" />
         </div>
       }
     >
-      <Root controlsMountId={workControlsMountId(slug)} />
+      <Root controlsMountId={workControlsMountId(slug)} locale={locale} />
     </Suspense>
   );
 }

@@ -270,7 +270,12 @@ export function unitToScreen(x: number, y: number, geo: CircleGeometry) {
   return { x: geo.cx + x * geo.r, y: geo.cy - y * geo.r };
 }
 
-export function getVisualCaption(reverseRead: boolean) {
+export function getVisualCaption(reverseRead: boolean, locale?: 'en') {
+  if (locale === 'en') {
+    return reverseRead
+      ? 'Product-to-sum: read the product back as a sum or a difference of the two angles.'
+      : 'Sum-to-product: split the two angles into the midpoint angle m and the offset d, then read that component.';
+  }
   return reverseRead
     ? '積化和差：把乘積項反向讀成兩個角的和或差。'
     : '和差化積：兩角先拆成中點角 m 與偏移 d，再讀取對應分量。';

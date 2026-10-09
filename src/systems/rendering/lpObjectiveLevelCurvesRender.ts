@@ -26,6 +26,7 @@ type Snapshot = {
   height: number;
   params: LpObjectiveLevelCurvesParams;
   draggingTestPoint: boolean;
+  locale?: 'en';
 };
 
 function drawSegment(
@@ -61,6 +62,7 @@ function lowerEnd(segment: [{ x: number; y: number }, { x: number; y: number }])
 
 export function renderLpObjectiveLevelCurvesScene(p: p5, snap: Snapshot): void {
   const { width, height, params } = snap;
+  const en = snap.locale === 'en';
   const metrics = computeObjectiveMetrics(params);
   const layout = createLpLayout(width, height, AXIS_HALF);
 
@@ -127,7 +129,7 @@ export function renderLpObjectiveLevelCurvesScene(p: p5, snap: Snapshot): void {
     p,
     layout,
     metrics.testPoint,
-    `${formatPoint(metrics.testPoint, 1)}　z = ${metrics.testValue.toFixed(2)}`,
+    `${formatPoint(metrics.testPoint, 1)}${en ? '  ' : '　'}z = ${metrics.testValue.toFixed(2)}`,
     LP_OBJECTIVE,
   );
 
@@ -136,9 +138,15 @@ export function renderLpObjectiveLevelCurvesScene(p: p5, snap: Snapshot): void {
     width,
     [
       formatObjective(params.p, params.q),
-      metrics.degenerate ? '係數皆為零，整個平面同一個 z' : `目前等值線 k = ${params.k.toFixed(2)}`,
-      metrics.degenerate ? '' : `相鄰間距 = Δk / ‖n‖ = ${metrics.spacing.toFixed(3)}`,
-      `測試點 z = ${metrics.testValue.toFixed(2)}`,
+      metrics.degenerate
+        ? en
+          ? 'All coefficients are zero: the whole plane has one z'
+          : '係數皆為零，整個平面同一個 z'
+        : `${en ? 'Current level line' : '目前等值線'} k = ${params.k.toFixed(2)}`,
+      metrics.degenerate
+        ? ''
+        : `${en ? 'Spacing' : '相鄰間距'} = Δk / ‖n‖ = ${metrics.spacing.toFixed(3)}`,
+      `${en ? 'Test point' : '測試點'} z = ${metrics.testValue.toFixed(2)}`,
     ].filter((line) => line.length > 0),
     { highlightIndex: 0, highlightColor: LP_ACCENT },
   );

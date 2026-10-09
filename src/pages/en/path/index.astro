@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import { learningPathsEn } from '../../../lib/learningPathsEn';
+import { siteSeoEn } from '../../../lib/seoCopy';
+import { indexAlternates } from '../../../lib/translatedSlugs';
+import '../../../styles/pages/path.css';
+
+const site = Astro.site ?? Astro.url;
+const learningPaths = learningPathsEn();
+const siteRoot = new URL('/en/', site).href;
+const pageUrl = new URL('/en/path', site).href;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: 'Curated paths', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: siteSeoEn.path.title,
+    description: siteSeoEn.path.description,
+    itemListElement: learningPaths.map((path, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: path.title,
+      item: new URL(`/en/path/${path.slug}`, site).href,
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={siteSeoEn.path.title}
+  description={siteSeoEn.path.description}
+  ogType="website"
+  htmlLang="en"
+  ogLocale="en_US"
+  skipLabel="Skip to main content"
+  alternates={indexAlternates(site, '/path/')}
+  structuredData={structuredData}
+  preloadConceptFont
+>
+  <div class="container path-index">
+    <div class="detail-top-nav">
+      <Breadcrumb label="Breadcrumb" items={[{ label: 'Home', href: '/en/' }, { label: 'Curated paths' }]} />
+    </div>
+
+    <header class="page-header">
+      <h1>Curated paths</h1>
+      <p class="page-lead">{siteSeoEn.path.description}</p>
+    </header>
+
+    <ul class="path-index-list">
+      {
+        learningPaths.map((path) => (
+          <li>
+            <a class="path-index-card" href={`/en/path/${path.slug}`}>
+              <h2 class="path-index-card__title">{path.title}</h2>
+              <p class="path-index-card__desc">{path.description}</p>
+              <span class="path-index-card__cta">{path.steps.length} steps →</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>

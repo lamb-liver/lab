@@ -13,12 +13,14 @@ type Options = {
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothAmplitudeChange: (amplitude: number) => void;
+  locale?: 'en';
 };
 
 export function useStandingWaveP5({
   targetParams,
   onRevealPctChange,
   onSmoothAmplitudeChange,
+  locale,
 }: Options) {
   const animRef = useRef(createStandingWaveAnimState(targetParams));
   const targetParamsRef = useRef<ParamValues>(targetParams);
@@ -26,6 +28,7 @@ export function useStandingWaveP5({
   const lastAmplitudeKeyRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
   const onSmoothAmplitudeChangeRef = useRef(onSmoothAmplitudeChange);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
@@ -34,6 +37,10 @@ export function useStandingWaveP5({
   useEffect(() => {
     onSmoothAmplitudeChangeRef.current = onSmoothAmplitudeChange;
   }, [onSmoothAmplitudeChange]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
@@ -67,6 +74,7 @@ export function useStandingWaveP5({
       spatialFrequency: Math.round(targetParamsRef.current.spatialFrequency),
       time: anim.time,
       revealProgress: anim.revealProgress,
+      locale: localeRef.current,
     });
   }, []);
 

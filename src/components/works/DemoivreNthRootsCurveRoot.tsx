@@ -8,37 +8,59 @@ import {
   type DemoivreMode,
   type DemoivreNthRootsParams,
 } from '../../curve/modules/demoivre-nth-roots';
+import type { CurveMetadata } from '../../curve/types';
 import { useDemoivreNthRootsP5 } from '../curve/useDemoivreNthRootsP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-const MODE_LABELS: Array<{ mode: DemoivreMode; label: string }> = [
-  { mode: 'power', label: '乘冪 zⁿ' },
-  { mode: 'roots', label: '方根' },
-];
+const MODE_LABELS: Record<'zh' | 'en', Array<{ mode: DemoivreMode; label: string }>> = {
+  zh: [
+    { mode: 'power', label: '乘冪 zⁿ' },
+    { mode: 'roots', label: '方根' },
+  ],
+  en: [
+    { mode: 'power', label: 'Power zⁿ' },
+    { mode: 'roots', label: 'Roots' },
+  ],
+};
 
-export default function DemoivreNthRootsCurveRoot({ controlsMountId }: Props) {
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: "De Moivre's formula and nth roots",
+    stats: metadata.stats.map((stat) => ({
+      ...stat,
+      label: stat.label === 'k=0 根' ? 'k=0 root' : stat.label,
+      value: stat.value === '未定義' ? 'undefined' : stat.value,
+    })),
+  };
+}
+
+export default function DemoivreNthRootsCurveRoot({ controlsMountId, locale }: Props) {
   const [params, setParams] = useState<DemoivreNthRootsParams>(
     DEFAULT_DEMOIVRE_NTH_ROOTS_PARAMS,
   );
+  const en = locale === 'en';
 
   const onParamsChange = useCallback((patch: Partial<DemoivreNthRootsParams>) => {
     setParams((prev) => ({ ...prev, ...patch }));
   }, []);
 
-  const { canvasHostRef } = useDemoivreNthRootsP5({ params, onParamsChange });
+  const { canvasHostRef } = useDemoivreNthRootsP5({ params, onParamsChange, locale });
   const metadata = demoivreNthRootsModule.getMetadata(
     demoivreNthRootsParamsForMetadata(params),
   );
+  const shown = en ? englishMetadata(metadata) : metadata;
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
-        {MODE_LABELS.map((item) => (
+        {MODE_LABELS[en ? 'en' : 'zh'].map((item) => (
           <button
             key={item.mode}
             type="button"
@@ -52,7 +74,7 @@ export default function DemoivreNthRootsCurveRoot({ controlsMountId }: Props) {
       </div>
       <div className="control-field">
         <label htmlFor="demoivre-n">
-          <span>次數 n</span>
+          <span>{en ? 'Order n' : '次數 n'}</span>
           <span className="control-field__value">{params.n}</span>
         </label>
         <div className="range-wrap">
@@ -75,7 +97,7 @@ export default function DemoivreNthRootsCurveRoot({ controlsMountId }: Props) {
           aria-pressed="false"
           onClick={() => setParams(DEFAULT_DEMOIVRE_NTH_ROOTS_PARAMS)}
         >
-          重設
+          {en ? 'Reset' : '重設'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -86,7 +108,11 @@ export default function DemoivreNthRootsCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="棣美弗定理與 n 次方根互動：可拖動複數 z"
+        aria-label={
+          en
+            ? "De Moivre's formula and nth roots: drag the complex number z"
+            : '棣美弗定理與 n 次方根互動：可拖動複數 z'
+        }
       />
       {controls}
     </>

@@ -18,6 +18,7 @@ import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
 function paramsForMetadata(params: RadianArcLengthParams): ParamValues {
@@ -28,7 +29,7 @@ function paramsForMetadata(params: RadianArcLengthParams): ParamValues {
   };
 }
 
-export default function RadianArcLengthCurveRoot({ controlsMountId }: Props) {
+export default function RadianArcLengthCurveRoot({ controlsMountId, locale }: Props) {
   const [params, setParams] = useState<RadianArcLengthParams>({
     ...DEFAULT_RADIAN_ARC_LENGTH_PARAMS,
   });
@@ -38,20 +39,32 @@ export default function RadianArcLengthCurveRoot({ controlsMountId }: Props) {
     setParams((prev) => ({ ...prev, theta }));
   }, []);
 
-  const { canvasHostRef } = useRadianArcLengthP5({ params, onThetaChange });
+  const { canvasHostRef } = useRadianArcLengthP5({ params, onThetaChange, locale });
 
   const metadataParams = paramsForMetadata(params);
   const metadata = radianArcLengthModule.getMetadata(metadataParams, {
     revealPct: 100,
     smoothParams: metadataParams,
   });
+  const shown =
+    locale === 'en'
+      ? {
+          ...metadata,
+          title: 'Radians and arc length',
+          stats: metadata.stats.map((stat) =>
+            stat.key === 'theta'
+              ? { ...stat, value: String(stat.value).replaceAll('｜', ' | ') }
+              : stat,
+          ),
+        }
+      : metadata;
 
   const setRadiusMode = (radiusMode: RadiusMode) => {
     setParams((prev) => ({ ...prev, radiusMode }));
   };
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div className="curve-work-mode-toggle">
         <button
           type="button"
@@ -73,7 +86,7 @@ export default function RadianArcLengthCurveRoot({ controlsMountId }: Props) {
 
       <div className="control-field">
         <label htmlFor="radian-arc-theta">
-          角度 θ
+          {locale === 'en' ? 'Angle θ' : '角度 θ'}
           <span className="control-field__value">{formatRad(params.theta)}</span>
         </label>
         <div className="range-wrap">
@@ -107,7 +120,13 @@ export default function RadianArcLengthCurveRoot({ controlsMountId }: Props) {
             }))
           }
         >
-          {params.showSpecialAngles ? '特殊角：開' : '特殊角：關'}
+          {locale === 'en'
+            ? params.showSpecialAngles
+              ? 'Special angles: on'
+              : 'Special angles: off'
+            : params.showSpecialAngles
+              ? '特殊角：開'
+              : '特殊角：關'}
         </button>
         <button
           type="button"
@@ -120,7 +139,7 @@ export default function RadianArcLengthCurveRoot({ controlsMountId }: Props) {
             }))
           }
         >
-          重設 θ
+          {locale === 'en' ? 'Reset θ' : '重設 θ'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -131,7 +150,7 @@ export default function RadianArcLengthCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="弧度與圓弧長互動"
+        aria-label={locale === 'en' ? 'Radians and arc length: arc length s = rθ' : '弧度與圓弧長互動'}
       />
       {controls}
     </>

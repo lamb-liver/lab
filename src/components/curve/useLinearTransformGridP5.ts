@@ -15,6 +15,7 @@ type Options = {
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothParamsChange: (params: ParamValues) => void;
+  locale?: 'en';
 };
 
 export function useLinearTransformGridP5({
@@ -22,9 +23,11 @@ export function useLinearTransformGridP5({
   targetParams,
   onRevealPctChange,
   onSmoothParamsChange,
+  locale,
 }: Options) {
   const animRef = useRef(createLinearTransformGridAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const localeRef = useRef(locale);
   const lastRevealPctRef = useRef(-1);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
@@ -39,6 +42,10 @@ export function useLinearTransformGridP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepLinearTransformGridAnimation(
@@ -68,6 +75,7 @@ export function useLinearTransformGridP5({
       currentScaleY: anim.currentScaleY,
       time: anim.time,
       revealProgress: anim.revealProgress,
+      locale: localeRef.current,
     });
   }, []);
 

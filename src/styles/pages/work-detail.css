@@ -41,6 +41,10 @@
   background: var(--color-surface-soft);
 }
 
+.work-detail__audience-phone {
+  display: none;
+}
+
 .work-detail__stage {
   display: grid;
   grid-template-columns: minmax(0, 1fr) min(320px, 34vw);
@@ -291,6 +295,38 @@
 }
 
 @media (max-width: 1023px) {
+  /* 大寫拉丁徽章在 390 會換行，把第一個滑桿擠出首屏。中文沒有大小寫，不受影響。 */
+  .work-detail__header {
+    column-gap: 0.5rem;
+  }
+
+  .work-detail__header-tags {
+    gap: 0.375rem;
+  }
+
+  .work-detail__header-tag {
+    letter-spacing: 0;
+    text-transform: none;
+    padding: 2px 6px;
+  }
+
+  /* 長英文標題加完整徽章放不進 390。徽章改到先備那一行，標題維持一行。 */
+  html[lang='en'] .content-prerequisites {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 0.75rem;
+  }
+
+  html[lang='en'] .work-detail__audience-phone {
+    display: inline-block;
+  }
+
+  html[lang='en']:has(.work-detail__audience-phone) .work-detail__header [data-audience-label] {
+    display: none;
+  }
+
   .work-detail__stage {
     grid-template-columns: 1fr;
     min-height: 0;

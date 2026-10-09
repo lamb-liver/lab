@@ -160,3 +160,20 @@ describe('collectExploreCategories', () => {
     expect(categories).not.toContain('拓樸');
   });
 });
+
+describe('English list filters', () => {
+  it('sorts English tags and categories alphabetically', () => {
+    expect(
+      collectWorkTags(
+        [{ data: { tags: ['Linear algebra', 'Geometry'] } }, { data: { tags: ['Fractal'] } }],
+        'en',
+      ),
+    ).toEqual(['Fractal', 'Geometry', 'Linear algebra']);
+    expect(
+      collectExploreCategories(
+        [{ data: { category: 'Statistics' } }, { data: { category: 'Algebra' } }],
+        'en',
+      ),
+    ).toEqual(['Algebra', 'Statistics']);
+  });
+});

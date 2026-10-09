@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 import { getPublishedAsc } from '../content/utils';
-import { buildConceptIndex, type ConceptGroup } from './conceptIndex';
+import { attachEnglishEntries, buildConceptIndex, type ConceptGroup } from './conceptIndex';
 
 /**
  * 概念聚合的資料載入層（僅 .astro 使用；不被 vitest 匯入）。
@@ -20,9 +20,16 @@ export async function loadConceptIndex(): Promise<Map<string, ConceptGroup>> {
     getCollection('explore'),
     getCollection('exam'),
   ]);
-  return buildConceptIndex(
+  const [worksEn, exploreEn, examsEn] = await Promise.all([
+    getCollection('worksEn'),
+    getCollection('exploreEn'),
+    getCollection('examEn'),
+  ]);
+  const index = buildConceptIndex(
     publishedOrDev(works),
     publishedOrDev(explore),
     publishedOrDev(exams),
   );
+  attachEnglishEntries(index, publishedOrDev(worksEn), publishedOrDev(exploreEn), publishedOrDev(examsEn));
+  return index;
 }

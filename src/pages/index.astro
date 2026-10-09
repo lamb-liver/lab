@@ -13,6 +13,7 @@ import {
 import { workInteractiveSlugs } from '../works/interactiveRegistry';
 import { siteSeo } from '../lib/seoCopy';
 import { learningPaths } from '../lib/learningPaths';
+import { indexAlternates } from '../lib/translatedSlugs';
 import '../styles/pages/home.css';
 
 const works = await getCollection('works');
@@ -35,7 +36,11 @@ const latestExplore = excludeEntryIds(
 ).slice(0, 3);
 ---
 
-<BaseLayout title={siteSeo.home.title} description={siteSeo.home.description}>
+<BaseLayout
+  title={siteSeo.home.title}
+  description={siteSeo.home.description}
+  alternates={indexAlternates(Astro.site ?? Astro.url, '/')}
+>
   <section class="hero-section">
     <HeroCanvasShell />
     <div class="hero-content">

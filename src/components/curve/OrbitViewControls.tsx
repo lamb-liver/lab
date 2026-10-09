@@ -6,6 +6,8 @@ type Props<P extends OrbitView> = {
   idPrefix: string;
   params: P;
   onParamsChange: (patch: Partial<P>) => void;
+  /** 省略時維持中文。這組滑桿也掛在尚未翻譯的頁面上。 */
+  locale?: 'en';
 };
 
 /**
@@ -18,11 +20,12 @@ export default function OrbitViewControls<P extends OrbitView>({
   idPrefix,
   params,
   onParamsChange,
+  locale,
 }: Props<P>) {
   const fields = [
     {
       key: 'yaw' as const,
-      label: '視角水平',
+      label: locale === 'en' ? 'Horizontal view' : '視角水平',
       min: -180,
       max: 180,
       value: params.yaw,
@@ -30,7 +33,7 @@ export default function OrbitViewControls<P extends OrbitView>({
     },
     {
       key: 'pitch' as const,
-      label: '視角仰角',
+      label: locale === 'en' ? 'Elevation' : '視角仰角',
       min: -80,
       max: 80,
       value: params.pitch,

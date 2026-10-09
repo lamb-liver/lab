@@ -8,6 +8,7 @@ export function getEquation(key: EqKey): EquationDef {
       f: (x) => x,
       exact: (x, x0, y0) => y0 + 0.5 * (x * x - x0 * x0),
       note: '方向只跟 x 有關',
+      noteEn: 'The direction depends only on x',
     };
   }
 
@@ -21,6 +22,7 @@ export function getEquation(key: EqKey): EquationDef {
         return c * Math.exp(x) - x - 1;
       },
       note: '斜率同時受 x 與 y 影響',
+      noteEn: 'The slope depends on both x and y',
     };
   }
 
@@ -30,6 +32,7 @@ export function getEquation(key: EqKey): EquationDef {
     f: (_x, y) => -y,
     exact: (x, x0, y0) => y0 * Math.exp(-(x - x0)),
     note: '解曲線族是指數衰減',
+    noteEn: 'The solution curves decay exponentially',
   };
 }
 

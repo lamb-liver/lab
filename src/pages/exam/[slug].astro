@@ -13,6 +13,7 @@ import { getStaticPathsFromCollection } from '../../content/utils';
 import { isExamInteractive } from '../../exam/interactiveRegistry';
 import { SITE_AUTHOR } from '../../lib/siteLinks';
 import { examCreditLine, examSourceLabel, examSourceLinkLabels } from '../../lib/examSource';
+import { translationAlternates } from '../../lib/translatedSlugs';
 import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
 import '../../styles/prose.css';
@@ -38,6 +39,7 @@ const siteRoot = new URL('/', site).href;
 const examUrl = new URL('/exam', site).href;
 const articleUrl = new URL(`/exam/${entry.id}`, site).href;
 const imageUrl = ogImage ? new URL(ogImage, site).href : undefined;
+const alternates = translationAlternates(site, 'exam', entry.id);
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -92,6 +94,7 @@ const relatedItems: RelatedRef[] = [
   ogType="article"
   structuredData={structuredData}
   preloadConceptFont
+  alternates={alternates}
 >
   <div class={`container explore-detail${interactive ? ' explore-detail--interactive' : ''}`}>
     <div class="detail-top-nav">

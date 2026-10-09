@@ -4,7 +4,7 @@ import {
   MODE_RECURSIVE,
   sierpinskiTriangleModule,
 } from '../../curve/modules/sierpinski-triangle';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, ParamValues } from '../../curve/types';
 import { useSierpinskiTriangleP5 } from '../curve/useSierpinskiTriangleP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
@@ -12,9 +12,29 @@ import { useQuerySyncedParams } from '../curve/useQuerySyncedParams';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) {
+const EN_MODE: Record<string, string> = {
+  遞迴: 'Recursive',
+  混沌遊戲: 'Chaos game',
+  比較: 'Compare',
+};
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Sierpinski triangle',
+    stats: metadata.stats.map((stat) => {
+      if (stat.key === 'mode') return { ...stat, value: EN_MODE[String(stat.value)] ?? stat.value };
+      if (stat.key === 'area') return { ...stat, label: 'Remaining area' };
+      return stat;
+    }),
+  };
+}
+
+export default function SierpinskiTriangleCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const module = sierpinskiTriangleModule;
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
 
@@ -22,7 +42,8 @@ export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) 
     targetParams,
   });
 
-  const metadata = module.getMetadata(targetParams);
+  const rawMetadata = module.getMetadata(targetParams);
+  const metadata = en ? englishMetadata(rawMetadata) : rawMetadata;
 
   const patchParams = (patch: ParamValues) => {
     setTargetParams((prev) => ({ ...prev, ...patch }));
@@ -32,14 +53,14 @@ export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) 
 
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
-      <div className="curve-work-mode-toggle" aria-label="生成模式">
+      <div className="curve-work-mode-toggle" aria-label={en ? 'Generation mode' : '生成模式'}>
         <button
           type="button"
           className="curve-work-mode-button"
           aria-pressed={mode === MODE_RECURSIVE}
           onClick={() => patchParams({ mode: MODE_RECURSIVE })}
         >
-          遞迴
+          {en ? 'Recursive' : '遞迴'}
         </button>
         <button
           type="button"
@@ -47,7 +68,7 @@ export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) 
           aria-pressed={mode === MODE_CHAOS}
           onClick={() => patchParams({ mode: MODE_CHAOS })}
         >
-          混沌
+          {en ? 'Chaos' : '混沌'}
         </button>
         <button
           type="button"
@@ -55,13 +76,13 @@ export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) 
           aria-pressed={mode === MODE_COMPARE}
           onClick={() => patchParams({ mode: MODE_COMPARE })}
         >
-          對照
+          {en ? 'Compare' : '對照'}
         </button>
       </div>
 
       <div className="control-field">
         <label htmlFor="sierpinski-depth">
-          <span>遞迴深度 n</span>
+          <span>{en ? 'Recursion depth n' : '遞迴深度 n'}</span>
           <span className="control-field__value">{Math.round(targetParams.depth ?? 6)}</span>
         </label>
         <div className="range-wrap">
@@ -85,7 +106,7 @@ export default function SierpinskiTriangleCurveRoot({ controlsMountId }: Props) 
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="謝爾賓斯基三角形"
+        aria-label={en ? 'Sierpinski triangle' : '謝爾賓斯基三角形'}
       />
       {controls}
     </>

@@ -9,17 +9,20 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 type Options = {
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
+  locale?: 'en';
 };
 
 export function useArithmeticGeometricSequencesP5({
   targetParams,
   onRevealPctChange,
+  locale,
 }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
   const revealRef = useRef(0);
   const lastParamsKeyRef = useRef(paramsKey(targetParams));
   const lastRevealPctRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
@@ -28,6 +31,10 @@ export function useArithmeticGeometricSequencesP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
@@ -49,6 +56,7 @@ export function useArithmeticGeometricSequencesP5({
       height: p.height,
       params,
       revealProgress: revealRef.current,
+      locale: localeRef.current,
     });
   }, []);
 

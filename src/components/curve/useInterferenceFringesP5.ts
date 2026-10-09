@@ -13,12 +13,14 @@ type Options = {
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothSourceDistanceChange: (distance: number) => void;
+  locale?: 'en';
 };
 
 export function useInterferenceFringesP5({
   targetParams,
   onRevealPctChange,
   onSmoothSourceDistanceChange,
+  locale,
 }: Options) {
   const animRef = useRef(createInterferenceFringesAnimState(targetParams));
   const targetParamsRef = useRef<ParamValues>(targetParams);
@@ -26,6 +28,7 @@ export function useInterferenceFringesP5({
   const lastDistanceKeyRef = useRef(-1);
   const onRevealPctChangeRef = useRef(onRevealPctChange);
   const onSmoothSourceDistanceChangeRef = useRef(onSmoothSourceDistanceChange);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
@@ -38,6 +41,10 @@ export function useInterferenceFringesP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepInterferenceFringesAnimation(
@@ -68,6 +75,7 @@ export function useInterferenceFringesP5({
       wavelength: targetParamsRef.current.wavelength,
       time: anim.time,
       revealProgress: anim.revealProgress,
+      locale: localeRef.current,
     });
   }, []);
 

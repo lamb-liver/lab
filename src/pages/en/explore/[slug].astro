@@ -1,0 +1,198 @@
+---
+import ConceptTags from '../../../components/ConceptTags.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import CanvasPlaceholder from '../../../components/CanvasPlaceholder.astro';
+import ExploreInteractiveStage from '../../../components/explore/ExploreInteractiveStage';
+import Giscus from '../../../components/Giscus.astro';
+import RelatedLinks from '../../../components/RelatedLinks.astro';
+import { buildExamBackrefs } from '../../../lib/relatedContent';
+import FitKatexDisplay from '../../../components/FitKatexDisplay.astro';
+import { getCollection, render } from 'astro:content';
+import {
+  getCollectionPagerNeighbors,
+  getStaticPathsFromCollection,
+} from '../../../content/utils';
+import { isExploreInteractive } from '../../../explore/interactiveRegistry';
+import { SITE_AUTHOR } from '../../../lib/siteLinks';
+import { enExploreSlugs, translationAlternates } from '../../../lib/translatedSlugs';
+import 'katex/dist/katex.min.css';
+import '../../../styles/components/canvas.css';
+import '../../../styles/prose.css';
+import '../../../styles/pages/explore-detail.css';
+import '../../../styles/components/explore-touch.css';
+import '../../../styles/components/explore/explore-stage.css';
+import '../../../styles/components/explore/explore-toolbar.css';
+
+export async function getStaticPaths() {
+  const explore = (await getCollection('exploreEn')).filter((entry) => enExploreSlugs.has(entry.id));
+  return getStaticPathsFromCollection(explore, { includeDraft: import.meta.env.DEV });
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const interactive = isExploreInteractive(entry.id);
+const explore = (await getCollection('exploreEn')).filter((item) => enExploreSlugs.has(item.id));
+const { previous: previousExplore, next: nextExplore } = getCollectionPagerNeighbors(
+  explore,
+  entry.id,
+);
+const ogImage = entry.data.coverImage;
+const relatedItems =
+  buildExamBackrefs(await getCollection('examEn'), {
+    includeDraft: import.meta.env.DEV,
+    locale: 'en',
+  }).explore.get(entry.id) ?? [];
+const site = Astro.site ?? Astro.url;
+const siteRoot = new URL('/en/', site).href;
+const sectionUrl = new URL('/en/explore/', site).href;
+const articleUrl = new URL(`/en/explore/${entry.id}`, site).href;
+const imageUrl = ogImage ? new URL(ogImage, site).href : undefined;
+const alternates = translationAlternates(site, 'explore', entry.id);
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: 'Explore', item: sectionUrl },
+      { '@type': 'ListItem', position: 3, name: entry.data.title, item: articleUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: entry.data.title,
+    description: entry.data.description,
+    ...(imageUrl ? { image: imageUrl } : {}),
+    url: articleUrl,
+    mainEntityOfPage: articleUrl,
+    inLanguage: 'en',
+    datePublished: entry.data.date.toISOString(),
+    author: SITE_AUTHOR,
+  },
+];
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={ogImage}
+  ogImageAlt={entry.data.title}
+  ogType="article"
+  structuredData={structuredData}
+  htmlLang="en"
+  ogLocale="en_US"
+  preloadConceptFont
+  skipLabel="Skip to main content"
+  alternates={alternates}
+>
+  <div class={`container explore-detail${interactive ? ' explore-detail--interactive' : ''}`}>
+    <div class="detail-top-nav">
+      <Breadcrumb
+        label="Breadcrumb"
+        items={[
+          { label: 'Home', href: '/en/' },
+          { label: 'Explore', href: '/en/explore' },
+          { label: entry.data.title },
+        ]}
+      />
+      <a href="/en/explore" class="back-link back-link--top">← Back to Explore</a>
+    </div>
+
+    <header class="page-header">
+      <h1>{entry.data.title}</h1>
+      <div class="tag-list">
+        <span class="tag">{entry.data.category}</span>
+        <span class="tag" data-audience-label>{entry.data.audience}</span>
+      </div>
+      {
+        entry.data.prerequisites.length > 0 ? (
+          <p class="content-prerequisites">
+            <strong>Prerequisites: </strong>
+            {entry.data.prerequisites.join(', ')}
+          </p>
+        ) : null
+      }
+      <ConceptTags slugs={entry.data.concepts} locale="en" />
+    </header>
+
+    {
+      interactive ? (
+        <ExploreInteractiveStage client:only="react" slug={entry.id} locale="en">
+          <div
+            slot="fallback"
+            class="interactive-loading interactive-loading--explore"
+            role="status"
+            aria-live="polite"
+            aria-label="Loading the figure"
+          >
+            <span class="interactive-loading__mark"></span>
+          </div>
+        </ExploreInteractiveStage>
+      ) : (
+        <CanvasPlaceholder class="interactive-canvas" />
+      )
+    }
+
+    <article class="prose">
+      <Content />
+    </article>
+
+    <RelatedLinks
+      items={relatedItems}
+      heading="Related exam problems"
+      ariaLabel="Related exam problems"
+      locale="en"
+    />
+
+    {
+      previousExplore || nextExplore ? (
+        <nav class="explore-detail__pager" aria-label="Explore">
+          {
+            previousExplore ? (
+              <a href={`/en/explore/${previousExplore.id}/`} class="explore-detail__pager-link">
+                <span>Earlier</span>
+                <strong>{previousExplore.data.title}</strong>
+              </a>
+            ) : (
+              <span
+                class="explore-detail__pager-link explore-detail__pager-link--disabled"
+                aria-disabled="true"
+                aria-label="No earlier page"
+              >
+                <span>Earlier</span>
+                <strong>None</strong>
+              </span>
+            )
+          }
+          {
+            nextExplore ? (
+              <a
+                href={`/en/explore/${nextExplore.id}/`}
+                class="explore-detail__pager-link explore-detail__pager-link--next"
+              >
+                <span>Later</span>
+                <strong>{nextExplore.data.title}</strong>
+              </a>
+            ) : (
+              <span
+                class="explore-detail__pager-link explore-detail__pager-link--disabled explore-detail__pager-link--next"
+                aria-disabled="true"
+                aria-label="No later page"
+              >
+                <span>Later</span>
+                <strong>None</strong>
+              </span>
+            )
+          }
+        </nav>
+      ) : null
+    }
+
+    <Giscus locale="en" />
+    <FitKatexDisplay />
+
+    <a href="/en/explore" class="back-link">← Back to Explore</a>
+  </div>
+</BaseLayout>

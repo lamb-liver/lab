@@ -21,6 +21,7 @@ type BayesSnap = {
   params: ParamValues;
   mode: BayesMode;
   reveal: number;
+  locale?: 'en';
 };
 
 const GOLD = { r: 212, g: 184, b: 122 };
@@ -28,7 +29,7 @@ const GUIDE = { r: 255, g: 255, b: 255 };
 const BLUE = { r: 130, g: 170, b: 220 };
 
 export function renderConditionalProbabilityBayesScene(p: p5, snap: BayesSnap): void {
-  const data = deriveData(snap.params);
+  const data = deriveData(snap.params, snap.locale);
   p.background(10, 10, 10);
   const scale = Math.min(snap.width / BAYES_VIEW.width, snap.height / BAYES_VIEW.height);
   const offsetX = (snap.width - BAYES_VIEW.width * scale) / 2;
@@ -37,13 +38,13 @@ export function renderConditionalProbabilityBayesScene(p: p5, snap: BayesSnap): 
   p.translate(offsetX, offsetY);
   p.scale(scale);
 
-  if (snap.mode === 'tree') drawTree(p, data, snap.reveal);
+  if (snap.mode === 'tree') drawTree(p, data, snap.reveal, snap.locale);
   else if (snap.mode === 'area') drawArea(p, data, BAYES_AREA, snap.reveal);
   else drawBars(p, data, snap.reveal);
   p.pop();
 }
 
-function drawTree(p: p5, data: ReturnType<typeof deriveData>, reveal: number): void {
+function drawTree(p: p5, data: ReturnType<typeof deriveData>, reveal: number, locale?: 'en'): void {
   const tree = BAYES_TREE;
   const area = BAYES_TREE_PANEL_AREA;
   const abEnd = leafLeftAnchor(tree.leafAB);
@@ -66,7 +67,7 @@ function drawTree(p: p5, data: ReturnType<typeof deriveData>, reveal: number): v
     false,
   );
 
-  drawNode(p, tree.root.x, tree.root.y, '起點', reveal);
+  drawNode(p, tree.root.x, tree.root.y, locale === 'en' ? 'Start' : '起點', reveal);
   drawNode(p, tree.a.x, tree.a.y, data.A, reveal);
   drawNode(p, tree.notA.x, tree.notA.y, '¬A', reveal);
   drawLeaf(p, tree.leafAB, `${data.B}`, percent(data.pBgA), GOLD, reveal);
@@ -249,6 +250,7 @@ function drawNode(p: p5, x: number, y: number, label: string, reveal: number): v
   p.fill(220, 220, 220, 200 * alpha);
   p.textAlign(p.CENTER, p.CENTER);
   p.textSize(12);
+  if (p.textWidth(label) > 34) p.textSize(9);
   p.text(label, x, y);
   p.textAlign(p.LEFT, p.BASELINE);
 }
@@ -272,7 +274,9 @@ function drawLeaf(
   p.noStroke();
   p.fill(235, 235, 235, 220 * alpha);
   p.textAlign(p.CENTER, p.CENTER);
+  const line = `${eventLabel}  ${probLabel}`;
   p.textSize(11);
-  p.text(`${eventLabel}  ${probLabel}`, leaf.cx, leaf.cy);
+  if (p.textWidth(line) > leaf.w - 12) p.textSize(9);
+  p.text(line, leaf.cx, leaf.cy);
   p.textAlign(p.LEFT, p.BASELINE);
 }

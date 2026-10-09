@@ -9,6 +9,7 @@ import {
   type LpVertexOptimumParams,
 } from '../../curve/modules/lp-vertex-optimum';
 import { formatPoint } from '../../curve/linearProgramming';
+import type { CurveMetadata } from '../../curve/types';
 import { useLpVertexOptimumP5 } from '../curve/useLpVertexOptimumP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
@@ -16,9 +17,40 @@ import '../../styles/components/works/lp-vertex-table.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Finding the optimal solution at a vertex',
+    formula: metadata.formula.replace('，最優在角點取得', ', optimum at a corner point'),
+    stats: metadata.stats.map((stat) => {
+      const value = String(stat.value);
+      switch (stat.key) {
+        case 'objective':
+          return { ...stat, label: 'Objective' };
+        case 'sense':
+          return { ...stat, label: 'Find', value: value === '最大值' ? 'maximum' : 'minimum' };
+        case 'count':
+          return { ...stat, label: 'Candidate vertices' };
+        case 'best':
+          return { ...stat, label: 'Optimal value', value: value === '不存在' ? 'none' : value };
+        case 'where':
+          return {
+            ...stat,
+            label: stat.label === '並列最優' ? 'Tied optimum' : 'Optimal vertex',
+            value: value === '無' ? 'none' : value.replace(/、/g, ', '),
+          };
+        default:
+          return stat;
+      }
+    }),
+  };
+}
+
+export default function LpVertexOptimumCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const [params, setParams] = useState<LpVertexOptimumParams>(
     DEFAULT_LP_VERTEX_OPTIMUM_PARAMS,
   );
@@ -28,10 +60,11 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
     setParams((prev) => ({ ...prev, ...patch }));
   }, []);
 
-  const { canvasHostRef } = useLpVertexOptimumP5({ params, onParamsChange });
+  const { canvasHostRef } = useLpVertexOptimumP5({ params, onParamsChange, locale });
 
   const metrics = useMemo(() => computeVertexOptimumMetrics(params), [params]);
-  const metadata = lpVertexOptimumModule.getMetadata(lpVertexOptimumParamsForMetadata(params));
+  const rawMetadata = lpVertexOptimumModule.getMetadata(lpVertexOptimumParamsForMetadata(params));
+  const metadata = en ? englishMetadata(rawMetadata) : rawMetadata;
 
   /**
    * 排序只換顯示順序，不動 candidates 的索引——走訪與畫布高亮都用原索引，
@@ -46,12 +79,16 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
       <table className="lp-vertex-table">
-        <caption>候選表（點圖上的頂點也可切換）</caption>
+        <caption>
+          {en
+            ? 'Candidates (tap a vertex in the figure to switch rows)'
+            : '候選表（點圖上的頂點也可切換）'}
+        </caption>
         <thead>
           <tr>
-            <th scope="col">頂點</th>
+            <th scope="col">{en ? 'Vertex' : '頂點'}</th>
             <th scope="col">z</th>
-            <th scope="col">名次</th>
+            <th scope="col">{en ? 'Rank' : '名次'}</th>
           </tr>
         </thead>
         <tbody>
@@ -71,13 +108,15 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
 
       {metrics.tiedCount > 1 ? (
         <p className="lp-vertex-table__note">
-          兩列並列最優：等值線與這條邊重合，邊上每個點的 z 都一樣。
+          {en
+            ? 'Two rows tie for the optimum: the level line lies along this edge, so every point on it has the same z.'
+            : '兩列並列最優：等值線與這條邊重合，邊上每個點的 z 都一樣。'}
         </p>
       ) : null}
 
       <div className="control-field">
         <label htmlFor="lp-vertex-angle">
-          <span>目標方向 θ</span>
+          <span>{en ? 'Objective direction θ' : '目標方向 θ'}</span>
           <span className="control-field__value">{params.angle.toFixed(0)}°</span>
         </label>
         <div className="range-wrap">
@@ -101,7 +140,7 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.sense === 'max'}
           onClick={() => onParamsChange({ sense: 'max' })}
         >
-          求最大值
+          {en ? 'Maximize' : '求最大值'}
         </button>
         <button
           type="button"
@@ -109,7 +148,7 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.sense === 'min'}
           onClick={() => onParamsChange({ sense: 'min' })}
         >
-          求最小值
+          {en ? 'Minimize' : '求最小值'}
         </button>
       </div>
 
@@ -120,7 +159,7 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.shape === 'quad'}
           onClick={() => onParamsChange({ shape: 'quad', visiting: -1 })}
         >
-          四邊形可行域
+          {en ? 'Quadrilateral region' : '四邊形可行域'}
         </button>
         <button
           type="button"
@@ -128,7 +167,7 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.shape === 'triangle'}
           onClick={() => onParamsChange({ shape: 'triangle', visiting: -1 })}
         >
-          三角形可行域
+          {en ? 'Triangular region' : '三角形可行域'}
         </button>
       </div>
 
@@ -141,7 +180,7 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
             onParamsChange({ visiting: nextVisiting(params, metrics.candidates.length) })
           }
         >
-          逐一走訪
+          {en ? 'Step through' : '逐一走訪'}
         </button>
         <button
           type="button"
@@ -149,7 +188,7 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
           aria-pressed={sortByValue}
           onClick={() => setSortByValue((prev) => !prev)}
         >
-          依 z 排序
+          {en ? 'Sort by z' : '依 z 排序'}
         </button>
         <button
           type="button"
@@ -157,7 +196,7 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
           aria-pressed="false"
           onClick={() => onParamsChange({ angle: edgeParallelAngle(params.shape), visiting: -1 })}
         >
-          邊段最優
+          {en ? 'Edge optimum' : '邊段最優'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -168,7 +207,11 @@ export default function LpVertexOptimumCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="頂點法求最優解互動：點選頂點可切換候選表的列"
+        aria-label={
+          en
+            ? 'Finding the optimal solution at a vertex. Tap a vertex to switch the table row.'
+            : '頂點法求最優解互動：點選頂點可切換候選表的列'
+        }
       />
       {controls}
     </>

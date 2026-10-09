@@ -25,6 +25,7 @@ type Snap = {
   height: number;
   mode: SideScales['mode'];
   sign: 1 | -1;
+  locale?: 'en';
 };
 
 const GOLD = [212, 184, 122] as const;
@@ -168,5 +169,9 @@ export function renderParallelogramDirectionAreaExamScene(p: p5, snap: Snap): vo
   p.text('∥ 5x−y=0', plot.x + 10, plot.y + 32);
   p.text('⊥ 3x−2y=0', plot.x + 10, plot.y + 48);
   p.fill(...WHITE, 90);
-  p.text('拖相鄰頂點 → 四組解', plot.x + 10, plot.y + plot.h - 10);
+  p.text(
+    snap.locale === 'en' ? 'Drag an adjacent vertex → 4 solutions' : '拖相鄰頂點 → 四組解',
+    plot.x + 10,
+    plot.y + plot.h - 10,
+  );
 }

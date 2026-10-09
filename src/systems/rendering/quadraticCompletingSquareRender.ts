@@ -18,6 +18,7 @@ type QuadraticCompletingSquareSnap = {
   params: QuadraticCompletingSquareParams;
   scene: QuadraticSceneCache;
   smooth: ViewSmoothState;
+  locale?: 'en';
 };
 
 const GOLD: [number, number, number] = [212, 184, 122];
@@ -241,6 +242,16 @@ function drawCompletingSquareGuides(
   p.text('y=ax²', origin.x + 10, origin.y - 10);
 }
 
+function shownCaption(meta: QuadraticSceneCache['meta'], locale?: 'en') {
+  const text = buildCaption(meta);
+  if (locale !== 'en') return text;
+  return text
+    .replaceAll('；', '; ')
+    .replaceAll('兩實根', 'two real roots')
+    .replaceAll('無實根', 'no real roots')
+    .replaceAll('重根', 'repeated root');
+}
+
 function drawCaption(p: p5, size: number, text: string) {
   p.noStroke();
   p.fill(...MUTED, 175);
@@ -273,7 +284,7 @@ export function renderQuadraticCompletingSquareScene(
     drawRootMarkers(p, plot, viewHalfY, meta.roots);
   });
 
-  drawCaption(p, snap.size, buildCaption(meta));
+  drawCaption(p, snap.size, shownCaption(meta, snap.locale));
 
   return targetViewHalfY;
 }

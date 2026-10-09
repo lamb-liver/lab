@@ -18,6 +18,7 @@ import {
   footOnPlane,
   stateLabel,
   viewFromParams,
+  type RelationState,
   type SpaceVectorsParams,
 } from '../../explore/space-vectors-planes-lines/geometry';
 
@@ -26,7 +27,15 @@ type Snap = {
   height: number;
   params: SpaceVectorsParams;
   rotating: boolean;
+  locale?: 'en';
 };
+
+function relationStateText(state: RelationState, locale?: 'en'): string {
+  if (locale !== 'en') return stateLabel(state);
+  if (state === 'inPlane') return 'v lies in the plane';
+  if (state === 'parallel') return 'v is parallel to the plane';
+  return 'v is at a distance from the plane';
+}
 
 const BG: Rgb = [10, 10, 10];
 const GOLD: Rgb = [212, 184, 122];
@@ -134,18 +143,26 @@ export function renderSpaceVectorsPlanesLinesScene(p: p5, snap: Snap): void {
   drawArrow(p, origin, tip, GOLD, 3.8, vectorAlpha);
   drawLabel(p, tip, 'v', GOLD, vectorAlpha);
 
+  const en = snap.locale === 'en';
+  const normalText = `(${metrics.unitNormal.x.toFixed(2)}, ${metrics.unitNormal.y.toFixed(2)}, ${metrics.unitNormal.z.toFixed(2)})`;
   const readouts: Record<typeof mode, string[]> = {
     position: [
-      '位置讀法：一個 3D 位置攤成三張 2D 圖',
+      en
+        ? 'Position: one 3D position spread into three 2D pictures'
+        : '位置讀法：一個 3D 位置攤成三張 2D 圖',
       `‖v‖ = ${Math.hypot(metrics.v.x, metrics.v.y, metrics.v.z).toFixed(3)}`,
     ],
     direction: [
-      '方向讀法：a、b 張成的面壓縮成一支 n̂',
-      `n̂ = (${metrics.unitNormal.x.toFixed(2)}, ${metrics.unitNormal.y.toFixed(2)}, ${metrics.unitNormal.z.toFixed(2)})`,
+      en
+        ? 'Direction: the plane of a and b, packed into one n̂'
+        : '方向讀法：a、b 張成的面壓縮成一支 n̂',
+      `n̂ = ${normalText}`,
     ],
     relation: [
-      `關係讀法：n̂·v − h = ${metrics.signedDistance.toFixed(3)}`,
-      stateLabel(metrics.state),
+      en
+        ? `Relation: n̂·v − h = ${metrics.signedDistance.toFixed(3)}`
+        : `關係讀法：n̂·v − h = ${metrics.signedDistance.toFixed(3)}`,
+      relationStateText(metrics.state, snap.locale),
     ],
   };
   drawReadout(p, width, readouts[mode], {
@@ -153,5 +170,5 @@ export function renderSpaceVectorsPlanesLinesScene(p: p5, snap: Snap): void {
     highlightColor: GOLD,
   });
 
-  if (snap.rotating) drawRotatingHint(p, width, height);
+  if (snap.rotating) drawRotatingHint(p, width, height, snap.locale);
 }

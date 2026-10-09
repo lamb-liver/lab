@@ -17,6 +17,7 @@ import {
   pointOnLine,
   stateLabel,
   viewFromParams,
+  type IntersectionState,
   type LinePlaneParams,
 } from '../../curve/modules/line-plane-intersection/geometry';
 
@@ -25,7 +26,15 @@ type Snap = {
   height: number;
   params: LinePlaneParams;
   rotating: boolean;
+  locale?: 'en';
 };
+
+function intersectionLabel(state: IntersectionState, locale?: 'en'): string {
+  if (locale !== 'en') return stateLabel(state);
+  if (state === 'point') return 'Intersects at a point';
+  if (state === 'parallel') return 'Parallel, no intersection';
+  return 'Line lies in the plane';
+}
 
 const BG: Rgb = [10, 10, 10];
 const GOLD: Rgb = [212, 184, 122];
@@ -113,11 +122,13 @@ export function renderLinePlaneIntersectionScene(p: p5, snap: Snap): void {
     p,
     width,
     [
-      `n·d = ${metrics.nDotD.toFixed(3)}　n·r₀ − h = ${metrics.offset.toFixed(3)}`,
-      stateLabel(metrics.state),
+      snap.locale === 'en'
+        ? `n·d = ${metrics.nDotD.toFixed(3)}   n·r₀ − h = ${metrics.offset.toFixed(3)}`
+        : `n·d = ${metrics.nDotD.toFixed(3)}　n·r₀ − h = ${metrics.offset.toFixed(3)}`,
+      intersectionLabel(metrics.state, snap.locale),
     ],
     { highlightIndex: metrics.state === 'point' ? -1 : 1, highlightColor: WARN },
   );
 
-  if (snap.rotating) drawRotatingHint(p, width, height);
+  if (snap.rotating) drawRotatingHint(p, width, height, snap.locale);
 }

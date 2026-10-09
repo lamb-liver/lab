@@ -7,15 +7,35 @@ import {
   type ProjectionViewMode,
   type VectorProjectionParams,
 } from '../../curve/modules/vector-projection';
+import type { CurveMetadata } from '../../curve/types';
 import { useVectorProjectionP5 } from '../curve/useVectorProjectionP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
-export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
+const EN_STAT: Record<string, string> = {
+  a: 'Vector a',
+  b: 'Vector b',
+  c1: 'Coefficient c₁',
+  c2: 'Coefficient c₂',
+};
+
+function englishMetadata(metadata: CurveMetadata, viewMode: ProjectionViewMode): CurveMetadata {
+  return {
+    ...metadata,
+    title: viewMode === 'basis' ? 'Orthonormal basis' : 'Vector projection',
+    stats: metadata.stats.map((stat) => ({
+      ...stat,
+      label: EN_STAT[stat.key] ?? stat.label,
+    })),
+  };
+}
+
+export default function VectorProjectionCurveRoot({ controlsMountId, locale }: Props) {
   const module = vectorProjectionModule;
   const [params, setParams] = useState<VectorProjectionParams>(
     DEFAULT_VECTOR_PROJECTION_PARAMS,
@@ -32,10 +52,12 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
     showDrop,
     showError,
     onParamsChange,
+    locale,
   });
 
   const metadataParams = vectorProjectionParamsForMetadata(params);
   const metadata = module.getMetadata(metadataParams);
+  const shown = locale === 'en' ? englishMetadata(metadata, params.viewMode) : metadata;
 
   const setProjectionMode = (projectionMode: ProjectionMode) => {
     setParams((prev) => ({ ...prev, projectionMode }));
@@ -46,7 +68,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
   };
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div className="curve-work-mode-toggle">
         <button
           type="button"
@@ -54,7 +76,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.projectionMode === 'a_on_b'}
           onClick={() => setProjectionMode('a_on_b')}
         >
-          a 投影到 b
+          {locale === 'en' ? 'a onto b' : 'a 投影到 b'}
         </button>
         <button
           type="button"
@@ -62,7 +84,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.projectionMode === 'b_on_a'}
           onClick={() => setProjectionMode('b_on_a')}
         >
-          b 投影到 a
+          {locale === 'en' ? 'b onto a' : 'b 投影到 a'}
         </button>
       </div>
       <div className="curve-work-mode-toggle">
@@ -72,7 +94,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.viewMode === 'projection'}
           onClick={() => setViewMode('projection')}
         >
-          投影分解
+          {locale === 'en' ? 'Decomposition' : '投影分解'}
         </button>
         <button
           type="button"
@@ -80,7 +102,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
           aria-pressed={params.viewMode === 'basis'}
           onClick={() => setViewMode('basis')}
         >
-          正交基 e1,e2
+          {locale === 'en' ? 'Basis e1, e2' : '正交基 e1,e2'}
         </button>
       </div>
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
@@ -90,7 +112,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
           aria-pressed={showDrop}
           onClick={() => setShowDrop((prev) => !prev)}
         >
-          分解動畫
+          {locale === 'en' ? 'Drop animation' : '分解動畫'}
         </button>
         <button
           type="button"
@@ -98,7 +120,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
           aria-pressed={showError}
           onClick={() => setShowError((prev) => !prev)}
         >
-          誤差長度
+          {locale === 'en' ? 'Error length' : '誤差長度'}
         </button>
         <button
           type="button"
@@ -110,7 +132,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
             setShowError(true);
           }}
         >
-          重設
+          {locale === 'en' ? 'Reset' : '重設'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -121,7 +143,7 @@ export default function VectorProjectionCurveRoot({ controlsMountId }: Props) {
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="向量投影與分解互動"
+        aria-label={locale === 'en' ? 'Vector projection onto a direction' : '向量投影與分解互動'}
       />
       {controls}
     </>

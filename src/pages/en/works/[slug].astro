@@ -1,0 +1,266 @@
+---
+import ConceptTags from '../../../components/ConceptTags.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import CanvasPlaceholder from '../../../components/CanvasPlaceholder.astro';
+import WorkInteractiveStage from '../../../components/works/WorkInteractiveStage';
+import Giscus from '../../../components/Giscus.astro';
+import RelatedLinks from '../../../components/RelatedLinks.astro';
+import { buildExamBackrefs } from '../../../lib/relatedContent';
+import FitKatexDisplay from '../../../components/FitKatexDisplay.astro';
+import { getCollection, render } from 'astro:content';
+import {
+  getCollectionPagerNeighbors,
+  getStaticPathsFromCollection,
+} from '../../../content/utils';
+import {
+  isWorkInteractive,
+  workControlsMountId,
+} from '../../../works/interactiveRegistry';
+import { getWorkOgImagePath } from '../../../lib/workOgImage';
+import { SITE_AUTHOR } from '../../../lib/siteLinks';
+import { enWorkSlugs, translationAlternates } from '../../../lib/translatedSlugs';
+import 'katex/dist/katex.min.css';
+import '../../../styles/prose.css';
+import '../../../styles/pages/work-detail.css';
+
+export async function getStaticPaths() {
+  const works = (await getCollection('worksEn')).filter((entry) => enWorkSlugs.has(entry.id));
+  return getStaticPathsFromCollection(works, { includeDraft: import.meta.env.DEV });
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const interactive = isWorkInteractive(entry.id);
+const works = (await getCollection('worksEn')).filter((item) => enWorkSlugs.has(item.id));
+const { previous: previousWork, next: nextWork } = getCollectionPagerNeighbors(works, entry.id);
+const ogImage = getWorkOgImagePath(entry.id);
+const relatedItems =
+  buildExamBackrefs(await getCollection('examEn'), {
+    includeDraft: import.meta.env.DEV,
+    locale: 'en',
+  }).works.get(entry.id) ?? [];
+const site = Astro.site ?? Astro.url;
+const siteRoot = new URL('/en/', site).href;
+const sectionUrl = new URL('/en/works/', site).href;
+const articleUrl = new URL(`/en/works/${entry.id}`, site).href;
+const imageUrl = new URL(ogImage, site).href;
+const alternates = translationAlternates(site, 'works', entry.id);
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: 'Works', item: sectionUrl },
+      { '@type': 'ListItem', position: 3, name: entry.data.title, item: articleUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: entry.data.title,
+    description: entry.data.description,
+    image: imageUrl,
+    url: articleUrl,
+    mainEntityOfPage: articleUrl,
+    inLanguage: 'en',
+    datePublished: entry.data.date.toISOString(),
+    author: SITE_AUTHOR,
+  },
+];
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={ogImage}
+  ogImageAlt={entry.data.title}
+  ogType="article"
+  structuredData={structuredData}
+  htmlLang="en"
+  ogLocale="en_US"
+  preloadConceptFont
+  skipLabel="Skip to main content"
+  alternates={alternates}
+>
+  <div class="container detail-top-nav">
+    <Breadcrumb
+      label="Breadcrumb"
+      items={[
+        { label: 'Home', href: '/en/' },
+        { label: 'Works', href: '/en/works' },
+        { label: entry.data.title },
+      ]}
+    />
+    <a href="/en/works" class="back-link back-link--top">← Back to works</a>
+  </div>
+
+  <header class="container work-detail__header">
+    <h1 class="work-detail__header-title">{entry.data.title}</h1>
+    <div class="work-detail__header-tags">
+      {entry.data.tags.map((tag) => (
+        <span class="work-detail__header-tag">{tag}</span>
+      ))}
+      <span class="work-detail__header-tag" data-audience-label>
+        {entry.data.audience}
+      </span>
+    </div>
+    <ConceptTags slugs={entry.data.concepts} locale="en" />
+  </header>
+
+  {
+    entry.data.prerequisites.length > 0 ? (
+      <p class="container content-prerequisites">
+        <span>
+          <strong>Prerequisites: </strong>
+          {entry.data.prerequisites.join(', ')}
+        </span>
+        <span class="work-detail__header-tag work-detail__audience-phone">{entry.data.audience}</span>
+      </p>
+    ) : null
+  }
+
+  {
+    interactive ? (
+      <div class="work-detail__stage">
+        <details class="work-detail__controls" data-work-controls open>
+          <summary class="work-detail__controls-toggle">
+            <span class="work-detail__controls-toggle-label">
+              <span class="work-detail__controls-toggle-text">Adjust parameters</span>
+              <span class="work-detail__controls-toggle-text--open">Hide parameters</span>
+              <span class="work-detail__controls-toggle-hint">Scroll down to adjust</span>
+            </span>
+          </summary>
+          <aside
+            class="controls-panel controls-panel--stage"
+            id={workControlsMountId(entry.id)}
+            aria-label="Parameters"
+          />
+        </details>
+        <div class="work-detail__canvas">
+          <WorkInteractiveStage client:only="react" slug={entry.id} locale="en">
+            <div
+              slot="fallback"
+              class="interactive-loading"
+              role="status"
+              aria-live="polite"
+              aria-label="Loading the figure"
+            >
+              <span class="interactive-loading__mark"></span>
+            </div>
+          </WorkInteractiveStage>
+        </div>
+        <p class="work-detail__canvas-scroll-hint" aria-hidden="true">Scroll for the parameters and the text</p>
+      </div>
+    ) : (
+      <CanvasPlaceholder class="work-canvas" />
+    )
+  }
+
+  <div class="container work-detail">
+    <article class="prose work-detail__prose">
+      <Content />
+    </article>
+
+    <RelatedLinks
+      items={relatedItems}
+      heading="Related exam problems"
+      ariaLabel="Related exam problems"
+      locale="en"
+    />
+
+    {
+      previousWork || nextWork ? (
+        <nav class="work-detail__pager" aria-label="Works">
+          {
+            previousWork ? (
+              <a href={`/en/works/${previousWork.id}/`} class="work-detail__pager-link">
+                <span>Earlier</span>
+                <strong>{previousWork.data.title}</strong>
+              </a>
+            ) : (
+              <span
+                class="work-detail__pager-link work-detail__pager-link--disabled"
+                aria-disabled="true"
+                aria-label="No earlier page"
+              >
+                <span>Earlier</span>
+                <strong>None</strong>
+              </span>
+            )
+          }
+          {
+            nextWork ? (
+              <a href={`/en/works/${nextWork.id}/`} class="work-detail__pager-link work-detail__pager-link--next">
+                <span>Later</span>
+                <strong>{nextWork.data.title}</strong>
+              </a>
+            ) : (
+              <span
+                class="work-detail__pager-link work-detail__pager-link--disabled work-detail__pager-link--next"
+                aria-disabled="true"
+                aria-label="No later page"
+              >
+                <span>Later</span>
+                <strong>None</strong>
+              </span>
+            )
+          }
+        </nav>
+      ) : null
+    }
+
+    <Giscus locale="en" />
+    <FitKatexDisplay />
+
+    <a href="/en/works" class="back-link">← Back to works</a>
+  </div>
+  {
+    interactive ? (
+      <script is:inline>
+        (function () {
+  function bindWorkControlsAccordion() {
+    document.querySelectorAll('[data-work-controls]').forEach(function (details) {
+      if (details.dataset.workControlsBound) return;
+      details.dataset.workControlsBound = 'true';
+      var media = window.matchMedia('(min-width: 1024px)');
+      // toggle 排在下一個 task，含解析器對初始 open 的那次。同步清掉會被當成使用者展開而捲走畫布。
+      var syncGen = 0;
+      function syncOpenState() {
+        var gen = ++syncGen;
+        if (media.matches) {
+          details.open = true;
+          details.dataset.workControlsUserToggled = '';
+        } else if (!details.dataset.workControlsUserToggled) {
+          details.open = true;
+        }
+        setTimeout(function () {
+          if (syncGen === gen) syncGen = 0;
+        }, 0);
+      }
+      details.addEventListener('toggle', function () {
+        if (syncGen !== 0) return;
+        if (!media.matches) details.dataset.workControlsUserToggled = 'true';
+        if (!details.open || media.matches) return;
+        var panel = details.querySelector('.controls-panel--stage');
+        if (!panel) return;
+        requestAnimationFrame(function () {
+          var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          panel.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+        });
+      });
+      syncOpenState();
+      if (typeof media.addEventListener === 'function') {
+        media.addEventListener('change', syncOpenState);
+      } else if (typeof media.addListener === 'function') {
+        media.addListener(syncOpenState);
+      }
+    });
+  }
+  bindWorkControlsAccordion();
+})();
+      </script>
+    ) : null
+  }
+</BaseLayout>

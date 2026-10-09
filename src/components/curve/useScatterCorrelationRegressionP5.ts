@@ -1,4 +1,4 @@
-import { useCallback, useRef, type MutableRefObject } from 'react';
+import { useCallback, useEffect, useRef, type MutableRefObject } from 'react';
 import type p5 from 'p5';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import {
@@ -26,6 +26,7 @@ type Options = {
   stateRef: MutableRefObject<ScatterCorrelationWorkState>;
   onStateChange: () => void;
   redrawKey: number;
+  locale?: 'en';
 };
 
 function measureSquare(host: HTMLElement) {
@@ -43,8 +44,14 @@ export function useScatterCorrelationRegressionP5({
   stateRef,
   onStateChange,
   redrawKey,
+  locale,
 }: Options) {
   const dragIndexRef = useRef<number | null>(null);
+  const localeRef = useRef(locale);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const state = stateRef.current;
@@ -55,6 +62,7 @@ export function useScatterCorrelationRegressionP5({
       selectedIndex: state.selectedIndex,
       showMeanAxes: state.showMeanAxes,
       showResiduals: state.showResiduals,
+      locale: localeRef.current,
     });
   }, [stateRef]);
 

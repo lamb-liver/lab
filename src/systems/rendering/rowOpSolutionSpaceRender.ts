@@ -20,7 +20,7 @@ const GOLD: Rgb = [212, 184, 122];
 const WHITE: Rgb = [255, 255, 255];
 const AXIS_LIMIT = 2.5;
 
-export function renderRowOpSolutionSpace(p: p5, params: RowOpParams): void {
+export function renderRowOpSolutionSpace(p: p5, params: RowOpParams, locale?: 'en'): void {
   const width = p.width;
   const height = p.height;
   p.background(BG[0], BG[1], BG[2]);
@@ -88,8 +88,8 @@ export function renderRowOpSolutionSpace(p: p5, params: RowOpParams): void {
     p.fill(GOLD[0], GOLD[1], GOLD[2], 245);
     p.circle(at.x, at.y, 12);
     p.pop();
-    drawLabel(p, at, '解', GOLD);
+    drawLabel(p, at, locale === 'en' ? 'Solution' : '解', GOLD);
   }
 
-  drawReadout(p, width, [presetLabel(params.preset)]);
+  drawReadout(p, width, [presetLabel(params.preset, locale)]);
 }

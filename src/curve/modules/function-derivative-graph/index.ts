@@ -56,6 +56,7 @@ export {
   fmt,
   nearestZeroInfo,
   presetById,
+  localizeDerivativePhrase,
   presetIndexFromId,
   slopeStateText,
   valuesFromParams,

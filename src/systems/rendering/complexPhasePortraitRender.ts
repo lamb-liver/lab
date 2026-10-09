@@ -15,6 +15,7 @@ type ComplexPhasePortraitSnap = {
   smoothPhase: number;
   time: number;
   history: HistoryBuffer;
+  locale?: 'en';
 };
 
 const COLORS = {

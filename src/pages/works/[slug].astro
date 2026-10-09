@@ -19,6 +19,7 @@ import {
 } from '../../works/interactiveRegistry';
 import { getWorkOgImagePath } from '../../lib/workOgImage';
 import { SITE_AUTHOR } from '../../lib/siteLinks';
+import { translationAlternates } from '../../lib/translatedSlugs';
 import 'katex/dist/katex.min.css';
 import '../../styles/prose.css';
 import '../../styles/pages/work-detail.css';
@@ -45,6 +46,7 @@ const siteRoot = new URL('/', site).href;
 const worksUrl = new URL('/works', site).href;
 const articleUrl = new URL(`/works/${entry.id}`, site).href;
 const imageUrl = new URL(ogImage, site).href;
+const alternates = translationAlternates(site, 'works', entry.id);
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -78,6 +80,7 @@ const structuredData = [
   ogType="article"
   structuredData={structuredData}
   preloadConceptFont
+  alternates={alternates}
 >
   <div class="container detail-top-nav">
     <Breadcrumb

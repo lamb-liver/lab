@@ -35,6 +35,7 @@ type Props = {
   targetDelta: number;
   displayDelta: number;
   onTargetChange: (delta: number) => void;
+  locale?: 'en';
 };
 
 export default function DeltaPhaseControl({
@@ -42,7 +43,9 @@ export default function DeltaPhaseControl({
   targetDelta,
   displayDelta,
   onTargetChange,
+  locale,
 }: Props) {
+  const en = locale === 'en';
   const nearTick = DELTA_TICKS.find((t) => Math.abs(displayDelta - t.value) < SNAP_THRESHOLD)?.value;
 
   const handleInput = (raw: number) => {
@@ -52,7 +55,7 @@ export default function DeltaPhaseControl({
   return (
     <div className="delta-phase-control">
       <label className="delta-phase-control__label" htmlFor={`${moduleId}-delta`}>
-        相位 δ
+        {en ? 'Phase δ' : '相位 δ'}
       </label>
       <div className="delta-phase-wrap range-wrap">
         <div className="delta-phase-ticks" aria-hidden>
@@ -75,7 +78,7 @@ export default function DeltaPhaseControl({
           onInput={(e) => handleInput(Number(e.currentTarget.value))}
         />
       </div>
-      <div className="delta-phase-buttons" role="group" aria-label="δ 快速定點">
+      <div className="delta-phase-buttons" role="group" aria-label={en ? 'Phase δ shortcuts' : 'δ 快速定點'}>
         {DELTA_TICKS.map((tick) => (
           <button
             key={tick.label}

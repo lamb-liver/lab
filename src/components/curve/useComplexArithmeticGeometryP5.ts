@@ -13,15 +13,18 @@ type Options = {
   defaultParams: ParamValues;
   targetParams: ParamValues;
   onSmoothParamsChange: (params: ParamValues) => void;
+  locale?: 'en';
 };
 
 export function useComplexArithmeticGeometryP5({
   defaultParams,
   targetParams,
   onSmoothParamsChange,
+  locale,
 }: Options) {
   const animRef = useRef(createComplexArithmeticGeometryAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
+  const localeRef = useRef(locale);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
     onChange: onSmoothParamsChange,
@@ -30,6 +33,10 @@ export function useComplexArithmeticGeometryP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepComplexArithmeticGeometryAnimation(
@@ -52,6 +59,7 @@ export function useComplexArithmeticGeometryP5({
       smoothR2: anim.smoothR2,
       smoothTheta1: anim.smoothTheta1,
       smoothTheta2: anim.smoothTheta2,
+      locale: localeRef.current,
     });
   }, []);
 

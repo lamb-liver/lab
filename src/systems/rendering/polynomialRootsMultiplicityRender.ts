@@ -20,6 +20,7 @@ type PolynomialRootsMultiplicitySnap = {
   params: PolynomialRootsMultiplicityParams;
   scene: PolynomialSceneCache;
   smooth: ViewSmoothState;
+  locale?: 'en';
 };
 
 const GOLD: [number, number, number] = [212, 184, 122];
@@ -136,6 +137,7 @@ function drawRootGuides(
   plot: PlotRect,
   viewHalfY: number,
   meta: PolynomialMeta,
+  locale?: 'en',
 ) {
   const offsets = rootLabelOffsets(meta.roots, plot, viewHalfY, 20, 15);
 
@@ -155,7 +157,8 @@ function drawRootGuides(
     p.noStroke();
     p.fill(...MUTED, 155);
     p.textSize(10);
-    p.text(m === 1 ? '穿過' : '碰觸', labelPos.x + 10, labelPos.y - offsets[i]);
+    const touch = locale === 'en' ? (m === 1 ? 'crosses' : 'touches') : m === 1 ? '穿過' : '碰觸';
+    p.text(touch, labelPos.x + 10, labelPos.y - offsets[i]);
   }
 }
 
@@ -193,6 +196,7 @@ function drawSignNumberLine(
   p: p5,
   signLine: PlotRect,
   meta: PolynomialMeta,
+  locale?: 'en',
 ) {
   const y = signLine.y + 14;
   const x0 = signLine.x;
@@ -233,7 +237,11 @@ function drawSignNumberLine(
   p.noStroke();
   p.fill(...MUTED, 185);
   p.textSize(11);
-  p.text('金色：f(x)>0；灰色：f(x)<0', x0, y - 14);
+  p.text(
+    locale === 'en' ? 'Gold: f(x)>0; gray: f(x)<0' : '金色：f(x)>0；灰色：f(x)<0',
+    x0,
+    y - 14,
+  );
   p.text('-5', x0 - 5, y + 22);
   p.text('5', x1 - 6, y + 22);
 }
@@ -262,15 +270,15 @@ export function renderPolynomialRootsMultiplicityScene(
     drawGridAndAxes(p, plot, viewHalfY);
 
     if (snap.params.advanced) {
-      drawRootGuides(p, plot, viewHalfY, meta);
+      drawRootGuides(p, plot, viewHalfY, meta, snap.locale);
     }
 
     drawPolynomialCurve(p, plot, viewHalfY, curve);
     drawRootMarkers(p, plot, viewHalfY, meta);
   });
 
-  drawSignNumberLine(p, signLine, meta);
-  drawCaption(p, snap.size, buildCaption(meta));
+  drawSignNumberLine(p, signLine, meta, snap.locale);
+  drawCaption(p, snap.size, buildCaption(meta, snap.locale));
 
   return targetViewHalfY;
 }

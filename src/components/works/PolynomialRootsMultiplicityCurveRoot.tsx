@@ -9,6 +9,7 @@ import {
   type Multiplicity,
   type PolynomialRootsMultiplicityParams,
 } from '../../curve/modules/polynomial-roots-multiplicity';
+import type { CurveMetadata } from '../../curve/types';
 import ParamControls from '../curve/ParamControls';
 import { usePolynomialRootsMultiplicityP5 } from '../curve/usePolynomialRootsMultiplicityP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
@@ -16,11 +17,36 @@ import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
 const ROOT_KEYS = ['root0', 'root1', 'root2'] as const;
 
-export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId }: Props) {
+const EN_PARAM_LABELS: Record<string, string> = {
+  a: 'Leading coefficient a',
+  root0: 'Zero r₁',
+  root1: 'Zero r₂',
+  root2: 'Zero r₃',
+};
+
+const EN_PRESET_LABELS = ['Three crossings', 'One double root', 'Two touches'] as const;
+
+function presentMetadata(metadata: CurveMetadata, locale?: 'en'): CurveMetadata {
+  if (locale !== 'en') return metadata;
+  return {
+    ...metadata,
+    title: 'Polynomial zeros and multiplicity',
+    stats: metadata.stats.map((stat) => {
+      if (stat.key !== 'positive') return stat;
+      const value = String(stat.value)
+        .replace('f(x)>0：無', 'f(x)>0: none')
+        .replace('f(x)>0：', 'f(x)>0: ');
+      return { ...stat, label: 'Positive intervals', value };
+    }),
+  };
+}
+
+export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId, locale }: Props) {
   const module = polynomialRootsMultiplicityModule;
   const [params, setParams] = useState<PolynomialRootsMultiplicityParams>(
     DEFAULT_POLYNOMIAL_ROOTS_MULTIPLICITY_PARAMS,
@@ -33,14 +59,28 @@ export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId }
   const { canvasHostRef } = usePolynomialRootsMultiplicityP5({
     params,
     onParamsChange,
+    locale,
   });
 
 
+  const en = locale === 'en';
   const sliderValues = paramsForMetadata(params);
-  const metadata = module.getMetadata(sliderValues, {
-    revealPct: 100,
-    smoothParams: sliderValues,
-  });
+  const metadata = presentMetadata(
+    module.getMetadata(sliderValues, {
+      revealPct: 100,
+      smoothParams: sliderValues,
+    }),
+    locale,
+  );
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_PARAM_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
 
   const setRoot = (index: number, value: number) => {
     const roots = [...params.roots] as [number, number, number];
@@ -56,12 +96,12 @@ export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId }
 
   const controls = (
     <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
-      <p className="curve-work-controls__formula">快速狀態</p>
+      <p className="curve-work-controls__formula">{en ? 'Presets' : '快速狀態'}</p>
       <div
         className="curve-work-mode-toggle"
         style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}
       >
-        {PRESETS.map((preset) => (
+        {PRESETS.map((preset, index) => (
           <button
             key={preset.label}
             type="button"
@@ -75,13 +115,13 @@ export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId }
               })
             }
           >
-            {preset.label}
+            {en ? EN_PRESET_LABELS[index] : preset.label}
           </button>
         ))}
       </div>
 
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={sliderValues}
         onChange={(key, value) => {
           if (key === 'a') {
@@ -97,7 +137,9 @@ export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId }
 
       {[0, 1, 2].map((index) => (
         <div key={MULT_LABELS[index]} className="control-field">
-          <span className="curve-work-controls__formula">重數 {MULT_LABELS[index]}</span>
+          <span className="curve-work-controls__formula">
+            {en ? `Multiplicity ${MULT_LABELS[index]}` : `重數 ${MULT_LABELS[index]}`}
+          </span>
           <div className="curve-work-mode-toggle" style={{ gridTemplateColumns: '1fr 1fr' }}>
             {([1, 2] as const).map((value) => (
               <button
@@ -121,11 +163,19 @@ export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId }
           aria-pressed={params.advanced}
           onClick={() => onParamsChange({ advanced: !params.advanced })}
         >
-          {params.advanced ? '重數 guide：開' : '重數 guide：關'}
+          {en
+            ? params.advanced
+              ? 'Multiplicity guide: on'
+              : 'Multiplicity guide: off'
+            : params.advanced
+              ? '重數 guide：開'
+              : '重數 guide：關'}
         </button>
       </div>
 
-      <p className="curve-work-controls__formula">也可在圖上拖動零點 rᵢ</p>
+      <p className="curve-work-controls__formula">
+        {en ? 'You can also drag the zeros rᵢ on the figure' : '也可在圖上拖動零點 rᵢ'}
+      </p>
     </WorkControlsPortal>
   );
 
@@ -134,7 +184,7 @@ export default function PolynomialRootsMultiplicityCurveRoot({ controlsMountId }
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="多項式零點與重根"
+        aria-label={en ? 'Polynomial zeros and multiplicity' : '多項式零點與重根'}
       />
       {controls}
     </>

@@ -18,6 +18,7 @@ import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
 
 function paramsForMetadata(params: TrigAngleIdentitiesParams): ParamValues {
@@ -32,7 +33,8 @@ function paramsForMetadata(params: TrigAngleIdentitiesParams): ParamValues {
   } as unknown as ParamValues;
 }
 
-export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props) {
+export default function TrigAngleIdentitiesCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const module = trigAngleIdentitiesModule;
   const [params, setParams] = useState<TrigAngleIdentitiesParams>({
     ...DEFAULT_TRIG_ANGLE_IDENTITIES_PARAMS,
@@ -46,7 +48,7 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
     [],
   );
 
-  const { canvasHostRef } = useTrigAngleIdentitiesP5({ params, onAnglesChange });
+  const { canvasHostRef } = useTrigAngleIdentitiesP5({ params, onAnglesChange, locale });
 
   const metadata = module.getMetadata(paramsForMetadata(params));
 
@@ -77,7 +79,13 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
           aria-pressed={params.showRadians}
           onClick={() => setParams((prev) => ({ ...prev, showRadians: !prev.showRadians }))}
         >
-          {params.showRadians ? '角度顯示：弧度' : '角度顯示：度'}
+          {en
+            ? params.showRadians
+              ? 'Angle display: radians'
+              : 'Angle display: degrees'
+            : params.showRadians
+              ? '角度顯示：弧度'
+              : '角度顯示：度'}
         </button>
         <button
           type="button"
@@ -85,7 +93,13 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
           aria-pressed={params.showGuides}
           onClick={() => setParams((prev) => ({ ...prev, showGuides: !prev.showGuides }))}
         >
-          {params.showGuides ? '合成 guide：開' : '合成 guide：關'}
+          {en
+            ? params.showGuides
+              ? 'Composition guide: on'
+              : 'Composition guide: off'
+            : params.showGuides
+              ? '合成 guide：開'
+              : '合成 guide：關'}
         </button>
         <button
           type="button"
@@ -93,13 +107,19 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
           aria-pressed={params.reverseRead}
           onClick={() => setParams((prev) => ({ ...prev, reverseRead: !prev.reverseRead }))}
         >
-          {params.reverseRead ? '讀法：積化和差' : '讀法：和差化積'}
+          {en
+            ? params.reverseRead
+              ? 'Reading: product-to-sum'
+              : 'Reading: sum-to-product'
+            : params.reverseRead
+              ? '讀法：積化和差'
+              : '讀法：和差化積'}
         </button>
       </div>
 
       <div className="control-field">
         <label htmlFor="trig-angle-alpha">
-          角 α
+          {en ? 'Angle α' : '角 α'}
           <span className="control-field__value">
             {formatAngle(params.alpha, params.showRadians)}
           </span>
@@ -125,7 +145,7 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
 
       <div className="control-field">
         <label htmlFor="trig-angle-beta">
-          角 β
+          {en ? 'Angle β' : '角 β'}
           <span className="control-field__value">
             {formatAngle(params.beta, params.showRadians)}
           </span>
@@ -162,7 +182,7 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
             }))
           }
         >
-          重設 α=120°，β=30°
+          {en ? 'Reset α=120°, β=30°' : '重設 α=120°，β=30°'}
         </button>
       </div>
     </WorkControlsPortal>
@@ -173,7 +193,7 @@ export default function TrigAngleIdentitiesCurveRoot({ controlsMountId }: Props)
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="三角恆等式與角度合成互動"
+        aria-label={en ? 'Trigonometric identities and angle sums' : '三角恆等式與角度合成互動'}
       />
       {controls}
     </>

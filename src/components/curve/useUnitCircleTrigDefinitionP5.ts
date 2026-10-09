@@ -18,6 +18,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: UnitCircleTrigDefinitionParams;
   onThetaChange: (theta: number) => void;
+  locale?: 'en';
 };
 
 const INITIAL_SMOOTH: UnitCircleSmoothState = {
@@ -33,10 +34,11 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options) {
+export function useUnitCircleTrigDefinitionP5({ params, onThetaChange, locale }: Options) {
   const paramsRef = useRef(params);
   const smoothRef = useRef<UnitCircleSmoothState>({ ...INITIAL_SMOOTH });
   const onThetaChangeRef = useRef(onThetaChange);
+  const localeRef = useRef(locale);
   const draggingRef = useRef(false);
 
   useEffect(() => {
@@ -46,6 +48,10 @@ export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options
   useEffect(() => {
     onThetaChangeRef.current = onThetaChange;
   }, [onThetaChange]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const params = paramsRef.current;
@@ -61,6 +67,7 @@ export function useUnitCircleTrigDefinitionP5({ params, onThetaChange }: Options
       height: p.height,
       params,
       smooth,
+      locale: localeRef.current,
     });
 
     return { keepLooping: !isSmoothSettled(smooth, params) };

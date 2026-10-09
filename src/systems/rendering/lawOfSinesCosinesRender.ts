@@ -29,7 +29,27 @@ type LawRenderSnap = {
   height: number;
   params: LawOfSinesCosinesParams;
   activeVertex: 'A' | 'B' | 'C' | null;
+  locale?: 'en';
 };
+
+function englishAngleKind(angle: number) {
+  const rightEps = (2 * Math.PI) / 180;
+  if (Math.abs(angle - Math.PI / 2) < rightEps) return 'near right';
+  if (angle > Math.PI / 2) return 'obtuse';
+  return 'acute';
+}
+
+function englishCosineStatus(angle: number) {
+  const rightEps = (2 * Math.PI) / 180;
+  if (Math.abs(angle - Math.PI / 2) < rightEps) return 'Near right: c²≈a²+b²';
+  if (angle > Math.PI / 2) return 'Obtuse: cosC<0';
+  return 'Acute: cosC>0';
+}
+
+function englishCaption(mode: LawOfSinesCosinesParams['mode'], angleC: number) {
+  if (mode === 'sine') return 'Sine law: three equal ratios, each equal to 2R.';
+  return `Cosine law: C is ${englishAngleKind(angleC)}; c² corrects a²+b².`;
+}
 
 function mid(a: number, b: number) {
   return (a + b) / 2;
@@ -297,6 +317,7 @@ function drawCosineProjectionGuide(
   plot: { x: number; y: number; w: number; h: number },
   pts: ScreenTriangle,
   g: TriangleMetrics,
+  locale?: 'en',
 ) {
   const foot = projectPointToLine(pts.A, pts.C, pts.B);
   const projectionMid = { x: mid(pts.C.x, foot.x), y: mid(pts.C.y, foot.y) };
@@ -317,10 +338,17 @@ function drawCosineProjectionGuide(
   p.circle(foot.x, foot.y, 4.5);
 
   drawTinyLabelInRect(p, 'b cosC', projectionMid.x + 8, projectionMid.y - 8, plot);
-  drawTinyLabelInRect(p, '高', heightMid.x + 8, heightMid.y - 8, plot);
+  drawTinyLabelInRect(p, locale === 'en' ? 'height' : '高', heightMid.x + 8, heightMid.y - 8, plot);
 
   const correction = -2 * g.a * g.b * Math.cos(g.C);
-  const label = correction >= 0 ? '修正項 +：c 變長' : '修正項 −：c 變短';
+  const label =
+    correction >= 0
+      ? locale === 'en'
+        ? 'Correction +: c longer'
+        : '修正項 +：c 變長'
+      : locale === 'en'
+        ? 'Correction −: c shorter'
+        : '修正項 −：c 變短';
   drawTinyLabelInRect(p, label, foot.x + 8, foot.y + 16, plot);
 }
 
@@ -331,12 +359,13 @@ function drawCosineLawScene(
   g: TriangleMetrics,
   advanced: boolean,
   activeVertex: LawRenderSnap['activeVertex'],
+  locale?: 'en',
 ) {
   drawSoftWorldGrid(p, T, advanced ? 1 : 0);
   drawTriangleCore(p, pts, { sideAB: 1, sideBC: 0.82, sideCA: 0.82 });
 
   if (advanced) {
-    drawCosineProjectionGuide(p, T.plot, pts, g);
+    drawCosineProjectionGuide(p, T.plot, pts, g, locale);
   }
 
   drawAngleArcAt(p, pts.C, pts.A, pts.B, g.C, 'C', true, 52, advanced);
@@ -346,7 +375,13 @@ function drawCosineLawScene(
   drawVertexHandles(p, pts, activeVertex);
 
   if (advanced) {
-    drawTinyLabelInRect(p, getCosineStatusLabel(g.C), pts.C.x + 14, pts.C.y - 18, T.plot);
+    drawTinyLabelInRect(
+      p,
+      locale === 'en' ? englishCosineStatus(g.C) : getCosineStatusLabel(g.C),
+      pts.C.x + 14,
+      pts.C.y - 18,
+      T.plot,
+    );
   }
 }
 
@@ -369,13 +404,19 @@ export function renderLawOfSinesCosinesScene(p: p5, snap: LawRenderSnap) {
   if (snap.params.mode === 'sine') {
     drawSineLawScene(p, T, pts, g, snap.params.triangle, advanced, snap.activeVertex);
   } else {
-    drawCosineLawScene(p, T, pts, g, advanced, snap.activeVertex);
+    drawCosineLawScene(p, T, pts, g, advanced, snap.activeVertex, snap.locale);
   }
 
   p.noStroke();
   p.fill(MUTED[0], MUTED[1], MUTED[2], 210);
   p.textSize(12);
   p.textAlign(p.CENTER, p.BASELINE);
-  p.text(getVisualCaption(snap.params.mode, g.C), T.plot.x + T.plot.w / 2, T.plot.y + T.plot.h - 10);
+  p.text(
+    snap.locale === 'en'
+      ? englishCaption(snap.params.mode, g.C)
+      : getVisualCaption(snap.params.mode, g.C),
+    T.plot.x + T.plot.w / 2,
+    T.plot.y + T.plot.h - 10,
+  );
   p.textAlign(p.LEFT, p.BASELINE);
 }

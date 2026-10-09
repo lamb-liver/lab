@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroCanvasShell from '../../components/HeroCanvasShell.astro';
+import WorkCard from '../../components/WorkCard.astro';
+import ExploreCard from '../../components/ExploreCard.astro';
+import { getCollection } from 'astro:content';
+import { exploreInteractiveSlugs } from '../../explore/interactiveRegistry';
+import {
+  excludeEntryIds,
+  getFeaturedInteractive,
+  getPublishedInteractive,
+} from '../../content/utils';
+import { workInteractiveSlugs } from '../../works/interactiveRegistry';
+import { siteSeoEn } from '../../lib/seoCopy';
+import { learningPathsEn } from '../../lib/learningPathsEn';
+import { enExploreSlugs, enWorkSlugs, indexAlternates } from '../../lib/translatedSlugs';
+import '../../styles/pages/home.css';
+
+const works = (await getCollection('worksEn')).filter((entry) => enWorkSlugs.has(entry.id));
+const explore = (await getCollection('exploreEn')).filter((entry) =>
+  enExploreSlugs.has(entry.id),
+);
+
+const featuredWorks = getFeaturedInteractive(works, workInteractiveSlugs, 2);
+const featuredExplore = getFeaturedInteractive(explore, exploreInteractiveSlugs, 1);
+const featuredIds = new Set([
+  ...featuredWorks.map((entry) => entry.id),
+  ...featuredExplore.map((entry) => entry.id),
+]);
+
+const latestWorks = excludeEntryIds(
+  getPublishedInteractive(works, workInteractiveSlugs, 6),
+  featuredIds,
+).slice(0, 3);
+const latestExplore = excludeEntryIds(
+  getPublishedInteractive(explore, exploreInteractiveSlugs, 6),
+  featuredIds,
+).slice(0, 3);
+const site = Astro.site ?? Astro.url;
+---
+
+<BaseLayout
+  title={siteSeoEn.home.title}
+  description={siteSeoEn.home.description}
+  htmlLang="en"
+  ogLocale="en_US"
+  skipLabel="Skip to main content"
+  alternates={indexAlternates(site, '/')}
+>
+  <section class="hero-section">
+    <HeroCanvasShell />
+    <div class="hero-content">
+      <h1>羊·實驗</h1>
+      <p>Experiments in mathematics and algorithms</p>
+    </div>
+  </section>
+
+  <section class="section home-nav-section">
+    <div class="container">
+      <div class="home-nav-grid">
+        <a href="/en/works/" class="home-nav-card home-nav-card--work">
+          <span class="section-badge section-badge--work">In-depth works</span>
+          <h2 class="home-nav-card__title">Works</h2>
+          <p class="home-nav-card__desc">
+            Each one focuses on a single mathematical object: the formula, an interactive figure
+            with adjustable parameters, and a full visual explanation.
+          </p>
+          <span class="home-nav-card__cta">Browse works →</span>
+        </a>
+        <a href="/en/explore/" class="home-nav-card home-nav-card--explore">
+          <span class="section-badge section-badge--explore">Interactive</span>
+          <h2 class="home-nav-card__title">Explore</h2>
+          <p class="home-nav-card__desc">
+            Start from one big idea and follow several interactive experiments and what to notice
+            in each.
+          </p>
+          <span class="home-nav-card__cta">Browse topics →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {
+    featuredWorks.length > 0 || featuredExplore.length > 0 ? (
+      <section class="section">
+        <div class="container">
+          <div class="home-section-header">
+            <div class="home-section-heading">
+              <h2 class="section-title">Featured</h2>
+              <p class="home-section-desc">
+                Curated picks, chosen for visual impact and a complete interactive figure.
+              </p>
+            </div>
+          </div>
+
+          <div class="card-grid home-featured-grid">
+            {featuredWorks.map((entry) => (
+              <WorkCard
+                slug={entry.id}
+                title={entry.data.title}
+                description={entry.data.description}
+                tags={entry.data.tags}
+                audience={entry.data.audience}
+                featured
+                locale="en"
+              />
+            ))}
+            {featuredExplore.map((entry) => (
+              <ExploreCard
+                slug={entry.id}
+                title={entry.data.title}
+                description={entry.data.description}
+                category={entry.data.category}
+                audience={entry.data.audience}
+                coverImage={entry.data.coverImage}
+                featured
+                locale="en"
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    ) : null
+  }
+
+  <section class="section">
+    <div class="container">
+      <div class="home-section-header">
+        <div class="home-section-heading">
+          <h2 class="section-title">Latest works</h2>
+        </div>
+        <a href="/en/works/" class="home-section-link">View all →</a>
+      </div>
+      <div class="card-grid">
+        {
+          latestWorks.map((entry) => (
+            <WorkCard
+              slug={entry.id}
+              title={entry.data.title}
+              description={entry.data.description}
+              tags={entry.data.tags}
+              audience={entry.data.audience}
+              locale="en"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="home-section-header">
+        <div class="home-section-heading">
+          <h2 class="section-title">Latest topics</h2>
+          <p class="home-section-desc">
+            Enter a mathematical idea by topic and build its core picture with interactive
+            visualizations.
+          </p>
+        </div>
+        <a href="/en/explore/" class="home-section-link">View all →</a>
+      </div>
+      <div class="home-topic-list">
+        {
+          latestExplore.map((entry) => (
+            <a
+              class="home-topic-item"
+              href={`/en/explore/${entry.id}/`}
+              data-content-audience={entry.data.audience}
+            >
+              <div class="home-topic-item__meta">
+                <span class="section-badge section-badge--explore">Interactive</span>
+                <span class="home-topic-item__category">{entry.data.category}</span>
+                <span class="home-topic-item__category" data-audience-label>
+                  {entry.data.audience}
+                </span>
+              </div>
+              <h3 class="home-topic-item__title">{entry.data.title}</h3>
+              <p class="home-topic-item__desc">{entry.data.description}</p>
+              <span class="home-topic-item__link">Open topic →</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section home-more-section">
+    <div class="container">
+      <div class="home-section-header">
+        <div class="home-section-heading">
+          <h2 class="section-title">More</h2>
+        </div>
+      </div>
+      <div class="home-more-links">
+        {
+          learningPathsEn().map((path) => (
+            <a href={`/en/path/${path.slug}`}>{path.title} →</a>
+          ))
+        }
+        <a href="/en/concept">Concept index →</a>
+        <a href="/en/exam/">Exam visualizations →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

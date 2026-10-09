@@ -1,4 +1,4 @@
-import { useCallback, useRef, type MutableRefObject } from 'react';
+import { useCallback, useEffect, useRef, type MutableRefObject } from 'react';
 import type p5 from 'p5';
 import { measureWorkCanvasSize } from '../../curve/canvasSize';
 import {
@@ -24,6 +24,7 @@ type Options = {
   stateRef: MutableRefObject<RegressionOutlierInfluenceWorkState>;
   onStateChange: () => void;
   redrawKey: number;
+  locale?: 'en';
 };
 
 function measureSquare(host: HTMLElement) {
@@ -41,8 +42,14 @@ export function useRegressionOutlierInfluenceP5({
   stateRef,
   onStateChange,
   redrawKey,
+  locale,
 }: Options) {
   const draggingRef = useRef(false);
+  const localeRef = useRef(locale);
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const state = stateRef.current;
@@ -54,6 +61,7 @@ export function useRegressionOutlierInfluenceP5({
       showLeverage: state.showLeverage,
       showResidual: state.showResidual,
       showMean: state.showMean,
+      locale: localeRef.current,
     });
   }, [stateRef]);
 

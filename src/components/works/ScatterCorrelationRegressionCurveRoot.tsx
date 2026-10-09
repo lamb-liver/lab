@@ -17,7 +17,14 @@ import {
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
-type Props = { controlsMountId: string };
+type Props = { controlsMountId: string; locale?: 'en' };
+
+const EN_LABELS: Record<string, string> = {
+  n: 'Sample size n',
+  beta: 'Linear trend β',
+  curve: 'Curvature c',
+  noise: 'Noise σ',
+};
 
 function createState(params: ParamValues): ScatterCorrelationWorkState {
   return {
@@ -29,8 +36,18 @@ function createState(params: ParamValues): ScatterCorrelationWorkState {
   };
 }
 
-export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId }: Props) {
+export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId, locale }: Props) {
   const module = scatterCorrelationRegressionModule;
+  const en = locale === 'en';
+  const controlsModule = en
+    ? {
+        ...module,
+        paramSchema: module.paramSchema.map((def) => ({
+          ...def,
+          label: EN_LABELS[def.key] ?? def.label,
+        })),
+      }
+    : module;
   const stateRef = useRef<ScatterCorrelationWorkState>(createState(module.defaultParams));
   const [redrawKey, rerender] = useState(0);
 
@@ -44,16 +61,19 @@ export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId 
     stateRef,
     onStateChange,
     redrawKey,
+    locale,
   });
 
 
   const state = stateRef.current;
   const metadata = getScatterCorrelationMetadata(state.params, state.points);
+  const shown = en ? { ...metadata, title: 'Scatter diagram, correlation, and the regression line' } : metadata;
+  const text = (zh: string, english: string) => (en ? english : zh);
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <ParamControls
-        module={module}
+        module={controlsModule}
         values={state.params}
         onChange={(key, value) =>
           updateState((next) => {
@@ -64,14 +84,14 @@ export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId 
         }
       />
 
-      <div className="curve-work-mode-toggle" aria-label="顯示選項">
+      <div className="curve-work-mode-toggle" aria-label={text('顯示選項', 'Display')}>
         <button
           type="button"
           className="curve-work-mode-button"
           aria-pressed={state.showMeanAxes}
           onClick={() => updateState((next) => { next.showMeanAxes = !next.showMeanAxes; })}
         >
-          平均軸
+          {text('平均軸', 'Mean axes')}
         </button>
         <button
           type="button"
@@ -79,28 +99,28 @@ export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId 
           aria-pressed={state.showResiduals}
           onClick={() => updateState((next) => { next.showResiduals = !next.showResiduals; })}
         >
-          殘差
+          {text('殘差', 'Residuals')}
         </button>
       </div>
 
-      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label="點雲操作">
+      <div className="curve-work-mode-toggle curve-work-mode-toggle--dense" aria-label={text('點雲操作', 'Edit the cloud')}>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.points = translatePoints(next.points, -0.6, 0); })}>
-          左移
+          {text('左移', 'Shift left')}
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.points = translatePoints(next.points, 0.6, 0); })}>
-          右移
+          {text('右移', 'Shift right')}
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.points = scaleCloud(next.points, 0.82); })}>
-          縮小
+          {text('縮小', 'Shrink')}
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.points = scaleCloud(next.points, 1.16); })}>
-          放大
+          {text('放大', 'Enlarge')}
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.points = flipYDirection(next.points); next.params = { ...next.params, beta: -(next.params.beta ?? 0) }; next.selectedIndex = -1; })}>
-          反轉 y
+          {text('反轉 y', 'Flip y')}
         </button>
         <button type="button" className="curve-work-mode-button" aria-pressed={false} onClick={() => updateState((next) => { next.points = createScatterPoints(paramsFromValues(next.params)); next.selectedIndex = -1; })}>
-          重設
+          {text('重設', 'Reset')}
         </button>
       </div>
     </WorkControlsPortal>
@@ -111,7 +131,7 @@ export default function ScatterCorrelationRegressionCurveRoot({ controlsMountId 
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="散布圖相關與迴歸線互動視覺化"
+        aria-label={en ? 'Scatter diagram, correlation, and the regression line' : '散布圖相關與迴歸線互動視覺化'}
       />
       {controls}
     </>

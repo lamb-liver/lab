@@ -15,6 +15,7 @@ interface Props {
   topics: string[];
   coverImage?: string;
   draft?: boolean;
+  locale?: 'en';
 }
 
 const {
@@ -28,8 +29,10 @@ const {
   topics,
   coverImage,
   draft = false,
+  locale,
 } = Astro.props;
-const sourceLabel = examSourceLabel({ year, subject, questionType, questionNo });
+const en = locale === 'en';
+const sourceLabel = examSourceLabel({ year, subject, questionType, questionNo }, locale);
 ---
 
 <article
@@ -38,8 +41,10 @@ const sourceLabel = examSourceLabel({ year, subject, questionType, questionNo })
   data-filter-category={subject}
   data-search-slug={slug}
 >
-  <a href={`/exam/${slug}`} class="card__link-wrap">
-    <span class="card__kind card__kind--explore">{draft ? '草稿' : '試題視覺化'}</span>
+  <a href={en ? `/en/exam/${slug}/` : `/exam/${slug}`} class="card__link-wrap">
+    <span class="card__kind card__kind--explore">
+      {draft ? (en ? 'Draft' : '草稿') : en ? 'Exam' : '試題視覺化'}
+    </span>
     <div class="card__thumb" aria-hidden="true">
       {
         coverImage ? (

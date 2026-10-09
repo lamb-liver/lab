@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type p5 from 'p5';
 import {
   DEFAULT_PARAMS,
@@ -9,6 +9,7 @@ import {
   computeTrigFunctionGraphLayout,
   formatRad,
   measureTrigFunctionGraphCanvas,
+  modePresentation,
   pickThetaDrag,
   thetaFromCircle,
   thetaFromGraph,
@@ -20,12 +21,22 @@ import { renderTrigFunctionGraphsExploreScene } from '../../systems/rendering/tr
 import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/trig-function-graphs-explore.css';
 
-export default function TrigFunctionGraphsExploreRoot() {
+type Props = {
+  locale?: 'en';
+};
+
+export default function TrigFunctionGraphsExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [params, setParamsState] = useState<TrigFunctionGraphParams>({ ...DEFAULT_PARAMS });
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
   const draggingRef = useRef<ThetaDragTarget | null>(null);
 
   paramsRef.current = params;
+
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
 
   const setParams = useCallback((updater: (prev: TrigFunctionGraphParams) => TrigFunctionGraphParams) => {
     setParamsState((prev) => {
@@ -35,12 +46,15 @@ export default function TrigFunctionGraphsExploreRoot() {
     });
   }, []);
 
-  const activeMode = MODE_OPTIONS.find((item) => item.id === params.mode) ?? MODE_OPTIONS[0];
-  const stats = useMemo(() => buildTrigFunctionGraphStats(params), [params]);
-  const formulas = useMemo(() => buildTrigFunctionGraphFormulas(params.mode), [params.mode]);
+  const activeCopy = modePresentation(params.mode, locale);
+  const stats = useMemo(() => buildTrigFunctionGraphStats(params, locale), [params, locale]);
+  const formulas = useMemo(
+    () => buildTrigFunctionGraphFormulas(params.mode, locale),
+    [params.mode, locale],
+  );
 
   const draw = useCallback((p: p5) => {
-    renderTrigFunctionGraphsExploreScene(p, paramsRef.current);
+    renderTrigFunctionGraphsExploreScene(p, paramsRef.current, localeRef.current);
   }, []);
 
   const extendSketch = useCallback(
@@ -114,17 +128,17 @@ export default function TrigFunctionGraphsExploreRoot() {
       <div className="trig-graphs-explore__stage">
         <div className="trig-graphs-explore__visual">
           <p className="trig-graphs-explore__visual-title">TRIG FUNCTION GRAPHS</p>
-          <p className="trig-graphs-explore__visual-sub">{activeMode.label}</p>
+          <p className="trig-graphs-explore__visual-sub">{activeCopy.label}</p>
           <div
             ref={canvasHostRef}
             className="trig-graphs-explore__canvas"
             role="img"
-            aria-label="三角函數圖形與弧度互動視覺化"
+            aria-label={en ? 'Trigonometric graphs and radians' : '三角函數圖形與弧度互動視覺化'}
           />
         </div>
 
         <aside className="trig-graphs-explore__sidebar">
-          <div className="trig-graphs-explore__mode-tabs" aria-label="模式">
+          <div className="trig-graphs-explore__mode-tabs" aria-label={en ? 'Mode' : '模式'}>
             {MODE_OPTIONS.map((option) => (
               <button
                 key={option.id}
@@ -134,20 +148,20 @@ export default function TrigFunctionGraphsExploreRoot() {
                 onClick={() => setMode(option.id)}
                 aria-pressed={params.mode === option.id}
               >
-                {option.label}
+                {modePresentation(option.id, locale).label}
               </button>
             ))}
           </div>
 
           <p className="trig-graphs-explore__state" aria-live="polite" role="status">
-            {activeMode.caption}
+            {activeCopy.caption}
           </p>
 
           <div className="trig-graphs-explore__control-block">
-            <p className="trig-graphs-explore__group-label">參數</p>
+            <p className="trig-graphs-explore__group-label">{en ? 'Parameters' : '參數'}</p>
             <RangeField
               id="trig-graphs-theta"
-              label="角度 θ"
+              label={en ? 'Angle θ' : '角度 θ'}
               min={-Math.PI}
               max={TAU * 2}
               step={0.01}
@@ -164,7 +178,13 @@ export default function TrigFunctionGraphsExploreRoot() {
                 onClick={() => setParams((prev) => ({ ...prev, showCos: !prev.showCos }))}
                 aria-pressed={params.showCos}
               >
-                {params.showCos ? '顯示 cos x：開' : '顯示 cos x：關'}
+                {en
+                  ? params.showCos
+                    ? 'Show cos x: on'
+                    : 'Show cos x: off'
+                  : params.showCos
+                    ? '顯示 cos x：開'
+                    : '顯示 cos x：關'}
               </button>
             )}
 
@@ -172,7 +192,7 @@ export default function TrigFunctionGraphsExploreRoot() {
               <>
                 <RangeField
                   id="trig-graphs-amplitude"
-                  label="振幅 A"
+                  label={en ? 'Amplitude A' : '振幅 A'}
                   min={-2}
                   max={2}
                   step={0.05}
@@ -181,7 +201,7 @@ export default function TrigFunctionGraphsExploreRoot() {
                 />
                 <RangeField
                   id="trig-graphs-period"
-                  label="週期 T"
+                  label={en ? 'Period T' : '週期 T'}
                   min={Math.PI}
                   max={Math.PI * 4}
                   step={0.01}
@@ -191,7 +211,7 @@ export default function TrigFunctionGraphsExploreRoot() {
                 />
                 <RangeField
                   id="trig-graphs-phase"
-                  label="相位 φ"
+                  label={en ? 'Phase φ' : '相位 φ'}
                   min={-Math.PI}
                   max={Math.PI}
                   step={0.01}
@@ -201,7 +221,7 @@ export default function TrigFunctionGraphsExploreRoot() {
                 />
                 <RangeField
                   id="trig-graphs-vertical"
-                  label="位移 k"
+                  label={en ? 'Shift k' : '位移 k'}
                   min={-1.4}
                   max={1.4}
                   step={0.05}
@@ -213,7 +233,7 @@ export default function TrigFunctionGraphsExploreRoot() {
           </div>
 
           <div className="trig-graphs-explore__control-block trig-graphs-explore__stats">
-            <p className="trig-graphs-explore__group-label">統計</p>
+            <p className="trig-graphs-explore__group-label">{en ? 'Statistics' : '統計'}</p>
             {stats.map((line) => (
               <p key={line} className="trig-graphs-explore__stat-line">
                 {line}
@@ -222,7 +242,7 @@ export default function TrigFunctionGraphsExploreRoot() {
           </div>
 
           <div className="trig-graphs-explore__control-block trig-graphs-explore__formula">
-            <p className="trig-graphs-explore__group-label">公式</p>
+            <p className="trig-graphs-explore__group-label">{en ? 'Formula' : '公式'}</p>
             {formulas.map((line) => (
               <p key={line} className="trig-graphs-explore__formula-line">
                 {line}

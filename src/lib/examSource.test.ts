@@ -45,6 +45,14 @@ describe('examSource', () => {
     expect(examCreditLine(taiwan)).toBeNull();
   });
 
+  it('uses official English names on English pages', () => {
+    expect(examSourceLabel(taiwan, 'en')).toBe('115 AST Mathematics I, Fill-in 10');
+    expect(examSourceLabel(amc, 'en')).toBe('2023 AMC 12B, Problem #21');
+    expect(examCreditLine(amc, 'en')).toBe(
+      'Source: MAA AMC, 2023 AMC 12B, Problem #21. © 2023 Mathematical Association of America',
+    );
+  });
+
   it('validates the year format per source', () => {
     expect(examYearIssue('AMC 12B', '2023')).toBeNull();
     expect(examYearIssue('AMC 12A', '113')).toMatch(/4-digit/);

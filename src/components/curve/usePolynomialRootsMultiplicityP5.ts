@@ -19,6 +19,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: PolynomialRootsMultiplicityParams;
   onParamsChange: (patch: Partial<PolynomialRootsMultiplicityParams>) => void;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -26,8 +27,9 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function usePolynomialRootsMultiplicityP5({ params, onParamsChange }: Options) {
+export function usePolynomialRootsMultiplicityP5({ params, onParamsChange, locale }: Options) {
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
   const sceneCacheRef = useRef<PolynomialSceneCache>(buildPolynomialSceneCache(params));
   const smoothRef = useRef<ViewSmoothState>({ viewHalfY: 5 });
   const draggingRootIndexRef = useRef(-1);
@@ -43,12 +45,17 @@ export function usePolynomialRootsMultiplicityP5({ params, onParamsChange }: Opt
     onParamsChangeRef.current = onParamsChange;
   }, [onParamsChange]);
 
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
   const draw = useCallback((p: p5) => {
     const targetViewHalfY = renderPolynomialRootsMultiplicityScene(p, {
       size: p.width,
       params: paramsRef.current,
       scene: sceneCacheRef.current,
       smooth: smoothRef.current,
+      locale: localeRef.current,
     });
     smoothRef.current = stepViewHalfYSmoothing(
       smoothRef.current,

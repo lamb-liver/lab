@@ -2,19 +2,44 @@
 import '../styles/components/footer.css';
 import { GITHUB_URL, PERSONAL_SITE_HOST, PERSONAL_SITE_URL } from '../lib/siteLinks';
 
+interface Props {
+  locale?: 'en';
+}
+
+const { locale } = Astro.props;
+const en = locale === 'en';
 const year = new Date().getFullYear();
+
+const links = en
+  ? [
+      { href: '/en/works', label: 'Works' },
+      { href: '/en/explore', label: 'Explore' },
+      { href: '/en/exam', label: 'Exams' },
+      { href: '/en/concept', label: 'Concepts' },
+      { href: '/en/path', label: 'Curated paths' },
+      { href: '/en/about', label: 'About' },
+    ]
+  : [
+      { href: '/works', label: '作品集' },
+      { href: '/explore', label: '主題導覽' },
+      { href: '/exam', label: '試題視覺化' },
+      { href: '/concept', label: '概念' },
+      { href: '/path', label: '策展路徑' },
+      { href: '/about', label: '關於' },
+    ];
 ---
 
 <footer class="site-footer">
   <div class="site-footer__inner">
     <span class="site-footer__brand">羊·實驗 © {year}</span>
-    <nav class="site-footer__nav" aria-label="網站導覽">
-      <a href="/works" class="site-footer__link">作品集</a>
-      <a href="/explore" class="site-footer__link">主題導覽</a>
-      <a href="/exam" class="site-footer__link">試題視覺化</a>
-      <a href="/concept" class="site-footer__link">概念</a>
-      <a href="/path" class="site-footer__link">策展路徑</a>
-      <a href="/about" class="site-footer__link">關於</a>
+    <nav class="site-footer__nav" aria-label={en ? 'Site navigation' : '網站導覽'}>
+      {
+        links.map((link) => (
+          <a href={link.href} class="site-footer__link">
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
     <div class="site-footer__links">
       <a

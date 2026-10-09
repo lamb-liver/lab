@@ -14,6 +14,7 @@ import { wireTouchToMouse } from './touchToMouse';
 type Options = {
   params: RadianArcLengthParams;
   onThetaChange: (theta: number) => void;
+  locale?: 'en';
 };
 
 function measureSquareCanvas(host: HTMLElement): CanvasSize {
@@ -21,9 +22,10 @@ function measureSquareCanvas(host: HTMLElement): CanvasSize {
   return { width: size, height: size };
 }
 
-export function useRadianArcLengthP5({ params, onThetaChange }: Options) {
+export function useRadianArcLengthP5({ params, onThetaChange, locale }: Options) {
   const paramsRef = useRef(params);
   const onThetaChangeRef = useRef(onThetaChange);
+  const localeRef = useRef(locale);
   const draggingRef = useRef(false);
 
   useEffect(() => {
@@ -34,7 +36,14 @@ export function useRadianArcLengthP5({ params, onThetaChange }: Options) {
     onThetaChangeRef.current = onThetaChange;
   }, [onThetaChange]);
 
-  const draw = useCallback((p: p5) => renderRadianArcLengthScene(p, paramsRef.current), []);
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
+  const draw = useCallback(
+    (p: p5) => renderRadianArcLengthScene(p, paramsRef.current, localeRef.current),
+    [],
+  );
   const extendSketch = useCallback((p: p5, host?: HTMLElement) => {
     const currentCircle = () => circleLayout(p.width, p.height, paramsRef.current.radiusMode);
 

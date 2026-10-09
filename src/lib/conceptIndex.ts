@@ -10,6 +10,10 @@ export interface ConceptGroup {
   works: CollectionEntry<'works'>[];
   explore: CollectionEntry<'explore'>[];
   exams: CollectionEntry<'exam'>[];
+  /** 英文頁用的英文集合條目（選填；中文頁不傳） */
+  worksEn?: CollectionEntry<'worksEn'>[];
+  exploreEn?: CollectionEntry<'exploreEn'>[];
+  examsEn?: CollectionEntry<'examEn'>[];
   /** 三集合合計篇數（呼叫端傳入的多為已發布條目） */
   total: number;
   /** 有內容的集合數（0–3） */
@@ -30,7 +34,7 @@ export function buildConceptIndex(
   const ensure = (slug: string): ConceptGroup => {
     let group = index.get(slug);
     if (!group) {
-      group = { works: [], explore: [], exams: [], total: 0, collectionCount: 0 };
+      group = { works: [], explore: [], exams: [], total: 0, collectionCount: 0, worksEn: [], exploreEn: [], examsEn: [] };
       index.set(slug, group);
     }
     return group;
@@ -65,3 +69,30 @@ export const pagedConceptSlugs = (index: Map<string, ConceptGroup>): Set<string>
   }
   return set;
 };
+
+/** 把英文集合條目依 concept slug 併入既有索引（呼叫端須已過濾草稿與排序） */
+export function attachEnglishEntries(
+  index: Map<string, ConceptGroup>,
+  worksEn: CollectionEntry<'worksEn'>[],
+  exploreEn: CollectionEntry<'exploreEn'>[],
+  examsEn: CollectionEntry<'examEn'>[],
+): void {
+  const bySlug = (entries: { id: string }[]) => new Map(entries.map((e) => [e.id, e]));
+  const worksBy = bySlug(worksEn);
+  const exploreBy = bySlug(exploreEn);
+  const examsBy = bySlug(examsEn);
+  for (const group of index.values()) {
+    group.worksEn = group.works.flatMap((e) => {
+      const en = worksBy.get(e.id) as CollectionEntry<'worksEn'> | undefined;
+      return en ? [en] : [];
+    });
+    group.exploreEn = group.explore.flatMap((e) => {
+      const en = exploreBy.get(e.id) as CollectionEntry<'exploreEn'> | undefined;
+      return en ? [en] : [];
+    });
+    group.examsEn = group.exams.flatMap((e) => {
+      const en = examsBy.get(e.id) as CollectionEntry<'examEn'> | undefined;
+      return en ? [en] : [];
+    });
+  }
+}

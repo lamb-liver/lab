@@ -12,13 +12,13 @@ export interface RelatedRef {
 }
 
 /** 與 exam/[slug].astro 的 sourceLabel 同格式（見 lib/examSource.ts） */
-const examSourceLabel = (data: CollectionEntry<'exam'>['data']): string =>
-  formatExamSourceLabel(data);
+const examSourceLabel = (data: CollectionEntry<'exam'>['data'], locale?: 'en'): string =>
+  formatExamSourceLabel(data, locale);
 
 /** exam 反向索引：每個 work/explore slug → 引用它的試題（新→舊） */
 export function buildExamBackrefs(
-  exams: CollectionEntry<'exam'>[],
-  options: { includeDraft?: boolean } = {},
+  exams: Array<CollectionEntry<'exam'> | CollectionEntry<'examEn'>>,
+  options: { includeDraft?: boolean; locale?: 'en' } = {},
 ): { works: Map<string, RelatedRef[]>; explore: Map<string, RelatedRef[]> } {
   const works = new Map<string, RelatedRef[]>();
   const explore = new Map<string, RelatedRef[]>();
@@ -31,9 +31,9 @@ export function buildExamBackrefs(
   for (const exam of sorted) {
     const ref: RelatedRef = {
       kind: 'exam',
-      href: `/exam/${exam.id}`,
+      href: options.locale === 'en' ? `/en/exam/${exam.id}` : `/exam/${exam.id}`,
       title: exam.data.title,
-      meta: examSourceLabel(exam.data),
+      meta: examSourceLabel(exam.data, options.locale),
     };
     for (const slug of exam.data.relatedWorks) {
       const list = works.get(slug) ?? [];

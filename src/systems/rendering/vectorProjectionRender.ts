@@ -22,6 +22,7 @@ type VectorProjectionSnap = {
   showError: boolean;
   activeDrag: 'a' | 'b' | null;
   timeMs: number;
+  locale?: 'en';
 };
 
 const BG: [number, number, number] = [10, 10, 10];
@@ -218,11 +219,12 @@ function drawLabel(
 function drawBadge(p: p5, label: string): void {
   p.push();
   p.noStroke();
+  p.textSize(12);
+  const boxW = Math.max(148, p.textWidth(label) + 28);
   p.fill(...ACCENT, 34);
-  p.rect(24, 24, 148, 30, 999);
+  p.rect(24, 24, boxW, 30, 999);
   p.fill(235, 235, 235, 154);
   p.textAlign(p.LEFT, p.CENTER);
-  p.textSize(12);
   p.text(label, 38, 39);
   p.pop();
 }
@@ -295,7 +297,12 @@ export function renderVectorProjectionScene(
   drawPlotLabels(p, origin, snap.width, layout.plotMin, layout.plotMax);
 
   if (!data.valid) {
-    drawBadge(p, `${data.baseLabel} = 0，投影未定義`);
+    drawBadge(
+      p,
+      snap.locale === 'en'
+        ? `${data.baseLabel} = 0, projection undefined`
+        : `${data.baseLabel} = 0，投影未定義`,
+    );
   }
 
   drawLabel(p, 'a', { x: screenA.x + 18, y: screenA.y - 14 }, A_COLOR, snap.width, snap.height);

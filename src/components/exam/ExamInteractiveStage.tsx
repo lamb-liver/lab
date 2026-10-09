@@ -4,6 +4,8 @@ import {
   isExamInteractive,
 } from '../../exam/interactiveRegistry';
 
+type RootProps = { locale?: 'en' };
+
 const rootBySlug = {
   'amc12a-2024-20-random-points-area-probability': lazy(
     () => import('./RandomPointsAreaProbabilityExamRoot'),
@@ -38,18 +40,19 @@ const rootBySlug = {
   'gsat-115-parabola-restricted-translation': lazy(
     () => import('./ParabolaRestrictedTranslationExamRoot'),
   ),
-} satisfies Record<ExamInteractiveSlug, ComponentType>;
+} satisfies Record<ExamInteractiveSlug, ComponentType<RootProps>>;
 
 export const examStageRootSlugs = Object.keys(rootBySlug).sort() as ExamInteractiveSlug[];
 
 type Props = {
   slug: string;
+  locale?: 'en';
 };
 
-export default function ExamInteractiveStage({ slug }: Props) {
+export default function ExamInteractiveStage({ slug, locale }: Props) {
   if (!isExamInteractive(slug)) return null;
 
-  const Root = rootBySlug[slug];
+  const Root: ComponentType<RootProps> = rootBySlug[slug];
   return (
     <Suspense
       fallback={
@@ -57,13 +60,13 @@ export default function ExamInteractiveStage({ slug }: Props) {
           className="interactive-loading interactive-loading--explore"
           role="status"
           aria-live="polite"
-          aria-label="互動內容載入中"
+          aria-label={locale === 'en' ? 'Loading the figure' : '互動內容載入中'}
         >
           <span className="interactive-loading__mark" />
         </div>
       }
     >
-      <Root />
+      <Root locale={locale} />
     </Suspense>
   );
 }

@@ -339,11 +339,15 @@ export function rootLabelOffsets(
   return offsets;
 }
 
+/** Display only. Omitted locale keeps the Chinese text. */
 export function positiveIntervalText(
   intervals: Array<[number, number]>,
   maxShown = 2,
+  locale?: 'en',
 ) {
-  if (!intervals.length) return 'f(x)>0：無';
+  const none = locale === 'en' ? 'f(x)>0: none' : 'f(x)>0：無';
+  const prefix = locale === 'en' ? 'f(x)>0: ' : 'f(x)>0：';
+  if (!intervals.length) return none;
 
   const shown = intervals
     .slice(0, maxShown)
@@ -351,11 +355,13 @@ export function positiveIntervalText(
     .join('∪');
   const rest = intervals.length > maxShown ? '…' : '';
 
-  return `f(x)>0：${shown}${rest}`;
+  return `${prefix}${shown}${rest}`;
 }
 
-export function buildCaption(meta: PolynomialMeta) {
-  return `f(x)=a∏(x-rᵢ)^mᵢ；n=${meta.degree}；${positiveIntervalText(meta.intervals, 2)}`;
+/** Display only. Omitted locale keeps the Chinese text. */
+export function buildCaption(meta: PolynomialMeta, locale?: 'en') {
+  const sep = locale === 'en' ? '; ' : '；';
+  return `f(x)=a∏(x-rᵢ)^mᵢ${sep}n=${meta.degree}${sep}${positiveIntervalText(meta.intervals, 2, locale)}`;
 }
 
 export function isPresetActive(

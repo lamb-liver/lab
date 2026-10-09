@@ -35,7 +35,10 @@ const DEFAULT_PARAMS: DiffEqParams = {
   initialPoints: DEFAULT_INITIAL_POINTS,
 };
 
-export default function DifferentialEquationsGeometryExploreRoot() {
+type Props = { locale?: 'en' };
+
+export default function DifferentialEquationsGeometryExploreRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [params, setParams] = useState<DiffEqParams>(DEFAULT_PARAMS);
 
   const paramsRef = useRef(params);
@@ -44,7 +47,7 @@ export default function DifferentialEquationsGeometryExploreRoot() {
     paramsRef.current = params;
   }, [params]);
 
-  const sidebar = useMemo(() => buildDiffEqSidebarState(params), [params]);
+  const sidebar = useMemo(() => buildDiffEqSidebarState(params, locale), [params, locale]);
 
   const addPointFromMouse = useCallback((p: p5) => {
     const current = paramsRef.current;
@@ -71,8 +74,9 @@ export default function DifferentialEquationsGeometryExploreRoot() {
       eqKey: current.eqKey,
       stepH: current.stepH,
       initialPoints: current.initialPoints,
+      locale,
     });
-  }, []);
+  }, [locale]);
 
   const addPointRef = useRef(addPointFromMouse);
 
@@ -99,16 +103,16 @@ export default function DifferentialEquationsGeometryExploreRoot() {
             ref={canvasHostRef}
             className="diff-eq-explore__canvas"
             role="img"
-            aria-label="微分方程的幾何視覺化"
+            aria-label={en ? 'Differential equations, seen geometrically' : '微分方程的幾何視覺化'}
           />
         </div>
 
         <aside className="diff-eq-explore__sidebar">
           <div className="diff-eq-explore__block">
-            <p className="diff-eq-explore__block-title">參數</p>
+            <p className="diff-eq-explore__block-title">{en ? 'Parameters' : '參數'}</p>
 
             <label className="diff-eq-explore__field">
-              <span className="diff-eq-explore__field-label">模式</span>
+              <span className="diff-eq-explore__field-label">{en ? 'Mode' : '模式'}</span>
               <select
                 className="diff-eq-explore__select"
                 value={params.mode}
@@ -119,13 +123,13 @@ export default function DifferentialEquationsGeometryExploreRoot() {
                   }))
                 }
               >
-                <option value="field">斜率場</option>
-                <option value="euler">尤拉法逼近</option>
+                <option value="field">{en ? 'Slope field' : '斜率場'}</option>
+                <option value="euler">{en ? "Euler's method" : '尤拉法逼近'}</option>
               </select>
             </label>
 
             <label className="diff-eq-explore__field">
-              <span className="diff-eq-explore__field-label">方程式 dy/dx</span>
+              <span className="diff-eq-explore__field-label">{en ? 'Equation dy/dx' : '方程式 dy/dx'}</span>
               <select
                 className="diff-eq-explore__select"
                 value={params.eqKey}
@@ -150,12 +154,12 @@ export default function DifferentialEquationsGeometryExploreRoot() {
                   setParams((prev) => ({ ...prev, initialPoints: [] }))
                 }
               >
-                清除軌跡
+                {en ? 'Clear curves' : '清除軌跡'}
               </button>
             ) : (
               <div className="control-field">
                 <label htmlFor="diff-eq-h">
-                  步長 h
+                  {en ? 'Step size h' : '步長 h'}
                   <span className="diff-eq-explore__val">
                     {params.stepH.toFixed(2)}
                   </span>
@@ -182,7 +186,7 @@ export default function DifferentialEquationsGeometryExploreRoot() {
           </div>
 
           <div className="diff-eq-explore__block">
-            <p className="diff-eq-explore__block-title">統計</p>
+            <p className="diff-eq-explore__block-title">{en ? 'Readings' : '統計'}</p>
             {sidebar.statsLines.map((line) => (
               <p key={line} className="diff-eq-explore__stat">
                 {line}

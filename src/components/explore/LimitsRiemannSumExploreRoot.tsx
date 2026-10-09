@@ -25,6 +25,53 @@ import { useRectP5CanvasHost } from '../curve/useRectP5CanvasHost';
 import '../../styles/components/explore/limits-riemann-sum-explore.css';
 import { wireTouchToMouse } from '../curve/touchToMouse';
 
+const TEXT = {
+  zh: {
+    aria: '極限與黎曼和',
+    parameters: '參數',
+    mode: '模式',
+    modes: [
+      { value: 'compare' as const, label: '對照' },
+      { value: 'riemann' as const, label: '全域面積' },
+      { value: 'tangent' as const, label: '局部斜率' },
+    ],
+    fn: '函數 f(x)',
+    scale: '尺度',
+    sample: '分割方式',
+    samples: [
+      { value: 'left' as const, label: '左點' },
+      { value: 'right' as const, label: '右點' },
+      { value: 'mid' as const, label: '中點' },
+    ],
+    partitions: '分割數 n',
+    point: '點 P 位置 t',
+    span: '局部跨度 h',
+    stats: '統計',
+  },
+  en: {
+    aria: 'Limits and Riemann sums',
+    parameters: 'Parameters',
+    mode: 'Mode',
+    modes: [
+      { value: 'compare' as const, label: 'Compare' },
+      { value: 'riemann' as const, label: 'Global area' },
+      { value: 'tangent' as const, label: 'Local slope' },
+    ],
+    fn: 'Function f(x)',
+    scale: 'Scale',
+    sample: 'Sample',
+    samples: [
+      { value: 'left' as const, label: 'Left point' },
+      { value: 'right' as const, label: 'Right point' },
+      { value: 'mid' as const, label: 'Midpoint' },
+    ],
+    partitions: 'Number of partitions n',
+    point: 'Point P position t',
+    span: 'Local span h',
+    stats: 'Statistics',
+  },
+} as const;
+
 const DEFAULT_PARAMS: LimitsRiemannParams = {
   mode: 'compare',
   fnKey: 'x2',
@@ -35,16 +82,26 @@ const DEFAULT_PARAMS: LimitsRiemannParams = {
   scale: 0.45,
 };
 
-export default function LimitsRiemannSumExploreRoot() {
+type Props = {
+  locale?: 'en';
+};
+
+export default function LimitsRiemannSumExploreRoot({ locale }: Props) {
+  const text = locale === 'en' ? TEXT.en : TEXT.zh;
   const [params, setParams] = useState<LimitsRiemannParams>(DEFAULT_PARAMS);
 
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
 
   useEffect(() => {
     paramsRef.current = params;
   }, [params]);
 
-  const sidebar = useMemo(() => buildLimitsSidebarState(params), [params]);
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
+  const sidebar = useMemo(() => buildLimitsSidebarState(params, locale), [params, locale]);
 
   const updateTangentFromMouse = useCallback((p: p5) => {
     const current = paramsRef.current;
@@ -72,6 +129,7 @@ export default function LimitsRiemannSumExploreRoot() {
       tangentT: current.tangentT,
       localH: current.localH,
       scale: current.scale,
+      locale: localeRef.current,
     });
   }, []);
 
@@ -116,29 +174,31 @@ export default function LimitsRiemannSumExploreRoot() {
             ref={canvasHostRef}
             className="limits-riemann-explore__canvas"
             role="img"
-            aria-label="極限與黎曼和"
+            aria-label={text.aria}
           />
         </div>
 
         <aside className="limits-riemann-explore__sidebar">
           <div className="limits-riemann-explore__block">
-            <p className="limits-riemann-explore__block-title">參數</p>
+            <p className="limits-riemann-explore__block-title">{text.parameters}</p>
 
             <label className="limits-riemann-explore__field">
-              <span className="limits-riemann-explore__field-label">模式</span>
+              <span className="limits-riemann-explore__field-label">{text.mode}</span>
               <select
                 className="limits-riemann-explore__select"
                 value={params.mode}
                 onChange={(e) => setMode(e.target.value as LimitsMode)}
               >
-                <option value="compare">對照</option>
-                <option value="riemann">全域面積</option>
-                <option value="tangent">局部斜率</option>
+                {text.modes.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
               </select>
             </label>
 
             <label className="limits-riemann-explore__field">
-              <span className="limits-riemann-explore__field-label">函數 f(x)</span>
+              <span className="limits-riemann-explore__field-label">{text.fn}</span>
               <select
                 className="limits-riemann-explore__select"
                 value={params.fnKey}
@@ -164,7 +224,7 @@ export default function LimitsRiemannSumExploreRoot() {
             {params.mode === 'compare' ? (
               <div className="control-field">
                 <label htmlFor="limits-scale">
-                  尺度
+                  {text.scale}
                   <span className="limits-riemann-explore__val">
                     {Math.round(params.scale * 100)}%
                   </span>
@@ -191,7 +251,7 @@ export default function LimitsRiemannSumExploreRoot() {
               <>
                 <label className="limits-riemann-explore__field">
                   <span className="limits-riemann-explore__field-label">
-                    分割方式
+                    {text.sample}
                   </span>
                   <select
                     className="limits-riemann-explore__select"
@@ -203,15 +263,17 @@ export default function LimitsRiemannSumExploreRoot() {
                       }))
                     }
                   >
-                    <option value="left">左點</option>
-                    <option value="right">右點</option>
-                    <option value="mid">中點</option>
+                    {text.samples.map((item) => (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
                   </select>
                 </label>
 
                 <div className="control-field">
                   <label htmlFor="limits-n">
-                    分割數 n
+                    {text.partitions}
                     <span className="limits-riemann-explore__val">{displayN}</span>
                   </label>
                   <div className="range-wrap">
@@ -237,7 +299,7 @@ export default function LimitsRiemannSumExploreRoot() {
               <>
                 <div className="control-field">
                   <label htmlFor="limits-t">
-                    點 P 位置 t
+                    {text.point}
                     <span className="limits-riemann-explore__val">
                       {params.tangentT.toFixed(3)}
                     </span>
@@ -263,7 +325,7 @@ export default function LimitsRiemannSumExploreRoot() {
 
                 <div className="control-field">
                   <label htmlFor="limits-h">
-                    局部跨度 h
+                    {text.span}
                     <span className="limits-riemann-explore__val">
                       {displayH.toFixed(4)}
                     </span>
@@ -296,7 +358,7 @@ export default function LimitsRiemannSumExploreRoot() {
           </div>
 
           <div className="limits-riemann-explore__block">
-            <p className="limits-riemann-explore__block-title">統計</p>
+            <p className="limits-riemann-explore__block-title">{text.stats}</p>
             {sidebar.statsLines.map((line) => (
               <p key={line} className="limits-riemann-explore__stat">
                 {line}

@@ -7,9 +7,14 @@ import { useOrbitViewP5 } from './useOrbitViewP5';
 type Options = {
   params: SpaceVectorProjectionParams;
   onParamsChange: (patch: Partial<SpaceVectorProjectionParams>) => void;
+  locale?: 'en';
 };
 
-export function useSpaceVectorThreePlaneProjectionP5({ params, onParamsChange }: Options) {
+export function useSpaceVectorThreePlaneProjectionP5({
+  params,
+  onParamsChange,
+  locale,
+}: Options) {
   const render = useCallback(
     (p: p5, current: SpaceVectorProjectionParams, rotating: boolean) => {
       renderSpaceVectorThreePlaneProjectionScene(p, {
@@ -17,9 +22,10 @@ export function useSpaceVectorThreePlaneProjectionP5({ params, onParamsChange }:
         height: p.height,
         params: current,
         rotating,
+        locale,
       });
     },
-    [],
+    [locale],
   );
 
   return useOrbitViewP5({

@@ -19,6 +19,7 @@ type Snapshot = {
   height: number;
   params: GradientLevelCurvesParams;
   dragging: boolean;
+  locale?: 'en';
 };
 
 type Rgb = [number, number, number];
@@ -112,7 +113,7 @@ function drawArrow(p: p5, from: Vec2, to: Vec2, color: Rgb, alpha: number, weigh
 }
 
 export function renderGradientLevelCurvesScene(p: p5, snap: Snapshot): void {
-  const { width, height, params } = snap;
+  const { width, height, params, locale } = snap;
   const metrics = computeGradientMetrics(params);
   const layout = createPlotLayout(width, height);
   const formula = SURFACE_FORMULA[params.kind];
@@ -162,13 +163,20 @@ export function renderGradientLevelCurvesScene(p: p5, snap: Snapshot): void {
   p.circle(point.x, point.y, 12);
   p.pop();
 
+  const en = locale === 'en';
   drawReadout(
     p,
     width,
     [
       formula.f,
-      metrics.critical ? '臨界點 ∇f = 0' : `∇f(P) = ${formatVec(metrics.gradient)}`,
-      `f(P) = ${metrics.value.toFixed(2)}　P = ${formatVec(metrics.point)}`,
+      metrics.critical
+        ? en
+          ? 'Critical point ∇f = 0'
+          : '臨界點 ∇f = 0'
+        : `∇f(P) = ${formatVec(metrics.gradient)}`,
+      en
+        ? `f(P) = ${metrics.value.toFixed(2)}  P = ${formatVec(metrics.point)}`
+        : `f(P) = ${metrics.value.toFixed(2)}　P = ${formatVec(metrics.point)}`,
     ],
     { highlightIndex: 0, highlightColor: ACCENT },
   );

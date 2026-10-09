@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { learningPaths } from '../../lib/learningPaths';
 import { siteSeo } from '../../lib/seoCopy';
+import { indexAlternates } from '../../lib/translatedSlugs';
 import '../../styles/pages/path.css';
 
 const site = Astro.site ?? Astro.url;
@@ -36,6 +37,7 @@ const structuredData = [
   title={siteSeo.path.title}
   description={siteSeo.path.description}
   ogType="website"
+  alternates={indexAlternates(site, '/path/')}
   structuredData={structuredData}
   preloadConceptFont
 >

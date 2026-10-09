@@ -10,8 +10,8 @@ import {
   CANVAS_MAX_W,
   CANVAS_MIN_W,
 } from '../../curve/modules/matrix-linear-transform/constants';
-import { getSpecialParam } from '../../curve/modules/matrix-linear-transform/matrix';
-import type { MatrixMode, SpecialType } from '../../curve/modules/matrix-linear-transform/types';
+import { getSpecialControlTitle, getSpecialParam } from '../../curve/modules/matrix-linear-transform/matrix';
+import type { Matrix2, MatrixMode, SpecialType } from '../../curve/modules/matrix-linear-transform/types';
 import {
   buildMatrixSidebarState,
   renderMatrixLinearTransformScene,
@@ -49,20 +49,73 @@ type SidebarState = {
 };
 
 const FREE_KEYS = ['a', 'b', 'c', 'd'] as const;
+const SPECIAL_TYPES: SpecialType[] = ['rotation', 'scale', 'shear', 'reflection'];
 
-export default function MatrixLinearTransformExploreRoot() {
+const COPY = {
+  zh: {
+    aria: '矩陣與線性變換',
+    visualFree: '矩陣線性變換',
+    visualSpecial: '幾何到矩陣',
+    visualCompose: '矩陣疊加',
+    switch: '切換',
+    mode: '模式',
+    free: '自由變換',
+    special: '特殊變換',
+    compose: '變換疊加',
+    entries: '矩陣元素',
+    type: '類型',
+    parameter: '參數',
+    composeParams: '疊加參數',
+    aRotation: 'A 旋轉角',
+    bShear: 'B 剪切量',
+    status: '狀態',
+    formula: '公式',
+  },
+  en: {
+    aria: 'A matrix as a linear transformation',
+    visualFree: 'Matrix linear transformation',
+    visualSpecial: 'From geometry to a matrix',
+    visualCompose: 'Matrix composition',
+    switch: 'Switch',
+    mode: 'Mode',
+    free: 'Free transform',
+    special: 'Special transform',
+    compose: 'Composition',
+    entries: 'Matrix entries',
+    type: 'Type',
+    parameter: 'Parameter',
+    composeParams: 'Composition parameters',
+    aRotation: 'A rotation',
+    bShear: 'B shear',
+    status: 'Status',
+    formula: 'Formula',
+  },
+} as const;
+
+const IDENTITY: Matrix2 = { a: 1, b: 0, c: 0, d: 1 };
+
+type Props = {
+  locale?: 'en';
+};
+
+export default function MatrixLinearTransformExploreRoot({ locale }: Props) {
+  const text = locale === 'en' ? COPY.en : COPY.zh;
   const [params, setParams] = useState<MatrixLinearParams>(DEFAULT_PARAMS);
-  const [sidebar, setSidebar] = useState<SidebarState>({
-    modeLabel: '模式：自由變換',
-    matrixLabel: '[1.00 0.00; 0.00 1.00]',
-    detLabel: 'det ≈ 1.000',
-    noteLabel: '欄向量就是 î、ĵ 被送去的位置。',
-    formulaLabel: '[a b; c d] · [x; y]\n= [ax + by; cx + dy]',
-    detWarning: false,
-    subtitle: '自由變換',
-  });
+  const [sidebar, setSidebar] = useState<SidebarState>(() =>
+    buildMatrixSidebarState({
+      width: 0,
+      height: 0,
+      mode: 'free',
+      currentMatrix: IDENTITY,
+      specialType: 'rotation',
+      composeAngleDeg: 45,
+      composeShear: 0.8,
+      locale,
+    }),
+  );
 
   const paramsRef = useRef(params);
+  const localeRef = useRef(locale);
   const animRef = useRef(createMatrixLinearAnimState());
   const lastSidebarKeyRef = useRef('');
   const lastSidebarUpdateAtRef = useRef(0);
@@ -71,6 +124,11 @@ export default function MatrixLinearTransformExploreRoot() {
     paramsRef.current = params;
     lastSidebarUpdateAtRef.current = 0;
   }, [params]);
+
+  useEffect(() => {
+    localeRef.current = locale;
+    lastSidebarUpdateAtRef.current = 0;
+  }, [locale]);
 
   const specialParamLabel = useMemo(
     () => getSpecialParam(params.specialType, params.specialParamRaw).label,
@@ -92,6 +150,7 @@ export default function MatrixLinearTransformExploreRoot() {
       specialType: paramsRef.current.specialType,
       composeAngleDeg: paramsRef.current.composeAngleDeg,
       composeShear: paramsRef.current.composeShear,
+      locale: localeRef.current,
     };
 
     renderMatrixLinearTransformScene(p, snap);
@@ -122,10 +181,10 @@ export default function MatrixLinearTransformExploreRoot() {
 
   const visualTitle =
     params.mode === 'compose'
-      ? '矩陣疊加'
+      ? text.visualCompose
       : params.mode === 'special'
-        ? '幾何到矩陣'
-        : '矩陣線性變換';
+        ? text.visualSpecial
+        : text.visualFree;
 
   return (
     <div className="matrix-linear-explore">
@@ -137,30 +196,30 @@ export default function MatrixLinearTransformExploreRoot() {
             ref={canvasHostRef}
             className="matrix-linear-explore__canvas"
             role="img"
-            aria-label="矩陣與線性變換"
+            aria-label={text.aria}
           />
         </div>
 
         <aside className="matrix-linear-explore__sidebar">
           <div className="matrix-linear-explore__block">
-            <p className="matrix-linear-explore__block-title">切換</p>
+            <p className="matrix-linear-explore__block-title">{text.switch}</p>
             <label className="matrix-linear-explore__field">
-              <span className="matrix-linear-explore__field-label">模式</span>
+              <span className="matrix-linear-explore__field-label">{text.mode}</span>
               <select
                 className="matrix-linear-explore__select"
                 value={params.mode}
                 onChange={(e) => setMode(e.target.value as MatrixMode)}
               >
-                <option value="free">自由變換</option>
-                <option value="special">特殊變換</option>
-                <option value="compose">變換疊加</option>
+                <option value="free">{text.free}</option>
+                <option value="special">{text.special}</option>
+                <option value="compose">{text.compose}</option>
               </select>
             </label>
           </div>
 
           {params.mode === 'free' && (
             <div className="matrix-linear-explore__block">
-              <p className="matrix-linear-explore__block-title">矩陣元素</p>
+              <p className="matrix-linear-explore__block-title">{text.entries}</p>
               {FREE_KEYS.map((key) => (
                 <div key={key} className="control-field">
                   <label htmlFor={`matrix-${key}`}>
@@ -198,9 +257,9 @@ export default function MatrixLinearTransformExploreRoot() {
 
           {params.mode === 'special' && (
             <div className="matrix-linear-explore__block">
-              <p className="matrix-linear-explore__block-title">特殊變換</p>
+              <p className="matrix-linear-explore__block-title">{text.special}</p>
               <label className="matrix-linear-explore__field">
-                <span className="matrix-linear-explore__field-label">類型</span>
+                <span className="matrix-linear-explore__field-label">{text.type}</span>
                 <select
                   className="matrix-linear-explore__select"
                   value={params.specialType}
@@ -211,15 +270,16 @@ export default function MatrixLinearTransformExploreRoot() {
                     }))
                   }
                 >
-                  <option value="rotation">旋轉</option>
-                  <option value="scale">縮放</option>
-                  <option value="shear">剪切</option>
-                  <option value="reflection">反射</option>
+                  {SPECIAL_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {getSpecialControlTitle(type, locale)}
+                    </option>
+                  ))}
                 </select>
               </label>
               <div className="control-field">
                 <label htmlFor="matrix-special-param">
-                  參數
+                  {text.parameter}
                   <span className="matrix-linear-explore__val">
                     {specialParamLabel}
                   </span>
@@ -249,10 +309,10 @@ export default function MatrixLinearTransformExploreRoot() {
 
           {params.mode === 'compose' && (
             <div className="matrix-linear-explore__block">
-              <p className="matrix-linear-explore__block-title">疊加參數</p>
+              <p className="matrix-linear-explore__block-title">{text.composeParams}</p>
               <div className="control-field">
                 <label htmlFor="matrix-compose-angle">
-                  A 旋轉角
+                  {text.aRotation}
                   <span className="matrix-linear-explore__val">
                     {params.composeAngleDeg.toFixed(0)}°
                   </span>
@@ -279,7 +339,7 @@ export default function MatrixLinearTransformExploreRoot() {
               </div>
               <div className="control-field">
                 <label htmlFor="matrix-compose-shear">
-                  B 剪切量
+                  {text.bShear}
                   <span className="matrix-linear-explore__val">
                     {params.composeShear.toFixed(2)}
                   </span>
@@ -308,7 +368,7 @@ export default function MatrixLinearTransformExploreRoot() {
           )}
 
           <div className="matrix-linear-explore__block">
-            <p className="matrix-linear-explore__block-title">狀態</p>
+            <p className="matrix-linear-explore__block-title">{text.status}</p>
             <p className="matrix-linear-explore__muted" aria-live="polite">
               {sidebar.modeLabel}
             </p>
@@ -322,7 +382,7 @@ export default function MatrixLinearTransformExploreRoot() {
           </div>
 
           <div className="matrix-linear-explore__block matrix-linear-explore__formula-block">
-            <p className="matrix-linear-explore__block-title">公式</p>
+            <p className="matrix-linear-explore__block-title">{text.formula}</p>
             {formulaLines.map((line) => (
               <p key={line} className="matrix-linear-explore__formula">
                 {line}

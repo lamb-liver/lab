@@ -16,14 +16,27 @@ import {
   fmt,
   formatRad,
 } from '../../curve/modules/sinusoid-amplitude-period-phase/geometry';
-import type { ParamValues } from '../../curve/types';
+import type { CurveMetadata, ParamValues } from '../../curve/types';
 import { useSinusoidAmplitudePeriodPhaseP5 } from '../curve/useSinusoidAmplitudePeriodPhaseP5';
 import WorkControlsPortal from '../curve/WorkControlsPortal';
 import '../../styles/components/works/curve-work-demo.css';
 
 type Props = {
   controlsMountId: string;
+  locale?: 'en';
 };
+
+function englishMetadata(metadata: CurveMetadata): CurveMetadata {
+  return {
+    ...metadata,
+    title: 'Amplitude, period, and phase of a sinusoid',
+    stats: metadata.stats.map((stat) =>
+      stat.key === 'amplitude' && typeof stat.value === 'string'
+        ? { ...stat, value: stat.value.replace('｜', ' | ') }
+        : stat,
+    ),
+  };
+}
 
 type NumericParamKey = 'amplitude' | 'period' | 'phase' | 'verticalShift';
 
@@ -38,19 +51,21 @@ function paramsForMetadata(params: SinusoidAmplitudePeriodPhaseParams): ParamVal
   };
 }
 
-export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId }: Props) {
+export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId, locale }: Props) {
+  const en = locale === 'en';
   const [params, setParams] = useState<SinusoidAmplitudePeriodPhaseParams>({
     ...DEFAULT_SINUSOID_AMPLITUDE_PERIOD_PHASE_PARAMS,
   });
 
 
-  const { canvasHostRef } = useSinusoidAmplitudePeriodPhaseP5({ params });
+  const { canvasHostRef } = useSinusoidAmplitudePeriodPhaseP5({ params, locale });
 
   const metadataParams = paramsForMetadata(params);
   const metadata = sinusoidAmplitudePeriodPhaseModule.getMetadata(metadataParams, {
     revealPct: 100,
     smoothParams: metadataParams,
   });
+  const shown = en ? englishMetadata(metadata) : metadata;
 
   const setNumericParam = (key: NumericParamKey, value: number) => {
     setParams((prev) => ({ ...prev, [key]: value }));
@@ -61,7 +76,7 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
   };
 
   const controls = (
-    <WorkControlsPortal controlsMountId={controlsMountId} metadata={metadata}>
+    <WorkControlsPortal controlsMountId={controlsMountId} metadata={shown}>
       <div className="curve-work-mode-toggle curve-work-mode-toggle--dense">
         <button
           type="button"
@@ -69,7 +84,7 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
           aria-pressed={params.showGhost}
           onClick={() => setParams((prev) => ({ ...prev, showGhost: !prev.showGhost }))}
         >
-          {params.showGhost ? '對照：開' : '對照：關'}
+          {en ? (params.showGhost ? 'Compare: on' : 'Compare: off') : params.showGhost ? '對照：開' : '對照：關'}
         </button>
         <button
           type="button"
@@ -77,7 +92,7 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
           aria-pressed={params.showGuides}
           onClick={() => setParams((prev) => ({ ...prev, showGuides: !prev.showGuides }))}
         >
-          {params.showGuides ? '輔助線：開' : '輔助線：關'}
+          {en ? (params.showGuides ? 'Guides: on' : 'Guides: off') : params.showGuides ? '輔助線：開' : '輔助線：關'}
         </button>
         <button
           type="button"
@@ -85,13 +100,13 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
           aria-pressed="false"
           onClick={resetParams}
         >
-          重設
+          {en ? 'Reset' : '重設'}
         </button>
       </div>
 
       <div className="control-field">
         <label htmlFor="sinusoid-amplitude">
-          垂直尺度 A
+          {en ? 'Vertical scale A' : '垂直尺度 A'}
           <span className="control-field__value">{fmt(params.amplitude)}</span>
         </label>
         <div className="range-wrap">
@@ -112,7 +127,7 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
 
       <div className="control-field">
         <label htmlFor="sinusoid-period">
-          週期 T
+          {en ? 'Period T' : '週期 T'}
           <span className="control-field__value">{formatRad(params.period)}</span>
         </label>
         <div className="range-wrap">
@@ -133,7 +148,7 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
 
       <div className="control-field">
         <label htmlFor="sinusoid-phase">
-          相位位移 φ
+          {en ? 'Phase shift φ' : '相位位移 φ'}
           <span className="control-field__value">{formatRad(params.phase)}</span>
         </label>
         <div className="range-wrap">
@@ -154,7 +169,7 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
 
       <div className="control-field">
         <label htmlFor="sinusoid-vertical-shift">
-          中心線 k
+          {en ? 'Center line k' : '中心線 k'}
           <span className="control-field__value">{fmt(params.verticalShift)}</span>
         </label>
         <div className="range-wrap">
@@ -183,7 +198,7 @@ export default function SinusoidAmplitudePeriodPhaseCurveRoot({ controlsMountId 
       <div
         ref={canvasHostRef}
         className="curve-work-canvas-host work-canvas"
-        aria-label="正弦型函數的振幅、週期與相位互動"
+        aria-label={en ? 'Amplitude, period, and phase of a sinusoid' : '正弦型函數的振幅、週期與相位互動'}
       />
       {controls}
     </>
