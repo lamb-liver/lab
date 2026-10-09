@@ -1,5 +1,6 @@
 ---
 import ConceptTags from '../../../components/ConceptTags.astro';
+import { getEnOgImagePath } from '../../../lib/enOgPaths';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import CanvasPlaceholder from '../../../components/CanvasPlaceholder.astro';
@@ -37,7 +38,8 @@ const { previous: previousExplore, next: nextExplore } = getCollectionPagerNeigh
   explore,
   entry.id,
 );
-const ogImage = entry.data.coverImage;
+// 英文卡片：封面＋英文標題（build 前產生於 public/og/en/explore/）
+const ogImage = entry.data.coverImage ? getEnOgImagePath('explore', entry.id) : undefined;
 const relatedItems =
   buildExamBackrefs(await getCollection('examEn'), {
     includeDraft: import.meta.env.DEV,

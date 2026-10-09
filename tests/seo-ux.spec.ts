@@ -5,7 +5,12 @@ import { fileURLToPath } from 'node:url';
 import { descriptionHasRawMath } from '../src/content/descriptionMath';
 import { readExploreEntries } from '../src/content/exploreEntries';
 import { getCollectionPagerNeighbors, getPublishedAsc } from '../src/content/utils';
-import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from '../src/lib/defaultOg';
+import {
+  DEFAULT_OG_IMAGE,
+  DEFAULT_OG_IMAGE_ALT,
+  DEFAULT_OG_IMAGE_ALT_EN,
+  DEFAULT_OG_IMAGE_EN,
+} from '../src/lib/defaultOg';
 import { siteSeo } from '../src/lib/seoCopy';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -595,6 +600,47 @@ test.describe('SEO metadata and UX shell', () => {
       );
       await expect(page.locator('.site-nav__link[href="/concept"]')).toHaveText('概念');
     }
+  });
+
+  test('English pages expose English OG cards and en_US locale', async ({ page, request }) => {
+    const site = 'https://lab.lambliver.dev';
+    const cases: Array<[string, string, string]> = [
+      ['/en/works/rose-curve/', '/og/en/works/rose-curve.png', 'Rose curve'],
+      [
+        '/en/exam/ast-114-solid-of-revolution/',
+        '/og/en/exam/ast-114-solid-of-revolution.png',
+        'Same area, same volume for the solid of revolution?',
+      ],
+      ['/en/explore/vectors/', '/og/en/explore/vectors.png', 'Plane vectors'],
+      ['/en/', DEFAULT_OG_IMAGE_EN, DEFAULT_OG_IMAGE_ALT_EN],
+      ['/en/concept/', DEFAULT_OG_IMAGE_EN, DEFAULT_OG_IMAGE_ALT_EN],
+    ];
+    for (const [path, image, alt] of cases) {
+      await page.goto(path);
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${site}${image}`);
+      await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', `${site}${image}`);
+      await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute('content', alt);
+      await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute('content', '1200');
+      await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute('content', '630');
+      await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'en_US');
+      await expect(page.locator('meta[property="og:locale:alternate"]')).toHaveAttribute('content', 'zh_TW');
+      await expect(page.locator('link[rel="alternate"][hreflang="zh-Hant"]')).toHaveCount(1);
+      const response = await request.get(image);
+      expect(response.ok(), image).toBe(true);
+      expect(response.headers()['content-type']).toContain('image/png');
+    }
+
+    // 中文頁不變
+    await page.goto('/');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      `${site}${DEFAULT_OG_IMAGE}`,
+    );
+    await page.goto('/explore/vectors/');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      `${site}/images/explore-covers/vectors.png`,
+    );
   });
 
   test('English pages use English nav, breadcrumb, and footer with a link back to Chinese', async ({

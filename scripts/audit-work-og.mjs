@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Fail the build if dist/og/works (or public/og/works) is missing most work OG PNGs.
+ * Fail the build if dist/og/works (or public/og/works) is missing most work OG PNGs,
+ * or if any English page lacks its card under og/en/{works,exam,explore}.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
@@ -67,6 +68,32 @@ const sample = ['spirograph-curve', 'rose-curve'].filter((slug) => works.include
 for (const slug of sample) {
   if (!present.has(slug)) {
     console.error(`audit:work-og FAILED: expected sample OG missing: ${slug}.png`);
+    process.exit(1);
+  }
+}
+
+// English cards for /en/** pages: public/og/en/{works,exam,explore}/<slug>.png, one per English entry.
+function readEnSlugs(kind) {
+  const dir = join(repoRoot, 'src/content/en', kind);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((name) => /\.mdx?$/.test(name))
+    .filter((name) => !/^draft:\s*true\s*$/m.test(readFileSync(join(dir, name), 'utf8')))
+    .map((name) => name.replace(/\.mdx?$/, ''))
+    .sort();
+}
+
+for (const kind of ['works', 'exam', 'explore']) {
+  const expected = readEnSlugs(kind);
+  const dist = new Set(listValidPngs(join(repoRoot, 'dist/og/en', kind)));
+  const pub = new Set(listValidPngs(join(repoRoot, 'public/og/en', kind)));
+  const present = dist.size >= pub.size ? dist : pub;
+  const missingEn = expected.filter((slug) => !present.has(slug));
+  console.log(`audit:work-og en/${kind} expected=${expected.length} present=${present.size}`);
+  if (missingEn.length) {
+    console.error(
+      `audit:work-og FAILED: missing English OG for ${kind}: ${missingEn.slice(0, 12).join(', ')}${missingEn.length > 12 ? '…' : ''}`,
+    );
     process.exit(1);
   }
 }

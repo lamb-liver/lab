@@ -223,6 +223,9 @@ function checkWorkSurfaces(issues) {
   const workOgPipeline = [
     'scripts/audit-work-og.mjs',
     'scripts/generate-work-og.mjs',
+    // English cards for /en/** pages (public/og/en/)
+    'scripts/generate-en-og.vitest.ts',
+    'src/lib/enOgImage.ts',
   ];
   for (const relativePath of workOgPipeline) {
     const file = resolve(repoRoot, relativePath);
