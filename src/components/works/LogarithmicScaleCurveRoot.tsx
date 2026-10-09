@@ -13,13 +13,11 @@ type Props = {
 };
 
 const EN_FIELDS: Record<string, string> = {
-  a: 'Exponential slope a',
   p: 'Power p',
   m: 'Linear factor m',
 };
 
 const EN_STATS: Record<string, string> = {
-  a: 'Exponential slope a',
   formula: 'Relation',
   m: 'Linear factor m',
 };
@@ -58,7 +56,7 @@ export default function LogarithmicScaleCurveRoot({ controlsMountId, locale }: P
   });
   const shown = locale === 'en' ? englishMetadata(metadata) : metadata;
 
-  const visibleKeys = new Set<string>(['a']);
+  const visibleKeys = new Set<string>();
   if (compareMode && showPower) visibleKeys.add('p');
   if (compareMode && showLinear) visibleKeys.add('m');
   const visibleSchema = module.paramSchema.filter((field) => visibleKeys.has(field.key));

@@ -28,7 +28,6 @@ $$
 
 ## Interaction
 
-- **Exponential slope a**: change $a$, and compare the bend on the linear axis with the fixed slope on the log axis
 - **Compare**: overlay **Exponential**, **Power**, and **Linear** on both axes
 - **Power p** and **Linear factor m**: set the power and the straight line once those curves are on
 
