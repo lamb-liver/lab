@@ -79,3 +79,8 @@
   - MAA AMC 引用規範：https://maa.org/student-programs/amc/maa-amc-policies/
   - 各題試卷、解答與試題分析：見各題 frontmatter 的 `sourceUrl`／`analysisUrl`。
 - 程式內的英文字串：`src/lib/conceptLabels.ts`、`src/lib/learningPathsEn.ts`、`src/pages/en/about.astro`、`src/lib/seoCopy.ts`。
+
+## 後續
+
+- 2026-10-10 加上英文 OG 卡片與中文 OG 改版（#78–#82），只動 meta 與圖檔，本紀錄的檢查不需重跑；細節見 [`og.md`](og.md)。
+- PR／分支整理見 [`repo-maintenance.md`](repo-maintenance.md)。
