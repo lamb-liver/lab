@@ -1,4 +1,5 @@
 import { createElement, type CSSProperties, type ReactNode } from 'react';
+import { OG_FORMULA_MAX_WIDTH, ogFormulaFontSize } from './ogFormula';
 
 /**
  * 英文版 OG 卡片：版面與中文作品 OG（workOgSatori.ts）相同，左邊品牌＋標題（＋公式），
@@ -27,12 +28,6 @@ export function enTitleFontSize(title: string): number {
   if (title.length > 32) return 48;
   if (title.length > 20) return 56;
   return 64;
-}
-
-function formulaFontSize(formula: string): number {
-  if (formula.length > 72) return 22;
-  if (formula.length > 44) return 28;
-  return 34;
 }
 
 export function buildEnOgElement(content: EnOgCardContent): ReactNode {
@@ -73,11 +68,13 @@ export function buildEnOgElement(content: EnOgCardContent): ReactNode {
     marginBottom: formula ? 24 : 0,
   };
   const formulaStyle: CSSProperties = {
-    fontSize: formulaFontSize(formula ?? ''),
+    fontSize: ogFormulaFontSize(formula ?? ''),
     lineHeight: 1.35,
+    // 公式只排一行，不在式子中間換行（長度由 ogFormula.ts 把關）
+    whiteSpace: 'nowrap',
     color: ACCENT,
     fontFamily: `JetBrains Mono, Noto Sans Mono, Noto Sans Math, ${EN_OG_SANS}`,
-    maxWidth: 560,
+    maxWidth: OG_FORMULA_MAX_WIDTH,
   };
   const frameOuterStyle: CSSProperties = {
     display: 'flex',

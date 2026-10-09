@@ -16,3 +16,23 @@ describe('English OG cards', () => {
     expect(enTitleFontSize('Same area, same volume for the solid of revolution?')).toBe(42);
   });
 });
+
+describe('OG card formulas', async () => {
+  const { EN_OG_FORMULA, ogFormulaFontSize, ogFormulaProblems, toEnOgFormula } = await import('./ogFormula');
+
+  it('shows proper sub/superscripts instead of TeX-like syntax', () => {
+    expect(toEnOgFormula('julia-set', 'z_{n+1} = z_n^2 + c')).toBe('zₙ₊₁ = zₙ² + c');
+    expect(ogFormulaProblems('z_{n+1} = z_n^2 + c').length).toBeGreaterThan(0);
+  });
+
+  it('keeps every English card formula on one clean line', () => {
+    for (const [slug, formula] of Object.entries(EN_OG_FORMULA)) {
+      expect(ogFormulaProblems(formula), slug).toEqual([]);
+      expect(ogFormulaFontSize(formula), slug).toBeGreaterThanOrEqual(22);
+    }
+  });
+
+  it('turns full-width punctuation into ASCII', () => {
+    expect(toEnOgFormula('unknown', 'a，b；c')).toBe('a, b; c');
+  });
+});

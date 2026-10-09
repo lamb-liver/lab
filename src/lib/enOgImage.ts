@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import satori from 'satori';
 import sharp from 'sharp';
 import { buildEnOgElement, type EnOgCardContent } from './enOgSatori';
+import { ogFormulaProblems, toEnOgFormula } from './ogFormula';
 import { renderThumbnailDataUrl, resolveWorkOgContent, WORK_OG_HEIGHT, WORK_OG_WIDTH } from './workOgImage';
 
 const require = createRequire(import.meta.url);
@@ -23,20 +24,6 @@ const FONT_FILES: Array<[string, string]> = [
   ['Noto Sans Mono', fileURLToPath(new URL('../../scripts/og-fonts/NotoSansMono-OgSymbols.woff', import.meta.url))],
   ['Noto Sans Math', fileURLToPath(new URL('../../scripts/og-fonts/NotoSansMath-OgSymbols.woff', import.meta.url))],
 ];
-
-/** 作品模組的公式含中文字時的英文版（用語依 docs/i18n-glossary.md） */
-const EN_FORMULA_OVERRIDES: Record<string, string> = {
-  'lp-objective-level-curves': 'z = px + qy, level curves px + qy = k',
-  'lp-vertex-optimum': 'zⱼ = p xⱼ + q yⱼ, optimum at a vertex',
-  'poincare-triangle': 'angle sum < 180°',
-  'row-op-solution-space': 'row 3 := row 3 + k × row 1',
-};
-
-/** 公式來自作品模組（中文頁共用），英文卡片把全形逗號／分號換成半形 */
-export function toEnFormula(slug: string, formula: string): string {
-  const text = EN_FORMULA_OVERRIDES[slug] ?? formula;
-  return text.replace(/，\s*/g, ', ').replace(/；\s*/g, '; ').trim();
-}
 
 let cachedFonts: OgFont[] | null = null;
 
@@ -76,6 +63,12 @@ export async function renderEnOgCard(content: EnOgCardContent, label: string): P
       throw new Error(`en OG ${label}: Chinese text in ${JSON.stringify(text)}`);
     }
   }
+  if (content.formula) {
+    const problems = ogFormulaProblems(content.formula);
+    if (problems.length) {
+      throw new Error(`en OG ${label}: formula ${JSON.stringify(content.formula)}: ${problems.join('; ')}`);
+    }
+  }
   const missing: string[] = [];
   const svg = await satori(buildEnOgElement(content), {
     width: WORK_OG_WIDTH,
@@ -95,5 +88,5 @@ export async function renderEnOgCard(content: EnOgCardContent, label: string): P
 export async function renderEnWorkOgPng(slug: string, title: string): Promise<Buffer> {
   const { formula } = resolveWorkOgContent(slug, title);
   const imageDataUrl = await renderThumbnailDataUrl(slug);
-  return renderEnOgCard({ title, formula: toEnFormula(slug, formula), imageDataUrl }, `works/${slug}`);
+  return renderEnOgCard({ title, formula: toEnOgFormula(slug, formula), imageDataUrl }, `works/${slug}`);
 }
