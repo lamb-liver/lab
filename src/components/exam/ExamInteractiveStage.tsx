@@ -42,14 +42,18 @@ const rootBySlug = {
 
 export const examStageRootSlugs = Object.keys(rootBySlug).sort() as ExamInteractiveSlug[];
 
+type LocaleRootProps = { locale?: 'en' };
+
 type Props = {
   slug: string;
+  locale?: 'en';
 };
 
-export default function ExamInteractiveStage({ slug }: Props) {
+export default function ExamInteractiveStage({ slug, locale }: Props) {
   if (!isExamInteractive(slug)) return null;
 
-  const Root = rootBySlug[slug];
+  // ponytail: roots that ignore locale still go through this cast. Drop it when every root takes locale.
+  const Root = rootBySlug[slug] as ComponentType<LocaleRootProps>;
   return (
     <Suspense
       fallback={
@@ -57,13 +61,13 @@ export default function ExamInteractiveStage({ slug }: Props) {
           className="interactive-loading interactive-loading--explore"
           role="status"
           aria-live="polite"
-          aria-label="互動內容載入中"
+          aria-label={locale === 'en' ? 'Loading the figure' : '互動內容載入中'}
         >
           <span className="interactive-loading__mark" />
         </div>
       }
     >
-      <Root />
+      <Root locale={locale} />
     </Suspense>
   );
 }

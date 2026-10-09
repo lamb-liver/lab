@@ -15,6 +15,7 @@ import {
 import { buildExamBackrefs } from '../../lib/relatedContent';
 import { isExploreInteractive } from '../../explore/interactiveRegistry';
 import { SITE_AUTHOR } from '../../lib/siteLinks';
+import { translationAlternates } from '../../lib/translatedSlugs';
 import 'katex/dist/katex.min.css';
 import '../../styles/components/canvas.css';
 import '../../styles/prose.css';
@@ -45,6 +46,7 @@ const siteRoot = new URL('/', site).href;
 const exploreUrl = new URL('/explore', site).href;
 const articleUrl = new URL(`/explore/${entry.id}`, site).href;
 const imageUrl = ogImage ? new URL(ogImage, site).href : undefined;
+const alternates = translationAlternates(site, 'explore', entry.id);
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -78,6 +80,7 @@ const structuredData = [
   ogType="article"
   structuredData={structuredData}
   preloadConceptFont
+  alternates={alternates}
 >
   <div class={`container explore-detail${interactive ? ' explore-detail--interactive' : ''}`}>
     <div class="detail-top-nav">
@@ -88,7 +91,23 @@ const structuredData = [
           { label: entry.data.title },
         ]}
       />
-      <a href="/explore" class="back-link back-link--top">← 返回主題導覽</a>
+      {
+        alternates ? (
+          <div class="detail-top-nav__actions">
+            <a
+              href={`/en/explore/${entry.id}/`}
+              class="back-link detail-top-nav__lang"
+              hreflang="en"
+              lang="en"
+            >
+              English
+            </a>
+            <a href="/explore" class="back-link back-link--top">← 返回主題導覽</a>
+          </div>
+        ) : (
+          <a href="/explore" class="back-link back-link--top">← 返回主題導覽</a>
+        )
+      }
     </div>
 
     <header class="page-header">

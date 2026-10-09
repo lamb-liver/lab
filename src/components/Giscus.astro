@@ -1,12 +1,24 @@
 ---
 import '../styles/components/comments.css';
+
+interface Props {
+  locale?: 'en';
+}
+
+const en = Astro.props.locale === 'en';
 ---
 
-<section class="page-comments" aria-label="留言">
-  <h2 class="page-comments__title">留言</h2>
-  <p class="page-comments__hint">用 GitHub 帳號留言。</p>
+<section
+  class="page-comments"
+  aria-label={en ? 'Comments' : '留言'}
+  data-giscus-lang={en ? 'en' : 'zh-TW'}
+>
+  <h2 class="page-comments__title">{en ? 'Comments' : '留言'}</h2>
+  <p class="page-comments__hint">{en ? 'Comment with a GitHub account.' : '用 GitHub 帳號留言。'}</p>
   <div class="page-comments__host" data-giscus-host>
-    <button type="button" class="page-comments__load" data-giscus-load>載入留言</button>
+    <button type="button" class="page-comments__load" data-giscus-load>
+      {en ? 'Load comments' : '載入留言'}
+    </button>
   </div>
 </section>
 
@@ -32,7 +44,12 @@ import '../styles/components/comments.css';
     script.setAttribute('data-emit-metadata', '0');
     script.setAttribute('data-input-position', 'bottom');
     script.setAttribute('data-theme', 'transparent_dark');
-    script.setAttribute('data-lang', 'zh-TW');
+    const section = host.closest('.page-comments');
+    const lang =
+      section instanceof HTMLElement && section.dataset.giscusLang
+        ? section.dataset.giscusLang
+        : 'zh-TW';
+    script.setAttribute('data-lang', lang);
     script.setAttribute('data-loading', 'lazy');
     host.appendChild(script);
   }

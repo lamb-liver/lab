@@ -1,50 +1,40 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import CanvasPlaceholder from '../../components/CanvasPlaceholder.astro';
-import WorkInteractiveStage from '../../components/works/WorkInteractiveStage';
-import RelatedLinks from '../../components/RelatedLinks.astro';
-import ConceptTags from '../../components/ConceptTags.astro';
-import Giscus from '../../components/Giscus.astro';
-import FitKatexDisplay from '../../components/FitKatexDisplay.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import CanvasPlaceholder from '../../../components/CanvasPlaceholder.astro';
+import WorkInteractiveStage from '../../../components/works/WorkInteractiveStage';
+import Giscus from '../../../components/Giscus.astro';
+import FitKatexDisplay from '../../../components/FitKatexDisplay.astro';
 import { getCollection, render } from 'astro:content';
 import {
   getCollectionPagerNeighbors,
   getStaticPathsFromCollection,
-} from '../../content/utils';
-import { buildExamBackrefs } from '../../lib/relatedContent';
+} from '../../../content/utils';
 import {
   isWorkInteractive,
   workControlsMountId,
-} from '../../works/interactiveRegistry';
-import { getWorkOgImagePath } from '../../lib/workOgImage';
-import { SITE_AUTHOR } from '../../lib/siteLinks';
-import { translationAlternates } from '../../lib/translatedSlugs';
+} from '../../../works/interactiveRegistry';
+import { getWorkOgImagePath } from '../../../lib/workOgImage';
+import { SITE_AUTHOR } from '../../../lib/siteLinks';
+import { enWorkSlugs, translationAlternates } from '../../../lib/translatedSlugs';
 import 'katex/dist/katex.min.css';
-import '../../styles/prose.css';
-import '../../styles/pages/work-detail.css';
+import '../../../styles/prose.css';
+import '../../../styles/pages/work-detail.css';
 
 export async function getStaticPaths() {
-  const works = await getCollection('works');
+  const works = (await getCollection('worksEn')).filter((entry) => enWorkSlugs.has(entry.id));
   return getStaticPathsFromCollection(works, { includeDraft: import.meta.env.DEV });
 }
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const interactive = isWorkInteractive(entry.id);
-const { previous: previousWork, next: nextWork } = getCollectionPagerNeighbors(
-  await getCollection('works'),
-  entry.id,
-);
-const relatedItems =
-  buildExamBackrefs(await getCollection('exam'), {
-    includeDraft: import.meta.env.DEV,
-  }).works.get(entry.id) ?? [];
+const works = (await getCollection('worksEn')).filter((item) => enWorkSlugs.has(item.id));
+const { previous: previousWork, next: nextWork } = getCollectionPagerNeighbors(works, entry.id);
 const ogImage = getWorkOgImagePath(entry.id);
 const site = Astro.site ?? Astro.url;
 const siteRoot = new URL('/', site).href;
-const worksUrl = new URL('/works', site).href;
-const articleUrl = new URL(`/works/${entry.id}`, site).href;
+const articleUrl = new URL(`/en/works/${entry.id}`, site).href;
 const imageUrl = new URL(ogImage, site).href;
 const alternates = translationAlternates(site, 'works', entry.id);
 const structuredData = [
@@ -52,9 +42,8 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: '首頁', item: siteRoot },
-      { '@type': 'ListItem', position: 2, name: '作品集', item: worksUrl },
-      { '@type': 'ListItem', position: 3, name: entry.data.title, item: articleUrl },
+      { '@type': 'ListItem', position: 1, name: '羊·實驗', item: siteRoot },
+      { '@type': 'ListItem', position: 2, name: entry.data.title, item: articleUrl },
     ],
   },
   {
@@ -65,7 +54,7 @@ const structuredData = [
     image: imageUrl,
     url: articleUrl,
     mainEntityOfPage: articleUrl,
-    inLanguage: 'zh-Hant',
+    inLanguage: 'en',
     datePublished: entry.data.date.toISOString(),
     author: SITE_AUTHOR,
   },
@@ -79,34 +68,23 @@ const structuredData = [
   ogImageAlt={entry.data.title}
   ogType="article"
   structuredData={structuredData}
+  htmlLang="en"
+  ogLocale="en_US"
   preloadConceptFont
+  skipLabel="Skip to main content"
   alternates={alternates}
 >
   <div class="container detail-top-nav">
     <Breadcrumb
+      label="Breadcrumb"
       items={[
-        { label: '首頁', href: '/' },
-        { label: '作品集', href: '/works' },
+        { label: '羊·實驗', href: '/' },
         { label: entry.data.title },
       ]}
     />
-    {
-      alternates ? (
-        <div class="detail-top-nav__actions">
-          <a
-            href={`/en/works/${entry.id}/`}
-            class="back-link detail-top-nav__lang"
-            hreflang="en"
-            lang="en"
-          >
-            English
-          </a>
-          <a href="/works" class="back-link back-link--top">← 返回作品集</a>
-        </div>
-      ) : (
-        <a href="/works" class="back-link back-link--top">← 返回作品集</a>
-      )
-    }
+    <div class="detail-top-nav__actions">
+      <a href={`/works/${entry.id}/`} class="back-link back-link--top" hreflang="zh-Hant">Chinese</a>
+    </div>
   </div>
 
   <header class="container work-detail__header">
@@ -119,14 +97,16 @@ const structuredData = [
         {entry.data.audience}
       </span>
     </div>
-    <ConceptTags slugs={entry.data.concepts} />
   </header>
 
   {
     entry.data.prerequisites.length > 0 ? (
       <p class="container content-prerequisites">
-        <strong>建議先備：</strong>
-        {entry.data.prerequisites.join('、')}
+        <span>
+          <strong>Prerequisites: </strong>
+          {entry.data.prerequisites.join(', ')}
+        </span>
+        <span class="work-detail__header-tag work-detail__audience-phone">{entry.data.audience}</span>
       </p>
     ) : null
   }
@@ -137,31 +117,31 @@ const structuredData = [
         <details class="work-detail__controls" data-work-controls open>
           <summary class="work-detail__controls-toggle">
             <span class="work-detail__controls-toggle-label">
-              <span class="work-detail__controls-toggle-text">調整參數</span>
-              <span class="work-detail__controls-toggle-text--open">收合參數</span>
-              <span class="work-detail__controls-toggle-hint">點開後向下滑動以調整</span>
+              <span class="work-detail__controls-toggle-text">Adjust parameters</span>
+              <span class="work-detail__controls-toggle-text--open">Hide parameters</span>
+              <span class="work-detail__controls-toggle-hint">Scroll down to adjust</span>
             </span>
           </summary>
           <aside
             class="controls-panel controls-panel--stage"
             id={workControlsMountId(entry.id)}
-            aria-label="參數控制區"
+            aria-label="Parameters"
           />
         </details>
         <div class="work-detail__canvas">
-          <WorkInteractiveStage client:only="react" slug={entry.id}>
+          <WorkInteractiveStage client:only="react" slug={entry.id} locale="en">
             <div
               slot="fallback"
               class="interactive-loading"
               role="status"
               aria-live="polite"
-              aria-label="互動內容載入中"
+              aria-label="Loading the figure"
             >
               <span class="interactive-loading__mark"></span>
             </div>
           </WorkInteractiveStage>
         </div>
-        <p class="work-detail__canvas-scroll-hint" aria-hidden="true">上下滑動以瀏覽參數與文章</p>
+        <p class="work-detail__canvas-scroll-hint" aria-hidden="true">Scroll for the parameters and the text</p>
       </div>
     ) : (
       <CanvasPlaceholder class="work-canvas" />
@@ -173,49 +153,51 @@ const structuredData = [
       <Content />
     </article>
 
-    <RelatedLinks items={relatedItems} heading="相關試題" ariaLabel="相關試題" />
+    {
+      previousWork || nextWork ? (
+        <nav class="work-detail__pager" aria-label="Works">
+          {
+            previousWork ? (
+              <a href={`/en/works/${previousWork.id}/`} class="work-detail__pager-link">
+                <span>Earlier</span>
+                <strong>{previousWork.data.title}</strong>
+              </a>
+            ) : (
+              <span
+                class="work-detail__pager-link work-detail__pager-link--disabled"
+                aria-disabled="true"
+                aria-label="No earlier page"
+              >
+                <span>Earlier</span>
+                <strong>None</strong>
+              </span>
+            )
+          }
+          {
+            nextWork ? (
+              <a href={`/en/works/${nextWork.id}/`} class="work-detail__pager-link work-detail__pager-link--next">
+                <span>Later</span>
+                <strong>{nextWork.data.title}</strong>
+              </a>
+            ) : (
+              <span
+                class="work-detail__pager-link work-detail__pager-link--disabled work-detail__pager-link--next"
+                aria-disabled="true"
+                aria-label="No later page"
+              >
+                <span>Later</span>
+                <strong>None</strong>
+              </span>
+            )
+          }
+        </nav>
+      ) : null
+    }
 
-    <nav class="work-detail__pager" aria-label="作品導覽">
-      {
-        previousWork ? (
-          <a href={`/works/${previousWork.id}`} class="work-detail__pager-link">
-            <span>較早一篇</span>
-            <strong>{previousWork.data.title}</strong>
-          </a>
-        ) : (
-          <span
-            class="work-detail__pager-link work-detail__pager-link--disabled"
-            aria-disabled="true"
-            aria-label="沒有較早一篇"
-          >
-            <span>較早一篇</span>
-            <strong>無</strong>
-          </span>
-        )
-      }
-      {
-        nextWork ? (
-          <a href={`/works/${nextWork.id}`} class="work-detail__pager-link work-detail__pager-link--next">
-            <span>較新一篇</span>
-            <strong>{nextWork.data.title}</strong>
-          </a>
-        ) : (
-          <span
-            class="work-detail__pager-link work-detail__pager-link--disabled work-detail__pager-link--next"
-            aria-disabled="true"
-            aria-label="沒有較新一篇"
-          >
-            <span>較新一篇</span>
-            <strong>無</strong>
-          </span>
-        )
-      }
-    </nav>
-
-    <Giscus />
+    <Giscus locale="en" />
     <FitKatexDisplay />
 
-    <a href="/works" class="back-link">← 返回作品集</a>
+    <a href={`/works/${entry.id}/`} class="back-link" hreflang="zh-Hant">Chinese</a>
   </div>
   {
     interactive ? (

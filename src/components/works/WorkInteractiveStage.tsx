@@ -90,14 +90,18 @@ const rootBySlug = {
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.
 export const workStageRootSlugs = Object.keys(rootBySlug).sort() as WorkInteractiveSlug[];
 
+type LocaleRootProps = RootProps & { locale?: 'en' };
+
 type Props = {
   slug: string;
+  locale?: 'en';
 };
 
-export default function WorkInteractiveStage({ slug }: Props) {
+export default function WorkInteractiveStage({ slug, locale }: Props) {
   if (!isWorkInteractive(slug)) return null;
 
-  const Root = rootBySlug[slug];
+  // ponytail: roots that ignore locale still go through this cast. Drop it when every root takes locale.
+  const Root = rootBySlug[slug] as ComponentType<LocaleRootProps>;
   return (
     <Suspense
       fallback={
@@ -105,13 +109,13 @@ export default function WorkInteractiveStage({ slug }: Props) {
           className="interactive-loading"
           role="status"
           aria-live="polite"
-          aria-label="互動內容載入中"
+          aria-label={locale === 'en' ? 'Loading the figure' : '互動內容載入中'}
         >
           <span className="interactive-loading__mark" />
         </div>
       }
     >
-      <Root controlsMountId={workControlsMountId(slug)} />
+      <Root controlsMountId={workControlsMountId(slug)} locale={locale} />
     </Suspense>
   );
 }

@@ -35,12 +35,14 @@ export const exploreStageRootSlugs = Object.keys(rootBySlug).sort() as ExploreIn
 
 type Props = {
   slug: string;
+  locale?: 'en';
 };
 
-export default function ExploreInteractiveStage({ slug }: Props) {
+export default function ExploreInteractiveStage({ slug, locale }: Props) {
   if (!isExploreInteractive(slug)) return null;
 
-  const Root = rootBySlug[slug];
+  // ponytail: roots that ignore locale still go through this cast. Drop it when every root takes locale.
+  const Root = rootBySlug[slug] as ComponentType<{ locale?: 'en' }>;
   return (
     <Suspense
       fallback={
@@ -48,13 +50,13 @@ export default function ExploreInteractiveStage({ slug }: Props) {
           className={`interactive-loading interactive-loading--explore${slug === 'fourier-series' ? ' interactive-loading--square' : ''}`}
           role="status"
           aria-live="polite"
-          aria-label="互動內容載入中"
+          aria-label={locale === 'en' ? 'Loading the figure' : '互動內容載入中'}
         >
           <span className="interactive-loading__mark" />
         </div>
       }
     >
-      <Root />
+      <Root locale={locale} />
     </Suspense>
   );
 }

@@ -8,12 +8,13 @@ export interface BreadcrumbItem {
 
 interface Props {
   items: BreadcrumbItem[];
+  label?: string;
 }
 
-const { items } = Astro.props;
+const { items, label = '麵包屑' } = Astro.props;
 ---
 
-<nav class="breadcrumb" aria-label="麵包屑">
+<nav class="breadcrumb" aria-label={label}>
   <ol class="breadcrumb__list">
     {
       items.map((item, index) => {
