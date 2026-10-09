@@ -21,7 +21,10 @@ function measureCanvas(host: HTMLElement): CanvasSize {
   return { width, height: Math.max(280, Math.round(width * 0.56)) };
 }
 
-export default function SinusoidSuperpositionExamRoot() {
+type Props = { locale?: 'en' };
+
+export default function SinusoidSuperpositionExamRoot({ locale }: Props) {
+  const en = locale === 'en';
   const [coefficients, setCoefficients] = useState<SinusoidCoefficients>(
     DEFAULT_SINUSOID_COEFFICIENTS,
   );
@@ -46,9 +49,10 @@ export default function SinusoidSuperpositionExamRoot() {
       height: p.height,
       ...coefficientsRef.current,
       progress: 1 - (1 - progressRef.current) ** 3,
+      locale,
     });
     return { keepLooping: progressRef.current < 1 };
-  }, []);
+  }, [locale]);
 
   const canvasHostRef = useRectP5CanvasHost(draw, [draw], measureCanvas, undefined, {
     restartOn: [coefficients.a, coefficients.b, replayKey],
@@ -69,25 +73,35 @@ export default function SinusoidSuperpositionExamRoot() {
     <div className="exam-interactive-explore">
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
-          <p className="exam-interactive-explore__visual-title">正弦與餘弦疊合</p>
+          <p className="exam-interactive-explore__visual-title">
+            {en ? 'Combining sine and cosine' : '正弦與餘弦疊合'}
+          </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>先想一想</strong>
-            改變兩個係數時，振幅與波峰位置會怎麼移動？
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
+            {en
+              ? 'As you change the two coefficients, how do the amplitude and the peak positions move?'
+              : '改變兩個係數時，振幅與波峰位置會怎麼移動？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
-            圖例標出兩個分量與合成波；虛線是對稱軸
+            {en
+              ? 'The legend labels the two components and their sum. Dashed lines are axes of symmetry'
+              : '圖例標出兩個分量與合成波；虛線是對稱軸'}
           </p>
           <div
             ref={canvasHostRef}
             className="exam-interactive-explore__canvas"
             role="img"
-            aria-label="正弦與餘弦疊合、相位平移及對稱軸"
+            aria-label={
+              en
+                ? 'Sine and cosine combined, with the phase shift and axes of symmetry'
+                : '正弦與餘弦疊合、相位平移及對稱軸'
+            }
           />
         </div>
 
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">係數</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Coefficients' : '係數'}</p>
             <div className="exam-interactive-explore__ranges">
               <label className="exam-interactive-explore__range">
                 <span>a · sin x</span>
@@ -123,34 +137,39 @@ export default function SinusoidSuperpositionExamRoot() {
                   setReplayKey((current) => current + 1);
                 }}
               >
-                回到原題 a=1、b=√3
+                {en ? 'Original problem a=1, b=√3' : '回到原題 a=1、b=√3'}
               </button>
               <button
                 type="button"
                 className="exam-interactive-explore__mode-button"
                 onClick={() => setReplayKey((current) => current + 1)}
               >
-                重播相位平移
+                {en ? 'Replay phase shift' : '重播相位平移'}
               </button>
             </div>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">疊合式</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Combined form' : '疊合式'}</p>
             <p className="exam-interactive-explore__result" aria-live="polite">
               {fmt(form.amplitude)} sin({phaseExpression})
             </p>
             <p className="exam-interactive-explore__note">
-              a=R cos φ、b=R sin φ；R = √(a²+b²) = {fmt(form.amplitude)}，φ = {phase}
+              {en ? 'a=R cos φ, b=R sin φ; R = √(a²+b²) = ' : 'a=R cos φ、b=R sin φ；R = √(a²+b²) = '}
+              {fmt(form.amplitude)}
+              {en ? ', φ = ' : '，φ = '}
+              {phase}
             </p>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">對稱軸</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Axes of symmetry' : '對稱軸'}</p>
             <p className="exam-interactive-explore__note">
               {axes.length > 0
-                ? axes.map((axis) => `x=${formatRad(axis)}`).join('、')
-                : '函數為 0，任意鉛直線皆可視為對稱軸'}
+                ? axes.map((axis) => `x=${formatRad(axis)}`).join(en ? ', ' : '、')
+                : en
+                  ? 'The function is 0, so every vertical line counts as an axis of symmetry'
+                  : '函數為 0，任意鉛直線皆可視為對稱軸'}
             </p>
           </div>
         </aside>
