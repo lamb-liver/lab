@@ -10,12 +10,14 @@ const { locale } = Astro.props;
 const en = locale === 'en';
 const year = new Date().getFullYear();
 
-// 概念、策展路徑、關於還沒有英文版，英文頁尾先不放
 const links = en
   ? [
       { href: '/en/works', label: 'Works' },
       { href: '/en/explore', label: 'Explore' },
       { href: '/en/exam', label: 'Exams' },
+      { href: '/en/concept', label: 'Concepts' },
+      { href: '/en/path', label: 'Curated paths' },
+      { href: '/en/about', label: 'About' },
     ]
   : [
       { href: '/works', label: '作品集' },

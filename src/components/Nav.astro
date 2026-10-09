@@ -5,17 +5,20 @@ interface Props {
   locale?: 'en';
   /** 英文頁對應的中文頁路徑；有值時在英文導覽列加「中文」切換連結 */
   zhPath?: string;
+  /** 中文頁對應的英文頁路徑；有值時在中文導覽列加「English」切換連結 */
+  enPath?: string;
 }
 
-const { locale, zhPath } = Astro.props;
+const { locale, zhPath, enPath } = Astro.props;
 const en = locale === 'en';
 
-// 概念、關於、策展路徑還沒有英文版，英文導覽列先不放
 const links = en
   ? [
       { path: '/en/works', label: 'Works' },
       { path: '/en/explore', label: 'Explore' },
       { path: '/en/exam', label: 'Exams' },
+      { path: '/en/concept', label: 'Concepts' },
+      { path: '/en/about', label: 'About' },
     ]
   : [
       { path: '/works', label: '作品集' },
@@ -78,6 +81,13 @@ function isActivePath(path: string, current: string): boolean {
         en && zhPath ? (
           <a href={zhPath} class="site-nav__link" hreflang="zh-Hant" lang="zh-Hant">
             中文
+          </a>
+        ) : null
+      }
+      {
+        !en && enPath ? (
+          <a href={enPath} class="site-nav__link" hreflang="en" lang="en">
+            English
           </a>
         ) : null
       }

@@ -57,6 +57,11 @@ export const siteSeoEn = {
     description:
       'Past GSAT, AST, and AMC 12 problems, with an interactive figure that takes apart the one step most students get stuck on.',
   },
+  about: {
+    title: 'About',
+    description:
+      'About 羊·實驗: interactive experiments with mathematical shapes and algorithms, built in code, from intuitive exploration to high-school and university concepts.',
+  },
   path: {
     title: 'Curated paths',
     description:
