@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Fail the build if dist/og/works (or public/og/works) is missing most work OG PNGs,
- * or if any English page lacks its card under og/en/{works,exam,explore}.
+ * or if any English page lacks its card under og/en/{works,exam,explore},
+ * or if any Chinese exam/explore page lacks its card under og/zh/{exam,explore}.
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
@@ -93,6 +94,35 @@ for (const kind of ['works', 'exam', 'explore']) {
   if (missingEn.length) {
     console.error(
       `audit:work-og FAILED: missing English OG for ${kind}: ${missingEn.slice(0, 12).join(', ')}${missingEn.length > 12 ? '…' : ''}`,
+    );
+    process.exit(1);
+  }
+}
+
+// Chinese exam/explore cards: public/og/zh/{exam,explore}/<slug>.png, one per published entry with a cover.
+function readZhSlugs(kind) {
+  const dir = join(repoRoot, 'src/content', kind);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((name) => /\.mdx?$/.test(name))
+    .filter((name) => {
+      const body = readFileSync(join(dir, name), 'utf8');
+      return !/^draft:\s*true\s*$/m.test(body) && /^coverImage:\s*\S/m.test(body);
+    })
+    .map((name) => name.replace(/\.mdx?$/, ''))
+    .sort();
+}
+
+for (const kind of ['exam', 'explore']) {
+  const expected = readZhSlugs(kind);
+  const dist = new Set(listValidPngs(join(repoRoot, 'dist/og/zh', kind)));
+  const pub = new Set(listValidPngs(join(repoRoot, 'public/og/zh', kind)));
+  const present = dist.size >= pub.size ? dist : pub;
+  const missingZh = expected.filter((slug) => !present.has(slug));
+  console.log(`audit:work-og zh/${kind} expected=${expected.length} present=${present.size}`);
+  if (missingZh.length) {
+    console.error(
+      `audit:work-og FAILED: missing Chinese OG for ${kind}: ${missingZh.slice(0, 12).join(', ')}${missingZh.length > 12 ? '…' : ''}`,
     );
     process.exit(1);
   }

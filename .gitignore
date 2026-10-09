@@ -45,3 +45,4 @@ public/og/works/*.png
 public/og/works/.generated
 # Generated English OG images (/en/** pages)
 public/og/en/
+public/og/zh/

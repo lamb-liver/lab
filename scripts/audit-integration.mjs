@@ -226,6 +226,9 @@ function checkWorkSurfaces(issues) {
     // English cards for /en/** pages (public/og/en/)
     'scripts/generate-en-og.vitest.ts',
     'src/lib/enOgImage.ts',
+    // 中文試題／主題卡（public/og/zh/）
+    'scripts/generate-zh-og.vitest.ts',
+    'src/lib/zhOgImage.ts',
   ];
   for (const relativePath of workOgPipeline) {
     const file = resolve(repoRoot, relativePath);
