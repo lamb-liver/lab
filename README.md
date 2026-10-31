@@ -2,7 +2,11 @@
 
 數學視覺化與 Generative Art 的個人作品集。以 Astro 產生靜態網站，互動畫布由 React 與 p5.js 驅動。
 
-[正式站](https://lab.lambliver.dev/) · [GitHub](https://github.com/lamb-liver/lab)
+[正式站](https://lab.lambliver.dev/) · [English](https://lab.lambliver.dev/en/) · [GitHub](https://github.com/lamb-liver/lab)
+
+作者：羊肝（https://lambliver.dev）
+
+網站提供中文與英文兩個版本，英文頁面位於 `/en/` 路徑下（`src/pages/en/`）。
 
 ## 快速開始
 
