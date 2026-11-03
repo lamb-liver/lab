@@ -80,6 +80,7 @@ import { tangentSecantModule } from './modules/tangent-secant';
 import { ellipseTangentFociModule } from './modules/ellipse-tangent-foci';
 import { dominantDirectionModule } from './modules/dominant-direction';
 import { uniformSumDensityModule } from './modules/uniform-sum-density';
+import { stereographicProjectionModule } from './modules/stereographic-projection';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -164,4 +165,5 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'ellipse-tangent-foci': ellipseTangentFociModule,
   'dominant-direction': dominantDirectionModule,
   'uniform-sum-density': uniformSumDensityModule,
+  'stereographic-projection': stereographicProjectionModule,
 };
