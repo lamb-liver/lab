@@ -26,7 +26,6 @@ export default function AffineIfsFractalCurveRoot({ controlsMountId, locale }: P
       useCanvas={useAffineIfsFractalP5}
       controlsMountId={controlsMountId}
       canvasAriaLabel={en ? 'Iterated affine fractal' : '碎形仿射疊代動畫'}
-      locale={locale}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={en ? EN_LABELS : undefined}
     />

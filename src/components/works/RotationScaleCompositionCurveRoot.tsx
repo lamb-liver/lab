@@ -26,7 +26,6 @@ export default function RotationScaleCompositionCurveRoot({ controlsMountId, loc
       useCanvas={useRotationScaleCompositionP5}
       controlsMountId={controlsMountId}
       canvasAriaLabel={en ? 'Rotation and scaling, composed' : '旋轉縮放疊加動畫'}
-      locale={locale}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={en ? EN_LABELS : undefined}
     />

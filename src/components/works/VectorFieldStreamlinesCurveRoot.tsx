@@ -34,7 +34,6 @@ export default function VectorFieldStreamlinesCurveRoot({ controlsMountId, local
       useCanvas={useVectorFieldStreamlinesP5}
       controlsMountId={controlsMountId}
       canvasAriaLabel={en ? 'Vector field streamlines' : '向量場流線動畫'}
-      locale={locale}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={en ? EN_LABELS : undefined}
     />

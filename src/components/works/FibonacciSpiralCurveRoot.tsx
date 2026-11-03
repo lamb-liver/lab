@@ -24,7 +24,6 @@ export default function FibonacciSpiralCurveRoot({ controlsMountId, locale }: Pr
       useCanvas={useFibonacciSpiralP5}
       controlsMountId={controlsMountId}
       canvasAriaLabel={en ? 'Fibonacci spiral' : '費波那契螺線'}
-      locale={locale}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={en ? EN_LABELS : undefined}
     />

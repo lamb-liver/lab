@@ -17,7 +17,6 @@ type ComplexArithmeticGeometrySnap = {
   smoothR2: number;
   smoothTheta1: number;
   smoothTheta2: number;
-  locale?: 'en';
 };
 
 const SAFE_VIEWPORT_RATIO = 0.72;

@@ -20,7 +20,6 @@ export default function LinearTransformGridCurveRoot({ controlsMountId, locale }
       useCanvas={useLinearTransformGridP5}
       controlsMountId={controlsMountId}
       canvasAriaLabel={en ? 'Linear transformation grid' : '線性變換網格動畫'}
-      locale={locale}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={
         en

@@ -15,18 +15,15 @@ type Options = {
   defaultParams: ParamValues;
   targetParams: ParamValues;
   onSmoothParamsChange: (params: ParamValues) => void;
-  locale?: 'en';
 };
 
 export function useComplexPhasePortraitP5({
   defaultParams,
   targetParams,
   onSmoothParamsChange,
-  locale,
 }: Options) {
   const animRef = useRef(createComplexPhasePortraitAnimState(defaultParams));
   const targetParamsRef = useRef<ParamValues>(defaultParams);
-  const localeRef = useRef(locale);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
     onChange: onSmoothParamsChange,
@@ -36,10 +33,6 @@ export function useComplexPhasePortraitP5({
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
-
-  useEffect(() => {
-    localeRef.current = locale;
-  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const anim = animRef.current;
@@ -61,7 +54,6 @@ export function useComplexPhasePortraitP5({
       smoothPhase: anim.smoothPhase,
       time: anim.time,
       history: anim.history,
-      locale: localeRef.current,
     });
   }, []);
 

@@ -26,7 +26,6 @@ export default function AffineTransformPatternCurveRoot({ controlsMountId, local
       useCanvas={useAffineTransformPatternP5}
       controlsMountId={controlsMountId}
       canvasAriaLabel={en ? 'Affine transformation pattern' : '仿射變換圖樣動畫'}
-      locale={locale}
       presentMetadata={en ? englishMetadata : undefined}
       paramLabels={en ? EN_LABELS : undefined}
     />

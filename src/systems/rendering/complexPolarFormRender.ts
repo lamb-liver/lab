@@ -9,7 +9,6 @@ type ComplexPolarFormSnap = {
   height: number;
   smoothR: number;
   smoothTheta: number;
-  locale?: 'en';
 };
 
 const T = {

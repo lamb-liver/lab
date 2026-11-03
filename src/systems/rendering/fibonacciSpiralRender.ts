@@ -15,7 +15,6 @@ type FibonacciSpiralSnap = {
   height: number;
   params: ParamValues;
   revealProgress: number;
-  locale?: 'en';
 };
 
 const PRIMARY = { r: 212, g: 184, b: 122 };
