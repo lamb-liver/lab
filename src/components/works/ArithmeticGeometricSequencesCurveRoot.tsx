@@ -50,7 +50,6 @@ export default function ArithmeticGeometricSequencesCurveRoot({ controlsMountId,
   const { canvasHostRef } = useArithmeticGeometricSequencesP5({
     targetParams,
     onRevealPctChange,
-    locale,
   });
 
 

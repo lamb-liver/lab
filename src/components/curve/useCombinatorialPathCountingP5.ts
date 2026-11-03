@@ -16,15 +16,12 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 type Options = {
   targetParams: ParamValues;
   rerollNonce: number;
-  locale?: 'en';
 };
 
 export function useCombinatorialPathCountingP5({
   targetParams,
   rerollNonce,
-  locale,
 }: Options) {
-  const localeRef = useRef(locale);
   const initialM = normalizeSize(targetParams.m);
   const initialN = normalizeSize(targetParams.n);
   const targetParamsRef = useRef<ParamValues>(targetParams);
@@ -42,9 +39,6 @@ export function useCombinatorialPathCountingP5({
     targetParamsRef.current = targetParams;
   }, [targetParams]);
 
-  useEffect(() => {
-    localeRef.current = locale;
-  }, [locale]);
 
   useEffect(() => {
     if (cacheRef.current.allPaths.length > 0) {
@@ -93,7 +87,6 @@ export function useCombinatorialPathCountingP5({
       allPaths,
       currentPathPoints: pathToPoints(layout, current),
       pathProgress: pathProgressRef.current,
-      locale: localeRef.current,
     });
   }, []);
 

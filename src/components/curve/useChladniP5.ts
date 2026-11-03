@@ -18,14 +18,12 @@ type Options = {
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothModesChange: (m: number, n: number) => void;
-  locale?: 'en';
 };
 
 export function useChladniP5({
   targetParams,
   onRevealPctChange,
   onSmoothModesChange,
-  locale,
 }: Options) {
   const animRef = useRef(createChladniAnimState(targetParams));
   const particlesRef = useRef<Particle[]>([]);
@@ -34,7 +32,6 @@ export function useChladniP5({
   const lastModeKeyRef = useRef('');
   const onRevealPctChangeRef = useRef(onRevealPctChange);
   const onSmoothModesChangeRef = useRef(onSmoothModesChange);
-  const localeRef = useRef(locale);
 
   useEffect(() => {
     onRevealPctChangeRef.current = onRevealPctChange;
@@ -48,9 +45,6 @@ export function useChladniP5({
     targetParamsRef.current = targetParams;
   }, [targetParams]);
 
-  useEffect(() => {
-    localeRef.current = locale;
-  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepChladniAnimation(
@@ -87,7 +81,6 @@ export function useChladniP5({
       time: anim.time,
       revealProgress: anim.revealProgress,
       particles: particlesRef.current,
-      locale: localeRef.current,
     });
   }, []);
 

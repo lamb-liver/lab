@@ -41,7 +41,6 @@ export default function ChladniFiguresCurveRoot({ controlsMountId, locale }: Pro
     targetParams,
     onRevealPctChange,
     onSmoothModesChange,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {

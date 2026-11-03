@@ -40,7 +40,6 @@ export default function EquiangularSpiralCurveRoot({ controlsMountId, locale }: 
     targetParams,
     onRevealThetaChange,
     onSmoothParamsChange,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {

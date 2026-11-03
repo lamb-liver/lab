@@ -53,7 +53,6 @@ export default function BinomialExpansionGeometryCurveRoot({ controlsMountId, lo
   const [targetParams, setTargetParams] = useQuerySyncedParams(module.defaultParams);
   const { canvasHostRef } = useBinomialExpansionGeometryP5({
     targetParams,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams);

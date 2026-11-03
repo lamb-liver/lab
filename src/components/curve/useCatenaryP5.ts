@@ -14,20 +14,17 @@ type Options = {
   targetParams: ParamValues;
   onPullPctChange: (pct: number) => void;
   onSmoothParamsChange: (params: ParamValues) => void;
-  locale?: 'en';
 };
 
 export function useCatenaryP5({
   targetParams,
   onPullPctChange,
   onSmoothParamsChange,
-  locale,
 }: Options) {
   const animRef = useRef(createCatenaryAnimState(targetParams));
   const targetParamsRef = useRef<ParamValues>(targetParams);
   const lastPullPctRef = useRef(-1);
   const onPullPctChangeRef = useRef(onPullPctChange);
-  const localeRef = useRef(locale);
   const notifySmoothParams = useSmoothParamNotifier({
     getParams: () => targetParamsRef.current,
     onChange: onSmoothParamsChange,
@@ -41,9 +38,6 @@ export function useCatenaryP5({
     targetParamsRef.current = targetParams;
   }, [targetParams]);
 
-  useEffect(() => {
-    localeRef.current = locale;
-  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     animRef.current = stepCatenaryAnimation(
@@ -71,7 +65,6 @@ export function useCatenaryP5({
       time: anim.time,
       ghostUpper: anim.ghostUpper,
       ghostLower: anim.ghostLower,
-      locale: localeRef.current,
     });
   }, []);
 

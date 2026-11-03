@@ -15,7 +15,6 @@ type CatalanSnap = {
   objects: Array<string | number[][]>;
   activeIndex: number;
   reveal: number;
-  locale?: 'en';
 };
 
 const ACCENT = { r: 212, g: 184, b: 122 };

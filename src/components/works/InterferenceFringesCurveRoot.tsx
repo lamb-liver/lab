@@ -42,7 +42,6 @@ export default function InterferenceFringesCurveRoot({ controlsMountId, locale }
     targetParams,
     onRevealPctChange,
     onSmoothSourceDistanceChange,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {

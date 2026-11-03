@@ -40,7 +40,6 @@ export default function CatenaryCurveRoot({ controlsMountId, locale }: Props) {
     targetParams,
     onPullPctChange,
     onSmoothParamsChange,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {

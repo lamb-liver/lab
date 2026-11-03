@@ -53,7 +53,6 @@ export default function BuffonNeedleCurveRoot({ controlsMountId, locale }: Props
   const { canvasHostRef } = useBuffonNeedleP5({
     targetParams,
     resetNonce,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams);

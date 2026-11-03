@@ -15,13 +15,11 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 type Options = {
   targetParams: ParamValues;
   nextNonce: number;
-  locale?: 'en';
 };
 
 export function useCatalanNumbersP5({
   targetParams,
   nextNonce,
-  locale,
 }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
   const cacheRef = useRef<{ key: string; mode: string; n: number; objects: Array<string | number[][]>; active: number }>({
@@ -33,14 +31,10 @@ export function useCatalanNumbersP5({
   });
   const revealRef = useRef(0);
   const catalanRef = useRef(buildCatalanNumbers(9));
-  const localeRef = useRef(locale);
 
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
-  useEffect(() => {
-    localeRef.current = locale;
-  }, [locale]);
   useEffect(() => {
     if (cacheRef.current.objects.length > 0) {
       cacheRef.current.active = (cacheRef.current.active + 1) % cacheRef.current.objects.length;
@@ -84,7 +78,6 @@ export function useCatalanNumbersP5({
       objects,
       activeIndex: cacheRef.current.active,
       reveal: revealRef.current,
-      locale: localeRef.current,
     });
 
   }, []);

@@ -14,12 +14,10 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 
 type Options = {
   targetParams: ParamValues;
-  locale?: 'en';
 };
 
-export function usePascalsTriangleP5({ targetParams, locale }: Options) {
+export function usePascalsTriangleP5({ targetParams }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
-  const localeRef = useRef(locale);
   const revealRef = useRef(0);
   const selectedCellRef = useRef<{ n: number; k: number } | null>(null);
   const highlightSetRef = useRef<Set<string>>(new Set());
@@ -30,9 +28,6 @@ export function usePascalsTriangleP5({ targetParams, locale }: Options) {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
 
-  useEffect(() => {
-    localeRef.current = locale;
-  }, [locale]);
 
   const draw = useCallback((p: p5) => {
     const params = targetParamsRef.current;
@@ -67,7 +62,6 @@ export function usePascalsTriangleP5({ targetParams, locale }: Options) {
       selectedCell: selectedCellRef.current,
       highlightSet: highlightSetRef.current,
       revealProgress: revealRef.current,
-      locale: localeRef.current,
     });
   }, []);
 

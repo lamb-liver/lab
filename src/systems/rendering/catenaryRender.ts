@@ -21,7 +21,6 @@ type CatenarySnap = {
   time: number;
   ghostUpper: ReadonlyArray<WorldPoint>;
   ghostLower: ReadonlyArray<WorldPoint>;
-  locale?: 'en';
 };
 
 const PRIMARY = { r: 212, g: 184, b: 122 };

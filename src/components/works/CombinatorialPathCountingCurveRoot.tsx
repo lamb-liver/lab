@@ -71,7 +71,6 @@ export default function CombinatorialPathCountingCurveRoot({ controlsMountId, lo
   const { canvasHostRef } = useCombinatorialPathCountingP5({
     targetParams,
     rerollNonce,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams);

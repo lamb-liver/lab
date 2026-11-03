@@ -40,7 +40,6 @@ export default function StandingWaveCurveRoot({ controlsMountId, locale }: Props
     targetParams,
     onRevealPctChange,
     onSmoothAmplitudeChange,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {

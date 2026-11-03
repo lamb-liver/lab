@@ -250,7 +250,6 @@ function renderScene(p: p5, params: Params, locale?: 'en') {
       selectedCell,
       highlightSet: buildDependencyCone(selectedCell.n, selectedCell.k),
       revealProgress: 1,
-      locale,
     });
     return;
   }
@@ -270,7 +269,6 @@ function renderScene(p: p5, params: Params, locale?: 'en') {
       allPaths,
       currentPathPoints: pathToPoints(layout, currentPath),
       pathProgress: currentPath.length + 1,
-      locale,
     });
     return;
   }

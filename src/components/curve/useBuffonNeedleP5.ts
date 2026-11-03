@@ -8,12 +8,10 @@ import { useP5CanvasHost } from './useP5CanvasHost';
 type Options = {
   targetParams: ParamValues;
   resetNonce: number;
-  locale?: 'en';
 };
 
-export function useBuffonNeedleP5({ targetParams, resetNonce, locale }: Options) {
+export function useBuffonNeedleP5({ targetParams, resetNonce }: Options) {
   const targetParamsRef = useRef<ParamValues>(targetParams);
-  const localeRef = useRef(locale);
   const stateRef = useRef<{
     needles: ReturnType<typeof generateNeedle>[];
     estimateHistory: Array<number | null>;
@@ -29,9 +27,6 @@ export function useBuffonNeedleP5({ targetParams, resetNonce, locale }: Options)
   useEffect(() => {
     targetParamsRef.current = targetParams;
   }, [targetParams]);
-  useEffect(() => {
-    localeRef.current = locale;
-  }, [locale]);
   useEffect(() => {
     stateRef.current = { needles: [], estimateHistory: [], totalThrows: 0, hitCount: 0 };
   }, [resetNonce]);
@@ -61,7 +56,6 @@ export function useBuffonNeedleP5({ targetParams, resetNonce, locale }: Options)
       estimateHistory: stateRef.current.estimateHistory,
       totalThrows: stateRef.current.totalThrows,
       hitCount: stateRef.current.hitCount,
-      locale: localeRef.current,
     });
 
   }, []);

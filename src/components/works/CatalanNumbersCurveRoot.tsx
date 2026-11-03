@@ -58,7 +58,6 @@ export default function CatalanNumbersCurveRoot({ controlsMountId, locale }: Pro
   const { canvasHostRef } = useCatalanNumbersP5({
     targetParams,
     nextNonce,
-    locale,
   });
 
 

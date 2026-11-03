@@ -16,7 +16,6 @@ type ChladniSnap = {
   time: number;
   revealProgress: number;
   particles: Particle[];
-  locale?: 'en';
 };
 
 const PARTICLE_STYLE = { r: 212, g: 184, b: 122, a: 180 };

@@ -45,7 +45,6 @@ export default function PascalsTriangleCurveRoot({ controlsMountId, locale }: Pr
 
   const { canvasHostRef } = usePascalsTriangleP5({
     targetParams,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams);
