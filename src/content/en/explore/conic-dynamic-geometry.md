@@ -43,6 +43,7 @@ Suggested order: start with a small **e**, near a circle, then $e = 1$, then $e 
 - [Conic envelope](/en/works/conic-envelope/)
 - [Focus locus](/en/works/conic-focus-locus/)
 - [Parabolic reflection](/en/works/parabolic-reflection/)
+- [Tangent and two foci](/en/works/ellipse-tangent-foci/)
 
 ## Further reading
 

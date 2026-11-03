@@ -77,6 +77,7 @@ import { variableUpperLimitModule } from './modules/variable-upper-limit';
 import { poincareTriangleModule } from './modules/poincare-triangle';
 import { twoSecantsModule } from './modules/two-secants';
 import { tangentSecantModule } from './modules/tangent-secant';
+import { ellipseTangentFociModule } from './modules/ellipse-tangent-foci';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -158,4 +159,5 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'poincare-triangle': poincareTriangleModule,
   'two-secants': twoSecantsModule,
   'tangent-secant': tangentSecantModule,
+  'ellipse-tangent-foci': ellipseTangentFociModule,
 };

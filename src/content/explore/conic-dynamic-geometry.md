@@ -40,6 +40,7 @@ $$
 - [二次曲線包絡線](/works/conic-envelope)
 - [焦點軌跡](/works/conic-focus-locus)
 - [拋物線反射](/works/parabolic-reflection)
+- [兩焦點切線](/works/ellipse-tangent-foci)
 
 ## 延伸閱讀
 

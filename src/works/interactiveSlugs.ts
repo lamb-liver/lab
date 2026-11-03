@@ -78,6 +78,7 @@ export const workInteractiveSlugs = [
   'poincare-triangle',
   'two-secants',
   'tangent-secant',
+  'ellipse-tangent-foci',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
