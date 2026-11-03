@@ -79,6 +79,7 @@ export const workInteractiveSlugs = [
   'two-secants',
   'tangent-secant',
   'ellipse-tangent-foci',
+  'dominant-direction',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];

@@ -86,6 +86,7 @@ const rootBySlug = {
   'two-secants': lazy(() => import('./TwoSecantsCurveRoot')),
   'tangent-secant': lazy(() => import('./TangentSecantCurveRoot')),
   'ellipse-tangent-foci': lazy(() => import('./EllipseTangentFociCurveRoot')),
+  'dominant-direction': lazy(() => import('./DominantDirectionCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

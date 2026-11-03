@@ -42,6 +42,7 @@ Suggested order: Free transform, then Special transform, then Composition.
 ## Related
 
 - [Eigenvectors and stretch factors](/en/works/eigenvector-geometry/)
+- [Dominant direction](/en/works/dominant-direction/)
 - [Linear transformation grid](/en/works/linear-transform-grid/)
 - [Affine transformation pattern](/en/works/affine-transform-pattern/)
 - [Rotation and scaling, composed](/en/works/rotation-scale-composition/)
