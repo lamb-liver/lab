@@ -79,6 +79,7 @@ import { twoSecantsModule } from './modules/two-secants';
 import { tangentSecantModule } from './modules/tangent-secant';
 import { ellipseTangentFociModule } from './modules/ellipse-tangent-foci';
 import { dominantDirectionModule } from './modules/dominant-direction';
+import { uniformSumDensityModule } from './modules/uniform-sum-density';
 
 /** 作品集 slug → 曲線模組（縮圖、靜態預覽用） */
 export const workCurveBySlug: Record<string, CurveModule> = {
@@ -162,4 +163,5 @@ export const workCurveBySlug: Record<string, CurveModule> = {
   'tangent-secant': tangentSecantModule,
   'ellipse-tangent-foci': ellipseTangentFociModule,
   'dominant-direction': dominantDirectionModule,
+  'uniform-sum-density': uniformSumDensityModule,
 };

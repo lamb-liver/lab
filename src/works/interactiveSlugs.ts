@@ -80,6 +80,7 @@ export const workInteractiveSlugs = [
   'tangent-secant',
   'ellipse-tangent-foci',
   'dominant-direction',
+  'uniform-sum-density',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
