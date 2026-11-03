@@ -10,7 +10,6 @@ type CommonHook = (options: {
   targetParams: ParamValues;
   onRevealPctChange: (pct: number) => void;
   onSmoothParamsChange: (params: ParamValues) => void;
-  locale?: 'en';
 }) => {
   canvasHostRef: RefObject<HTMLDivElement | null>;
 };
@@ -20,7 +19,6 @@ type Props = {
   useCanvas: CommonHook;
   controlsMountId: string;
   canvasAriaLabel: string;
-  locale?: 'en';
   presentMetadata?: (metadata: CurveMetadata) => CurveMetadata;
   paramLabels?: Record<string, string>;
 };
@@ -30,7 +28,6 @@ export default function CurveHookWorkRoot({
   useCanvas,
   controlsMountId,
   canvasAriaLabel,
-  locale,
   presentMetadata,
   paramLabels,
 }: Props) {
@@ -49,7 +46,6 @@ export default function CurveHookWorkRoot({
     targetParams,
     onRevealPctChange,
     onSmoothParamsChange,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams, { revealPct, smoothParams });

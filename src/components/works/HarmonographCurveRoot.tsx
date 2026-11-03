@@ -62,7 +62,6 @@ export default function HarmonographCurveRoot({ controlsMountId, locale }: Props
     defaultParams: module.defaultParams,
     onRevealPctChange,
     smoothSync,
-    locale,
   });
 
   const commitTarget = useCallback(

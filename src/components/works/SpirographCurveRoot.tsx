@@ -56,7 +56,6 @@ export default function SpirographCurveRoot({ controlsMountId, locale }: Props) 
     defaultParams: module.defaultParams,
     onRevealPctChange,
     smoothSync,
-    locale,
   });
 
   const metadata = module.getMetadata(targetParams, {
