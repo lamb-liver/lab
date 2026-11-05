@@ -25,7 +25,7 @@ const INTERACTION_SIGNAL =
   /(滑桿|拖動|拖曳|調整|微調|還原|補回|切換|模式|顯示|可選|開啟|關閉|控制|輸入|標示|標註|標記|高亮|比較|觀察|選擇|同步|即時|改變|增大|增減|提高|限制|驅動|繪製|疊加|生成|累計|記錄|對照|隨時間|連續|動畫|著色|調大|重算|更新|移動|平移|縮放|旋轉|逼近|收斂|面積表|連結|步數|可調|排列|趨近|開門|組合|積分|累積|細節)/;
 
 const OBSERVATION_CONTROL_TERMS =
-  /(滑桿|拖動|切換|可選|開啟|關閉|控制|輸入|按下|點擊)/;
+  /(滑桿|拖動|切換|可選|開啟|關閉|控制|輸入|按下|點擊|點選)/;
 
 export function readContentFiles(root = process.cwd()): ContentFile[] {
   return CONTENT_COLLECTIONS.flatMap((collection) => {

@@ -81,7 +81,7 @@ describe('space-vector-three-plane-projection module', () => {
     expect(sumOfSquares).toBeCloseTo(2 * norm ** 2, 9);
   });
 
-  it('落在坐標平面上的向量，該平面的影子等於自己', () => {
+  it('落在座標平面上的向量，該平面的影子等於自己', () => {
     const v = vectorFromParams(withParams({ vx: 1.8, vy: -2.4, vz: 0 }));
     const [xy] = projectionsOf(v);
     expect(xy!.vector).toEqual(v);

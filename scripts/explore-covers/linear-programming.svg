@@ -19,7 +19,7 @@
     約束直線必須真的通過它所圍出的那兩個角點，否則圖上的線與區域對不起來。
   -->
 
-  <!-- 坐標軸 -->
+  <!-- 座標軸 -->
   <line x1="520" y1="880" x2="1260" y2="880" stroke="#D8D8D8" stroke-width="4" opacity="0.20" stroke-linecap="round"/>
   <line x1="580" y1="940" x2="580" y2="330" stroke="#D8D8D8" stroke-width="4" opacity="0.20" stroke-linecap="round"/>
 

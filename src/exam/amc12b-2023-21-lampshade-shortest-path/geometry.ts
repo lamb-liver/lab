@@ -3,7 +3,7 @@ import { vec3, type Vec3 } from '../../curve/projection3d';
 /**
  * 2023 AMC 12B #21：燈罩（圓台側面）上的最短路徑。
  *
- * 圓台高 3√3、上半徑 3、下半徑 6，母線長 6。補成完整圓錐後，錐頂到下緣 12、到上緣 6，
+ * 圓台高 3√3、上半徑 3、下半徑 6，斜高 6。補成完整圓錐後，錐頂到下緣 12、到上緣 6，
  * 側面展開成扇環：扇形角 = 2π·6/12 = π，也就是內半徑 6、外半徑 12 的半圓環。
  *
  * 展開圖座標用極座標 (ρ, ψ)，ψ ∈ [−π/2, π/2]。蟲在下緣 ψ=−π/4，蜂蜜在上緣正對面，
@@ -23,7 +23,7 @@ export const INNER_RADIUS = (TOP_RADIUS * SLANT) / (BOTTOM_RADIUS - TOP_RADIUS);
 export const OUTER_RADIUS = INNER_RADIUS + SLANT;
 /** 扇形角 = 2π × 下緣半徑 / 外半徑 */
 export const SECTOR_ANGLE = (2 * Math.PI * BOTTOM_RADIUS) / OUTER_RADIUS;
-/** 完整圓錐高（錐頂的 z 坐標；下緣在 z=0） */
+/** 完整圓錐高（錐頂的 z 座標；下緣在 z=0） */
 export const APEX_HEIGHT = (FRUSTUM_HEIGHT * OUTER_RADIUS) / SLANT;
 
 export const BUG_PSI = -SECTOR_ANGLE / 4;

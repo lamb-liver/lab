@@ -257,7 +257,7 @@ function drawSlopeFieldScene(
     plot,
     tr(
       snap.locale,
-      '點擊平面新增初始條件；每條曲線都順著方向場前進',
+      '點選平面新增初始條件；每條曲線都順著方向場前進',
       'Click the plane to add an initial condition; each curve follows the direction field',
     ),
   );
@@ -336,7 +336,7 @@ export function buildDiffEqSidebarState(
         `軌跡數：${params.initialPoints.length}`,
         '方向場：dy/dx=f(x,y)',
       ],
-      hintLine: `點擊平面新增初始點 · ${eq.note}`,
+      hintLine: `點選平面新增初始點 · ${eq.note}`,
     };
   }
 

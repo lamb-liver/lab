@@ -5,7 +5,7 @@ const PI = Math.PI;
 const SQRT3 = Math.sqrt(3);
 
 describe('2024 高考數學新課標 I 卷第 5 題的圓柱與圓錐', () => {
-  it('r = 3 時側面積相等，母線是 2√3，體積是 3√3 π', () => {
+  it('r = 3 時側面積相等，斜高是 2√3，體積是 3√3 π', () => {
     const reading = readConeCylinder(3);
     expect(reading.areasMatch).toBe(true);
     expect(reading.slant).toBeCloseTo(2 * SQRT3, 10);
@@ -29,7 +29,7 @@ describe('2024 高考數學新課標 I 卷第 5 題的圓柱與圓錐', () => {
     }
   });
 
-  it('把圓錐母線換成高，側面積永遠是圓柱的一半', () => {
+  it('把圓錐斜高換成高，側面積永遠是圓柱的一半', () => {
     for (const radius of [0.5, 1.73, 3, 5]) {
       const reading = readConeCylinder(radius);
       const usingHeight = PI * reading.radius * HEIGHT;

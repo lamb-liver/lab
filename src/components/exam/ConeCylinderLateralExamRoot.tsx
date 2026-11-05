@@ -57,18 +57,18 @@ export default function ConeCylinderLateralExamRoot({ locale }: Props) {
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
           <p className="exam-interactive-explore__visual-title">
-            {en ? 'Equal height, then the slant' : '同高的軸截面，再看母線'}
+            {en ? 'Equal height, then the slant' : '同高的軸截面，再看斜高'}
           </p>
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
               ? 'The slant is longer than the height. Why does forgetting the 1/3 at r = √3 still print the right volume?'
-              : '母線比高長。為什麼半徑設成 √3 再漏掉 1/3，體積仍會印出正確的數？'}
+              : '斜高比高長。為什麼半徑設成 √3 再漏掉 1/3，體積仍會印出正確的數？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
               ? 'White is the cylinder section, gold is the cone. The right triangle is r, h and the slant l.'
-              : '白線是圓柱的軸截面，金線是圓錐。直角三角形的三邊是 r、h、母線 l'}
+              : '白線是圓柱的軸截面，金線是圓錐。直角三角形的三邊是 r、h、斜高 l'}
           </p>
           <div
             ref={canvasHostRef}
@@ -77,7 +77,7 @@ export default function ConeCylinderLateralExamRoot({ locale }: Props) {
             aria-label={
               en
                 ? `Cylinder and cone of height √3 and base radius ${reading.radius.toFixed(2)}, with the slant right triangle`
-                : `高 √3、底面半徑 ${reading.radius.toFixed(2)} 的圓柱與圓錐，以及母線直角三角形`
+                : `高 √3、底面半徑 ${reading.radius.toFixed(2)} 的圓柱與圓錐，以及斜高直角三角形`
             }
           />
         </div>
@@ -104,19 +104,19 @@ export default function ConeCylinderLateralExamRoot({ locale }: Props) {
             <p className="exam-interactive-explore__note">
               {en
                 ? 'Both heights stay √3. The slant is √(r² + 3).'
-                : '兩邊的高都停在 √3。母線是 √(r² + 3)。'}
+                : '兩邊的高都停在 √3。斜高是 √(r² + 3)。'}
             </p>
           </div>
 
           <div className="exam-interactive-explore__block">
-            <p className="exam-interactive-explore__block-title">{en ? 'Slant' : '母線'}</p>
+            <p className="exam-interactive-explore__block-title">{en ? 'Slant' : '斜高'}</p>
             <p className="exam-interactive-explore__result" aria-live="polite">
               {reading.areasMatch ? 'l = 2√3' : `l ≈ ${reading.slant.toFixed(3)}`}
             </p>
             <p className="exam-interactive-explore__note">
               {en
                 ? 'Using the height in place of the slant makes the cone’s lateral area half the cylinder’s, so the two never meet.'
-                : '母線改用高，圓錐側面積永遠是圓柱的一半，兩邊不會相等。'}
+                : '斜高改用高，圓錐側面積永遠是圓柱的一半，兩邊不會相等。'}
             </p>
           </div>
 

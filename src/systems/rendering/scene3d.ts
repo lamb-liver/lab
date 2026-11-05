@@ -7,7 +7,7 @@ import { drawReadout, SCENE_GUIDE, type Rgb } from './readout';
  * 空間向量系列共用的 3D 場景繪製骨架。
  *
  * 站內 renderer 一般各自獨立，但這一組五個頁面共用同一條投影管線
- * （p5 2D + `curve/projection3d` 的正交投影），座標換算與箭頭、標籤、坐標軸
+ * （p5 2D + `curve/projection3d` 的正交投影），座標換算與箭頭、標籤、座標軸
  * 都是逐字相同的，所以集中在這裡。各作品仍自己決定畫什麼、怎麼配色。
  */
 

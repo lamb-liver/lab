@@ -9,7 +9,7 @@ import {
   type ViewAngles,
 } from '../../projection3d';
 
-/** 只看某一個坐標平面時，用 'all' 以外的值聚焦 */
+/** 只看某一個座標平面時，用 'all' 以外的值聚焦 */
 export type ProjectionPlane = 'all' | 'xy' | 'xz' | 'yz';
 
 export type SpaceVectorProjectionParams = {
@@ -52,7 +52,7 @@ export function vectorFromParams(params: SpaceVectorProjectionParams): Vec3 {
 }
 
 /**
- * 投影到坐標平面就是把某一個分量設為零。
+ * 投影到座標平面就是把某一個分量設為零。
  * 三個投影兩兩共用一個分量，那個重複分量就是互相校驗的線索。
  */
 export function projectionsOf(v: Vec3): PlaneProjection[] {

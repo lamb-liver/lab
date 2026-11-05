@@ -78,7 +78,7 @@ export function renderSpaceVectorsPlanesLinesScene(p: p5, snap: Snap): void {
   p.endShape(p.CLOSE);
   p.pop();
 
-  // 位置讀法：把 v 攤成三張坐標平面上的影子
+  // 位置讀法：把 v 攤成三張座標平面上的影子
   if (mode === 'position') {
     p.push();
     setDash(p, [5, 6]);

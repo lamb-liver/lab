@@ -1,13 +1,13 @@
 ---
-title: 平面截坐標面的平行線距離
-description: 114 分科數甲選填10：平面交坐標面得平行線，求兩線最短距離。
+title: 平面截座標面的平行線距離
+description: 114 分科數甲選填10：平面交座標面得平行線，求兩線最短距離。
 subject: 分科數甲
 year: 114
 questionType: 選填
 questionNo: '10'
 unit: 高二數學甲・空間中的平面與直線
 topics:
-  - 平面與坐標面交線
+  - 平面與座標面交線
   - 平行線距離
   - 方向向量
 concepts:

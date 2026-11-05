@@ -353,7 +353,7 @@ const extendSketch = useCallback((p: p5) => {
 
 ## 作品集縮圖（`WorkCard` + `curveThumbnail`）
 
-> **實作規格（封面優化版）**：現行工程契約見本節與 `src/lib/curveThumbnail.ts`；視覺語言見 [`workart.md`](workart.md)。
+> **實作規格（封面最佳化版）**：現行工程契約見本節與 `src/lib/curveThumbnail.ts`；視覺語言見 [`workart.md`](workart.md)。
 
 ### 目的
 
