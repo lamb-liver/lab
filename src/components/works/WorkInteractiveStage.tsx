@@ -89,6 +89,7 @@ const rootBySlug = {
   'dominant-direction': lazy(() => import('./DominantDirectionCurveRoot')),
   'uniform-sum-density': lazy(() => import('./UniformSumDensityCurveRoot')),
   'stereographic-projection': lazy(() => import('./StereographicProjectionCurveRoot')),
+  'stationary-share': lazy(() => import('./StationaryShareCurveRoot')),
 } satisfies Record<WorkInteractiveSlug, ComponentType<RootProps>>;
 
 // Test instrumentation: keeps stage root coverage explicit without changing mounting behavior.

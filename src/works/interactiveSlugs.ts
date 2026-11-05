@@ -82,6 +82,7 @@ export const workInteractiveSlugs = [
   'dominant-direction',
   'uniform-sum-density',
   'stereographic-projection',
+  'stationary-share',
 ] as const;
 
 export type WorkInteractiveSlug = (typeof workInteractiveSlugs)[number];
