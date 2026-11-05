@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  collectExamSubjects,
   collectExploreCategories,
   collectWorkTags,
   excludeEntryIds,
@@ -175,5 +176,14 @@ describe('English list filters', () => {
         'en',
       ),
     ).toEqual(['Algebra', 'Statistics']);
+  });
+});
+
+describe('collectExamSubjects', () => {
+  it('依分支順序排列：學測、分科、AMC 12、高考', () => {
+    const entries = ['高考數學', 'AMC 12B', '分科數甲', '學測數A', 'AMC 12A', '分科數甲'].map((subject) => ({
+      data: { subject },
+    }));
+    expect(collectExamSubjects(entries)).toEqual(['學測數A', '分科數甲', 'AMC 12A', 'AMC 12B', '高考數學']);
   });
 });

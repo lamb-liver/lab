@@ -96,6 +96,9 @@ Explore 與 Works 共用 §3～§6 的 frontmatter、數學、用字、分層規
 AMC 12 題目同樣四節；`sourceUrl` 改連 AoPS 題目頁，詳情頁自動附「© MAA」出處標示，
 題意不得貼英文原文或 AoPS 解答，細則見 `docs/exam-visualization-plan.md` 的 AMC Gate。
 
+高考數學題目同樣四節；`sourceUrl` 連標明考生回憶的整理，出處行寫卷別與題號，不加版權標示，
+細則見同一份文件的高考數學 Gate。
+
 ---
 
 ## 3. Frontmatter

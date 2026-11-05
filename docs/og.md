@@ -48,8 +48,8 @@
 
 ### 小字（試題出處、主題分類）
 
-- 中文試題：`examSourceLabel(data)`，例如「114 分科數甲・非選17」「2023 AMC 12B・第21題」（與詳情頁出處相同）。
-- 英文試題：`examSourceLabel(data, 'en')`，例如「2025 Advanced Math A, Non-multiple-choice 17」「2023 AMC 12B, Problem #21」。
+- 中文試題：`examSourceLabel(data)`，例如「114 分科數甲・非選17」「2023 AMC 12B・第21題」「2024 高考數學・新課標I卷第5題」（與詳情頁出處相同）。
+- 英文試題：`examSourceLabel(data, 'en')`，例如「2025 Advanced Math A, Non-multiple-choice 17」「2023 AMC 12B, Problem #21」「2024 Gaokao Mathematics, New Curriculum I, Problem 5」。
 - 中文主題：「主題導覽・<分類>」（`zhExploreKicker`，與導覽列、麵包屑的「主題導覽」及試題出處的「・」一致）。
 - 英文主題：「Math topics · <category>」。
 - 作品卡不放小字。

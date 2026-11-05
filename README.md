@@ -68,6 +68,7 @@ Works、Explore 與 Exam 是三套獨立互動架構；新增頁面時必須同�
 npm run new:work -- <slug>
 npm run new:explore -- <slug>
 npm run new:exam -- <slug> --year 112 --subject 學測數A --type 多選 --no 11
+npm run new:exam -- <slug> --year 2024 --subject 高考數學 --no 新課標I-5
 ```
 
 產生器預設只建立草稿內容；`new:work` 加 `--interactive` 才會建立最小互動骨架並同步 registries。接線與發布流程：
