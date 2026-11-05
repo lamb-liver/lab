@@ -24,7 +24,7 @@ featured: false
 draft: false
 ---
 
-## The problem
+## Problem
 
 The problem gives frequency histograms of a medical index for patients and for healthy people. A reading above the cut-off $c$ counts as positive. The miss rate $p(c)$ is the share of patients judged negative; the false positive rate $q(c)$ is the share of healthy people judged positive.
 
@@ -32,13 +32,13 @@ Part 1: with a miss rate of 0.5%, find $c$ and the false positive rate. Part 2: 
 
 The wording comes from candidate recall; see the [gaokaohub write-up](https://gaokaohub.com/q/item/241545079804183.html), and compare the [91apu solution](https://www.91apu.cn/shuxue/gkt/2023/2023xgk2/2023-07-08/33659.html).
 
-## Why students get it wrong
+## Where it goes wrong
 
 The usual slip is to read the bar height as a proportion. The vertical axis is frequency divided by bin width, so a proportion is height times width.
 
 In Part 2 it is easy to write a single line. When $c$ crosses 100 both histograms change height, so $f(c)$ is piecewise.
 
-## The idea
+## Idea
 
 On $[95,105]$, patients have frequency/width $0.002$ (95 to 100) and $0.012$ (100 to 105); healthy people have $0.01$ and $0.002$.
 
@@ -52,8 +52,8 @@ $$
 
 The left piece falls and the right piece rises, so the minimum is $f(100)=0.02$.
 
-## How to read the figure
+## What the figure shows
 
-- Drag the cut-off c. The top two panels show the histograms between 95 and 105; solid colour marks people judged wrongly.
+- Drag the cut-off **c**. The top two panels show the histograms between 95 and 105; solid colour marks people judged wrongly.
 - Patients are shaded left of c, healthy people right of c. Moving c right grows the gold and shrinks the cyan.
 - The bottom panel is $f(c)$. Past 100 the gold grows faster than the cyan shrinks, so the total rises.

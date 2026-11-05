@@ -25,23 +25,23 @@ featured: false
 draft: false
 ---
 
-## The problem
+## Problem
 
 A random survey of 1000 people who had an ultrasound scan: of the 200 with the disease, 20 had a normal scan and 180 abnormal; of the 800 without it, 780 normal and 20 abnormal.
 
-Part 1 estimates the probability that someone with an abnormal scan has the disease. Part 2 uses an independence test at $\alpha=0.001$ (critical value 10.828) to decide whether the scan result is related to the disease.
+Part 1 estimates the probability that someone with an abnormal scan has the disease. Part 2 uses a chi-square test of independence at significance level $\alpha=0.001$ (critical value 10.828) to decide whether the scan result is related to the disease.
 
 The wording comes from candidate recall; see the [full-paper notes on 21cnjy](https://zy.21cnjy.com/23151851).
 
-## Why students get it wrong
+## Where it goes wrong
 
 Part 1 is a conditional probability: the denominator is the 200 abnormal scans, not 1000. $\tfrac{180}{1000}$ is "abnormal and ill".
 
-Part 2 gives $\chi^2=765.625$, far larger than usual practice numbers, and many students doubt their arithmetic. $\chi^2$ grows fast as the table moves away from independence, so the size is fine.
+Part 2 gives $\chi^2=765.625$, far larger than in usual practice, and students often doubt their arithmetic. $\chi^2$ grows fast as the table moves away from independence, so the size is fine.
 
 The null hypothesis is "not related". Rejecting it is what gives "related".
 
-## The idea
+## Idea
 
 Part 1: $P\approx\tfrac{180}{200}=\tfrac{9}{10}$.
 
@@ -55,8 +55,8 @@ Since $765.625>10.828$, reject "not related": the scan result is related to the 
 
 With row and column totals fixed, the table has one degree of freedom. Let $b$ be the number ill with an abnormal scan; then $\chi^2=\tfrac{(b-40)^2}{25.6}$. Under independence $b=40$ and both groups are 20% ill.
 
-## How to read the figure
+## What the figure shows
 
-- Drag Ill with abnormal scan: the other three cells follow and the four totals stay put.
+- Drag **Ill with abnormal scan**: the other three cells follow and the four totals stay put.
 - The bars are each group's observed share ill; the dashed line is the shared 20% under independence. The farther the bars sit from it, the larger $\chi^2$.
-- The bottom line uses a log scale from 0 to 1000. $b=57$ already passes 10.828; the original 180 is far to the right.
+- The bottom line uses a log scale from 0 to 1000. $b=57$ passes 10.828; the original 180 is far to the right.

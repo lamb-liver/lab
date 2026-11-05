@@ -9,12 +9,12 @@ import {
   distanceToF,
   distanceToLine,
   upperY,
-} from "../../exam/gaokao-2024-i-distance-product-curve/geometry";
+} from '../../exam/gaokao-2024-i-distance-product-curve/geometry';
 import { renderDistanceProductCurveExam } from '../../systems/rendering/distanceProductCurveExamRender';
 import {
   useRectP5CanvasHost,
   type CanvasSize,
-} from "../curve/useRectP5CanvasHost";
+} from '../curve/useRectP5CanvasHost';
 import '../../styles/components/exam/exam-interactive.css';
 
 function measureCanvas(host: HTMLElement): CanvasSize {
@@ -29,6 +29,8 @@ export default function DistanceProductCurveExamRoot({ locale }: Props) {
   const [x, setX] = useState(DEFAULT_X);
   const [showBound, setShowBound] = useState(false);
   const y = upperY(x) ?? 0;
+  const toF = distanceToF(x, y);
+  const toLine = distanceToLine(x);
 
   const draw = useCallback(
     (p: p5) =>
@@ -63,7 +65,7 @@ export default function DistanceProductCurveExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' At x = 2 the point is at height 1. Is that the highest point in the first quadrant?'
+              ? 'At x = 2 the point is at height 1. Is that the highest point in the first quadrant?'
               : 'x = 2 時點的高度是 1。這是第一象限的最高點嗎？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
@@ -125,9 +127,8 @@ export default function DistanceProductCurveExamRoot({ locale }: Props) {
               y ≈ {y.toFixed(4)}
             </p>
             <p className="exam-interactive-explore__note">
-              PF · d = {distanceToF(x, y).toFixed(3)} ×{" "}
-              {distanceToLine(x).toFixed(3)} ={" "}
-              {(distanceToF(x, y) * distanceToLine(x)).toFixed(3)}，4/(x+2) ={" "}
+              PF · d = {toF.toFixed(3)} × {toLine.toFixed(3)} ={' '}
+              {(toF * toLine).toFixed(3)}，4/(x+2) ={' '}
               {bound(x).toFixed(3)}
             </p>
             <p className="exam-interactive-explore__note">

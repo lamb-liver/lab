@@ -4,12 +4,12 @@ import {
   OPTIONS,
   fits,
   type OptionKey,
-} from "../../exam/gaokao-2023-i-cube-container/geometry";
+} from '../../exam/gaokao-2023-i-cube-container/geometry';
 import { renderCubeContainerExam } from '../../systems/rendering/cubeContainerExamRender';
 import {
   useRectP5CanvasHost,
   type CanvasSize,
-} from "../curve/useRectP5CanvasHost";
+} from '../curve/useRectP5CanvasHost';
 import '../../styles/components/exam/exam-interactive.css';
 
 function measureCanvas(host: HTMLElement): CanvasSize {
@@ -28,7 +28,7 @@ const NAMES: Record<
     limitEn: 'inscribed ball, diameter 1',
   },
   B: {
-    zh: '棱長 1.4 的正四面體',
+    zh: '稜長 1.4 的正四面體',
     en: 'Regular tetrahedron, edge 1.4',
     limitZh: '面對角線 √2 ≈ 1.414',
     limitEn: 'face diagonal √2 ≈ 1.414',
@@ -47,13 +47,18 @@ const NAMES: Record<
   },
 };
 
+const OPTION_BY_KEY = Object.fromEntries(OPTIONS.map((o) => [o.key, o])) as Record<
+  OptionKey,
+  (typeof OPTIONS)[number]
+>;
+
 type Props = { locale?: 'en' };
 
 export default function CubeContainerExamRoot({ locale }: Props) {
   const en = locale === 'en';
   const [option, setOption] = useState<OptionKey>('A');
   const [yaw, setYaw] = useState(0.6);
-  const current = OPTIONS.find((o) => o.key === option)!;
+  const current = OPTION_BY_KEY[option];
   const ok = fits(current);
 
   const draw = useCallback(
@@ -82,18 +87,18 @@ export default function CubeContainerExamRoot({ locale }: Props) {
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
           <p className="exam-interactive-explore__visual-title">
-            {en ? 'A unit cube as a box' : '棱長 1 的正方體容器'}
+            {en ? 'A unit cube as a box' : '稜長 1 的正立方體容器'}
           </p>
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' Every object is longer than 1 somewhere except the ball. Which longest direction inside the cube does each one need?'
-              : '除了球，每個物體都有超過 1 的尺寸。它們各自要用正方體裡哪一條最長的方向？'}
+              ? 'Every object is longer than 1 somewhere except the ball. Which longest direction inside the cube does each one need?'
+              : '除了球，每個物體都有超過 1 的尺寸。它們各自要用正立方體裡哪一條最長的方向？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
               ? 'Gold is the object, cyan is the limit the cube allows.'
-              : '金色是物體，青色是正方體能給的極限'}
+              : '金色是物體，青色是正立方體能給的極限'}
           </p>
           <div
             ref={canvasHostRef}
@@ -102,7 +107,7 @@ export default function CubeContainerExamRoot({ locale }: Props) {
             aria-label={
               en
                 ? `Option ${option}: ${NAMES[option].en} in a unit cube`
-                : `選項 ${option}：${NAMES[option].zh}放進正方體`
+                : `選項 ${option}：${NAMES[option].zh}放進正立方體`
             }
           />
         </div>
@@ -132,7 +137,7 @@ export default function CubeContainerExamRoot({ locale }: Props) {
               <input
                 id="cube-yaw"
                 type="range"
-                aria-label={en ? 'Turn the cube' : '轉動正方體'}
+                aria-label={en ? 'Turn the cube' : '轉動正立方體'}
                 min={0}
                 max={Math.PI * 2}
                 step={0.01}
@@ -147,7 +152,7 @@ export default function CubeContainerExamRoot({ locale }: Props) {
               {en ? NAMES[option].en : NAMES[option].zh}
             </p>
             <p className="exam-interactive-explore__result" aria-live="polite">
-              {current.size} {ok ? '≤' : '>'} {current.limit.toFixed(3)}{" "}
+              {current.size} {ok ? '≤' : '>'} {current.limit.toFixed(3)}{' '}
               {ok ? (en ? 'fits' : '放得進') : en ? 'does not fit' : '放不進'}
             </p>
             <p className="exam-interactive-explore__note">

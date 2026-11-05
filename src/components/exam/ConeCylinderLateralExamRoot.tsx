@@ -62,7 +62,7 @@ export default function ConeCylinderLateralExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' The slant is longer than the height. Why does forgetting the 1/3 at r = √3 still print the right volume?'
+              ? 'The slant is longer than the height. Why does forgetting the 1/3 at r = √3 still print the right volume?'
               : '母線比高長。為什麼半徑設成 √3 再漏掉 1/3，體積仍會印出正確的數？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">

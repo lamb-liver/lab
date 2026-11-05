@@ -159,7 +159,7 @@ export default function LampshadeShortestPathExamRoot({ locale }: Props) {
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
               ? 'After the shade is cut open and laid flat, is the straight line from the bug to the honey still on the paper?'
-              : '把燈罩剪開攤平後，蟲和蜂蜜之間直接連一條直線，那條線還在紙上嗎？'}
+              : '把燈罩剪開攤平後，蟲和蜂蜜之間連一條直線，那條線還在紙上嗎？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
@@ -220,7 +220,7 @@ export default function LampshadeShortestPathExamRoot({ locale }: Props) {
                 aria-pressed={contact >= PATH_SPAN - 1e-6}
                 onClick={() => setContact(PATH_SPAN)}
               >
-                {en ? 'Straight line (6√5)' : '直接連直線（6√5）'}
+                {en ? 'Straight line (6√5)' : '連成直線（6√5）'}
               </button>
               <button
                 type="button"
@@ -252,7 +252,7 @@ export default function LampshadeShortestPathExamRoot({ locale }: Props) {
             <p className="exam-interactive-explore__note">
               {en
                 ? 'a = 90° is the straight line. Past 60°, the line cuts inside radius 6.'
-                : 'a=90° 是直接連直線；a 超過 60°，直線就會切進內半徑 6 以內。'}
+                : 'a=90° 是連成直線；a 超過 60°，直線就會切進內半徑 6 以內。'}
             </p>
           </div>
 

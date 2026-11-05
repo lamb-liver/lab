@@ -24,19 +24,19 @@ featured: false
 draft: false
 ---
 
-## The problem
+## Problem
 
 All vertices of a regular square pyramid lie on one sphere of volume $36\pi$, so the radius is $R=3$. The lateral edge $l$ ranges over $[3,3\sqrt3]$. Find the range of the pyramid's volume.
 
 The wording comes from candidate recall; see the [gaokaohub write-up](https://gaokaohub.com/q/item/17329642544376.html), and compare the [liangshibao solution](https://liangshibao.com/tiku/gaokao-math-2022-i/single-8).
 
-## Why students get it wrong
+## Where it goes wrong
 
 The usual slip is to take the volumes at $l=3$ and $l=3\sqrt3$ as the minimum and maximum, giving $[27/4,81/4]$. That is one of the wrong options.
 
 The volume is not monotonic in $l$. A longer edge makes the pyramid taller, but the base slides down the sphere and shrinks, and past some length it shrinks faster than the height grows.
 
-## The idea
+## Idea
 
 Let the height be $h$. The apex is at the top of the sphere and the base corners are on the sphere, so the right angle in the axial section gives $l^2=2Rh=6h$:
 
@@ -52,8 +52,8 @@ $$
 
 $V'(h)=\tfrac23(12h-3h^2)$ vanishes at $h=4$ ($l=2\sqrt6$), where $V=64/3$. At the ends $V=27/4$ and $V=81/4<64/3$. The answer is C: $[27/4,\,64/3]$.
 
-## How to read the figure
+## What the figure shows
 
-- Drag the lateral edge l: the left side is the axial section of the sphere and pyramid, the right side is the curve $V(l)$.
+- Drag **Lateral edge**: the left side is the axial section of the sphere and pyramid, the right side is the curve $V(l)$.
 - The gold dot climbs until $l=2\sqrt6$ and then falls, so the right end is lower than the peak.
 - The cyan band is the answer. Its top is the peak $64/3$, not the end value $81/4$.

@@ -8,12 +8,12 @@ import {
   falseAlarmRate,
   missRate,
   totalError,
-} from "../../exam/gaokao-2023-ii-screening-threshold/geometry";
+} from '../../exam/gaokao-2023-ii-screening-threshold/geometry';
 import { renderScreeningThresholdExam } from '../../systems/rendering/screeningThresholdExamRender';
 import {
   useRectP5CanvasHost,
   type CanvasSize,
-} from "../curve/useRectP5CanvasHost";
+} from '../curve/useRectP5CanvasHost';
 import '../../styles/components/exam/exam-interactive.css';
 
 function measureCanvas(host: HTMLElement): CanvasSize {
@@ -28,6 +28,8 @@ type Props = { locale?: 'en' };
 export default function ScreeningThresholdExamRoot({ locale }: Props) {
   const en = locale === 'en';
   const [c, setC] = useState(DEFAULT_C);
+  const miss = missRate(c);
+  const falseAlarm = falseAlarmRate(c);
 
   const draw = useCallback(
     (p: p5) =>
@@ -35,9 +37,9 @@ export default function ScreeningThresholdExamRoot({ locale }: Props) {
         width: p.width,
         height: p.height,
         c,
-        en,
+        locale,
       }),
-    [c, en],
+    [c, locale],
   );
   const canvasHostRef = useRectP5CanvasHost(
     draw,
@@ -57,7 +59,7 @@ export default function ScreeningThresholdExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' Moving c right lowers one error and raises the other. Where does the total stop going down?'
+              ? 'Moving c right lowers one error and raises the other. Where does the total stop going down?'
               : 'c 往右，一種誤判變少，另一種變多。總和在哪裡停止下降？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
@@ -71,8 +73,8 @@ export default function ScreeningThresholdExamRoot({ locale }: Props) {
             role="img"
             aria-label={
               en
-                ? `Cut-off c = ${c.toFixed(1)}, miss rate ${pct(missRate(c))}, false positive rate ${pct(falseAlarmRate(c))}`
-                : `臨界值 c = ${c.toFixed(1)}，漏診率 ${pct(missRate(c))}，誤診率 ${pct(falseAlarmRate(c))}`
+                ? `Cut-off c = ${c.toFixed(1)}, miss rate ${pct(miss)}, false positive rate ${pct(falseAlarm)}`
+                : `臨界值 c = ${c.toFixed(1)}，漏診率 ${pct(miss)}，誤診率 ${pct(falseAlarm)}`
             }
           />
         </div>
@@ -105,7 +107,7 @@ export default function ScreeningThresholdExamRoot({ locale }: Props) {
               f(c) = p(c) + q(c)
             </p>
             <p className="exam-interactive-explore__result" aria-live="polite">
-              {pct(missRate(c))} + {pct(falseAlarmRate(c))} ={" "}
+              {pct(miss)} + {pct(falseAlarm)} ={' '}
               {pct(totalError(c))}
             </p>
             <p className="exam-interactive-explore__note">

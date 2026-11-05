@@ -24,19 +24,19 @@ featured: false
 draft: false
 ---
 
-## The problem
+## Problem
 
 Every point of a curve $C$ has $x>-2$, and its distance to $F(2,0)$ times its distance to the line $x=a$ ($a<0$) is 4. The curve passes through the origin. Judge four statements: $a=-2$; the point $(2\sqrt2,0)$ is on $C$; the largest $y$ of $C$ in the first quadrant is 1; every point $(x_0,y_0)$ of $C$ satisfies $y_0\le\dfrac{4}{x_0+2}$.
 
 The wording comes from candidate recall; see the [gaokaohub write-up](https://gaokaohub.com/q/item/121286594128203.html), and compare the [liangshibao solution](https://liangshibao.com/tiku/gaokao-math-2024-i/multiple-11).
 
-## Why students get it wrong
+## Where it goes wrong
 
 The trap is the third statement. Plugging in $x=2$ gives $y=1$, which looks like the top, so students accept it.
 
 This curve is not a conic, so there is no symmetric vertex to rely on. The height has to be read from the formula for $y^2$, and a point slightly to the left is higher.
 
-## The idea
+## Idea
 
 $C$ passes the origin: $2\cdot|0-a|=4$ with $a<0$, so $a=-2$. The equation is
 
@@ -50,8 +50,8 @@ $$
 
 The answer is ABD.
 
-## How to read the figure
+## What the figure shows
 
-- Drag the x of point P: the gold dot moves along the upper branch. The white segment is the distance to F, the cyan one the distance to $x=-2$, and their product stays 4.
+- Drag **x** of point P: the gold dot moves along the upper branch. The white segment is the distance to F, the cyan one the distance to $x=-2$, and their product stays 4.
 - Pull P left from $x=2$: the sidebar's y first grows, then shrinks. The stretch above 1 is why C is false.
-- Turn on Show y = 4/(x+2): the cyan curve wraps around the gold one everywhere, which is D.
+- Turn on **Show y = 4/(x+2)**: the cyan curve wraps around the gold one everywhere, which is D.

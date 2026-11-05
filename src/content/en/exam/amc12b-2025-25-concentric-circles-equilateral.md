@@ -34,7 +34,7 @@ The full problem and the choices are on the [AoPS problem page](https://artofpro
 
 ## Where it goes wrong
 
-The intuitive approach assigns an angle to each vertex and writes the equations for three equal sides. There are many unknowns, and trigonometric functions, and the algebra often stalls halfway.
+The intuitive approach assigns an angle to each vertex and writes the equations for three equal sides. With many unknowns and trigonometric functions, the algebra often stalls halfway.
 
 Another trap is to assume the picture looks symmetric. For example, the rays from the center to the three vertices are $120^\circ$ apart. The cosine law then gives squared sides $1+4+2=7$, $4+9+6=19$, and $9+1+3=13$. That is not an equilateral triangle. One of those sides happens to be 7, which makes it easier to think the answer has been found.
 

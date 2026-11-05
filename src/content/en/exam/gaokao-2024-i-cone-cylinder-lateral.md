@@ -28,7 +28,7 @@ draft: false
 
 A cylinder and a cone share a base radius. Their lateral areas are equal, and both heights are $\sqrt{3}$. Find the volume of the cone.
 
-The stem here follows a candidate’s recollection. The full paper, as recalled, is in a [Zhihu compilation](https://zhuanlan.zhihu.com/p/702451963).
+The wording comes from candidate recall; see the [full-paper notes on Zhihu](https://zhuanlan.zhihu.com/p/702451963).
 
 ## Where it goes wrong
 
@@ -56,6 +56,6 @@ The formulas are the high-school lateral area and volume. The volume is not a su
 
 ## What the figure shows
 
-- Drag Base radius. The two axial sections keep the same height. In the right triangle the horizontal leg is $r$ and the hypotenuse is the slant.
+- Drag **Base radius r**. The two axial sections keep the same height. In the right triangle the horizontal leg is $r$ and the hypotenuse is the slant.
 - When the lateral areas meet, the volume stays at $3\sqrt{3}\pi$ and the slant is $2\sqrt{3}$.
 - Near $r=\sqrt{3}$ the lateral areas split, and the quantity with the $\tfrac13$ omitted still reads $3\sqrt{3}\pi$.

@@ -25,13 +25,13 @@ featured: false
 draft: false
 ---
 
-## The problem
+## Problem
 
 A box holds 5 balls numbered 1 to 5. Draw three times with replacement. $X$ is the number of balls drawn at least once. Find $E(X)$.
 
 The wording comes from candidate recall; see the [full-paper notes on 21cnjy](https://zy.21cnjy.com/23151851).
 
-## Why students get it wrong
+## Where it goes wrong
 
 $X$ counts balls that appear, not draws. Drawing $2,2,5$ gives $X=2$.
 
@@ -39,7 +39,7 @@ When listing the distribution, the $X=2$ case is easy to undercount: choose two 
 
 For "a given ball is drawn", writing $3\times\tfrac15$ counts repeated draws twice. Use the complement.
 
-## The idea
+## Idea
 
 Give each ball an indicator $I_i$: $I_i=1$ if ball $i$ appears at least once, otherwise $0$. Then $X=I_1+\cdots+I_5$.
 
@@ -55,8 +55,8 @@ $$
 
 Check by listing: $P(X=1)=\tfrac{5}{125}$, $P(X=2)=\tfrac{60}{125}$, $P(X=3)=\tfrac{60}{125}$, and the weighted sum is also $\tfrac{61}{25}$.
 
-## How to read the figure
+## What the figure shows
 
-- Press One round: three draws, the balls that appear light up, and the number of lit lamps is this round's $X$.
-- Press 100 or 1000 rounds: each ball's bar settles near the dashed $\tfrac{61}{125}$, and the average of $X$ settles near $\tfrac{61}{25}=2.44$.
+- Press **One round**: three draws, the balls that appear light up, and the number of lit lamps is this round's $X$.
+- Press **100 rounds** or **1000 rounds**: each ball's bar settles near the dashed $\tfrac{61}{125}$, and the average of $X$ settles near $\tfrac{61}{25}=2.44$.
 - The five bars add up to the average of $X$. That is linearity of expectation.

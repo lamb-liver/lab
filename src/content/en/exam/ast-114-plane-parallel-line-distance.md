@@ -36,7 +36,7 @@ The full question is on the [CEEC 114 AST Mathematics I paper](https://www.ceec.
 
 ## Where it goes wrong
 
-It is easy to treat the two traces as skew lines and force a formula, or to start from a general plane equation and slip on the parallel condition. The key is simpler. One line lies in $x=0$, the other in $z=0$, and they must be parallel, so there is almost no choice left for the direction vector.
+It is easy to treat the two traces as skew lines and apply that formula, or to start from a general plane equation and slip on the parallel condition. One line lies in $x=0$, the other in $z=0$, and they must be parallel, so there is almost no choice left for the direction vector.
 
 ## Idea
 
