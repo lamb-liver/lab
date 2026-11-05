@@ -1,3 +1,4 @@
+import { examSubjects } from '../lib/examSource';
 export type ContentEntry = {
   id: string;
   data: {
@@ -93,7 +94,10 @@ export const collectWorkTags = (
   return [...tags].sort((a, b) => a.localeCompare(b, sortLocale(locale)));
 };
 
-/** 試題視覺化列表篩選：僅顯示目前有內容的考科 */
+/**
+ * 試題視覺化列表篩選：僅顯示目前有內容的考科。
+ * 依 examSubjects 的分支順序排列（學測、分科、AMC 12、高考），同一分支的考科排在一起。
+ */
 export const collectExamSubjects = (
   entries: ReadonlyArray<{ data: { subject: string } }>,
 ): string[] => {
@@ -101,7 +105,11 @@ export const collectExamSubjects = (
   for (const entry of entries) {
     subjects.add(entry.data.subject);
   }
-  return [...subjects].sort((a, b) => a.localeCompare(b, 'zh-TW'));
+  const rank = (subject: string): number => {
+    const index = (examSubjects as readonly string[]).indexOf(subject);
+    return index === -1 ? examSubjects.length : index;
+  };
+  return [...subjects].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, 'zh-TW'));
 };
 
 /** 視覺化列表篩選：僅顯示目前有內容的 category */

@@ -19,7 +19,7 @@ Works 的敘事是「這個數學對象長什麼樣」，Explore 是「這個單
 新增 `src/content.config.ts` 的第三個 collection：
 
 ```ts
-export const examSubjects = ['學測數A', '學測數B', '分科數甲', 'AMC 12A', 'AMC 12B'] as const; // 實際清單在 src/lib/examSource.ts
+export const examSubjects = ['學測數A', '學測數B', '分科數甲', 'AMC 12A', 'AMC 12B', '高考數學'] as const; // 實際清單在 src/lib/examSource.ts
 export const examQuestionTypes = ['單選', '多選', '選填', '非選'] as const;
 
 const exam = defineCollection({
@@ -28,7 +28,7 @@ const exam = defineCollection({
     title: z.string(),
     description: z.string(),
     subject: z.enum(examSubjects),      // 考科
-    year: z.number().int(),             // 台灣考科用民國年（112 / 113 / 114）；AMC 用西元年（2023）
+    year: z.number().int(),             // 台灣考科用民國年（112 / 113 / 114）；AMC 與高考用西元年（2023）
     questionType: z.enum(examQuestionTypes),
     questionNo: z.string(),             // '11'、'17'
     unit: z.string(),                   // '高三選修數A・矩陣與線性變換'
@@ -264,3 +264,4 @@ AMC 範圍驗證：
 - [ ] 出處行由 `examCreditLine` 產生，例如「題目出處：2024 年高考數學新課標I卷第 5 題」。不套用 © MAA
 - [ ] 不引用、不捏造答對率。「為什麼會錯」只寫題目數學本身推得出的陷阱
 - [ ] `unit` 寫成 `高考數學・新課標I卷・主題`。公式停在高中側面積、體積或對應單元，不把積分或曲面當作理解前提
+- [ ] `/exam` 列表的考科篩選出現 `高考數學`（英文 `Gaokao Mathematics`），排在 AMC 12 之後；卡片來源標籤為 `2024 高考數學・新課標I卷第5題`
