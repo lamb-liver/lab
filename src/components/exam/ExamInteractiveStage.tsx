@@ -33,6 +33,7 @@ const rootBySlug = {
     () => import('./ParallelogramDirectionAreaExamRoot'),
   ),
   'ast-115-circle-two-lines-tangent': lazy(() => import('./CircleTwoLinesTangentExamRoot')),
+  'gaokao-2024-i-cone-cylinder-lateral': lazy(() => import('./ConeCylinderLateralExamRoot')),
   'gsat-112-rotation-composition': lazy(() => import('./RotationCompositionExamRoot')),
   'gsat-112-sinusoid-superposition': lazy(() => import('./SinusoidSuperpositionExamRoot')),
   'gsat-112-skew-line-distance': lazy(() => import('./SkewLineDistanceExamRoot')),

@@ -17,7 +17,7 @@ export const siteSeo = {
   exam: {
     title: '試題視覺化',
     description:
-      '從歷屆學測、分科與 AMC 12 試題出發，用互動視覺化拆開考生最常卡住的那一個心智步驟。',
+      '從歷屆學測、分科、AMC 12 與中國高考試題出發，用互動視覺化拆開考生最常卡住的那一個心智步驟。',
   },
   concept: {
     title: '概念索引',
@@ -55,7 +55,7 @@ export const siteSeoEn = {
   exam: {
     title: 'Exam visualizations',
     description:
-      'Past GSAT, AST, and AMC 12 problems, with an interactive figure that takes apart the one step most students get stuck on.',
+      'Past GSAT, AST, AMC 12, and Gaokao problems, with an interactive figure that takes apart the one step most students get stuck on.',
   },
   about: {
     title: 'About',

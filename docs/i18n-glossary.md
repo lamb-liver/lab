@@ -14,6 +14,7 @@
 - exam: 題意 → ## Problem · 為什麼會錯 → ## Where it goes wrong · 觀念 → ## Idea · 互動怎麼看 → ## What the figure shows
 - Further reading uses English Wikipedia: "[Topic (Wikipedia)](https://en.wikipedia.org/wiki/…)"
 - AMC credit: "Source: MAA AMC, {year} AMC 12X, Problem #n. © {year} Mathematical Association of America"; links: "AoPS problem page" / "Solutions"; Taiwan: "Original paper" / "Official solutions"; CEEC "item statistics" / "scoring guidelines"; CEEC P = correct rate（答對率，單選／選填）, score rate（得分率，多選或原文用得分率者）; third-party analyses are labeled as such (e.g. "Hanlin's solution notes (a publisher's analysis, not CEEC)")
+- 高考數學 → Gaokao Mathematics. Question number `新課標I-5` → label "2024 Gaokao Mathematics, New Curriculum I, Problem 5". Link text 考生回憶與解析 → Candidate-recall notes. Credit states the paper, not a copyright line.
 
 ## Interaction bullets
 - "- **Control name**: what it does, plain verbs (show, move, drag, switch, mark, compare)"; control names in bold, sentence case

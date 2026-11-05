@@ -12,6 +12,7 @@ export const examInteractiveSlugs = [
   'ast-114-plane-parallel-line-distance',
   'ast-114-parallelogram-direction-area',
   'ast-115-circle-two-lines-tangent',
+  'gaokao-2024-i-cone-cylinder-lateral',
   'gsat-112-rotation-composition',
   'gsat-112-sinusoid-superposition',
   'gsat-112-skew-line-distance',

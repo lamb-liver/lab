@@ -2,7 +2,12 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { AMC_EXAM_SUBJECTS, EXAM_SUBJECTS, examYearIssue } from './audit-content.mjs';
+import {
+  AMC_EXAM_SUBJECTS,
+  EXAM_SUBJECTS,
+  GAOKAO_EXAM_SUBJECTS,
+  examYearIssue,
+} from './audit-content.mjs';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const QUESTION_TYPES = ['單選', '多選', '選填', '非選'];
@@ -15,8 +20,8 @@ function usage() {
     '    [--title <title>] [--description <text>] [--unit <unit>] [--date YYYY-MM-DD] [--dry-run]',
     '',
     `  --subject  one of: ${EXAM_SUBJECTS.join(', ')}`,
-    `  --type     one of: ${QUESTION_TYPES.join(', ')} (AMC: 單選, the default)`,
-    '  --year     3-digit ROC year for Taiwan subjects; 4-digit Western year for AMC subjects',
+    `  --type     one of: ${QUESTION_TYPES.join(', ')} (AMC and Gaokao: 單選, the default)`,
+    '  --year     3-digit ROC year for Taiwan subjects; 4-digit Western year for AMC and Gaokao',
     '',
     'Creates a draft-only Exam content skeleton and does not update registries.',
     'Draft Exam entries are available in dev and stay out of production until the release Gate passes.',
@@ -74,7 +79,9 @@ export function buildNewExamFiles(
     throw new Error(`Subject must be one of: ${EXAM_SUBJECTS.join(', ')}`);
   }
   const amc = AMC_EXAM_SUBJECTS.includes(subject);
-  type = type ?? (amc ? '單選' : '多選');
+  const gaokao = GAOKAO_EXAM_SUBJECTS.includes(subject);
+  const western = amc || gaokao;
+  type = type ?? (western ? '單選' : '多選');
   if (!QUESTION_TYPES.includes(type)) {
     throw new Error(`Question type must be one of: ${QUESTION_TYPES.join(', ')}`);
   }
@@ -83,8 +90,8 @@ export function buildNewExamFiles(
   }
   if (!year || examYearIssue(subject, String(year))) {
     throw new Error(
-      amc
-        ? 'Year must be a 4-digit Western year for AMC subjects, e.g. 2023.'
+      western
+        ? 'Year must be a 4-digit Western year, e.g. 2024.'
         : 'Year must be a 3-digit ROC year, e.g. 112.',
     );
   }
@@ -93,7 +100,7 @@ export function buildNewExamFiles(
   const finalTitle = title || titleFromSlug(slug);
   const finalDescription =
     description ||
-    (amc
+    (western
       ? `${year} ${subject} 第 ${no} 題的試題視覺化草稿。`
       : `${year} ${subject} ${type} ${no} 的試題視覺化草稿。`);
 
@@ -111,6 +118,7 @@ export function buildNewExamFiles(
         unit: unit || '待填單元',
         date,
         amc,
+        gaokao,
       }),
     },
   ];
@@ -132,15 +140,18 @@ export function writeGeneratedFiles(files) {
   }
 }
 
-export function nextSteps(slug, { amc = false } = {}) {
+export function nextSteps(slug, { amc = false, gaokao = false } = {}) {
+  const sourceStep = gaokao
+    ? '1. Fill sourceUrl with a candidate-recall page. The link text is 考生回憶與解析. Do not invent a correct rate, and do not credit CEEC or MAA.'
+    : amc
+      ? '1. Fill sourceUrl with the AoPS wiki problem page; the page credits © MAA automatically. Do not copy AoPS solutions or diagrams.'
+      : '1. Fill sourceUrl with the CEEC original paper, and analysisUrl if an accuracy-rate source exists.';
   return [
     '',
     'Created draft content.',
     '',
     'Next steps:',
-    amc
-      ? '1. Fill sourceUrl with the AoPS wiki problem page; the page credits © MAA automatically. Do not copy AoPS solutions or diagrams.'
-      : '1. Fill sourceUrl with the CEEC original paper, and analysisUrl if an accuracy-rate source exists.',
+    sourceStep,
     '2. Rewrite the question in your own words. Do not paste the original text or options.',
     '3. Link relatedExplore / relatedWorks to published slugs.',
     '4. Add the interactive: src/exam/, src/components/exam/, and the stage registry.',
@@ -153,13 +164,17 @@ export function nextSteps(slug, { amc = false } = {}) {
   ].join('\n');
 }
 
-function examContentTemplate({ title, description, year, subject, type, no, unit, date, amc }) {
-  const sourceHint = amc
-    ? '完整題目與選項見 AoPS 題目頁（填入 sourceUrl 後在此連結）；頁面會自動標示 © MAA 出處。'
-    : '完整題目與選項見大考中心原卷（填入 sourceUrl 後在此連結）。';
-  const trapHint = amc
-    ? '待補：誘答選項或常見錯誤步驟說明了什麼，考生卡在哪一個心智步驟（未查證的答對率不要寫成數據）。'
-    : '待補：這題的答對率或誘答選項分布說明了什麼，考生卡在哪一個心智步驟。';
+function examContentTemplate({ title, description, year, subject, type, no, unit, date, amc, gaokao }) {
+  const sourceHint = gaokao
+    ? '完整題目見考生回憶整理（填入 sourceUrl 後，連結文字是「考生回憶與解析」）。不整段轉載題幹、選項或試卷圖。'
+    : amc
+      ? '完整題目與選項見 AoPS 題目頁（填入 sourceUrl 後在此連結）；頁面會自動標示 © MAA 出處。'
+      : '完整題目與選項見大考中心原卷（填入 sourceUrl 後在此連結）。';
+  const trapHint = gaokao
+    ? '待補：用題目數學本身說明常見錯誤步驟，考生卡在哪一個心智步驟。不要捏造答對率。'
+    : amc
+      ? '待補：誘答選項或常見錯誤步驟說明了什麼，考生卡在哪一個心智步驟（未查證的答對率不要寫成數據）。'
+      : '待補：這題的答對率或誘答選項分布說明了什麼，考生卡在哪一個心智步驟。';
   return `---
 title: ${title}
 description: ${description}
@@ -230,15 +245,16 @@ function main() {
 
   const files = buildNewExamFiles({ slug, ...options });
   const amc = AMC_EXAM_SUBJECTS.includes(options.subject);
+  const gaokao = GAOKAO_EXAM_SUBJECTS.includes(options.subject);
   if (options.dryRun) {
     console.log(files.map((file) => file.relativePath).join('\n'));
-    console.log(nextSteps(slug, { amc }));
+    console.log(nextSteps(slug, { amc, gaokao }));
     return;
   }
 
   writeGeneratedFiles(files);
   console.log(files.map((file) => `Created ${file.relativePath}`).join('\n'));
-  console.log(nextSteps(slug, { amc }));
+  console.log(nextSteps(slug, { amc, gaokao }));
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   AMC_EXAM_SUBJECTS,
   EXAM_SUBJECTS,
+  GAOKAO_EXAM_SUBJECTS,
   TAIWAN_EXAM_SUBJECTS,
   examYearIssue,
 } from '../../scripts/audit-content.mjs';
@@ -11,6 +12,7 @@ import {
   examSourceLabel,
   examSourceLinkLabels,
   examSubjects,
+  gaokaoExamSubjects,
   isAmcSubject,
   taiwanExamSubjects,
 } from './examSource';
@@ -23,6 +25,7 @@ describe('examSource', () => {
     expect(EXAM_SUBJECTS).toEqual([...examSubjects]);
     expect(TAIWAN_EXAM_SUBJECTS).toEqual([...taiwanExamSubjects]);
     expect(AMC_EXAM_SUBJECTS).toEqual([...amcExamSubjects]);
+    expect(GAOKAO_EXAM_SUBJECTS).toEqual([...gaokaoExamSubjects]);
   });
 
   it('labels AMC entries with the Western year and problem number', () => {
@@ -53,9 +56,28 @@ describe('examSource', () => {
     );
   });
 
+  it('labels a gaokao paper by curriculum volume and problem number', () => {
+    const gaokao = { year: 2024, subject: '高考數學', questionType: '單選', questionNo: '新課標I-5' };
+    expect(examSourceLabel(gaokao)).toBe('2024 高考數學・新課標I卷第5題');
+    expect(examSourceLabel(gaokao, 'en')).toBe(
+      '2024 Gaokao Mathematics, New Curriculum I, Problem 5',
+    );
+    expect(examSourceLinkLabels('高考數學')).toEqual({
+      source: '考生回憶與解析',
+      analysis: '解析',
+    });
+    expect(examCreditLine(gaokao)).toBe('題目出處：2024 年高考數學新課標I卷第 5 題');
+    expect(examCreditLine(gaokao, 'en')).toBe(
+      'Source: 2024 Gaokao Mathematics, New Curriculum I, Problem 5.',
+    );
+    expect(examCreditLine(taiwan)).toBeNull();
+  });
+
   it('validates the year format per source', () => {
     expect(examYearIssue('AMC 12B', '2023')).toBeNull();
     expect(examYearIssue('AMC 12A', '113')).toMatch(/4-digit/);
+    expect(examYearIssue('高考數學', '2024')).toBeNull();
+    expect(examYearIssue('高考數學', '113')).toMatch(/4-digit/);
     expect(examYearIssue('學測數A', '112')).toBeNull();
     expect(examYearIssue('學測數A', '2023')).toMatch(/3-digit ROC/);
   });

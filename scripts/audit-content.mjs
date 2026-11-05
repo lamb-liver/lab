@@ -10,12 +10,13 @@ export const CONTENT_AUDIENCES = ['直觀探索', '高中概念', '大學概念'
 /** 與 src/lib/examSource.ts 的 examSubjects 同步（src/lib/examSource.test.ts 把關） */
 export const TAIWAN_EXAM_SUBJECTS = ['學測數A', '學測數B', '分科數甲'];
 export const AMC_EXAM_SUBJECTS = ['AMC 12A', 'AMC 12B'];
-export const EXAM_SUBJECTS = [...TAIWAN_EXAM_SUBJECTS, ...AMC_EXAM_SUBJECTS];
+export const GAOKAO_EXAM_SUBJECTS = ['高考數學'];
+export const EXAM_SUBJECTS = [...TAIWAN_EXAM_SUBJECTS, ...AMC_EXAM_SUBJECTS, ...GAOKAO_EXAM_SUBJECTS];
 
-/** 台灣考科用民國年（3 位數）；AMC 用西元年（4 位數） */
+/** 台灣考科用民國年（3 位數）；AMC 與高考用西元年（4 位數） */
 export function examYearIssue(subject, year) {
-  if (AMC_EXAM_SUBJECTS.includes(subject)) {
-    return /^\d{4}$/.test(year) ? null : 'year must be a 4-digit Western year for AMC subjects';
+  if (AMC_EXAM_SUBJECTS.includes(subject) || GAOKAO_EXAM_SUBJECTS.includes(subject)) {
+    return /^\d{4}$/.test(year) ? null : 'year must be a 4-digit Western year';
   }
   return /^\d{3}$/.test(year) ? null : 'year must be a 3-digit ROC year';
 }

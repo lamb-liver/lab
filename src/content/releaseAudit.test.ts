@@ -162,7 +162,7 @@ describe('release content audit', () => {
     }], { fileExists });
 
     expect(amcRocYear.issues.map((issue) => issue.message)).toContain(
-      'year must be a 4-digit Western year for AMC subjects',
+      'year must be a 4-digit Western year',
     );
     expect(taiwanWesternYear.issues.map((issue) => issue.message)).toContain(
       'year must be a 3-digit ROC year',
