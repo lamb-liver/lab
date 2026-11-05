@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import type p5 from "p5";
+import { useCallback, useState } from 'react';
+import type p5 from 'p5';
 import {
   C_MAX,
   C_MIN,
@@ -9,12 +9,12 @@ import {
   missRate,
   totalError,
 } from "../../exam/gaokao-2023-ii-screening-threshold/geometry";
-import { renderScreeningThresholdExam } from "../../systems/rendering/screeningThresholdExamRender";
+import { renderScreeningThresholdExam } from '../../systems/rendering/screeningThresholdExamRender';
 import {
   useRectP5CanvasHost,
   type CanvasSize,
 } from "../curve/useRectP5CanvasHost";
-import "../../styles/components/exam/exam-interactive.css";
+import '../../styles/components/exam/exam-interactive.css';
 
 function measureCanvas(host: HTMLElement): CanvasSize {
   const width = Math.max(300, Math.round(host.clientWidth || 300));
@@ -23,10 +23,10 @@ function measureCanvas(host: HTMLElement): CanvasSize {
 
 const pct = (v: number) => `${(v * 100).toFixed(2)}%`;
 
-type Props = { locale?: "en" };
+type Props = { locale?: 'en' };
 
 export default function ScreeningThresholdExamRoot({ locale }: Props) {
-  const en = locale === "en";
+  const en = locale === 'en';
   const [c, setC] = useState(DEFAULT_C);
 
   const draw = useCallback(
@@ -52,18 +52,18 @@ export default function ScreeningThresholdExamRoot({ locale }: Props) {
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
           <p className="exam-interactive-explore__visual-title">
-            {en ? "One cut-off, two kinds of error" : "一條臨界線，兩種誤判"}
+            {en ? 'One cut-off, two kinds of error' : '一條臨界線，兩種誤判'}
           </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>{en ? "Think first" : "先想一想"}</strong>
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? " Moving c right lowers one error and raises the other. Where does the total stop going down?"
-              : "c 往右，一種誤判變少，另一種變多。總和在哪裡停止下降？"}
+              ? ' Moving c right lowers one error and raises the other. Where does the total stop going down?'
+              : 'c 往右，一種誤判變少，另一種變多。總和在哪裡停止下降？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
-              ? "Only the part of the two histograms between 95 and 105 is drawn. Solid colour marks the people judged wrongly."
-              : "只畫兩個直方圖在 95 到 105 之間的部分，實色是被判錯的人"}
+              ? 'Only the part of the two histograms between 95 and 105 is drawn. Solid colour marks the people judged wrongly.'
+              : '只畫兩個直方圖在 95 到 105 之間的部分，實色是被判錯的人'}
           </p>
           <div
             ref={canvasHostRef}
@@ -80,7 +80,7 @@ export default function ScreeningThresholdExamRoot({ locale }: Props) {
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
             <p className="exam-interactive-explore__block-title">
-              {en ? "Cut-off" : "臨界值"}
+              {en ? 'Cut-off' : '臨界值'}
             </p>
             <label className="exam-interactive-explore__range">
               <span>c</span>
@@ -88,7 +88,7 @@ export default function ScreeningThresholdExamRoot({ locale }: Props) {
               <input
                 id="screening-c"
                 type="range"
-                aria-label={en ? "Cut-off c" : "臨界值 c"}
+                aria-label={en ? 'Cut-off c' : '臨界值 c'}
                 min={C_MIN}
                 max={C_MAX}
                 step={0.1}
@@ -110,8 +110,8 @@ export default function ScreeningThresholdExamRoot({ locale }: Props) {
             </p>
             <p className="exam-interactive-explore__note">
               {en
-                ? "p = 0.5% at c = 97.5, which gives q = 3.5%. f(c) = −0.008c + 0.82 up to 100 and 0.01c − 0.98 after, so the minimum is 0.02 at c = 100."
-                : "c = 97.5 時 p = 0.5%，q = 3.5%。f(c) 在 100 以前是 −0.008c + 0.82，之後是 0.01c − 0.98，最小值是 c = 100 時的 0.02。"}
+                ? 'p = 0.5% at c = 97.5, which gives q = 3.5%. f(c) = −0.008c + 0.82 up to 100 and 0.01c − 0.98 after, so the minimum is 0.02 at c = 100.'
+                : 'c = 97.5 時 p = 0.5%，q = 3.5%。f(c) 在 100 以前是 −0.008c + 0.82，之後是 0.01c − 0.98，最小值是 c = 100 時的 0.02。'}
             </p>
           </div>
         </aside>

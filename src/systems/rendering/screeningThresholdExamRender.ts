@@ -1,4 +1,4 @@
-import type p5 from "p5";
+import type p5 from 'p5';
 import {
   C_MAX,
   C_MIN,
@@ -7,8 +7,8 @@ import {
   falseAlarmRate,
   missRate,
   totalError,
-} from "../../exam/gaokao-2023-ii-screening-threshold/geometry";
-import { withDash } from "./p5PlotHelpers";
+} from '../../exam/gaokao-2023-ii-screening-threshold/geometry';
+import { withDash } from './p5PlotHelpers';
 
 const GOLD = [212, 184, 122] as const;
 const WHITE = [232, 232, 232] as const;
@@ -18,9 +18,7 @@ type Scene = { width: number; height: number; c: number; en: boolean };
 
 export function renderScreeningThresholdExam(p: p5, scene: Scene): void {
   p.background(10, 10, 10);
-  p.textFont(
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif',
-  );
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
   const left = 48;
   const right = scene.width - 16;
   const sx = (x: number) =>
@@ -38,14 +36,14 @@ export function renderScreeningThresholdExam(p: p5, scene: Scene): void {
       bins: ILL_BINS,
       color: GOLD,
       top: 14,
-      label: scene.en ? "Patients" : "患病者",
+      label: scene.en ? 'Patients' : '患病者',
       shadeBelow: true,
     },
     {
       bins: WELL_BINS,
       color: CYAN,
       top: 14 + panelH + 10,
-      label: scene.en ? "Healthy" : "未患病者",
+      label: scene.en ? 'Healthy' : '未患病者',
       shadeBelow: false,
     },
   ];
@@ -106,8 +104,8 @@ export function renderScreeningThresholdExam(p: p5, scene: Scene): void {
   p.fill(...WHITE, 160);
   p.textSize(10);
   p.textAlign(p.RIGHT, p.CENTER);
-  p.text("0.02", left - 4, sy(0.02));
-  p.text("f(c)", left - 4, top + 6);
+  p.text('0.02', left - 4, sy(0.02));
+  p.text('f(c)', left - 4, top + 6);
   p.textAlign(p.CENTER, p.TOP);
   for (const x of [95, 100, 105]) p.text(String(x), sx(x), bottom + 2);
   p.noFill();

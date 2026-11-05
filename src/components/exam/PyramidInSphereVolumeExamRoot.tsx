@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import type p5 from "p5";
+import { useCallback, useState } from 'react';
+import type p5 from 'p5';
 import {
   DEFAULT_L,
   L_MAX,
@@ -7,12 +7,12 @@ import {
   clampL,
   readPyramid,
 } from "../../exam/gaokao-2022-i-pyramid-in-sphere-volume/geometry";
-import { renderPyramidInSphereExam } from "../../systems/rendering/pyramidInSphereExamRender";
+import { renderPyramidInSphereExam } from '../../systems/rendering/pyramidInSphereExamRender';
 import {
   useRectP5CanvasHost,
   type CanvasSize,
 } from "../curve/useRectP5CanvasHost";
-import "../../styles/components/exam/exam-interactive.css";
+import '../../styles/components/exam/exam-interactive.css';
 
 function measureCanvas(host: HTMLElement): CanvasSize {
   const width = Math.max(300, Math.round(host.clientWidth || 300));
@@ -25,10 +25,10 @@ function measureCanvas(host: HTMLElement): CanvasSize {
   };
 }
 
-type Props = { locale?: "en" };
+type Props = { locale?: 'en' };
 
 export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
-  const en = locale === "en";
+  const en = locale === 'en';
   const [l, setL] = useState(DEFAULT_L);
   const r = readPyramid(l);
 
@@ -50,18 +50,18 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
           <p className="exam-interactive-explore__visual-title">
-            {en ? "Axial section and the volume curve" : "軸截面與體積曲線"}
+            {en ? 'Axial section and the volume curve' : '軸截面與體積曲線'}
           </p>
           <p className="exam-interactive-explore__prompt">
-            <strong>{en ? "Think first" : "先想一想"}</strong>
+            <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? " l runs from 3 to 3√3. Is the largest volume at the long end?"
-              : "l 從 3 走到 3√3。體積最大的時候，是 l 最長的時候嗎？"}
+              ? ' l runs from 3 to 3√3. Is the largest volume at the long end?'
+              : 'l 從 3 走到 3√3。體積最大的時候，是 l 最長的時候嗎？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
-              ? "The apex and the base corners sit on the sphere, so h = l²/6. A longer edge makes the pyramid taller but its base narrower."
-              : "頂點和底面四角都在球面上，所以 h = l²/6。側棱越長，錐越高，底面卻越窄"}
+              ? 'The apex and the base corners sit on the sphere, so h = l²/6. A longer edge makes the pyramid taller but its base narrower.'
+              : '頂點和底面四角都在球面上，所以 h = l²/6。側棱越長，錐越高，底面卻越窄'}
           </p>
           <div
             ref={canvasHostRef}
@@ -78,7 +78,7 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
             <p className="exam-interactive-explore__block-title">
-              {en ? "Lateral edge" : "側棱長"}
+              {en ? 'Lateral edge' : '側棱長'}
             </p>
             <label className="exam-interactive-explore__range">
               <span>l</span>
@@ -86,7 +86,7 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
               <input
                 id="pyramid-l"
                 type="range"
-                aria-label={en ? "Lateral edge l" : "側棱長 l"}
+                aria-label={en ? 'Lateral edge l' : '側棱長 l'}
                 min={L_MIN}
                 max={L_MAX}
                 step={0.01}
@@ -97,22 +97,22 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
               />
             </label>
             <p className="exam-interactive-explore__note">
-              h = {r.height.toFixed(3)}，{en ? "base side" : "底面邊長"} ={" "}
+              h = {r.height.toFixed(3)}，{en ? 'base side' : '底面邊長'} ={" "}
               {r.side.toFixed(3)}
             </p>
           </div>
 
           <div className="exam-interactive-explore__block">
             <p className="exam-interactive-explore__block-title">
-              {en ? "Volume" : "體積"}
+              {en ? 'Volume' : '體積'}
             </p>
             <p className="exam-interactive-explore__result" aria-live="polite">
               V ≈ {r.volume.toFixed(3)}
             </p>
             <p className="exam-interactive-explore__note">
               {en
-                ? "l = 3 gives 27/4 = 6.75, l = 3√3 gives 81/4 = 20.25, but l = 2√6 (h = 4) gives 64/3 ≈ 21.33. The range is [27/4, 64/3]."
-                : "l = 3 時 27/4 = 6.75，l = 3√3 時 81/4 = 20.25，但 l = 2√6（h = 4）時是 64/3 ≈ 21.33。範圍是 [27/4, 64/3]。"}
+                ? 'l = 3 gives 27/4 = 6.75, l = 3√3 gives 81/4 = 20.25, but l = 2√6 (h = 4) gives 64/3 ≈ 21.33. The range is [27/4, 64/3].'
+                : 'l = 3 時 27/4 = 6.75，l = 3√3 時 81/4 = 20.25，但 l = 2√6（h = 4）時是 64/3 ≈ 21.33。範圍是 [27/4, 64/3]。'}
             </p>
           </div>
         </aside>

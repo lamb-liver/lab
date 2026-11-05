@@ -1,4 +1,4 @@
-import type p5 from "p5";
+import type p5 from 'p5';
 import {
   A,
   F,
@@ -7,8 +7,8 @@ import {
   distanceToF,
   distanceToLine,
   upperY,
-} from "../../exam/gaokao-2024-i-distance-product-curve/geometry";
-import { clipRect, withDash } from "./p5PlotHelpers";
+} from '../../exam/gaokao-2024-i-distance-product-curve/geometry';
+import { clipRect, withDash } from './p5PlotHelpers';
 
 const GOLD = [212, 184, 122] as const;
 const WHITE = [232, 232, 232] as const;
@@ -21,9 +21,7 @@ const X1 = 3.2;
 
 export function renderDistanceProductCurveExam(p: p5, scene: Scene): void {
   p.background(10, 10, 10);
-  p.textFont(
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif',
-  );
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
   const pad = 16;
   const unit = (scene.width - 2 * pad) / (X1 - X0);
   const yHalf = (scene.height - 2 * pad) / unit / 2;
@@ -52,8 +50,9 @@ export function renderDistanceProductCurveExam(p: p5, scene: Scene): void {
   p.textAlign(p.CENTER, p.TOP);
   for (const x of [-2, -1, 1, 2, 3]) p.text(String(x), sx(x), sy(0) + 4);
   p.textAlign(p.RIGHT, p.CENTER);
-  p.text("1", sx(0) - 4, sy(1));
-  p.text("−1", sx(0) - 4, sy(-1));
+  p.text('−1', sx(0) - 4, sy(-1));
+  p.textAlign(p.RIGHT, p.BOTTOM);
+  p.text('1', sx(0) - 4, sy(1) - 3);
 
   // 準線 x = −2
   withDash(p, [4, 4], () => {
@@ -63,7 +62,7 @@ export function renderDistanceProductCurveExam(p: p5, scene: Scene): void {
   p.noStroke();
   p.fill(...CYAN, 220);
   p.textAlign(p.LEFT, p.TOP);
-  p.text("x = −2", sx(A) + 4, plot.y + 2);
+  p.text('x = −2', sx(A) + 4, plot.y + 2);
 
   // y = 1
   withDash(p, [2, 4], () => {
@@ -112,7 +111,7 @@ export function renderDistanceProductCurveExam(p: p5, scene: Scene): void {
   p.fill(...WHITE);
   p.circle(sx(F.x), sy(F.y), 7);
   p.textAlign(p.LEFT, p.TOP);
-  p.text("F", sx(F.x) + 4, sy(F.y) + 4);
+  p.text('F', sx(F.x) + 4, sy(F.y) + 4);
   p.fill(...GOLD);
   p.circle(P.x, P.y, 10);
   p.fill(...GOLD, 240);

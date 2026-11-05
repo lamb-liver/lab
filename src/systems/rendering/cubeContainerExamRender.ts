@@ -1,4 +1,4 @@
-import type p5 from "p5";
+import type p5 from 'p5';
 import {
   CENTER,
   CUBE_EDGES,
@@ -9,8 +9,8 @@ import {
   project,
   type OptionKey,
   type Vec3,
-} from "../../exam/gaokao-2023-i-cube-container/geometry";
-import { withDash } from "./p5PlotHelpers";
+} from '../../exam/gaokao-2023-i-cube-container/geometry';
+import { withDash } from './p5PlotHelpers';
 
 const GOLD = [212, 184, 122] as const;
 const WHITE = [232, 232, 232] as const;
@@ -39,7 +39,7 @@ export function renderCubeContainerExam(p: p5, scene: Scene): void {
   p.strokeWeight(1.2);
   for (const [i, j] of CUBE_EDGES) seg(CUBE_VERTICES[i], CUBE_VERTICES[j]);
 
-  if (scene.option === "A") {
+  if (scene.option === 'A') {
     // 球的輪廓在正交投影下是圓
     const c = at(CENTER);
     p.noFill();
@@ -51,7 +51,7 @@ export function renderCubeContainerExam(p: p5, scene: Scene): void {
       p.strokeWeight(1);
       p.circle(c.x, c.y, 1 * scale);
     });
-  } else if (scene.option === "B") {
+  } else if (scene.option === 'B') {
     p.stroke(...GOLD, 230);
     p.strokeWeight(2);
     for (let i = 0; i < 4; i += 1)
@@ -62,7 +62,7 @@ export function renderCubeContainerExam(p: p5, scene: Scene): void {
       const q = at(v);
       p.circle(q.x, q.y, 7);
     }
-  } else if (scene.option === "C") {
+  } else if (scene.option === 'C') {
     withDash(p, [3, 4], () => {
       p.stroke(...CYAN, 180);
       p.strokeWeight(1.4);

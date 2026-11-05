@@ -1,4 +1,4 @@
-import type p5 from "p5";
+import type p5 from 'p5';
 import {
   L_MAX,
   L_MIN,
@@ -8,8 +8,8 @@ import {
   V_MIN,
   readPyramid,
   volumeAt,
-} from "../../exam/gaokao-2022-i-pyramid-in-sphere-volume/geometry";
-import { withDash } from "./p5PlotHelpers";
+} from '../../exam/gaokao-2022-i-pyramid-in-sphere-volume/geometry';
+import { withDash } from './p5PlotHelpers';
 
 const GOLD = [212, 184, 122] as const;
 const WHITE = [232, 232, 232] as const;
@@ -19,9 +19,7 @@ type Scene = { width: number; height: number; l: number };
 
 export function renderPyramidInSphereExam(p: p5, scene: Scene): void {
   p.background(10, 10, 10);
-  p.textFont(
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif',
-  );
+  p.textFont('system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC CJK", sans-serif');
   const narrow = scene.width < 560;
   const r = readPyramid(scene.l);
 
@@ -73,7 +71,7 @@ export function renderPyramidInSphereExam(p: p5, scene: Scene): void {
   );
   p.fill(...WHITE, 150);
   p.textAlign(p.LEFT, p.TOP);
-  p.text("R = 3", toX(0) + 6, cy + 4);
+  p.text('R = 3', toX(0) + 6, cy + 4);
 
   // 右（或下）：V(l) 曲線
   const gx0 = narrow ? 44 : secW + 44;
@@ -104,15 +102,15 @@ export function renderPyramidInSphereExam(p: p5, scene: Scene): void {
   p.fill(...CYAN, 220);
   p.textSize(11);
   p.textAlign(p.RIGHT, p.CENTER);
-  p.text("64/3", gx0 - 4, sy(V_MAX));
-  p.text("27/4", gx0 - 4, sy(V_MIN));
+  p.text('64/3', gx0 - 4, sy(V_MAX));
+  p.text('27/4', gx0 - 4, sy(V_MIN));
   p.fill(...WHITE, 150);
   p.textAlign(p.CENTER, p.TOP);
-  p.text("3", sx(L_MIN), gy1 + 6);
-  p.text("2√6", sx(L_PEAK), gy1 + 6);
-  p.text("3√3", sx(L_MAX), gy1 + 6);
-  p.textAlign(p.RIGHT, p.TOP);
-  p.text("l", gx1, gy1 + 18);
+  p.text('3', sx(L_MIN), gy1 + 6);
+  p.text('2√6', sx(L_PEAK), gy1 + 6);
+  p.text('3√3', sx(L_MAX), gy1 + 6);
+  p.textAlign(p.RIGHT, p.BOTTOM);
+  p.text('l', gx1, gy1 - 4);
 
   p.noFill();
   p.stroke(...GOLD, 220);
