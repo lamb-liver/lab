@@ -6,12 +6,12 @@ import {
   L_MIN,
   clampL,
   readPyramid,
-} from "../../exam/gaokao-2022-i-pyramid-in-sphere-volume/geometry";
+} from '../../exam/gaokao-2022-i-pyramid-in-sphere-volume/geometry';
 import { renderPyramidInSphereExam } from '../../systems/rendering/pyramidInSphereExamRender';
 import {
   useRectP5CanvasHost,
   type CanvasSize,
-} from "../curve/useRectP5CanvasHost";
+} from '../curve/useRectP5CanvasHost';
 import '../../styles/components/exam/exam-interactive.css';
 
 function measureCanvas(host: HTMLElement): CanvasSize {
@@ -55,13 +55,13 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' l runs from 3 to 3√3. Is the largest volume at the long end?'
+              ? 'l runs from 3 to 3√3. Is the largest volume at the long end?'
               : 'l 從 3 走到 3√3。體積最大的時候，是 l 最長的時候嗎？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
               ? 'The apex and the base corners sit on the sphere, so h = l²/6. A longer edge makes the pyramid taller but its base narrower.'
-              : '頂點和底面四角都在球面上，所以 h = l²/6。側棱越長，錐越高，底面卻越窄'}
+              : '頂點和底面四角都在球面上，所以 h = l²/6。側稜越長，錐越高，底面卻越窄'}
           </p>
           <div
             ref={canvasHostRef}
@@ -70,7 +70,7 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
             aria-label={
               en
                 ? `Pyramid in a sphere of radius 3, l = ${r.l.toFixed(2)}, volume ${r.volume.toFixed(2)}`
-                : `半徑 3 的球內正四棱錐，l = ${r.l.toFixed(2)}，體積 ${r.volume.toFixed(2)}`
+                : `半徑 3 的球內正四角錐，l = ${r.l.toFixed(2)}，體積 ${r.volume.toFixed(2)}`
             }
           />
         </div>
@@ -78,7 +78,7 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
         <aside className="exam-interactive-explore__sidebar">
           <div className="exam-interactive-explore__block">
             <p className="exam-interactive-explore__block-title">
-              {en ? 'Lateral edge' : '側棱長'}
+              {en ? 'Lateral edge' : '側稜長'}
             </p>
             <label className="exam-interactive-explore__range">
               <span>l</span>
@@ -86,7 +86,7 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
               <input
                 id="pyramid-l"
                 type="range"
-                aria-label={en ? 'Lateral edge l' : '側棱長 l'}
+                aria-label={en ? 'Lateral edge l' : '側稜長 l'}
                 min={L_MIN}
                 max={L_MAX}
                 step={0.01}
@@ -97,7 +97,7 @@ export default function PyramidInSphereVolumeExamRoot({ locale }: Props) {
               />
             </label>
             <p className="exam-interactive-explore__note">
-              h = {r.height.toFixed(3)}，{en ? 'base side' : '底面邊長'} ={" "}
+              h = {r.height.toFixed(3)}，{en ? 'base side' : '底面邊長'} ={' '}
               {r.side.toFixed(3)}
             </p>
           </div>

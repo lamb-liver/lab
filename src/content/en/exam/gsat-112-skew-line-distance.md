@@ -34,7 +34,7 @@ In coordinate space, two lines $L_1$ and $L_2$ do not meet, and a third line $L_
 
 ## Where it goes wrong
 
-The CEEC [item statistics](https://www.ceec.edu.tw/files/file_pool/1/0N060632491446652955/%E6%95%B8A%E7%A7%91%E7%AD%94%E5%B0%8D%E7%8E%87%E5%8F%8A%E9%91%91%E5%88%A5%E5%BA%A6%E8%A1%A8.pdf) give a correct rate of only $10\%$ for this item. Common sticking points are treating lines that look like they cross on paper as really crossing, stopping at the distance between the two lines, or adding the three lengths directly. A figure in space can be rotated, but the right angles and the lengths do not change with the view.
+The CEEC [item statistics](https://www.ceec.edu.tw/files/file_pool/1/0N060632491446652955/%E6%95%B8A%E7%A7%91%E7%AD%94%E5%B0%8D%E7%8E%87%E5%8F%8A%E9%91%91%E5%88%A5%E5%BA%A6%E8%A1%A8.pdf) give a correct rate of only $10\%$ for this item. Common sticking points are treating lines that look like they cross on paper as crossing, stopping at the distance between the two lines, or adding the three lengths. A figure in space can be rotated, but the right angles and the lengths do not change with the view.
 
 ## Idea
 

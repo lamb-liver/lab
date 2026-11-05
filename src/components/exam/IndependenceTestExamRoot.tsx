@@ -53,7 +53,7 @@ export default function IndependenceTestExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' If the scan had nothing to do with the disease, how many of the 200 abnormal scans would be ill?'
+              ? 'If the scan had nothing to do with the disease, how many of the 200 abnormal scans would be ill?'
               : '如果檢查結果和疾病無關，200 個不正常的人裡應該有幾個患病？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
@@ -113,12 +113,12 @@ export default function IndependenceTestExamRoot({ locale }: Props) {
             <p className="exam-interactive-explore__block-title">{en ? 'Part 2' : '第二問'}</p>
             <p className="exam-interactive-explore__result" aria-live="polite">
               χ² = {chi.toFixed(3)}
-              {related ? (en ? ' > 10.828, related' : ' > 10.828，有關') : en ? ' ≤ 10.828, not shown' : ' ≤ 10.828，不能判定有關'}
+              {related ? (en ? ' > 10.828, related' : ' > 10.828，有關') : en ? ' ≤ 10.828, cannot conclude related' : ' ≤ 10.828，不能判定有關'}
             </p>
             <p className="exam-interactive-explore__note">
               {en
                 ? `With these totals χ² = (b − ${INDEPENDENT_B})² / 25.6. At α = 0.001 b = ${THRESHOLD_B} is already enough.`
-                : `合計固定時 χ² = (b − ${INDEPENDENT_B})² / 25.6。α = 0.001 下，b 到 ${THRESHOLD_B} 就已經足夠。`}
+                : `合計固定時 χ² = (b − ${INDEPENDENT_B})² / 25.6。α = 0.001 下，b 到 ${THRESHOLD_B} 就夠了。`}
             </p>
           </div>
 

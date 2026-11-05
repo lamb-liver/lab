@@ -53,8 +53,8 @@ export default function DistinctBallsExpectationExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' X counts lit lamps. Can you get E(X) without listing P(X = 1), P(X = 2), P(X = 3)?'
-              : 'X 就是亮燈的數目。不列出 P(X=1)、P(X=2)、P(X=3)，能直接算 E(X) 嗎？'}
+              ? 'X counts lit lamps. Can you get E(X) without listing P(X = 1), P(X = 2), P(X = 3)?'
+              : 'X 是亮燈的數目。不列出 P(X=1)、P(X=2)、P(X=3)，能算出 E(X) 嗎？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
@@ -87,7 +87,7 @@ export default function DistinctBallsExpectationExamRoot({ locale }: Props) {
                 {en ? '1000 rounds' : '抽 1000 輪'}
               </button>
               <button type="button" className="exam-interactive-explore__mode-button" onClick={reset}>
-                {en ? 'Reset' : '重來'}
+                {en ? 'Reset' : '重設'}
               </button>
             </div>
           </div>

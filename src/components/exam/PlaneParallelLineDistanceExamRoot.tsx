@@ -51,7 +51,7 @@ export default function PlaneParallelLineDistanceExamRoot({ locale }: Props) {
       <div className="exam-interactive-explore__stage">
         <div className="exam-interactive-explore__visual">
           <p className="exam-interactive-explore__visual-title">
-            {en ? 'Traces on coordinate planes and the distance between parallel lines' : '坐標面截線與平行距離'}
+            {en ? 'Traces on coordinate planes and the distance between parallel lines' : '座標面截線與平行距離'}
           </p>
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
@@ -62,7 +62,7 @@ export default function PlaneParallelLineDistanceExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__visual-sub">
             {en
               ? 'The translucent blue and purple planes are coordinate planes. The gold line is the shortest segment between the two parallel lines'
-              : '藍、紫半透明面是坐標面；金線是兩平行線的最短線段'}
+              : '藍、紫半透明面是座標面；金線是兩平行線的最短線段'}
           </p>
           <div
             ref={canvasHostRef}

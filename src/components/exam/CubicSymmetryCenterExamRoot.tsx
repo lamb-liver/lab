@@ -101,7 +101,7 @@ export default function CubicSymmetryCenterExamRoot({ locale }: { locale?: 'en' 
               {guess === null
                 ? en
                   ? 'Pick a point first'
-                  : '先選一個坐標'
+                  : '先選一個座標'
                 : guess === 'remainder-point'
                   ? en
                     ? 'Correct: the center is (-6, 3)'

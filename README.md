@@ -36,6 +36,8 @@ npm run dev
 | `npm run audit:exam-covers` | 驗證公開 Exam 的 SVG、PNG、尺寸與 frontmatter |
 | `npm run audit:public-pages` | 列出三個 collection 的公開／草稿頁面，並執行發布檢查 |
 | `npm run validate:changed` | 依 Git 變更選擇聚焦驗證 |
+| `python3 scripts/subset-site-fonts.py` | 文案新增中文字後重建字型子集 |
+| `python3 scripts/check-font-glyphs.py` | 檢查字型子集有沒有缺字（CI 也會跑） |
 
 需要視覺證據時才在 `validate:frontend` 後加 `--screenshot`。
 
@@ -61,6 +63,27 @@ Exam:    content → exam registry → ExamInteractiveStage → ExamRoot → ren
 ```
 
 Works、Explore 與 Exam 是三套獨立互動架構；新增頁面時必須同步各自的 content、registry 與 stage map。完整邊界見 [`docs/architecture.md`](docs/architecture.md)。
+
+## 試題視覺化（Exam）
+
+`/exam` 把考題改寫成互動頁，每題固定四節：題意、為什麼會錯、觀念、互動怎麼看。列表用考試類別篩選，順序定義在 `src/content/utils.ts`，類別與出處標示在 `src/lib/examSource.ts`。
+
+| 類別 | slug 前綴 | 題源 | 目前題數 |
+|------|-----------|------|----------|
+| 學測數A | `gsat-` | 大考中心試卷，附答對率出處 | 5 |
+| 分科數甲 | `ast-` | 大考中心試卷，附答對率出處 | 9 |
+| AMC 12A／12B | `amc12a-`、`amc12b-` | AoPS 題目頁，標示 © MAA | 3 |
+| 高考數學 | `gaokao-` | 考生回憶整理，每題至少兩個來源 | 8 |
+
+題數以 `npm run audit:public-pages` 為準。每題的數學在 `src/exam/<slug>/geometry.ts`（附測試），畫面在 `src/systems/rendering/*ExamRender.ts`，React root 在 `src/components/exam/`。
+
+新增一題：
+
+1. `npm run new:exam` 建立中文草稿，再補 `src/content/en/exam/<slug>.md`。
+2. 寫 `geometry.ts` 與測試、renderer、ExamRoot，接上 `src/exam/interactiveSlugs.ts` 與 `ExamInteractiveStage`。
+3. `npm run covers:exam` 產生封面；OG 圖在 build 時產生。
+4. 文案有新字時跑 `python3 scripts/subset-site-fonts.py`，再跑 `python3 scripts/check-font-glyphs.py`。
+5. 跑 `npm run typecheck`、`npm test`、`npm run audit:content`、`npm run audit:exam-covers`、`npm run build`、`npm run audit:integration`。
 
 ## 新增內容
 

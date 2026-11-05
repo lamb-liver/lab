@@ -11,7 +11,7 @@
   </defs>
   <rect width="1600" height="1000" fill="#0A0A0A"/>
 
-  <!-- 坐標軸，自原點 (700, 700) 出發 -->
+  <!-- 座標軸，自原點 (700, 700) 出發 -->
   <line x1="700" y1="700" x2="1210" y2="812" stroke="#D8D8D8" stroke-width="4" opacity="0.18" stroke-linecap="round" stroke-dasharray="14 12"/>
   <line x1="700" y1="700" x2="286" y2="588" stroke="#D8D8D8" stroke-width="4" opacity="0.18" stroke-linecap="round" stroke-dasharray="14 12"/>
   <line x1="700" y1="700" x2="700" y2="228" stroke="#D8D8D8" stroke-width="4" opacity="0.18" stroke-linecap="round" stroke-dasharray="14 12"/>
@@ -20,7 +20,7 @@
   <path d="M 340 690 L 860 806 L 1160 690 L 640 574 Z"
         fill="rgba(160,205,255,0.13)" stroke="#5DADE2" stroke-width="5" opacity="0.88"/>
 
-  <!-- 三個坐標平面影子：低權重，暗示位置讀法 -->
+  <!-- 三個座標平面影子：低權重，暗示位置讀法 -->
   <line x1="700" y1="700" x2="880" y2="740" stroke="#C6A6EB" stroke-width="5" opacity="0.55" stroke-linecap="round"/>
   <path d="M 880 740 L 850 728 L 852 752 Z" fill="#C6A6EB" opacity="0.55"/>
   <line x1="700" y1="700" x2="596" y2="576" stroke="#C6A6EB" stroke-width="5" opacity="0.55" stroke-linecap="round"/>

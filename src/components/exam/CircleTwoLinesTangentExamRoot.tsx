@@ -78,11 +78,11 @@ export default function CircleTwoLinesTangentExamRoot({ locale }: Props) {
               {en ? 'Move the center' : '移動圓心'}
             </p>
             <label className="exam-interactive-explore__range">
-              <span>{en ? 'a (x-coordinate of the center)' : 'a（圓心橫坐標）'}</span>
+              <span>{en ? 'a (x-coordinate of the center)' : 'a（圓心橫座標）'}</span>
               <output>{a.toFixed(1)}</output>
               <input
                 type="range"
-                aria-label={en ? 'x-coordinate a of the center on the x-axis' : '圓心在 x 軸上的橫坐標 a'}
+                aria-label={en ? 'x-coordinate a of the center on the x-axis' : '圓心在 x 軸上的橫座標 a'}
                 min="-6"
                 max="6"
                 step="0.1"

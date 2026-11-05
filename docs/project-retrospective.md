@@ -18,7 +18,7 @@
 
 ## 從一開始到現在
 
-| 時期 | 專案狀態 | 做對的優化 | 付出的代價／後來修正 |
+| 時期 | 專案狀態 | 做對的最佳化 | 付出的代價／後來修正 |
 |---|---|---|---|
 | 5/20–5/27：從 Astro starter 變成作品集 | 5/25 已有 19 Works、5 Explore、24 個測試檔 | 建立 Astro + React + p5、純 CurveModule、registry、build-time thumbnail、Works／Explore 雛形；很早就開始寫 `p5toreact.md`、`textstyle.md` | 產品仍以快速增加內容為主；版本、文件與 runtime 同時快速變動，release 識別開始失真 |
 | 5/28–6/12：快速擴張與產品化 | 5/31 為 44 Works、12 Explore；6/12 已到 72 Works、20 Explore | 加入 Explore interactives、封面、SEO、OG、搜尋、Pages、自訂網域、frontend validation、smoke、audit、release scripts | 27 個 draft 一次預建，內容角色尚未完全分清；工具與 scaffolding 的成長快於實際需要 |
@@ -28,7 +28,7 @@
 | 7/26–8/2：發現與導覽層 | 40 個跨集合 concepts、concept pages、2 條策展 learning paths | Exam 的 `topics` 與跨集合 `concepts` 分開；學習路徑改成小型人工 manifest，而非假裝能自動產生課程 | 一度想從 `order`／`audience` 推導教學順序；實際會得到傅立葉早於基礎三角等錯序，且把展示站誤當完整課程系統 |
 | 8/4–8/8：新主題與產品線取捨 | iteration classifier 已避免把有限尾段直接叫作混沌 | 曾建立 Contest Studies 與 `homogeneous-normalization` 草稿 | Contest 與 iteration-dynamics 被包在同一個 13,888 行變更，review 成本過高；8/8 決定完整移除 Contest，除非使用者明確要求重啟，不再建議此方向 |
 
-## 你實際優化了什麼
+## 你實際最佳化了什麼
 
 ### 1. 從「很多互動頁」變成三種清楚產品
 
@@ -108,7 +108,7 @@
 
 ### P0：移除 Contest Studies 產品線（已完成）
 
-`homogeneous-normalization` 與整條 Contest Studies 產品線已完整移除，不保留草稿、隱藏 route 或發布建議。除非使用者明確說要重啟，未來規劃、審查與優化建議都不得重新提出此方向。
+`homogeneous-normalization` 與整條 Contest Studies 產品線已完整移除，不保留草稿、隱藏 route 或發布建議。除非使用者明確說要重啟，未來規劃、審查與最佳化建議都不得重新提出此方向。
 
 ### P0：修正 iteration-dynamics 的公開數學語氣（已完成）
 

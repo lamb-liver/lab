@@ -13,7 +13,7 @@
 | [`frontend-validation.md`](frontend-validation.md) | 前端驗證流程：build / test / DOM，僅在需要視覺證據時 screenshot |
 | [`math-content-review-checklist.md`](math-content-review-checklist.md) | 維護期數學內容審查：定義、例外條件、公式、教學語氣 |
 | [`../.grok/rules/post-change-review.md`](../.grok/rules/post-change-review.md) | 更新 Works／Explore／Exam 後自動跑的 review 閘門 |
-| [`project-retrospective.md`](project-retrospective.md) | Git 全歷史回顧：優化、彎路、誤判、待修正與未來工作流程 |
+| [`project-retrospective.md`](project-retrospective.md) | Git 全歷史回顧：最佳化、彎路、誤判、待修正與未來工作流程 |
 | [`review-scan-ledger.md`](review-scan-ledger.md) | 嚴格審查接續用 ledger：已掃描、已修正、已確認保留的範圍 |
 | [`i18n-glossary.md`](i18n-glossary.md) | 英文版用語表與官方來源（CEEC／MOE／MAA／樂詞網） |
 | [`i18n-verification.md`](i18n-verification.md) | 中英文雙語正式站驗收紀錄（2026-10-09，已確認無問題） |

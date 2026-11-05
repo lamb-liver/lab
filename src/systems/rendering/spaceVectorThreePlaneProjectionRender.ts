@@ -42,7 +42,7 @@ const PLANE_COLOR: Record<Exclude<ProjectionPlane, 'all'>, Rgb> = {
   yz: [198, 166, 235],
 };
 
-/** 三個坐標平面畫成半透明方塊，讓「影子落在平面上」看得出來 */
+/** 三個座標平面畫成半透明方塊，讓「影子落在平面上」看得出來 */
 function drawCoordinatePlanes(
   p: p5,
   layout: Scene3dLayout,

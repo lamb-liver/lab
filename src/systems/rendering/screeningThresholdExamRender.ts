@@ -14,7 +14,7 @@ const GOLD = [212, 184, 122] as const;
 const WHITE = [232, 232, 232] as const;
 const CYAN = [128, 196, 210] as const;
 
-type Scene = { width: number; height: number; c: number; en: boolean };
+type Scene = { width: number; height: number; c: number; locale?: 'en' };
 
 export function renderScreeningThresholdExam(p: p5, scene: Scene): void {
   p.background(10, 10, 10);
@@ -36,14 +36,14 @@ export function renderScreeningThresholdExam(p: p5, scene: Scene): void {
       bins: ILL_BINS,
       color: GOLD,
       top: 14,
-      label: scene.en ? 'Patients' : '患病者',
+      label: scene.locale === 'en' ? 'Patients' : '患病者',
       shadeBelow: true,
     },
     {
       bins: WELL_BINS,
       color: CYAN,
       top: 14 + panelH + 10,
-      label: scene.en ? 'Healthy' : '未患病者',
+      label: scene.locale === 'en' ? 'Healthy' : '未患病者',
       shadeBelow: false,
     },
   ];

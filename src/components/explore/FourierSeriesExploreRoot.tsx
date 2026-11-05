@@ -159,7 +159,7 @@ export default function FourierSeriesExploreRoot({ locale }: Props) {
             aria-label={
               en
                 ? `Current mode: ${modeLabels[mode]}. Click to switch`
-                : `目前模式：${modeLabels[mode]}，點擊切換`
+                : `目前模式：${modeLabels[mode]}，點選切換`
             }
           >
             {en

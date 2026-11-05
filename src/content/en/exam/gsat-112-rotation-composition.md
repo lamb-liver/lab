@@ -35,7 +35,7 @@ The full question and options are on the [CEEC 112 GSAT Mathematics A paper](htt
 
 ## Where it goes wrong
 
-Hanlin's solution notes (a publisher's analysis, not CEEC) rate this item medium-easy; it tests the properties of rotation and reflection matrices. The hard part is not heavy computation. It is getting three things right at once: the signs for clockwise and counterclockwise, the direction of each mirror line, and the rule that the transformation applied first is written on the right of a product. Memorizing only the shape of the matrices often leads to mistaking $C^{-1}$ for the other reflection, or to assuming every pair of transformations commutes.
+Hanlin's solution notes (a publisher's analysis, not CEEC) rate this item medium-easy; it tests the properties of rotation and reflection matrices. The hard part is not the computation. It is getting three things right at once: the signs for clockwise and counterclockwise, the direction of each mirror line, and the rule that the transformation applied first is written on the right of a product. Memorizing only the shape of the matrices often leads to mistaking $C^{-1}$ for the other reflection, or to assuming every pair of transformations commutes.
 
 ## Idea
 
@@ -62,7 +62,7 @@ C=\begin{bmatrix}0&1\\1&0\end{bmatrix}, \qquad
 D=\begin{bmatrix}0&-1\\-1&0\end{bmatrix}.
 $$
 
-Reflecting twice returns to the start, so $C^{-1}=C$ and $D^{-1}=D$. In a matrix product the transformation applied first is written on the right. Multiplying directly gives
+Reflecting twice returns to the start, so $C^{-1}=C$ and $D^{-1}=D$. In a matrix product the transformation applied first is written on the right. Multiplying gives
 
 $$
 \begin{aligned}

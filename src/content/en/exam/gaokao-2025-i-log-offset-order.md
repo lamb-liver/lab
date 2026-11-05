@@ -24,19 +24,19 @@ featured: false
 draft: false
 ---
 
-## The problem
+## Problem
 
 Real numbers $x,y,z$ satisfy $2+\log_2 x=3+\log_3 y=5+\log_5 z$. Each of the four options gives an order from largest to smallest. Find the one that cannot happen.
 
 The wording comes from candidate recall; see the [full-paper notes on 21cnjy](https://zy.21cnjy.com/23151851).
 
-## Why students get it wrong
+## Where it goes wrong
 
 The usual move is to plug in a few values. An order you hit is possible, but an order you miss is not proven impossible, so guessing from samples is risky.
 
 Another trap is assuming the larger base always gives the larger number. For small $k$ it is the other way round: $x$ is largest and $z$ smallest.
 
-## The idea
+## Idea
 
 Call the shared value $k$. Then
 
@@ -52,8 +52,8 @@ $$
 
 $x>z>y$ would need $x$ to pass $z$ before $y$ passes $x$, but $x=z$ happens after $x=y$, so it cannot occur. The answer is B.
 
-## How to read the figure
+## What the figure shows
 
-- Drag the shared value k: three dots slide along the lines $\ln x$, $\ln y$, $\ln z$, and the sidebar shows approximate $x,y,z$.
+- Drag the shared value **k**: three dots slide along the lines $\ln x$, $\ln y$, $\ln z$, and the sidebar shows approximate $x,y,z$.
 - The order changes once at each crossing. The four orders are written under the axis.
 - The sidebar marks which options appear. Sweep the whole axis and B never does.

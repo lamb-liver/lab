@@ -26,13 +26,15 @@ function fmt(v: number): string {
   return v.toFixed(v >= 100 ? 1 : 3);
 }
 
+// 四段順序只跟常數有關，模組載入時算一次
+const REACHABLE_ORDERS = segments().map((s) => orderLabel(s.order));
+
 type Props = { locale?: 'en' };
 
 export default function LogOffsetOrderExamRoot({ locale }: Props) {
   const en = locale === 'en';
   const [k, setK] = useState(DEFAULT_K);
   const order = orderLabel(orderAt(k));
-  const seen = segments().map((s) => orderLabel(s.order));
 
   const draw = useCallback(
     (p: p5) => {
@@ -56,7 +58,7 @@ export default function LogOffsetOrderExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' x, y, z all move with the same k. Which of the four orders never shows up anywhere along the k axis?'
+              ? 'x, y, z all move with the same k. Which of the four orders never shows up anywhere along the k axis?'
               : 'x、y、z 跟著同一個 k 動。四種順序裡，哪一種在整條 k 軸上都找不到？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
@@ -115,7 +117,7 @@ export default function LogOffsetOrderExamRoot({ locale }: Props) {
             <p className="exam-interactive-explore__block-title">{en ? 'The four options' : '四個選項'}</p>
             {OPTIONS.map((option) => {
               const label = orderLabel(option.order);
-              const reachable = seen.includes(label);
+              const reachable = REACHABLE_ORDERS.includes(label);
               return (
                 <p key={option.key} className="exam-interactive-explore__note">
                   {option.key}. {label}

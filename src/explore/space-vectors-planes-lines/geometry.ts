@@ -41,7 +41,7 @@ export type SpaceVectorsMetrics = {
   /** 張成該平面的兩支向量，由法向推得 */
   a: Vec3;
   b: Vec3;
-  /** 三個坐標平面上的影子 */
+  /** 三個座標平面上的影子 */
   shadows: Array<{ plane: 'xy' | 'xz' | 'yz'; vector: Vec3 }>;
   /** n̂·v：為零表示 v 的方向落在平面內 */
   normalComponent: number;
