@@ -73,7 +73,7 @@ Works、Explore 與 Exam 是三套獨立互動架構；新增頁面時必須同�
 | 學測數A | `gsat-` | 大考中心試卷，附答對率出處 | 5 |
 | 分科數甲 | `ast-` | 大考中心試卷，附答對率出處 | 9 |
 | AMC 12A／12B | `amc12a-`、`amc12b-` | AoPS 題目頁，標示 © MAA | 3 |
-| 高考數學 | `gaokao-` | 考生回憶整理，每題至少兩個來源 | 11 |
+| 高考數學 | `gaokao-` | 考生回憶整理，每題至少兩個來源 | 14 |
 
 題數以 `npm run audit:public-pages` 為準。每題的數學在 `src/exam/<slug>/geometry.ts`（附測試），畫面在 `src/systems/rendering/*ExamRender.ts`，React root 在 `src/components/exam/`。
 
