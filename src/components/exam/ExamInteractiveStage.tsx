@@ -50,6 +50,7 @@ const rootBySlug = {
   'gaokao-2024-i-sum-difference-cosine': lazy(() => import('./SumDifferenceCosineExamRoot')),
   'gaokao-2024-ii-log-sign-line': lazy(() => import('./LogSignLineExamRoot')),
   'gaokao-2025-ii-two-point-lead': lazy(() => import('./TwoPointLeadExamRoot')),
+  'gaokao-2024-ii-two-stage-shooting': lazy(() => import('./TwoStageShootingExamRoot')),
   'gsat-112-rotation-composition': lazy(() => import('./RotationCompositionExamRoot')),
   'gsat-112-sinusoid-superposition': lazy(() => import('./SinusoidSuperpositionExamRoot')),
   'gsat-112-skew-line-distance': lazy(() => import('./SkewLineDistanceExamRoot')),
