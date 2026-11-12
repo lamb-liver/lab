@@ -27,17 +27,15 @@ draft: false
 
 Each player shoots one round of three shots. If the first player misses all three, the team is out and the score is 0. One hit is enough for the other player to shoot three shots, worth 5 points each. Only the second round counts.
 
-A hits with probability $p=\dfrac{2}{5}$, and B hits with probability $q$, where $p<q$. Shots are independent.
+A hits with probability $p$ and B with probability $q$. Shots are independent. Part 1 gives $p=0.4$ and $q=0.5$ with A on the qualifying round, and the probability of scoring at least 5 is $0.686$. Part 2 only assumes $0<p<q$: to make the chance of 15 as large as possible, or the expected score as large as possible, A takes the qualifying round either way.
 
-When both the probability of scoring 15 and the expected score are to be as large as possible, A takes the qualifying round.
-
-The stem here follows a candidate’s recollection. A compilation of this paper is on [Zhihu](https://zhuanlan.zhihu.com/p/702452436).
+The stem here follows a candidate’s recollection. A compilation of this paper is on [Zhihu](https://zhuanlan.zhihu.com/p/702452436); compare the [gaokaohub entry](https://gaokaohub.com/q/item/216738189570010.html).
 
 ## Where it goes wrong
 
-The two goals look as if they choose opposite orders. A score of 15 needs the second round to be three hits, so it is tempting to save the better shooter for the end. The expected score looks as if it wants the better shooter taking more shots. Both goals put the weaker shooter, A, on the qualifying round.
+The usual instinct sends B first, since B is less likely to miss all three. A first does raise the chance that the team goes out. But one hit is enough to qualify, so most of B’s accuracy is wasted there. After the team qualifies, B shoots the three scoring shots, and both the chance of 15 and the expected score are larger.
 
-The other miss sends B first, since B is less likely to miss all three. A first does raise the chance that the team goes out. After the team qualifies, B shoots the three scoring shots, and both the chance of 15 and the expected score are larger.
+Another instinct expects the two goals to pick different players. Both are the chance of qualifying times how the second round goes. Moving B to the second round raises the second-round factor by more than it lowers the chance of qualifying, and that holds for both goals.
 
 ## Idea
 
@@ -67,7 +65,7 @@ At $p=\dfrac{2}{5}$ and $q=\dfrac{1}{2}$, with A first, the probability of a sco
 
 ## What the figure shows
 
-- Drag “B’s hit rate”. A stays at 0.40. The panel marked 15 is the probability of scoring 15, and the panel marked E is the expected score. Gold is A on the qualifying round, white is B.
+- Drag “B’s hit rate”. A stays at 0.40, the rate from part 1. The panel marked P(15) is the probability of scoring 15, and the panel marked E is the expected score. Gold is A on the qualifying round, white is B.
 - Each panel uses its longer bar as the scale, so a small gap still shows which bar is longer.
-- At 0.50, the rate given for B, gold is longer on both panels. With A first, the probability of at least 5 is 0.686.
+- At 0.50, B’s rate in part 1, gold is longer on both panels. With A first, the probability of at least 5 is 0.686.
 - Dragging right makes B more accurate. Gold stays longer than white.
