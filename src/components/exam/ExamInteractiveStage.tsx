@@ -47,6 +47,7 @@ const rootBySlug = {
   'gaokao-2023-i-cube-container': lazy(() => import('./CubeContainerExamRoot')),
   'gaokao-2023-ii-screening-threshold': lazy(() => import('./ScreeningThresholdExamRoot')),
   'gaokao-2024-i-distance-product-curve': lazy(() => import('./DistanceProductCurveExamRoot')),
+  'gaokao-2024-i-sum-difference-cosine': lazy(() => import('./SumDifferenceCosineExamRoot')),
   'gsat-112-rotation-composition': lazy(() => import('./RotationCompositionExamRoot')),
   'gsat-112-sinusoid-superposition': lazy(() => import('./SinusoidSuperpositionExamRoot')),
   'gsat-112-skew-line-distance': lazy(() => import('./SkewLineDistanceExamRoot')),

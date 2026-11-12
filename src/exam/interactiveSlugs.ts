@@ -26,6 +26,7 @@ export const examInteractiveSlugs = [
   'gaokao-2023-i-cube-container',
   'gaokao-2023-ii-screening-threshold',
   'gaokao-2024-i-distance-product-curve',
+  'gaokao-2024-i-sum-difference-cosine',
   'gsat-112-rotation-composition',
   'gsat-112-sinusoid-superposition',
   'gsat-112-skew-line-distance',

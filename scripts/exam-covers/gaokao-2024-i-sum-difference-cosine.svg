@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <g fill="none" stroke="#E8E8E8" opacity="0.28">
+    <line x1="460" y1="500" x2="1140" y2="500" stroke-width="4"/>
+    <line x1="800" y1="160" x2="800" y2="840" stroke-width="4"/>
+    <circle cx="800" cy="500" r="280" stroke-width="8"/>
+  </g>
+  <g fill="none" stroke-width="4" stroke-dasharray="12 10" opacity="0.5">
+    <line x1="711" y1="234" x2="711" y2="500" stroke="#E8E8E8"/>
+    <line x1="1066" y1="589" x2="1066" y2="500" stroke="#D4B87A"/>
+  </g>
+  <line x1="800" y1="500" x2="711" y2="500" stroke="#E8E8E8" stroke-width="16" stroke-linecap="round"/>
+  <line x1="800" y1="500" x2="1066" y2="500" stroke="#D4B87A" stroke-width="16" stroke-linecap="round"/>
+  <line x1="800" y1="500" x2="998" y2="302" stroke="#E8E8E8" stroke-width="12" stroke-linecap="round"/>
+  <line x1="800" y1="500" x2="925" y2="250" stroke="#D4B87A" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="800" cy="500" r="8" fill="#E8E8E8"/>
+  <circle cx="711" cy="234" r="16" fill="#E8E8E8"/>
+  <circle cx="1066" cy="589" r="16" fill="#D4B87A"/>
+</svg>
