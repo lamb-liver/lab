@@ -33,7 +33,7 @@ $$
 p_{2m+1}-q_{2m+1}<p_{2m}-q_{2m}<p_{2m+2}-q_{2m+2}.
 $$
 
-The stem here follows a candidate’s recollection. A write-up of this problem is on [Zhihu](https://zhuanlan.zhihu.com/p/1914991760955912823).
+The stem here follows a candidate’s recollection. A write-up of this problem is on [Zhihu](https://zhuanlan.zhihu.com/p/1914991760955912823); compare the [gaokaohub entry](https://gaokaohub.com/q/item/215520347261238.html).
 
 ## Where it goes wrong
 
@@ -53,7 +53,17 @@ Subtracting gives $p_4-p_3=3p^3 q$. On B’s side, $q_4-q_3=3q^3 p$. The ratio s
 
 Set that ratio equal to 4 and get $\dfrac{p}{q}=2$. Together with $p+q=1$, this is $p=\dfrac{2}{3}$.
 
-Write $d_k=p_k-q_k$ for the lead difference. A lead of exactly two after an even count can disappear on the next point, so the odd count sits lower. One more point lifts the difference again.
+Write $d_k=p_k-q_k$ for the lead difference. After $2m$ points, a lead of exactly two is lost if the next point goes the other way, on either side. A is more likely than B to hold a lead of exactly two, so
+
+$$
+d_{2m+1}-d_{2m}=-\binom{2m}{m+1}(pq)^m(p-q)<0.
+$$
+
+One more point can turn a tie into a lead. Counting both points together,
+
+$$
+d_{2m+2}-d_{2m}=\binom{2m}{m}(pq)^m(p-q)>0.
+$$
 
 ## What the figure shows
 

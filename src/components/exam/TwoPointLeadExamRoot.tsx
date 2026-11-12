@@ -71,8 +71,8 @@ export default function TwoPointLeadExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' When the gap ratio equals 4, what is A’s win rate on each point?'
-              : ' 差距比等於 4 時，甲每球的勝率是多少？'}
+              ? 'When the gap ratio equals 4, what is A’s win rate on each point?'
+              : '差距比等於 4 時，甲每球的勝率是多少？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
