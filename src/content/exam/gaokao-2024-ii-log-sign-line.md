@@ -27,7 +27,7 @@ draft: false
 
 $(x+a)\ln(x+b)$ 在整個定義域上不為負。兩個因式變號的位置必須相同，點 $(a,b)$ 落在直線 $b-a=1$ 上。$a^{2}+b^{2}$ 是原點到這個點的距離平方，最小值是 $\dfrac{1}{2}$。
 
-題幹來自考生回憶，見 [知乎上的全卷整理](https://zhuanlan.zhihu.com/p/702452436)。
+題幹來自考生回憶，見 [知乎上的全卷整理](https://zhuanlan.zhihu.com/p/702452436)，另可對照 [Math173 的解析](http://lanqi.org/everyday/36028/)。
 
 ## 為什麼會錯
 

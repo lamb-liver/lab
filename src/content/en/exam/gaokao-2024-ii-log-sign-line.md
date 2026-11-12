@@ -27,7 +27,7 @@ draft: false
 
 $(x+a)\ln(x+b)$ stays non-negative on its whole domain. The two factors change sign at the same place, so the point $(a,b)$ lies on the line $b-a=1$. Then $a^{2}+b^{2}$ is the squared distance from the origin, and its least value is $\dfrac{1}{2}$.
 
-The stem here follows a candidate’s recollection. The full paper, as recalled, is in a [Zhihu compilation](https://zhuanlan.zhihu.com/p/702452436).
+The stem here follows a candidate’s recollection. The full paper, as recalled, is in a [Zhihu compilation](https://zhuanlan.zhihu.com/p/702452436); compare the [Math173 solution](http://lanqi.org/everyday/36028/).
 
 ## Where it goes wrong
 

@@ -79,7 +79,7 @@ export function renderTwoStageShootingExam(p: p5, scene: Scene): void {
     reading.chanceGold,
     reading.chanceWhite,
     pairedLabels(reading.chanceGold, reading.chanceWhite, 3),
-    '15',
+    'P(15)',
   );
   paintPair(
     p,

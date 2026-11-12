@@ -33,7 +33,7 @@ draft: false
 - C. 滿足 $s_1+s_2+s_3=3$ 的 $l$ 多於 3 條。
 - D. $b=0$ 時，$s_1+s_2+s_3$ 的最大值是 $\tfrac{2\sqrt{21}}{3}$。
 
-題幹來自考生回憶，見 [91 學的題目整理](https://www.91apu.cn/shuxue/gkt/2026/2026xgk1/2026-10-10/34464.html)，另可對照 [量識寶的解析](https://liangshibao.com/tiku/gaokao-math-2026-i/multiple-11)。量識寶版本的 C 寫成和為 1，91 學與 lewang 的整理是 3；兩種寫法下 C 都成立，答案不變。
+題幹來自考生回憶，見 [91 學的題目整理](https://www.91apu.cn/shuxue/gkt/2026/2026xgk1/2026-10-10/34464.html)，另可對照 [良師寶的解析](https://liangshibao.com/tiku/gaokao-math-2026-i/multiple-11)。良師寶版本的 C 寫成和為 1，91 學與 lewang 的整理是 3；兩種寫法下 C 都成立，答案不變。
 
 ## 為什麼會錯
 

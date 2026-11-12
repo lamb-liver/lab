@@ -28,7 +28,7 @@ draft: false
 
 曲線 $C$ 上的點都在 $x>-2$ 的範圍，到點 $F(2,0)$ 的距離與到直線 $x=a$（$a<0$）的距離之積為 4，而且 $C$ 過原點。四個敘述要判斷：$a=-2$；點 $(2\sqrt2,0)$ 在 $C$ 上；$C$ 在第一象限的點縱座標最大值是 1；$C$ 上的點 $(x_0,y_0)$ 滿足 $y_0\le\dfrac{4}{x_0+2}$。
 
-題幹來自考生回憶，見 [高考題庫的題目整理](https://gaokaohub.com/q/item/121286594128203.html)，另可對照 [量識寶的解析](https://liangshibao.com/tiku/gaokao-math-2024-i/multiple-11)。
+題幹來自考生回憶，見 [高考題庫的題目整理](https://gaokaohub.com/q/item/121286594128203.html)，另可對照 [良師寶的解析](https://liangshibao.com/tiku/gaokao-math-2024-i/multiple-11)。
 
 ## 為什麼會錯
 

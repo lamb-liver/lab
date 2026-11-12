@@ -29,7 +29,7 @@ draft: false
 
 甲有寫著 1、3、5、7 的四張牌，乙有 2、4、6、8。比四輪，每輪各自隨機出一張沒出過的牌，大的得 1 分。求四輪後甲得分不小於 2 的機率。
 
-題幹來自考生回憶，見 [高考題庫的題目整理](https://gaokaohub.com/q/item/238279886096626.html)，另可對照 [量識寶的解析](https://liangshibao.com/tiku/gaokao-math-2024-i/fill-14)。
+題幹來自考生回憶，見 [高考題庫的題目整理](https://gaokaohub.com/q/item/238279886096626.html)，另可對照 [良師寶的解析](https://liangshibao.com/tiku/gaokao-math-2024-i/fill-14)。
 
 ## 為什麼會錯
 
