@@ -33,7 +33,7 @@ The stem here follows a candidate’s recollection. The full paper, as recalled,
 
 Writing $3m$ loses the minus sign that the product 2 produces. Writing $-\dfrac{m}{3}$ swaps the sum and the difference, and dropping the sign as well gives $\dfrac{m}{3}$.
 
-For another positive product $k$ the factor is $\dfrac{1+k}{1-k}$. It equals $-3$ only at $k=2$. Near $k=1$ the cosine of the sum is near 0, and the factor means nothing.
+For another positive product $k$ the factor is $\dfrac{1+k}{1-k}$. It equals $-3$ only at $k=2$. At $k=1$ the cosine of the sum is 0 and the factor is undefined; near $k=1$ the cosine of the sum is near 0.
 
 If $|m|>\tfrac13$, then $|-3m|>1$, and no such angles exist. If either angle has cosine 0, its tangent is undefined.
 

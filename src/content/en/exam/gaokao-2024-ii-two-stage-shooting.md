@@ -25,7 +25,7 @@ draft: false
 
 ## Problem
 
-Each player shoots one round of three shots. If the first player misses all three, the team is out and the score is 0. One hit is enough for the other player to shoot three shots, worth 5 points each. Only the second round counts.
+The contest has two rounds of three shots, one player per round. The first is a qualifying round: if the first player misses all three, the team is out with a score of 0. One hit sends the other player to shoot three shots, worth 5 points each. Only the second round counts.
 
 A hits with probability $p$ and B with probability $q$. Shots are independent. Part 1 gives $p=0.4$ and $q=0.5$ with A on the qualifying round, and the probability of scoring at least 5 is $0.686$. Part 2 only assumes $0<p<q$: to make the chance of 15 as large as possible, or the expected score as large as possible, A takes the qualifying round either way.
 
@@ -61,7 +61,7 @@ $$
 
 Since $p+q<2<3$, the difference is positive. Both goals put A on the qualifying round.
 
-At $p=\dfrac{2}{5}$ and $q=\dfrac{1}{2}$, with A first, the probability of a score of at least 5 is $A(p)A(q)=\dfrac{343}{500}$.
+At $p=0.4$ and $q=0.5$, with A first, the probability of a score of at least 5 is $A(p)A(q)=\dfrac{343}{500}$.
 
 ## What the figure shows
 

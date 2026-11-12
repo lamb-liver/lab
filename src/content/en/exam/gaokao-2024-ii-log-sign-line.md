@@ -35,7 +35,7 @@ The circle touches the line at the foot. Points inside the circle are closer to 
 
 ## Idea
 
-Write $f(x)=(x+a)\ln(x+b)$. The domain is $x>-b$. The linear factor changes sign at $x=-a$, and the logarithm changes sign at $x=1-b$.
+Write $f(x)=(x+a)\ln(x+b)$. The domain is $x>-b$. The linear factor changes sign at $x=-a$, and the logarithm changes sign at $x=1-b$. If $-a\le -b$, the linear factor is positive on the whole domain while the logarithm is negative for $x<1-b$, so the function still goes negative. Both sign changes must lie in the domain and meet.
 
 The two places meet when $-a=1-b$, that is $b=a+1$. With $t=x+b>0$,
 
