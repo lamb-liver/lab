@@ -25,7 +25,7 @@ draft: false
 
 ## Problem
 
-A wins each point with probability $p$, and B wins with probability $q=1-p$, where $\dfrac{1}{2}<p<1$. Points are independent. $p_k$ is the probability that A leads by at least two points after $k$ points, and $q_k$ is the probability that B does.
+The winner of each point scores 1. A wins each point with probability $p$, and B wins with probability $q=1-p$, where $\dfrac{1}{2}<p<1$. Points are independent. For each integer $k\ge 2$, $p_k$ is the probability that A leads by at least two points after $k$ points, and $q_k$ is the probability that B does.
 
 When $\dfrac{p_4-p_3}{q_4-q_3}=4$, the win rate is $p=\dfrac{2}{3}$. For every positive integer $m$,
 
@@ -53,13 +53,13 @@ Subtracting gives $p_4-p_3=3p^3 q$. On B’s side, $q_4-q_3=3q^3 p$. The ratio s
 
 Set that ratio equal to 4 and get $\dfrac{p}{q}=2$. Together with $p+q=1$, this is $p=\dfrac{2}{3}$.
 
-Write $d_k=p_k-q_k$ for the lead difference. After $2m$ points, a lead of exactly two is lost if the next point goes the other way, on either side. A is more likely than B to hold a lead of exactly two, so
+Write $d_k=p_k-q_k$ for the lead difference. After $2m$ points, A loses a lead of exactly two by dropping the next point, with probability $\binom{2m}{m+1}p^{m+1}q^{m}$. On B’s side it is $\binom{2m}{m+1}p^{m}q^{m+1}$, which is smaller, so
 
 $$
 d_{2m+1}-d_{2m}=-\binom{2m}{m+1}(pq)^m(p-q)<0.
 $$
 
-One more point can turn a tie into a lead. Counting both points together,
+Now take two more points. Losing both after a lead of exactly two has probability $\binom{2m}{m+1}(pq)^{m+1}$ on either side, so those cancel. What remains is a tie followed by two wins: $p^2$ for A and $q^2$ for B. So
 
 $$
 d_{2m+2}-d_{2m}=\binom{2m}{m}(pq)^m(p-q)>0.

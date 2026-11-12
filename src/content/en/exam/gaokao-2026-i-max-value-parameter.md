@@ -49,7 +49,7 @@ $$
 f(x_0)=\frac{x_0+2}{e^{x_0}+(x_0+1)e^{x_0}}=e^{-x_0}.
 $$
 
-So for every $a$ the peak lies on the curve $y=e^{-x}$. A maximum of 1 means $x_0=0$, and $a=(0+1)e^0=1$. The answer is B.
+So for every $a$ the peak lies on the curve $y=e^{-x}$. A maximum of 1 means $e^{-x_0}=1$, so $x_0=0$, and $a=(0+1)e^0=1$. The answer is B.
 
 ## What the figure shows
 
