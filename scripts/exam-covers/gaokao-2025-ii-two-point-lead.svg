@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#0A0A0A"/>
+  <rect x="120" y="280" width="560" height="86" rx="4" fill="#D4B87A"/>
+  <rect x="120" y="500" width="140" height="86" rx="4" fill="#E8E8E8"/>
+  <line x1="400" y1="250" x2="400" y2="366" stroke="#E8E8E8" stroke-width="6"/>
+  <line x1="920" y1="840" x2="1500" y2="840" stroke="#E8E8E8" stroke-width="3" opacity="0.35"/>
+  <polyline points="960,600 1050,680 1140,430 1230,500 1320,300 1410,360 1500,210" fill="none" stroke="#E8E8E8" stroke-width="4" opacity="0.4"/>
+  <g fill="#E8E8E8">
+    <rect x="942" y="600" width="36" height="240" rx="3"/>
+    <rect x="1122" y="430" width="36" height="410" rx="3"/>
+    <rect x="1302" y="300" width="36" height="540" rx="3"/>
+    <rect x="1482" y="210" width="36" height="630" rx="3"/>
+  </g>
+  <g fill="#D4B87A">
+    <rect x="1032" y="680" width="36" height="160" rx="3"/>
+    <rect x="1212" y="500" width="36" height="340" rx="3"/>
+    <rect x="1392" y="360" width="36" height="480" rx="3"/>
+  </g>
+</svg>
