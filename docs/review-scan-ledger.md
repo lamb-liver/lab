@@ -1268,6 +1268,20 @@
 | `julia-set`、`logistic-bifurcation`、`pascals-triangle`、`parabolic-reflection` | 已補核：四者真實 Work slug 是 registry / content / stage 內的裸 slug，不是 `*-curve`。`npm run smoke:work -- <裸 slug> --list` 均列出對應 `/works/<slug>` 測試；`npm run smoke:work -- <slug>-curve --list` 均以 `Unknown work slug` 拒絕。 |
 | `docs/p5toreact.md`、`docs/editing-rules.md` | 已補規則：Work smoke slug 以公開 route slug 為準；可疑時跑正向與反向 `--list`；scan 收官前必須確認 deferred review item 已關閉。 |
 
+## 2026-11-12 高考四題（order 32–35）上線後審查
+
+範圍是 2026-11-12 直接推上 `main` 的四題：`gaokao-2024-i-sum-difference-cosine`、`gaokao-2024-ii-log-sign-line`、`gaokao-2025-ii-two-point-lead`、`gaokao-2024-ii-two-stage-shooting`。答案都對照兩個來源（知乎、gaokaohub 或 Math173），數值另用 Python 重算。
+
+| 範圍 | 結論 |
+|------|------|
+| `gaokao-2024-i-sum-difference-cosine`（中英 md、ExamRoot） | 已掃描並修正：答案 −3m 正確。「為什麼會錯」原本寫「寫成 m」，選項裡沒有 m；改成實際的錯誤選項 3m、−m/3、m/3。圖上固定 α=π/4 的說明從「為什麼會錯」移到「互動怎麼看」，刪掉語意不清的「因此會得到一個根式」。互動的提示與陷阱句同步改。 |
+| `gaokao-2024-ii-log-sign-line`（中英 md、ExamRoot） | 已掃描並修正：答案 1/2、垂足 (−1/2, 1/2)、`zeroGap = −√2·d` 正確。補第二個來源（Math173）。「先想一想」去掉開頭多的空格。 |
+| `gaokao-2025-ii-two-point-lead`（中英 md、ExamRoot、geometry.test） | 已掃描並修正：p₃、p₄、比值 (p/q)²、p=2/3 正確。第 (3) 小題原本只用一句話帶過，補上 d₂ₘ₊₁−d₂ₘ 與 d₂ₘ₊₂−d₂ₘ 的封閉式，並在測試裡對 m=1,2,3 驗證。補第二個來源。 |
+| `gaokao-2024-ii-two-stage-shooting`（中英 md、ExamRoot、renderer、geometry 註解、封面） | 已掃描並修正：題意原本寫「甲的命中率 p=2/5，且 p<q」，把第一小題的數值和第二小題的一般情形混在一起；改成第一小題 p=0.4、q=0.5，第二小題只假設 0<p<q。「為什麼會錯」第一段的推理前後不一致，重寫。圖上與讀數的「15」改成「P(15)」，避免讀成「15 0.098」。封面 SVG 原本有兩段文字，違反封面不放文字的規則，已刪除並重產 PNG。 |
+| 四題的 ExamRoot | 已確認保留：結構、`useRectP5CanvasHost`、`aria-live`、`aria-valuetext`、`measureCanvas` 與既有高考題一致。390／320 寬時畫布最小 300px，比容器多約 10px，舊題也是這樣，不在這輪改。 |
+| 舊高考題出處文字 | 已掃描並修正：5 頁把 liangshibao.com 寫成「量識寶」，網站名稱是「良師寶」。 |
+| 驗證 | `npm run typecheck`、`npm test`、`npm run audit:content`、`npm run audit:exam-covers`、`npm run build`、`npm run audit:integration`、`python3 scripts/check-font-glyphs.py`。正式站與預覽站在 1280／390／320 寬、中英文各跑一次，console 沒有錯誤；OG 圖中英各 4 張都是 200。 |
+
 ## 接續審查記錄格式
 
 下一輪審查完成後，用以下格式追加：
