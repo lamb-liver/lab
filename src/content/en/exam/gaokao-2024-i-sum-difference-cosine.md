@@ -17,7 +17,7 @@ relatedExplore:
 relatedWorks:
   - trig-angle-identities
 date: 2026-11-11
-order: 19
+order: 32
 coverImage: /images/exam-covers/gaokao-2024-i-sum-difference-cosine.png
 featured: false
 draft: false

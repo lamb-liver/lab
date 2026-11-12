@@ -17,7 +17,7 @@ relatedExplore:
 relatedWorks:
   - binomial-geometric-distribution
 date: 2026-11-11
-order: 22
+order: 35
 coverImage: /images/exam-covers/gaokao-2024-ii-two-stage-shooting.png
 featured: false
 draft: false

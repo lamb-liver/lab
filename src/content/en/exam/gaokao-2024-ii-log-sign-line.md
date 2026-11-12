@@ -17,7 +17,7 @@ relatedExplore:
 relatedWorks:
   - natural-log-e-geometry
 date: 2026-11-11
-order: 20
+order: 33
 coverImage: /images/exam-covers/gaokao-2024-ii-log-sign-line.png
 featured: false
 draft: false

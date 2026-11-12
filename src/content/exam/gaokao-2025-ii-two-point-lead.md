@@ -17,7 +17,7 @@ relatedExplore:
 relatedWorks:
   - buffon-needle
 date: 2026-11-11
-order: 21
+order: 34
 coverImage: /images/exam-covers/gaokao-2025-ii-two-point-lead.png
 featured: false
 draft: false
