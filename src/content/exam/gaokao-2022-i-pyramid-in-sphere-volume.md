@@ -28,7 +28,7 @@ draft: false
 
 一個正四角錐的頂點都在同一個球面上，球的體積是 $36\pi$，所以半徑 $R=3$。側稜長 $l$ 的範圍是 $[3,3\sqrt3]$，求這個正四角錐體積的範圍。
 
-題幹來自考生回憶，見 [高考題庫的題目整理](https://gaokaohub.com/q/item/17329642544376.html)，另可對照 [量識寶的解析](https://liangshibao.com/tiku/gaokao-math-2022-i/single-8)。
+題幹來自考生回憶，見 [高考題庫的題目整理](https://gaokaohub.com/q/item/17329642544376.html)，另可對照 [良師寶的解析](https://liangshibao.com/tiku/gaokao-math-2022-i/single-8)。
 
 ## 為什麼會錯
 
