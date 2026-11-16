@@ -30,6 +30,7 @@ export const examInteractiveSlugs = [
   'gaokao-2024-ii-log-sign-line',
   'gaokao-2025-ii-two-point-lead',
   'gaokao-2024-ii-two-stage-shooting',
+  'gaokao-2024-i-log-symmetry-center',
   'gsat-112-rotation-composition',
   'gsat-112-sinusoid-superposition',
   'gsat-112-skew-line-distance',
