@@ -61,13 +61,13 @@ export default function TwoStageShootingExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' If both the chance of 15 and the expected score should be as large as possible, who takes the qualifying round?'
-              : ' 若要 15 分的機率與期望得分都最大，資格賽該由誰來投？'}
+              ? 'If both the chance of 15 and the expected score should be as large as possible, who takes the qualifying round?'
+              : '若要 15 分的機率與期望得分都最大，資格賽該由誰來投？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
-              ? 'Gold is A on the qualifying round, and white is B. Each panel is scaled to its longer bar. The panel marked 15 is a probability, and the panel marked E is the expected score.'
-              : '金色是甲打資格賽，白色是乙打。每一側用較長的那條當尺度。標 15 的是機率，標 E 的是期望得分。'}
+              ? 'Gold is A on the qualifying round, and white is B. Each panel is scaled to its longer bar. The panel marked P(15) is a probability, and the panel marked E is the expected score.'
+              : '金色是甲打資格賽，白色是乙打。每一側用較長的那條當尺度。標 P(15) 的是機率，標 E 的是期望得分。'}
           </p>
           <div
             ref={canvasHostRef}
@@ -101,8 +101,8 @@ export default function TwoStageShootingExamRoot({ locale }: Props) {
             </label>
             <p className="exam-interactive-explore__note">
               {en
-                ? 'A is fixed at 0.40, below B. 0.50 is the rate given for B. Dragging right makes B more accurate.'
-                : '甲固定 0.40，低於乙。0.50 是題目給的乙。往右乙更準。'}
+                ? 'A is fixed at 0.40 from part 1, below B. 0.50 is B’s rate in part 1. Dragging right makes B more accurate.'
+                : '甲固定在第一小題的 0.40，低於乙。0.50 是第一小題的乙。往右乙更準。'}
             </p>
           </div>
 
@@ -123,7 +123,7 @@ export default function TwoStageShootingExamRoot({ locale }: Props) {
           <div className="exam-interactive-explore__block">
             <p className="exam-interactive-explore__block-title">{en ? 'The two orders' : '兩種排法'}</p>
             <p className="exam-interactive-explore__result" aria-live="polite">
-              {`15  ${chance.gold} > ${chance.white}`}
+              {`P(15)  ${chance.gold} > ${chance.white}`}
               <br />
               {`E  ${score.gold} > ${score.white}`}
             </p>

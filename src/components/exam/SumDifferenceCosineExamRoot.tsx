@@ -57,8 +57,8 @@ export default function SumDifferenceCosineExamRoot({ locale }: Props) {
 
   const trap = reading.atGiven
     ? en
-      ? 'Dropping the minus writes 3m. Copying the given cosine writes m or −m.'
-      : '去掉負號會寫成 3m。只沿用題目的 m，會寫成 m 或 −m。'
+      ? 'Dropping the minus writes 3m. Swapping the sum and the difference writes −m/3.'
+      : '漏掉負號會寫成 3m。和與差對調會寫成 −m/3。'
     : reading.sumVanishes
       ? en
         ? 'The sum is near a right angle, and its cosine projection shrinks to a point.'
@@ -77,8 +77,8 @@ export default function SumDifferenceCosineExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' The tangent product is 2. What is missing if the difference cosine is written as m, or as 3m?'
-              : '正切乘積是 2。把差的餘弦寫成 m，或去掉負號寫成 3m，各自漏了哪一步？'}
+              ? 'The tangent product is 2. What goes wrong if the difference cosine is written as 3m, or as −m/3?'
+              : '正切乘積是 2。把差的餘弦寫成 3m 或 −m/3，各自錯在哪一步？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en
