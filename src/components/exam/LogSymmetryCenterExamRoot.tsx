@@ -45,7 +45,7 @@ export default function LogSymmetryCenterExamRoot({ locale }: Props) {
 
   const bendNote = reading.atZero
     ? en
-      ? 'The cubic term is off. The tangent at the center has slope 3.'
+      ? 'The cubic term is 0. The tangent at the center has slope 3.'
       : '立方項是 0。中心處的切線斜率是 3。'
     : en
       ? 'The curve has bent. The center and its tangent have not moved.'

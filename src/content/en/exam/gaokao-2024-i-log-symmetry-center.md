@@ -27,13 +27,13 @@ draft: false
 
 $f(x)=\ln\dfrac{x}{2-x}+ax+b(x-1)^3$ on $(0,2)$. The curve is symmetric about the point $(1,a)$. When $b=0$, the least $a$ that keeps the derivative non-negative is $-2$.
 
-The stem here follows a candidate’s recollection, in a [Zhihu walkthrough](https://zhuanlan.zhihu.com/p/2015711118853697677).
+The stem here follows a candidate’s recollection, in a [Zhihu walkthrough](https://zhuanlan.zhihu.com/p/2015711118853697677); compare the [gaokaohub entry](https://gaokaohub.com/q/item/241069179211677.html).
 
 ## Where it goes wrong
 
 The domain is centered at $x=1$, and $f(1)=a$. The center’s height is $a$, not $0$. The term $(x-1)^3$ is odd about $x=1$, so adding it leaves the center at $(1,a)$.
 
-When $b=0$, the derivative is $\dfrac{2}{x(2-x)}+a$. The product $x(2-x)$ is largest at $x=1$, where it equals $1$, so the least slope is $2+a$. The derivative stays non-negative only for $a\ge -2$. An endpoint slope is larger than the slope at $x=1$, so treating it as the least slope makes the lower bound for $a$ smaller than $-2$.
+When $b=0$, the derivative is $\dfrac{2}{x(2-x)}+a$. The product $x(2-x)$ is largest at $x=1$, where it equals $1$, so the least slope is $2+a$. The derivative stays non-negative only for $a\ge -2$. A slope near either end is larger than the slope at $x=1$, so treating it as the least slope makes the lower bound for $a$ smaller than $-2$.
 
 ## Idea
 

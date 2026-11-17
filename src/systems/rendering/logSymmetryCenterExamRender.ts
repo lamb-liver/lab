@@ -18,12 +18,11 @@ function frame(width: number, height: number): Rect {
 }
 
 function fit(rect: Rect) {
-  const scale = Math.min(rect.w / (X1 - X0), rect.h / (Y1 - Y0));
-  const ox = rect.x + (rect.w - (X1 - X0) * scale) / 2;
-  const oy = rect.y + (rect.h - (Y1 - Y0) * scale) / 2;
+  const sx = rect.w / (X1 - X0);
+  const sy = rect.h / (Y1 - Y0);
   return {
     point(x: number, y: number): Point {
-      return { x: ox + (x - X0) * scale, y: oy + (Y1 - y) * scale };
+      return { x: rect.x + (x - X0) * sx, y: rect.y + (Y1 - y) * sy };
     },
   };
 }
