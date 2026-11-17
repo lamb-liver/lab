@@ -10,7 +10,13 @@ const rootBySlug = {
   'amc12a-2024-20-random-points-area-probability': lazy(
     () => import('./RandomPointsAreaProbabilityExamRoot'),
   ),
+  'amc12a-2025-16-bisector-altitude': lazy(() => import('./BisectorAltitudeExamRoot')),
+  'amc12a-2025-22-cube-pyramids': lazy(() => import('./CubePyramidsExamRoot')),
   'amc12b-2023-21-lampshade-shortest-path': lazy(() => import('./LampshadeShortestPathExamRoot')),
+  'amc12b-2024-19-rotated-hexagon': lazy(() => import('./RotatedHexagonExamRoot')),
+  'amc12b-2025-21-supplementary-triangles': lazy(
+    () => import('./SupplementaryTrianglesExamRoot'),
+  ),
   'amc12b-2025-25-concentric-circles-equilateral': lazy(
     () => import('./ConcentricCirclesEquilateralExamRoot'),
   ),
