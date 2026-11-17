@@ -1268,6 +1268,34 @@
 | `julia-set`、`logistic-bifurcation`、`pascals-triangle`、`parabolic-reflection` | 已補核：四者真實 Work slug 是 registry / content / stage 內的裸 slug，不是 `*-curve`。`npm run smoke:work -- <裸 slug> --list` 均列出對應 `/works/<slug>` 測試；`npm run smoke:work -- <slug>-curve --list` 均以 `Unknown work slug` 拒絕。 |
 | `docs/p5toreact.md`、`docs/editing-rules.md` | 已補規則：Work smoke slug 以公開 route slug 為準；可疑時跑正向與反向 `--list`；scan 收官前必須確認 deferred review item 已關閉。 |
 
+## 2026-11-12 高考四題（order 32–35）上線後審查
+
+範圍是 2026-11-12 直接推上 `main` 的四題：`gaokao-2024-i-sum-difference-cosine`、`gaokao-2024-ii-log-sign-line`、`gaokao-2025-ii-two-point-lead`、`gaokao-2024-ii-two-stage-shooting`。答案都對照兩個來源（知乎、gaokaohub 或 Math173），數值另用 Python 重算。
+
+| 範圍 | 結論 |
+|------|------|
+| `gaokao-2024-i-sum-difference-cosine`（中英 md、ExamRoot） | 已掃描並修正：答案 −3m 正確。「為什麼會錯」原本寫「寫成 m」，選項裡沒有 m；改成實際的錯誤選項 3m、−m/3、m/3。圖上固定 α=π/4 的說明從「為什麼會錯」移到「互動怎麼看」，刪掉語意不清的「因此會得到一個根式」。互動的提示與陷阱句同步改。 |
+| `gaokao-2024-ii-log-sign-line`（中英 md、ExamRoot） | 已掃描並修正：答案 1/2、垂足 (−1/2, 1/2)、`zeroGap = −√2·d` 正確。補第二個來源（Math173）。「先想一想」去掉開頭多的空格。 |
+| `gaokao-2025-ii-two-point-lead`（中英 md、ExamRoot、geometry.test） | 已掃描並修正：p₃、p₄、比值 (p/q)²、p=2/3 正確。第 (3) 小題原本只用一句話帶過，補上 d₂ₘ₊₁−d₂ₘ 與 d₂ₘ₊₂−d₂ₘ 的封閉式，並在測試裡對 m=1,2,3 驗證。補第二個來源。 |
+| `gaokao-2024-ii-two-stage-shooting`（中英 md、ExamRoot、renderer、geometry 註解、封面） | 已掃描並修正：題意原本寫「甲的命中率 p=2/5，且 p<q」，把第一小題的數值和第二小題的一般情形混在一起；改成第一小題 p=0.4、q=0.5，第二小題只假設 0<p<q。「為什麼會錯」第一段的推理前後不一致，重寫。圖上與讀數的「15」改成「P(15)」，避免讀成「15 0.098」。封面 SVG 原本有兩段文字，違反封面不放文字的規則，已刪除並重產 PNG。 |
+| 四題的 ExamRoot | 已確認保留：結構、`useRectP5CanvasHost`、`aria-live`、`aria-valuetext`、`measureCanvas` 與既有高考題一致。390／320 寬時畫布最小 300px，比容器多約 10px，舊題也是這樣，不在這輪改。 |
+| 舊高考題出處文字 | 已掃描並修正：5 頁把 liangshibao.com 寫成「量識寶」，網站名稱是「良師寶」。 |
+| 驗證 | `npm run typecheck`、`npm test`、`npm run audit:content`、`npm run audit:exam-covers`、`npm run build`、`npm run audit:integration`、`python3 scripts/check-font-glyphs.py`。正式站與預覽站在 1280／390／320 寬、中英文各跑一次，console 沒有錯誤；OG 圖中英各 4 張都是 200。 |
+
+## 2026-11-12 高考七題文本正確性檢查
+
+#91 合併上線後，在正式站逐行讀中英文。題目條件與選項對照至少兩個來源；答案、推導與互動讀數用 Python 重算。
+
+| 範圍 | 結論 |
+|------|------|
+| `gaokao-2024-i-sum-difference-cosine` | 已掃描並修正：題目與選項對照良師寶、gaokaohub、貝語網校，答案 −3m 正確；隨機角度驗證 cos(α−β)=−3cos(α+β)。原本寫「k 靠近 1 時……這個倍數沒有意義」，倍數只在 k=1 沒有定義，改成精確說法。 |
+| `gaokao-2024-ii-log-sign-line` | 已掃描並修正：對照 Math173、漢斯出版社論文、knowcat 中學數學論文，答案 1/2 正確。「觀念」原本只寫兩個變號點重合的充分性，補上 −a≤−b（一次因式不在定義域內變號）時函數也會變負的情形。 |
+| `gaokao-2025-ii-two-point-lead` | 已掃描並修正：對照 gaokaohub、博客園、模型視角，p₃、p₄、p=2/3 正確。題意補「每球勝者得 1 分」與「k≥2」。第 (3) 小題原本用「甲剛好領先兩分的機率比乙大」推出不等式，理由不完整（還要乘上下一球輸的機率）；改寫成兩側的確切機率，兩球的部分說明哪些項抵消。封閉式已在測試驗證。 |
+| `gaokao-2024-ii-two-stage-shooting` | 已掃描並修正：對照 gaokaohub、模型視角、現代教育進展論文，0.686、兩小題答案都正確；隨機 1000 組 0<p<q 驗證兩個不等式與 15pq(q−p)(3−p−q)。題意原本寫「兩人各投一輪三球」，與「三球都沒進就出局」矛盾，也沒定義「資格賽」，改寫。數值寫法統一成 0.4、0.5。 |
+| `gaokao-2026-i-max-value-parameter`（輕量） | 已掃描並修正：題目、選項與 91 學一致，答案 B 正確。「最大值是 1 等於 x₀=0」語句不通，改成「就是 e^{−x₀}=1，即 x₀=0」。 |
+| `gaokao-2026-i-even-sine-phase`、`gaokao-2024-i-card-matching`（輕量） | 已確認保留：θ=3π/2、f(2π/3)=1；卡牌配對窮舉 24 種為 0/1/2/3 分 = 1/11/11/1，機率 1/2。文字無誤。 |
+| 用語 | 七題中文沒有「概率、矢量、信息」等大陸用語，也沒有中文夾半形標點。 |
+
 ## 接續審查記錄格式
 
 下一輪審查完成後，用以下格式追加：

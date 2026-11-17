@@ -28,7 +28,7 @@ draft: false
 
 把一個稜長 1 的正立方體當作容器（壁厚不計），判斷四種物體能不能整個放進去：直徑 0.99 的球、稜長 1.4 的正四面體、底面直徑 0.01 且高 1.8 的圓柱、底面直徑 1.2 且高 0.01 的圓柱。
 
-題幹來自考生回憶，見 [高考題庫的題目整理](https://gaokaohub.com/q/item/113402010356853.html)，另可對照 [量識寶的解析](https://liangshibao.com/tiku/gaokao-math-2023-i/multiple-12)。
+題幹來自考生回憶，見 [高考題庫的題目整理](https://gaokaohub.com/q/item/113402010356853.html)，另可對照 [良師寶的解析](https://liangshibao.com/tiku/gaokao-math-2023-i/multiple-12)。
 
 ## 為什麼會錯
 

@@ -82,8 +82,8 @@ export default function LogSignLineExamRoot({ locale }: Props) {
           <p className="exam-interactive-explore__prompt">
             <strong>{en ? 'Think first' : '先想一想'}</strong>
             {en
-              ? ' The origin sits at the center of the circle, so its squared distance is 0. When the function stays non-negative on its whole domain, why is the least value 1/2?'
-              : ' 原點在圓心，距離平方是 0。函數在整個定義域上不負時，為什麼最小值是 1/2？'}
+              ? 'The origin sits at the center of the circle, so its squared distance is 0. When the function stays non-negative on its whole domain, why is the least value 1/2?'
+              : '原點在圓心，距離平方是 0。函數在整個定義域上不負時，為什麼最小值是 1/2？'}
           </p>
           <p className="exam-interactive-explore__visual-sub">
             {en

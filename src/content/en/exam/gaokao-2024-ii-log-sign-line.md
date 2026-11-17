@@ -27,7 +27,7 @@ draft: false
 
 $(x+a)\ln(x+b)$ stays non-negative on its whole domain. The two factors change sign at the same place, so the point $(a,b)$ lies on the line $b-a=1$. Then $a^{2}+b^{2}$ is the squared distance from the origin, and its least value is $\dfrac{1}{2}$.
 
-The stem here follows a candidate’s recollection. The full paper, as recalled, is in a [Zhihu compilation](https://zhuanlan.zhihu.com/p/702452436).
+The stem here follows a candidate’s recollection. The full paper, as recalled, is in a [Zhihu compilation](https://zhuanlan.zhihu.com/p/702452436); compare the [Math173 solution](http://lanqi.org/everyday/36028/).
 
 ## Where it goes wrong
 
@@ -35,7 +35,7 @@ The circle touches the line at the foot. Points inside the circle are closer to 
 
 ## Idea
 
-Write $f(x)=(x+a)\ln(x+b)$. The domain is $x>-b$. The linear factor changes sign at $x=-a$, and the logarithm changes sign at $x=1-b$.
+Write $f(x)=(x+a)\ln(x+b)$. The domain is $x>-b$. The linear factor changes sign at $x=-a$, and the logarithm changes sign at $x=1-b$. If $-a\le -b$, the linear factor is positive on the whole domain while the logarithm is negative for $x<1-b$, so the function still goes negative. Both sign changes must lie in the domain and meet.
 
 The two places meet when $-a=1-b$, that is $b=a+1$. With $t=x+b>0$,
 

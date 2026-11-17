@@ -50,6 +50,24 @@ describe('readLead', () => {
     }
   });
 
+  it('matches the closed forms for the odd dip and the even rise', () => {
+    const choose = (n: number, k: number) => {
+      let c = 1;
+      for (let i = 0; i < k; i += 1) c = (c * (n - i)) / (i + 1);
+      return c;
+    };
+    for (const n of [N_MIN, DEFAULT_N, N_MAX]) {
+      const { p, q } = readLead(n);
+      for (const m of [1, 2, 3]) {
+        const even = step(n, 2 * m).difference;
+        const odd = step(n, 2 * m + 1).difference;
+        const next = step(n, 2 * m + 2).difference;
+        expect(odd - even).toBeCloseTo(-choose(2 * m, m + 1) * (p * q) ** m * (p - q), 12);
+        expect(next - even).toBeCloseTo(choose(2 * m, m) * (p * q) ** m * (p - q), 12);
+      }
+    }
+  });
+
   it('clamps non-finite and out-of-range stops', () => {
     expect(readLead(Number.NaN).n).toBe(DEFAULT_N);
     expect(readLead(Number.POSITIVE_INFINITY).atAnswer).toBe(true);
