@@ -1,7 +1,11 @@
 /** Interactive Exam slug source. Keep in sync with ExamInteractiveStage. */
 export const examInteractiveSlugs = [
   'amc12a-2024-20-random-points-area-probability',
+  'amc12a-2025-16-bisector-altitude',
+  'amc12a-2025-22-cube-pyramids',
   'amc12b-2023-21-lampshade-shortest-path',
+  'amc12b-2024-19-rotated-hexagon',
+  'amc12b-2025-21-supplementary-triangles',
   'amc12b-2025-25-concentric-circles-equilateral',
   'ast-111-complex-unit-circle',
   'ast-111-parabola-focal-chord-directrix-projection',
