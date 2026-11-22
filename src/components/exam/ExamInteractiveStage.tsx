@@ -57,6 +57,7 @@ const rootBySlug = {
   'gaokao-2024-ii-log-sign-line': lazy(() => import('./LogSignLineExamRoot')),
   'gaokao-2025-ii-two-point-lead': lazy(() => import('./TwoPointLeadExamRoot')),
   'gaokao-2024-ii-two-stage-shooting': lazy(() => import('./TwoStageShootingExamRoot')),
+  'gaokao-2024-i-log-symmetry-center': lazy(() => import('./LogSymmetryCenterExamRoot')),
   'gsat-112-rotation-composition': lazy(() => import('./RotationCompositionExamRoot')),
   'gsat-112-sinusoid-superposition': lazy(() => import('./SinusoidSuperpositionExamRoot')),
   'gsat-112-skew-line-distance': lazy(() => import('./SkewLineDistanceExamRoot')),
